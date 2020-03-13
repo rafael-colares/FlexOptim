@@ -1,0 +1,53 @@
+#include "CSVReader.h"
+#include <iostream>
+/*
+* Parses through csv file line by line and returns the data
+* in vector of vector of strings.
+*/
+std::vector<std::vector<std::string> > CSVReader::getData()
+{
+	std::ifstream file(fileName.c_str());
+	std::vector<std::vector<std::string> > dataList;
+	if (file.is_open()) {
+		std::string line = "";
+		// Iterate through each line and split the content using delimeter
+		while (getline(file, line))
+		{
+			std::vector<std::string> vec;
+			boost::algorithm::split(vec, line, boost::is_any_of(delimeter));
+			dataList.push_back(vec);
+		}
+		// Close the File
+		file.close();
+	}
+	else {
+		std::cout << "Unable to open file" << std::endl;
+	}
+	return dataList;
+}
+
+// Returns the substring of str between the first and last delimiters
+std::string getInBetweenString(std::string str, std::string firstDelimiter, std::string lastDelimiter)
+{
+	size_t first = str.find(firstDelimiter)+1;
+	size_t last = str.find(lastDelimiter);
+	std::string strNew = str.substr(first, last - first);
+	return strNew;
+}
+
+// Splits a given string into a vector by a given delimiter. Ex "1,2,3" becomes 1 2 3 if delimiter is ","
+std::vector<std::string> splitBy(std::string str, std::string delimiter)
+{
+	std::vector<std::string> vec;
+	size_t pos = 0;
+	std::string token;
+	std::string s = str;
+	while ((pos = s.find(delimiter)) != std::string::npos) {
+		token = s.substr(0, pos);
+		vec.push_back(token);
+		s.erase(0, pos + delimiter.length());
+	}
+	vec.push_back(s);
+	return vec;
+}
+
