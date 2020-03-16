@@ -60,6 +60,7 @@ public:
 
 	// Displays the link properties
 	void displayPhysicalLink();
+	void displayDetailedPhysicalLink();
 
 	// Display the spectrum properties
 	void displaySlices();

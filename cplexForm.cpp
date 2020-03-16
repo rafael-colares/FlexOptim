@@ -67,6 +67,8 @@ CplexForm::CplexForm(Instance &instance, const Demand &demand) : ShortestPath(in
         updateInstance(instance, demand);
     }
     else{
+        std::cout << "Last topology:" << std::endl;
+		instance.displayDetailedTopology();
         std::cout << "Could not find a path!" << std::endl;
         exit(0);
     }

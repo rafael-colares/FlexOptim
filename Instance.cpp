@@ -94,13 +94,14 @@ void Instance::readDemandAssignment(std::string file){
 		int demandLoad = std::stoi(demand[2]);
 		this->tabDemand[demandId].checkDemand(demandId, demandSource, demandTarget, demandLoad);
 	}
+	std::cout << "Checking done." << std::endl;
 
 	//search for slice allocation line
 	for (int alloc = 0; alloc < numberOfLines; alloc++)	{
 		if (dataList[alloc][0].find("slice allocation") != std::string::npos) {
 			// for each demand
 			for (int d = 0; d < this->getNbDemands(); d++) {
-				int demandMaxSlice = std::stoi(dataList[alloc][d+1]);
+				int demandMaxSlice = std::stoi(dataList[alloc][d+1]) - 1;
 				this->tabDemand[d].setRouted(true);
 				// look for which edges the demand is routed
 				for (int i = 0; i < this->getNbEdges(); i++) {
@@ -134,6 +135,15 @@ void Instance::displayTopology(){
 	std::cout << std::endl;
 }
 
+
+void Instance::displayDetailedTopology(){
+	std::cout << std::endl << "--- The Detailed Physical Topology ---" << std::endl;
+	for (int i = 0; i < this->getNbEdges(); i++) {
+		tabEdge[i].displayDetailedPhysicalLink();
+	}
+	std::cout << std::endl;
+
+}
 void Instance::displaySlices() {
 	std::cout << std::endl << "--- Slice occupation ---" << std::endl;
 	for (int i = 0; i < this->getNbEdges(); i++) {
@@ -153,7 +163,7 @@ void Instance::displayRoutedDemands(){
 	std::cout << std::endl;
 }
 
-void Instance::generateRandomDemands(){
+void Instance::generateRandomDemandsFromFile(){
 	
 	std::cout << "Reading " << input.getOnlineDemandFile() << " ..." << std::endl;
 	CSVReader reader(input.getOnlineDemandFile());
@@ -173,6 +183,21 @@ void Instance::generateRandomDemands(){
 	}
 }
 
+void Instance::generateRandomDemands(const int N){
+	srand (1234567890);
+	for (int i = 0; i < N; i++){
+		int idDemand = getNbDemands() + i;
+		int demandSource = rand() % getNbNodes();
+		int demandTarget = rand() % getNbNodes();
+		while (demandTarget == demandSource){
+			demandTarget = rand() % getNbNodes();
+		} 
+		int demandLoad = 3;
+		double DemandMaxLength = 3000;
+		Demand demand(idDemand, demandSource, demandTarget, demandLoad, DemandMaxLength, false);
+		this->tabOnlineDemand.push_back(demand);
+	}
+}
 bool Instance::isRoutable(const int i, const int s, const Demand &demand){
 	const int LOAD = demand.getLoad();
 	if (s < LOAD - 1){
@@ -186,6 +211,6 @@ bool Instance::isRoutable(const int i, const int s, const Demand &demand){
 	return true;
 }
 
-void Instance::assignSlicesOfLink(int link, const Demand &demand, int slice){
-	this->tabEdge[link].assignSlices(demand, slice);
+void Instance::assignSlicesOfLink(int linkLabel, int slice, const Demand &demand){
+	this->tabEdge[linkLabel].assignSlices(demand, slice);
 }

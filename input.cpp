@@ -21,7 +21,7 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
 // Searches for a pattern in the Parameter File (PF) and returns its associated value. I know it is not the most performant thing to do but PF has a reasonable size and the code becomes much clearer.
 std::string Input::getParameterValue(std::string pattern){
     std::string line;
-    std::string value;
+    std::string value = "";
     std::ifstream myfile (PARAMETER_FILE.c_str());
     if (myfile.is_open()) {
         while ( std::getline (myfile, line) ) {
@@ -46,5 +46,4 @@ void Input::displayParameters(){
     std::cout << "DEMAND FILE: " << demandFile << std::endl;
     std::cout << "ASSIGNMENT FILE: " << assignmentFile << std::endl;
 }
-
 

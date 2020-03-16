@@ -129,7 +129,7 @@ void ShortestPath::updateInstance(Instance &instance, const Demand &demand){
     while(currentArc != INVALID){
         int currentEdgeLabel = arcLabel[currentArc];
         int currentEdgeSlice = arcSlice[currentArc];
-        instance.assignSlicesOfLink(currentEdgeLabel, demand, currentEdgeSlice);
+        instance.assignSlicesOfLink(currentEdgeLabel, currentEdgeSlice, demand);
         //instance.getPhysicalLinkFromId(currentEdgeLabel).assignSlices(demand, currentEdgeSlice);
         currentArc = getNextOnPath(g.target(currentArc));
     }

@@ -40,6 +40,19 @@ void PhysicalLink::displayPhysicalLink(){
 	std::cout << "#" << this->getId()+1 << ". " << this->getSource()+1 << " -- " << this->getTarget()+1;
 	std::cout << ". lenght: " << this->getLength() << ", cost: " << this->getCost() << std::endl;
 }
+void PhysicalLink::displayDetailedPhysicalLink(){
+	std::cout << "#" << this->getId()+1 << ". " << this->getSource()+1 << " -- " << this->getTarget()+1;
+	std::cout << ". lenght: " << this->getLength() << ", cost: " << this->getCost() << std::endl;
+	for (int i = 0; i < this->getNbSlices(); i++){
+		std::cout << "\tSlice #" << i+1 << ". ";
+		if (this->spectrum[i].isUsed()) {
+			std::cout << this->spectrum[i].getAssignment()+1 << std::endl;
+		}
+		else{
+			std::cout << "--" << std::endl;
+		}
+	}
+}
 
 void PhysicalLink::displaySlices(){
 	for (int i = 0; i < this->getNbSlices(); i++){

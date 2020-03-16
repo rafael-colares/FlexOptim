@@ -49,7 +49,7 @@ PRINTLN = echo
 #---------------------------------------------------------
 # .cpp Files
 #---------------------------------------------------------
-CPPFILES = main.cpp cplexForm.cpp ShortestPath.cpp ExtendedGraph.cpp Slice.cpp Demand.cpp PhysicalLink.cpp Instance.cpp CSVReader.cpp input.cpp
+CPPFILES = main.cpp RSA.cpp cplexForm.cpp ShortestPath.cpp ExtendedGraph.cpp Slice.cpp Demand.cpp PhysicalLink.cpp Instance.cpp CSVReader.cpp input.cpp
 #---------------------------------------------------------
 # Files
 #---------------------------------------------------------

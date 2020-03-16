@@ -80,9 +80,11 @@ public:
 	void displayTopology();
 	void displaySlices();
 	void displayRoutedDemands();
-	void generateRandomDemands();
+	void generateRandomDemandsFromFile();
+	void generateRandomDemands(const int N);
 	bool isRoutable(const int i, const int s, const Demand &demand);
-	void assignSlicesOfLink(int link, const Demand &demand, int slice);
+	void assignSlicesOfLink(int linkLabel, int slice, const Demand &demand);
+	void displayDetailedTopology();
 };
 
 #endif

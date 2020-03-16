@@ -31,12 +31,15 @@ int main(int argc, char *argv[]) {
 		Input input(parameterFile);
 		std::cout << "--- READING INSTANCE... --- " << std::endl;
 		Instance instance(input);
+		std::cout << "--- CREATING INITIAL MAPPING... --- " << std::endl;
 		instance.createInitialMapping();
 		
+		instance.displayDetailedTopology();
 		std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
-		instance.generateRandomDemands();
+		//instance.generateRandomDemandsFromFile();
+		instance.generateRandomDemands(30);
 		std::cout << instance.getNbOnlineDemands() << " were generated." << std::endl;
-		for(int i = 0; i < instance.getNbOnlineDemands(); i++){
+		for(int i = 0; i < instance.getNbOnlineDemands(); i+= instance.getInput().getNbDemandsAtOnce()){
 			int source = instance.getOnlineDemandFromId(i).getSource();
 			int target = instance.getOnlineDemandFromId(i).getTarget();
 			std::cout << "--- ROUTING DEMAND " << i+1 << " FROM " << source+1 << " TO " << target+1 << "... --- " << std::endl;
