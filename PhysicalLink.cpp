@@ -28,11 +28,10 @@ void PhysicalLink::copyPhysicalLink(PhysicalLink & edge){
 // Assigns a demand d to position p in the spectrum
 void PhysicalLink::assignSlices(const Demand &d, int p){
 	int demandLoad = d.getLoad();
-	int demandId = d.getId();
 	// assign demand d to this edge from position p - demandLoad + 1 to position p
 	int first = p - demandLoad + 1;
 	for (int i = first; i <= p; i++) {
-		this->spectrum[i].setAssignment(demandId);
+		this->spectrum[i].setAssignment(d.getId());
 	}
 }
 

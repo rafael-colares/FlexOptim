@@ -1,8 +1,47 @@
 #include "Instance.h"
 
+/************************************************/
+/*				Constructors					*/
+/************************************************/
 Instance::Instance(const Input &i) : input(i){
 	this->setNbNodes(0);
 }
+
+Instance::Instance(const Instance &i) : input(i.getInput()){
+	this->setNbNodes(i.getNbNodes());
+	this->setTabEdge(i.getTabEdge());
+	this->setTabDemand(i.getTabDemand());
+}
+
+
+/* Returns nb of demands already routed */
+int Instance::getNbRoutedDemands() const{
+	int counter = 0;
+	for(int i = 0; i < getNbDemands(); i++){
+    	if (tabDemand[i].isRouted() == true){
+			counter++;
+		}
+	}
+	return counter;
+}
+
+/* Returns a vector of demands to be routed in the next optimization. */
+std::vector<Demand> Instance::getNextDemands() const { 
+	std::vector<Demand> toBeRouted;
+	bool hasFinished = false;
+	while ( ((int)toBeRouted.size() < getInput().getNbDemandsAtOnce() ) && (hasFinished == false) ){
+		hasFinished = true;
+		for(int i = 0; i < getNbDemands(); i++){
+			if(tabDemand[i].isRouted() == false){
+				toBeRouted.push_back(tabDemand[i]);
+				hasFinished = false;
+				i = getNbDemands();
+			}
+		}
+	}
+	return toBeRouted;
+}
+	
 
 // Sets the edge with the given id with the attributes of a given edge. Notice that index in tabEdge = id-1!
 void Instance::setEdgeFromId(int id, PhysicalLink & edge){
@@ -101,8 +140,8 @@ void Instance::readDemandAssignment(std::string file){
 		if (dataList[alloc][0].find("slice allocation") != std::string::npos) {
 			// for each demand
 			for (int d = 0; d < this->getNbDemands(); d++) {
-				int demandMaxSlice = std::stoi(dataList[alloc][d+1]) - 1;
 				this->tabDemand[d].setRouted(true);
+				int demandMaxSlice = std::stoi(dataList[alloc][d+1]) - 1;
 				// look for which edges the demand is routed
 				for (int i = 0; i < this->getNbEdges(); i++) {
 					if (dataList[i+1][d+1] == "1") {
@@ -173,20 +212,20 @@ void Instance::generateRandomDemandsFromFile(){
 	int numberOfLines = (int)dataList.size();
 	//skip the first line (headers)
 	for (int i = 1; i < numberOfLines; i++) {
-		int idDemand = std::stoi(dataList[i][0]) - 1 + getNbDemands();
+		int idDemand = std::stoi(dataList[i][0]) - 1 + + getNbDemands();
 		int demandSource = std::stoi(dataList[i][1]) - 1;
 		int demandTarget = std::stoi(dataList[i][2]) - 1;
 		int demandLoad = std::stoi(dataList[i][3]);
 		double DemandMaxLength = std::stod(dataList[i][4]);
 		Demand demand(idDemand, demandSource, demandTarget, demandLoad, DemandMaxLength, false);
-		this->tabOnlineDemand.push_back(demand);
+		this->tabDemand.push_back(demand);
 	}
 }
 
 void Instance::generateRandomDemands(const int N){
 	srand (1234567890);
 	for (int i = 0; i < N; i++){
-		int idDemand = getNbDemands() + i;
+		int idDemand =  i + getNbRoutedDemands();
 		int demandSource = rand() % getNbNodes();
 		int demandTarget = rand() % getNbNodes();
 		while (demandTarget == demandSource){
@@ -195,7 +234,7 @@ void Instance::generateRandomDemands(const int N){
 		int demandLoad = 3;
 		double DemandMaxLength = 3000;
 		Demand demand(idDemand, demandSource, demandTarget, demandLoad, DemandMaxLength, false);
-		this->tabOnlineDemand.push_back(demand);
+		this->tabDemand.push_back(demand);
 	}
 }
 bool Instance::isRoutable(const int i, const int s, const Demand &demand){
@@ -213,4 +252,17 @@ bool Instance::isRoutable(const int i, const int s, const Demand &demand){
 
 void Instance::assignSlicesOfLink(int linkLabel, int slice, const Demand &demand){
 	this->tabEdge[linkLabel].assignSlices(demand, slice);
+	this->tabDemand[demand.getId()].setRouted(true);
+}
+
+
+void Instance::displayNonRoutedDemands(){
+	std::cout << std::endl << "--- The Non Routed Demands ---" << std::endl;
+	for (int i = 0; i < this->getNbDemands(); i++) {
+		if (tabDemand[i].isRouted() == false) {
+			tabDemand[i].displayDemand();
+		}
+	}
+	std::cout << std::endl;
+
 }

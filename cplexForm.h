@@ -1,27 +1,49 @@
-#ifndef __Formulation__h
-#define __Formulation__h
+#ifndef __cplexForm__h
+#define __cplexForm__h
 
-#include "ShortestPath.h"
+#include "RSA.h"
 
 
+typedef IloArray<IloNumVarArray> IloNumVarMatrix;
 
-class CplexForm : public ShortestPath{
+class CplexForm : public RSA{
 
 private:
     IloEnv env;
     IloModel model;
     IloCplex cplex;
-    IloNumVarArray x;
+    IloNumVarMatrix x;
+    std::vector<Demand> toBeRouted; 
 
 public:
-    CplexForm(Instance &instance, const Demand &demand);
+	/************************************************/
+	/*					Constructors				*/
+	/************************************************/
+    CplexForm(const Instance &inst);
     void defineVariables();
+
+	/************************************************/
+	/*					   Getters 		    		*/
+	/************************************************/
     IloExpr getObjFunction();
-    IloRange getShortestPathConstraint_i(ListDigraph::Node v);
-    IloRange getLengthConstraint(const Demand &demand);
+    IloRange getShortestPathConstraint_i_d(ListDigraph::Node v, const Demand & demand, int d);
+    IloRange getSourceConstraint_d(const Demand & demand, int d, int i);
+    IloRange getTargetConstraint_d(const Demand & demand, int d);
+    IloRange getLengthConstraint(const Demand &demand, int d);
+    IloRange getSubcycleConstraint(const ListDigraph::Arc &a, const Demand & demand, int d);
+    std::vector<Demand> getToBeRouted() { return toBeRouted; } 
+    int getNbDemandsToBeRouted() { return toBeRouted.size();}
+    IloCplex getCplex(){ return cplex; }
+
+	/************************************************/
+	/*					   Setters 		    		*/
+	/************************************************/
+    void setToBeRouted(const std::vector<Demand> &d){this->toBeRouted = d;}
+
     void updatePath();
-    void displayPathOnEnv();
+    //void displayPathOnEnv();
     void displayOnPath();
+    void displayToBeRouted();
 
 };
 

@@ -1,5 +1,5 @@
-linkFile=./Parameters/Small_Instance/Link.csv
-demandFile=./Parameters/Small_Instance/Demand.csv
-assignmentFile=./Parameters/Small_Instance/Demand_edges_slices.csv
-onlineDemandFile=./Parameters/Small_Instance/TM_1000.csv
+linkFile=./Parameters/Link.csv
+demandFile=./Parameters/Demand.csv
+assignmentFile=./Parameters/Demand_edges_slices.csv
+onlineDemandFile=./Parameters/TM_1000.csv
 nbDemandsAtOnce=1

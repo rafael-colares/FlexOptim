@@ -14,8 +14,6 @@ ILOSTLBEGIN
 #include "input.h"
 #include "cplexForm.h"
 
-typedef IloArray<IloNumVarArray> IloNumVarMatrix;
-
 using namespace lemon;
 
 int main(int argc, char *argv[]) {
@@ -29,21 +27,31 @@ int main(int argc, char *argv[]) {
 		}
 		std::cout << "PARAMETER FILE: " << parameterFile << std::endl;
 		Input input(parameterFile);
+
 		std::cout << "--- READING INSTANCE... --- " << std::endl;
 		Instance instance(input);
+
 		std::cout << "--- CREATING INITIAL MAPPING... --- " << std::endl;
 		instance.createInitialMapping();
-		
+		std::cout << instance.getNbRoutedDemands() << " were routed." << std::endl;
+
 		instance.displayDetailedTopology();
 		std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
 		//instance.generateRandomDemandsFromFile();
-		instance.generateRandomDemands(30);
-		std::cout << instance.getNbOnlineDemands() << " were generated." << std::endl;
-		for(int i = 0; i < instance.getNbOnlineDemands(); i+= instance.getInput().getNbDemandsAtOnce()){
-			int source = instance.getOnlineDemandFromId(i).getSource();
-			int target = instance.getOnlineDemandFromId(i).getTarget();
-			std::cout << "--- ROUTING DEMAND " << i+1 << " FROM " << source+1 << " TO " << target+1 << "... --- " << std::endl;
-			CplexForm(instance, instance.getOnlineDemandFromId(i));
+		instance.generateRandomDemands(10);
+		instance.displayNonRoutedDemands();
+		std::cout << instance.getNbNonRoutedDemands() << " were generated." << std::endl;
+		while(instance.getNbRoutedDemands() < instance.getNbDemands()){
+			CplexForm solver(instance);
+			
+			/************************************************/
+			/*		            UPDATE MAPPING        		*/
+			/************************************************/
+			if (solver.getCplex().getStatus() == IloAlgorithm::Optimal){
+				std::cout << "Update instance" << std::endl;
+				solver.updateInstance(instance);
+				//instance.displayDetailedTopology();
+			}
 		}
 		//instance.displayInstance(); 
 		

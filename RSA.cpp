@@ -1,6 +1,6 @@
 #include "RSA.h"
 
-RSA::RSA(Instance &instance, const std::vector<Demand> &d) : arcId(g), arcLabel(g), arcSlice(g), length(g), nodeId(g), nodeLabel(g), nodeSlice(g), onPath(g), demands(d) {
+RSA::RSA(const Instance &inst) : instance(inst), arcId(g), arcLabel(g), arcSlice(g), length(g), nodeId(g), nodeLabel(g), nodeSlice(g), onPath(g) {
     std::cout << "--- CREATING INITIAL MAPPING LEMON GRAPH... --- " << std::endl;
     // FOR EACH PHYSICAL LINK (u,v) AND EACH SLICE s    
     for (int i = 0; i < instance.getNbEdges(); i++){
@@ -91,20 +91,22 @@ void RSA::displayPaths(){
     std::cout << std::endl;
 }
 
-void RSA::updateInstance(Instance &instance, const std::vector<Demand> &demand){
+
+void RSA::displayArc(const ListDigraph::Arc &a){
+    std::cout << "(" << nodeLabel[g.source(a)] + 1 << ", " << nodeSlice[g.source(a)] + 1 << ")";
+    std::cout << "--";
+    std::cout << "(" << nodeLabel[g.target(a)] + 1 << ", " << nodeSlice[g.target(a)] + 1 << ")" << std::endl;
+}
+
+void RSA::updateInstance(Instance &i){
     //instance.displaySlices();
+    
     for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
         if (onPath[a] != -1){
-            int demandOnPath = onPath[a];
-            instance.assignSlicesOfLink(arcLabel[a], arcSlice[a], demand[demandOnPath]);
+            int id = onPath[a];
+            Demand demand = i.getTabDemand()[id];
+            i.assignSlicesOfLink(arcLabel[a], arcSlice[a], demand);
         }
     }
     instance.displaySlices();
-}
-
-
-void RSA::displayArc(const ListDigraph::Arc &a){
-    std::cout << "(" << nodeLabel[g.source(a)] + 1 << ", " << nodeSlice[g.source(a)] << ")";
-    std::cout << "--";
-    std::cout << "(" << nodeLabel[g.target(a)] + 1 << ", " << nodeSlice[g.target(a)] << ")" << std::endl;
 }

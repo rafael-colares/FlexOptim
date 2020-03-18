@@ -11,7 +11,9 @@ private:
 	bool routed;
 
 public:
-	// Constructors
+	/************************************************/
+	/*					Constructors				*/
+	/************************************************/
 	Demand(int id = 0, int s = -1, int t = -1, int l = -1, double max = 0, bool a=false);
 
 	/************************************************/

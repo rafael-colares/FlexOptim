@@ -5,6 +5,10 @@
 #include <fstream>
 #include <string>
 
+/********************************************************************************************/
+/*  An Input contains all the information need for the creation of an instance.				*/
+/*	It stores the parameter file name used, and all file names needed.						*/
+/********************************************************************************************/
 class Input {
 
 private:
