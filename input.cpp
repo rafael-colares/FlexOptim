@@ -6,6 +6,7 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     assignmentFile = getParameterValue("assignmentFile=");
     onlineDemandFile = getParameterValue("onlineDemandFile=");
     nbDemandsAtOnce = std::stoi(getParameterValue("nbDemandsAtOnce="));
+    outputPath = getParameterValue("outputPath=");
 
     displayParameters();
 }
@@ -15,6 +16,7 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     assignmentFile = i.getAssignmentFile();
     onlineDemandFile = i.getOnlineDemandFile();
     nbDemandsAtOnce = i.getNbDemandsAtOnce();
+    outputPath = i.getOutputPath();
 }
 
 

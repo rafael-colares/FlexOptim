@@ -35,21 +35,25 @@ int main(int argc, char *argv[]) {
 		instance.createInitialMapping();
 		std::cout << instance.getNbRoutedDemands() << " were routed." << std::endl;
 
-		instance.displayDetailedTopology();
+		//instance.displayDetailedTopology();
 		std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
 		//instance.generateRandomDemandsFromFile();
-		instance.generateRandomDemands(10);
+		instance.generateRandomDemands(30);
 		instance.displayNonRoutedDemands();
 		std::cout << instance.getNbNonRoutedDemands() << " were generated." << std::endl;
+		//CplexForm::setCount(0);
+		int optimizationCounter = 0;
+		instance.output(std::to_string(optimizationCounter));
 		while(instance.getNbRoutedDemands() < instance.getNbDemands()){
+			optimizationCounter++;
 			CplexForm solver(instance);
-			
 			/************************************************/
 			/*		            UPDATE MAPPING        		*/
 			/************************************************/
 			if (solver.getCplex().getStatus() == IloAlgorithm::Optimal){
 				std::cout << "Update instance" << std::endl;
 				solver.updateInstance(instance);
+				instance.output(std::to_string(optimizationCounter));
 				//instance.displayDetailedTopology();
 			}
 		}

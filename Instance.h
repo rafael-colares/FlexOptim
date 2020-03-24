@@ -87,6 +87,8 @@ public:
 	void generateRandomDemands(const int N);
 	bool isRoutable(const int i, const int s, const Demand &demand);
 	void assignSlicesOfLink(int linkLabel, int slice, const Demand &demand);
+	void output(std::string i = "");
+	void outputEdgeSliceHols(std::string i);
 };
 
 #endif

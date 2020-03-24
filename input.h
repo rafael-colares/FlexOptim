@@ -18,6 +18,7 @@ private:
 	std::string assignmentFile;
 	std::string onlineDemandFile;
     int nbDemandsAtOnce;
+	std::string outputPath;
 
 public:
 	/************************************************/
@@ -33,6 +34,7 @@ public:
     std::string getDemandFile() const { return demandFile; }
     std::string getAssignmentFile() const { return assignmentFile; }
     std::string getOnlineDemandFile() const { return onlineDemandFile; }
+    std::string getOutputPath() const { return outputPath; }
     const std::string getParameterFile() const { return PARAMETER_FILE; }
     int getNbDemandsAtOnce() const {return nbDemandsAtOnce;}
 

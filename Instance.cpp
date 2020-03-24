@@ -28,15 +28,9 @@ int Instance::getNbRoutedDemands() const{
 /* Returns a vector of demands to be routed in the next optimization. */
 std::vector<Demand> Instance::getNextDemands() const { 
 	std::vector<Demand> toBeRouted;
-	bool hasFinished = false;
-	while ( ((int)toBeRouted.size() < getInput().getNbDemandsAtOnce() ) && (hasFinished == false) ){
-		hasFinished = true;
-		for(int i = 0; i < getNbDemands(); i++){
-			if(tabDemand[i].isRouted() == false){
-				toBeRouted.push_back(tabDemand[i]);
-				hasFinished = false;
-				i = getNbDemands();
-			}
+	for(int i = 0; i < getNbDemands(); i++){
+		if( (tabDemand[i].isRouted() == false) && ((int)toBeRouted.size() < getInput().getNbDemandsAtOnce()) ){
+			toBeRouted.push_back(tabDemand[i]);
 		}
 	}
 	return toBeRouted;
@@ -212,7 +206,7 @@ void Instance::generateRandomDemandsFromFile(){
 	int numberOfLines = (int)dataList.size();
 	//skip the first line (headers)
 	for (int i = 1; i < numberOfLines; i++) {
-		int idDemand = std::stoi(dataList[i][0]) - 1 + + getNbDemands();
+		int idDemand = std::stoi(dataList[i][0]) - 1 + getNbRoutedDemands();
 		int demandSource = std::stoi(dataList[i][1]) - 1;
 		int demandTarget = std::stoi(dataList[i][2]) - 1;
 		int demandLoad = std::stoi(dataList[i][3]);
@@ -232,7 +226,7 @@ void Instance::generateRandomDemands(const int N){
 			demandTarget = rand() % getNbNodes();
 		} 
 		int demandLoad = 3;
-		double DemandMaxLength = 3000;
+		double DemandMaxLength = 600;
 		Demand demand(idDemand, demandSource, demandTarget, demandLoad, DemandMaxLength, false);
 		this->tabDemand.push_back(demand);
 	}
@@ -265,4 +259,39 @@ void Instance::displayNonRoutedDemands(){
 	}
 	std::cout << std::endl;
 
+}
+
+void Instance::output(std::string i){
+	outputEdgeSliceHols(i);
+}
+
+void Instance::outputEdgeSliceHols(std::string counter){
+	std::string delimiter = ";";
+	std::string filePath = this->input.getOutputPath() + "Edge_Slice_Holes_" + counter + ".csv";
+	std::ofstream myfile(filePath.c_str(), std::ios::out | std::ios::trunc);
+	if (myfile.is_open()){
+		myfile << " Slice-Edge " << delimiter;
+		for (int i = 0; i < getNbEdges(); i++){
+			std::string edge = "e_" + std::to_string(i+1);
+			myfile << edge << delimiter;
+		}
+		myfile << "\n";
+		for (int s = 0; s < getPhysicalLinkFromId(0).getNbSlices(); s++){
+			std::string slice = "s_" + std::to_string(s+1);
+			myfile << slice << delimiter;
+			for (int i = 0; i < getNbEdges(); i++){
+				if (getPhysicalLinkFromId(i).getSlice_i(s).isUsed() == true){
+					myfile << "1" << delimiter;
+				}
+				else{
+					myfile << "0" << delimiter;
+				}
+			}
+			myfile << "\n";
+		}
+	}
+	else{
+		std::cerr << "Unable to open file.\n";
+	}
+  	myfile.close();
 }

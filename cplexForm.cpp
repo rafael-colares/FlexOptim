@@ -1,74 +1,47 @@
 #include "cplexForm.h"
 
 
+int CplexForm::count = 0;
+
 CplexForm::CplexForm(const Instance &inst) : RSA(inst), model(env), cplex(model), x(env, countArcs(g)){
-    
+    std::cout << "--- CPLEX has been initalized ---" << std::endl;
+    count++;
     this->setToBeRouted(inst.getNextDemands());
     displayToBeRouted();
-    
     /************************************************/
 	/*				    SET VARIABLES				*/
 	/************************************************/
-    std::cout << "--- CPLEX has been initalized ---" << std::endl;
-    defineVariables();
+    this->defineVariables();
     std::cout << "Variables have been defined..." << std::endl;
 
 	/************************************************/
 	/*			    SET OBJECTIVE FUNCTION			*/
 	/************************************************/
-    IloExpr objective = getObjFunction();
-    model.add(IloMinimize(env, objective));
-    objective.end();
+    this->setObjective();
     std::cout << "Objective function has been defined..." << std::endl;
 
 	/************************************************/
 	/*			      SET CONSTRAINTS				*/
 	/************************************************/
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){  
-        for (int i = 0; i < instance.getNbNodes(); i++){
-            // std::cout << "Creating source constraint " << d << " ..." << std::endl;
-            IloRange sourceConstraint = getSourceConstraint_d(getToBeRouted()[d], d, i);
-            //std::cout << "Created source constraint " << d << " ..." << std::endl;
-            model.add(sourceConstraint);
-        } 
-    }
+    addSourceConstraints();
     std::cout << "Source constraints have been defined..." << std::endl;
 
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
-        IloRange targetConstraint = getTargetConstraint_d(getToBeRouted()[d], d);
-        model.add(targetConstraint);
-    }
+    addTargetConstraints();
     std::cout << "Target constraints have been defined..." << std::endl;
 
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
-        for (ListDigraph::NodeIt v(g); v != INVALID; ++v){
-            if( (nodeLabel[v] != getToBeRouted()[d].getSource()) && (nodeLabel[v] != getToBeRouted()[d].getTarget()) ){
-                IloRange st = getShortestPathConstraint_i_d(v, getToBeRouted()[d], d);
-                model.add(st);
-            }
-        }
-    }
-    std::cout << "Shortest path constraints have been defined..." << std::endl;
+    addFlowConservationConstraints();
+    std::cout << "Flow conservation constraints have been defined..." << std::endl;
     
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
-        IloRange lengthConstraint = getLengthConstraint(getToBeRouted()[d], d);
-        model.add(lengthConstraint);
-    }
-    std::cout << "Length constraint has been defined..." << std::endl;
+    addLengthConstraints();
+    std::cout << "Length constraints have been defined..." << std::endl;
 
-    
-    //must be done: x_a + x_{bar(a)} ,= 1
-    for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
-        for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
-            IloRange subcycle = getSubcycleConstraint(a, getToBeRouted()[d], d);
-            model.add(subcycle);
-       }
-    }
+    addNonOverlappingConstraints();    
+    std::cout << "Non-Overlapping constraints have been defined..." << std::endl;
     
 	/************************************************/
 	/*		    EXPORT LINEAR PROGRAM TO .LP		*/
 	/************************************************/
-    std::string file = "model.lp";
+    std::string file = "model" + std::to_string(count) + ".lp";
     cplex.exportModel(file.c_str());
     
 	/************************************************/
@@ -89,6 +62,7 @@ CplexForm::CplexForm(const Instance &inst) : RSA(inst), model(env), cplex(model)
     if (cplex.getStatus() == IloAlgorithm::Optimal){
         std::cout << "Optimization done in " << timeFinish - timeStart << " secs." << std::endl;
         std::cout << "Objective Function Value: " << cplex.getObjValue() << std::endl;
+        //displayVariableValues();
         updatePath();
         displayOnPath();
     }
@@ -98,6 +72,7 @@ CplexForm::CplexForm(const Instance &inst) : RSA(inst), model(env), cplex(model)
     }
 }
 
+// Set variables
 void CplexForm::defineVariables(){
     for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
         int arc = arcId[a];
@@ -122,6 +97,14 @@ void CplexForm::defineVariables(){
     }
 }
 
+// Set the objective Function
+void CplexForm::setObjective(){
+    IloExpr objective = getObjFunction();
+    model.add(IloMinimize(env, objective));
+    objective.end();
+}
+
+// Get an Objective Function
 IloExpr CplexForm::getObjFunction(){
     IloExpr obj(env);
     int nbDemandsToBeRouted = getNbDemandsToBeRouted();
@@ -135,7 +118,7 @@ IloExpr CplexForm::getObjFunction(){
             }
             else{
                 int arc = arcId[a];
-                int coeff = 0; 
+                int coeff = 1; 
                 obj += coeff*x[arc][d];
             }
         }
@@ -143,19 +126,26 @@ IloExpr CplexForm::getObjFunction(){
     return obj;
 }
 
-// Flow constraints. At most 1 leaves each node. Exactly 1 leaves the Source.
+// Source constraints. At most 1 leaves each node. Exactly 1 leaves the Source.
+void CplexForm::addSourceConstraints(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){  
+        for (int i = 0; i < instance.getNbNodes(); i++){
+            IloRange sourceConstraint = getSourceConstraint_d(getToBeRouted()[d], d, i);
+            model.add(sourceConstraint);
+        } 
+    }
+}
+
+// Get an specific Source constraint
 IloRange CplexForm::getSourceConstraint_d(const Demand & demand, int d, int i){
     IloExpr exp(env);
     IloInt upperBound = 1;
     IloInt lowerBound = 0;
-    std::cout << "Source of demand " << demand.getId()+1 << ": " << demand.getSource()+1 << std::endl;
     for (ListDigraph::NodeIt v(g); v != INVALID; ++v){
         if (nodeLabel[v] == i){
             for (ListDigraph::OutArcIt a(g, v); a != INVALID; ++a){
                 int arc = arcId[a];
-                // std::cout << "Add arc " << arc << "." << std::endl;
                 exp += x[arc][d];
-                // std::cout << "Added arc " << arc << "." << std::endl;
             }
         }
     }
@@ -171,7 +161,16 @@ IloRange CplexForm::getSourceConstraint_d(const Demand & demand, int d, int i){
     exp.end();
     return constraint;
 }
-// Flow constraints. Only 1 enters the Target
+
+// Target constraints. Only 1 enters the Target
+void CplexForm::addTargetConstraints(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
+        IloRange targetConstraint = getTargetConstraint_d(getToBeRouted()[d], d);
+        model.add(targetConstraint);
+    }
+}
+
+// Get an specific Target constraint
 IloRange CplexForm::getTargetConstraint_d(const Demand & demand, int d){
     IloExpr exp(env);
     IloInt rhs = 1;
@@ -192,7 +191,19 @@ IloRange CplexForm::getTargetConstraint_d(const Demand & demand, int d){
 }
 
 // Flow constraints. Everything that enters must go out. 
-IloRange CplexForm::getShortestPathConstraint_i_d(ListDigraph::Node v, const Demand & demand, int d){
+void CplexForm::addFlowConservationConstraints(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
+        for (ListDigraph::NodeIt v(g); v != INVALID; ++v){
+            if( (nodeLabel[v] != getToBeRouted()[d].getSource()) && (nodeLabel[v] != getToBeRouted()[d].getTarget()) ){
+                IloRange st = getFlowConservationConstraint_i_d(v, getToBeRouted()[d], d);
+                model.add(st);
+            }
+        }
+    }
+}
+
+// Get an specific Flow Conservation constraint
+IloRange CplexForm::getFlowConservationConstraint_i_d(ListDigraph::Node v, const Demand & demand, int d){
     IloExpr exp(env);
     IloInt rhs = 0;
     for (ListDigraph::OutArcIt a(g, v); a != INVALID; ++a){
@@ -210,24 +221,15 @@ IloRange CplexForm::getShortestPathConstraint_i_d(ListDigraph::Node v, const Dem
     return constraint;
 }
 
-
-IloRange CplexForm::getSubcycleConstraint(const ListDigraph::Arc &arc, const Demand & demand, int d){
-    IloExpr exp(env);
-    IloNum rhs = 1;
-    int label = arcLabel[arc];
-    for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
-        if(arcLabel[a] == label){
-            int id = arcId[a];
-            exp += x[id][d];
-        }
+// Length Constraints. Demands must be routed within a length limit
+void CplexForm::addLengthConstraints(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
+        IloRange lengthConstraint = getLengthConstraint(getToBeRouted()[d], d);
+        model.add(lengthConstraint);
     }
-    std::ostringstream constraintName;
-    constraintName << "Subcycle(" << arcId[arc] << "," << demand.getId()+1 << ")";
-    IloRange constraint(env, -IloInfinity, exp, rhs, constraintName.str().c_str());
-    exp.end();
-    return constraint;
 }
 
+// Get an specific Length constraint
 IloRange CplexForm::getLengthConstraint(const Demand &demand, int d){
     IloExpr exp(env);
     double rhs = demand.getMaxLength();
@@ -243,17 +245,67 @@ IloRange CplexForm::getLengthConstraint(const Demand &demand, int d){
     return constraint;
 }
 
+//Non-Overlapping constraints. Demands must not overlap eachother's slices
+void CplexForm::addNonOverlappingConstraints(){
+    for (int i = 0; i < instance.getNbEdges(); i++){
+        for (int s = 0; s < instance.getPhysicalLinkFromId(i).getNbSlices(); s++){
+            for (int d1 = 0; d1 < getNbDemandsToBeRouted(); d1++){
+                for (int d2 = 0; d2 < getNbDemandsToBeRouted(); d2++){
+                    if(d1 != d2){
+                        int linkLabel = instance.getPhysicalLinkFromId(i).getId();
+                        IloRange nonOverlap = getNonOverlappingConstraint(linkLabel, s, getToBeRouted()[d1], d1, getToBeRouted()[d2], d2);
+                        model.add(nonOverlap);
+                    }   
+                }
+            }
+        }
+        
+    }
+}
+
+// Get an specific Non-Overlapping constraint
+IloRange CplexForm::getNonOverlappingConstraint(int linkLabel, int slice, const Demand & demand1, int d1, const Demand & demand2, int d2){
+    IloExpr exp(env);
+    IloNum rhs = 1;
+    for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
+        if( (arcLabel[a] == linkLabel) && (arcSlice[a] == slice) ){
+            int id = arcId[a];
+            exp += x[id][d1];
+        }
+    }
+    for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
+        if( (arcLabel[a] == linkLabel) && (arcSlice[a] >= slice - demand1.getLoad() + 1) && (arcSlice[a] <= slice + demand2.getLoad() - 1) ){
+            int id = arcId[a];
+            exp += x[id][d2];
+        }
+    }
+    std::ostringstream constraintName;
+    constraintName << "Subcycle(" << linkLabel+1 << "," << slice+1 << "," << demand1.getId()+1 << "," << demand2.getId()+1 << ")";
+    IloRange constraint(env, -IloInfinity, exp, rhs, constraintName.str().c_str());
+    exp.end();
+    return constraint;
+}
+
 void CplexForm::updatePath(){
+    for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
+        onPath[a] = -1;
+    }
     for(int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
             int arc = arcId[a];
             if (cplex.getValue(x[arc][d]) >= 0.9){
                 onPath[a] = getToBeRouted()[d].getId();
             }
-            else{
-                onPath[a] = -1;
-            }
         }
+    }
+}
+void CplexForm::displayVariableValues(){
+    for(int d = 0; d < getNbDemandsToBeRouted(); d++){
+        for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
+            int arc = arcId[a];
+            std::cout << x[arc][d].getName() << " = " << cplex.getValue(x[arc][d]) << "   ";
+        }
+        std::cout << std::endl;
     }
 }
 
@@ -271,11 +323,12 @@ void CplexForm::displayOnPath(){
 void CplexForm::displayToBeRouted(){
     std::cout << "--- ROUTING DEMANDS ";
     for (int i = 0; i < getNbDemandsToBeRouted(); i++){
-        std::cout << "#" << toBeRouted[i].getId()+1 << " (" << toBeRouted[i].getSource()+1 << ", " << toBeRouted[i].getTarget()+1 << ")";
+        std::cout << "#" << toBeRouted[i].getId()+1 << " (" << toBeRouted[i].getSource()+1 << ", " << toBeRouted[i].getTarget()+1 << "), ";
     }
-    std::cout << " ... --- " << std::endl;
+    std::cout << " --- " << std::endl;
 	
 }
+
 /*
 void CplexForm::displayPathOnEnv(){
     ListDigraph::Node source = getNode(SOURCE,-1);
