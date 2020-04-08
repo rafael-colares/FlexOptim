@@ -19,6 +19,20 @@ Open a terminal in linux (or WSL), go to the project folder and type make. Some 
 
 # Running
 After compiling the project, one can execute it by typing ./exec onlineParameters
-Obs.: onlineParameters is the file where one can input the necessary parameters for the optimization such as the location of .csv files needed for the building of an initial mapping.
 
+# Parameters
+The file onlineParameters contains the parameters needed for the program to run properly.
+- linkFile refers to the address of the file containing information on the physical topology links.
+- demandFile refers to the address of the file containing information on the demands already routed in the initial mapping.
+- assignmentFile refers to the address of the file containing information on the assignment of demands, that is, on which edge/slice each demand is routed.
+- onlineDemandFile refers to the address of the file containing information on the demands that are to be routed through the online procedure.
+- nbDemandsAtOnce states how many demands are treated in one optimization step.
+- outputPath refers to the folder address where the output files will be sent by the end of the optimization procedure.
+- nbSlicesInOutputFile states how many slices will be displayed in the output file
+- chosenMethod refers to which method is applied for solving the online RSA. For using CPLEX, choose 1. For subgradient, choose 2.
 
+Next parameters are reserved for team LIMOS.
+- lagrangianMultiplier_zero refers to the initial value of the lagrangian multiplier used if subgradient method is chosen.
+- lagrangianLambda_zero refers to the initial value of the lambda used for computing the step size if subgradient method is chosen.
+- maxNbIterations states the maximal number of iterations subgradient method is allowed.
+- nbIterationsWithoutImprovement states the maximal number of iterarions the subgradient method is allowed without improving the lower bound.
