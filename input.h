@@ -19,7 +19,13 @@ private:
 	std::string onlineDemandFile;
     int nbDemandsAtOnce;
 	std::string outputPath;
+	int nbSlicesInOutputFile;
+	int chosenMethod;
 
+	double lagrangianMultiplier_zero;
+	double lagrangianLambda_zero;
+	int nbIterationsWithoutImprovement;
+	int maxNbIterations;
 public:
 	/************************************************/
 	/*				   Constructors					*/
@@ -37,6 +43,13 @@ public:
     std::string getOutputPath() const { return outputPath; }
     const std::string getParameterFile() const { return PARAMETER_FILE; }
     int getNbDemandsAtOnce() const {return nbDemandsAtOnce;}
+    int getnbSlicesInOutputFile() const {return nbSlicesInOutputFile;}
+    int getChosenMethod() const {return chosenMethod;}
+
+	double getInitialLagrangianMultiplier() const { return lagrangianMultiplier_zero; }
+	double getInitialLagrangianLambda() const { return lagrangianLambda_zero; }
+	int getNbIterationsWithoutImprovement() const { return nbIterationsWithoutImprovement; }
+	int getMaxNbIterations() const { return maxNbIterations; }
 
 	/************************************************/
 	/*				     Methods					*/

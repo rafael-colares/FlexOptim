@@ -7,7 +7,13 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     onlineDemandFile = getParameterValue("onlineDemandFile=");
     nbDemandsAtOnce = std::stoi(getParameterValue("nbDemandsAtOnce="));
     outputPath = getParameterValue("outputPath=");
+    nbSlicesInOutputFile = std::stoi(getParameterValue("nbSlicesInOutputFile="));
+    chosenMethod = std::stoi(getParameterValue("chosenMethod="));
 
+    lagrangianMultiplier_zero = std::stod(getParameterValue("lagrangianMultiplier_zero="));
+    lagrangianLambda_zero = std::stod(getParameterValue("lagrangianLambda_zero="));
+    nbIterationsWithoutImprovement = std::stoi(getParameterValue("nbIterationsWithoutImprovement="));
+    maxNbIterations = std::stoi(getParameterValue("maxNbIterations="));
     displayParameters();
 }
 Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
@@ -17,6 +23,12 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     onlineDemandFile = i.getOnlineDemandFile();
     nbDemandsAtOnce = i.getNbDemandsAtOnce();
     outputPath = i.getOutputPath();
+    nbSlicesInOutputFile = i.getnbSlicesInOutputFile();
+    chosenMethod = i.getChosenMethod();
+
+    lagrangianMultiplier_zero = i.getInitialLagrangianMultiplier();
+    lagrangianLambda_zero = i.getInitialLagrangianLambda();
+    maxNbIterations = i.getMaxNbIterations();
 }
 
 

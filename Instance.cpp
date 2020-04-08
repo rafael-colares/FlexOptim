@@ -276,11 +276,11 @@ void Instance::outputEdgeSliceHols(std::string counter){
 			myfile << edge << delimiter;
 		}
 		myfile << "\n";
-		for (int s = 0; s < getPhysicalLinkFromId(0).getNbSlices(); s++){
+		for (int s = 0; s < input.getnbSlicesInOutputFile(); s++){
 			std::string slice = "s_" + std::to_string(s+1);
 			myfile << slice << delimiter;
 			for (int i = 0; i < getNbEdges(); i++){
-				if (getPhysicalLinkFromId(i).getSlice_i(s).isUsed() == true){
+				if (s < getPhysicalLinkFromId(i).getNbSlices() && getPhysicalLinkFromId(i).getSlice_i(s).isUsed() == true){
 					myfile << "1" << delimiter;
 				}
 				else{

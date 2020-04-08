@@ -17,6 +17,13 @@ RSA::RSA(const Instance &inst) : instance(inst), arcId(g), arcLabel(g), arcSlice
     }
     //displayNodesIncidentToTarget();
     //displayNodesFromLabel(SOURCE);
+    
+    this->setToBeRouted(instance.getNextDemands());
+    displayToBeRouted();
+    
+    for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
+        onPath[a] = -1;
+    }
 }
 
 // Creates an arc -- and nodes if necessary -- between nodes (linkSourceLabel,slice) and (linkTargetLabel,slice)
@@ -109,4 +116,72 @@ void RSA::updateInstance(Instance &i){
         }
     }
     instance.displaySlices();
+}
+ListDigraph::Node RSA::getFirstNodeFromLabel(int label){
+    for (ListDigraph::NodeIt v(g); v != INVALID; ++v){
+        if (nodeLabel[v] == label){
+            return v;
+        }
+    }
+    return INVALID;
+}
+
+/* Contract nodes with the same given label. */
+void RSA::contractNodesFromLabel(int label){
+    int nb = 0;
+    ListDigraph::NodeIt lastNode(g);
+    ListDigraph::Node n = getFirstNodeFromLabel(label);
+    nodeSlice[n] = -1;
+    if (n != INVALID){
+        for (ListDigraph::NodeIt v(g); v != INVALID; ++v){
+            if ( (nodeLabel[v] == label) && (g.id(n) != g.id(v)) ){
+                g.contract(n,v);
+                v = lastNode;
+                nb++;
+            }
+            lastNode = v;
+        }
+    }
+    std::cout << "> Number of nodes with label " << label << " contracted: " << nb << std::endl; 
+}
+
+
+/* Delete arcs that are known to be unable to root demands a priori. */
+void RSA::eraseNonRoutableArcs(){
+    int nb = 0;
+    ListDigraph::ArcIt lastArc(g);
+    for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
+        if (instance.isRoutable(arcLabel[a], arcSlice[a], getToBeRouted()[0]) == false){
+            g.erase(a);
+            a = lastArc;
+            nb++;
+        }
+        lastArc = a;
+    }
+    std::cout << "> Number of non-routable arcs erased: " << nb << std::endl; 
+}
+
+double RSA::getCoeff(const ListDigraph::Arc &a, const Demand &demand){
+    double coeff = 0.0;
+    ListDigraph::Node s = g.source(a);
+    if(nodeLabel[s] == demand.getSource()){
+        coeff = arcSlice[a]+1; 
+    }
+    else{
+        coeff = 1; 
+    }
+    return coeff;
+}
+
+void RSA::displayToBeRouted(){
+    std::cout << "--- ROUTING DEMANDS ";
+    for (int i = 0; i < getNbDemandsToBeRouted(); i++){
+        std::cout << "#" << toBeRouted[i].getId()+1 << " (" << toBeRouted[i].getSource()+1 << ", " << toBeRouted[i].getTarget()+1 << "), ";
+    }
+    std::cout << " --- " << std::endl;
+	
+}
+
+void RSA::displayNode(const ListDigraph::Node &n){
+    std::cout << "(" << nodeLabel[n]+1 << "," << nodeSlice[n]+1 << ")";
 }

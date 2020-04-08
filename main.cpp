@@ -4,6 +4,8 @@ ILOSTLBEGIN
 //
 
 #include <iostream>
+#include <bits/stdc++.h> 
+#include <chrono> 
 
 #include <lemon/list_graph.h>
 #include <lemon/concepts/graph.h>
@@ -13,6 +15,7 @@ ILOSTLBEGIN
 #include "ExtendedGraph.h"
 #include "input.h"
 #include "cplexForm.h"
+#include "subgradient.h"
 
 using namespace lemon;
 
@@ -20,6 +23,7 @@ int main(int argc, char *argv[]) {
 	try{
 		std::string parameterFile;
 		if (argc != 2){
+			std::cerr << "A parameter file is required in the arguments. PLease run the program as \n./exec parameterFile.par\n";
 			throw std::invalid_argument( "did not receive an argument" );
 		}
 		else{
@@ -33,35 +37,66 @@ int main(int argc, char *argv[]) {
 
 		std::cout << "--- CREATING INITIAL MAPPING... --- " << std::endl;
 		instance.createInitialMapping();
-		std::cout << instance.getNbRoutedDemands() << " were routed." << std::endl;
+		std::cout << instance.getNbRoutedDemands() << " demands were routed." << std::endl;
 
 		//instance.displayDetailedTopology();
 		std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
 		//instance.generateRandomDemandsFromFile();
-		instance.generateRandomDemands(30);
+		instance.generateRandomDemands(20);
 		instance.displayNonRoutedDemands();
-		std::cout << instance.getNbNonRoutedDemands() << " were generated." << std::endl;
+		std::cout << instance.getNbNonRoutedDemands() << " demands were generated." << std::endl;
 		//CplexForm::setCount(0);
 		int optimizationCounter = 0;
 		instance.output(std::to_string(optimizationCounter));
+		std::chrono::_V2::system_clock::time_point start = std::chrono::high_resolution_clock::now();
+		
 		while(instance.getNbRoutedDemands() < instance.getNbDemands()){
 			optimizationCounter++;
-			CplexForm solver(instance);
-			/************************************************/
-			/*		            UPDATE MAPPING        		*/
-			/************************************************/
-			if (solver.getCplex().getStatus() == IloAlgorithm::Optimal){
-				std::cout << "Update instance" << std::endl;
-				solver.updateInstance(instance);
-				instance.output(std::to_string(optimizationCounter));
-				//instance.displayDetailedTopology();
+			switch (instance.getInput().getChosenMethod()){
+			case 1:
+				{
+					CplexForm solver(instance);			
+					if (solver.getCplex().getStatus() == IloAlgorithm::Optimal){
+						std::cout << "Update instance" << std::endl;
+						solver.updateInstance(instance);
+						instance.output(std::to_string(optimizationCounter));
+						//instance.displayDetailedTopology();
+					}
+					break;
+				}
+			case 2:
+				{
+					Subgradient sub(instance);
+					sub.updateInstance(instance);
+					break;
+				}
+			default:
+				{
+					std::cerr << "The parameter \'chosenMethod\' is invalid. " << std::endl;
+					throw std::invalid_argument( "did not receive an argument" );
+					break;
+				}
+				
 			}
+			
+			
 		}
+		
+		
+		std::chrono::_V2::system_clock::time_point end = std::chrono::high_resolution_clock::now();
+		
+		double time_taken =  
+      	std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count(); 
+  		time_taken *= 1e-9; 
+  
+    	std::cout << "Time taken by program is : " << std::fixed  << time_taken << std::setprecision(9); 
+    	std::cout << " sec" << std::endl; 
+
 		//instance.displayInstance(); 
 		
 	}
 	catch(const std::invalid_argument& e){
-		std::cerr << std::endl << "ERROR: Caught exception: A parameter file is required in the arguments. PLease run the program as \n./exec parameterFile.par\n" << std::endl;
+		std::cerr << std::endl << "ERROR: Caught exception." << std::endl;
 	}/*
 	catch(...){
 		std::cerr << std::endl << "BIG FUCKING ERROR !!" << std::endl;

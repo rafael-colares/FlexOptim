@@ -26,6 +26,7 @@ protected:
     NodeMap nodeLabel;    // provides the id n of a node (n,s)
     NodeMap nodeSlice;    // provides the slice s of a node (n,s)
     ArcMap onPath;        // provides the id of the demand assigned to an arc.
+    std::vector<Demand> toBeRouted; 
 
 public:
 	/************************************************/
@@ -39,6 +40,16 @@ public:
 	/************************************************/
     /* Returns the node with id (label, slice). If it does not exist, returns INVALID. */
     ListDigraph::Node getNode(int label, int slice);
+    double getLength(const ListDigraph::Arc &a) { return length[a]; }
+    double getCoeff(const ListDigraph::Arc &a, const Demand &demand);
+    std::vector<Demand> getToBeRouted() { return toBeRouted; } 
+    int getNbDemandsToBeRouted() { return toBeRouted.size(); }
+    Instance getInstance() const{ return instance; }
+    
+	/************************************************/
+	/*				    Setters						*/
+	/************************************************/
+    void setToBeRouted(const std::vector<Demand> &d){this->toBeRouted = d;}
 
 	/************************************************/
 	/*				    Display						*/
@@ -47,6 +58,8 @@ public:
     void displayNodesFromLabel(int label);
     void displayPaths();
     void displayArc(const ListDigraph::Arc &a);
+    void displayNode(const ListDigraph::Node &n);
+    void displayToBeRouted();
 
 	/************************************************/
 	/*				    Methods						*/
@@ -54,6 +67,13 @@ public:
     /* Add an arc going from linkSourceLabel to linkTargetLabel through slice based on the linkLabel. */
     void addArcs(int linkSourceLabel, int linkTargetLabel, int linkLabel, int slice, double l);    
     void updateInstance(Instance &i);
+    ListDigraph::Node getFirstNodeFromLabel(int label);
+    
+    /* Contract nodes with the same given label. */
+    void contractNodesFromLabel(int label);
+
+    /* Delete arcs that are known to be unable to root demands a priori. */
+    void eraseNonRoutableArcs();
     
 };
 #endif
