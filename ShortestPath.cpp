@@ -20,7 +20,7 @@ ShortestPath::ShortestPath(Instance &instance, const Demand &demand) : arcId(g),
         int linkTargetLabel = instance.getPhysicalLinkFromId(i).getTarget();
         for (int s = 0; s < instance.getPhysicalLinkFromId(i).getNbSlices(); s++){
             // IF SLICE EVERY SLICE FROM s - load + 1 TO s IS NOT USED
-            if (instance.isRoutable(i, s, demand)){
+            if (instance.hasEnoughSpace(i, s, demand)){
                 // CREATE NODES (u, s) AND (v, s) IF THEY DO NOT ALREADY EXIST AND ADD AN ARC BETWEEN THEM    
                 if ((linkSourceLabel != TARGET) && (linkTargetLabel != SOURCE)){
                     addArcs(linkSourceLabel, linkTargetLabel, i, s, SOURCE, TARGET, instance.getPhysicalLinkFromId(i).getLength());

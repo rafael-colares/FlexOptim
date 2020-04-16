@@ -1,0 +1,12 @@
+This is a repository for the online algorithms used for solving the \mbox{\hyperlink{classRSA}{R\+SA}} problem from Flex\+Optim project.\hypertarget{md_README_autotoc_md1}{}\doxysection{Requirements}\label{md_README_autotoc_md1}
+
+\begin{DoxyItemize}
+\item This code was developped for linux. If you use Windows, please install Windows Subsystem Linux (W\+SL) by following the steps described here\+: \href{https://docs.microsoft.com/en-us/windows/wsl/install-win10}{\texttt{ https\+://docs.\+microsoft.\+com/en-\/us/windows/wsl/install-\/win10}}
+\item This code uses I\+BM I\+L\+OG C\+P\+L\+EX version 12.\+10 which can be installed by following the instructions here\+: \href{https://developer.ibm.com/docloud/blog/2019/07/04/cplex-optimization-studio-for-students-and-academics/}{\texttt{ https\+://developer.\+ibm.\+com/docloud/blog/2019/07/04/cplex-\/optimization-\/studio-\/for-\/students-\/and-\/academics/}}
+\item We also use the C\+O\+I\+N-\/\+OR lemon library to model graphs. Lemon can be installed by followig the instructions described here\+: \href{https://lemon.cs.elte.hu/trac/lemon/wiki/InstallGuide}{\texttt{ https\+://lemon.\+cs.\+elte.\+hu/trac/lemon/wiki/\+Install\+Guide}}
+\item Boost library is also used for simplifying the lecture from .csv files. Boost library can found here\+: \href{https://www.boost.org/doc/libs/1_55_0/doc/html/bbv2/installation.html}{\texttt{ https\+://www.\+boost.\+org/doc/libs/1\+\_\+55\+\_\+0/doc/html/bbv2/installation.\+html}}
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md2}{}\doxysection{Compilation}\label{md_README_autotoc_md2}
+The compilation of the project is done through a makefile. If you have all the requirements described above, just update the paths of C\+P\+L\+EX, lemon and boost in the makefile to the correspondent directories where you have installed each of these libraries.
+
+Open a terminal in linux (or W\+SL), go to the project folder and type make. Some warnings are expected but harmless.\hypertarget{md_README_autotoc_md3}{}\doxysection{Running}\label{md_README_autotoc_md3}
+After compiling the project, one can execute it by typing ./exec online\+Parameters Obs.\+: online\+Parameters is the file where one can input the necessary parameters for the optimization such as the location of .csv files needed for the building of an initial mapping. 

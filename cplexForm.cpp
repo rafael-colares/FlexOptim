@@ -3,7 +3,8 @@
 
 int CplexForm::count = 0;
 
-CplexForm::CplexForm(const Instance &inst) : Solver(inst), model(env), cplex(model), x(env, countArcs(g)){
+/* Constructor. Builds the Online RSA mixed-integer program and solves it using CPLEX. */
+CplexForm::CplexForm(const Instance &inst) : Solver(inst), model(env), cplex(model), x(env, getNbDemandsToBeRouted()){
     std::cout << "--- CPLEX has been chosen ---" << std::endl;
     count++;
     /************************************************/
@@ -39,7 +40,7 @@ CplexForm::CplexForm(const Instance &inst) : Solver(inst), model(env), cplex(mod
 	/************************************************/
 	/*		    EXPORT LINEAR PROGRAM TO .LP		*/
 	/************************************************/
-    std::string file = inst.getInput().getOutputPath() + "LP/model" + std::to_string(count) + ".lp";
+    std::string file = getInstance().getInput().getOutputPath() + "LP/model" + std::to_string(count) + ".lp";
     cplex.exportModel(file.c_str());
     
 	/************************************************/
@@ -72,6 +73,7 @@ CplexForm::CplexForm(const Instance &inst) : Solver(inst), model(env), cplex(mod
     }
 }
 
+/* Returns the total number of CPLEX default cuts applied during optimization. */
 IloInt CplexForm::getNbCutsFromCplex(){
     IloInt cutsFromCplex = 0;
     cutsFromCplex += getCplex().getNcuts(IloCplex::CutClique);
@@ -89,46 +91,41 @@ IloInt CplexForm::getNbCutsFromCplex(){
     cutsFromCplex += getCplex().getNcuts(IloCplex::CutLiftProj);
     return cutsFromCplex;
 }
+
+/* Recovers the obtained MIP solution and builds a path for each demand on its associated graph from RSA. */
 void CplexForm::updatePath(){
     for(int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
-            int arc = arcId[a];
-            if (cplex.getValue(x[arc][d]) >= 0.9){
-                onPath[a] = getToBeRouted()[d].getId();
+        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+            int arc = getArcId(a, d);
+            if (cplex.getValue(x[d][arc]) >= 0.9){
+                (*vecOnPath[d])[a] = getToBeRouted_k(d).getId();
+            }
+            else{
+                (*vecOnPath[d])[a] = -1;
             }
         }
     }
 }
+
+/* Displays the value of each variable in the obtained solution. */
 void CplexForm::displayVariableValues(){
     for(int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
-            int arc = arcId[a];
-            std::cout << x[arc][d].getName() << " = " << cplex.getValue(x[arc][d]) << "   ";
+        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+            int arc = getArcId(a, d);
+            std::cout << x[d][arc].getName() << " = " << cplex.getValue(x[d][arc]) << "   ";
         }
         std::cout << std::endl;
     }
 }
 
+/** Displays the obtained paths. */
 void CplexForm::displayOnPath(){
-    for(int d = 0; d < getNbDemandsToBeRouted(); d++){
-        std::cout << "For demand " << getToBeRouted()[d].getId() + 1 << " : " << std::endl;
-        for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
-            if (onPath[a] == getToBeRouted()[d].getId()){
-                displayArc(a);
+    for(int d = 0; d < getNbDemandsToBeRouted(); d++){ 
+        std::cout << "For demand " << getToBeRouted_k(d).getId() + 1 << " : " << std::endl;
+        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+            if ((*vecOnPath[d])[a] == getToBeRouted_k(d).getId()){
+                displayArc(d, a);
             }
         }
     }
 }
-
-/*
-void CplexForm::displayPathOnEnv(){
-    ListDigraph::Node source = getNode(SOURCE,-1);
-    ListDigraph::Arc current = getNextOnPath(source);
-    env.out() << "(" << nodeLabel[g.source(current)] + 1 << ", " << nodeSlice[g.source(current)] << ")";
-    while(current != INVALID){
-        env.out() << " --> (" << nodeLabel[g.target(current)] + 1 << ", " << nodeSlice[g.target(current)] << ")";
-        current = getNextOnPath(g.target(current));
-    }
-    env.out() << "\n";
-}
-*/

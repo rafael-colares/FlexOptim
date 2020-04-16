@@ -2,7 +2,7 @@ linkFile=./Parameters/Link.csv
 demandFile=./Parameters/Demand.csv
 assignmentFile=./Parameters/Demand_edges_slices.csv
 onlineDemandFile=./Parameters/TM_1000.csv
-nbDemandsAtOnce=2
+nbDemandsAtOnce=1
 outputPath=./Output/
 nbSlicesInOutputFile=320
 chosenMethod=1
@@ -11,5 +11,5 @@ chosenMethod=1
 lagrangianMultiplier_zero=0.0
 lagrangianLambda_zero=2.0
 nbIterationsWithoutImprovement=3;
-maxNbIterations=12;
+maxNbIterations=100;
 

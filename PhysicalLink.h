@@ -38,6 +38,7 @@ public:
 	double getCost() const { return cost; }
 	std::vector<Slice> getSlices() const { return spectrum; }
 	Slice getSlice_i(int i) const {return spectrum[i];}
+	std::string getString() const { return "[" + std::to_string(getSource()+1) + "," + std::to_string(getTarget()+1) + "]"; }
 
 	/************************************************/
 	/*					Setters						*/
@@ -54,6 +55,9 @@ public:
 	/*					Methods						*/
 	/************************************************/
 	void copyPhysicalLink(PhysicalLink &edge);
+
+	/* Verifies if the current Physical Link routes the given demand d. */
+	bool contains(const Demand &d) const;
 
 	// Assigns a demand d to position p in the spectrum
 	void assignSlices(const Demand &d, int p);

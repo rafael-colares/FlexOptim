@@ -1,5 +1,6 @@
 #include "input.h"
 
+/* Default constructor initializes the object with the information contained in the parameterFile. */
 Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     linkFile = getParameterValue("linkFile=");
     demandFile = getParameterValue("demandFile=");
@@ -14,8 +15,10 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     lagrangianLambda_zero = std::stod(getParameterValue("lagrangianLambda_zero="));
     nbIterationsWithoutImprovement = std::stoi(getParameterValue("nbIterationsWithoutImprovement="));
     maxNbIterations = std::stoi(getParameterValue("maxNbIterations="));
-    displayParameters();
+    displayMainParameters();
 }
+
+/* Copy constructor. */
 Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     linkFile = i.getLinkFile();
     demandFile = i.getDemandFile();
@@ -31,8 +34,7 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     maxNbIterations = i.getMaxNbIterations();
 }
 
-
-// Searches for a pattern in the Parameter File (PF) and returns its associated value. I know it is not the most performant thing to do but PF has a reasonable size and the code becomes much clearer.
+/* Returns the path to the file containing all the parameters. */
 std::string Input::getParameterValue(std::string pattern){
     std::string line;
     std::string value = "";
@@ -55,7 +57,8 @@ std::string Input::getParameterValue(std::string pattern){
     return value;
 }
 
-void Input::displayParameters(){
+/* Displays the main input file paths: link, demand and assignement. */
+void Input::displayMainParameters(){
     std::cout << "LINK FILE: " << linkFile << std::endl;
     std::cout << "DEMAND FILE: " << demandFile << std::endl;
     std::cout << "ASSIGNMENT FILE: " << assignmentFile << std::endl;

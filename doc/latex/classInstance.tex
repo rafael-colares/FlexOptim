@@ -1,0 +1,229 @@
+\hypertarget{classInstance}{}\doxysection{Instance Class Reference}
+\label{classInstance}\index{Instance@{Instance}}
+
+
+This class stores the initial mapping that serves as input for the Online Routing and Spectrum Allocation problem.  
+
+
+
+
+{\ttfamily \#include $<$Instance.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classInstance_a5efe3ecbf10afdb2b8fd5331cc88bdd2}\label{classInstance_a5efe3ecbf10afdb2b8fd5331cc88bdd2}} 
+\mbox{\hyperlink{classInstance_a5efe3ecbf10afdb2b8fd5331cc88bdd2}{Instance}} (const \mbox{\hyperlink{classInput}{Input}} \&i)
+\begin{DoxyCompactList}\small\item\em Constructor initializes the object with the information of an \mbox{\hyperlink{classInput}{Input}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a4c7b731b5678a62d108c48a3525f63fa}\label{classInstance_a4c7b731b5678a62d108c48a3525f63fa}} 
+\mbox{\hyperlink{classInstance_a4c7b731b5678a62d108c48a3525f63fa}{Instance}} (const \mbox{\hyperlink{classInstance}{Instance}} \&i)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a278c270fb8f0e1f6e8ee5b89614d3781}\label{classInstance_a278c270fb8f0e1f6e8ee5b89614d3781}} 
+int \mbox{\hyperlink{classInstance_a278c270fb8f0e1f6e8ee5b89614d3781}{get\+Nb\+Demands}} () const
+\begin{DoxyCompactList}\small\item\em Returns the total number of demands. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a1c6c810d4165dcbde0ea9ab5599cc890}\label{classInstance_a1c6c810d4165dcbde0ea9ab5599cc890}} 
+int \mbox{\hyperlink{classInstance_a1c6c810d4165dcbde0ea9ab5599cc890}{get\+Nb\+Routed\+Demands}} () const
+\begin{DoxyCompactList}\small\item\em Returns the number of demands already routed. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a11a5362f74e001cd5e3cc263e0b7eea8}\label{classInstance_a11a5362f74e001cd5e3cc263e0b7eea8}} 
+int \mbox{\hyperlink{classInstance_a11a5362f74e001cd5e3cc263e0b7eea8}{get\+Nb\+Non\+Routed\+Demands}} () const
+\begin{DoxyCompactList}\small\item\em Returns the number of non-\/routed demands. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a194a08e5acaac7022ab5a050f4e5200d}\label{classInstance_a194a08e5acaac7022ab5a050f4e5200d}} 
+int \mbox{\hyperlink{classInstance_a194a08e5acaac7022ab5a050f4e5200d}{get\+Nb\+Edges}} () const
+\begin{DoxyCompactList}\small\item\em Returns the number of links in the physical network. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a83b874c39f97bdddaa9914e70693e943}\label{classInstance_a83b874c39f97bdddaa9914e70693e943}} 
+int \mbox{\hyperlink{classInstance_a83b874c39f97bdddaa9914e70693e943}{get\+Nb\+Nodes}} () const
+\begin{DoxyCompactList}\small\item\em Returns the number of nodes in the physical network. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_ac652d01677c01259346ad54a4f7c272c}\label{classInstance_ac652d01677c01259346ad54a4f7c272c}} 
+\mbox{\hyperlink{classInput}{Input}} \mbox{\hyperlink{classInstance_ac652d01677c01259346ad54a4f7c272c}{get\+Input}} () const
+\begin{DoxyCompactList}\small\item\em Returns the instance\textquotesingle{}s input. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_ad01af2582166739afd3a41411f172a5e}\label{classInstance_ad01af2582166739afd3a41411f172a5e}} 
+\mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} \mbox{\hyperlink{classInstance_ad01af2582166739afd3a41411f172a5e}{get\+Physical\+Link\+From\+Id}} (int index) const
+\begin{DoxyCompactList}\small\item\em Returns the \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} with given index. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} \mbox{\hyperlink{classInstance_a7b954cf3c7c0e8ec3fd1bd28708b1af9}{get\+Physical\+Link\+Between}} (int s, int t)
+\begin{DoxyCompactList}\small\item\em Returns the first \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} with source s and target t. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a07a8d48674bab34b1836ce9b679162f2}\label{classInstance_a07a8d48674bab34b1836ce9b679162f2}} 
+std\+::vector$<$ \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} $>$ \mbox{\hyperlink{classInstance_a07a8d48674bab34b1836ce9b679162f2}{get\+Tab\+Edge}} () const
+\begin{DoxyCompactList}\small\item\em Returns the vector of \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_aecd03458a472d425788ce3f57061e759}\label{classInstance_aecd03458a472d425788ce3f57061e759}} 
+\mbox{\hyperlink{classDemand}{Demand}} \mbox{\hyperlink{classInstance_aecd03458a472d425788ce3f57061e759}{get\+Demand\+From\+Index}} (int id) const
+\begin{DoxyCompactList}\small\item\em Returns the demand with given index. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_ab1ccd8cb8d28d40965e33907fa2f37af}\label{classInstance_ab1ccd8cb8d28d40965e33907fa2f37af}} 
+std\+::vector$<$ \mbox{\hyperlink{classDemand}{Demand}} $>$ \mbox{\hyperlink{classInstance_ab1ccd8cb8d28d40965e33907fa2f37af}{get\+Tab\+Demand}} () const
+\begin{DoxyCompactList}\small\item\em Returns the vector of \mbox{\hyperlink{classDemand}{Demand}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a5b389d61b1c2c6992a53b40975568546}\label{classInstance_a5b389d61b1c2c6992a53b40975568546}} 
+std\+::vector$<$ \mbox{\hyperlink{classDemand}{Demand}} $>$ \mbox{\hyperlink{classInstance_a5b389d61b1c2c6992a53b40975568546}{get\+Next\+Demands}} () const
+\begin{DoxyCompactList}\small\item\em Returns the vector of demands to be routed in the next optimization. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a26032b536301b1c7e42d553077cb9df2}\label{classInstance_a26032b536301b1c7e42d553077cb9df2}} 
+void \mbox{\hyperlink{classInstance_a26032b536301b1c7e42d553077cb9df2}{set\+Nb\+Demands}} (int nb)
+\begin{DoxyCompactList}\small\item\em Change the total number of demands. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a06b5bbc43d5a7d004e7f17f9c2661c51}\label{classInstance_a06b5bbc43d5a7d004e7f17f9c2661c51}} 
+void \mbox{\hyperlink{classInstance_a06b5bbc43d5a7d004e7f17f9c2661c51}{set\+Nb\+Nodes}} (int nb)
+\begin{DoxyCompactList}\small\item\em Change the number of nodes in the physical network. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a3e680b30c7fdabeae8cd8e847c5f8ba9}\label{classInstance_a3e680b30c7fdabeae8cd8e847c5f8ba9}} 
+void \mbox{\hyperlink{classInstance_a3e680b30c7fdabeae8cd8e847c5f8ba9}{set\+Tab\+Edge}} (std\+::vector$<$ \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} $>$ tab)
+\begin{DoxyCompactList}\small\item\em Change the set of links in the physical network. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a31bceb4f0d9bd558ec5451a9d9a46c74}\label{classInstance_a31bceb4f0d9bd558ec5451a9d9a46c74}} 
+void \mbox{\hyperlink{classInstance_a31bceb4f0d9bd558ec5451a9d9a46c74}{set\+Tab\+Demand}} (std\+::vector$<$ \mbox{\hyperlink{classDemand}{Demand}} $>$ tab)
+\begin{DoxyCompactList}\small\item\em Change the set of demands. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_ab51ed308625a2c6a527c4c8e021d4294}\label{classInstance_ab51ed308625a2c6a527c4c8e021d4294}} 
+void \mbox{\hyperlink{classInstance_ab51ed308625a2c6a527c4c8e021d4294}{set\+Edge\+From\+Id}} (int index, \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} \&edge)
+\begin{DoxyCompactList}\small\item\em Changes the attributes of the \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} from the given index according to the attributes of the given link. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a8a2cdbe721bc7fd1643c45a468d5be6d}\label{classInstance_a8a2cdbe721bc7fd1643c45a468d5be6d}} 
+void \mbox{\hyperlink{classInstance_a8a2cdbe721bc7fd1643c45a468d5be6d}{set\+Demand\+From\+Id}} (int id, \mbox{\hyperlink{classDemand}{Demand}} \&demand)
+\begin{DoxyCompactList}\small\item\em Changes the attributes of the \mbox{\hyperlink{classDemand}{Demand}} from the given index according to the attributes of the given demand. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_af48c4c8a3050c9bffae7696afa24da1a}\label{classInstance_af48c4c8a3050c9bffae7696afa24da1a}} 
+void \mbox{\hyperlink{classInstance_af48c4c8a3050c9bffae7696afa24da1a}{create\+Initial\+Mapping}} ()
+\begin{DoxyCompactList}\small\item\em Builds the initial mapping based on the information retrived from the \mbox{\hyperlink{classInput}{Input}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classInstance_a02a50f476c547c483a19d3889096518e}{read\+Topology}} (std\+::string file)
+\begin{DoxyCompactList}\small\item\em Reads the topology information from file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classInstance_a4060acde3ac5809099c2488b9452b4b3}{read\+Demands}} (std\+::string file)
+\begin{DoxyCompactList}\small\item\em Reads the routed demand information from file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classInstance_afce65a0ce78c53e2c547926b7aa07484}{read\+Demand\+Assignment}} (std\+::string file)
+\begin{DoxyCompactList}\small\item\em Reads the assignment information from file. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a9cdefb46d4fdb1967c9b4a91ca849652}\label{classInstance_a9cdefb46d4fdb1967c9b4a91ca849652}} 
+void \mbox{\hyperlink{classInstance_a9cdefb46d4fdb1967c9b4a91ca849652}{generate\+Random\+Demands\+From\+File}} ()
+\begin{DoxyCompactList}\small\item\em Adds non-\/routed demands to the pool by reading the information from online\+Demands \mbox{\hyperlink{classInput}{Input}} file. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_ae7d58f0777d8a8528bcf544aed95d463}\label{classInstance_ae7d58f0777d8a8528bcf544aed95d463}} 
+void \mbox{\hyperlink{classInstance_ae7d58f0777d8a8528bcf544aed95d463}{generate\+Random\+Demands}} (const int N)
+\begin{DoxyCompactList}\small\item\em Adds non-\/routed demands to the pool by generating N random demands. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_ae13f352cdcc9ac6bcadb80903500253e}\label{classInstance_ae13f352cdcc9ac6bcadb80903500253e}} 
+void \mbox{\hyperlink{classInstance_ae13f352cdcc9ac6bcadb80903500253e}{assign\+Slices\+Of\+Link}} (int i, int j, const \mbox{\hyperlink{classDemand}{Demand}} \&demand)
+\begin{DoxyCompactList}\small\item\em Assigns the given demand to the j-\/th slice of the i-\/th link. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a9a77c2ac76c72200008b4cf7d214420a}\label{classInstance_a9a77c2ac76c72200008b4cf7d214420a}} 
+bool \mbox{\hyperlink{classInstance_a9a77c2ac76c72200008b4cf7d214420a}{has\+Enough\+Space}} (const int i, const int s, const \mbox{\hyperlink{classDemand}{Demand}} \&demand)
+\begin{DoxyCompactList}\small\item\em Verifies if there is enough place for a given demand to be routed through link i on last slice position s. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a4b9bd051f18df143962272416c718be2}\label{classInstance_a4b9bd051f18df143962272416c718be2}} 
+bool \mbox{\hyperlink{classInstance_a4b9bd051f18df143962272416c718be2}{has\+Link}} (int u, int v)
+\begin{DoxyCompactList}\small\item\em Verifies if there exists a link between nodes of id u and v. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a91d8d063707772ef9d5fcb23c942e1e4}\label{classInstance_a91d8d063707772ef9d5fcb23c942e1e4}} 
+void \mbox{\hyperlink{classInstance_a91d8d063707772ef9d5fcb23c942e1e4}{output}} (std\+::string i=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em Call the methods allowing the build of output files. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a1841b3157459e80733adb746a7c29faf}\label{classInstance_a1841b3157459e80733adb746a7c29faf}} 
+void \mbox{\hyperlink{classInstance_a1841b3157459e80733adb746a7c29faf}{output\+Edge\+Slice\+Hols}} (std\+::string n)
+\begin{DoxyCompactList}\small\item\em Builds file Edge\+\_\+\+Slice\+\_\+\+Holes\+\_\+i.\+csv containing information about the mapping after n optimizations. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a4d5798c92b2af241c1c915dec0387e3e}\label{classInstance_a4d5798c92b2af241c1c915dec0387e3e}} 
+void \mbox{\hyperlink{classInstance_a4d5798c92b2af241c1c915dec0387e3e}{output\+Demand}} ()
+\begin{DoxyCompactList}\small\item\em Builds file Demand.\+csv containing information about the routed demands. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_ae6fd9ac41ed2bb8a2bf4d00798c96836}\label{classInstance_ae6fd9ac41ed2bb8a2bf4d00798c96836}} 
+void \mbox{\hyperlink{classInstance_ae6fd9ac41ed2bb8a2bf4d00798c96836}{output\+Demand\+Edge\+Slices}} ()
+\begin{DoxyCompactList}\small\item\em Builds file Demand\+\_\+edges\+\_\+slices.\+csv containing information about the assignment of routed demands. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a16acf3a9e4d392961c2187e0f52c8880}\label{classInstance_a16acf3a9e4d392961c2187e0f52c8880}} 
+void \mbox{\hyperlink{classInstance_a16acf3a9e4d392961c2187e0f52c8880}{display\+Instance}} ()
+\begin{DoxyCompactList}\small\item\em Displays overall information about the current instance. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a46b194dccfac5637566cb0ef5c73ffe2}\label{classInstance_a46b194dccfac5637566cb0ef5c73ffe2}} 
+void \mbox{\hyperlink{classInstance_a46b194dccfac5637566cb0ef5c73ffe2}{display\+Topology}} ()
+\begin{DoxyCompactList}\small\item\em Displays information about the physical topology. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_aa0e442ad9f06adf848e8a0c892537ff9}\label{classInstance_aa0e442ad9f06adf848e8a0c892537ff9}} 
+void \mbox{\hyperlink{classInstance_aa0e442ad9f06adf848e8a0c892537ff9}{display\+Detailed\+Topology}} ()
+\begin{DoxyCompactList}\small\item\em Displays detailed information about state of the physical topology. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a0125bb839c842cc3ff5db82aa1e7554d}\label{classInstance_a0125bb839c842cc3ff5db82aa1e7554d}} 
+void \mbox{\hyperlink{classInstance_a0125bb839c842cc3ff5db82aa1e7554d}{display\+Slices}} ()
+\begin{DoxyCompactList}\small\item\em Displays summarized information about slice occupation. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a111761827fb1a374a4a09f454c42bfd8}\label{classInstance_a111761827fb1a374a4a09f454c42bfd8}} 
+void \mbox{\hyperlink{classInstance_a111761827fb1a374a4a09f454c42bfd8}{display\+Routed\+Demands}} ()
+\begin{DoxyCompactList}\small\item\em Displays information about the routed demands. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a4925084c7ad1b435b20097bd79934499}\label{classInstance_a4925084c7ad1b435b20097bd79934499}} 
+void \mbox{\hyperlink{classInstance_a4925084c7ad1b435b20097bd79934499}{display\+Non\+Routed\+Demands}} ()
+\begin{DoxyCompactList}\small\item\em Displays information about the non-\/routed demands. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classInstance_af55de567289895240a4761a61af41319}\label{classInstance_af55de567289895240a4761a61af41319}} 
+\mbox{\hyperlink{classInput}{Input}} \mbox{\hyperlink{classInstance_af55de567289895240a4761a61af41319}{input}}
+\begin{DoxyCompactList}\small\item\em An instance needs an input. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_ad62f032a3dca06ba592902dc18f070e2}\label{classInstance_ad62f032a3dca06ba592902dc18f070e2}} 
+int \mbox{\hyperlink{classInstance_ad62f032a3dca06ba592902dc18f070e2}{nb\+Nodes}}
+\begin{DoxyCompactList}\small\item\em Number of nodes in the physical network. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a7e7cea3878eeb2a901df2666a715eec3}\label{classInstance_a7e7cea3878eeb2a901df2666a715eec3}} 
+std\+::vector$<$ \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} $>$ \mbox{\hyperlink{classInstance_a7e7cea3878eeb2a901df2666a715eec3}{tab\+Edge}}
+\begin{DoxyCompactList}\small\item\em A set of \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInstance_a22ef47ece61b3433df02bd28f18e76d5}\label{classInstance_a22ef47ece61b3433df02bd28f18e76d5}} 
+std\+::vector$<$ \mbox{\hyperlink{classDemand}{Demand}} $>$ \mbox{\hyperlink{classInstance_a22ef47ece61b3433df02bd28f18e76d5}{tab\+Demand}}
+\begin{DoxyCompactList}\small\item\em A set of \mbox{\hyperlink{classDemand}{Demand}} (already routed or not). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class stores the initial mapping that serves as input for the Online Routing and Spectrum Allocation problem. 
+
+This consists of a topology graph where some slices of some edges are already occupied by some given demands. ~\newline
+ 
+
+Definition at line 18 of file Instance.\+h.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classInstance_a7b954cf3c7c0e8ec3fd1bd28708b1af9}\label{classInstance_a7b954cf3c7c0e8ec3fd1bd28708b1af9}} 
+\index{Instance@{Instance}!getPhysicalLinkBetween@{getPhysicalLinkBetween}}
+\index{getPhysicalLinkBetween@{getPhysicalLinkBetween}!Instance@{Instance}}
+\doxysubsubsection{\texorpdfstring{getPhysicalLinkBetween()}{getPhysicalLinkBetween()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} Instance\+::get\+Physical\+Link\+Between (\begin{DoxyParamCaption}\item[{int}]{s,  }\item[{int}]{t }\end{DoxyParamCaption})}
+
+
+
+Returns the first \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} with source s and target t. 
+
+Should only be called if method has\+Link returns true. \begin{DoxyWarning}{Warning}
+If there is no such link, the program is aborted! 
+\end{DoxyWarning}
+
+
+Definition at line 398 of file Instance.\+cpp.
+
+\mbox{\Hypertarget{classInstance_afce65a0ce78c53e2c547926b7aa07484}\label{classInstance_afce65a0ce78c53e2c547926b7aa07484}} 
+\index{Instance@{Instance}!readDemandAssignment@{readDemandAssignment}}
+\index{readDemandAssignment@{readDemandAssignment}!Instance@{Instance}}
+\doxysubsubsection{\texorpdfstring{readDemandAssignment()}{readDemandAssignment()}}
+{\footnotesize\ttfamily void Instance\+::read\+Demand\+Assignment (\begin{DoxyParamCaption}\item[{std\+::string}]{file }\end{DoxyParamCaption})}
+
+
+
+Reads the assignment information from file. 
+
+Sets the demands to routed and update the slices of the edges. \begin{DoxyWarning}{Warning}
+File should be structured as in Demand\+\_\+edges\+\_\+slices.\+csv. 
+\end{DoxyWarning}
+
+
+Definition at line 115 of file Instance.\+cpp.
+
+\mbox{\Hypertarget{classInstance_a4060acde3ac5809099c2488b9452b4b3}\label{classInstance_a4060acde3ac5809099c2488b9452b4b3}} 
+\index{Instance@{Instance}!readDemands@{readDemands}}
+\index{readDemands@{readDemands}!Instance@{Instance}}
+\doxysubsubsection{\texorpdfstring{readDemands()}{readDemands()}}
+{\footnotesize\ttfamily void Instance\+::read\+Demands (\begin{DoxyParamCaption}\item[{std\+::string}]{file }\end{DoxyParamCaption})}
+
+
+
+Reads the routed demand information from file. 
+
+\begin{DoxyWarning}{Warning}
+File should be structured as in Demand.\+csv. 
+\end{DoxyWarning}
+
+
+Definition at line 95 of file Instance.\+cpp.
+
+\mbox{\Hypertarget{classInstance_a02a50f476c547c483a19d3889096518e}\label{classInstance_a02a50f476c547c483a19d3889096518e}} 
+\index{Instance@{Instance}!readTopology@{readTopology}}
+\index{readTopology@{readTopology}!Instance@{Instance}}
+\doxysubsubsection{\texorpdfstring{readTopology()}{readTopology()}}
+{\footnotesize\ttfamily void Instance\+::read\+Topology (\begin{DoxyParamCaption}\item[{std\+::string}]{file }\end{DoxyParamCaption})}
+
+
+
+Reads the topology information from file. 
+
+\begin{DoxyWarning}{Warning}
+File should be structured as in Link.\+csv. 
+\end{DoxyWarning}
+
+
+Definition at line 62 of file Instance.\+cpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Instance.\+h\item 
+Instance.\+cpp\end{DoxyCompactItemize}

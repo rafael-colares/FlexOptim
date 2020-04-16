@@ -25,7 +25,17 @@ void PhysicalLink::copyPhysicalLink(PhysicalLink & edge){
 	this->setCost(edge.getCost());
 }
 
-// Assigns a demand d to position p in the spectrum
+/* Verifies if the current Physical Link routes the given demand d. */
+bool PhysicalLink::contains(const Demand &d) const{
+	for (int i = 0; i < this->getNbSlices(); i++){
+		if (getSlice_i(i).getAssignment() == d.getId()){
+			return true;
+		}
+	}
+	return false;
+}
+
+/* Assigns a demand d to position p in the spectrum. */
 void PhysicalLink::assignSlices(const Demand &d, int p){
 	int demandLoad = d.getLoad();
 	// assign demand d to this edge from position p - demandLoad + 1 to position p

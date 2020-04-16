@@ -1,9 +1,7 @@
 #include "CSVReader.h"
 #include <iostream>
-/*
-* Parses through csv file line by line and returns the data
-* in vector of vector of strings.
-*/
+
+/* Function to fetch data from a CSV File. */
 std::vector<std::vector<std::string> > CSVReader::getData()
 {
 	std::ifstream file(fileName.c_str());
@@ -26,7 +24,7 @@ std::vector<std::vector<std::string> > CSVReader::getData()
 	return dataList;
 }
 
-// Returns the substring of str between the first and last delimiters
+/* Returns the substring of str between the first and last delimiters */
 std::string getInBetweenString(std::string str, std::string firstDelimiter, std::string lastDelimiter)
 {
 	size_t first = str.find(firstDelimiter)+1;
@@ -35,7 +33,7 @@ std::string getInBetweenString(std::string str, std::string firstDelimiter, std:
 	return strNew;
 }
 
-// Splits a given string into a vector by a given delimiter. Ex "1,2,3" becomes 1 2 3 if delimiter is ","
+/* Splits a given string into a vector by a given delimiter. */
 std::vector<std::string> splitBy(std::string str, std::string delimiter)
 {
 	std::vector<std::string> vec;

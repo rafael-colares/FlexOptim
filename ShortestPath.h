@@ -13,6 +13,7 @@ typedef ListDigraph::NodeMap<int> NodeMap;
 typedef ListDigraph::ArcMap<int> ArcMap;
 typedef ListDigraph::ArcMap<double> ArcCost;
 
+/** @todo Erase this class **/
 class ShortestPath{
 
 protected:

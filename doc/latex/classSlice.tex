@@ -1,0 +1,48 @@
+\hypertarget{classSlice}{}\doxysection{Slice Class Reference}
+\label{classSlice}\index{Slice@{Slice}}
+
+
+This class identifies a \mbox{\hyperlink{classSlice}{Slice}} of a \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}}.  
+
+
+
+
+{\ttfamily \#include $<$Slice.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classSlice_a960e99060779c9a908092132d5c69320}\label{classSlice_a960e99060779c9a908092132d5c69320}} 
+\mbox{\hyperlink{classSlice_a960e99060779c9a908092132d5c69320}{Slice}} (int id=-\/1)
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classSlice_af7d7da246f03af1715d0186ec6956c6e}\label{classSlice_af7d7da246f03af1715d0186ec6956c6e}} 
+int \mbox{\hyperlink{classSlice_af7d7da246f03af1715d0186ec6956c6e}{get\+Assignment}} () const
+\begin{DoxyCompactList}\small\item\em Returns the id of the \mbox{\hyperlink{classDemand}{Demand}} assigned to the \mbox{\hyperlink{classSlice}{Slice}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classSlice_aa1626f7db77c039890ec9c5c044ff81c}\label{classSlice_aa1626f7db77c039890ec9c5c044ff81c}} 
+void \mbox{\hyperlink{classSlice_aa1626f7db77c039890ec9c5c044ff81c}{set\+Assignment}} (int d)
+\begin{DoxyCompactList}\small\item\em Specifies the id of the \mbox{\hyperlink{classDemand}{Demand}} assigned to the \mbox{\hyperlink{classSlice}{Slice}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classSlice_aaef8f8886b7cef47db3220a947594716}\label{classSlice_aaef8f8886b7cef47db3220a947594716}} 
+bool \mbox{\hyperlink{classSlice_aaef8f8886b7cef47db3220a947594716}{is\+Used}} ()
+\begin{DoxyCompactList}\small\item\em Verifies if the \mbox{\hyperlink{classSlice}{Slice}} is occupied by some demand. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classSlice_a029b4ae9a9cc083f83012b1cba475d2a}\label{classSlice_a029b4ae9a9cc083f83012b1cba475d2a}} 
+int \mbox{\hyperlink{classSlice_a029b4ae9a9cc083f83012b1cba475d2a}{assigned\+Demand}}
+\begin{DoxyCompactList}\small\item\em Refers to the id of the routed demand; If no demand is routed, it equals -\/1. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class identifies a \mbox{\hyperlink{classSlice}{Slice}} of a \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}}. 
+
+~\newline
+ A \mbox{\hyperlink{classDemand}{Demand}} may be routed through a \mbox{\hyperlink{classSlice}{Slice}}. This class allows to identify, specify and verify which \mbox{\hyperlink{classDemand}{Demand}} is routed (or not) through the slice. 
+
+Definition at line 9 of file Slice.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Slice.\+h\item 
+Slice.\+cpp\end{DoxyCompactItemize}

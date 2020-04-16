@@ -5,7 +5,7 @@ Subgradient::Subgradient(const Instance &inst) : RSA(inst),
         SOURCE(getToBeRouted()[0].getSource()), TARGET(getToBeRouted()[0].getTarget()), 
         MAX_LENGTH(getToBeRouted()[0].getMaxLength()), 
         MAX_NB_IT_WITHOUT_IMPROVEMENT(inst.getInput().getNbIterationsWithoutImprovement()), 
-        MAX_NB_IT(inst.getInput().getMaxNbIterations()), cost(g) {
+        MAX_NB_IT(inst.getInput().getMaxNbIterations()), cost(*vecGraph[0]) {
     
     
     std::cout << "--- Subgradient was invoked ---" << std::endl;
@@ -15,7 +15,7 @@ Subgradient::Subgradient(const Instance &inst) : RSA(inst),
     initialization();
     std::cout << "> Subgradient was initialized. " << std::endl;
 
-    run(getFirstNodeFromLabel(SOURCE), getFirstNodeFromLabel(TARGET));
+    run(getFirstNodeFromLabel(0, SOURCE), getFirstNodeFromLabel(0, TARGET));
 
 }
 
@@ -42,16 +42,16 @@ void Subgradient::initialization(){
 
 /* Call preprocessing functions. */
 void Subgradient::preprocessing(){
-    contractNodesFromLabel(SOURCE);
-    contractNodesFromLabel(TARGET);
-    eraseNonRoutableArcs();
+    contractNodesFromLabel(0, SOURCE);
+    contractNodesFromLabel(0, TARGET);
+    eraseNonRoutableArcs(0);
 }
 
 /* Updates the arc costs according to the last lagrangian multiplier available. cost = c + u_k*length */
 void Subgradient::updateCosts(){
-    for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
-        double arcCost = getCoeff(a, getToBeRouted()[0]);
-        cost[a] = arcCost + ( getLastMultiplier()*getLength(a) );
+    for (ListDigraph::ArcIt a(*vecGraph[0]); a != INVALID; ++a){
+        double arcCost = getCoeff(a, 0);
+        cost[a] = arcCost + ( getLastMultiplier()*getArcLength(a, 0) );
     }
 }
 
@@ -60,7 +60,7 @@ void Subgradient::run(const ListDigraph::Node &s, const ListDigraph::Node &t){
     bool STOP = false;
     
     // run a first shortest path not taking into account length (i.e., u=0)
-    Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > shortestPath(g, cost);
+    Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > shortestPath((*vecGraph[0]), cost);
     shortestPath.run(s,t);
     //displayPath(shortestPath, s, t);
     
@@ -188,8 +188,8 @@ void Subgradient::updateSlack(double pathLength){
 
 /* Assigns length as the main cost of the arcs. */
 void Subgradient::setLengthCost(){
-    for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
-        cost[a] = getLength(a) ;
+    for (ListDigraph::ArcIt a(*vecGraph[0]); a != INVALID; ++a){
+        cost[a] = getArcLength(a, 0) ;
     }
 }
 
@@ -204,7 +204,7 @@ void Subgradient::updateStop(bool &STOP){
 /* Tests if CSP is feasible by searching for a shortest path with arc costs based on their physical length. */
 bool Subgradient::testFeasibility(const ListDigraph::Node &s, const ListDigraph::Node &t){
     setLengthCost();
-    Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > shortestLengthPath(g, cost);
+    Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > shortestLengthPath((*vecGraph[0]), cost);
     shortestLengthPath.run(s,t);
     //displayPath(shortestLengthPath, s, t);
     double smallestLength = getPathLength(shortestLengthPath, s, t);
@@ -221,15 +221,14 @@ bool Subgradient::testFeasibility(const ListDigraph::Node &s, const ListDigraph:
 
 /* Stores the path found in the arcMap onPath. */
 void Subgradient::updateOnPath(Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &s, const ListDigraph::Node &t){
-    double pathLength = 0.0;
     ListDigraph::Node n = t;
-    for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
-        onPath[a] = -1;
+    for (ListDigraph::ArcIt a(*vecGraph[0]); a != INVALID; ++a){
+        (*vecOnPath[0])[a] = -1;
     }
     while (n != s){
         ListDigraph::Arc arc = path.predArc(n);
         n = path.predNode(n);
-        onPath[arc] = getToBeRouted()[0].getId();
+        (*vecOnPath[0])[arc] = getToBeRouted()[0].getId();
     }
 }
 
@@ -241,7 +240,7 @@ double Subgradient::getPathLength(Dijkstra< ListDigraph, ListDigraph::ArcMap<dou
     while (n != s){
         ListDigraph::Arc arc = path.predArc(n);
         n = path.predNode(n);
-        pathLength += getLength(arc);
+        pathLength += getArcLength(arc, 0);
     }
     return pathLength;
 }
@@ -253,7 +252,7 @@ double Subgradient::getPathCost(Dijkstra< ListDigraph, ListDigraph::ArcMap<doubl
     while (n != s){
         ListDigraph::Arc arc = path.predArc(n);
         n = path.predNode(n);
-        pathCost += getCoeff(arc, getToBeRouted()[0]);
+        pathCost += getCoeff(arc, 0);
     }
     return pathCost;
 }
@@ -264,7 +263,7 @@ void Subgradient::displayPath(Dijkstra< ListDigraph, ListDigraph::ArcMap<double>
     while (n != s){
         ListDigraph::Arc arc = path.predArc(n);
         n = path.predNode(n);
-        displayArc(arc);
+        displayArc(0, arc);
     }
     double pathLength = getPathLength(path, s, t);
     std::cout << "Path length: " << pathLength << std::endl;
@@ -278,11 +277,11 @@ std::string Subgradient::getPathString(Dijkstra< ListDigraph, ListDigraph::ArcMa
     std::string pathString = "";
     ListDigraph::Node n = t;
     while (n != s){
-        pathString += "(" + std::to_string(nodeLabel[n] + 1) + "," + std::to_string(nodeSlice[n] + 1) + ")";
+        pathString += "(" + std::to_string(getNodeLabel(n, 0) + 1) + "," + std::to_string(getNodeSlice(n, 0) + 1) + ")";
         pathString += "-";
         n = path.predNode(n);
     }
-    pathString += "(" + std::to_string(nodeLabel[s] + 1) + "," + std::to_string(nodeSlice[s] + 1) + ")";
+    pathString += "(" + std::to_string(getNodeLabel(s, 0) + 1) + "," + std::to_string(getNodeSlice(s, 0) + 1) + ")";
     return pathString;
 }
  

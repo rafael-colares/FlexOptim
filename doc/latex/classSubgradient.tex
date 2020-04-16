@@ -1,0 +1,250 @@
+\hypertarget{classSubgradient}{}\doxysection{Subgradient Class Reference}
+\label{classSubgradient}\index{Subgradient@{Subgradient}}
+Inheritance diagram for Subgradient\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classSubgradient}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classSubgradient_ac30d4ddbce796598bac1ea9870b99b1a}\label{classSubgradient_ac30d4ddbce796598bac1ea9870b99b1a}} 
+{\bfseries Subgradient} (const \mbox{\hyperlink{classInstance}{Instance}} \&inst)
+\item 
+\mbox{\Hypertarget{classSubgradient_a3973242ccb165d1a5f14062c0f9e6673}\label{classSubgradient_a3973242ccb165d1a5f14062c0f9e6673}} 
+int {\bfseries get\+Iteration} () const
+\item 
+\mbox{\Hypertarget{classSubgradient_a7117798bb19a4afc04a97b26e5ea92bb}\label{classSubgradient_a7117798bb19a4afc04a97b26e5ea92bb}} 
+int {\bfseries get\+It\+Without\+Improvement} () const
+\item 
+\mbox{\Hypertarget{classSubgradient_af66b4786af1e38cfde330888fcbf7c87}\label{classSubgradient_af66b4786af1e38cfde330888fcbf7c87}} 
+double {\bfseries get\+UB} () const
+\item 
+\mbox{\Hypertarget{classSubgradient_a61893b240a3b36e37e0c801d1af23c36}\label{classSubgradient_a61893b240a3b36e37e0c801d1af23c36}} 
+double {\bfseries get\+LB} () const
+\item 
+\mbox{\Hypertarget{classSubgradient_a078d3352c3573f9dfbfc8ffb44f2fd6f}\label{classSubgradient_a078d3352c3573f9dfbfc8ffb44f2fd6f}} 
+double {\bfseries get\+Current\+Cost} () const
+\item 
+\mbox{\Hypertarget{classSubgradient_a501f44af02deef96004412a0664d82e9}\label{classSubgradient_a501f44af02deef96004412a0664d82e9}} 
+bool {\bfseries get\+Is\+Feasible} () const
+\item 
+\mbox{\Hypertarget{classSubgradient_a905e2f1e4485bea3b55bd49ead8b834e}\label{classSubgradient_a905e2f1e4485bea3b55bd49ead8b834e}} 
+bool {\bfseries get\+Is\+Optimal} () const
+\item 
+\mbox{\Hypertarget{classSubgradient_a9785e6281d1d4089037b5164d83eb441}\label{classSubgradient_a9785e6281d1d4089037b5164d83eb441}} 
+std\+::vector$<$ double $>$ {\bfseries get\+Multiplier} () const
+\item 
+\mbox{\Hypertarget{classSubgradient_a1ea775f08dda14961ac31630a80f7a0e}\label{classSubgradient_a1ea775f08dda14961ac31630a80f7a0e}} 
+std\+::vector$<$ double $>$ {\bfseries get\+Step\+Size} () const
+\item 
+\mbox{\Hypertarget{classSubgradient_a1ae6dc71ec8d7fe91dddd2097a10f426}\label{classSubgradient_a1ae6dc71ec8d7fe91dddd2097a10f426}} 
+std\+::vector$<$ double $>$ {\bfseries get\+Slack} () const
+\item 
+\mbox{\Hypertarget{classSubgradient_aa822d4f5311c9556979ed32070a77d9d}\label{classSubgradient_aa822d4f5311c9556979ed32070a77d9d}} 
+std\+::vector$<$ double $>$ {\bfseries get\+Lambda} () const
+\item 
+\mbox{\Hypertarget{classSubgradient_abef9c832364b3f39cdb55158cbd36e27}\label{classSubgradient_abef9c832364b3f39cdb55158cbd36e27}} 
+double {\bfseries get\+Multiplier\+\_\+k} (int k) const
+\item 
+\mbox{\Hypertarget{classSubgradient_aae4f3f0c6a7dc6f589a95799f3b3bff2}\label{classSubgradient_aae4f3f0c6a7dc6f589a95799f3b3bff2}} 
+double {\bfseries get\+Step\+Size\+\_\+k} (int k) const
+\item 
+\mbox{\Hypertarget{classSubgradient_a36d3a1142784c594096a80cad391b9cd}\label{classSubgradient_a36d3a1142784c594096a80cad391b9cd}} 
+double {\bfseries get\+Slack\+\_\+k} (int k) const
+\item 
+\mbox{\Hypertarget{classSubgradient_a88c3ca462317c0a5d1d2d527c2014d64}\label{classSubgradient_a88c3ca462317c0a5d1d2d527c2014d64}} 
+double {\bfseries get\+Lambda\+\_\+k} (int k) const
+\item 
+\mbox{\Hypertarget{classSubgradient_ab4277e30ff4244a639761a54ad0155f5}\label{classSubgradient_ab4277e30ff4244a639761a54ad0155f5}} 
+double {\bfseries get\+Last\+Multiplier} () const
+\item 
+\mbox{\Hypertarget{classSubgradient_a36b0e6f1d3a66432409c95229bcc56c5}\label{classSubgradient_a36b0e6f1d3a66432409c95229bcc56c5}} 
+double {\bfseries get\+Last\+Step\+Size} () const
+\item 
+\mbox{\Hypertarget{classSubgradient_a37bc7ba00636963df3d2015caea3142b}\label{classSubgradient_a37bc7ba00636963df3d2015caea3142b}} 
+double {\bfseries get\+Last\+Slack} () const
+\item 
+\mbox{\Hypertarget{classSubgradient_a0a2cef01f32c2f4c9b2af40481417676}\label{classSubgradient_a0a2cef01f32c2f4c9b2af40481417676}} 
+double {\bfseries get\+Last\+Lambda} () const
+\item 
+\mbox{\Hypertarget{classSubgradient_accea902906ea8dfed96d4b48a2beef31}\label{classSubgradient_accea902906ea8dfed96d4b48a2beef31}} 
+void {\bfseries set\+Iteration} (int i)
+\item 
+\mbox{\Hypertarget{classSubgradient_aec163a2b82f74f1017618a773969e849}\label{classSubgradient_aec163a2b82f74f1017618a773969e849}} 
+void {\bfseries set\+It\+Without\+Improvement} (int i)
+\item 
+\mbox{\Hypertarget{classSubgradient_a5cc0b04e2ee1f493e23e39c145f7ac12}\label{classSubgradient_a5cc0b04e2ee1f493e23e39c145f7ac12}} 
+void {\bfseries inc\+Iteration} ()
+\item 
+\mbox{\Hypertarget{classSubgradient_a74d33600112bd4144c602af2c364af7d}\label{classSubgradient_a74d33600112bd4144c602af2c364af7d}} 
+void {\bfseries inc\+It\+Without\+Improvement} ()
+\item 
+\mbox{\Hypertarget{classSubgradient_a8bf4d5ae6f6442a088e418b8bfb524b4}\label{classSubgradient_a8bf4d5ae6f6442a088e418b8bfb524b4}} 
+void {\bfseries set\+UB} (double i)
+\item 
+\mbox{\Hypertarget{classSubgradient_a63e481e444755ee14c9d32fdeda8a940}\label{classSubgradient_a63e481e444755ee14c9d32fdeda8a940}} 
+void {\bfseries set\+LB} (double i)
+\item 
+\mbox{\Hypertarget{classSubgradient_ae05a8360c2338dff0890abd935bf0877}\label{classSubgradient_ae05a8360c2338dff0890abd935bf0877}} 
+void {\bfseries set\+Current\+Cost} (double i)
+\item 
+\mbox{\Hypertarget{classSubgradient_a1651c7ecc92426d3afa34b0e8e3ee75b}\label{classSubgradient_a1651c7ecc92426d3afa34b0e8e3ee75b}} 
+void {\bfseries set\+Is\+Feasible} (bool i)
+\item 
+\mbox{\Hypertarget{classSubgradient_ae44e0518ef1ef3df5f8ea7ba8b775350}\label{classSubgradient_ae44e0518ef1ef3df5f8ea7ba8b775350}} 
+void {\bfseries set\+Is\+Optimal} (bool i)
+\item 
+\mbox{\Hypertarget{classSubgradient_abd36ec7994b110186bb50e36341c03cb}\label{classSubgradient_abd36ec7994b110186bb50e36341c03cb}} 
+void {\bfseries set\+Multiplier\+\_\+k} (int k, double i)
+\item 
+\mbox{\Hypertarget{classSubgradient_ae9735de0d1cd91eea6bd7c5a21375f50}\label{classSubgradient_ae9735de0d1cd91eea6bd7c5a21375f50}} 
+void {\bfseries set\+Step\+Size\+\_\+k} (int k, double i)
+\item 
+\mbox{\Hypertarget{classSubgradient_aebd2693fac5cc7b97079768d1ef51c90}\label{classSubgradient_aebd2693fac5cc7b97079768d1ef51c90}} 
+void {\bfseries set\+Slack\+\_\+k} (int k, double i)
+\item 
+\mbox{\Hypertarget{classSubgradient_a32e0e0e681a6366fa64625bdb2a28320}\label{classSubgradient_a32e0e0e681a6366fa64625bdb2a28320}} 
+void {\bfseries set\+Lambda\+\_\+k} (int k, double i)
+\item 
+\mbox{\Hypertarget{classSubgradient_a06254201fafd17c68979ca82a6245038}\label{classSubgradient_a06254201fafd17c68979ca82a6245038}} 
+void {\bfseries initialization} ()
+\item 
+\mbox{\Hypertarget{classSubgradient_ae3655c3ccde0f079c5b186077a1a7183}\label{classSubgradient_ae3655c3ccde0f079c5b186077a1a7183}} 
+void {\bfseries preprocessing} ()
+\item 
+\mbox{\Hypertarget{classSubgradient_a7965eafcf11c5b924d8a192ecab8d809}\label{classSubgradient_a7965eafcf11c5b924d8a192ecab8d809}} 
+void {\bfseries update\+Costs} ()
+\item 
+\mbox{\Hypertarget{classSubgradient_abe23c6d39c5f99a7f104601e835b2175}\label{classSubgradient_abe23c6d39c5f99a7f104601e835b2175}} 
+void {\bfseries run} (const List\+Digraph\+::\+Node \&s, const List\+Digraph\+::\+Node \&t)
+\item 
+\mbox{\Hypertarget{classSubgradient_ab7068f5cdd44403446d38d6abf36c34d}\label{classSubgradient_ab7068f5cdd44403446d38d6abf36c34d}} 
+void {\bfseries update\+LB} (double bound)
+\item 
+\mbox{\Hypertarget{classSubgradient_a4c6d75a9271d63cd12a1e79f497e4f5d}\label{classSubgradient_a4c6d75a9271d63cd12a1e79f497e4f5d}} 
+void {\bfseries update\+UB} (double bound)
+\item 
+\mbox{\Hypertarget{classSubgradient_a4c4779f21846539fa931bcbda71d869a}\label{classSubgradient_a4c4779f21846539fa931bcbda71d869a}} 
+void {\bfseries update\+Multiplier} ()
+\item 
+\mbox{\Hypertarget{classSubgradient_a0d7523e6e4a3480bed05b63e6293ceaa}\label{classSubgradient_a0d7523e6e4a3480bed05b63e6293ceaa}} 
+void {\bfseries update\+Step\+Size} ()
+\item 
+\mbox{\Hypertarget{classSubgradient_ab60857217b496ce8b8085f606c4deb52}\label{classSubgradient_ab60857217b496ce8b8085f606c4deb52}} 
+void {\bfseries update\+Lambda} ()
+\item 
+\mbox{\Hypertarget{classSubgradient_a5ec49fac2bcf06ad5110e81287bcbfd2}\label{classSubgradient_a5ec49fac2bcf06ad5110e81287bcbfd2}} 
+void {\bfseries update\+Slack} (double path\+Length)
+\item 
+\mbox{\Hypertarget{classSubgradient_aecde88c158ccb130ad41ca8538c0a75e}\label{classSubgradient_aecde88c158ccb130ad41ca8538c0a75e}} 
+void {\bfseries update\+Stop} (bool \&S\+T\+OP)
+\item 
+\mbox{\Hypertarget{classSubgradient_a9e5e31ef20511d726dca8ef09377af92}\label{classSubgradient_a9e5e31ef20511d726dca8ef09377af92}} 
+bool {\bfseries test\+Feasibility} (const List\+Digraph\+::\+Node \&s, const List\+Digraph\+::\+Node \&t)
+\item 
+\mbox{\Hypertarget{classSubgradient_a8f69e4466b7918ae0351700b9c40cb78}\label{classSubgradient_a8f69e4466b7918ae0351700b9c40cb78}} 
+void {\bfseries set\+Length\+Cost} ()
+\item 
+\mbox{\Hypertarget{classSubgradient_acb1e0ef1fa648457f5dca5a34b62cf25}\label{classSubgradient_acb1e0ef1fa648457f5dca5a34b62cf25}} 
+void {\bfseries update\+On\+Path} (Dijkstra$<$ List\+Digraph, List\+Digraph\+::\+Arc\+Map$<$ double $>$ $>$ \&path, const List\+Digraph\+::\+Node \&s, const List\+Digraph\+::\+Node \&t)
+\item 
+\mbox{\Hypertarget{classSubgradient_acb94d3f6ab04b60e2e705697833f4792}\label{classSubgradient_acb94d3f6ab04b60e2e705697833f4792}} 
+double {\bfseries get\+Path\+Length} (Dijkstra$<$ List\+Digraph, List\+Digraph\+::\+Arc\+Map$<$ double $>$ $>$ \&path, const List\+Digraph\+::\+Node \&s, const List\+Digraph\+::\+Node \&t)
+\item 
+\mbox{\Hypertarget{classSubgradient_a60752f08ec03219a3c407a4ad85c792e}\label{classSubgradient_a60752f08ec03219a3c407a4ad85c792e}} 
+double {\bfseries get\+Path\+Cost} (Dijkstra$<$ List\+Digraph, List\+Digraph\+::\+Arc\+Map$<$ double $>$ $>$ \&path, const List\+Digraph\+::\+Node \&s, const List\+Digraph\+::\+Node \&t)
+\item 
+\mbox{\Hypertarget{classSubgradient_ac6a28eb70429598c59712801273b553b}\label{classSubgradient_ac6a28eb70429598c59712801273b553b}} 
+std\+::string {\bfseries get\+Path\+String} (Dijkstra$<$ List\+Digraph, List\+Digraph\+::\+Arc\+Map$<$ double $>$ $>$ \&path, const List\+Digraph\+::\+Node \&s, const List\+Digraph\+::\+Node \&t)
+\item 
+\mbox{\Hypertarget{classSubgradient_a02ccc68cd58d029ca7c5935eebc4d983}\label{classSubgradient_a02ccc68cd58d029ca7c5935eebc4d983}} 
+void {\bfseries display\+Path} (Dijkstra$<$ List\+Digraph, List\+Digraph\+::\+Arc\+Map$<$ double $>$ $>$ \&path, const List\+Digraph\+::\+Node \&s, const List\+Digraph\+::\+Node \&t)
+\item 
+\mbox{\Hypertarget{classSubgradient_a1782983d8774f8f563b54b179280c8c3}\label{classSubgradient_a1782983d8774f8f563b54b179280c8c3}} 
+void {\bfseries display\+Main\+Parameters} (Dijkstra$<$ List\+Digraph, List\+Digraph\+::\+Arc\+Map$<$ double $>$ $>$ \&path, const List\+Digraph\+::\+Node \&s, const List\+Digraph\+::\+Node \&t)
+\item 
+\mbox{\Hypertarget{classSubgradient_a5f980e4ad5017a095a95ad2b580f6ba5}\label{classSubgradient_a5f980e4ad5017a095a95ad2b580f6ba5}} 
+void {\bfseries display\+Step\+Size} ()
+\item 
+\mbox{\Hypertarget{classSubgradient_a13297617b6371259bd562565eee8b84e}\label{classSubgradient_a13297617b6371259bd562565eee8b84e}} 
+void {\bfseries display\+Multiplier} ()
+\item 
+\mbox{\Hypertarget{classSubgradient_a4bba53323618fa8ce11a2df0d4c28cc9}\label{classSubgradient_a4bba53323618fa8ce11a2df0d4c28cc9}} 
+void {\bfseries display\+Slack} ()
+\item 
+\mbox{\Hypertarget{classSubgradient_a24962058938edfdcfebfe347a2833a92}\label{classSubgradient_a24962058938edfdcfebfe347a2833a92}} 
+void {\bfseries display\+Lambda} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classSubgradient_a3517d9dba056ad6a0cb2f5a6caae044c}\label{classSubgradient_a3517d9dba056ad6a0cb2f5a6caae044c}} 
+const double {\bfseries E\+P\+S\+I\+L\+ON} = 0.\+0001
+\item 
+\mbox{\Hypertarget{classSubgradient_a63073745f3498e6a5a3c99b73ce98c8d}\label{classSubgradient_a63073745f3498e6a5a3c99b73ce98c8d}} 
+const int {\bfseries S\+O\+U\+R\+CE}
+\item 
+\mbox{\Hypertarget{classSubgradient_ac255ecdc86fb42111ffa523e337fa914}\label{classSubgradient_ac255ecdc86fb42111ffa523e337fa914}} 
+const int {\bfseries T\+A\+R\+G\+ET}
+\item 
+\mbox{\Hypertarget{classSubgradient_a27b475b2cfbbf7c5135c35161ca88e69}\label{classSubgradient_a27b475b2cfbbf7c5135c35161ca88e69}} 
+const int {\bfseries M\+A\+X\+\_\+\+L\+E\+N\+G\+TH}
+\item 
+\mbox{\Hypertarget{classSubgradient_a30e7216eb4c3d12d39c09af0c2712333}\label{classSubgradient_a30e7216eb4c3d12d39c09af0c2712333}} 
+const int {\bfseries M\+A\+X\+\_\+\+N\+B\+\_\+\+I\+T\+\_\+\+W\+I\+T\+H\+O\+U\+T\+\_\+\+I\+M\+P\+R\+O\+V\+E\+M\+E\+NT}
+\item 
+\mbox{\Hypertarget{classSubgradient_af3fddec2ec92ef7fd74dca1bffc6e332}\label{classSubgradient_af3fddec2ec92ef7fd74dca1bffc6e332}} 
+const int {\bfseries M\+A\+X\+\_\+\+N\+B\+\_\+\+IT}
+\item 
+\mbox{\Hypertarget{classSubgradient_ab19902db51dbb89ec018a3cbe69b44ce}\label{classSubgradient_ab19902db51dbb89ec018a3cbe69b44ce}} 
+int {\bfseries iteration}
+\item 
+\mbox{\Hypertarget{classSubgradient_a0fedbf3ca5dd1f9ecaf344b444bd816c}\label{classSubgradient_a0fedbf3ca5dd1f9ecaf344b444bd816c}} 
+int {\bfseries it\+Without\+Improvement}
+\item 
+\mbox{\Hypertarget{classSubgradient_aa39dcf655a5eb33131024656c97c7133}\label{classSubgradient_aa39dcf655a5eb33131024656c97c7133}} 
+double {\bfseries UB}
+\item 
+\mbox{\Hypertarget{classSubgradient_ab785252abd2c7b59114ded7d2262d919}\label{classSubgradient_ab785252abd2c7b59114ded7d2262d919}} 
+double {\bfseries LB}
+\item 
+\mbox{\Hypertarget{classSubgradient_a10119ecc9f151b9b9532479d5103de5f}\label{classSubgradient_a10119ecc9f151b9b9532479d5103de5f}} 
+double {\bfseries current\+Cost}
+\item 
+\mbox{\Hypertarget{classSubgradient_a20f6e5239e3d25a12d43e88270e4adaa}\label{classSubgradient_a20f6e5239e3d25a12d43e88270e4adaa}} 
+bool {\bfseries is\+Feasible}
+\item 
+\mbox{\Hypertarget{classSubgradient_ae6de04949d51cf27a7eff8ef9a0276a1}\label{classSubgradient_ae6de04949d51cf27a7eff8ef9a0276a1}} 
+bool {\bfseries is\+Optimal}
+\item 
+\mbox{\Hypertarget{classSubgradient_a8a69ae3015d04862b8b707b3be7ecb11}\label{classSubgradient_a8a69ae3015d04862b8b707b3be7ecb11}} 
+std\+::vector$<$ double $>$ {\bfseries lagrangian\+Multiplier}
+\item 
+\mbox{\Hypertarget{classSubgradient_aa35ac0a7f4a6b0c5cc83c30f3e5ab67e}\label{classSubgradient_aa35ac0a7f4a6b0c5cc83c30f3e5ab67e}} 
+std\+::vector$<$ double $>$ {\bfseries slack}
+\item 
+\mbox{\Hypertarget{classSubgradient_a2e7d072a2969420e6d0543a9ce70cd22}\label{classSubgradient_a2e7d072a2969420e6d0543a9ce70cd22}} 
+std\+::vector$<$ double $>$ {\bfseries step\+Size}
+\item 
+\mbox{\Hypertarget{classSubgradient_ae796f36dcceca879dd0d5f6a61085874}\label{classSubgradient_ae796f36dcceca879dd0d5f6a61085874}} 
+std\+::vector$<$ double $>$ {\bfseries lambda}
+\item 
+\mbox{\Hypertarget{classSubgradient_ac8212eeea80f1ec2503cdffdcf311bdf}\label{classSubgradient_ac8212eeea80f1ec2503cdffdcf311bdf}} 
+List\+Digraph\+::\+Arc\+Map$<$ double $>$ {\bfseries cost}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line 11 of file subgradient.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+subgradient.\+h\item 
+subgradient.\+cpp\end{DoxyCompactItemize}

@@ -1,17 +1,13 @@
 SYSTEM = x86-64_linux
 LIBFORMAT = static_pic
 
-# ISIMA
-
 # ---------------------------------------------------------------------
 # Compiler options
 # ---------------------------------------------------------------------
-CCC = g++
-CC  = gcc
-CCOPT = -fPIC -fexceptions -DNDEBUG -DIL_STD
-COPT  = -fPIC
+CCC = g++ -O0
+CCOPT = -m64 -O -fPIC -fno-strict-aliasing -fexceptions -DNDEBUG -DIL_STD -Wno-ignored-attributes
 # ---------------------------------------------------------------------
-# Cplex and Concert paths
+# Cplex, Concert, Lemon and Boost paths
 # ---------------------------------------------------------------------
 CONCERTVERSION = concert
 CPLEXVERSION = CPLEX_Studio1210
@@ -24,40 +20,40 @@ CPLEXDIR = /opt/ibm/ILOG/$(CPLEXVERSION)/cplex
 CPLEXINCDIR = $(CPLEXDIR)/include/
 CPLEXLIBDIR = $(CPLEXDIR)/lib/$(SYSTEM)/$(LIBFORMAT)
 
-# ---------------------------------------------------------------------
-# Flags
-# ---------------------------------------------------------------------
-CCLNFLAGS = -L$(CPLEXLIBDIR) -lilocplex -lcplex -L$(CONCERTLIBDIR) -lconcert -lm -lpthread
-CLNFLAGS  = -L$(CPLEXLIBDIR) -lcplex -lm -lpthread
-CFLAGS  = $(COPT)  -I$(CPLEXINCDIR)
-CCFLAGS = $(CCOPT) -I$(CPLEXINCDIR) -I$(CPLEXINCDIR)ilcplex -I$(CONCERTINCDIR)
-
-
 LEMONINCDIR = /opt/lemon/include/
 LEMONLIBDIR = /opt/lemon/lib/
 LEMONCFLAGS = -I$(LEMONINCDIR)
 LEMONCLNFLAGS = -L$(LEMONLIBDIR) -lemon
 
-
 BOOSTINCDIR = /mnt/c/soft/boost_1_71_0/
 BOOSTCFLAGS = -I$(BOOSTINCDIR)
+
+# ---------------------------------------------------------------------
+# Flags
+# ---------------------------------------------------------------------
+CCLNFLAGS = -L$(CPLEXLIBDIR) -lilocplex -lcplex -L$(CONCERTLIBDIR) -lconcert -lm -lpthread -ldl
+CLNFLAGS  = -L$(CPLEXLIBDIR) -lcplex -lm -lpthread
+CFLAGS  = $(COPT)  -I$(CPLEXINCDIR)
+CCFLAGS = $(CCOPT) -I$(CPLEXINCDIR) -I$(CONCERTINCDIR)
+
+#---------------------------------------------------------
+# .cpp Files
+#---------------------------------------------------------
+CPPFILES = main.cpp RSA.cpp solver.cpp cplexForm.cpp subgradient.cpp Slice.cpp Demand.cpp PhysicalLink.cpp Instance.cpp CSVReader.cpp input.cpp
+
 # ---------------------------------------------------------------------
 # Comands
 # ---------------------------------------------------------------------
 PRINTLN = echo
 
 #---------------------------------------------------------
-# .cpp Files
-#---------------------------------------------------------
-CPPFILES = main.cpp RSA.cpp subgradient.cpp solver.cpp cplexForm.cpp ShortestPath.cpp ExtendedGraph.cpp Slice.cpp Demand.cpp PhysicalLink.cpp Instance.cpp CSVReader.cpp input.cpp
-#---------------------------------------------------------
 # Files
 #---------------------------------------------------------
 all: main
 
 main:
-	$(CCC) -c -Wall -g -std=c++11 $(CCFLAGS) $(LEMONCFLAGS) $(BOOSTCFLAGS) $(CPPFILES)
-	$(CCC) $(CCFLAGS) *.o -g -o exec $(CCLNFLAGS) $(LEMONCLNFLAGS)  -ldl
+	$(CCC) -c -Wall -g $(CCFLAGS) $(LEMONCFLAGS) $(BOOSTCFLAGS) $(CPPFILES)
+	$(CCC) $(CCFLAGS) *.o -g -o exec $(CCLNFLAGS) $(LEMONCLNFLAGS) 
 	rm -rf *.o *~ ^
 
 clean:

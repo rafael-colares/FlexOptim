@@ -1,0 +1,89 @@
+\hypertarget{classExtendedGraph}{}\doxysection{Extended\+Graph Class Reference}
+\label{classExtendedGraph}\index{ExtendedGraph@{ExtendedGraph}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classExtendedGraph_ac5e4a0a89f7dabf1451916d64a52635f}{Extended\+Graph}} (const \mbox{\hyperlink{classInstance}{Instance}} \&instance)
+\item 
+\mbox{\Hypertarget{classExtendedGraph_a049ecbf95c3243fb8168689614120501}\label{classExtendedGraph_a049ecbf95c3243fb8168689614120501}} 
+int {\bfseries get\+Nb\+Nodes} ()
+\item 
+\mbox{\Hypertarget{classExtendedGraph_ab1a597243ec1ac2dc5b58fc0cb9647c8}\label{classExtendedGraph_ab1a597243ec1ac2dc5b58fc0cb9647c8}} 
+int {\bfseries get\+Nb\+Edges} ()
+\item 
+\mbox{\Hypertarget{classExtendedGraph_a841182923c2378db3e2cfb29d06dd373}\label{classExtendedGraph_a841182923c2378db3e2cfb29d06dd373}} 
+int {\bfseries get\+Lemon\+Id\+Edge} (List\+Graph\+::\+Edge e)
+\item 
+\mbox{\Hypertarget{classExtendedGraph_aa6feefc77ac7300b60cdd04a0a6b9985}\label{classExtendedGraph_aa6feefc77ac7300b60cdd04a0a6b9985}} 
+std\+::string {\bfseries get\+Edge\+Name} (List\+Graph\+::\+Edge e)
+\item 
+\mbox{\Hypertarget{classExtendedGraph_a5c8307b16be3d87ce2b03f84a50b2c0c}\label{classExtendedGraph_a5c8307b16be3d87ce2b03f84a50b2c0c}} 
+std\+::string {\bfseries get\+Node\+Name} (List\+Graph\+::\+Node v)
+\item 
+\mbox{\Hypertarget{classExtendedGraph_acdda1b08ef828a8f9af35f476a23277b}\label{classExtendedGraph_acdda1b08ef828a8f9af35f476a23277b}} 
+bool {\bfseries check\+Node\+Existence} (int label, int slice)
+\item 
+\mbox{\Hypertarget{classExtendedGraph_ad35f6174dce9159dfcf34605fbc0da55}\label{classExtendedGraph_ad35f6174dce9159dfcf34605fbc0da55}} 
+List\+Graph\+::\+Node {\bfseries get\+Node} (int label, int slice)
+\item 
+\mbox{\Hypertarget{classExtendedGraph_a8a378a2b00332950b25aeea2e1b20989}\label{classExtendedGraph_a8a378a2b00332950b25aeea2e1b20989}} 
+void {\bfseries display\+Node} (List\+Graph\+::\+Node n)
+\item 
+\mbox{\Hypertarget{classExtendedGraph_af87fedf71514803c63f8b64a9087b559}\label{classExtendedGraph_af87fedf71514803c63f8b64a9087b559}} 
+void {\bfseries display\+Edge} (List\+Graph\+::\+Edge e)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classExtendedGraph_acd6dc5e2e88197ccd4513891e500a6b7}\label{classExtendedGraph_acd6dc5e2e88197ccd4513891e500a6b7}} 
+List\+Graph {\bfseries g}
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classExtendedGraph_a41cd97f5ba453e72e060e493027326d2}\label{classExtendedGraph_a41cd97f5ba453e72e060e493027326d2}} 
+Link\+Map {\bfseries edge\+Map}
+\item 
+\mbox{\Hypertarget{classExtendedGraph_acdd06cdc199940c34552666fc6a82db7}\label{classExtendedGraph_acdd06cdc199940c34552666fc6a82db7}} 
+Link\+Map {\bfseries edge\+Label}
+\item 
+\mbox{\Hypertarget{classExtendedGraph_a19dc4dc5c8b09eab8c3c615295fb3ab4}\label{classExtendedGraph_a19dc4dc5c8b09eab8c3c615295fb3ab4}} 
+Link\+Map {\bfseries edge\+Slice}
+\item 
+\mbox{\Hypertarget{classExtendedGraph_ae785ea88c343143419939abdc2e9b1a8}\label{classExtendedGraph_ae785ea88c343143419939abdc2e9b1a8}} 
+Id\+Node\+Map {\bfseries node\+Id}
+\item 
+\mbox{\Hypertarget{classExtendedGraph_a6e1c325b5efc9e1d4101cd0b2779b453}\label{classExtendedGraph_a6e1c325b5efc9e1d4101cd0b2779b453}} 
+Id\+Node\+Map {\bfseries node\+Label}
+\item 
+\mbox{\Hypertarget{classExtendedGraph_ac51131147e13c1ddf9b4a96337ecd290}\label{classExtendedGraph_ac51131147e13c1ddf9b4a96337ecd290}} 
+Id\+Node\+Map {\bfseries node\+Slice}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line 19 of file Extended\+Graph.\+h.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classExtendedGraph_ac5e4a0a89f7dabf1451916d64a52635f}\label{classExtendedGraph_ac5e4a0a89f7dabf1451916d64a52635f}} 
+\index{ExtendedGraph@{ExtendedGraph}!ExtendedGraph@{ExtendedGraph}}
+\index{ExtendedGraph@{ExtendedGraph}!ExtendedGraph@{ExtendedGraph}}
+\doxysubsubsection{\texorpdfstring{ExtendedGraph()}{ExtendedGraph()}}
+{\footnotesize\ttfamily Extended\+Graph\+::\+Extended\+Graph (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classInstance}{Instance}} \&}]{instance }\end{DoxyParamCaption})}
+
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000001}{Todo}}]Erase this class \end{DoxyRefDesc}
+
+
+Definition at line 3 of file Extended\+Graph.\+cpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Extended\+Graph.\+h\item 
+Extended\+Graph.\+cpp\end{DoxyCompactItemize}

@@ -3,18 +3,22 @@
 /************************************************/
 /*				Constructors					*/
 /************************************************/
+/* Constructor initializes the object with the information of an Input. */
 Instance::Instance(const Input &i) : input(i){
 	this->setNbNodes(0);
 }
 
+/* Copy constructor. */
 Instance::Instance(const Instance &i) : input(i.getInput()){
 	this->setNbNodes(i.getNbNodes());
 	this->setTabEdge(i.getTabEdge());
 	this->setTabDemand(i.getTabDemand());
 }
 
-
-/* Returns nb of demands already routed */
+/************************************************/
+/*					Methods						*/
+/************************************************/
+/* Returns the number of demands already routed. */
 int Instance::getNbRoutedDemands() const{
 	int counter = 0;
 	for(int i = 0; i < getNbDemands(); i++){
@@ -25,7 +29,7 @@ int Instance::getNbRoutedDemands() const{
 	return counter;
 }
 
-/* Returns a vector of demands to be routed in the next optimization. */
+/* Returns the vector of demands to be routed in the next optimization. */
 std::vector<Demand> Instance::getNextDemands() const { 
 	std::vector<Demand> toBeRouted;
 	for(int i = 0; i < getNbDemands(); i++){
@@ -37,24 +41,26 @@ std::vector<Demand> Instance::getNextDemands() const {
 }
 	
 
-// Sets the edge with the given id with the attributes of a given edge. Notice that index in tabEdge = id-1!
+/* Changes the attributes of the PhysicalLink from the given index according to the attributes of the given link. */
 void Instance::setEdgeFromId(int id, PhysicalLink & edge){
 	this->tabEdge[id].copyPhysicalLink(edge);
 }
 
+/* Changes the attributes of the Demand from the given index according to the attributes of the given demand. */
 void Instance::setDemandFromId(int id, Demand & demand){
 	this->tabDemand[id].copyDemand(demand);
 }
 
+/* Builds the initial mapping based on the information retrived from the Input. */
 void Instance::createInitialMapping(){
 	readTopology(input.getLinkFile());
 	readDemands(input.getDemandFile());
 	readDemandAssignment(input.getAssignmentFile());
 }
 
-// Reads the topology from file Link.cvs
+/* Reads the topology information from file. */
 void Instance::readTopology(std::string file){
-	std::cout << "Reading " << input.getLinkFile() << " ..."  << std::endl;
+	std::cout << "Reading " << file << " ..."  << std::endl;
 	CSVReader reader(file);
 	/* dataList is a vector of vectors of strings. */
 	/* dataList[0] corresponds to the first line of the document and dataList[0][i] to the i-th word.*/
@@ -85,7 +91,7 @@ void Instance::readTopology(std::string file){
 	this->setNbNodes(maxNode+1);
 }
 
-// Reads the demands from file Demand.cvs
+/* Reads the routed demand information from file. */
 void Instance::readDemands(std::string file){
 	std::cout << "Reading " << input.getDemandFile() << " ..." << std::endl;
 	CSVReader reader(file);
@@ -105,7 +111,7 @@ void Instance::readDemands(std::string file){
 	}
 }
 
-//Sets the demands to routed and update the slices of the edges
+/* Reads the assignment information from file. */
 void Instance::readDemandAssignment(std::string file){
 	CSVReader reader(file);
 	std::cout << "Reading " << input.getAssignmentFile() << " ..." << std::endl;
@@ -134,8 +140,9 @@ void Instance::readDemandAssignment(std::string file){
 		if (dataList[alloc][0].find("slice allocation") != std::string::npos) {
 			// for each demand
 			for (int d = 0; d < this->getNbDemands(); d++) {
-				this->tabDemand[d].setRouted(true);
 				int demandMaxSlice = std::stoi(dataList[alloc][d+1]) - 1;
+				this->tabDemand[d].setRouted(true);
+				this->tabDemand[d].setSliceAllocation(demandMaxSlice);
 				// look for which edges the demand is routed
 				for (int i = 0; i < this->getNbEdges(); i++) {
 					if (dataList[i+1][d+1] == "1") {
@@ -147,6 +154,7 @@ void Instance::readDemandAssignment(std::string file){
 	}
 }
 
+/* Displays overall information about the current instance. */
 void Instance::displayInstance() {
 	std::cout << "**********************************" << std::endl;
 	std::cout << "*      Constructed Instance      *" << std::endl;
@@ -160,6 +168,7 @@ void Instance::displayInstance() {
 
 }
 
+/* Displays information about the physical topology. */
 void Instance::displayTopology(){
 	std::cout << std::endl << "--- The Physical Topology ---" << std::endl;
 	for (int i = 0; i < this->getNbEdges(); i++) {
@@ -169,6 +178,7 @@ void Instance::displayTopology(){
 }
 
 
+/* Displays detailed information about state of the physical topology. */
 void Instance::displayDetailedTopology(){
 	std::cout << std::endl << "--- The Detailed Physical Topology ---" << std::endl;
 	for (int i = 0; i < this->getNbEdges(); i++) {
@@ -177,6 +187,8 @@ void Instance::displayDetailedTopology(){
 	std::cout << std::endl;
 
 }
+
+/* Displays summarized information about slice occupation. */
 void Instance::displaySlices() {
 	std::cout << std::endl << "--- Slice occupation ---" << std::endl;
 	for (int i = 0; i < this->getNbEdges(); i++) {
@@ -186,6 +198,7 @@ void Instance::displaySlices() {
 	std::cout << std::endl;
 }
 
+/* Displays information about the routed demands. */
 void Instance::displayRoutedDemands(){
 	std::cout << std::endl << "--- The Routed Demands ---" << std::endl;
 	for (int i = 0; i < this->getNbDemands(); i++) {
@@ -196,6 +209,7 @@ void Instance::displayRoutedDemands(){
 	std::cout << std::endl;
 }
 
+/* Adds non-routed demands to the pool by reading the information from onlineDemands Input file. */
 void Instance::generateRandomDemandsFromFile(){
 	
 	std::cout << "Reading " << input.getOnlineDemandFile() << " ..." << std::endl;
@@ -216,6 +230,7 @@ void Instance::generateRandomDemandsFromFile(){
 	}
 }
 
+/* Adds non-routed demands to the pool by generating N random demands. */
 void Instance::generateRandomDemands(const int N){
 	srand (1234567890);
 	for (int i = 0; i < N; i++){
@@ -231,7 +246,9 @@ void Instance::generateRandomDemands(const int N){
 		this->tabDemand.push_back(demand);
 	}
 }
-bool Instance::isRoutable(const int i, const int s, const Demand &demand){
+
+/* Verifies if there is enough place for a given demand to be routed through link i on last slice position s. */
+bool Instance::hasEnoughSpace(const int i, const int s, const Demand &demand){
 	const int LOAD = demand.getLoad();
 	if (s < LOAD - 1){
 		return false;
@@ -244,12 +261,15 @@ bool Instance::isRoutable(const int i, const int s, const Demand &demand){
 	return true;
 }
 
+/* Assigns the given demand to the j-th slice of the i-th link. */
 void Instance::assignSlicesOfLink(int linkLabel, int slice, const Demand &demand){
 	this->tabEdge[linkLabel].assignSlices(demand, slice);
 	this->tabDemand[demand.getId()].setRouted(true);
+	this->tabDemand[demand.getId()].setSliceAllocation(slice);
 }
 
 
+/* Displays information about the non-routed demands. */
 void Instance::displayNonRoutedDemands(){
 	std::cout << std::endl << "--- The Non Routed Demands ---" << std::endl;
 	for (int i = 0; i < this->getNbDemands(); i++) {
@@ -261,10 +281,75 @@ void Instance::displayNonRoutedDemands(){
 
 }
 
+/* Call the methods allowing the build of output files. */
 void Instance::output(std::string i){
 	outputEdgeSliceHols(i);
+	outputDemand();
+	outputDemandEdgeSlices();
 }
 
+/* Builds file Demand_edges_slices.csv containing information about the assignment of routed demands. */
+void Instance::outputDemandEdgeSlices(){
+	std::string delimiter = ";";
+	std::string filePath = this->input.getOutputPath() + "Demand_edges_slices" + ".csv";
+	std::ofstream myfile(filePath.c_str(), std::ios::out | std::ios::trunc);
+	if (myfile.is_open()){
+		myfile << "edge_slice_demand" << delimiter;
+		for (int i = 0; i < getNbDemands(); i++){
+			if (getDemandFromIndex(i).isRouted()){
+				myfile << "k_" << getDemandFromIndex(i).getId()+1 << "= " << getDemandFromIndex(i).getString() << delimiter;
+			}
+		}
+		myfile << "\n";
+		for (int e = 0; e < getNbEdges(); e++){
+			myfile << getPhysicalLinkFromId(e).getString() << delimiter;
+			for (int i = 0; i < getNbDemands(); i++){
+				if (getDemandFromIndex(i).isRouted()){
+					// if demand is routed through edge: 1
+					if (getPhysicalLinkFromId(e).contains(getDemandFromIndex(i)) == true){
+						myfile << "1" << delimiter;
+					}
+					else{
+						myfile << " " << delimiter;
+					}
+				}
+			}
+			myfile << "\n";
+		}
+		myfile << " slice allocation " << delimiter;
+		for (int i = 0; i < getNbDemands(); i++){
+			if (getDemandFromIndex(i).isRouted()){
+				myfile << getDemandFromIndex(i).getSliceAllocation()+1 << delimiter;
+			}
+		}
+		myfile << "\n";
+	}
+}
+
+/* Builds file Demand.csv containing information about the routed demands. */
+void Instance::outputDemand(){
+	std::string delimiter = ";";
+	std::string filePath = this->input.getOutputPath() + "Demand" + ".csv";
+	std::ofstream myfile(filePath.c_str(), std::ios::out | std::ios::trunc);
+	if (myfile.is_open()){
+		myfile << "index" << delimiter;
+		myfile << "origin" << delimiter;
+		myfile << "destination" << delimiter;
+		myfile << "slots" << delimiter;
+		myfile << "max_length" << "\n";
+		for (int i = 0; i < getNbDemands(); i++){
+			if (getDemandFromIndex(i).isRouted()){
+				myfile << std::to_string(getDemandFromIndex(i).getId()+1) << delimiter;
+				myfile << std::to_string(getDemandFromIndex(i).getSource()+1) << delimiter;
+				myfile << std::to_string(getDemandFromIndex(i).getTarget()+1) << delimiter;
+				myfile << std::to_string(getDemandFromIndex(i).getLoad()) << delimiter;
+				myfile << std::to_string(getDemandFromIndex(i).getMaxLength()) << "\n";
+			}
+		}
+	}
+}
+
+/* Builds file Edge_Slice_Holes_i.csv containing information about the mapping after n optimizations. */
 void Instance::outputEdgeSliceHols(std::string counter){
 	std::string delimiter = ";";
 	std::string filePath = this->input.getOutputPath() + "Edge_Slice_Holes_" + counter + ".csv";
@@ -294,4 +379,33 @@ void Instance::outputEdgeSliceHols(std::string counter){
 		std::cerr << "Unable to open file.\n";
 	}
   	myfile.close();
+}
+
+/* Verifies if there exists a link between nodes of id u and v. */
+bool Instance::hasLink(int u, int v){
+	for (unsigned int e = 0; e < tabEdge.size(); e++){
+		if ((tabEdge[e].getSource() == u) && (tabEdge[e].getTarget() == v)){
+			return true;
+		}
+		if ((tabEdge[e].getSource() == v) && (tabEdge[e].getTarget() == u)){
+			return true;
+		}
+	}
+	return false;
+}
+
+/* Returns the first PhysicalLink with source s and target t. */
+PhysicalLink Instance::getPhysicalLinkBetween(int u, int v){
+	for (unsigned int e = 0; e < tabEdge.size(); e++){
+		if ((tabEdge[e].getSource() == u) && (tabEdge[e].getTarget() == v)){
+			return tabEdge[e];
+		}
+		if ((tabEdge[e].getSource() == v) && (tabEdge[e].getTarget() == u)){
+			return tabEdge[e];
+		}
+	}
+	std::cerr << "Did not found a link between " << u << " and " << v << "!!\n";
+	exit(0);
+	PhysicalLink link(-1,-1,-1);
+	return link;
 }

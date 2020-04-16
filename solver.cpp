@@ -7,22 +7,25 @@ Solver::Solver(const Instance &inst) : RSA(inst) {
 
 /* Define variables x[a][d] for every arc a in the extedend graph and every demand d to be routed. */
 void Solver::setVariables(IloNumVarMatrix &var, IloModel &mod){
-    for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
-        int arc = arcId[a];
-        int nbDemandsToBeRouted = getNbDemandsToBeRouted();
-        var[arc] = IloNumVarArray(mod.getEnv(), nbDemandsToBeRouted);
-        for (int d = 0; d < nbDemandsToBeRouted; d++){    
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){ 
+        var[d] = IloNumVarArray(mod.getEnv(), countArcs(*vecGraph[d]));  
+        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+            int arc = getArcId(a, d); 
+            int label = getArcLabel(a, d); 
+            int labelSource = getNodeLabel((*vecGraph[d]).source(a), d);
+            int labelTarget = getNodeLabel((*vecGraph[d]).target(a), d);
+            int slice = getArcSlice(a, d);
             std::ostringstream varName;
             varName << "x";
-            varName << "(" + std::to_string(nodeLabel[g.source(a)]+1) + "," + std::to_string(nodeLabel[g.target(a)]+1);
-            varName << "," + std::to_string(arcSlice[a]+1) + "," + std::to_string(getToBeRouted()[d].getId()+1);
-            varName << ")";
+            varName << "(" + std::to_string(getToBeRouted_k(d).getId() + 1) + "," ;
+            varName <<  std::to_string(labelSource + 1) + "," + std::to_string(labelTarget + 1) + ",";
+            varName <<  std::to_string(slice + 1) + ")";
             IloNum upperBound = 1.0;
-            if (instance.isRoutable(arcLabel[a], arcSlice[a], getToBeRouted()[d]) == false){
+            if (instance.hasEnoughSpace(label, slice, getToBeRouted_k(d)) == false){
                 upperBound = 0.0;
             }
-            var[arc][d] = IloNumVar(mod.getEnv(), 0.0, upperBound, ILOINT, varName.str().c_str());
-            mod.add(var[arc][d]);
+            var[d][arc] = IloNumVar(mod.getEnv(), 0.0, upperBound, ILOINT, varName.str().c_str());
+            mod.add(var[d][arc]);
         }
         //std::cout << "Creating variable " << id << ": " << varName.str().c_str() << std::endl;
     }
@@ -39,21 +42,22 @@ void Solver::setObjective(IloNumVarMatrix &var, IloModel &mod){
 IloExpr Solver::getObjFunction(IloNumVarMatrix &var, IloModel &mod){
     IloExpr obj(mod.getEnv());
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
-            int arc = arcId[a];
-            double coeff = getCoeff(a, getToBeRouted()[d]);
-            obj += coeff*var[arc][d];
+        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+            int arc = getArcId(a, d); 
+            double coeff = getCoeff(a, d);
+            //coeff += (instance.getInput().getInitialLagrangianMultiplier() * getArcLength(a, 0) );
+            obj += coeff*var[d][arc];
         }
     }
     return obj;
 }
 
-
 /* Source constraints. At most 1 leaves each node. Exactly 1 leaves the Source. */
 void Solver::setSourceConstraints(IloNumVarMatrix &var, IloModel &mod){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){  
-        for (ListDigraph::NodeIt v(g); v != INVALID; ++v){
-            IloRange sourceConstraint = getSourceConstraint_d(var, mod, getToBeRouted()[d], d, nodeLabel[v]);
+        for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
+            int label = getNodeLabel(v, d);
+            IloRange sourceConstraint = getSourceConstraint_d(var, mod, getToBeRouted_k(d), d, label);
             mod.add(sourceConstraint);
         } 
     }
@@ -64,11 +68,11 @@ IloRange Solver::getSourceConstraint_d(IloNumVarMatrix &var, IloModel &mod, cons
     IloExpr exp(mod.getEnv());
     IloInt upperBound = 1;
     IloInt lowerBound = 0;
-    for (ListDigraph::NodeIt v(g); v != INVALID; ++v){
-        if (nodeLabel[v] == i){
-            for (ListDigraph::OutArcIt a(g, v); a != INVALID; ++a){
-                int arc = arcId[a];
-                exp += var[arc][d];
+    for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
+        if (getNodeLabel(v, d) == i){
+            for (ListDigraph::OutArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
+                int arc = getArcId(a, d); 
+                exp += var[d][arc];
             }
         }
     }
@@ -88,9 +92,10 @@ IloRange Solver::getSourceConstraint_d(IloNumVarMatrix &var, IloModel &mod, cons
 /* Flow constraints. Everything that enters must go out. */
 void Solver::setFlowConservationConstraints(IloNumVarMatrix &var, IloModel &mod){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
-        for (ListDigraph::NodeIt v(g); v != INVALID; ++v){
-            if( (nodeLabel[v] != getToBeRouted()[d].getSource()) && (nodeLabel[v] != getToBeRouted()[d].getTarget()) ){
-                IloRange st = getFlowConservationConstraint_i_d(var, mod, v, getToBeRouted()[d], d);
+        for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
+            int label = getNodeLabel(v, d);
+            if( (label != getToBeRouted_k(d).getSource()) && (label != getToBeRouted_k(d).getTarget()) ){
+                IloRange st = getFlowConservationConstraint_i_d(var, mod, v, getToBeRouted_k(d), d);
                 mod.add(st);
             }
         }
@@ -101,16 +106,18 @@ void Solver::setFlowConservationConstraints(IloNumVarMatrix &var, IloModel &mod)
 IloRange Solver::getFlowConservationConstraint_i_d(IloNumVarMatrix &var, IloModel &mod, ListDigraph::Node &v, const Demand & demand, int d){
     IloExpr exp(mod.getEnv());
     IloInt rhs = 0;
-    for (ListDigraph::OutArcIt a(g, v); a != INVALID; ++a){
-        int arc = arcId[a];
-        exp += var[arc][d];
+    for (ListDigraph::OutArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
+        int arc = getArcId(a, d); 
+        exp += var[d][arc];
     }
-    for (ListDigraph::InArcIt a(g, v); a != INVALID; ++a){
-        int arc = arcId[a];
-        exp += (-1)*var[arc][d];
+    for (ListDigraph::InArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
+        int arc = getArcId(a, d); 
+        exp += (-1)*var[d][arc];
     }
     std::ostringstream constraintName;
-    constraintName << "Flow(" << nodeLabel[v]+1 << "," << nodeSlice[v]+1 << "," << demand.getId()+1 << ")";
+    int label = getNodeLabel(v, d);
+    int slice = getNodeSlice(v, d);
+    constraintName << "Flow(" << label+1 << "," << slice+1 << "," << demand.getId()+1 << ")";
     IloRange constraint(mod.getEnv(), rhs, exp, rhs, constraintName.str().c_str());
     exp.end();
     return constraint;
@@ -119,7 +126,7 @@ IloRange Solver::getFlowConservationConstraint_i_d(IloNumVarMatrix &var, IloMode
 /* Target constraints. Only 1 enters the Target */
 void Solver::setTargetConstraints(IloNumVarMatrix &var, IloModel &mod){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
-        IloRange targetConstraint = getTargetConstraint_d(var, mod, getToBeRouted()[d], d);
+        IloRange targetConstraint = getTargetConstraint_d(var, mod, getToBeRouted_k(d), d);
         mod.add(targetConstraint);
     }
 }
@@ -128,12 +135,12 @@ void Solver::setTargetConstraints(IloNumVarMatrix &var, IloModel &mod){
 IloRange Solver::getTargetConstraint_d(IloNumVarMatrix &var, IloModel &mod, const Demand & demand, int d){
     IloExpr exp(mod.getEnv());
     IloInt rhs = 1;
-    for (ListDigraph::NodeIt v(g); v != INVALID; ++v){
-        int node = nodeLabel[v];
-        if (node == demand.getTarget()){
-            for (ListDigraph::InArcIt a(g, v); a != INVALID; ++a){
-                int arc = arcId[a];
-                exp += var[arc][d];
+    for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
+        int label = getNodeLabel(v, d);
+        if (label == demand.getTarget()){
+            for (ListDigraph::InArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
+                int arc = getArcId(a, d); 
+                exp += var[d][arc];
             }
         }
     }
@@ -147,7 +154,7 @@ IloRange Solver::getTargetConstraint_d(IloNumVarMatrix &var, IloModel &mod, cons
 /* Length Constraints. Demands must be routed within a length limit */
 void Solver::setLengthConstraints(IloNumVarMatrix &var, IloModel &mod){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
-        IloRange lengthConstraint = getLengthConstraint(var, mod, getToBeRouted()[d], d);
+        IloRange lengthConstraint = getLengthConstraint(var, mod, getToBeRouted_k(d), d);
         mod.add(lengthConstraint);
     }
 }
@@ -156,10 +163,10 @@ void Solver::setLengthConstraints(IloNumVarMatrix &var, IloModel &mod){
 IloRange Solver::getLengthConstraint(IloNumVarMatrix &var, IloModel &mod, const Demand &demand, int d){
     IloExpr exp(mod.getEnv());
     double rhs = demand.getMaxLength();
-    for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
-        int arc = arcId[a];
-        double coeff = length[a];
-        exp += coeff*var[arc][d];
+    for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+        int arc = getArcId(a, d); 
+        double coeff = getArcLength(a, d);
+        exp += coeff*var[d][arc];
     }
     std::ostringstream constraintName;
     constraintName << "Length(" << demand.getId()+1 << ")";
@@ -170,11 +177,11 @@ IloRange Solver::getLengthConstraint(IloNumVarMatrix &var, IloModel &mod, const 
 
 /* Non-Overlapping constraints. Demands must not overlap eachother's slices */
 void Solver::setNonOverlappingConstraints(IloNumVarMatrix &var, IloModel &mod){
-    for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
-        for (int d1 = 0; d1 < getNbDemandsToBeRouted(); d1++){
+    for (int d1 = 0; d1 < getNbDemandsToBeRouted(); d1++){
+        for (ListDigraph::ArcIt a(*vecGraph[d1]); a != INVALID; ++a){
             for (int d2 = 0; d2 < getNbDemandsToBeRouted(); d2++){
                 if(d1 != d2){
-                    IloRange nonOverlap = getNonOverlappingConstraint(var, mod, arcLabel[a], arcSlice[a], getToBeRouted()[d1], d1, getToBeRouted()[d2], d2);
+                    IloRange nonOverlap = getNonOverlappingConstraint(var, mod, getArcLabel(a, d1), getArcSlice(a, d1), getToBeRouted_k(d1), d1, getToBeRouted_k(d2), d2);
                     mod.add(nonOverlap);
                 }   
             }
@@ -186,16 +193,16 @@ void Solver::setNonOverlappingConstraints(IloNumVarMatrix &var, IloModel &mod){
 IloRange Solver::getNonOverlappingConstraint(IloNumVarMatrix &var, IloModel &mod, int linkLabel, int slice, const Demand & demand1, int d1, const Demand & demand2, int d2){
     IloExpr exp(mod.getEnv());
     IloNum rhs = 1;
-    for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
-        if( (arcLabel[a] == linkLabel) && (arcSlice[a] == slice) ){
-            int id = arcId[a];
-            exp += var[id][d1];
+    for (ListDigraph::ArcIt a(*vecGraph[d1]); a != INVALID; ++a){
+        if( (getArcLabel(a, d1) == linkLabel) && (getArcSlice(a, d1) == slice) ){
+            int id = getArcId(a, d1);
+            exp += var[d1][id];
         }
     }
-    for (ListDigraph::ArcIt a(g); a != INVALID; ++a){
-        if( (arcLabel[a] == linkLabel) && (arcSlice[a] >= slice - demand1.getLoad() + 1) && (arcSlice[a] <= slice + demand2.getLoad() - 1) ){
-            int id = arcId[a];
-            exp += var[id][d2];
+    for (ListDigraph::ArcIt a(*vecGraph[d2]); a != INVALID; ++a){
+        if( (getArcLabel(a, d2) == linkLabel) && (getArcSlice(a, d2) >= slice - demand1.getLoad() + 1) && (getArcSlice(a, d2) <= slice + demand2.getLoad() - 1) ){
+            int id = getArcId(a, d2);
+            exp += var[d2][id];
         }
     }
     std::ostringstream constraintName;

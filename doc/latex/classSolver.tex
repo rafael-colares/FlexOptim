@@ -1,0 +1,67 @@
+\hypertarget{classSolver}{}\doxysection{Solver Class Reference}
+\label{classSolver}\index{Solver@{Solver}}
+Inheritance diagram for Solver\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classSolver}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classSolver_a8271976cef5a884cb8b4deb295311466}\label{classSolver_a8271976cef5a884cb8b4deb295311466}} 
+{\bfseries Solver} (const \mbox{\hyperlink{classInstance}{Instance}} \&inst)
+\item 
+\mbox{\Hypertarget{classSolver_aad8261a01bdd40d200f92619eb4e7511}\label{classSolver_aad8261a01bdd40d200f92619eb4e7511}} 
+Ilo\+Expr {\bfseries get\+Obj\+Function} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Model \&mod)
+\item 
+\mbox{\Hypertarget{classSolver_a47d3556e71472f58ad495aea9f10db83}\label{classSolver_a47d3556e71472f58ad495aea9f10db83}} 
+Ilo\+Range {\bfseries get\+Source\+Constraint\+\_\+d} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Model \&mod, const \mbox{\hyperlink{classDemand}{Demand}} \&demand, int d, int i)
+\item 
+\mbox{\Hypertarget{classSolver_a659006ac5127c0822453cac4abd9e3af}\label{classSolver_a659006ac5127c0822453cac4abd9e3af}} 
+Ilo\+Range {\bfseries get\+Flow\+Conservation\+Constraint\+\_\+i\+\_\+d} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Model \&mod, List\+Digraph\+::\+Node \&v, const \mbox{\hyperlink{classDemand}{Demand}} \&demand, int d)
+\item 
+\mbox{\Hypertarget{classSolver_a6437c92f29131f3d8128a893bf08b0cb}\label{classSolver_a6437c92f29131f3d8128a893bf08b0cb}} 
+Ilo\+Range {\bfseries get\+Target\+Constraint\+\_\+d} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Model \&mod, const \mbox{\hyperlink{classDemand}{Demand}} \&demand, int d)
+\item 
+\mbox{\Hypertarget{classSolver_a19d6c6852bbea4904b39d10516d708d8}\label{classSolver_a19d6c6852bbea4904b39d10516d708d8}} 
+Ilo\+Range {\bfseries get\+Length\+Constraint} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Model \&mod, const \mbox{\hyperlink{classDemand}{Demand}} \&demand, int d)
+\item 
+\mbox{\Hypertarget{classSolver_a25e7e4bd1ef45827ea041bb343605b78}\label{classSolver_a25e7e4bd1ef45827ea041bb343605b78}} 
+Ilo\+Range {\bfseries get\+Non\+Overlapping\+Constraint} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Model \&mod, int link\+Label, int slice, const \mbox{\hyperlink{classDemand}{Demand}} \&demand1, int d1, const \mbox{\hyperlink{classDemand}{Demand}} \&demand2, int d2)
+\item 
+\mbox{\Hypertarget{classSolver_ac5cbdd57b57ac3de159f95466905442c}\label{classSolver_ac5cbdd57b57ac3de159f95466905442c}} 
+void {\bfseries set\+Variables} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Model \&mod)
+\item 
+\mbox{\Hypertarget{classSolver_a5e8b34308036cdc12acd401f735fd0f5}\label{classSolver_a5e8b34308036cdc12acd401f735fd0f5}} 
+void {\bfseries set\+Objective} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Model \&mod)
+\item 
+\mbox{\Hypertarget{classSolver_ab8a0c46c77c143c5a8dd886856e7ea50}\label{classSolver_ab8a0c46c77c143c5a8dd886856e7ea50}} 
+void {\bfseries set\+Source\+Constraints} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Model \&mod)
+\item 
+\mbox{\Hypertarget{classSolver_a8d8fffc93dc6f707fa792b163305c6ce}\label{classSolver_a8d8fffc93dc6f707fa792b163305c6ce}} 
+void {\bfseries set\+Flow\+Conservation\+Constraints} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Model \&mod)
+\item 
+\mbox{\Hypertarget{classSolver_af65f481c55aba58997c3ac98038c5cf3}\label{classSolver_af65f481c55aba58997c3ac98038c5cf3}} 
+void {\bfseries set\+Target\+Constraints} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Model \&mod)
+\item 
+\mbox{\Hypertarget{classSolver_a1b509242e83b1e5abefef08445211e89}\label{classSolver_a1b509242e83b1e5abefef08445211e89}} 
+void {\bfseries set\+Length\+Constraints} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Model \&mod)
+\item 
+\mbox{\Hypertarget{classSolver_af5ca64f0230ace2f6adfdde410a41acd}\label{classSolver_af5ca64f0230ace2f6adfdde410a41acd}} 
+void {\bfseries set\+Non\+Overlapping\+Constraints} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Model \&mod)
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line 10 of file solver.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+solver.\+h\item 
+solver.\+cpp\end{DoxyCompactItemize}

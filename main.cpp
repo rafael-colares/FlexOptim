@@ -12,8 +12,8 @@ ILOSTLBEGIN
 
 #include "PhysicalLink.h"
 #include "Instance.h"
-#include "ExtendedGraph.h"
 #include "input.h"
+
 #include "cplexForm.h"
 #include "subgradient.h"
 
@@ -57,9 +57,7 @@ int main(int argc, char *argv[]) {
 				{
 					CplexForm solver(instance);			
 					if (solver.getCplex().getStatus() == IloAlgorithm::Optimal){
-						std::cout << "Update instance" << std::endl;
 						solver.updateInstance(instance);
-						instance.output(std::to_string(optimizationCounter));
 						//instance.displayDetailedTopology();
 					}
 					break;
@@ -78,7 +76,7 @@ int main(int argc, char *argv[]) {
 				}
 				
 			}
-			
+			instance.output(std::to_string(optimizationCounter));
 			
 		}
 		

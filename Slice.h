@@ -1,27 +1,29 @@
 #ifndef __Slice__h
 #define __Slice__h
 
-/********************************************************************************************/
-/*  A Slice may have a demand assigned to it. 												*/
-/*	If this is the case, int assignedDemand refers to the demandId of the assigned demand.	*/
-/*	If not int assignedDemand equals -1. 													*/
-/********************************************************************************************/
+/*********************************************************************************************
+* This class identifies a Slice of a PhysicalLink.								
+* A Demand may be routed through a Slice. This class allows to identify, specify and verify 
+* which Demand is routed (or not) through the slice.
+*********************************************************************************************/
 class Slice
 {
 private:
-	// each slice has an assigned demand; -1 if no demand is asigned
-	int assignedDemand;		
+
+	int assignedDemand;	/**< Refers to the id of the routed demand; If no demand is routed, it equals -1. **/
+
 public:
-	// Constructor
-	Slice(int d = -1);
+	/** Default constructor. **/
+	Slice(int id = -1);
 
-	// Getters
-	int getAssignment() const { return assignedDemand; }	// get the assigned demand
-	// Setters
-	void setAssignment(int d) { this->assignedDemand = d; }	// set the assigned demand
+	/** Returns the id of the Demand assigned to the Slice. **/
+	int getAssignment() const { return assignedDemand; }
 
-	// Methods
-	bool isUsed();			// returns true if slice is occupied; false otherwise
+	/** Specifies the id of the Demand assigned to the Slice. **/
+	void setAssignment(int d) { this->assignedDemand = d; }
+
+	/** Verifies if the Slice is occupied by some demand. **/
+	bool isUsed();
 	
 };
 

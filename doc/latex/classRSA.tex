@@ -1,0 +1,180 @@
+\hypertarget{classRSA}{}\doxysection{R\+SA Class Reference}
+\label{classRSA}\index{RSA@{RSA}}
+Inheritance diagram for R\+SA\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classRSA}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classRSA_a3721e8ddbb15b0bbe5d4d0655c31ae6a}\label{classRSA_a3721e8ddbb15b0bbe5d4d0655c31ae6a}} 
+{\bfseries R\+SA} (const \mbox{\hyperlink{classInstance}{Instance}} \&instance)
+\item 
+\mbox{\Hypertarget{classRSA_a095f1de05dce4eb6d8ccdceae1cbc33f}\label{classRSA_a095f1de05dce4eb6d8ccdceae1cbc33f}} 
+\mbox{\hyperlink{classInstance}{Instance}} {\bfseries get\+Instance} () const
+\item 
+\mbox{\Hypertarget{classRSA_a06e9f1e6bbfcb2c928fdd6f5b7c50ed9}\label{classRSA_a06e9f1e6bbfcb2c928fdd6f5b7c50ed9}} 
+std\+::vector$<$ \mbox{\hyperlink{classDemand}{Demand}} $>$ {\bfseries get\+To\+Be\+Routed} ()
+\item 
+\mbox{\Hypertarget{classRSA_a2a3b848644b3d5b503c3b84df689570c}\label{classRSA_a2a3b848644b3d5b503c3b84df689570c}} 
+\mbox{\hyperlink{classDemand}{Demand}} {\bfseries get\+To\+Be\+Routed\+\_\+k} (int k)
+\item 
+\mbox{\Hypertarget{classRSA_ae1c5535c119071bd448e6a5a0b6a1cf5}\label{classRSA_ae1c5535c119071bd448e6a5a0b6a1cf5}} 
+int {\bfseries get\+Nb\+Demands\+To\+Be\+Routed} ()
+\item 
+\mbox{\Hypertarget{classRSA_ade475be1f126a7bdd1fb730158028cc3}\label{classRSA_ade475be1f126a7bdd1fb730158028cc3}} 
+int {\bfseries get\+Node\+Id} (const List\+Digraph\+::\+Node \&n, int d) const
+\item 
+\mbox{\Hypertarget{classRSA_a16727945d70e67ecd314577054ea25fd}\label{classRSA_a16727945d70e67ecd314577054ea25fd}} 
+int {\bfseries get\+Node\+Label} (const List\+Digraph\+::\+Node \&n, int d) const
+\item 
+\mbox{\Hypertarget{classRSA_aac5b2380b7179493011a9e476555899a}\label{classRSA_aac5b2380b7179493011a9e476555899a}} 
+int {\bfseries get\+Node\+Slice} (const List\+Digraph\+::\+Node \&n, int d) const
+\item 
+\mbox{\Hypertarget{classRSA_adfe120a9e708ced2108c1c493af0bf0c}\label{classRSA_adfe120a9e708ced2108c1c493af0bf0c}} 
+int {\bfseries get\+Arc\+Id} (const List\+Digraph\+::\+Arc \&a, int d) const
+\item 
+\mbox{\Hypertarget{classRSA_ac2256e2f93c22fe30c1a0686ebc7bd45}\label{classRSA_ac2256e2f93c22fe30c1a0686ebc7bd45}} 
+int {\bfseries get\+Arc\+Label} (const List\+Digraph\+::\+Arc \&a, int d) const
+\item 
+\mbox{\Hypertarget{classRSA_a59ef7dc281ee8d1181c59a14c6f25149}\label{classRSA_a59ef7dc281ee8d1181c59a14c6f25149}} 
+int {\bfseries get\+Arc\+Slice} (const List\+Digraph\+::\+Arc \&a, int d) const
+\item 
+\mbox{\Hypertarget{classRSA_a40b7809f4e2b716d83c8d57b157bb291}\label{classRSA_a40b7809f4e2b716d83c8d57b157bb291}} 
+double {\bfseries get\+Arc\+Length} (const List\+Digraph\+::\+Arc \&a, int d) const
+\item 
+\mbox{\Hypertarget{classRSA_aa5c7406517a7456c642c4c6ae25e234b}\label{classRSA_aa5c7406517a7456c642c4c6ae25e234b}} 
+List\+Digraph\+::\+Node {\bfseries get\+Node} (int d, int label, int slice)
+\item 
+\mbox{\Hypertarget{classRSA_ad8e48645cf88f5b5b7c9a19b6feeaf51}\label{classRSA_ad8e48645cf88f5b5b7c9a19b6feeaf51}} 
+double {\bfseries get\+Compact\+Length} (const List\+Digraph\+::\+Arc \&a)
+\item 
+\mbox{\Hypertarget{classRSA_a6b0a937d2de7e7aa0bf97d48ccf83771}\label{classRSA_a6b0a937d2de7e7aa0bf97d48ccf83771}} 
+double {\bfseries get\+Coeff} (const List\+Digraph\+::\+Arc \&a, int d)
+\item 
+\mbox{\Hypertarget{classRSA_a5ee45b88cfa6455df1228005792f0d52}\label{classRSA_a5ee45b88cfa6455df1228005792f0d52}} 
+void {\bfseries set\+To\+Be\+Routed} (const std\+::vector$<$ \mbox{\hyperlink{classDemand}{Demand}} $>$ \&vec)
+\item 
+\mbox{\Hypertarget{classRSA_abf8be457e5d6b65c3776f629f41aeecb}\label{classRSA_abf8be457e5d6b65c3776f629f41aeecb}} 
+void {\bfseries set\+Node\+Id} (const List\+Digraph\+::\+Node \&n, int d, int val)
+\item 
+\mbox{\Hypertarget{classRSA_a455ad10ce9aded2a4a1c93d7344842d4}\label{classRSA_a455ad10ce9aded2a4a1c93d7344842d4}} 
+void {\bfseries set\+Node\+Label} (const List\+Digraph\+::\+Node \&n, int d, int val)
+\item 
+\mbox{\Hypertarget{classRSA_a07ece679f3c45008ca9f054db947409c}\label{classRSA_a07ece679f3c45008ca9f054db947409c}} 
+void {\bfseries set\+Node\+Slice} (const List\+Digraph\+::\+Node \&n, int d, int val)
+\item 
+\mbox{\Hypertarget{classRSA_acf8b0e6f4229caa95cdd9c62d15ab4de}\label{classRSA_acf8b0e6f4229caa95cdd9c62d15ab4de}} 
+void {\bfseries set\+Arc\+Id} (const List\+Digraph\+::\+Arc \&a, int d, int val)
+\item 
+\mbox{\Hypertarget{classRSA_af510d0b4de7c9dd10fc1e4978ac4f214}\label{classRSA_af510d0b4de7c9dd10fc1e4978ac4f214}} 
+void {\bfseries set\+Arc\+Label} (const List\+Digraph\+::\+Arc \&a, int d, int val)
+\item 
+\mbox{\Hypertarget{classRSA_a3c513e1ca16f26149dcf792656da1f16}\label{classRSA_a3c513e1ca16f26149dcf792656da1f16}} 
+void {\bfseries set\+Arc\+Slice} (const List\+Digraph\+::\+Arc \&a, int d, int val)
+\item 
+\mbox{\Hypertarget{classRSA_a73a65831c954114e51f7c2887d7589da}\label{classRSA_a73a65831c954114e51f7c2887d7589da}} 
+void {\bfseries set\+Arc\+Length} (const List\+Digraph\+::\+Arc \&a, int d, double val)
+\item 
+\mbox{\Hypertarget{classRSA_aa2582a929e10d28c5885482bb82c3ced}\label{classRSA_aa2582a929e10d28c5885482bb82c3ced}} 
+void {\bfseries display\+Nodes\+Incident\+To} (int d, int label, int slice)
+\item 
+\mbox{\Hypertarget{classRSA_a7454e0a2dac0bbd5b9eddfe270013f53}\label{classRSA_a7454e0a2dac0bbd5b9eddfe270013f53}} 
+void {\bfseries display\+Nodes\+From\+Label} (int d, int label)
+\item 
+\mbox{\Hypertarget{classRSA_aa43c0a4c9fda303bd9583a36906d1496}\label{classRSA_aa43c0a4c9fda303bd9583a36906d1496}} 
+void {\bfseries display\+Paths} ()
+\item 
+\mbox{\Hypertarget{classRSA_a7e9fa3941b06c33a3f99e6fdb1ddc0d8}\label{classRSA_a7e9fa3941b06c33a3f99e6fdb1ddc0d8}} 
+void {\bfseries display\+Arc} (int d, const List\+Digraph\+::\+Arc \&a)
+\item 
+\mbox{\Hypertarget{classRSA_aef665d88560b42856e15298b67026cf1}\label{classRSA_aef665d88560b42856e15298b67026cf1}} 
+void {\bfseries display\+Node} (int d, const List\+Digraph\+::\+Node \&n)
+\item 
+\mbox{\Hypertarget{classRSA_a6d9a0d1d331dfbb684aff707479512d9}\label{classRSA_a6d9a0d1d331dfbb684aff707479512d9}} 
+void {\bfseries display\+To\+Be\+Routed} ()
+\item 
+\mbox{\Hypertarget{classRSA_ae51a9aa1070521cc31c0837b91e10185}\label{classRSA_ae51a9aa1070521cc31c0837b91e10185}} 
+void {\bfseries add\+Arcs} (int d, int link\+Source\+Label, int link\+Target\+Label, int link\+Label, int slice, double l)
+\item 
+\mbox{\Hypertarget{classRSA_a4bb66a2d54c695bc10fa4e3697a01a37}\label{classRSA_a4bb66a2d54c695bc10fa4e3697a01a37}} 
+void {\bfseries update\+Instance} (\mbox{\hyperlink{classInstance}{Instance}} \&i)
+\item 
+\mbox{\Hypertarget{classRSA_a2a95beb27713e3f9a9a376fcad6abfa5}\label{classRSA_a2a95beb27713e3f9a9a376fcad6abfa5}} 
+List\+Digraph\+::\+Node {\bfseries get\+First\+Node\+From\+Label} (int d, int label)
+\item 
+\mbox{\Hypertarget{classRSA_a4cf1a9ea2c52634d999abecba219407b}\label{classRSA_a4cf1a9ea2c52634d999abecba219407b}} 
+void {\bfseries contract\+Nodes\+From\+Label} (int d, int label)
+\item 
+\mbox{\Hypertarget{classRSA_ae56358698d72241f2ca054f679017ccc}\label{classRSA_ae56358698d72241f2ca054f679017ccc}} 
+void {\bfseries erase\+Non\+Routable\+Arcs} (int d)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classRSA_ad81287af708fcfcd98c963cfafc1f4db}\label{classRSA_ad81287af708fcfcd98c963cfafc1f4db}} 
+\mbox{\hyperlink{classInstance}{Instance}} {\bfseries instance}
+\item 
+\mbox{\Hypertarget{classRSA_a7a1ff13e3e35e50eb96a35c75c5f965e}\label{classRSA_a7a1ff13e3e35e50eb96a35c75c5f965e}} 
+std\+::vector$<$ \mbox{\hyperlink{classDemand}{Demand}} $>$ {\bfseries to\+Be\+Routed}
+\item 
+\mbox{\Hypertarget{classRSA_a77a9bbd4299569fbd6c7042563337418}\label{classRSA_a77a9bbd4299569fbd6c7042563337418}} 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ List\+Digraph $>$ $>$ {\bfseries vec\+Graph}
+\item 
+\mbox{\Hypertarget{classRSA_a0562f78387fd03cf8610cfeac1104688}\label{classRSA_a0562f78387fd03cf8610cfeac1104688}} 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ Arc\+Map $>$ $>$ {\bfseries vec\+Arc\+Id}
+\item 
+\mbox{\Hypertarget{classRSA_a97239559fa75ccab0437bbe57fafe963}\label{classRSA_a97239559fa75ccab0437bbe57fafe963}} 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ Arc\+Map $>$ $>$ {\bfseries vec\+Arc\+Label}
+\item 
+\mbox{\Hypertarget{classRSA_a7ea82cc012d2adddadf15ff7c5e33877}\label{classRSA_a7ea82cc012d2adddadf15ff7c5e33877}} 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ Arc\+Map $>$ $>$ {\bfseries vec\+Arc\+Slice}
+\item 
+\mbox{\Hypertarget{classRSA_aad2c8f2506bb532975c662f8a60d616a}\label{classRSA_aad2c8f2506bb532975c662f8a60d616a}} 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ Arc\+Cost $>$ $>$ {\bfseries vec\+Arc\+Length}
+\item 
+\mbox{\Hypertarget{classRSA_ac5d768eb12c42e917b5e85f0b5cbed2f}\label{classRSA_ac5d768eb12c42e917b5e85f0b5cbed2f}} 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ Node\+Map $>$ $>$ {\bfseries vec\+Node\+Id}
+\item 
+\mbox{\Hypertarget{classRSA_a0ee1651a2d68f485e4b10d8625d121dc}\label{classRSA_a0ee1651a2d68f485e4b10d8625d121dc}} 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ Node\+Map $>$ $>$ {\bfseries vec\+Node\+Label}
+\item 
+\mbox{\Hypertarget{classRSA_a2a54bc3824b363fa221ef260cb36238c}\label{classRSA_a2a54bc3824b363fa221ef260cb36238c}} 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ Node\+Map $>$ $>$ {\bfseries vec\+Node\+Slice}
+\item 
+\mbox{\Hypertarget{classRSA_ae7f9f30da50b99c81bedc24ae5139804}\label{classRSA_ae7f9f30da50b99c81bedc24ae5139804}} 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ Arc\+Map $>$ $>$ {\bfseries vec\+On\+Path}
+\item 
+\mbox{\Hypertarget{classRSA_a2e25203c6373d6170031d75e93d77b4d}\label{classRSA_a2e25203c6373d6170031d75e93d77b4d}} 
+List\+Digraph {\bfseries compact\+Graph}
+\item 
+\mbox{\Hypertarget{classRSA_a1caa8a5d7e45fbc8d594f36641b7e03f}\label{classRSA_a1caa8a5d7e45fbc8d594f36641b7e03f}} 
+Arc\+Map {\bfseries compact\+Arc\+Id}
+\item 
+\mbox{\Hypertarget{classRSA_af0dd1e3fde0e2ac7c42434b95f747658}\label{classRSA_af0dd1e3fde0e2ac7c42434b95f747658}} 
+Arc\+Map {\bfseries compact\+Arc\+Label}
+\item 
+\mbox{\Hypertarget{classRSA_a71f440afa2d14f6abc950b3fae5fa7ab}\label{classRSA_a71f440afa2d14f6abc950b3fae5fa7ab}} 
+Arc\+Cost {\bfseries compact\+Arc\+Length}
+\item 
+\mbox{\Hypertarget{classRSA_a37a60a79edf9747fc7dbe8c78c54d675}\label{classRSA_a37a60a79edf9747fc7dbe8c78c54d675}} 
+Node\+Map {\bfseries compact\+Node\+Id}
+\item 
+\mbox{\Hypertarget{classRSA_ac18380da784d30516b8cc10e024814ec}\label{classRSA_ac18380da784d30516b8cc10e024814ec}} 
+Node\+Map {\bfseries compact\+Node\+Label}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line 17 of file R\+S\+A.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R\+S\+A.\+h\item 
+R\+S\+A.\+cpp\end{DoxyCompactItemize}

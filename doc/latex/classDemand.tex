@@ -1,0 +1,129 @@
+\hypertarget{classDemand}{}\doxysection{Demand Class Reference}
+\label{classDemand}\index{Demand@{Demand}}
+
+
+This class identifies a demand.  
+
+
+
+
+{\ttfamily \#include $<$Demand.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classDemand_ab1030ce60fe3f25421cd015c61e127cf}\label{classDemand_ab1030ce60fe3f25421cd015c61e127cf}} 
+\mbox{\hyperlink{classDemand_ab1030ce60fe3f25421cd015c61e127cf}{Demand}} (int \mbox{\hyperlink{classDemand_a729433cc8ea88ac9afa328431bf09c42}{id}}=-\/1, int s=-\/1, int t=-\/1, int l=-\/1, double max=0, bool a=false, int slice=-\/1)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_a06cc49c08a34834499b3af46b2f2d34d}\label{classDemand_a06cc49c08a34834499b3af46b2f2d34d}} 
+int \mbox{\hyperlink{classDemand_a06cc49c08a34834499b3af46b2f2d34d}{get\+Id}} () const
+\begin{DoxyCompactList}\small\item\em Returns the demand\textquotesingle{}s id. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_a87db222c72f21faed12503952d5680df}\label{classDemand_a87db222c72f21faed12503952d5680df}} 
+int \mbox{\hyperlink{classDemand_a87db222c72f21faed12503952d5680df}{get\+Source}} () const
+\begin{DoxyCompactList}\small\item\em Returns the demand\textquotesingle{}s source node id. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_a18777344fb0667b5289516a87e4e21fc}\label{classDemand_a18777344fb0667b5289516a87e4e21fc}} 
+int \mbox{\hyperlink{classDemand_a18777344fb0667b5289516a87e4e21fc}{get\+Target}} () const
+\begin{DoxyCompactList}\small\item\em Returns the demand\textquotesingle{}s target node id. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_a581b45ce991b2bcf2b38da7343b40d74}\label{classDemand_a581b45ce991b2bcf2b38da7343b40d74}} 
+int \mbox{\hyperlink{classDemand_a581b45ce991b2bcf2b38da7343b40d74}{get\+Load}} () const
+\begin{DoxyCompactList}\small\item\em Returns the number of slices requested by the demand. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_acedbd23672e0ee8f517f0630073db206}\label{classDemand_acedbd23672e0ee8f517f0630073db206}} 
+int \mbox{\hyperlink{classDemand_acedbd23672e0ee8f517f0630073db206}{get\+Slice\+Allocation}} () const
+\begin{DoxyCompactList}\small\item\em Returns the id of the last slice assigned to the demand. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_a972686de418dc36bb27726e8ea29de02}\label{classDemand_a972686de418dc36bb27726e8ea29de02}} 
+double \mbox{\hyperlink{classDemand_a972686de418dc36bb27726e8ea29de02}{get\+Max\+Length}} () const
+\begin{DoxyCompactList}\small\item\em Returns the maximum length of the path on which the demand can be routed. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_a0c6de7ed38ef9dc96dd8428f0da363d3}\label{classDemand_a0c6de7ed38ef9dc96dd8428f0da363d3}} 
+bool \mbox{\hyperlink{classDemand_a0c6de7ed38ef9dc96dd8428f0da363d3}{is\+Routed}} () const
+\begin{DoxyCompactList}\small\item\em Returns true if the demand has already been routed. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_a717d65b79bc41cfed5bb75c1fc0469b2}\label{classDemand_a717d65b79bc41cfed5bb75c1fc0469b2}} 
+std\+::string \mbox{\hyperlink{classDemand_a717d65b79bc41cfed5bb75c1fc0469b2}{get\+String}} () const
+\begin{DoxyCompactList}\small\item\em Returns a compact description of the demand in the form (source, target, load). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_ab30017268cbc5e3047f64850f40051fe}\label{classDemand_ab30017268cbc5e3047f64850f40051fe}} 
+void \mbox{\hyperlink{classDemand_ab30017268cbc5e3047f64850f40051fe}{set\+Id}} (int i)
+\begin{DoxyCompactList}\small\item\em Changes the demand\textquotesingle{}s id. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_a3e5388d21c01e7fa5bda4e44340742f0}\label{classDemand_a3e5388d21c01e7fa5bda4e44340742f0}} 
+void \mbox{\hyperlink{classDemand_a3e5388d21c01e7fa5bda4e44340742f0}{set\+Source}} (int s)
+\begin{DoxyCompactList}\small\item\em Changes the demand\textquotesingle{}s source node id. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_ae0eb93bc0b29fe012371899853a7cb44}\label{classDemand_ae0eb93bc0b29fe012371899853a7cb44}} 
+void \mbox{\hyperlink{classDemand_ae0eb93bc0b29fe012371899853a7cb44}{set\+Target}} (int t)
+\begin{DoxyCompactList}\small\item\em Changes the demand\textquotesingle{}s target node id. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_a554ed323eb451ae33cd341c6fd025e77}\label{classDemand_a554ed323eb451ae33cd341c6fd025e77}} 
+void \mbox{\hyperlink{classDemand_a554ed323eb451ae33cd341c6fd025e77}{set\+Load}} (int l)
+\begin{DoxyCompactList}\small\item\em Changes the number of slices requested by the demand. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_a6f926c37143b9bc22b7f1fec26b489aa}\label{classDemand_a6f926c37143b9bc22b7f1fec26b489aa}} 
+void \mbox{\hyperlink{classDemand_a6f926c37143b9bc22b7f1fec26b489aa}{set\+Slice\+Allocation}} (int i)
+\begin{DoxyCompactList}\small\item\em Changes the id of the last slice assigned to the demand. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_a3029b964a52da97892e0e78521c011e3}\label{classDemand_a3029b964a52da97892e0e78521c011e3}} 
+void \mbox{\hyperlink{classDemand_a3029b964a52da97892e0e78521c011e3}{set\+Max\+Length}} (double max)
+\begin{DoxyCompactList}\small\item\em Changes the maximum length of the path on which the demand can be routed. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_a38c4d2b170eb572df21902cfdf97a4b7}\label{classDemand_a38c4d2b170eb572df21902cfdf97a4b7}} 
+void \mbox{\hyperlink{classDemand_a38c4d2b170eb572df21902cfdf97a4b7}{set\+Routed}} (bool a)
+\begin{DoxyCompactList}\small\item\em Changes the status of a demand. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_a74ef8d4d66bc26526ddabec1fa8238a7}\label{classDemand_a74ef8d4d66bc26526ddabec1fa8238a7}} 
+void \mbox{\hyperlink{classDemand_a74ef8d4d66bc26526ddabec1fa8238a7}{copy\+Demand}} (\mbox{\hyperlink{classDemand}{Demand}} \&demand)
+\begin{DoxyCompactList}\small\item\em Copies all information from a given demand. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_aa5f947d22ad6e10ca8106490ee15e3d0}\label{classDemand_aa5f947d22ad6e10ca8106490ee15e3d0}} 
+void \mbox{\hyperlink{classDemand_aa5f947d22ad6e10ca8106490ee15e3d0}{display\+Demand}} ()
+\begin{DoxyCompactList}\small\item\em Displays demand information. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_ad5cf6756e2d4c0bd6c48fceef7425f56}\label{classDemand_ad5cf6756e2d4c0bd6c48fceef7425f56}} 
+void \mbox{\hyperlink{classDemand_ad5cf6756e2d4c0bd6c48fceef7425f56}{check\+Demand}} (int \mbox{\hyperlink{classDemand_a729433cc8ea88ac9afa328431bf09c42}{id}}, int \mbox{\hyperlink{classDemand_aba0b2f49b117edde4743e4ba0575bd97}{source}}, int \mbox{\hyperlink{classDemand_a96bf37cfc8f9a9fbd2fae9837bc9880b}{target}}, int \mbox{\hyperlink{classDemand_a5946235088ae98bf1dfe2fcdab7b8c9f}{load}})
+\begin{DoxyCompactList}\small\item\em Verifies if the demand has exactly the given informations. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classDemand_a729433cc8ea88ac9afa328431bf09c42}\label{classDemand_a729433cc8ea88ac9afa328431bf09c42}} 
+int \mbox{\hyperlink{classDemand_a729433cc8ea88ac9afa328431bf09c42}{id}}
+\begin{DoxyCompactList}\small\item\em The demand\textquotesingle{}s id. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_aba0b2f49b117edde4743e4ba0575bd97}\label{classDemand_aba0b2f49b117edde4743e4ba0575bd97}} 
+int \mbox{\hyperlink{classDemand_aba0b2f49b117edde4743e4ba0575bd97}{source}}
+\begin{DoxyCompactList}\small\item\em The demand\textquotesingle{}s source node id. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_a96bf37cfc8f9a9fbd2fae9837bc9880b}\label{classDemand_a96bf37cfc8f9a9fbd2fae9837bc9880b}} 
+int \mbox{\hyperlink{classDemand_a96bf37cfc8f9a9fbd2fae9837bc9880b}{target}}
+\begin{DoxyCompactList}\small\item\em The demand\textquotesingle{}s target node id. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_a5946235088ae98bf1dfe2fcdab7b8c9f}\label{classDemand_a5946235088ae98bf1dfe2fcdab7b8c9f}} 
+int \mbox{\hyperlink{classDemand_a5946235088ae98bf1dfe2fcdab7b8c9f}{load}}
+\begin{DoxyCompactList}\small\item\em Refers to how many slices the demand requires. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_ab7127eeb4c27bec1427ba04b89f3e4be}\label{classDemand_ab7127eeb4c27bec1427ba04b89f3e4be}} 
+double \mbox{\hyperlink{classDemand_ab7127eeb4c27bec1427ba04b89f3e4be}{max\+Length}}
+\begin{DoxyCompactList}\small\item\em Refers to the maximum length of the path on which the demand can be routed. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classDemand_a6b8ee130ad3239c4e38aa293f1a1ec4e}\label{classDemand_a6b8ee130ad3239c4e38aa293f1a1ec4e}} 
+bool \mbox{\hyperlink{classDemand_a6b8ee130ad3239c4e38aa293f1a1ec4e}{routed}}
+\begin{DoxyCompactList}\small\item\em True if the demand is already routed. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classDemand_a7f22780dd6801abfaa70808d5367cdf3}{slice\+Allocation}}
+\begin{DoxyCompactList}\small\item\em The id of the last slice assigned to this demand. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class identifies a demand. 
+
+A demand is defined by its id, its source and target node, its load (i.\+e., how many slices it requests) and its maximal length (i.\+e., how long can be its routing path). It also can be already routed or not. 
+
+Definition at line 11 of file Demand.\+h.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classDemand_a7f22780dd6801abfaa70808d5367cdf3}\label{classDemand_a7f22780dd6801abfaa70808d5367cdf3}} 
+\index{Demand@{Demand}!sliceAllocation@{sliceAllocation}}
+\index{sliceAllocation@{sliceAllocation}!Demand@{Demand}}
+\doxysubsubsection{\texorpdfstring{sliceAllocation}{sliceAllocation}}
+{\footnotesize\ttfamily int Demand\+::slice\+Allocation\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The id of the last slice assigned to this demand. 
+
+\begin{DoxyWarning}{Warning}
+Equals -\/1 if not routed yet. 
+\end{DoxyWarning}
+
+
+Definition at line 20 of file Demand.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Demand.\+h\item 
+Demand.\+cpp\end{DoxyCompactItemize}

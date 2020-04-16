@@ -1,5 +1,5 @@
 #include "ExtendedGraph.h"
-
+/** @todo Erase this class **/
 ExtendedGraph::ExtendedGraph(const Instance &instance) : edgeMap(g), edgeLabel(g), edgeSlice(g), nodeId(g), nodeLabel(g), nodeSlice(g){
     // For each PhysicalLink (source, target) and each non-used Slice s
     
