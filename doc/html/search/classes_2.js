@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['extendedgraph_127',['ExtendedGraph',['../classExtendedGraph.html',1,'']]]
+  ['input_198',['Input',['../classInput.html',1,'']]],
+  ['instance_199',['Instance',['../classInstance.html',1,'']]]
 ];

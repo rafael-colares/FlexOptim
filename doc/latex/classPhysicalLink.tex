@@ -1,104 +1,335 @@
 \hypertarget{classPhysicalLink}{}\doxysection{Physical\+Link Class Reference}
 \label{classPhysicalLink}\index{PhysicalLink@{PhysicalLink}}
+
+
+This class identifies a link on the physical network.  
+
+
+
+
+{\ttfamily \#include $<$Physical\+Link.\+h$>$}
+
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classPhysicalLink_a849b20e371a63cb6a186c674c543a49c}\label{classPhysicalLink_a849b20e371a63cb6a186c674c543a49c}} 
-{\bfseries Physical\+Link} (int i, int s, int t, double l=0.\+0, int nb=1, double c=0.\+0)
-\item 
+\mbox{\hyperlink{classPhysicalLink_a82b6bf8a88caf52976e9ec41d41d738e}{Physical\+Link}} (int i, int s, int t, double len=0.\+0, int nb=1, double c=0.\+0)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classPhysicalLink_a21dd966ffad6f71ab99866ecb7722038}\label{classPhysicalLink_a21dd966ffad6f71ab99866ecb7722038}} 
-int {\bfseries get\+Id} () const
-\item 
+int \mbox{\hyperlink{classPhysicalLink_a21dd966ffad6f71ab99866ecb7722038}{get\+Id}} () const
+\begin{DoxyCompactList}\small\item\em Returns the link\textquotesingle{}s id. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classPhysicalLink_a6ecd986b9e57192bd24ca9daf1c6e229}\label{classPhysicalLink_a6ecd986b9e57192bd24ca9daf1c6e229}} 
-int {\bfseries get\+Source} () const
-\item 
+int \mbox{\hyperlink{classPhysicalLink_a6ecd986b9e57192bd24ca9daf1c6e229}{get\+Source}} () const
+\begin{DoxyCompactList}\small\item\em Returns the link\textquotesingle{}s source node id. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classPhysicalLink_aea363aa0b2bcd646f8a87e5417a4e079}\label{classPhysicalLink_aea363aa0b2bcd646f8a87e5417a4e079}} 
-int {\bfseries get\+Target} () const
-\item 
+int \mbox{\hyperlink{classPhysicalLink_aea363aa0b2bcd646f8a87e5417a4e079}{get\+Target}} () const
+\begin{DoxyCompactList}\small\item\em Returns the link\textquotesingle{}s target node id. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classPhysicalLink_aa0c966844dfcee3128393073ec113d13}\label{classPhysicalLink_aa0c966844dfcee3128393073ec113d13}} 
-int {\bfseries get\+Nb\+Slices} () const
-\item 
+int \mbox{\hyperlink{classPhysicalLink_aa0c966844dfcee3128393073ec113d13}{get\+Nb\+Slices}} () const
+\begin{DoxyCompactList}\small\item\em Returns the number of slices its frequency spectrum is divided into. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classPhysicalLink_a193337e97e8c2f9c985bd658201049ef}\label{classPhysicalLink_a193337e97e8c2f9c985bd658201049ef}} 
-double {\bfseries get\+Length} () const
-\item 
+double \mbox{\hyperlink{classPhysicalLink_a193337e97e8c2f9c985bd658201049ef}{get\+Length}} () const
+\begin{DoxyCompactList}\small\item\em Returns the link\textquotesingle{}s physical length. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classPhysicalLink_a2ddd2077efbc359e184199c2f0505041}\label{classPhysicalLink_a2ddd2077efbc359e184199c2f0505041}} 
-double {\bfseries get\+Cost} () const
-\item 
+double \mbox{\hyperlink{classPhysicalLink_a2ddd2077efbc359e184199c2f0505041}{get\+Cost}} () const
+\begin{DoxyCompactList}\small\item\em Returns the cost of routing a demand through the link. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classPhysicalLink_a26eb99b6f4ed7bb652731c5ba0752382}\label{classPhysicalLink_a26eb99b6f4ed7bb652731c5ba0752382}} 
-std\+::vector$<$ \mbox{\hyperlink{classSlice}{Slice}} $>$ {\bfseries get\+Slices} () const
-\item 
-\mbox{\Hypertarget{classPhysicalLink_a8195c9cd5850cb8b676536ec261bb4a1}\label{classPhysicalLink_a8195c9cd5850cb8b676536ec261bb4a1}} 
-\mbox{\hyperlink{classSlice}{Slice}} {\bfseries get\+Slice\+\_\+i} (int i) const
-\item 
+std\+::vector$<$ \mbox{\hyperlink{classSlice}{Slice}} $>$ \mbox{\hyperlink{classPhysicalLink_a26eb99b6f4ed7bb652731c5ba0752382}{get\+Slices}} () const
+\begin{DoxyCompactList}\small\item\em Returns the frequency spectrum as a vector of Slices. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classSlice}{Slice}} \mbox{\hyperlink{classPhysicalLink_a8195c9cd5850cb8b676536ec261bb4a1}{get\+Slice\+\_\+i}} (int i) const
+\begin{DoxyCompactList}\small\item\em Returns a slice of the frequency spectrum. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classPhysicalLink_ab2a4f64c70efeeab80d7009896417ae6}\label{classPhysicalLink_ab2a4f64c70efeeab80d7009896417ae6}} 
-std\+::string {\bfseries get\+String} () const
-\item 
-\mbox{\Hypertarget{classPhysicalLink_aeb52fcca894d2ad411b472a8d5144080}\label{classPhysicalLink_aeb52fcca894d2ad411b472a8d5144080}} 
-void {\bfseries set\+Id} (int i)
-\item 
-\mbox{\Hypertarget{classPhysicalLink_a1d481af217642e1505f75af120fa15d6}\label{classPhysicalLink_a1d481af217642e1505f75af120fa15d6}} 
-void {\bfseries set\+Source} (int s)
-\item 
-\mbox{\Hypertarget{classPhysicalLink_a3123b879addd3ed6acf5fd99998ff86d}\label{classPhysicalLink_a3123b879addd3ed6acf5fd99998ff86d}} 
-void {\bfseries set\+Target} (int t)
-\item 
-\mbox{\Hypertarget{classPhysicalLink_aca316cc9ca772b2adeb6b235a91d242a}\label{classPhysicalLink_aca316cc9ca772b2adeb6b235a91d242a}} 
-void {\bfseries set\+Nb\+Slices} (int nb)
-\item 
-\mbox{\Hypertarget{classPhysicalLink_a4a090057b58cc37809dbde4110260e50}\label{classPhysicalLink_a4a090057b58cc37809dbde4110260e50}} 
-void {\bfseries set\+Length} (double l)
-\item 
-\mbox{\Hypertarget{classPhysicalLink_af431e5e93f398f1fd79a867e37e167b6}\label{classPhysicalLink_af431e5e93f398f1fd79a867e37e167b6}} 
-void {\bfseries set\+Cost} (double c)
-\item 
-\mbox{\Hypertarget{classPhysicalLink_a545dd4c0418adee8ddb58318f2e82e78}\label{classPhysicalLink_a545dd4c0418adee8ddb58318f2e82e78}} 
-void {\bfseries copy\+Physical\+Link} (\mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} \&edge)
-\item 
-\mbox{\Hypertarget{classPhysicalLink_a009d19d554c0846e5a390f733617440b}\label{classPhysicalLink_a009d19d554c0846e5a390f733617440b}} 
-bool {\bfseries contains} (const \mbox{\hyperlink{classDemand}{Demand}} \&d) const
-\item 
-\mbox{\Hypertarget{classPhysicalLink_a13c96864f6f835f9c37baa026cf25d9c}\label{classPhysicalLink_a13c96864f6f835f9c37baa026cf25d9c}} 
-void {\bfseries assign\+Slices} (const \mbox{\hyperlink{classDemand}{Demand}} \&d, int p)
-\item 
+std\+::string \mbox{\hyperlink{classPhysicalLink_ab2a4f64c70efeeab80d7009896417ae6}{get\+String}} () const
+\begin{DoxyCompactList}\small\item\em Returns a string summarizing the link\textquotesingle{}s from/to information. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPhysicalLink_aeb52fcca894d2ad411b472a8d5144080}{set\+Id}} (int i)
+\begin{DoxyCompactList}\small\item\em Changes the link\textquotesingle{}s id. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPhysicalLink_a1d481af217642e1505f75af120fa15d6}{set\+Source}} (int s)
+\begin{DoxyCompactList}\small\item\em Changes the link\textquotesingle{}s source node id. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPhysicalLink_a3123b879addd3ed6acf5fd99998ff86d}{set\+Target}} (int t)
+\begin{DoxyCompactList}\small\item\em Changes the link\textquotesingle{}s target node id. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPhysicalLink_aca316cc9ca772b2adeb6b235a91d242a}{set\+Nb\+Slices}} (int nb)
+\begin{DoxyCompactList}\small\item\em Changes the number of slices its frequency spectrum is divided into. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPhysicalLink_a4a090057b58cc37809dbde4110260e50}{set\+Length}} (double l)
+\begin{DoxyCompactList}\small\item\em Changes the link\textquotesingle{}s length. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPhysicalLink_af431e5e93f398f1fd79a867e37e167b6}{set\+Cost}} (double c)
+\begin{DoxyCompactList}\small\item\em Changes the cost of routing a demand through the link. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPhysicalLink_a3246ccde1b3fd4758ccdd1f043883cd0}{copy\+Physical\+Link}} (\mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} \&link)
+\begin{DoxyCompactList}\small\item\em Copies all information from a given link. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classPhysicalLink_a2e0fbdc73f4565b7b3bba4158498a223}{contains}} (const \mbox{\hyperlink{classDemand}{Demand}} \&dem) const
+\begin{DoxyCompactList}\small\item\em Verifies if the current \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} routes the a demand. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPhysicalLink_a91799eba89b14a15caca21dae3d6d97e}{assign\+Slices}} (const \mbox{\hyperlink{classDemand}{Demand}} \&dem, int p)
+\begin{DoxyCompactList}\small\item\em Assigns a demand to a given position in the spectrum. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classPhysicalLink_a68792ca892630b89a29ff3fd82d93108}\label{classPhysicalLink_a68792ca892630b89a29ff3fd82d93108}} 
-void {\bfseries display\+Physical\+Link} ()
-\item 
+void \mbox{\hyperlink{classPhysicalLink_a68792ca892630b89a29ff3fd82d93108}{display\+Physical\+Link}} ()
+\begin{DoxyCompactList}\small\item\em Displays summarized information about the link. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classPhysicalLink_a3a913bfd9fd12bd56599626909beefb0}\label{classPhysicalLink_a3a913bfd9fd12bd56599626909beefb0}} 
-void {\bfseries display\+Detailed\+Physical\+Link} ()
-\item 
+void \mbox{\hyperlink{classPhysicalLink_a3a913bfd9fd12bd56599626909beefb0}{display\+Detailed\+Physical\+Link}} ()
+\begin{DoxyCompactList}\small\item\em Displays detailed information about state of the link. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classPhysicalLink_aa91c8178da9327afaba9256ccde2cec4}\label{classPhysicalLink_aa91c8178da9327afaba9256ccde2cec4}} 
-void {\bfseries display\+Slices} ()
-\end{DoxyCompactItemize}
+void \mbox{\hyperlink{classPhysicalLink_aa91c8178da9327afaba9256ccde2cec4}{display\+Slices}} ()
+\begin{DoxyCompactList}\small\item\em Displays summarized information about slice occupation. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{classPhysicalLink_ac863d389b95e038ecb296648e2f9ea70}\label{classPhysicalLink_ac863d389b95e038ecb296648e2f9ea70}} 
-int {\bfseries id}
-\item 
+int \mbox{\hyperlink{classPhysicalLink_ac863d389b95e038ecb296648e2f9ea70}{id}}
+\begin{DoxyCompactList}\small\item\em Link identifier. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classPhysicalLink_a2bd9bb862a940a6d81d484a9ad1819e1}\label{classPhysicalLink_a2bd9bb862a940a6d81d484a9ad1819e1}} 
-int {\bfseries id\+Source}
-\item 
+int \mbox{\hyperlink{classPhysicalLink_a2bd9bb862a940a6d81d484a9ad1819e1}{id\+Source}}
+\begin{DoxyCompactList}\small\item\em Source node identifier. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classPhysicalLink_ac9e988af57bd662ed9aceb03401d52f4}\label{classPhysicalLink_ac9e988af57bd662ed9aceb03401d52f4}} 
-int {\bfseries id\+Target}
-\item 
+int \mbox{\hyperlink{classPhysicalLink_ac9e988af57bd662ed9aceb03401d52f4}{id\+Target}}
+\begin{DoxyCompactList}\small\item\em Target node identifier. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classPhysicalLink_aed90debab63d3f2e1198a2ded7beedac}\label{classPhysicalLink_aed90debab63d3f2e1198a2ded7beedac}} 
-int {\bfseries nb\+Slices}
-\item 
+int \mbox{\hyperlink{classPhysicalLink_aed90debab63d3f2e1198a2ded7beedac}{nb\+Slices}}
+\begin{DoxyCompactList}\small\item\em Number of slices the frequency spectrum is divided into. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classPhysicalLink_a10737b0692a02a9e346f831e129a0318}\label{classPhysicalLink_a10737b0692a02a9e346f831e129a0318}} 
-double {\bfseries length}
-\item 
+double \mbox{\hyperlink{classPhysicalLink_a10737b0692a02a9e346f831e129a0318}{length}}
+\begin{DoxyCompactList}\small\item\em Length of the link in the physical network. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classPhysicalLink_ac580efc68605426d67084eb3d99b0641}\label{classPhysicalLink_ac580efc68605426d67084eb3d99b0641}} 
-double {\bfseries cost}
-\item 
+double \mbox{\hyperlink{classPhysicalLink_ac580efc68605426d67084eb3d99b0641}{cost}}
+\begin{DoxyCompactList}\small\item\em Cost of routing a demand through the link. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classPhysicalLink_aef21b855284e629c3c865e28049bea87}\label{classPhysicalLink_aef21b855284e629c3c865e28049bea87}} 
-std\+::vector$<$ \mbox{\hyperlink{classSlice}{Slice}} $>$ {\bfseries spectrum}
-\end{DoxyCompactItemize}
+std\+::vector$<$ \mbox{\hyperlink{classSlice}{Slice}} $>$ \mbox{\hyperlink{classPhysicalLink_aef21b855284e629c3c865e28049bea87}{spectrum}}
+\begin{DoxyCompactList}\small\item\em Link\textquotesingle{}s spectrum. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
+This class identifies a link on the physical network. 
+
+It corresponds to an edge in the topology graph and is defined by its id, a source and a target node, its length in the physical network, and a cost. A edge also has a frequency spectrum that is splitted into a given number of slices. \begin{DoxyNote}{Note}
+The id of each \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} is considered to be in the range \mbox{[}0, ..., n-\/1\mbox{]}. ~\newline
+ 
+\end{DoxyNote}
 
 
-Definition at line 13 of file Physical\+Link.\+h.
+Definition at line 14 of file Physical\+Link.\+h.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classPhysicalLink_a82b6bf8a88caf52976e9ec41d41d738e}\label{classPhysicalLink_a82b6bf8a88caf52976e9ec41d41d738e}} 
+\index{PhysicalLink@{PhysicalLink}!PhysicalLink@{PhysicalLink}}
+\index{PhysicalLink@{PhysicalLink}!PhysicalLink@{PhysicalLink}}
+\doxysubsubsection{\texorpdfstring{PhysicalLink()}{PhysicalLink()}}
+{\footnotesize\ttfamily Physical\+Link\+::\+Physical\+Link (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{s,  }\item[{int}]{t,  }\item[{double}]{len = {\ttfamily 0.0},  }\item[{int}]{nb = {\ttfamily 1},  }\item[{double}]{c = {\ttfamily 0.0} }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Id.\\
+\hline
+{\em s} & Source node\textquotesingle{}s id.\\
+\hline
+{\em t} & Target node\textquotesingle{}s id.\\
+\hline
+{\em len} & Link\textquotesingle{}s length n the physical network.\\
+\hline
+{\em nb} & Number of slices its frequency spectrum is divided into.\\
+\hline
+{\em c} & Cost of routing a demand through the link. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 9 of file Physical\+Link.\+cpp.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classPhysicalLink_a91799eba89b14a15caca21dae3d6d97e}\label{classPhysicalLink_a91799eba89b14a15caca21dae3d6d97e}} 
+\index{PhysicalLink@{PhysicalLink}!assignSlices@{assignSlices}}
+\index{assignSlices@{assignSlices}!PhysicalLink@{PhysicalLink}}
+\doxysubsubsection{\texorpdfstring{assignSlices()}{assignSlices()}}
+{\footnotesize\ttfamily void Physical\+Link\+::assign\+Slices (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classDemand}{Demand}} \&}]{dem,  }\item[{int}]{p }\end{DoxyParamCaption})}
+
+
+
+Assigns a demand to a given position in the spectrum. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dem} & The demand to be assigned.\\
+\hline
+{\em p} & The position of the last slice to be assigned. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 49 of file Physical\+Link.\+cpp.
+
+\mbox{\Hypertarget{classPhysicalLink_a2e0fbdc73f4565b7b3bba4158498a223}\label{classPhysicalLink_a2e0fbdc73f4565b7b3bba4158498a223}} 
+\index{PhysicalLink@{PhysicalLink}!contains@{contains}}
+\index{contains@{contains}!PhysicalLink@{PhysicalLink}}
+\doxysubsubsection{\texorpdfstring{contains()}{contains()}}
+{\footnotesize\ttfamily bool Physical\+Link\+::contains (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classDemand}{Demand}} \&}]{dem }\end{DoxyParamCaption}) const}
+
+
+
+Verifies if the current \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} routes the a demand. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dem} & The demand to be checked. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 39 of file Physical\+Link.\+cpp.
+
+\mbox{\Hypertarget{classPhysicalLink_a3246ccde1b3fd4758ccdd1f043883cd0}\label{classPhysicalLink_a3246ccde1b3fd4758ccdd1f043883cd0}} 
+\index{PhysicalLink@{PhysicalLink}!copyPhysicalLink@{copyPhysicalLink}}
+\index{copyPhysicalLink@{copyPhysicalLink}!PhysicalLink@{PhysicalLink}}
+\doxysubsubsection{\texorpdfstring{copyPhysicalLink()}{copyPhysicalLink()}}
+{\footnotesize\ttfamily void Physical\+Link\+::copy\+Physical\+Link (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} \&}]{link }\end{DoxyParamCaption})}
+
+
+
+Copies all information from a given link. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em link} & The \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} to be copied. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 26 of file Physical\+Link.\+cpp.
+
+\mbox{\Hypertarget{classPhysicalLink_a8195c9cd5850cb8b676536ec261bb4a1}\label{classPhysicalLink_a8195c9cd5850cb8b676536ec261bb4a1}} 
+\index{PhysicalLink@{PhysicalLink}!getSlice\_i@{getSlice\_i}}
+\index{getSlice\_i@{getSlice\_i}!PhysicalLink@{PhysicalLink}}
+\doxysubsubsection{\texorpdfstring{getSlice\_i()}{getSlice\_i()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classSlice}{Slice}} Physical\+Link\+::get\+Slice\+\_\+i (\begin{DoxyParamCaption}\item[{int}]{i }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns a slice of the frequency spectrum. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & The slice in the i-\/th position. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 58 of file Physical\+Link.\+h.
+
+\mbox{\Hypertarget{classPhysicalLink_af431e5e93f398f1fd79a867e37e167b6}\label{classPhysicalLink_af431e5e93f398f1fd79a867e37e167b6}} 
+\index{PhysicalLink@{PhysicalLink}!setCost@{setCost}}
+\index{setCost@{setCost}!PhysicalLink@{PhysicalLink}}
+\doxysubsubsection{\texorpdfstring{setCost()}{setCost()}}
+{\footnotesize\ttfamily void Physical\+Link\+::set\+Cost (\begin{DoxyParamCaption}\item[{double}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Changes the cost of routing a demand through the link. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & New cost. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 83 of file Physical\+Link.\+h.
+
+\mbox{\Hypertarget{classPhysicalLink_aeb52fcca894d2ad411b472a8d5144080}\label{classPhysicalLink_aeb52fcca894d2ad411b472a8d5144080}} 
+\index{PhysicalLink@{PhysicalLink}!setId@{setId}}
+\index{setId@{setId}!PhysicalLink@{PhysicalLink}}
+\doxysubsubsection{\texorpdfstring{setId()}{setId()}}
+{\footnotesize\ttfamily void Physical\+Link\+::set\+Id (\begin{DoxyParamCaption}\item[{int}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Changes the link\textquotesingle{}s id. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & New id. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 68 of file Physical\+Link.\+h.
+
+\mbox{\Hypertarget{classPhysicalLink_a4a090057b58cc37809dbde4110260e50}\label{classPhysicalLink_a4a090057b58cc37809dbde4110260e50}} 
+\index{PhysicalLink@{PhysicalLink}!setLength@{setLength}}
+\index{setLength@{setLength}!PhysicalLink@{PhysicalLink}}
+\doxysubsubsection{\texorpdfstring{setLength()}{setLength()}}
+{\footnotesize\ttfamily void Physical\+Link\+::set\+Length (\begin{DoxyParamCaption}\item[{double}]{l }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Changes the link\textquotesingle{}s length. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em l} & New length. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 80 of file Physical\+Link.\+h.
+
+\mbox{\Hypertarget{classPhysicalLink_aca316cc9ca772b2adeb6b235a91d242a}\label{classPhysicalLink_aca316cc9ca772b2adeb6b235a91d242a}} 
+\index{PhysicalLink@{PhysicalLink}!setNbSlices@{setNbSlices}}
+\index{setNbSlices@{setNbSlices}!PhysicalLink@{PhysicalLink}}
+\doxysubsubsection{\texorpdfstring{setNbSlices()}{setNbSlices()}}
+{\footnotesize\ttfamily void Physical\+Link\+::set\+Nb\+Slices (\begin{DoxyParamCaption}\item[{int}]{nb }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Changes the number of slices its frequency spectrum is divided into. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nb} & New number of slices. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 77 of file Physical\+Link.\+h.
+
+\mbox{\Hypertarget{classPhysicalLink_a1d481af217642e1505f75af120fa15d6}\label{classPhysicalLink_a1d481af217642e1505f75af120fa15d6}} 
+\index{PhysicalLink@{PhysicalLink}!setSource@{setSource}}
+\index{setSource@{setSource}!PhysicalLink@{PhysicalLink}}
+\doxysubsubsection{\texorpdfstring{setSource()}{setSource()}}
+{\footnotesize\ttfamily void Physical\+Link\+::set\+Source (\begin{DoxyParamCaption}\item[{int}]{s }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Changes the link\textquotesingle{}s source node id. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & New source node\textquotesingle{}s id. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 71 of file Physical\+Link.\+h.
+
+\mbox{\Hypertarget{classPhysicalLink_a3123b879addd3ed6acf5fd99998ff86d}\label{classPhysicalLink_a3123b879addd3ed6acf5fd99998ff86d}} 
+\index{PhysicalLink@{PhysicalLink}!setTarget@{setTarget}}
+\index{setTarget@{setTarget}!PhysicalLink@{PhysicalLink}}
+\doxysubsubsection{\texorpdfstring{setTarget()}{setTarget()}}
+{\footnotesize\ttfamily void Physical\+Link\+::set\+Target (\begin{DoxyParamCaption}\item[{int}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Changes the link\textquotesingle{}s target node id. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & New target node\textquotesingle{}s id. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 74 of file Physical\+Link.\+h.
 
 
 

@@ -9,13 +9,23 @@ This class contains all the information needed for the creation of an instance.
 
 {\ttfamily \#include $<$input.\+h$>$}
 
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{classInput_ae19efd3d8de2230a5bb94677518a8031}{Method}} \{ \mbox{\hyperlink{classInput_ae19efd3d8de2230a5bb94677518a8031a9bcff65f9fe67d63b9093e1703f1226b}{M\+E\+T\+H\+O\+D\+\_\+\+C\+P\+L\+EX}} = 0, 
+\mbox{\hyperlink{classInput_ae19efd3d8de2230a5bb94677518a8031a1e214c54a52e9881ad79ecb513eeb24d}{M\+E\+T\+H\+O\+D\+\_\+\+S\+U\+B\+G\+R\+A\+D\+I\+E\+NT}} = 1
+ \}
+\begin{DoxyCompactList}\small\item\em Enumerates the possible methods to be applied for solving the Online Routing and Spectrum Allocation problem. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{classInput_a38a43d751872865a7d1b4e84ff5f9d42}{Preprocessing\+Level}} \{ \mbox{\hyperlink{classInput_a38a43d751872865a7d1b4e84ff5f9d42ad5caac8d2e1aa553622c2b26619fef39}{P\+R\+E\+P\+R\+O\+C\+E\+S\+S\+I\+N\+G\+\_\+\+L\+V\+L\+\_\+\+NO}} = 0, 
+\mbox{\hyperlink{classInput_a38a43d751872865a7d1b4e84ff5f9d42a578d2ebb1f6e01416c7564eb3109d2a8}{P\+R\+E\+P\+R\+O\+C\+E\+S\+S\+I\+N\+G\+\_\+\+L\+V\+L\+\_\+\+P\+A\+R\+T\+I\+AL}} = 1, 
+\mbox{\hyperlink{classInput_a38a43d751872865a7d1b4e84ff5f9d42a6e71d561dd4af6d3220699285c3e5fd0}{P\+R\+E\+P\+R\+O\+C\+E\+S\+S\+I\+N\+G\+\_\+\+L\+V\+L\+\_\+\+F\+U\+LL}} = 2
+ \}
+\begin{DoxyCompactList}\small\item\em Enumerates the possible levels of applying a preprocessing step fo reducing the graphs before optimization is called. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classInput_ae514dfca8f9d7b7259ba087a297a2ac5}\label{classInput_ae514dfca8f9d7b7259ba087a297a2ac5}} 
-\mbox{\hyperlink{classInput_ae514dfca8f9d7b7259ba087a297a2ac5}{Input}} (std\+::string parameter\+File\+Path)
+\mbox{\hyperlink{classInput_a10341c124becd2f3e0f98bdcc487bb00}{Input}} (std\+::string file)
 \begin{DoxyCompactList}\small\item\em Default constructor initializes the object with the information contained in the parameter\+File. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classInput_aba6413de9219b69da552da9d7fe2d273}\label{classInput_aba6413de9219b69da552da9d7fe2d273}} 
 \mbox{\hyperlink{classInput_aba6413de9219b69da552da9d7fe2d273}{Input}} (const \mbox{\hyperlink{classInput}{Input}} \&i)
 \begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classInput_a5f984191badca747502dc5108538ad6b}\label{classInput_a5f984191badca747502dc5108538ad6b}} 
@@ -42,8 +52,11 @@ int \mbox{\hyperlink{classInput_a8e4fa991e5f3b397c2b61c7864d9c02c}{get\+Nb\+Dema
 \mbox{\Hypertarget{classInput_aefa5639038be0f18870dc0b7a04a49be}\label{classInput_aefa5639038be0f18870dc0b7a04a49be}} 
 int \mbox{\hyperlink{classInput_aefa5639038be0f18870dc0b7a04a49be}{getnb\+Slices\+In\+Output\+File}} () const
 \begin{DoxyCompactList}\small\item\em Returns the number of slices to be displayed in the output file. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classInput_a74d06a04b09169dbbb278a545b1b50d1}\label{classInput_a74d06a04b09169dbbb278a545b1b50d1}} 
-int \mbox{\hyperlink{classInput_a74d06a04b09169dbbb278a545b1b50d1}{get\+Chosen\+Method}} () const
+\mbox{\Hypertarget{classInput_aff4fc7846b4a72901d62f25728be0fb7}\label{classInput_aff4fc7846b4a72901d62f25728be0fb7}} 
+\mbox{\hyperlink{classInput_ae19efd3d8de2230a5bb94677518a8031}{Method}} \mbox{\hyperlink{classInput_aff4fc7846b4a72901d62f25728be0fb7}{get\+Chosen\+Method}} () const
+\begin{DoxyCompactList}\small\item\em Returns the identifier of the method chosen for optimization. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInput_ad6f22e8a72446a1279ddbde821a294b4}\label{classInput_ad6f22e8a72446a1279ddbde821a294b4}} 
+\mbox{\hyperlink{classInput_a38a43d751872865a7d1b4e84ff5f9d42}{Preprocessing\+Level}} \mbox{\hyperlink{classInput_ad6f22e8a72446a1279ddbde821a294b4}{get\+Chosen\+Prepr\+Lvl}} () const
 \begin{DoxyCompactList}\small\item\em Returns the identifier of the method chosen for optimization. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classInput_a482b4eb4844051909967eefc72d062fe}\label{classInput_a482b4eb4844051909967eefc72d062fe}} 
 double \mbox{\hyperlink{classInput_a482b4eb4844051909967eefc72d062fe}{get\+Initial\+Lagrangian\+Multiplier}} () const
@@ -58,7 +71,7 @@ int \mbox{\hyperlink{classInput_a0fc16e5cad063454ec8a84913601be49}{get\+Nb\+Iter
 int \mbox{\hyperlink{classInput_a070ab27352cb7aa9c03b4fd8509aab46}{get\+Max\+Nb\+Iterations}} () const
 \begin{DoxyCompactList}\small\item\em Returns the maximal number of iterations allowed without improving the lower bound in the subgradient method. \end{DoxyCompactList}\item 
 std\+::string \mbox{\hyperlink{classInput_a6c92e2c8fd207b941060a22ba4519075}{get\+Parameter\+Value}} (std\+::string pattern)
-\begin{DoxyCompactList}\small\item\em Searches for a pattern in the Parameter File (PF) and returns its associated value. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Searches for a pattern in the parameter file and returns its associated value. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classInput_a5fdd308273d27628c515f6ba722301d9}\label{classInput_a5fdd308273d27628c515f6ba722301d9}} 
 void \mbox{\hyperlink{classInput_a5fdd308273d27628c515f6ba722301d9}{display\+Main\+Parameters}} ()
 \begin{DoxyCompactList}\small\item\em Displays the main input file paths\+: link, demand and assignement. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -76,7 +89,7 @@ std\+::string \mbox{\hyperlink{classInput_aec5a10f07d26112fd99ba84b7258f8dc}{dem
 \begin{DoxyCompactList}\small\item\em Path to the file containing information on the already routed demands. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classInput_a78d9e3faffc05cda5c70ccf6fcd2dbb0}\label{classInput_a78d9e3faffc05cda5c70ccf6fcd2dbb0}} 
 std\+::string \mbox{\hyperlink{classInput_a78d9e3faffc05cda5c70ccf6fcd2dbb0}{assignment\+File}}
-\begin{DoxyCompactList}\small\item\em Path to the file containing information the assignment of demands (i.\+e., on which edge/slice each demand is routed). \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Path to the file containing information on the assignment of demands (i.\+e., on which edge/slice each demand is routed). \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classInput_a5a81a6de90236eb2d08cb2529a696792}\label{classInput_a5a81a6de90236eb2d08cb2529a696792}} 
 std\+::string \mbox{\hyperlink{classInput_a5a81a6de90236eb2d08cb2529a696792}{online\+Demand\+File}}
 \begin{DoxyCompactList}\small\item\em Path to the file containing information on the non-\/routed demands. \end{DoxyCompactList}\item 
@@ -89,8 +102,12 @@ int \mbox{\hyperlink{classInput_acb7eb7db33b7e232e64db4d70ce4fd47}{nb\+Demands\+
 \mbox{\Hypertarget{classInput_ae0fff1fed72489ac812f7fbc25490d4b}\label{classInput_ae0fff1fed72489ac812f7fbc25490d4b}} 
 int \mbox{\hyperlink{classInput_ae0fff1fed72489ac812f7fbc25490d4b}{nb\+Slices\+In\+Output\+File}}
 \begin{DoxyCompactList}\small\item\em How many slices will be displayed in the output file. \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{classInput_a54c15a745bc27c6cf46eeeb82a137171}{chosen\+Method}}
-\begin{DoxyCompactList}\small\item\em Refers to which method is applied for solving the online \mbox{\hyperlink{classRSA}{R\+SA}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInput_a9e4b66817ca693839ff6dc53243d7a77}\label{classInput_a9e4b66817ca693839ff6dc53243d7a77}} 
+\mbox{\hyperlink{classInput_ae19efd3d8de2230a5bb94677518a8031}{Method}} \mbox{\hyperlink{classInput_a9e4b66817ca693839ff6dc53243d7a77}{chosen\+Method}}
+\begin{DoxyCompactList}\small\item\em Refers to which method is applied for solving the problem. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInput_a8c583193d46cd61dc630f12f2671b45e}\label{classInput_a8c583193d46cd61dc630f12f2671b45e}} 
+\mbox{\hyperlink{classInput_a38a43d751872865a7d1b4e84ff5f9d42}{Preprocessing\+Level}} \mbox{\hyperlink{classInput_a8c583193d46cd61dc630f12f2671b45e}{chosen\+Prepr\+Lvl}}
+\begin{DoxyCompactList}\small\item\em Refers to which level of preprocessing is applied before solving the problem. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classInput_a609a07420ed7b37cb5c984c77217a034}\label{classInput_a609a07420ed7b37cb5c984c77217a034}} 
 double \mbox{\hyperlink{classInput_a609a07420ed7b37cb5c984c77217a034}{lagrangian\+Multiplier\+\_\+zero}}
 \begin{DoxyCompactList}\small\item\em The initial value of the lagrangian multiplier used if subgradient method is chosen. \end{DoxyCompactList}\item 
@@ -115,6 +132,102 @@ Definition at line 13 of file input.\+h.
 
 
 
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classInput_ae19efd3d8de2230a5bb94677518a8031}\label{classInput_ae19efd3d8de2230a5bb94677518a8031}} 
+\index{Input@{Input}!Method@{Method}}
+\index{Method@{Method}!Input@{Input}}
+\doxysubsubsection{\texorpdfstring{Method}{Method}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classInput_ae19efd3d8de2230a5bb94677518a8031}{Input\+::\+Method}}}
+
+
+
+Enumerates the possible methods to be applied for solving the Online Routing and Spectrum Allocation problem. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{METHOD\_CPLEX@{METHOD\_CPLEX}!Input@{Input}}\index{Input@{Input}!METHOD\_CPLEX@{METHOD\_CPLEX}}}\mbox{\Hypertarget{classInput_ae19efd3d8de2230a5bb94677518a8031a9bcff65f9fe67d63b9093e1703f1226b}\label{classInput_ae19efd3d8de2230a5bb94677518a8031a9bcff65f9fe67d63b9093e1703f1226b}} 
+M\+E\+T\+H\+O\+D\+\_\+\+C\+P\+L\+EX&Solve it through a M\+IP using C\+P\+L\+EX. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{METHOD\_SUBGRADIENT@{METHOD\_SUBGRADIENT}!Input@{Input}}\index{Input@{Input}!METHOD\_SUBGRADIENT@{METHOD\_SUBGRADIENT}}}\mbox{\Hypertarget{classInput_ae19efd3d8de2230a5bb94677518a8031a1e214c54a52e9881ad79ecb513eeb24d}\label{classInput_ae19efd3d8de2230a5bb94677518a8031a1e214c54a52e9881ad79ecb513eeb24d}} 
+M\+E\+T\+H\+O\+D\+\_\+\+S\+U\+B\+G\+R\+A\+D\+I\+E\+NT&Solve it using the subgradient method. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line 17 of file input.\+h.
+
+\mbox{\Hypertarget{classInput_a38a43d751872865a7d1b4e84ff5f9d42}\label{classInput_a38a43d751872865a7d1b4e84ff5f9d42}} 
+\index{Input@{Input}!PreprocessingLevel@{PreprocessingLevel}}
+\index{PreprocessingLevel@{PreprocessingLevel}!Input@{Input}}
+\doxysubsubsection{\texorpdfstring{PreprocessingLevel}{PreprocessingLevel}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classInput_a38a43d751872865a7d1b4e84ff5f9d42}{Input\+::\+Preprocessing\+Level}}}
+
+
+
+Enumerates the possible levels of applying a preprocessing step fo reducing the graphs before optimization is called. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PREPROCESSING\_LVL\_NO@{PREPROCESSING\_LVL\_NO}!Input@{Input}}\index{Input@{Input}!PREPROCESSING\_LVL\_NO@{PREPROCESSING\_LVL\_NO}}}\mbox{\Hypertarget{classInput_a38a43d751872865a7d1b4e84ff5f9d42ad5caac8d2e1aa553622c2b26619fef39}\label{classInput_a38a43d751872865a7d1b4e84ff5f9d42ad5caac8d2e1aa553622c2b26619fef39}} 
+P\+R\+E\+P\+R\+O\+C\+E\+S\+S\+I\+N\+G\+\_\+\+L\+V\+L\+\_\+\+NO&Only remove arcs that do not fit the demand load. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PREPROCESSING\_LVL\_PARTIAL@{PREPROCESSING\_LVL\_PARTIAL}!Input@{Input}}\index{Input@{Input}!PREPROCESSING\_LVL\_PARTIAL@{PREPROCESSING\_LVL\_PARTIAL}}}\mbox{\Hypertarget{classInput_a38a43d751872865a7d1b4e84ff5f9d42a578d2ebb1f6e01416c7564eb3109d2a8}\label{classInput_a38a43d751872865a7d1b4e84ff5f9d42a578d2ebb1f6e01416c7564eb3109d2a8}} 
+P\+R\+E\+P\+R\+O\+C\+E\+S\+S\+I\+N\+G\+\_\+\+L\+V\+L\+\_\+\+P\+A\+R\+T\+I\+AL&Previous steps + look for arcs that would induce length violation and arcs whose neighboors cannot forward the demand. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PREPROCESSING\_LVL\_FULL@{PREPROCESSING\_LVL\_FULL}!Input@{Input}}\index{Input@{Input}!PREPROCESSING\_LVL\_FULL@{PREPROCESSING\_LVL\_FULL}}}\mbox{\Hypertarget{classInput_a38a43d751872865a7d1b4e84ff5f9d42a6e71d561dd4af6d3220699285c3e5fd0}\label{classInput_a38a43d751872865a7d1b4e84ff5f9d42a6e71d561dd4af6d3220699285c3e5fd0}} 
+P\+R\+E\+P\+R\+O\+C\+E\+S\+S\+I\+N\+G\+\_\+\+L\+V\+L\+\_\+\+F\+U\+LL&Previous steps recursively until no additional arc can be removed. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line 23 of file input.\+h.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classInput_a10341c124becd2f3e0f98bdcc487bb00}\label{classInput_a10341c124becd2f3e0f98bdcc487bb00}} 
+\index{Input@{Input}!Input@{Input}}
+\index{Input@{Input}!Input@{Input}}
+\doxysubsubsection{\texorpdfstring{Input()}{Input()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Input\+::\+Input (\begin{DoxyParamCaption}\item[{std\+::string}]{file }\end{DoxyParamCaption})}
+
+
+
+Default constructor initializes the object with the information contained in the parameter\+File. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & The address of the parameter file (usually the address of file \textquotesingle{}online\+Parameters\textquotesingle{}). \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 4 of file input.\+cpp.
+
+\mbox{\Hypertarget{classInput_aba6413de9219b69da552da9d7fe2d273}\label{classInput_aba6413de9219b69da552da9d7fe2d273}} 
+\index{Input@{Input}!Input@{Input}}
+\index{Input@{Input}!Input@{Input}}
+\doxysubsubsection{\texorpdfstring{Input()}{Input()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Input\+::\+Input (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classInput}{Input}} \&}]{i }\end{DoxyParamCaption})}
+
+
+
+Copy constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & The input to be copied. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 24 of file input.\+cpp.
+
+
+
 \doxysubsection{Member Function Documentation}
 \mbox{\Hypertarget{classInput_a6c92e2c8fd207b941060a22ba4519075}\label{classInput_a6c92e2c8fd207b941060a22ba4519075}} 
 \index{Input@{Input}!getParameterValue@{getParameterValue}}
@@ -124,31 +237,19 @@ Definition at line 13 of file input.\+h.
 
 
 
-Searches for a pattern in the Parameter File (PF) and returns its associated value. 
-
-\begin{DoxyWarning}{Warning}
-It is surely not the most performant method but PF has a reasonable size and the code becomes much clearer. 
-\end{DoxyWarning}
+Searches for a pattern in the parameter file and returns its associated value. 
 
 
-Definition at line 38 of file input.\+cpp.
+\begin{DoxyParams}{Parameters}
+{\em pattern} & The substring pattern to be searched. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+It is surely not the most performant method but the parameter file has a reasonable size and the code becomes much clearer. 
+\end{DoxyNote}
 
 
-
-\doxysubsection{Member Data Documentation}
-\mbox{\Hypertarget{classInput_a54c15a745bc27c6cf46eeeb82a137171}\label{classInput_a54c15a745bc27c6cf46eeeb82a137171}} 
-\index{Input@{Input}!chosenMethod@{chosenMethod}}
-\index{chosenMethod@{chosenMethod}!Input@{Input}}
-\doxysubsubsection{\texorpdfstring{chosenMethod}{chosenMethod}}
-{\footnotesize\ttfamily int Input\+::chosen\+Method\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Refers to which method is applied for solving the online \mbox{\hyperlink{classRSA}{R\+SA}}. 
-
-If 1, use C\+P\+L\+EX. If 2, use subgradient. 
-
-Definition at line 25 of file input.\+h.
+Definition at line 42 of file input.\+cpp.
 
 
 

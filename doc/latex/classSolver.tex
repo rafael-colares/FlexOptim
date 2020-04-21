@@ -12,6 +12,9 @@ Inheritance diagram for Solver\+:\begin{figure}[H]
 \mbox{\Hypertarget{classSolver_a8271976cef5a884cb8b4deb295311466}\label{classSolver_a8271976cef5a884cb8b4deb295311466}} 
 {\bfseries Solver} (const \mbox{\hyperlink{classInstance}{Instance}} \&inst)
 \item 
+\mbox{\Hypertarget{classSolver_a3b5a161a183fdc6c80f44be85930fbeb}\label{classSolver_a3b5a161a183fdc6c80f44be85930fbeb}} 
+int {\bfseries get\+Arc\+Index} (const List\+Digraph\+::\+Arc \&a, int d) const
+\item 
 \mbox{\Hypertarget{classSolver_aad8261a01bdd40d200f92619eb4e7511}\label{classSolver_aad8261a01bdd40d200f92619eb4e7511}} 
 Ilo\+Expr {\bfseries get\+Obj\+Function} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Model \&mod)
 \item 
@@ -29,6 +32,9 @@ Ilo\+Range {\bfseries get\+Length\+Constraint} (Ilo\+Num\+Var\+Matrix \&var, Ilo
 \item 
 \mbox{\Hypertarget{classSolver_a25e7e4bd1ef45827ea041bb343605b78}\label{classSolver_a25e7e4bd1ef45827ea041bb343605b78}} 
 Ilo\+Range {\bfseries get\+Non\+Overlapping\+Constraint} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Model \&mod, int link\+Label, int slice, const \mbox{\hyperlink{classDemand}{Demand}} \&demand1, int d1, const \mbox{\hyperlink{classDemand}{Demand}} \&demand2, int d2)
+\item 
+\mbox{\Hypertarget{classSolver_ad4488fd901d9223aa6024d99ecd93d90}\label{classSolver_ad4488fd901d9223aa6024d99ecd93d90}} 
+void {\bfseries set\+Arc\+Index} (const List\+Digraph\+::\+Arc \&a, int d, int val)
 \item 
 \mbox{\Hypertarget{classSolver_ac5cbdd57b57ac3de159f95466905442c}\label{classSolver_ac5cbdd57b57ac3de159f95466905442c}} 
 void {\bfseries set\+Variables} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Model \&mod)
@@ -51,7 +57,12 @@ void {\bfseries set\+Length\+Constraints} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Mod
 \mbox{\Hypertarget{classSolver_af5ca64f0230ace2f6adfdde410a41acd}\label{classSolver_af5ca64f0230ace2f6adfdde410a41acd}} 
 void {\bfseries set\+Non\+Overlapping\+Constraints} (Ilo\+Num\+Var\+Matrix \&var, Ilo\+Model \&mod)
 \end{DoxyCompactItemize}
-\doxysubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classSolver_a0906c4c5ad718a1b89bf46c494c09cb7}\label{classSolver_a0906c4c5ad718a1b89bf46c494c09cb7}} 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ Arc\+Map $>$ $>$ {\bfseries vec\+Arc\+Index}
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}

@@ -71,104 +71,546 @@ $(function() {
 <div class="title">PhysicalLink Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>This class identifies a link on the physical network.  
+ <a href="classPhysicalLink.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="PhysicalLink_8h_source.html">PhysicalLink.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a849b20e371a63cb6a186c674c543a49c"><td class="memItemLeft" align="right" valign="top"><a id="a849b20e371a63cb6a186c674c543a49c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>PhysicalLink</b> (int i, int s, int t, double l=0.0, int nb=1, double c=0.0)</td></tr>
-<tr class="separator:a849b20e371a63cb6a186c674c543a49c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82b6bf8a88caf52976e9ec41d41d738e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#a82b6bf8a88caf52976e9ec41d41d738e">PhysicalLink</a> (int i, int s, int t, double len=0.0, int nb=1, double c=0.0)</td></tr>
+<tr class="memdesc:a82b6bf8a88caf52976e9ec41d41d738e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classPhysicalLink.html#a82b6bf8a88caf52976e9ec41d41d738e">More...</a><br /></td></tr>
+<tr class="separator:a82b6bf8a88caf52976e9ec41d41d738e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21dd966ffad6f71ab99866ecb7722038"><td class="memItemLeft" align="right" valign="top"><a id="a21dd966ffad6f71ab99866ecb7722038"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>getId</b> () const</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#a21dd966ffad6f71ab99866ecb7722038">getId</a> () const</td></tr>
+<tr class="memdesc:a21dd966ffad6f71ab99866ecb7722038"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the link's id. <br /></td></tr>
 <tr class="separator:a21dd966ffad6f71ab99866ecb7722038"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ecd986b9e57192bd24ca9daf1c6e229"><td class="memItemLeft" align="right" valign="top"><a id="a6ecd986b9e57192bd24ca9daf1c6e229"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>getSource</b> () const</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#a6ecd986b9e57192bd24ca9daf1c6e229">getSource</a> () const</td></tr>
+<tr class="memdesc:a6ecd986b9e57192bd24ca9daf1c6e229"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the link's source node id. <br /></td></tr>
 <tr class="separator:a6ecd986b9e57192bd24ca9daf1c6e229"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea363aa0b2bcd646f8a87e5417a4e079"><td class="memItemLeft" align="right" valign="top"><a id="aea363aa0b2bcd646f8a87e5417a4e079"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>getTarget</b> () const</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#aea363aa0b2bcd646f8a87e5417a4e079">getTarget</a> () const</td></tr>
+<tr class="memdesc:aea363aa0b2bcd646f8a87e5417a4e079"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the link's target node id. <br /></td></tr>
 <tr class="separator:aea363aa0b2bcd646f8a87e5417a4e079"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0c966844dfcee3128393073ec113d13"><td class="memItemLeft" align="right" valign="top"><a id="aa0c966844dfcee3128393073ec113d13"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>getNbSlices</b> () const</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#aa0c966844dfcee3128393073ec113d13">getNbSlices</a> () const</td></tr>
+<tr class="memdesc:aa0c966844dfcee3128393073ec113d13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of slices its frequency spectrum is divided into. <br /></td></tr>
 <tr class="separator:aa0c966844dfcee3128393073ec113d13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a193337e97e8c2f9c985bd658201049ef"><td class="memItemLeft" align="right" valign="top"><a id="a193337e97e8c2f9c985bd658201049ef"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>getLength</b> () const</td></tr>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#a193337e97e8c2f9c985bd658201049ef">getLength</a> () const</td></tr>
+<tr class="memdesc:a193337e97e8c2f9c985bd658201049ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the link's physical length. <br /></td></tr>
 <tr class="separator:a193337e97e8c2f9c985bd658201049ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ddd2077efbc359e184199c2f0505041"><td class="memItemLeft" align="right" valign="top"><a id="a2ddd2077efbc359e184199c2f0505041"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>getCost</b> () const</td></tr>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#a2ddd2077efbc359e184199c2f0505041">getCost</a> () const</td></tr>
+<tr class="memdesc:a2ddd2077efbc359e184199c2f0505041"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the cost of routing a demand through the link. <br /></td></tr>
 <tr class="separator:a2ddd2077efbc359e184199c2f0505041"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26eb99b6f4ed7bb652731c5ba0752382"><td class="memItemLeft" align="right" valign="top"><a id="a26eb99b6f4ed7bb652731c5ba0752382"></a>
-std::vector&lt; <a class="el" href="classSlice.html">Slice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getSlices</b> () const</td></tr>
+std::vector&lt; <a class="el" href="classSlice.html">Slice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#a26eb99b6f4ed7bb652731c5ba0752382">getSlices</a> () const</td></tr>
+<tr class="memdesc:a26eb99b6f4ed7bb652731c5ba0752382"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the frequency spectrum as a vector of Slices. <br /></td></tr>
 <tr class="separator:a26eb99b6f4ed7bb652731c5ba0752382"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8195c9cd5850cb8b676536ec261bb4a1"><td class="memItemLeft" align="right" valign="top"><a id="a8195c9cd5850cb8b676536ec261bb4a1"></a>
-<a class="el" href="classSlice.html">Slice</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getSlice_i</b> (int i) const</td></tr>
+<tr class="memitem:a8195c9cd5850cb8b676536ec261bb4a1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classSlice.html">Slice</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#a8195c9cd5850cb8b676536ec261bb4a1">getSlice_i</a> (int i) const</td></tr>
+<tr class="memdesc:a8195c9cd5850cb8b676536ec261bb4a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a slice of the frequency spectrum.  <a href="classPhysicalLink.html#a8195c9cd5850cb8b676536ec261bb4a1">More...</a><br /></td></tr>
 <tr class="separator:a8195c9cd5850cb8b676536ec261bb4a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2a4f64c70efeeab80d7009896417ae6"><td class="memItemLeft" align="right" valign="top"><a id="ab2a4f64c70efeeab80d7009896417ae6"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getString</b> () const</td></tr>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#ab2a4f64c70efeeab80d7009896417ae6">getString</a> () const</td></tr>
+<tr class="memdesc:ab2a4f64c70efeeab80d7009896417ae6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string summarizing the link's from/to information. <br /></td></tr>
 <tr class="separator:ab2a4f64c70efeeab80d7009896417ae6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb52fcca894d2ad411b472a8d5144080"><td class="memItemLeft" align="right" valign="top"><a id="aeb52fcca894d2ad411b472a8d5144080"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setId</b> (int i)</td></tr>
+<tr class="memitem:aeb52fcca894d2ad411b472a8d5144080"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#aeb52fcca894d2ad411b472a8d5144080">setId</a> (int i)</td></tr>
+<tr class="memdesc:aeb52fcca894d2ad411b472a8d5144080"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the link's id.  <a href="classPhysicalLink.html#aeb52fcca894d2ad411b472a8d5144080">More...</a><br /></td></tr>
 <tr class="separator:aeb52fcca894d2ad411b472a8d5144080"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d481af217642e1505f75af120fa15d6"><td class="memItemLeft" align="right" valign="top"><a id="a1d481af217642e1505f75af120fa15d6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setSource</b> (int s)</td></tr>
+<tr class="memitem:a1d481af217642e1505f75af120fa15d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#a1d481af217642e1505f75af120fa15d6">setSource</a> (int s)</td></tr>
+<tr class="memdesc:a1d481af217642e1505f75af120fa15d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the link's source node id.  <a href="classPhysicalLink.html#a1d481af217642e1505f75af120fa15d6">More...</a><br /></td></tr>
 <tr class="separator:a1d481af217642e1505f75af120fa15d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3123b879addd3ed6acf5fd99998ff86d"><td class="memItemLeft" align="right" valign="top"><a id="a3123b879addd3ed6acf5fd99998ff86d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setTarget</b> (int t)</td></tr>
+<tr class="memitem:a3123b879addd3ed6acf5fd99998ff86d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#a3123b879addd3ed6acf5fd99998ff86d">setTarget</a> (int t)</td></tr>
+<tr class="memdesc:a3123b879addd3ed6acf5fd99998ff86d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the link's target node id.  <a href="classPhysicalLink.html#a3123b879addd3ed6acf5fd99998ff86d">More...</a><br /></td></tr>
 <tr class="separator:a3123b879addd3ed6acf5fd99998ff86d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca316cc9ca772b2adeb6b235a91d242a"><td class="memItemLeft" align="right" valign="top"><a id="aca316cc9ca772b2adeb6b235a91d242a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setNbSlices</b> (int nb)</td></tr>
+<tr class="memitem:aca316cc9ca772b2adeb6b235a91d242a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#aca316cc9ca772b2adeb6b235a91d242a">setNbSlices</a> (int nb)</td></tr>
+<tr class="memdesc:aca316cc9ca772b2adeb6b235a91d242a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the number of slices its frequency spectrum is divided into.  <a href="classPhysicalLink.html#aca316cc9ca772b2adeb6b235a91d242a">More...</a><br /></td></tr>
 <tr class="separator:aca316cc9ca772b2adeb6b235a91d242a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a090057b58cc37809dbde4110260e50"><td class="memItemLeft" align="right" valign="top"><a id="a4a090057b58cc37809dbde4110260e50"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setLength</b> (double l)</td></tr>
+<tr class="memitem:a4a090057b58cc37809dbde4110260e50"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#a4a090057b58cc37809dbde4110260e50">setLength</a> (double l)</td></tr>
+<tr class="memdesc:a4a090057b58cc37809dbde4110260e50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the link's length.  <a href="classPhysicalLink.html#a4a090057b58cc37809dbde4110260e50">More...</a><br /></td></tr>
 <tr class="separator:a4a090057b58cc37809dbde4110260e50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af431e5e93f398f1fd79a867e37e167b6"><td class="memItemLeft" align="right" valign="top"><a id="af431e5e93f398f1fd79a867e37e167b6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setCost</b> (double c)</td></tr>
+<tr class="memitem:af431e5e93f398f1fd79a867e37e167b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#af431e5e93f398f1fd79a867e37e167b6">setCost</a> (double c)</td></tr>
+<tr class="memdesc:af431e5e93f398f1fd79a867e37e167b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the cost of routing a demand through the link.  <a href="classPhysicalLink.html#af431e5e93f398f1fd79a867e37e167b6">More...</a><br /></td></tr>
 <tr class="separator:af431e5e93f398f1fd79a867e37e167b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a545dd4c0418adee8ddb58318f2e82e78"><td class="memItemLeft" align="right" valign="top"><a id="a545dd4c0418adee8ddb58318f2e82e78"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>copyPhysicalLink</b> (<a class="el" href="classPhysicalLink.html">PhysicalLink</a> &amp;edge)</td></tr>
-<tr class="separator:a545dd4c0418adee8ddb58318f2e82e78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a009d19d554c0846e5a390f733617440b"><td class="memItemLeft" align="right" valign="top"><a id="a009d19d554c0846e5a390f733617440b"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>contains</b> (const <a class="el" href="classDemand.html">Demand</a> &amp;d) const</td></tr>
-<tr class="separator:a009d19d554c0846e5a390f733617440b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13c96864f6f835f9c37baa026cf25d9c"><td class="memItemLeft" align="right" valign="top"><a id="a13c96864f6f835f9c37baa026cf25d9c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>assignSlices</b> (const <a class="el" href="classDemand.html">Demand</a> &amp;d, int p)</td></tr>
-<tr class="separator:a13c96864f6f835f9c37baa026cf25d9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3246ccde1b3fd4758ccdd1f043883cd0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#a3246ccde1b3fd4758ccdd1f043883cd0">copyPhysicalLink</a> (<a class="el" href="classPhysicalLink.html">PhysicalLink</a> &amp;link)</td></tr>
+<tr class="memdesc:a3246ccde1b3fd4758ccdd1f043883cd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies all information from a given link.  <a href="classPhysicalLink.html#a3246ccde1b3fd4758ccdd1f043883cd0">More...</a><br /></td></tr>
+<tr class="separator:a3246ccde1b3fd4758ccdd1f043883cd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e0fbdc73f4565b7b3bba4158498a223"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#a2e0fbdc73f4565b7b3bba4158498a223">contains</a> (const <a class="el" href="classDemand.html">Demand</a> &amp;dem) const</td></tr>
+<tr class="memdesc:a2e0fbdc73f4565b7b3bba4158498a223"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifies if the current <a class="el" href="classPhysicalLink.html" title="This class identifies a link on the physical network.">PhysicalLink</a> routes the a demand.  <a href="classPhysicalLink.html#a2e0fbdc73f4565b7b3bba4158498a223">More...</a><br /></td></tr>
+<tr class="separator:a2e0fbdc73f4565b7b3bba4158498a223"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91799eba89b14a15caca21dae3d6d97e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#a91799eba89b14a15caca21dae3d6d97e">assignSlices</a> (const <a class="el" href="classDemand.html">Demand</a> &amp;dem, int p)</td></tr>
+<tr class="memdesc:a91799eba89b14a15caca21dae3d6d97e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns a demand to a given position in the spectrum.  <a href="classPhysicalLink.html#a91799eba89b14a15caca21dae3d6d97e">More...</a><br /></td></tr>
+<tr class="separator:a91799eba89b14a15caca21dae3d6d97e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68792ca892630b89a29ff3fd82d93108"><td class="memItemLeft" align="right" valign="top"><a id="a68792ca892630b89a29ff3fd82d93108"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>displayPhysicalLink</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#a68792ca892630b89a29ff3fd82d93108">displayPhysicalLink</a> ()</td></tr>
+<tr class="memdesc:a68792ca892630b89a29ff3fd82d93108"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays summarized information about the link. <br /></td></tr>
 <tr class="separator:a68792ca892630b89a29ff3fd82d93108"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a913bfd9fd12bd56599626909beefb0"><td class="memItemLeft" align="right" valign="top"><a id="a3a913bfd9fd12bd56599626909beefb0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>displayDetailedPhysicalLink</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#a3a913bfd9fd12bd56599626909beefb0">displayDetailedPhysicalLink</a> ()</td></tr>
+<tr class="memdesc:a3a913bfd9fd12bd56599626909beefb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays detailed information about state of the link. <br /></td></tr>
 <tr class="separator:a3a913bfd9fd12bd56599626909beefb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa91c8178da9327afaba9256ccde2cec4"><td class="memItemLeft" align="right" valign="top"><a id="aa91c8178da9327afaba9256ccde2cec4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>displaySlices</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#aa91c8178da9327afaba9256ccde2cec4">displaySlices</a> ()</td></tr>
+<tr class="memdesc:aa91c8178da9327afaba9256ccde2cec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays summarized information about slice occupation. <br /></td></tr>
 <tr class="separator:aa91c8178da9327afaba9256ccde2cec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:ac863d389b95e038ecb296648e2f9ea70"><td class="memItemLeft" align="right" valign="top"><a id="ac863d389b95e038ecb296648e2f9ea70"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>id</b></td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#ac863d389b95e038ecb296648e2f9ea70">id</a></td></tr>
+<tr class="memdesc:ac863d389b95e038ecb296648e2f9ea70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Link identifier. <br /></td></tr>
 <tr class="separator:ac863d389b95e038ecb296648e2f9ea70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2bd9bb862a940a6d81d484a9ad1819e1"><td class="memItemLeft" align="right" valign="top"><a id="a2bd9bb862a940a6d81d484a9ad1819e1"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>idSource</b></td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#a2bd9bb862a940a6d81d484a9ad1819e1">idSource</a></td></tr>
+<tr class="memdesc:a2bd9bb862a940a6d81d484a9ad1819e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Source node identifier. <br /></td></tr>
 <tr class="separator:a2bd9bb862a940a6d81d484a9ad1819e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9e988af57bd662ed9aceb03401d52f4"><td class="memItemLeft" align="right" valign="top"><a id="ac9e988af57bd662ed9aceb03401d52f4"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>idTarget</b></td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#ac9e988af57bd662ed9aceb03401d52f4">idTarget</a></td></tr>
+<tr class="memdesc:ac9e988af57bd662ed9aceb03401d52f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Target node identifier. <br /></td></tr>
 <tr class="separator:ac9e988af57bd662ed9aceb03401d52f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed90debab63d3f2e1198a2ded7beedac"><td class="memItemLeft" align="right" valign="top"><a id="aed90debab63d3f2e1198a2ded7beedac"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>nbSlices</b></td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#aed90debab63d3f2e1198a2ded7beedac">nbSlices</a></td></tr>
+<tr class="memdesc:aed90debab63d3f2e1198a2ded7beedac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of slices the frequency spectrum is divided into. <br /></td></tr>
 <tr class="separator:aed90debab63d3f2e1198a2ded7beedac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10737b0692a02a9e346f831e129a0318"><td class="memItemLeft" align="right" valign="top"><a id="a10737b0692a02a9e346f831e129a0318"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>length</b></td></tr>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#a10737b0692a02a9e346f831e129a0318">length</a></td></tr>
+<tr class="memdesc:a10737b0692a02a9e346f831e129a0318"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length of the link in the physical network. <br /></td></tr>
 <tr class="separator:a10737b0692a02a9e346f831e129a0318"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac580efc68605426d67084eb3d99b0641"><td class="memItemLeft" align="right" valign="top"><a id="ac580efc68605426d67084eb3d99b0641"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>cost</b></td></tr>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#ac580efc68605426d67084eb3d99b0641">cost</a></td></tr>
+<tr class="memdesc:ac580efc68605426d67084eb3d99b0641"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cost of routing a demand through the link. <br /></td></tr>
 <tr class="separator:ac580efc68605426d67084eb3d99b0641"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef21b855284e629c3c865e28049bea87"><td class="memItemLeft" align="right" valign="top"><a id="aef21b855284e629c3c865e28049bea87"></a>
-std::vector&lt; <a class="el" href="classSlice.html">Slice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>spectrum</b></td></tr>
+std::vector&lt; <a class="el" href="classSlice.html">Slice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPhysicalLink.html#aef21b855284e629c3c865e28049bea87">spectrum</a></td></tr>
+<tr class="memdesc:aef21b855284e629c3c865e28049bea87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Link's spectrum. <br /></td></tr>
 <tr class="separator:aef21b855284e629c3c865e28049bea87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="PhysicalLink_8h_source.html#l00013">13</a> of file <a class="el" href="PhysicalLink_8h_source.html">PhysicalLink.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+<div class="textblock"><p>This class identifies a link on the physical network. </p>
+<p>It corresponds to an edge in the topology graph and is defined by its id, a source and a target node, its length in the physical network, and a cost. A edge also has a frequency spectrum that is splitted into a given number of slices. </p><dl class="section note"><dt>Note</dt><dd>The id of each <a class="el" href="classPhysicalLink.html" title="This class identifies a link on the physical network.">PhysicalLink</a> is considered to be in the range [0, ..., n-1]. <br  />
+ </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="PhysicalLink_8h_source.html#l00014">14</a> of file <a class="el" href="PhysicalLink_8h_source.html">PhysicalLink.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a82b6bf8a88caf52976e9ec41d41d738e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82b6bf8a88caf52976e9ec41d41d738e">&#9670;&nbsp;</a></span>PhysicalLink()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PhysicalLink::PhysicalLink </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>len</em> = <code>0.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nb</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>c</em> = <code>0.0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Id.</td></tr>
+    <tr><td class="paramname">s</td><td>Source node's id.</td></tr>
+    <tr><td class="paramname">t</td><td>Target node's id.</td></tr>
+    <tr><td class="paramname">len</td><td>Link's length n the physical network.</td></tr>
+    <tr><td class="paramname">nb</td><td>Number of slices its frequency spectrum is divided into.</td></tr>
+    <tr><td class="paramname">c</td><td>Cost of routing a demand through the link. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="PhysicalLink_8cpp_source.html#l00009">9</a> of file <a class="el" href="PhysicalLink_8cpp_source.html">PhysicalLink.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a91799eba89b14a15caca21dae3d6d97e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91799eba89b14a15caca21dae3d6d97e">&#9670;&nbsp;</a></span>assignSlices()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PhysicalLink::assignSlices </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classDemand.html">Demand</a> &amp;&#160;</td>
+          <td class="paramname"><em>dem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>p</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Assigns a demand to a given position in the spectrum. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dem</td><td>The demand to be assigned.</td></tr>
+    <tr><td class="paramname">p</td><td>The position of the last slice to be assigned. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="PhysicalLink_8cpp_source.html#l00049">49</a> of file <a class="el" href="PhysicalLink_8cpp_source.html">PhysicalLink.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a2e0fbdc73f4565b7b3bba4158498a223"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e0fbdc73f4565b7b3bba4158498a223">&#9670;&nbsp;</a></span>contains()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool PhysicalLink::contains </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classDemand.html">Demand</a> &amp;&#160;</td>
+          <td class="paramname"><em>dem</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Verifies if the current <a class="el" href="classPhysicalLink.html" title="This class identifies a link on the physical network.">PhysicalLink</a> routes the a demand. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dem</td><td>The demand to be checked. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="PhysicalLink_8cpp_source.html#l00039">39</a> of file <a class="el" href="PhysicalLink_8cpp_source.html">PhysicalLink.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a3246ccde1b3fd4758ccdd1f043883cd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3246ccde1b3fd4758ccdd1f043883cd0">&#9670;&nbsp;</a></span>copyPhysicalLink()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PhysicalLink::copyPhysicalLink </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classPhysicalLink.html">PhysicalLink</a> &amp;&#160;</td>
+          <td class="paramname"><em>link</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copies all information from a given link. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">link</td><td>The <a class="el" href="classPhysicalLink.html" title="This class identifies a link on the physical network.">PhysicalLink</a> to be copied. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="PhysicalLink_8cpp_source.html#l00026">26</a> of file <a class="el" href="PhysicalLink_8cpp_source.html">PhysicalLink.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a8195c9cd5850cb8b676536ec261bb4a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8195c9cd5850cb8b676536ec261bb4a1">&#9670;&nbsp;</a></span>getSlice_i()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classSlice.html">Slice</a> PhysicalLink::getSlice_i </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a slice of the frequency spectrum. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>The slice in the i-th position. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="PhysicalLink_8h_source.html#l00058">58</a> of file <a class="el" href="PhysicalLink_8h_source.html">PhysicalLink.h</a>.</p>
+
+</div>
+</div>
+<a id="af431e5e93f398f1fd79a867e37e167b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af431e5e93f398f1fd79a867e37e167b6">&#9670;&nbsp;</a></span>setCost()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PhysicalLink::setCost </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>c</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the cost of routing a demand through the link. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>New cost. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="PhysicalLink_8h_source.html#l00083">83</a> of file <a class="el" href="PhysicalLink_8h_source.html">PhysicalLink.h</a>.</p>
+
+</div>
+</div>
+<a id="aeb52fcca894d2ad411b472a8d5144080"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb52fcca894d2ad411b472a8d5144080">&#9670;&nbsp;</a></span>setId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PhysicalLink::setId </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the link's id. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>New id. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="PhysicalLink_8h_source.html#l00068">68</a> of file <a class="el" href="PhysicalLink_8h_source.html">PhysicalLink.h</a>.</p>
+
+</div>
+</div>
+<a id="a4a090057b58cc37809dbde4110260e50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a090057b58cc37809dbde4110260e50">&#9670;&nbsp;</a></span>setLength()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PhysicalLink::setLength </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>l</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the link's length. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">l</td><td>New length. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="PhysicalLink_8h_source.html#l00080">80</a> of file <a class="el" href="PhysicalLink_8h_source.html">PhysicalLink.h</a>.</p>
+
+</div>
+</div>
+<a id="aca316cc9ca772b2adeb6b235a91d242a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca316cc9ca772b2adeb6b235a91d242a">&#9670;&nbsp;</a></span>setNbSlices()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PhysicalLink::setNbSlices </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nb</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the number of slices its frequency spectrum is divided into. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nb</td><td>New number of slices. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="PhysicalLink_8h_source.html#l00077">77</a> of file <a class="el" href="PhysicalLink_8h_source.html">PhysicalLink.h</a>.</p>
+
+</div>
+</div>
+<a id="a1d481af217642e1505f75af120fa15d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d481af217642e1505f75af120fa15d6">&#9670;&nbsp;</a></span>setSource()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PhysicalLink::setSource </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the link's source node id. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>New source node's id. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="PhysicalLink_8h_source.html#l00071">71</a> of file <a class="el" href="PhysicalLink_8h_source.html">PhysicalLink.h</a>.</p>
+
+</div>
+</div>
+<a id="a3123b879addd3ed6acf5fd99998ff86d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3123b879addd3ed6acf5fd99998ff86d">&#9670;&nbsp;</a></span>setTarget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PhysicalLink::setTarget </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the link's target node id. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t</td><td>New target node's id. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="PhysicalLink_8h_source.html#l00074">74</a> of file <a class="el" href="PhysicalLink_8h_source.html">PhysicalLink.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="PhysicalLink_8h_source.html">PhysicalLink.h</a></li>
 <li><a class="el" href="PhysicalLink_8cpp_source.html">PhysicalLink.cpp</a></li>
 </ul>

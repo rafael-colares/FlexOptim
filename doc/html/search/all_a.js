@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['nbdemandsatonce_81',['nbDemandsAtOnce',['../classInput.html#acb7eb7db33b7e232e64db4d70ce4fd47',1,'Input']]],
-  ['nbiterationswithoutimprovement_82',['nbIterationsWithoutImprovement',['../classInput.html#aa1ac392cf74560f7d4ac8420dd817a4c',1,'Input']]],
-  ['nbnodes_83',['nbNodes',['../classInstance.html#ad62f032a3dca06ba592902dc18f070e2',1,'Instance']]],
-  ['nbslicesinoutputfile_84',['nbSlicesInOutputFile',['../classInput.html#ae0fff1fed72489ac812f7fbc25490d4b',1,'Input']]]
+  ['maxlength_117',['maxLength',['../classDemand.html#ab7127eeb4c27bec1427ba04b89f3e4be',1,'Demand']]],
+  ['maxnbiterations_118',['maxNbIterations',['../classInput.html#a8815f4f616dd76c5ca29d3573d90f0a6',1,'Input']]],
+  ['method_119',['Method',['../classInput.html#ae19efd3d8de2230a5bb94677518a8031',1,'Input']]],
+  ['method_5fcplex_120',['METHOD_CPLEX',['../classInput.html#ae19efd3d8de2230a5bb94677518a8031a9bcff65f9fe67d63b9093e1703f1226b',1,'Input']]],
+  ['method_5fsubgradient_121',['METHOD_SUBGRADIENT',['../classInput.html#ae19efd3d8de2230a5bb94677518a8031a1e214c54a52e9881ad79ecb513eeb24d',1,'Input']]],
+  ['model_122',['model',['../classCplexForm.html#aedc957cac0f7ee0c663e31e8fdf5f613',1,'CplexForm']]]
 ];

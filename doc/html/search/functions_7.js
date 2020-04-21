@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['output_199',['output',['../classInstance.html#a91d8d063707772ef9d5fcb23c942e1e4',1,'Instance']]],
-  ['outputdemand_200',['outputDemand',['../classInstance.html#a4d5798c92b2af241c1c915dec0387e3e',1,'Instance']]],
-  ['outputdemandedgeslices_201',['outputDemandEdgeSlices',['../classInstance.html#ae6fd9ac41ed2bb8a2bf4d00798c96836',1,'Instance']]],
-  ['outputedgeslicehols_202',['outputEdgeSliceHols',['../classInstance.html#a1841b3157459e80733adb746a7c29faf',1,'Instance']]]
+  ['input_292',['Input',['../classInput.html#a10341c124becd2f3e0f98bdcc487bb00',1,'Input::Input(std::string file)'],['../classInput.html#aba6413de9219b69da552da9d7fe2d273',1,'Input::Input(const Input &amp;i)']]],
+  ['instance_293',['Instance',['../classInstance.html#a5efe3ecbf10afdb2b8fd5331cc88bdd2',1,'Instance::Instance(const Input &amp;i)'],['../classInstance.html#a4c7b731b5678a62d108c48a3525f63fa',1,'Instance::Instance(const Instance &amp;i)']]],
+  ['isrouted_294',['isRouted',['../classDemand.html#a0c6de7ed38ef9dc96dd8428f0da363d3',1,'Demand']]],
+  ['isused_295',['isUsed',['../classSlice.html#aaef8f8886b7cef47db3220a947594716',1,'Slice']]]
 ];
