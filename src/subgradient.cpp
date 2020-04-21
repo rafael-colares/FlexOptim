@@ -42,7 +42,6 @@ void Subgradient::initialization(){
 
 /* Call preprocessing methods. */
 void Subgradient::subgradientPreprocessing(){
-    preprocessing();
     contractNodesFromLabel(0, SOURCE);
     contractNodesFromLabel(0, TARGET);
 }
