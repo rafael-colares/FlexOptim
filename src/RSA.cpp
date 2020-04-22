@@ -39,7 +39,6 @@ RSA::RSA(const Instance &inst) : instance(inst), compactArcId(compactGraph), com
 
     /* Calls preprocessing. */
     preprocessing();
-    
 }
 
 /* Builds the simple graph associated with the initial mapping. */
@@ -145,15 +144,19 @@ void RSA::contractNodesFromLabel(int d, int label){
     int nb = 0;
     ListDigraph::NodeIt previousNode(*vecGraph[d]);
     ListDigraph::Node n = getFirstNodeFromLabel(d, label);
-    (*vecNodeSlice[d])[n] = -1;
+    ListDigraph::NodeIt v(*vecGraph[d]);
+    ListDigraph::NodeIt currentNode(*vecGraph[d], v);
     if (n != INVALID){
-        for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
+        (*vecNodeSlice[d])[n] = -1;
+        while (v != INVALID){
+            currentNode = v;
+            ListDigraph::NodeIt nextNode(*vecGraph[0], ++currentNode);
+            currentNode = v;
             if ( (getNodeLabel(v, d) == label) && ((*vecGraph[d]).id(n) != (*vecGraph[d]).id(v)) ){
-                (*vecGraph[d]).contract(n,v);
-                v = previousNode;
+                (*vecGraph[0]).contract(n, v);
                 nb++;
             }
-            previousNode = v;
+            v = nextNode;
         }
     }
     std::cout << "> Number of nodes with label " << label << " contracted: " << nb << std::endl; 
@@ -163,15 +166,23 @@ void RSA::contractNodesFromLabel(int d, int label){
 void RSA::eraseNonRoutableArcs(int d){
     int nb = 0;
     ListDigraph::ArcIt previousArc(*vecGraph[d]);
-    for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+    ListDigraph::ArcIt a(*vecGraph[d]);
+    ListDigraph::ArcIt currentArc(*vecGraph[d], a);
+    int demandSource = getToBeRouted_k(d).getSource();
+    int demandTarget = getToBeRouted_k(d).getTarget();
+    while (a != INVALID){
+        currentArc = a;
+        ListDigraph::ArcIt nextArc(*vecGraph[d], ++currentArc);
+        currentArc = a;
         int label = getArcLabel(a, d);
         int slice = getArcSlice(a, d);
-        if (instance.hasEnoughSpace(label, slice, getToBeRouted_k(d)) == false){
+        int uLabel = getNodeLabel((*vecGraph[d]).source(a), d);
+        int vLabel = getNodeLabel((*vecGraph[d]).target(a), d);
+        if ( (instance.hasEnoughSpace(label, slice, getToBeRouted_k(d)) == false) || (uLabel == demandTarget) || (vLabel == demandSource) ){
             (*vecGraph[d]).erase(a);
-            a = previousArc;
             nb++;
         }
-        previousArc = a;
+        a = nextArc;
     }
     std::cout << "> Number of non-routable arcs erased on graph #" << d << ": " << nb << std::endl; 
 }
@@ -202,15 +213,19 @@ void RSA::preprocessing(){
 int RSA::eraseAllArcsFromSlice(int d, int slice){
     int nb = 0;
     ListDigraph::ArcIt previousArc(*vecGraph[d]);
-    for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+    ListDigraph::ArcIt a(*vecGraph[d]);
+    ListDigraph::ArcIt currentArc(*vecGraph[d], a);
+    while (a != INVALID){
+        currentArc = a;
+        ListDigraph::ArcIt nextArc(*vecGraph[0], ++currentArc);
+        currentArc = a;
         if (getArcSlice(a, d) == slice){
             //std::cout << "Erase arc ";
             //displayArc(d, a);
             (*vecGraph[d]).erase(a);
             nb++;
-            a = previousArc;
         }
-        previousArc = a;
+        a = nextArc;
     }
     return nb;
 }
@@ -219,26 +234,27 @@ bool RSA::lengthPreprocessing(){
     int totalNb = 0;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         //displayGraph(d);
-        ListDigraph::ArcIt previousArc(*vecGraph[d]);
         int nb = 0;
-        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-            //displayArc(d, a);
+        ListDigraph::ArcIt previousArc(*vecGraph[d]);
+        ListDigraph::ArcIt a(*vecGraph[d]);
+        ListDigraph::ArcIt currentArc(*vecGraph[d], a);
+        while (a != INVALID){
+            currentArc = a;
+            ListDigraph::ArcIt nextArc(*vecGraph[0], ++currentArc);
+            currentArc = a;
             int slice = getArcSlice(a, d);
             ListDigraph::Node source = getNode(d, getToBeRouted_k(d).getSource(), slice);
             ListDigraph::Node target = getNode(d, getToBeRouted_k(d).getTarget(), slice);
             if (source != INVALID && target != INVALID){
                 if (shortestDistance(d, source, a, target) >= getToBeRouted_k(d).getMaxLength() + DBL_EPSILON){
-                    //std::cout << "Erase arc ";
-                    //displayArc(d, a);
                     (*vecGraph[d]).erase(a);
                     nb++;
-                    a = previousArc;
                 }
             }
             else{
                 nb += eraseAllArcsFromSlice(d, slice);
             }
-            previousArc = a;
+            a = nextArc;
         }
         std::cout << "> Number of erased arcs due to length in graph #" << d << ": " << nb << std::endl;
         totalNb += nb;

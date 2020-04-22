@@ -48,8 +48,11 @@ int main(int argc, char *argv[]) {
 		//CplexForm::setCount(0);
 		int optimizationCounter = 0;
 		instance.output(std::to_string(optimizationCounter));
+
 		while(instance.getNbRoutedDemands() < instance.getNbDemands()){
 			optimizationCounter++;
+			std::chrono::_V2::system_clock::time_point start = std::chrono::high_resolution_clock::now();
+
 			switch (instance.getInput().getChosenMethod()){
 			case Input::METHOD_CPLEX:
 				{
@@ -62,18 +65,9 @@ int main(int argc, char *argv[]) {
 				}
 			case Input::METHOD_SUBGRADIENT:
 				{
-					std::chrono::_V2::system_clock::time_point start = std::chrono::high_resolution_clock::now();
-		
 					Subgradient sub(instance);
 					sub.updateInstance(instance);
 								
-					std::chrono::_V2::system_clock::time_point end = std::chrono::high_resolution_clock::now();
-					double time_taken =  
-					std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count(); 
-					time_taken *= 1e-9; 
-			
-					std::cout << "Time taken by program is : " << std::fixed  << time_taken << std::setprecision(9); 
-					std::cout << " sec" << std::endl; 
 
 					break;
 				}
@@ -86,19 +80,17 @@ int main(int argc, char *argv[]) {
 				
 			}
 			instance.output(std::to_string(optimizationCounter));
-			
+	
+			std::chrono::_V2::system_clock::time_point end = std::chrono::high_resolution_clock::now();
+			double time_taken =  
+			std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count(); 
+			time_taken *= 1e-9; 
+	
+			std::cout << "Time taken by program is : " << std::fixed  << time_taken << std::setprecision(9); 
+			std::cout << " sec" << std::endl; 
 		}
 		
-		/*
-		std::chrono::_V2::system_clock::time_point end = std::chrono::high_resolution_clock::now();
-		
-		double time_taken =  
-      	std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count(); 
-  		time_taken *= 1e-9; 
-  
-    	std::cout << "Time taken by program is : " << std::fixed  << time_taken << std::setprecision(9); 
-    	std::cout << " sec" << std::endl; 
-*/
+
 		//instance.displayInstance(); 
 		
 	}

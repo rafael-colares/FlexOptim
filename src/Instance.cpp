@@ -241,7 +241,7 @@ void Instance::generateRandomDemands(const int N){
 			demandTarget = rand() % getNbNodes();
 		} 
 		int demandLoad = 3;
-		double DemandMaxLength = 600;
+		double DemandMaxLength = 3000;
 		Demand demand(idDemand, demandSource, demandTarget, demandLoad, DemandMaxLength, false);
 		this->tabDemand.push_back(demand);
 	}
