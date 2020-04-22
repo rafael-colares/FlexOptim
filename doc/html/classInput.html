@@ -91,6 +91,12 @@ Public Types</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a38a43d751872865a7d1b4e84ff5f9d42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates the possible levels of applying a preprocessing step fo reducing the graphs before optimization is called.  <a href="classInput.html#a38a43d751872865a7d1b4e84ff5f9d42">More...</a><br /></td></tr>
 <tr class="separator:a38a43d751872865a7d1b4e84ff5f9d42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa47e0a4922a05e2d387b872813419ea0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">ObjectiveMetric</a> { <a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0a52cbdf4a49f75aaae78968f2e1e8a77d">OBJECTIVE_METRIC_1</a> = 0, 
+<a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0aa175c00963f2c64c355fc18ee4a8b739">OBJECTIVE_METRIC_1p</a> = 1, 
+<a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0a3eb6227d7d3afdf33054f7a780e57409">OBJECTIVE_METRIC_2</a> = 2
+ }</td></tr>
+<tr class="memdesc:aa47e0a4922a05e2d387b872813419ea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates the possible objectives to be optimized.  <a href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">More...</a><br /></td></tr>
+<tr class="separator:aa47e0a4922a05e2d387b872813419ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -140,6 +146,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <a class="el" href="classInput.html#a38a43d751872865a7d1b4e84ff5f9d42">PreprocessingLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#ad6f22e8a72446a1279ddbde821a294b4">getChosenPreprLvl</a> () const</td></tr>
 <tr class="memdesc:ad6f22e8a72446a1279ddbde821a294b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the identifier of the method chosen for optimization. <br /></td></tr>
 <tr class="separator:ad6f22e8a72446a1279ddbde821a294b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14acd46fa979e18622918dad5b5b321e"><td class="memItemLeft" align="right" valign="top"><a id="a14acd46fa979e18622918dad5b5b321e"></a>
+<a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">ObjectiveMetric</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a14acd46fa979e18622918dad5b5b321e">getChosenObj</a> () const</td></tr>
+<tr class="memdesc:a14acd46fa979e18622918dad5b5b321e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the identifier of the objective chosen to be optimized. <br /></td></tr>
+<tr class="separator:a14acd46fa979e18622918dad5b5b321e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a482b4eb4844051909967eefc72d062fe"><td class="memItemLeft" align="right" valign="top"><a id="a482b4eb4844051909967eefc72d062fe"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a482b4eb4844051909967eefc72d062fe">getInitialLagrangianMultiplier</a> () const</td></tr>
 <tr class="memdesc:a482b4eb4844051909967eefc72d062fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the initial value of the lagrangian multiplier used if subgradient method is chosen. <br /></td></tr>
@@ -159,6 +169,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr class="memitem:a6c92e2c8fd207b941060a22ba4519075"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a6c92e2c8fd207b941060a22ba4519075">getParameterValue</a> (std::string pattern)</td></tr>
 <tr class="memdesc:a6c92e2c8fd207b941060a22ba4519075"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches for a pattern in the parameter file and returns its associated value.  <a href="classInput.html#a6c92e2c8fd207b941060a22ba4519075">More...</a><br /></td></tr>
 <tr class="separator:a6c92e2c8fd207b941060a22ba4519075"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e50577300f398831d3a3e5dfc20860e"><td class="memItemLeft" align="right" valign="top"><a id="a5e50577300f398831d3a3e5dfc20860e"></a>
+<a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">ObjectiveMetric</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a5e50577300f398831d3a3e5dfc20860e">to_ObjectiveMetric</a> (std::string data)</td></tr>
+<tr class="memdesc:a5e50577300f398831d3a3e5dfc20860e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a string into an ObjectiveMetric. <br /></td></tr>
+<tr class="separator:a5e50577300f398831d3a3e5dfc20860e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fdd308273d27628c515f6ba722301d9"><td class="memItemLeft" align="right" valign="top"><a id="a5fdd308273d27628c515f6ba722301d9"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a5fdd308273d27628c515f6ba722301d9">displayMainParameters</a> ()</td></tr>
 <tr class="memdesc:a5fdd308273d27628c515f6ba722301d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the main input file paths: link, demand and assignement. <br /></td></tr>
@@ -206,6 +220,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <a class="el" href="classInput.html#a38a43d751872865a7d1b4e84ff5f9d42">PreprocessingLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a8c583193d46cd61dc630f12f2671b45e">chosenPreprLvl</a></td></tr>
 <tr class="memdesc:a8c583193d46cd61dc630f12f2671b45e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to which level of preprocessing is applied before solving the problem. <br /></td></tr>
 <tr class="separator:a8c583193d46cd61dc630f12f2671b45e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab740852d7a07c44edf8c35906a021213"><td class="memItemLeft" align="right" valign="top"><a id="ab740852d7a07c44edf8c35906a021213"></a>
+<a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">ObjectiveMetric</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#ab740852d7a07c44edf8c35906a021213">chosenObj</a></td></tr>
+<tr class="memdesc:ab740852d7a07c44edf8c35906a021213"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to which objective is optimized. <br /></td></tr>
+<tr class="separator:ab740852d7a07c44edf8c35906a021213"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a609a07420ed7b37cb5c984c77217a034"><td class="memItemLeft" align="right" valign="top"><a id="a609a07420ed7b37cb5c984c77217a034"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a609a07420ed7b37cb5c984c77217a034">lagrangianMultiplier_zero</a></td></tr>
 <tr class="memdesc:a609a07420ed7b37cb5c984c77217a034"><td class="mdescLeft">&#160;</td><td class="mdescRight">The initial value of the lagrangian multiplier used if subgradient method is chosen. <br /></td></tr>
@@ -251,6 +269,33 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </table>
 
 <p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00017">17</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+
+</div>
+</div>
+<a id="aa47e0a4922a05e2d387b872813419ea0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa47e0a4922a05e2d387b872813419ea0">&#9670;&nbsp;</a></span>ObjectiveMetric</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">Input::ObjectiveMetric</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enumerates the possible objectives to be optimized. </p>
+<p>of applying a preprocessing step fo reducing the graphs before optimization is called. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aa47e0a4922a05e2d387b872813419ea0a52cbdf4a49f75aaae78968f2e1e8a77d"></a>OBJECTIVE_METRIC_1&#160;</td><td class="fielddoc"><p>Minimize the sum of (max used slice positions) over demands. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa47e0a4922a05e2d387b872813419ea0aa175c00963f2c64c355fc18ee4a8b739"></a>OBJECTIVE_METRIC_1p&#160;</td><td class="fielddoc"><p>Minimize the sum of (max used slice positions) over edges. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa47e0a4922a05e2d387b872813419ea0a3eb6227d7d3afdf33054f7a780e57409"></a>OBJECTIVE_METRIC_2&#160;</td><td class="fielddoc"><p>Minimize the sum of (number of hops in paths) over demands. </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00030">30</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -333,7 +378,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00024">24</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00025">25</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -363,7 +408,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </dl>
 <dl class="section note"><dt>Note</dt><dd>It is surely not the most performant method but the parameter file has a reasonable size and the code becomes much clearer. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00042">42</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00044">44</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>

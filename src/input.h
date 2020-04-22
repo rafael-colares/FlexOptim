@@ -25,6 +25,13 @@ public:
 		PREPROCESSING_LVL_PARTIAL = 1,	/**< Previous steps + look for arcs that would induce length violation and arcs whose neighboors cannot forward the demand. **/
 		PREPROCESSING_LVL_FULL = 2		/**< Previous steps recursively until no additional arc can be removed. **/
 	};
+
+	/** Enumerates the possible objectives to be optimized. of applying a preprocessing step fo reducing the graphs before optimization is called. **/
+	enum ObjectiveMetric {
+		OBJECTIVE_METRIC_1 = 0,		/**< Minimize the sum of (max used slice positions) over demands. **/
+		OBJECTIVE_METRIC_1p = 1,	/**< Minimize the sum of (max used slice positions) over edges. **/
+		OBJECTIVE_METRIC_2 = 2		/**< Minimize the sum of (number of hops in paths) over demands. **/
+	};
 	
 private:
 	const std::string PARAMETER_FILE;	/**< Path to the file containing all the parameters. **/
@@ -38,6 +45,7 @@ private:
 	int nbSlicesInOutputFile;			/**< How many slices will be displayed in the output file. **/
 	Method chosenMethod;				/**< Refers to which method is applied for solving the problem.**/
 	PreprocessingLevel chosenPreprLvl;	/**< Refers to which level of preprocessing is applied before solving the problem.**/
+	ObjectiveMetric chosenObj;			/**< Refers to which objective is optimized.**/
 
 	double lagrangianMultiplier_zero;	/**< The initial value of the lagrangian multiplier used if subgradient method is chosen. **/
 	double lagrangianLambda_zero;		/**< The initial value of the lambda used for computing the step size if subgradient method is chosen. **/
@@ -86,6 +94,9 @@ public:
 	/** Returns the identifier of the method chosen for optimization. **/
     PreprocessingLevel getChosenPreprLvl() const {return chosenPreprLvl;}
 
+	/** Returns the identifier of the objective chosen to be optimized. **/
+    ObjectiveMetric getChosenObj() const {return chosenObj;}
+
 	/** Returns the initial value of the lagrangian multiplier used if subgradient method is chosen. **/
 	double getInitialLagrangianMultiplier() const { return lagrangianMultiplier_zero; }
 	
@@ -103,6 +114,9 @@ public:
 	/****************************************************************************************/
 	/** Searches for a pattern in the parameter file and returns its associated value. @param pattern The substring pattern to be searched. @note It is surely not the most performant method but the parameter file has a reasonable size and the code becomes much clearer. **/
     std::string getParameterValue(std::string pattern);
+	
+	/** Converts a string into an ObjectiveMetric. **/
+	ObjectiveMetric to_ObjectiveMetric(std::string data);
 
 	/** Displays the main input file paths: link, demand and assignement. **/
     void displayMainParameters();

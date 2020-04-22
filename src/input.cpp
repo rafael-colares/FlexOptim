@@ -12,6 +12,7 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     
     chosenMethod = (Method) std::stoi(getParameterValue("method="));
     chosenPreprLvl = (PreprocessingLevel) std::stoi(getParameterValue("preprocessingLevel="));
+    chosenObj = to_ObjectiveMetric(getParameterValue("obj="));
 
     lagrangianMultiplier_zero = std::stod(getParameterValue("lagrangianMultiplier_zero="));
     lagrangianLambda_zero = std::stod(getParameterValue("lagrangianLambda_zero="));
@@ -32,6 +33,7 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
 
     chosenMethod = i.getChosenMethod();
     chosenPreprLvl = i.getChosenPreprLvl();
+    chosenObj = i.getChosenObj();
 
     lagrangianMultiplier_zero = i.getInitialLagrangianMultiplier();
     lagrangianLambda_zero = i.getInitialLagrangianLambda();
@@ -59,6 +61,19 @@ std::string Input::getParameterValue(std::string pattern){
         abort();
     }
     return value;
+}
+
+
+/* Converts a string into an ObjectiveMetric. */
+Input::ObjectiveMetric Input::to_ObjectiveMetric(std::string data){
+    Input::ObjectiveMetric obj = (ObjectiveMetric) std::stoi(data);
+    if (data == "1"){
+        obj = OBJECTIVE_METRIC_1;
+    }
+    if (data == "1p"){
+        obj = OBJECTIVE_METRIC_1p;
+    }
+    return obj;
 }
 
 /* Displays the main input file paths: link, demand and assignement. */

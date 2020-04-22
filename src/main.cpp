@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 		//instance.displayDetailedTopology();
 		std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
 		//instance.generateRandomDemandsFromFile();
-		instance.generateRandomDemands(1000);
+		instance.generateRandomDemands(10);
 		instance.displayNonRoutedDemands();
 		std::cout << instance.getNbNonRoutedDemands() << " demands were generated." << std::endl;
 		//CplexForm::setCount(0);
@@ -82,8 +82,7 @@ int main(int argc, char *argv[]) {
 			instance.output(std::to_string(optimizationCounter));
 	
 			std::chrono::_V2::system_clock::time_point end = std::chrono::high_resolution_clock::now();
-			double time_taken =  
-			std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count(); 
+			double time_taken = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count(); 
 			time_taken *= 1e-9; 
 	
 			std::cout << "Time taken by program is : " << std::fixed  << time_taken << std::setprecision(9); 
@@ -91,8 +90,20 @@ int main(int argc, char *argv[]) {
 		}
 		
 
-		//instance.displayInstance(); 
-		
+		//instance.displayInstance();
+		switch (instance.getInput().getChosenObj()){
+			case Input::OBJECTIVE_METRIC_1:
+				std::cout << "obj1" << std::endl;
+				break;
+			case Input::OBJECTIVE_METRIC_1p:
+				std::cout << "obj1p" << std::endl;
+				break;
+			case Input::OBJECTIVE_METRIC_2:
+				std::cout << "obj2" << std::endl;
+				break;
+			default:
+				std::cout << "error" << std::endl;
+		}
 	}
 	catch(const std::invalid_argument& e){
 		std::cerr << std::endl << "ERROR: Caught exception." << std::endl;

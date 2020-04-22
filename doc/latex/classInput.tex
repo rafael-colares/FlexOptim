@@ -20,7 +20,12 @@ enum \mbox{\hyperlink{classInput_a38a43d751872865a7d1b4e84ff5f9d42}{Preprocessin
 \mbox{\hyperlink{classInput_a38a43d751872865a7d1b4e84ff5f9d42a578d2ebb1f6e01416c7564eb3109d2a8}{P\+R\+E\+P\+R\+O\+C\+E\+S\+S\+I\+N\+G\+\_\+\+L\+V\+L\+\_\+\+P\+A\+R\+T\+I\+AL}} = 1, 
 \mbox{\hyperlink{classInput_a38a43d751872865a7d1b4e84ff5f9d42a6e71d561dd4af6d3220699285c3e5fd0}{P\+R\+E\+P\+R\+O\+C\+E\+S\+S\+I\+N\+G\+\_\+\+L\+V\+L\+\_\+\+F\+U\+LL}} = 2
  \}
-\begin{DoxyCompactList}\small\item\em Enumerates the possible levels of applying a preprocessing step fo reducing the graphs before optimization is called. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Enumerates the possible levels of applying a preprocessing step fo reducing the graphs before optimization is called. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{classInput_aa47e0a4922a05e2d387b872813419ea0}{Objective\+Metric}} \{ \mbox{\hyperlink{classInput_aa47e0a4922a05e2d387b872813419ea0a52cbdf4a49f75aaae78968f2e1e8a77d}{O\+B\+J\+E\+C\+T\+I\+V\+E\+\_\+\+M\+E\+T\+R\+I\+C\+\_\+1}} = 0, 
+\mbox{\hyperlink{classInput_aa47e0a4922a05e2d387b872813419ea0aa175c00963f2c64c355fc18ee4a8b739}{O\+B\+J\+E\+C\+T\+I\+V\+E\+\_\+\+M\+E\+T\+R\+I\+C\+\_\+1p}} = 1, 
+\mbox{\hyperlink{classInput_aa47e0a4922a05e2d387b872813419ea0a3eb6227d7d3afdf33054f7a780e57409}{O\+B\+J\+E\+C\+T\+I\+V\+E\+\_\+\+M\+E\+T\+R\+I\+C\+\_\+2}} = 2
+ \}
+\begin{DoxyCompactList}\small\item\em Enumerates the possible objectives to be optimized. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -58,6 +63,9 @@ int \mbox{\hyperlink{classInput_aefa5639038be0f18870dc0b7a04a49be}{getnb\+Slices
 \mbox{\Hypertarget{classInput_ad6f22e8a72446a1279ddbde821a294b4}\label{classInput_ad6f22e8a72446a1279ddbde821a294b4}} 
 \mbox{\hyperlink{classInput_a38a43d751872865a7d1b4e84ff5f9d42}{Preprocessing\+Level}} \mbox{\hyperlink{classInput_ad6f22e8a72446a1279ddbde821a294b4}{get\+Chosen\+Prepr\+Lvl}} () const
 \begin{DoxyCompactList}\small\item\em Returns the identifier of the method chosen for optimization. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInput_a14acd46fa979e18622918dad5b5b321e}\label{classInput_a14acd46fa979e18622918dad5b5b321e}} 
+\mbox{\hyperlink{classInput_aa47e0a4922a05e2d387b872813419ea0}{Objective\+Metric}} \mbox{\hyperlink{classInput_a14acd46fa979e18622918dad5b5b321e}{get\+Chosen\+Obj}} () const
+\begin{DoxyCompactList}\small\item\em Returns the identifier of the objective chosen to be optimized. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classInput_a482b4eb4844051909967eefc72d062fe}\label{classInput_a482b4eb4844051909967eefc72d062fe}} 
 double \mbox{\hyperlink{classInput_a482b4eb4844051909967eefc72d062fe}{get\+Initial\+Lagrangian\+Multiplier}} () const
 \begin{DoxyCompactList}\small\item\em Returns the initial value of the lagrangian multiplier used if subgradient method is chosen. \end{DoxyCompactList}\item 
@@ -72,6 +80,9 @@ int \mbox{\hyperlink{classInput_a070ab27352cb7aa9c03b4fd8509aab46}{get\+Max\+Nb\
 \begin{DoxyCompactList}\small\item\em Returns the maximal number of iterations allowed without improving the lower bound in the subgradient method. \end{DoxyCompactList}\item 
 std\+::string \mbox{\hyperlink{classInput_a6c92e2c8fd207b941060a22ba4519075}{get\+Parameter\+Value}} (std\+::string pattern)
 \begin{DoxyCompactList}\small\item\em Searches for a pattern in the parameter file and returns its associated value. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInput_a5e50577300f398831d3a3e5dfc20860e}\label{classInput_a5e50577300f398831d3a3e5dfc20860e}} 
+\mbox{\hyperlink{classInput_aa47e0a4922a05e2d387b872813419ea0}{Objective\+Metric}} \mbox{\hyperlink{classInput_a5e50577300f398831d3a3e5dfc20860e}{to\+\_\+\+Objective\+Metric}} (std\+::string data)
+\begin{DoxyCompactList}\small\item\em Converts a string into an Objective\+Metric. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classInput_a5fdd308273d27628c515f6ba722301d9}\label{classInput_a5fdd308273d27628c515f6ba722301d9}} 
 void \mbox{\hyperlink{classInput_a5fdd308273d27628c515f6ba722301d9}{display\+Main\+Parameters}} ()
 \begin{DoxyCompactList}\small\item\em Displays the main input file paths\+: link, demand and assignement. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -108,6 +119,9 @@ int \mbox{\hyperlink{classInput_ae0fff1fed72489ac812f7fbc25490d4b}{nb\+Slices\+I
 \mbox{\Hypertarget{classInput_a8c583193d46cd61dc630f12f2671b45e}\label{classInput_a8c583193d46cd61dc630f12f2671b45e}} 
 \mbox{\hyperlink{classInput_a38a43d751872865a7d1b4e84ff5f9d42}{Preprocessing\+Level}} \mbox{\hyperlink{classInput_a8c583193d46cd61dc630f12f2671b45e}{chosen\+Prepr\+Lvl}}
 \begin{DoxyCompactList}\small\item\em Refers to which level of preprocessing is applied before solving the problem. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classInput_ab740852d7a07c44edf8c35906a021213}\label{classInput_ab740852d7a07c44edf8c35906a021213}} 
+\mbox{\hyperlink{classInput_aa47e0a4922a05e2d387b872813419ea0}{Objective\+Metric}} \mbox{\hyperlink{classInput_ab740852d7a07c44edf8c35906a021213}{chosen\+Obj}}
+\begin{DoxyCompactList}\small\item\em Refers to which objective is optimized. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classInput_a609a07420ed7b37cb5c984c77217a034}\label{classInput_a609a07420ed7b37cb5c984c77217a034}} 
 double \mbox{\hyperlink{classInput_a609a07420ed7b37cb5c984c77217a034}{lagrangian\+Multiplier\+\_\+zero}}
 \begin{DoxyCompactList}\small\item\em The initial value of the lagrangian multiplier used if subgradient method is chosen. \end{DoxyCompactList}\item 
@@ -156,6 +170,34 @@ M\+E\+T\+H\+O\+D\+\_\+\+S\+U\+B\+G\+R\+A\+D\+I\+E\+NT&Solve it using the subgrad
 
 
 Definition at line 17 of file input.\+h.
+
+\mbox{\Hypertarget{classInput_aa47e0a4922a05e2d387b872813419ea0}\label{classInput_aa47e0a4922a05e2d387b872813419ea0}} 
+\index{Input@{Input}!ObjectiveMetric@{ObjectiveMetric}}
+\index{ObjectiveMetric@{ObjectiveMetric}!Input@{Input}}
+\doxysubsubsection{\texorpdfstring{ObjectiveMetric}{ObjectiveMetric}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classInput_aa47e0a4922a05e2d387b872813419ea0}{Input\+::\+Objective\+Metric}}}
+
+
+
+Enumerates the possible objectives to be optimized. 
+
+of applying a preprocessing step fo reducing the graphs before optimization is called. \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OBJECTIVE\_METRIC\_1@{OBJECTIVE\_METRIC\_1}!Input@{Input}}\index{Input@{Input}!OBJECTIVE\_METRIC\_1@{OBJECTIVE\_METRIC\_1}}}\mbox{\Hypertarget{classInput_aa47e0a4922a05e2d387b872813419ea0a52cbdf4a49f75aaae78968f2e1e8a77d}\label{classInput_aa47e0a4922a05e2d387b872813419ea0a52cbdf4a49f75aaae78968f2e1e8a77d}} 
+O\+B\+J\+E\+C\+T\+I\+V\+E\+\_\+\+M\+E\+T\+R\+I\+C\+\_\+1&Minimize the sum of (max used slice positions) over demands. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OBJECTIVE\_METRIC\_1p@{OBJECTIVE\_METRIC\_1p}!Input@{Input}}\index{Input@{Input}!OBJECTIVE\_METRIC\_1p@{OBJECTIVE\_METRIC\_1p}}}\mbox{\Hypertarget{classInput_aa47e0a4922a05e2d387b872813419ea0aa175c00963f2c64c355fc18ee4a8b739}\label{classInput_aa47e0a4922a05e2d387b872813419ea0aa175c00963f2c64c355fc18ee4a8b739}} 
+O\+B\+J\+E\+C\+T\+I\+V\+E\+\_\+\+M\+E\+T\+R\+I\+C\+\_\+1p&Minimize the sum of (max used slice positions) over edges. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OBJECTIVE\_METRIC\_2@{OBJECTIVE\_METRIC\_2}!Input@{Input}}\index{Input@{Input}!OBJECTIVE\_METRIC\_2@{OBJECTIVE\_METRIC\_2}}}\mbox{\Hypertarget{classInput_aa47e0a4922a05e2d387b872813419ea0a3eb6227d7d3afdf33054f7a780e57409}\label{classInput_aa47e0a4922a05e2d387b872813419ea0a3eb6227d7d3afdf33054f7a780e57409}} 
+O\+B\+J\+E\+C\+T\+I\+V\+E\+\_\+\+M\+E\+T\+R\+I\+C\+\_\+2&Minimize the sum of (number of hops in paths) over demands. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line 30 of file input.\+h.
 
 \mbox{\Hypertarget{classInput_a38a43d751872865a7d1b4e84ff5f9d42}\label{classInput_a38a43d751872865a7d1b4e84ff5f9d42}} 
 \index{Input@{Input}!PreprocessingLevel@{PreprocessingLevel}}
@@ -224,7 +266,7 @@ Copy constructor.
 \end{DoxyParams}
 
 
-Definition at line 24 of file input.\+cpp.
+Definition at line 25 of file input.\+cpp.
 
 
 
@@ -249,7 +291,7 @@ It is surely not the most performant method but the parameter file has a reasona
 \end{DoxyNote}
 
 
-Definition at line 42 of file input.\+cpp.
+Definition at line 44 of file input.\+cpp.
 
 
 
