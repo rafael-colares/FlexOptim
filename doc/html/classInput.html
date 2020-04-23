@@ -91,9 +91,14 @@ Public Types</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a38a43d751872865a7d1b4e84ff5f9d42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates the possible levels of applying a preprocessing step fo reducing the graphs before optimization is called.  <a href="classInput.html#a38a43d751872865a7d1b4e84ff5f9d42">More...</a><br /></td></tr>
 <tr class="separator:a38a43d751872865a7d1b4e84ff5f9d42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa47e0a4922a05e2d387b872813419ea0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">ObjectiveMetric</a> { <a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0a52cbdf4a49f75aaae78968f2e1e8a77d">OBJECTIVE_METRIC_1</a> = 0, 
+<tr class="memitem:aa47e0a4922a05e2d387b872813419ea0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">ObjectiveMetric</a> { <br />
+&#160;&#160;<a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0a52cbdf4a49f75aaae78968f2e1e8a77d">OBJECTIVE_METRIC_1</a> = 0, 
 <a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0aa175c00963f2c64c355fc18ee4a8b739">OBJECTIVE_METRIC_1p</a> = 1, 
-<a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0a3eb6227d7d3afdf33054f7a780e57409">OBJECTIVE_METRIC_2</a> = 2
+<a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0a3eb6227d7d3afdf33054f7a780e57409">OBJECTIVE_METRIC_2</a> = 2, 
+<a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0a09b2d1b8b9430549351b0ef117601837">OBJECTIVE_METRIC_4</a> = 4, 
+<br />
+&#160;&#160;<a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0a103d87a40b6841691091ff4ab5056738">OBJECTIVE_METRIC_8</a> = 8
+<br />
  }</td></tr>
 <tr class="memdesc:aa47e0a4922a05e2d387b872813419ea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates the possible objectives to be optimized.  <a href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">More...</a><br /></td></tr>
 <tr class="separator:aa47e0a4922a05e2d387b872813419ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -292,6 +297,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr><td class="fieldname"><a id="aa47e0a4922a05e2d387b872813419ea0aa175c00963f2c64c355fc18ee4a8b739"></a>OBJECTIVE_METRIC_1p&#160;</td><td class="fielddoc"><p>Minimize the sum of (max used slice positions) over edges. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aa47e0a4922a05e2d387b872813419ea0a3eb6227d7d3afdf33054f7a780e57409"></a>OBJECTIVE_METRIC_2&#160;</td><td class="fielddoc"><p>Minimize the sum of (number of hops in paths) over demands. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa47e0a4922a05e2d387b872813419ea0a09b2d1b8b9430549351b0ef117601837"></a>OBJECTIVE_METRIC_4&#160;</td><td class="fielddoc"><p>Minimize the path lengths. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa47e0a4922a05e2d387b872813419ea0a103d87a40b6841691091ff4ab5056738"></a>OBJECTIVE_METRIC_8&#160;</td><td class="fielddoc"><p>Minimize the max used slice position overall. </p>
 </td></tr>
 </table>
 

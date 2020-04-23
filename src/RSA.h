@@ -124,12 +124,28 @@ public:
     /** Returns the length of an arc on the compact graph. @param a The arc. */
     double getCompactLength(const ListDigraph::Arc &a) { return compactArcLength[a]; }
     
-    /** Returns the coefficient of an arc (according to the chosen metric) on graph #d. @param a The arc. @param d The graph #d. @todo Implement other metrics. For the moment, only 1p is used.*/
+    /** Returns the coefficient of an arc (according to the chosen metric) on graph #d. @param a The arc. @param d The graph #d. @todo Implement other metrics. For the moment, only 1p is used. **/
     double getCoeff(const ListDigraph::Arc &a, int d);
     
+    /** Returns the coefficient of an arc according to metric 1 on graph #d. @param a The arc. @param d The graph #d. **/
+    double getCoeffObj1(const ListDigraph::Arc &a, int d);
+
+    /** Returns the coefficient of an arc according to metric 1p on graph #d. @param a The arc. @param d The graph #d. @warning Only adapted for the case of treating one demand at a time. **/
+    double getCoeffObj1p(const ListDigraph::Arc &a, int d);
+
+    /** Returns the coefficient of an arc according to metric 2 on graph #d. @param a The arc. @param d The graph #d. @todo I do not really understand this metric -> to be implemented. **/
+    double getCoeffObj2(const ListDigraph::Arc &a, int d);
+
+    /** Returns the coefficient of an arc according to metric 4 on graph #d. @param a The arc. @param d The graph #d. **/
+    double getCoeffObj4(const ListDigraph::Arc &a, int d);
+
+    /** Returns the coefficient of an arc according to metric 8 on graph #d. @param a The arc. @param d The graph #d. @warning Only adapted for the case of treating one demand at a time. **/
+    double getCoeffObj8(const ListDigraph::Arc &a, int d);
+
 	/****************************************************************************************/
 	/*										Setters											*/
 	/****************************************************************************************/
+
     /** Changes the vector of demands to be routed. @param vec The new vector of demands. **/
     void setToBeRouted(const std::vector<Demand> &vec){this->toBeRouted = vec;}
 
@@ -157,6 +173,7 @@ public:
 	/****************************************************************************************/
 	/*										Methods											*/
 	/****************************************************************************************/
+
     /** Builds the simple graph associated with the initial mapping. **/
     void buildCompactGraph();
 

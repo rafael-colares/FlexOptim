@@ -30,7 +30,9 @@ public:
 	enum ObjectiveMetric {
 		OBJECTIVE_METRIC_1 = 0,		/**< Minimize the sum of (max used slice positions) over demands. **/
 		OBJECTIVE_METRIC_1p = 1,	/**< Minimize the sum of (max used slice positions) over edges. **/
-		OBJECTIVE_METRIC_2 = 2		/**< Minimize the sum of (number of hops in paths) over demands. **/
+		OBJECTIVE_METRIC_2 = 2,		/**< Minimize the sum of (number of hops in paths) over demands. **/
+		OBJECTIVE_METRIC_4 = 4,		/**< Minimize the path lengths. **/
+		OBJECTIVE_METRIC_8 = 8		/**< Minimize the max used slice position overall. **/
 	};
 	
 private:

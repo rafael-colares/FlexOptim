@@ -292,18 +292,111 @@ double RSA::shortestDistance(int d, ListDigraph::Node &s, ListDigraph::Arc &a, L
     return distance;
 }
 
-/* Returns the coefficient of an arc (according to the chosen metric) on graph #d. */
-double RSA::getCoeff(const ListDigraph::Arc &a, int d){
+/* Returns the coefficient of an arc according to metric 1 on graph #d. */
+double RSA::getCoeffObj1(const ListDigraph::Arc &a, int d){
     double coeff = 0.0;
-    ListDigraph::Node s = (*vecGraph[d]).source(a);
-    int label = getNodeLabel(s, d);
-    int slice = getArcSlice(a, d);
-    if(label == getToBeRouted_k(d).getSource()){
-        coeff = slice + 1; 
+    ListDigraph::Node u = (*vecGraph[d]).source(a);
+    int uLabel = getNodeLabel(u, d);
+    int arcSlice = getArcSlice(a, d);
+    if(uLabel == getToBeRouted_k(d).getSource()){
+        coeff = arcSlice + 1; 
     }
     else{
         coeff = 1; 
     }
+    return coeff;
+}
+
+/* Returns the coefficient of an arc according to metric 1p on graph #d. */
+double RSA::getCoeffObj1p(const ListDigraph::Arc &a, int d){
+    double coeff = 0.0;
+    int arcLabel = getArcLabel(a, d);
+    int arcSlice = getArcSlice(a, d);
+    int maxSliceUsedOnLink = instance.getPhysicalLinkFromId(arcLabel).getMaxUsedSlicePosition();
+    if(arcSlice <= maxSliceUsedOnLink){
+        coeff = maxSliceUsedOnLink; 
+    }
+    else{
+        coeff = arcSlice; 
+    }
+    return coeff;
+}
+
+/* Returns the coefficient of an arc according to metric 2 on graph #d. */
+double RSA::getCoeffObj2(const ListDigraph::Arc &a, int d){
+    double coeff = 0.0;
+    return coeff;
+}
+
+/* Returns the coefficient of an arc according to metric 4 on graph #d. */
+double RSA::getCoeffObj4(const ListDigraph::Arc &a, int d){
+    return getArcLength(a, d);
+}
+
+/* Returns the coefficient of an arc according to metric 8 on graph #d. */
+double RSA::getCoeffObj8(const ListDigraph::Arc &a, int d){
+    double coeff = 0.0;
+    int maxSliceUsed = 0;
+    for (int i = 0; i < instance.getNbEdges(); i++){
+        int maxSliceUsedOnLink = instance.getPhysicalLinkFromId(i).getMaxUsedSlicePosition();
+        if (maxSliceUsedOnLink >= maxSliceUsed){
+            maxSliceUsed = maxSliceUsedOnLink;
+        }
+    }
+    int arcSlice = getArcSlice(a, d);
+    ListDigraph::Node u = (*vecGraph[d]).source(a);
+    int uLabel = getNodeLabel(u, d);
+    if(uLabel == getToBeRouted_k(d).getSource()){
+        if(arcSlice <= maxSliceUsed){
+            coeff = maxSliceUsed + 1; 
+        }
+        else{
+            coeff = arcSlice + 1; 
+        }
+    }
+    else{
+        coeff = 1;
+    }
+    return coeff;
+}
+
+/* Returns the coefficient of an arc (according to the chosen metric) on graph #d. */
+double RSA::getCoeff(const ListDigraph::Arc &a, int d){
+    double coeff = 0.0;
+    switch (getInstance().getInput().getChosenObj()){
+        case Input::OBJECTIVE_METRIC_1:
+        {
+            coeff = getCoeffObj1(a, d);
+            break;
+        }
+        case Input::OBJECTIVE_METRIC_1p:
+        {
+            coeff = getCoeffObj1p(a, d);
+            break;
+        }
+        case Input::OBJECTIVE_METRIC_2:
+        {
+            coeff = getCoeffObj2(a, d);
+            break;
+        }
+        case Input::OBJECTIVE_METRIC_4:
+        {
+            coeff = getCoeffObj4(a, d);
+            break;
+        }
+        case Input::OBJECTIVE_METRIC_8:
+        {
+            coeff = getCoeffObj8(a, d);
+            break;
+        }
+        default:
+        {
+            std::cerr << "Objective metric out of range.\n";
+            exit(0);
+            break;
+        }
+    }
+    
     return coeff;
 }
 

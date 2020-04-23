@@ -91,19 +91,6 @@ int main(int argc, char *argv[]) {
 		
 
 		//instance.displayInstance();
-		switch (instance.getInput().getChosenObj()){
-			case Input::OBJECTIVE_METRIC_1:
-				std::cout << "obj1" << std::endl;
-				break;
-			case Input::OBJECTIVE_METRIC_1p:
-				std::cout << "obj1p" << std::endl;
-				break;
-			case Input::OBJECTIVE_METRIC_2:
-				std::cout << "obj2" << std::endl;
-				break;
-			default:
-				std::cout << "error" << std::endl;
-		}
 	}
 	catch(const std::invalid_argument& e){
 		std::cerr << std::endl << "ERROR: Caught exception." << std::endl;

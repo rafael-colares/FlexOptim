@@ -51,6 +51,16 @@ double \mbox{\hyperlink{classRSA_ad8e48645cf88f5b5b7c9a19b6feeaf51}{get\+Compact
 \begin{DoxyCompactList}\small\item\em Returns the length of an arc on the compact graph. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{classRSA_a6b0a937d2de7e7aa0bf97d48ccf83771}{get\+Coeff}} (const List\+Digraph\+::\+Arc \&a, int d)
 \begin{DoxyCompactList}\small\item\em Returns the coefficient of an arc (according to the chosen metric) on graph \#d. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classRSA_a905faac0c037a20ab5c0dee8754ad12f}{get\+Coeff\+Obj1}} (const List\+Digraph\+::\+Arc \&a, int d)
+\begin{DoxyCompactList}\small\item\em Returns the coefficient of an arc according to metric 1 on graph \#d. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classRSA_a477e23bb1659bc108853878a2c1a18d8}{get\+Coeff\+Obj1p}} (const List\+Digraph\+::\+Arc \&a, int d)
+\begin{DoxyCompactList}\small\item\em Returns the coefficient of an arc according to metric 1p on graph \#d. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classRSA_a810c7b50e414a8be7547d3f2413194a3}{get\+Coeff\+Obj2}} (const List\+Digraph\+::\+Arc \&a, int d)
+\begin{DoxyCompactList}\small\item\em Returns the coefficient of an arc according to metric 2 on graph \#d. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classRSA_abfeaebdee95e33bf4852c4c5d9e527da}{get\+Coeff\+Obj4}} (const List\+Digraph\+::\+Arc \&a, int d)
+\begin{DoxyCompactList}\small\item\em Returns the coefficient of an arc according to metric 4 on graph \#d. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classRSA_a4bc0e108344172c603752ff04887cd86}{get\+Coeff\+Obj8}} (const List\+Digraph\+::\+Arc \&a, int d)
+\begin{DoxyCompactList}\small\item\em Returns the coefficient of an arc according to metric 8 on graph \#d. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classRSA_a5ee45b88cfa6455df1228005792f0d52}{set\+To\+Be\+Routed}} (const std\+::vector$<$ \mbox{\hyperlink{classDemand}{Demand}} $>$ \&vec)
 \begin{DoxyCompactList}\small\item\em Changes the vector of demands to be routed. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classRSA_abf8be457e5d6b65c3776f629f41aeecb}{set\+Node\+Id}} (const List\+Digraph\+::\+Node \&n, int d, int val)
@@ -326,7 +336,120 @@ Returns the coefficient of an arc (according to the chosen metric) on graph \#d.
 \item[\mbox{\hyperlink{todo__todo000001}{Todo}}]Implement other metrics. For the moment, only 1p is used. \end{DoxyRefDesc}
 
 
+Definition at line 364 of file R\+S\+A.\+cpp.
+
+\mbox{\Hypertarget{classRSA_a905faac0c037a20ab5c0dee8754ad12f}\label{classRSA_a905faac0c037a20ab5c0dee8754ad12f}} 
+\index{RSA@{RSA}!getCoeffObj1@{getCoeffObj1}}
+\index{getCoeffObj1@{getCoeffObj1}!RSA@{RSA}}
+\doxysubsubsection{\texorpdfstring{getCoeffObj1()}{getCoeffObj1()}}
+{\footnotesize\ttfamily double R\+S\+A\+::get\+Coeff\+Obj1 (\begin{DoxyParamCaption}\item[{const List\+Digraph\+::\+Arc \&}]{a,  }\item[{int}]{d }\end{DoxyParamCaption})}
+
+
+
+Returns the coefficient of an arc according to metric 1 on graph \#d. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & The arc.\\
+\hline
+{\em d} & The graph \#d. \\
+\hline
+\end{DoxyParams}
+
+
 Definition at line 296 of file R\+S\+A.\+cpp.
+
+\mbox{\Hypertarget{classRSA_a477e23bb1659bc108853878a2c1a18d8}\label{classRSA_a477e23bb1659bc108853878a2c1a18d8}} 
+\index{RSA@{RSA}!getCoeffObj1p@{getCoeffObj1p}}
+\index{getCoeffObj1p@{getCoeffObj1p}!RSA@{RSA}}
+\doxysubsubsection{\texorpdfstring{getCoeffObj1p()}{getCoeffObj1p()}}
+{\footnotesize\ttfamily double R\+S\+A\+::get\+Coeff\+Obj1p (\begin{DoxyParamCaption}\item[{const List\+Digraph\+::\+Arc \&}]{a,  }\item[{int}]{d }\end{DoxyParamCaption})}
+
+
+
+Returns the coefficient of an arc according to metric 1p on graph \#d. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & The arc.\\
+\hline
+{\em d} & The graph \#d. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyWarning}{Warning}
+Only adapted for the case of treating one demand at a time. 
+\end{DoxyWarning}
+
+
+Definition at line 311 of file R\+S\+A.\+cpp.
+
+\mbox{\Hypertarget{classRSA_a810c7b50e414a8be7547d3f2413194a3}\label{classRSA_a810c7b50e414a8be7547d3f2413194a3}} 
+\index{RSA@{RSA}!getCoeffObj2@{getCoeffObj2}}
+\index{getCoeffObj2@{getCoeffObj2}!RSA@{RSA}}
+\doxysubsubsection{\texorpdfstring{getCoeffObj2()}{getCoeffObj2()}}
+{\footnotesize\ttfamily double R\+S\+A\+::get\+Coeff\+Obj2 (\begin{DoxyParamCaption}\item[{const List\+Digraph\+::\+Arc \&}]{a,  }\item[{int}]{d }\end{DoxyParamCaption})}
+
+
+
+Returns the coefficient of an arc according to metric 2 on graph \#d. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & The arc.\\
+\hline
+{\em d} & The graph \#d. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000002}{Todo}}]I do not really understand this metric -\/$>$ to be implemented. \end{DoxyRefDesc}
+
+
+Definition at line 326 of file R\+S\+A.\+cpp.
+
+\mbox{\Hypertarget{classRSA_abfeaebdee95e33bf4852c4c5d9e527da}\label{classRSA_abfeaebdee95e33bf4852c4c5d9e527da}} 
+\index{RSA@{RSA}!getCoeffObj4@{getCoeffObj4}}
+\index{getCoeffObj4@{getCoeffObj4}!RSA@{RSA}}
+\doxysubsubsection{\texorpdfstring{getCoeffObj4()}{getCoeffObj4()}}
+{\footnotesize\ttfamily double R\+S\+A\+::get\+Coeff\+Obj4 (\begin{DoxyParamCaption}\item[{const List\+Digraph\+::\+Arc \&}]{a,  }\item[{int}]{d }\end{DoxyParamCaption})}
+
+
+
+Returns the coefficient of an arc according to metric 4 on graph \#d. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & The arc.\\
+\hline
+{\em d} & The graph \#d. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 332 of file R\+S\+A.\+cpp.
+
+\mbox{\Hypertarget{classRSA_a4bc0e108344172c603752ff04887cd86}\label{classRSA_a4bc0e108344172c603752ff04887cd86}} 
+\index{RSA@{RSA}!getCoeffObj8@{getCoeffObj8}}
+\index{getCoeffObj8@{getCoeffObj8}!RSA@{RSA}}
+\doxysubsubsection{\texorpdfstring{getCoeffObj8()}{getCoeffObj8()}}
+{\footnotesize\ttfamily double R\+S\+A\+::get\+Coeff\+Obj8 (\begin{DoxyParamCaption}\item[{const List\+Digraph\+::\+Arc \&}]{a,  }\item[{int}]{d }\end{DoxyParamCaption})}
+
+
+
+Returns the coefficient of an arc according to metric 8 on graph \#d. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & The arc.\\
+\hline
+{\em d} & The graph \#d. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyWarning}{Warning}
+Only adapted for the case of treating one demand at a time. 
+\end{DoxyWarning}
+
+
+Definition at line 337 of file R\+S\+A.\+cpp.
 
 \mbox{\Hypertarget{classRSA_ad8e48645cf88f5b5b7c9a19b6feeaf51}\label{classRSA_ad8e48645cf88f5b5b7c9a19b6feeaf51}} 
 \index{RSA@{RSA}!getCompactLength@{getCompactLength}}
@@ -490,7 +613,7 @@ Changes the id of an arc in a graph.
 \end{DoxyParams}
 
 
-Definition at line 146 of file R\+S\+A.\+h.
+Definition at line 162 of file R\+S\+A.\+h.
 
 \mbox{\Hypertarget{classRSA_af510d0b4de7c9dd10fc1e4978ac4f214}\label{classRSA_af510d0b4de7c9dd10fc1e4978ac4f214}} 
 \index{RSA@{RSA}!setArcLabel@{setArcLabel}}
@@ -513,7 +636,7 @@ Changes the label of an arc in a graph.
 \end{DoxyParams}
 
 
-Definition at line 149 of file R\+S\+A.\+h.
+Definition at line 165 of file R\+S\+A.\+h.
 
 \mbox{\Hypertarget{classRSA_a73a65831c954114e51f7c2887d7589da}\label{classRSA_a73a65831c954114e51f7c2887d7589da}} 
 \index{RSA@{RSA}!setArcLength@{setArcLength}}
@@ -536,7 +659,7 @@ Changes the length of an arc in a graph.
 \end{DoxyParams}
 
 
-Definition at line 155 of file R\+S\+A.\+h.
+Definition at line 171 of file R\+S\+A.\+h.
 
 \mbox{\Hypertarget{classRSA_a3c513e1ca16f26149dcf792656da1f16}\label{classRSA_a3c513e1ca16f26149dcf792656da1f16}} 
 \index{RSA@{RSA}!setArcSlice@{setArcSlice}}
@@ -559,7 +682,7 @@ Changes the slice of an arc in a graph.
 \end{DoxyParams}
 
 
-Definition at line 152 of file R\+S\+A.\+h.
+Definition at line 168 of file R\+S\+A.\+h.
 
 \mbox{\Hypertarget{classRSA_abf8be457e5d6b65c3776f629f41aeecb}\label{classRSA_abf8be457e5d6b65c3776f629f41aeecb}} 
 \index{RSA@{RSA}!setNodeId@{setNodeId}}
@@ -582,7 +705,7 @@ Changes the id of a node in a graph.
 \end{DoxyParams}
 
 
-Definition at line 137 of file R\+S\+A.\+h.
+Definition at line 153 of file R\+S\+A.\+h.
 
 \mbox{\Hypertarget{classRSA_a455ad10ce9aded2a4a1c93d7344842d4}\label{classRSA_a455ad10ce9aded2a4a1c93d7344842d4}} 
 \index{RSA@{RSA}!setNodeLabel@{setNodeLabel}}
@@ -605,7 +728,7 @@ Changes the label of a node in a graph.
 \end{DoxyParams}
 
 
-Definition at line 140 of file R\+S\+A.\+h.
+Definition at line 156 of file R\+S\+A.\+h.
 
 \mbox{\Hypertarget{classRSA_a07ece679f3c45008ca9f054db947409c}\label{classRSA_a07ece679f3c45008ca9f054db947409c}} 
 \index{RSA@{RSA}!setNodeSlice@{setNodeSlice}}
@@ -628,7 +751,7 @@ Changes the slice of a node in a graph.
 \end{DoxyParams}
 
 
-Definition at line 143 of file R\+S\+A.\+h.
+Definition at line 159 of file R\+S\+A.\+h.
 
 \mbox{\Hypertarget{classRSA_a5ee45b88cfa6455df1228005792f0d52}\label{classRSA_a5ee45b88cfa6455df1228005792f0d52}} 
 \index{RSA@{RSA}!setToBeRouted@{setToBeRouted}}
@@ -647,7 +770,7 @@ Changes the vector of demands to be routed.
 \end{DoxyParams}
 
 
-Definition at line 134 of file R\+S\+A.\+h.
+Definition at line 150 of file R\+S\+A.\+h.
 
 \mbox{\Hypertarget{classRSA_ad108768263d27606a28c4aa5f9f3481e}\label{classRSA_ad108768263d27606a28c4aa5f9f3481e}} 
 \index{RSA@{RSA}!shortestDistance@{shortestDistance}}

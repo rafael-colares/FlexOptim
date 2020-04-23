@@ -21,9 +21,13 @@ enum \mbox{\hyperlink{classInput_a38a43d751872865a7d1b4e84ff5f9d42}{Preprocessin
 \mbox{\hyperlink{classInput_a38a43d751872865a7d1b4e84ff5f9d42a6e71d561dd4af6d3220699285c3e5fd0}{P\+R\+E\+P\+R\+O\+C\+E\+S\+S\+I\+N\+G\+\_\+\+L\+V\+L\+\_\+\+F\+U\+LL}} = 2
  \}
 \begin{DoxyCompactList}\small\item\em Enumerates the possible levels of applying a preprocessing step fo reducing the graphs before optimization is called. \end{DoxyCompactList}\item 
-enum \mbox{\hyperlink{classInput_aa47e0a4922a05e2d387b872813419ea0}{Objective\+Metric}} \{ \mbox{\hyperlink{classInput_aa47e0a4922a05e2d387b872813419ea0a52cbdf4a49f75aaae78968f2e1e8a77d}{O\+B\+J\+E\+C\+T\+I\+V\+E\+\_\+\+M\+E\+T\+R\+I\+C\+\_\+1}} = 0, 
+enum \mbox{\hyperlink{classInput_aa47e0a4922a05e2d387b872813419ea0}{Objective\+Metric}} \{ \newline
+\mbox{\hyperlink{classInput_aa47e0a4922a05e2d387b872813419ea0a52cbdf4a49f75aaae78968f2e1e8a77d}{O\+B\+J\+E\+C\+T\+I\+V\+E\+\_\+\+M\+E\+T\+R\+I\+C\+\_\+1}} = 0, 
 \mbox{\hyperlink{classInput_aa47e0a4922a05e2d387b872813419ea0aa175c00963f2c64c355fc18ee4a8b739}{O\+B\+J\+E\+C\+T\+I\+V\+E\+\_\+\+M\+E\+T\+R\+I\+C\+\_\+1p}} = 1, 
-\mbox{\hyperlink{classInput_aa47e0a4922a05e2d387b872813419ea0a3eb6227d7d3afdf33054f7a780e57409}{O\+B\+J\+E\+C\+T\+I\+V\+E\+\_\+\+M\+E\+T\+R\+I\+C\+\_\+2}} = 2
+\mbox{\hyperlink{classInput_aa47e0a4922a05e2d387b872813419ea0a3eb6227d7d3afdf33054f7a780e57409}{O\+B\+J\+E\+C\+T\+I\+V\+E\+\_\+\+M\+E\+T\+R\+I\+C\+\_\+2}} = 2, 
+\mbox{\hyperlink{classInput_aa47e0a4922a05e2d387b872813419ea0a09b2d1b8b9430549351b0ef117601837}{O\+B\+J\+E\+C\+T\+I\+V\+E\+\_\+\+M\+E\+T\+R\+I\+C\+\_\+4}} = 4, 
+\newline
+\mbox{\hyperlink{classInput_aa47e0a4922a05e2d387b872813419ea0a103d87a40b6841691091ff4ab5056738}{O\+B\+J\+E\+C\+T\+I\+V\+E\+\_\+\+M\+E\+T\+R\+I\+C\+\_\+8}} = 8
  \}
 \begin{DoxyCompactList}\small\item\em Enumerates the possible objectives to be optimized. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions}
@@ -192,6 +196,14 @@ O\+B\+J\+E\+C\+T\+I\+V\+E\+\_\+\+M\+E\+T\+R\+I\+C\+\_\+1p&Minimize the sum of (m
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{OBJECTIVE\_METRIC\_2@{OBJECTIVE\_METRIC\_2}!Input@{Input}}\index{Input@{Input}!OBJECTIVE\_METRIC\_2@{OBJECTIVE\_METRIC\_2}}}\mbox{\Hypertarget{classInput_aa47e0a4922a05e2d387b872813419ea0a3eb6227d7d3afdf33054f7a780e57409}\label{classInput_aa47e0a4922a05e2d387b872813419ea0a3eb6227d7d3afdf33054f7a780e57409}} 
 O\+B\+J\+E\+C\+T\+I\+V\+E\+\_\+\+M\+E\+T\+R\+I\+C\+\_\+2&Minimize the sum of (number of hops in paths) over demands. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OBJECTIVE\_METRIC\_4@{OBJECTIVE\_METRIC\_4}!Input@{Input}}\index{Input@{Input}!OBJECTIVE\_METRIC\_4@{OBJECTIVE\_METRIC\_4}}}\mbox{\Hypertarget{classInput_aa47e0a4922a05e2d387b872813419ea0a09b2d1b8b9430549351b0ef117601837}\label{classInput_aa47e0a4922a05e2d387b872813419ea0a09b2d1b8b9430549351b0ef117601837}} 
+O\+B\+J\+E\+C\+T\+I\+V\+E\+\_\+\+M\+E\+T\+R\+I\+C\+\_\+4&Minimize the path lengths. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OBJECTIVE\_METRIC\_8@{OBJECTIVE\_METRIC\_8}!Input@{Input}}\index{Input@{Input}!OBJECTIVE\_METRIC\_8@{OBJECTIVE\_METRIC\_8}}}\mbox{\Hypertarget{classInput_aa47e0a4922a05e2d387b872813419ea0a103d87a40b6841691091ff4ab5056738}\label{classInput_aa47e0a4922a05e2d387b872813419ea0a103d87a40b6841691091ff4ab5056738}} 
+O\+B\+J\+E\+C\+T\+I\+V\+E\+\_\+\+M\+E\+T\+R\+I\+C\+\_\+8&Minimize the max used slice position overall. \\
 \hline
 
 \end{DoxyEnumFields}

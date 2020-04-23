@@ -95,6 +95,9 @@ public:
 	/** Assigns a demand to a given position in the spectrum. @param dem The demand to be assigned. @param p The position of the last slice to be assigned. **/
 	void assignSlices(const Demand &dem, int p);
 
+	/** Returns the maximal slice position used in the frequency spectrum. **/
+	int getMaxUsedSlicePosition();
+
 	/****************************************************************************************/
 	/*										Display											*/
 	/****************************************************************************************/
