@@ -61,7 +61,7 @@ protected:
         \note (*vecNodeSlice[i])[v] is the slice of node v in the graph associated with the i-th demand to be routed. **/
     std::vector< std::shared_ptr<NodeMap> > vecNodeSlice;
 
-    /** A list of pointers to the ArcMap storing the demand ids that are routed through each arc of the graph associated with each demand to be routed. 
+    /** A list of pointers to the ArcMap storing the RSA solution. It stores the id of the demand that is routed through each arc of the graph #i. 
         \note (*vecOnPath[i])[a] is the id the demand routed through arc a in the graph associated with the i-th demand to be routed. **/
     std::vector< std::shared_ptr<ArcMap> > vecOnPath;
 
@@ -180,19 +180,19 @@ public:
     /** Creates an arc -- and its nodes if necessary -- between nodes (source,slice) and (target,slice) on a graph. @param d The graph #d. @param source The source node's id. @param target The target node's id. @param linkLabel The arc's label. @param slice The arc's slice position. @param l The arc's length. **/
     void addArcs(int d, int source, int target, int linkLabel, int slice, double l);    
     
-    /** Updates the mapping stored in instance i with the results obtained from RSA solution.*/
+    /** Updates the mapping stored in the given instance with the results obtained from RSA solution (i.e., vecOnPath). @param i The instance to be updated.*/
     void updateInstance(Instance &i);
 
-    /* Returns the first node with a given label from the graph associated with the d-th demand. If such node does not exist, return INVALID. */
+    /** Returns the first node with a given label from the graph associated with the d-th demand to be routed. @note If such node does not exist, returns INVALID. @param d The graph #d. @param label The node's label. **/
     ListDigraph::Node getFirstNodeFromLabel(int d, int label);
     
-    /* Contract nodes with the same given label from the graph associated with the d-th demand. */
+    /** Contract nodes with the same given label from the graph associated with the d-th demand to be routed. @param d The graph #d. @param label The node's label. **/
     void contractNodesFromLabel(int d, int label);
 
-    /* Delete arcs that are known a priori to be unable to route on graph #d. */
+    /** Delete arcs that are known 'a priori' to be unable to route on graph #d. Erase arcs that do not support the demand's load. @param d The graph #d to be inspected. **/
     void eraseNonRoutableArcs(int d);
     
-    /** Erases every arc from graph #d having the given slice and returns the number of arcs removed. **/
+    /** Erases every arc from graph #d having the given slice and returns the number of arcs removed. @param d The graph #d. @param slice The slice to be removed. **/
     int eraseAllArcsFromSlice(int d, int slice);
 
     /** Runs preprocessing on every extended graph. **/
@@ -201,32 +201,32 @@ public:
     /** Performs preprocessing based on the arc lengths and returns true if at least one arc is erased. An arc (u,v) can only be part of a solution if the distance from demand source to u, plus the distance from v to demand target plus the arc length is less than or equal to the demand's maximum length. **/
     bool lengthPreprocessing();
 
-    /** Returns the distance of the shortest path from source to target passing through arc a. \note If there exists no st-path, returns +inifinity. **/
+    /** Returns the distance of the shortest path from source to target passing through arc a. \note If there exists no st-path, returns +Infinity. @param d The graph #d. @param source The source node.  @param a The arc required to be present. @param target The target node.  **/
     double shortestDistance(int d, ListDigraph::Node &source, ListDigraph::Arc &a, ListDigraph::Node &target);
 
 	/****************************************************************************************/
 	/*										Display											*/
 	/****************************************************************************************/
 
-    /* For graph #d, display the nodes that are incident to node (label,slice). */
+    /** Displays the nodes of graph #d that are incident to the node identified by (label,slice).  @param d The graph #d. @param label The node's label. @param slice The node's slice position. **/
     void displayNodesIncidentTo(int d, int label, int slice);
 
-    /* For graph #d, display the nodes that have a given label. */
+    /** Displays the nodes of graph #d that have a given label. @param d The graph #d. @param label The node's label. **/
     void displayNodesFromLabel(int d, int label);
 
-    /* Display the paths found for each of the new routed demands. */
+    /** Displays the paths found for each of the new routed demands. **/
     void displayPaths();
     
-    /* Display arc a from the graph associated with the d-th demand. */
+    /** Displays an arc from the graph #d. @param d The graph #d. @param a The arc to be displayed. **/
     void displayArc(int d, const ListDigraph::Arc &a);
 
-    /* Display node n from the graph associated with the d-th demand. */
+    /** Displays a node from the graph #d. @param d The graph #d. @param n The node to be displayed. */
     void displayNode(int d, const ListDigraph::Node &n);
     
-    /** Display all arcs from the graph associated with the d-th demand. **/
+    /** Display all arcs from the graph #d. @param d The graph #d. **/
     void displayGraph(int d);
 
-    /* Displays the demands to be routed in the next optimization. */
+    /** Displays the demands to be routed in the next optimization. **/
     void displayToBeRouted();
 
 };

@@ -114,7 +114,7 @@ ListDigraph::Node RSA::getNode(int d, int label, int slice){
     return INVALID;
 }
 
-/* Updates the mapping stored in instance i with the results obtained from RSA solution.*/
+/* Updates the mapping stored in the given instance with the results obtained from RSA solution (i.e., vecOnPath).*/
 void RSA::updateInstance(Instance &i){
     //instance.displaySlices();
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
@@ -129,7 +129,7 @@ void RSA::updateInstance(Instance &i){
     instance.displaySlices();
 }
 
-/* Returns the first node with a given label from the graph associated with the d-th demand. If such node does not exist, return INVALID. */
+/* Returns the first node with a given label from the graph associated with the d-th demand to be routed. If such node does not exist, return INVALID. */
 ListDigraph::Node RSA::getFirstNodeFromLabel(int d, int label){
     for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
         if (getNodeLabel(v, d) == label){
@@ -139,7 +139,7 @@ ListDigraph::Node RSA::getFirstNodeFromLabel(int d, int label){
     return INVALID;
 }
 
-/* Contract nodes with the same given label from the graph associated with the d-th demand. */
+/* Contract nodes with the same given label from the graph associated with the d-th demand to be routed. */
 void RSA::contractNodesFromLabel(int d, int label){
     int nb = 0;
     ListDigraph::NodeIt previousNode(*vecGraph[d]);
@@ -162,7 +162,7 @@ void RSA::contractNodesFromLabel(int d, int label){
     std::cout << "> Number of nodes with label " << label << " contracted: " << nb << std::endl; 
 }
 
-/* Delete arcs that are known a priori to be unable to route on graph #d. */
+/* Delete arcs that are known 'a priori' to be unable to route on graph #d. */
 void RSA::eraseNonRoutableArcs(int d){
     int nb = 0;
     ListDigraph::ArcIt previousArc(*vecGraph[d]);
@@ -229,7 +229,7 @@ int RSA::eraseAllArcsFromSlice(int d, int slice){
     }
     return nb;
 }
-/* Performs preprocessing based on the arc lengths. An arc (u,v) can only be part of a solution if the distance from demand source to u, plus the distance from v to demand target plus the arc length is less than or equal to the demand's maximum length. */
+/* Performs preprocessing based on the arc lengths and returns true if at least one arc is erased. */
 bool RSA::lengthPreprocessing(){
     int totalNb = 0;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
@@ -410,7 +410,7 @@ void RSA::displayToBeRouted(){
 	
 }
 
-/* For graph #d, display the nodes that are incident to node (label,slice). */
+/* Displays the nodes of graph #d that are incident to the node identified by (label,slice). */
 void RSA::displayNodesIncidentTo(int d, int label, int slice){
     ListDigraph::Node target = getNode(d, label, slice);
     std::cout << "Nodes incident to (" << label << ", " << slice << "): " << std::endl;
@@ -424,7 +424,7 @@ void RSA::displayNodesIncidentTo(int d, int label, int slice){
     }
 }
 
-/* For graph #d, display the nodes that have a given label. */
+/* Displays the nodes of graph #d that have a given label. */
 void RSA::displayNodesFromLabel(int d, int label){
     std::cout << "Nodes with label " << label << ": " << std::endl;
     for (ListDigraph::NodeIt n(*vecGraph[d]); n != INVALID; ++n){
@@ -434,7 +434,7 @@ void RSA::displayNodesFromLabel(int d, int label){
     }
 }
 
-/* Display the paths found for each of the new routed demands. */
+/* Displays the paths found for each of the new routed demands. */
 void RSA::displayPaths(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
@@ -446,7 +446,7 @@ void RSA::displayPaths(){
     }
 }
 
-/* Display arc a from the graph associated with the d-th demand. */
+/* Displays an arc from the graph #d. */
 void RSA::displayArc(int d, const ListDigraph::Arc &a){
     std::cout << "(" << getNodeLabel((*vecGraph[d]).source(a), d) + 1 << ", " <<  getNodeSlice((*vecGraph[d]).source(a), d) + 1 << ")";
     std::cout << "--";
@@ -454,14 +454,14 @@ void RSA::displayArc(int d, const ListDigraph::Arc &a){
 }
 
 
-/* Display all arcs from the graph associated with the d-th demand. */
+/* Display all arcs from the graph #d. */
 void RSA::displayGraph(int d){
     for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
         displayArc(d, a);
     }
 }
 
-/* Display node n from the graph associated with the d-th demand. */
+/* Displays a node from the graph #d. */
 void RSA::displayNode(int d, const ListDigraph::Node &n){
     std::cout << "(" << getNodeLabel(n, d)+1 << "," << getNodeSlice(n, d)+1 << ")";
 }

@@ -184,22 +184,20 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a473aa2ee82f8cd9503b453266985ee18"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a473aa2ee82f8cd9503b453266985ee18">addArcs</a> (int d, int source, int target, int linkLabel, int slice, double l)</td></tr>
 <tr class="memdesc:a473aa2ee82f8cd9503b453266985ee18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an arc &ndash; and its nodes if necessary &ndash; between nodes (source,slice) and (target,slice) on a graph.  <a href="classRSA.html#a473aa2ee82f8cd9503b453266985ee18">More...</a><br /></td></tr>
 <tr class="separator:a473aa2ee82f8cd9503b453266985ee18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bb66a2d54c695bc10fa4e3697a01a37"><td class="memItemLeft" align="right" valign="top"><a id="a4bb66a2d54c695bc10fa4e3697a01a37"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a4bb66a2d54c695bc10fa4e3697a01a37">updateInstance</a> (<a class="el" href="classInstance.html">Instance</a> &amp;i)</td></tr>
-<tr class="memdesc:a4bb66a2d54c695bc10fa4e3697a01a37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the mapping stored in instance i with the results obtained from <a class="el" href="classRSA.html" title="This class stores the input needed for solving the Routing and Spectrum Allocation problem.">RSA</a> solution. <br /></td></tr>
+<tr class="memitem:a4bb66a2d54c695bc10fa4e3697a01a37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a4bb66a2d54c695bc10fa4e3697a01a37">updateInstance</a> (<a class="el" href="classInstance.html">Instance</a> &amp;i)</td></tr>
+<tr class="memdesc:a4bb66a2d54c695bc10fa4e3697a01a37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the mapping stored in the given instance with the results obtained from <a class="el" href="classRSA.html" title="This class stores the input needed for solving the Routing and Spectrum Allocation problem.">RSA</a> solution (i.e., vecOnPath).  <a href="classRSA.html#a4bb66a2d54c695bc10fa4e3697a01a37">More...</a><br /></td></tr>
 <tr class="separator:a4bb66a2d54c695bc10fa4e3697a01a37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a95beb27713e3f9a9a376fcad6abfa5"><td class="memItemLeft" align="right" valign="top"><a id="a2a95beb27713e3f9a9a376fcad6abfa5"></a>
-ListDigraph::Node&#160;</td><td class="memItemRight" valign="bottom"><b>getFirstNodeFromLabel</b> (int d, int label)</td></tr>
+<tr class="memitem:a2a95beb27713e3f9a9a376fcad6abfa5"><td class="memItemLeft" align="right" valign="top">ListDigraph::Node&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a2a95beb27713e3f9a9a376fcad6abfa5">getFirstNodeFromLabel</a> (int d, int label)</td></tr>
+<tr class="memdesc:a2a95beb27713e3f9a9a376fcad6abfa5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first node with a given label from the graph associated with the d-th demand to be routed.  <a href="classRSA.html#a2a95beb27713e3f9a9a376fcad6abfa5">More...</a><br /></td></tr>
 <tr class="separator:a2a95beb27713e3f9a9a376fcad6abfa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4cf1a9ea2c52634d999abecba219407b"><td class="memItemLeft" align="right" valign="top"><a id="a4cf1a9ea2c52634d999abecba219407b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>contractNodesFromLabel</b> (int d, int label)</td></tr>
+<tr class="memitem:a4cf1a9ea2c52634d999abecba219407b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a4cf1a9ea2c52634d999abecba219407b">contractNodesFromLabel</a> (int d, int label)</td></tr>
+<tr class="memdesc:a4cf1a9ea2c52634d999abecba219407b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contract nodes with the same given label from the graph associated with the d-th demand to be routed.  <a href="classRSA.html#a4cf1a9ea2c52634d999abecba219407b">More...</a><br /></td></tr>
 <tr class="separator:a4cf1a9ea2c52634d999abecba219407b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae56358698d72241f2ca054f679017ccc"><td class="memItemLeft" align="right" valign="top"><a id="ae56358698d72241f2ca054f679017ccc"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>eraseNonRoutableArcs</b> (int d)</td></tr>
+<tr class="memitem:ae56358698d72241f2ca054f679017ccc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ae56358698d72241f2ca054f679017ccc">eraseNonRoutableArcs</a> (int d)</td></tr>
+<tr class="memdesc:ae56358698d72241f2ca054f679017ccc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete arcs that are known 'a priori' to be unable to route on graph #d.  <a href="classRSA.html#ae56358698d72241f2ca054f679017ccc">More...</a><br /></td></tr>
 <tr class="separator:ae56358698d72241f2ca054f679017ccc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a792e9a2a6b6e0e142e21072856f7020e"><td class="memItemLeft" align="right" valign="top"><a id="a792e9a2a6b6e0e142e21072856f7020e"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a792e9a2a6b6e0e142e21072856f7020e">eraseAllArcsFromSlice</a> (int d, int slice)</td></tr>
-<tr class="memdesc:a792e9a2a6b6e0e142e21072856f7020e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erases every arc from graph #d having the given slice and returns the number of arcs removed. <br /></td></tr>
+<tr class="memitem:a792e9a2a6b6e0e142e21072856f7020e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a792e9a2a6b6e0e142e21072856f7020e">eraseAllArcsFromSlice</a> (int d, int slice)</td></tr>
+<tr class="memdesc:a792e9a2a6b6e0e142e21072856f7020e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erases every arc from graph #d having the given slice and returns the number of arcs removed.  <a href="classRSA.html#a792e9a2a6b6e0e142e21072856f7020e">More...</a><br /></td></tr>
 <tr class="separator:a792e9a2a6b6e0e142e21072856f7020e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afcb3bc74d438206130c9660648c5d1f0"><td class="memItemLeft" align="right" valign="top"><a id="afcb3bc74d438206130c9660648c5d1f0"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#afcb3bc74d438206130c9660648c5d1f0">preprocessing</a> ()</td></tr>
@@ -211,27 +209,28 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:ad108768263d27606a28c4aa5f9f3481e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ad108768263d27606a28c4aa5f9f3481e">shortestDistance</a> (int d, ListDigraph::Node &amp;source, ListDigraph::Arc &amp;a, ListDigraph::Node &amp;target)</td></tr>
 <tr class="memdesc:ad108768263d27606a28c4aa5f9f3481e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the distance of the shortest path from source to target passing through arc a.  <a href="classRSA.html#ad108768263d27606a28c4aa5f9f3481e">More...</a><br /></td></tr>
 <tr class="separator:ad108768263d27606a28c4aa5f9f3481e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2582a929e10d28c5885482bb82c3ced"><td class="memItemLeft" align="right" valign="top"><a id="aa2582a929e10d28c5885482bb82c3ced"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>displayNodesIncidentTo</b> (int d, int label, int slice)</td></tr>
+<tr class="memitem:aa2582a929e10d28c5885482bb82c3ced"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aa2582a929e10d28c5885482bb82c3ced">displayNodesIncidentTo</a> (int d, int label, int slice)</td></tr>
+<tr class="memdesc:aa2582a929e10d28c5885482bb82c3ced"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the nodes of graph #d that are incident to the node identified by (label,slice).  <a href="classRSA.html#aa2582a929e10d28c5885482bb82c3ced">More...</a><br /></td></tr>
 <tr class="separator:aa2582a929e10d28c5885482bb82c3ced"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7454e0a2dac0bbd5b9eddfe270013f53"><td class="memItemLeft" align="right" valign="top"><a id="a7454e0a2dac0bbd5b9eddfe270013f53"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>displayNodesFromLabel</b> (int d, int label)</td></tr>
+<tr class="memitem:a7454e0a2dac0bbd5b9eddfe270013f53"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a7454e0a2dac0bbd5b9eddfe270013f53">displayNodesFromLabel</a> (int d, int label)</td></tr>
+<tr class="memdesc:a7454e0a2dac0bbd5b9eddfe270013f53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the nodes of graph #d that have a given label.  <a href="classRSA.html#a7454e0a2dac0bbd5b9eddfe270013f53">More...</a><br /></td></tr>
 <tr class="separator:a7454e0a2dac0bbd5b9eddfe270013f53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa43c0a4c9fda303bd9583a36906d1496"><td class="memItemLeft" align="right" valign="top"><a id="aa43c0a4c9fda303bd9583a36906d1496"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>displayPaths</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aa43c0a4c9fda303bd9583a36906d1496">displayPaths</a> ()</td></tr>
+<tr class="memdesc:aa43c0a4c9fda303bd9583a36906d1496"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the paths found for each of the new routed demands. <br /></td></tr>
 <tr class="separator:aa43c0a4c9fda303bd9583a36906d1496"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e9fa3941b06c33a3f99e6fdb1ddc0d8"><td class="memItemLeft" align="right" valign="top"><a id="a7e9fa3941b06c33a3f99e6fdb1ddc0d8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>displayArc</b> (int d, const ListDigraph::Arc &amp;a)</td></tr>
+<tr class="memitem:a7e9fa3941b06c33a3f99e6fdb1ddc0d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a7e9fa3941b06c33a3f99e6fdb1ddc0d8">displayArc</a> (int d, const ListDigraph::Arc &amp;a)</td></tr>
+<tr class="memdesc:a7e9fa3941b06c33a3f99e6fdb1ddc0d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays an arc from the graph #d.  <a href="classRSA.html#a7e9fa3941b06c33a3f99e6fdb1ddc0d8">More...</a><br /></td></tr>
 <tr class="separator:a7e9fa3941b06c33a3f99e6fdb1ddc0d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef665d88560b42856e15298b67026cf1"><td class="memItemLeft" align="right" valign="top"><a id="aef665d88560b42856e15298b67026cf1"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>displayNode</b> (int d, const ListDigraph::Node &amp;n)</td></tr>
+<tr class="memitem:aef665d88560b42856e15298b67026cf1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aef665d88560b42856e15298b67026cf1">displayNode</a> (int d, const ListDigraph::Node &amp;n)</td></tr>
+<tr class="memdesc:aef665d88560b42856e15298b67026cf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays a node from the graph #d.  <a href="classRSA.html#aef665d88560b42856e15298b67026cf1">More...</a><br /></td></tr>
 <tr class="separator:aef665d88560b42856e15298b67026cf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a316784ce80957e1116d9c8ea7addc678"><td class="memItemLeft" align="right" valign="top"><a id="a316784ce80957e1116d9c8ea7addc678"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a316784ce80957e1116d9c8ea7addc678">displayGraph</a> (int d)</td></tr>
-<tr class="memdesc:a316784ce80957e1116d9c8ea7addc678"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display all arcs from the graph associated with the d-th demand. <br /></td></tr>
+<tr class="memitem:a316784ce80957e1116d9c8ea7addc678"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a316784ce80957e1116d9c8ea7addc678">displayGraph</a> (int d)</td></tr>
+<tr class="memdesc:a316784ce80957e1116d9c8ea7addc678"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display all arcs from the graph #d.  <a href="classRSA.html#a316784ce80957e1116d9c8ea7addc678">More...</a><br /></td></tr>
 <tr class="separator:a316784ce80957e1116d9c8ea7addc678"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d9a0d1d331dfbb684aff707479512d9"><td class="memItemLeft" align="right" valign="top"><a id="a6d9a0d1d331dfbb684aff707479512d9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>displayToBeRouted</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a6d9a0d1d331dfbb684aff707479512d9">displayToBeRouted</a> ()</td></tr>
+<tr class="memdesc:a6d9a0d1d331dfbb684aff707479512d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the demands to be routed in the next optimization. <br /></td></tr>
 <tr class="separator:a6d9a0d1d331dfbb684aff707479512d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
@@ -269,7 +268,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
 <tr class="memdesc:a2a54bc3824b363fa221ef260cb36238c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the NodeMap storing the node slices of the graph associated with each demand to be routed.  <a href="classRSA.html#a2a54bc3824b363fa221ef260cb36238c">More...</a><br /></td></tr>
 <tr class="separator:a2a54bc3824b363fa221ef260cb36238c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7f9f30da50b99c81bedc24ae5139804"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ae7f9f30da50b99c81bedc24ae5139804">vecOnPath</a></td></tr>
-<tr class="memdesc:ae7f9f30da50b99c81bedc24ae5139804"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the ArcMap storing the demand ids that are routed through each arc of the graph associated with each demand to be routed.  <a href="classRSA.html#ae7f9f30da50b99c81bedc24ae5139804">More...</a><br /></td></tr>
+<tr class="memdesc:ae7f9f30da50b99c81bedc24ae5139804"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the ArcMap storing the <a class="el" href="classRSA.html" title="This class stores the input needed for solving the Routing and Spectrum Allocation problem.">RSA</a> solution.  <a href="classRSA.html#ae7f9f30da50b99c81bedc24ae5139804">More...</a><br /></td></tr>
 <tr class="separator:ae7f9f30da50b99c81bedc24ae5139804"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e25203c6373d6170031d75e93d77b4d"><td class="memItemLeft" align="right" valign="top"><a id="a2e25203c6373d6170031d75e93d77b4d"></a>
 ListDigraph&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a2e25203c6373d6170031d75e93d77b4d">compactGraph</a></td></tr>
@@ -390,6 +389,303 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00075">75</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a4cf1a9ea2c52634d999abecba219407b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cf1a9ea2c52634d999abecba219407b">&#9670;&nbsp;</a></span>contractNodesFromLabel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RSA::contractNodesFromLabel </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>label</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Contract nodes with the same given label from the graph associated with the d-th demand to be routed. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>The graph #d.</td></tr>
+    <tr><td class="paramname">label</td><td>The node's label. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00143">143</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a7e9fa3941b06c33a3f99e6fdb1ddc0d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e9fa3941b06c33a3f99e6fdb1ddc0d8">&#9670;&nbsp;</a></span>displayArc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RSA::displayArc </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const ListDigraph::Arc &amp;&#160;</td>
+          <td class="paramname"><em>a</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Displays an arc from the graph #d. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>The graph #d.</td></tr>
+    <tr><td class="paramname">a</td><td>The arc to be displayed. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00450">450</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a316784ce80957e1116d9c8ea7addc678"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a316784ce80957e1116d9c8ea7addc678">&#9670;&nbsp;</a></span>displayGraph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RSA::displayGraph </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Display all arcs from the graph #d. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>The graph #d. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00458">458</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aef665d88560b42856e15298b67026cf1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef665d88560b42856e15298b67026cf1">&#9670;&nbsp;</a></span>displayNode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RSA::displayNode </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const ListDigraph::Node &amp;&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Displays a node from the graph #d. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>The graph #d.</td></tr>
+    <tr><td class="paramname">n</td><td>The node to be displayed. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00465">465</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a7454e0a2dac0bbd5b9eddfe270013f53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7454e0a2dac0bbd5b9eddfe270013f53">&#9670;&nbsp;</a></span>displayNodesFromLabel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RSA::displayNodesFromLabel </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>label</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Displays the nodes of graph #d that have a given label. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>The graph #d.</td></tr>
+    <tr><td class="paramname">label</td><td>The node's label. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00428">428</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aa2582a929e10d28c5885482bb82c3ced"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2582a929e10d28c5885482bb82c3ced">&#9670;&nbsp;</a></span>displayNodesIncidentTo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RSA::displayNodesIncidentTo </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>label</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>slice</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Displays the nodes of graph #d that are incident to the node identified by (label,slice). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>The graph #d.</td></tr>
+    <tr><td class="paramname">label</td><td>The node's label.</td></tr>
+    <tr><td class="paramname">slice</td><td>The node's slice position. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00414">414</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a792e9a2a6b6e0e142e21072856f7020e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a792e9a2a6b6e0e142e21072856f7020e">&#9670;&nbsp;</a></span>eraseAllArcsFromSlice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int RSA::eraseAllArcsFromSlice </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>slice</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Erases every arc from graph #d having the given slice and returns the number of arcs removed. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>The graph #d.</td></tr>
+    <tr><td class="paramname">slice</td><td>The slice to be removed. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00213">213</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ae56358698d72241f2ca054f679017ccc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae56358698d72241f2ca054f679017ccc">&#9670;&nbsp;</a></span>eraseNonRoutableArcs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RSA::eraseNonRoutableArcs </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Delete arcs that are known 'a priori' to be unable to route on graph #d. </p>
+<p>Erase arcs that do not support the demand's load.</p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>The graph #d to be inspected. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00166">166</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -852,6 +1148,46 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00125">125</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+
+</div>
+</div>
+<a id="a2a95beb27713e3f9a9a376fcad6abfa5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a95beb27713e3f9a9a376fcad6abfa5">&#9670;&nbsp;</a></span>getFirstNodeFromLabel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ListDigraph::Node RSA::getFirstNodeFromLabel </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>label</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the first node with a given label from the graph associated with the d-th demand to be routed. </p>
+<dl class="section note"><dt>Note</dt><dd>If such node does not exist, returns INVALID.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>The graph #d.</td></tr>
+    <tr><td class="paramname">label</td><td>The node's label. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00133">133</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -1554,9 +1890,47 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </div><div class="memdoc">
 
 <p>Returns the distance of the shortest path from source to target passing through arc a. </p>
-<dl class="section note"><dt>Note</dt><dd>If there exists no st-path, returns +inifinity. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If there exists no st-path, returns +Infinity.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>The graph #d.</td></tr>
+    <tr><td class="paramname">source</td><td>The source node.</td></tr>
+    <tr><td class="paramname">a</td><td>The arc required to be present.</td></tr>
+    <tr><td class="paramname">target</td><td>The target node. <br  />
+ </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00269">269</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a4bb66a2d54c695bc10fa4e3697a01a37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bb66a2d54c695bc10fa4e3697a01a37">&#9670;&nbsp;</a></span>updateInstance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RSA::updateInstance </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classInstance.html">Instance</a> &amp;&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Updates the mapping stored in the given instance with the results obtained from <a class="el" href="classRSA.html" title="This class stores the input needed for solving the Routing and Spectrum Allocation problem.">RSA</a> solution (i.e., vecOnPath). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>The instance to be updated. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00118">118</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -1797,8 +2171,8 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </table>
 </div><div class="memdoc">
 
-<p>A list of pointers to the ArcMap storing the demand ids that are routed through each arc of the graph associated with each demand to be routed. </p>
-<dl class="section note"><dt>Note</dt><dd>(*vecOnPath[i])[a] is the id the demand routed through arc a in the graph associated with the i-th demand to be routed. </dd></dl>
+<p>A list of pointers to the ArcMap storing the <a class="el" href="classRSA.html" title="This class stores the input needed for solving the Routing and Spectrum Allocation problem.">RSA</a> solution. </p>
+<p>It stores the id of the demand that is routed through each arc of the graph #i. </p><dl class="section note"><dt>Note</dt><dd>(*vecOnPath[i])[a] is the id the demand routed through arc a in the graph associated with the i-th demand to be routed. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00066">66</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 

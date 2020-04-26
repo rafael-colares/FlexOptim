@@ -5,7 +5,7 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     linkFile = getParameterValue("linkFile=");
     demandFile = getParameterValue("demandFile=");
     assignmentFile = getParameterValue("assignmentFile=");
-    onlineDemandFile = getParameterValue("onlineDemandFile=");
+    onlineDemandFolder = getParameterValue("onlineDemandFolder=");
     nbDemandsAtOnce = std::stoi(getParameterValue("nbDemandsAtOnce="));
     outputPath = getParameterValue("outputPath=");
     nbSlicesInOutputFile = std::stoi(getParameterValue("nbSlicesInOutputFile="));
@@ -18,6 +18,10 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     lagrangianLambda_zero = std::stod(getParameterValue("lagrangianLambda_zero="));
     nbIterationsWithoutImprovement = std::stoi(getParameterValue("nbIterationsWithoutImprovement="));
     maxNbIterations = std::stoi(getParameterValue("maxNbIterations="));
+
+    if (!onlineDemandFolder.empty()) {
+        populateOnlineDemandFiles();
+    }
     displayMainParameters();
 }
 
@@ -26,7 +30,8 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     linkFile = i.getLinkFile();
     demandFile = i.getDemandFile();
     assignmentFile = i.getAssignmentFile();
-    onlineDemandFile = i.getOnlineDemandFile();
+    onlineDemandFolder = i.getOnlineDemandFolder();
+    vecOnlineDemandFile = i.getOnlineDemandFiles();
     nbDemandsAtOnce = i.getNbDemandsAtOnce();
     outputPath = i.getOutputPath();
     nbSlicesInOutputFile = i.getnbSlicesInOutputFile();
@@ -63,7 +68,18 @@ std::string Input::getParameterValue(std::string pattern){
     return value;
 }
 
-
+void Input::populateOnlineDemandFiles(){
+    DIR *dir;
+    dirent *pdir;
+    dir = opendir(onlineDemandFolder.c_str());
+    while ( (pdir = readdir(dir)) != NULL) {
+        std::string file = onlineDemandFolder + "/" + pdir->d_name;    
+        if (file.back() != '.'){
+            vecOnlineDemandFile.push_back(file);
+        }
+    }
+    closedir(dir);
+}
 /* Converts a string into an ObjectiveMetric. */
 Input::ObjectiveMetric Input::to_ObjectiveMetric(std::string data){
     Input::ObjectiveMetric obj = (ObjectiveMetric) std::stoi(data);
@@ -82,4 +98,3 @@ void Input::displayMainParameters(){
     std::cout << "DEMAND FILE: " << demandFile << std::endl;
     std::cout << "ASSIGNMENT FILE: " << assignmentFile << std::endl;
 }
-

@@ -70,9 +70,8 @@ void \mbox{\hyperlink{classInstance_a7ff007e7f8ac687bfa809128efe8ecd1}{read\+Dem
 \begin{DoxyCompactList}\small\item\em Reads the routed demand information from input\textquotesingle{}s demand\+File. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classInstance_aca8fd46d6a592c0cae4cd96d3b3a7848}{read\+Demand\+Assignment}} ()
 \begin{DoxyCompactList}\small\item\em Reads the assignment information from input\textquotesingle{}s assignment\+File. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classInstance_a9cdefb46d4fdb1967c9b4a91ca849652}\label{classInstance_a9cdefb46d4fdb1967c9b4a91ca849652}} 
-void \mbox{\hyperlink{classInstance_a9cdefb46d4fdb1967c9b4a91ca849652}{generate\+Random\+Demands\+From\+File}} ()
-\begin{DoxyCompactList}\small\item\em Adds non-\/routed demands to the pool by reading the information from online\+Demands \mbox{\hyperlink{classInput}{Input}} file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classInstance_a2a7b3f6f6028b68265b328383cecf21b}{generate\+Random\+Demands\+From\+File}} (std\+::string file\+Path)
+\begin{DoxyCompactList}\small\item\em Adds non-\/routed demands to the pool by reading the information from file. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classInstance_ae7d58f0777d8a8528bcf544aed95d463}{generate\+Random\+Demands}} (const int N)
 \begin{DoxyCompactList}\small\item\em Adds non-\/routed demands to the pool by generating random demands. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classInstance_aecc5e2418d78011dbe2be9f9fd80ff07}{assign\+Slices\+Of\+Link}} (int index, int pos, const \mbox{\hyperlink{classDemand}{Demand}} \&demand)
@@ -220,6 +219,25 @@ Adds non-\/routed demands to the pool by generating random demands.
 
 Definition at line 234 of file Instance.\+cpp.
 
+\mbox{\Hypertarget{classInstance_a2a7b3f6f6028b68265b328383cecf21b}\label{classInstance_a2a7b3f6f6028b68265b328383cecf21b}} 
+\index{Instance@{Instance}!generateRandomDemandsFromFile@{generateRandomDemandsFromFile}}
+\index{generateRandomDemandsFromFile@{generateRandomDemandsFromFile}!Instance@{Instance}}
+\doxysubsubsection{\texorpdfstring{generateRandomDemandsFromFile()}{generateRandomDemandsFromFile()}}
+{\footnotesize\ttfamily void Instance\+::generate\+Random\+Demands\+From\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{file\+Path }\end{DoxyParamCaption})}
+
+
+
+Adds non-\/routed demands to the pool by reading the information from file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Path} & The path of the file to be read. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 213 of file Instance.\+cpp.
+
 \mbox{\Hypertarget{classInstance_a0d8336cf95a158df86ebe53575faf6be}\label{classInstance_a0d8336cf95a158df86ebe53575faf6be}} 
 \index{Instance@{Instance}!getDemandFromIndex@{getDemandFromIndex}}
 \index{getDemandFromIndex@{getDemandFromIndex}!Instance@{Instance}}
@@ -237,7 +255,7 @@ Returns the demand with given index.
 \end{DoxyParams}
 
 
-Definition at line 69 of file Instance.\+h.
+Definition at line 70 of file Instance.\+h.
 
 \mbox{\Hypertarget{classInstance_a7b954cf3c7c0e8ec3fd1bd28708b1af9}\label{classInstance_a7b954cf3c7c0e8ec3fd1bd28708b1af9}} 
 \index{Instance@{Instance}!getPhysicalLinkBetween@{getPhysicalLinkBetween}}
@@ -280,7 +298,7 @@ Returns the \mbox{\hyperlink{classPhysicalLink}{Physical\+Link}} with given inde
 \end{DoxyParams}
 
 
-Definition at line 60 of file Instance.\+h.
+Definition at line 61 of file Instance.\+h.
 
 \mbox{\Hypertarget{classInstance_adb6a7d0a298b44e4831f887eb5aeba0b}\label{classInstance_adb6a7d0a298b44e4831f887eb5aeba0b}} 
 \index{Instance@{Instance}!hasEnoughSpace@{hasEnoughSpace}}
@@ -477,7 +495,7 @@ This function resizes vector tab\+Demand, creating default demands if nb is grea
 \end{DoxyWarning}
 
 
-Definition at line 81 of file Instance.\+h.
+Definition at line 83 of file Instance.\+h.
 
 \mbox{\Hypertarget{classInstance_a06b5bbc43d5a7d004e7f17f9c2661c51}\label{classInstance_a06b5bbc43d5a7d004e7f17f9c2661c51}} 
 \index{Instance@{Instance}!setNbNodes@{setNbNodes}}
@@ -496,7 +514,7 @@ Change the number of nodes in the physical network.
 \end{DoxyParams}
 
 
-Definition at line 84 of file Instance.\+h.
+Definition at line 86 of file Instance.\+h.
 
 \mbox{\Hypertarget{classInstance_a31bceb4f0d9bd558ec5451a9d9a46c74}\label{classInstance_a31bceb4f0d9bd558ec5451a9d9a46c74}} 
 \index{Instance@{Instance}!setTabDemand@{setTabDemand}}
@@ -515,7 +533,7 @@ Change the set of demands.
 \end{DoxyParams}
 
 
-Definition at line 90 of file Instance.\+h.
+Definition at line 92 of file Instance.\+h.
 
 \mbox{\Hypertarget{classInstance_a3e680b30c7fdabeae8cd8e847c5f8ba9}\label{classInstance_a3e680b30c7fdabeae8cd8e847c5f8ba9}} 
 \index{Instance@{Instance}!setTabEdge@{setTabEdge}}
@@ -534,7 +552,7 @@ Change the set of links in the physical network.
 \end{DoxyParams}
 
 
-Definition at line 87 of file Instance.\+h.
+Definition at line 89 of file Instance.\+h.
 
 
 

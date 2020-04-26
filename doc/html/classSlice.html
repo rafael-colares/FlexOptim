@@ -72,44 +72,94 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>This class identifies a <a class="el" href="classSlice.html" title="This class identifies a Slice of a PhysicalLink.">Slice</a> of a <a class="el" href="classPhysicalLink.html" title="This class identifies a link on the physical network.">PhysicalLink</a>.  
+<p>This class identifies an specific slice in the frequency spectrum of a <a class="el" href="classPhysicalLink.html" title="This class identifies a link on the physical network.">PhysicalLink</a>.  
  <a href="classSlice.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="Slice_8h_source.html">Slice.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a960e99060779c9a908092132d5c69320"><td class="memItemLeft" align="right" valign="top"><a id="a960e99060779c9a908092132d5c69320"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSlice.html#a960e99060779c9a908092132d5c69320">Slice</a> (int id=-1)</td></tr>
-<tr class="memdesc:a960e99060779c9a908092132d5c69320"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br /></td></tr>
+<tr class="memitem:a960e99060779c9a908092132d5c69320"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSlice.html#a960e99060779c9a908092132d5c69320">Slice</a> (int id=-1)</td></tr>
+<tr class="memdesc:a960e99060779c9a908092132d5c69320"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="classSlice.html#a960e99060779c9a908092132d5c69320">More...</a><br /></td></tr>
 <tr class="separator:a960e99060779c9a908092132d5c69320"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7d7da246f03af1715d0186ec6956c6e"><td class="memItemLeft" align="right" valign="top"><a id="af7d7da246f03af1715d0186ec6956c6e"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSlice.html#af7d7da246f03af1715d0186ec6956c6e">getAssignment</a> () const</td></tr>
-<tr class="memdesc:af7d7da246f03af1715d0186ec6956c6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the id of the <a class="el" href="classDemand.html" title="This class identifies a demand.">Demand</a> assigned to the <a class="el" href="classSlice.html" title="This class identifies a Slice of a PhysicalLink.">Slice</a>. <br /></td></tr>
+<tr class="memdesc:af7d7da246f03af1715d0186ec6956c6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the id of the assigned demand. <br /></td></tr>
 <tr class="separator:af7d7da246f03af1715d0186ec6956c6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1626f7db77c039890ec9c5c044ff81c"><td class="memItemLeft" align="right" valign="top"><a id="aa1626f7db77c039890ec9c5c044ff81c"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSlice.html#aa1626f7db77c039890ec9c5c044ff81c">setAssignment</a> (int d)</td></tr>
-<tr class="memdesc:aa1626f7db77c039890ec9c5c044ff81c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies the id of the <a class="el" href="classDemand.html" title="This class identifies a demand.">Demand</a> assigned to the <a class="el" href="classSlice.html" title="This class identifies a Slice of a PhysicalLink.">Slice</a>. <br /></td></tr>
+<tr class="memdesc:aa1626f7db77c039890ec9c5c044ff81c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies the id of the assigned demand. <br /></td></tr>
 <tr class="separator:aa1626f7db77c039890ec9c5c044ff81c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaef8f8886b7cef47db3220a947594716"><td class="memItemLeft" align="right" valign="top"><a id="aaef8f8886b7cef47db3220a947594716"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSlice.html#aaef8f8886b7cef47db3220a947594716">isUsed</a> ()</td></tr>
-<tr class="memdesc:aaef8f8886b7cef47db3220a947594716"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifies if the <a class="el" href="classSlice.html" title="This class identifies a Slice of a PhysicalLink.">Slice</a> is occupied by some demand. <br /></td></tr>
+<tr class="memitem:aaef8f8886b7cef47db3220a947594716"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSlice.html#aaef8f8886b7cef47db3220a947594716">isUsed</a> ()</td></tr>
+<tr class="memdesc:aaef8f8886b7cef47db3220a947594716"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifies if the slice is occupied by some demand.  <a href="classSlice.html#aaef8f8886b7cef47db3220a947594716">More...</a><br /></td></tr>
 <tr class="separator:aaef8f8886b7cef47db3220a947594716"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a029b4ae9a9cc083f83012b1cba475d2a"><td class="memItemLeft" align="right" valign="top"><a id="a029b4ae9a9cc083f83012b1cba475d2a"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSlice.html#a029b4ae9a9cc083f83012b1cba475d2a">assignedDemand</a></td></tr>
-<tr class="memdesc:a029b4ae9a9cc083f83012b1cba475d2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to the id of the routed demand; If no demand is routed, it equals -1. <br /></td></tr>
+<tr class="memdesc:a029b4ae9a9cc083f83012b1cba475d2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to the id of the assigned demand; If no demand is assigned, it equals -1. <br /></td></tr>
 <tr class="separator:a029b4ae9a9cc083f83012b1cba475d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class identifies a <a class="el" href="classSlice.html" title="This class identifies a Slice of a PhysicalLink.">Slice</a> of a <a class="el" href="classPhysicalLink.html" title="This class identifies a link on the physical network.">PhysicalLink</a>. </p>
-<p><br  />
- A <a class="el" href="classDemand.html" title="This class identifies a demand.">Demand</a> may be routed through a <a class="el" href="classSlice.html" title="This class identifies a Slice of a PhysicalLink.">Slice</a>. This class allows to identify, specify and verify which <a class="el" href="classDemand.html" title="This class identifies a demand.">Demand</a> is routed (or not) through the slice. </p>
+<div class="textblock"><p>This class identifies an specific slice in the frequency spectrum of a <a class="el" href="classPhysicalLink.html" title="This class identifies a link on the physical network.">PhysicalLink</a>. </p>
+<p>A <a class="el" href="classDemand.html" title="This class identifies a demand.">Demand</a> that is routed through a <a class="el" href="classPhysicalLink.html" title="This class identifies a link on the physical network.">PhysicalLink</a> must be assigned to n continuous slices, where n is the demand's load. This class allows to identify, specify and verify which <a class="el" href="classDemand.html" title="This class identifies a demand.">Demand</a> is assigned (or not) through a slice. </p>
 
-<p class="definition">Definition at line <a class="el" href="Slice_8h_source.html#l00009">9</a> of file <a class="el" href="Slice_8h_source.html">Slice.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+<p class="definition">Definition at line <a class="el" href="Slice_8h_source.html#l00010">10</a> of file <a class="el" href="Slice_8h_source.html">Slice.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a960e99060779c9a908092132d5c69320"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a960e99060779c9a908092132d5c69320">&#9670;&nbsp;</a></span>Slice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Slice::Slice </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em> = <code>-1</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Default constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>The id of the assigned demand. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>If slice is free, id = -1. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="Slice_8cpp_source.html#l00004">4</a> of file <a class="el" href="Slice_8cpp_source.html">Slice.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="aaef8f8886b7cef47db3220a947594716"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaef8f8886b7cef47db3220a947594716">&#9670;&nbsp;</a></span>isUsed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Slice::isUsed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Verifies if the slice is occupied by some demand. </p>
+<p>Returns true if slice is already occupied or false, otherwise. </p>
+
+<p class="definition">Definition at line <a class="el" href="Slice_8cpp_source.html#l00009">9</a> of file <a class="el" href="Slice_8cpp_source.html">Slice.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="Slice_8h_source.html">Slice.h</a></li>
 <li><a class="el" href="Slice_8cpp_source.html">Slice.cpp</a></li>
 </ul>

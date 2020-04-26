@@ -210,10 +210,10 @@ void Instance::displayRoutedDemands(){
 }
 
 /* Adds non-routed demands to the pool by reading the information from onlineDemands Input file. */
-void Instance::generateRandomDemandsFromFile(){
+void Instance::generateRandomDemandsFromFile(std::string filePath){
 	
-	std::cout << "Reading " << input.getOnlineDemandFile() << " ..." << std::endl;
-	CSVReader reader(input.getOnlineDemandFile());
+	std::cout << "Reading " << filePath << " ..." << std::endl;
+	CSVReader reader(filePath);
 	/* dataList is a vector of vectors of strings. */
 	/* dataList[0] corresponds to the first line of the document and dataList[0][i] to the i-th word.*/
 	std::vector<std::vector<std::string> > dataList = reader.getData();

@@ -4,8 +4,8 @@ LIBFORMAT = static_pic
 # ---------------------------------------------------------------------
 # Compiler options
 # ---------------------------------------------------------------------
-CCC = g++ -O0
-CCOPT = -m64 -O -fPIC -fno-strict-aliasing -fexceptions -DNDEBUG -DIL_STD -Wno-ignored-attributes
+CCC = g++ -O0 
+CCOPT = -m64 -O -fPIC -fno-strict-aliasing -fexceptions -DNDEBUG -DIL_STD -Wno-ignored-attributes 
 # ---------------------------------------------------------------------
 # Cplex, Concert, Lemon and Boost paths
 # ---------------------------------------------------------------------

@@ -82,19 +82,14 @@ void \mbox{\hyperlink{classRSA_abdb6663e19b3db20839902209e1f18a4}{build\+Compact
 \begin{DoxyCompactList}\small\item\em Builds the simple graph associated with the initial mapping. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classRSA_a473aa2ee82f8cd9503b453266985ee18}{add\+Arcs}} (int d, int source, int target, int link\+Label, int slice, double l)
 \begin{DoxyCompactList}\small\item\em Creates an arc -- and its nodes if necessary -- between nodes (source,slice) and (target,slice) on a graph. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classRSA_a4bb66a2d54c695bc10fa4e3697a01a37}\label{classRSA_a4bb66a2d54c695bc10fa4e3697a01a37}} 
 void \mbox{\hyperlink{classRSA_a4bb66a2d54c695bc10fa4e3697a01a37}{update\+Instance}} (\mbox{\hyperlink{classInstance}{Instance}} \&i)
-\begin{DoxyCompactList}\small\item\em Updates the mapping stored in instance i with the results obtained from \mbox{\hyperlink{classRSA}{R\+SA}} solution. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classRSA_a2a95beb27713e3f9a9a376fcad6abfa5}\label{classRSA_a2a95beb27713e3f9a9a376fcad6abfa5}} 
-List\+Digraph\+::\+Node {\bfseries get\+First\+Node\+From\+Label} (int d, int label)
-\item 
-\mbox{\Hypertarget{classRSA_a4cf1a9ea2c52634d999abecba219407b}\label{classRSA_a4cf1a9ea2c52634d999abecba219407b}} 
-void {\bfseries contract\+Nodes\+From\+Label} (int d, int label)
-\item 
-\mbox{\Hypertarget{classRSA_ae56358698d72241f2ca054f679017ccc}\label{classRSA_ae56358698d72241f2ca054f679017ccc}} 
-void {\bfseries erase\+Non\+Routable\+Arcs} (int d)
-\item 
-\mbox{\Hypertarget{classRSA_a792e9a2a6b6e0e142e21072856f7020e}\label{classRSA_a792e9a2a6b6e0e142e21072856f7020e}} 
+\begin{DoxyCompactList}\small\item\em Updates the mapping stored in the given instance with the results obtained from \mbox{\hyperlink{classRSA}{R\+SA}} solution (i.\+e., vec\+On\+Path). \end{DoxyCompactList}\item 
+List\+Digraph\+::\+Node \mbox{\hyperlink{classRSA_a2a95beb27713e3f9a9a376fcad6abfa5}{get\+First\+Node\+From\+Label}} (int d, int label)
+\begin{DoxyCompactList}\small\item\em Returns the first node with a given label from the graph associated with the d-\/th demand to be routed. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classRSA_a4cf1a9ea2c52634d999abecba219407b}{contract\+Nodes\+From\+Label}} (int d, int label)
+\begin{DoxyCompactList}\small\item\em Contract nodes with the same given label from the graph associated with the d-\/th demand to be routed. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classRSA_ae56358698d72241f2ca054f679017ccc}{erase\+Non\+Routable\+Arcs}} (int d)
+\begin{DoxyCompactList}\small\item\em Delete arcs that are known \textquotesingle{}a priori\textquotesingle{} to be unable to route on graph \#d. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{classRSA_a792e9a2a6b6e0e142e21072856f7020e}{erase\+All\+Arcs\+From\+Slice}} (int d, int slice)
 \begin{DoxyCompactList}\small\item\em Erases every arc from graph \#d having the given slice and returns the number of arcs removed. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classRSA_afcb3bc74d438206130c9660648c5d1f0}\label{classRSA_afcb3bc74d438206130c9660648c5d1f0}} 
@@ -104,27 +99,22 @@ bool \mbox{\hyperlink{classRSA_a832589d9a90339daedf9ecbc0c1360cf}{length\+Prepro
 \begin{DoxyCompactList}\small\item\em Performs preprocessing based on the arc lengths and returns true if at least one arc is erased. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{classRSA_ad108768263d27606a28c4aa5f9f3481e}{shortest\+Distance}} (int d, List\+Digraph\+::\+Node \&source, List\+Digraph\+::\+Arc \&a, List\+Digraph\+::\+Node \&target)
 \begin{DoxyCompactList}\small\item\em Returns the distance of the shortest path from source to target passing through arc a. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classRSA_aa2582a929e10d28c5885482bb82c3ced}\label{classRSA_aa2582a929e10d28c5885482bb82c3ced}} 
-void {\bfseries display\+Nodes\+Incident\+To} (int d, int label, int slice)
-\item 
-\mbox{\Hypertarget{classRSA_a7454e0a2dac0bbd5b9eddfe270013f53}\label{classRSA_a7454e0a2dac0bbd5b9eddfe270013f53}} 
-void {\bfseries display\+Nodes\+From\+Label} (int d, int label)
-\item 
+void \mbox{\hyperlink{classRSA_aa2582a929e10d28c5885482bb82c3ced}{display\+Nodes\+Incident\+To}} (int d, int label, int slice)
+\begin{DoxyCompactList}\small\item\em Displays the nodes of graph \#d that are incident to the node identified by (label,slice). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classRSA_a7454e0a2dac0bbd5b9eddfe270013f53}{display\+Nodes\+From\+Label}} (int d, int label)
+\begin{DoxyCompactList}\small\item\em Displays the nodes of graph \#d that have a given label. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classRSA_aa43c0a4c9fda303bd9583a36906d1496}\label{classRSA_aa43c0a4c9fda303bd9583a36906d1496}} 
-void {\bfseries display\+Paths} ()
-\item 
-\mbox{\Hypertarget{classRSA_a7e9fa3941b06c33a3f99e6fdb1ddc0d8}\label{classRSA_a7e9fa3941b06c33a3f99e6fdb1ddc0d8}} 
-void {\bfseries display\+Arc} (int d, const List\+Digraph\+::\+Arc \&a)
-\item 
-\mbox{\Hypertarget{classRSA_aef665d88560b42856e15298b67026cf1}\label{classRSA_aef665d88560b42856e15298b67026cf1}} 
-void {\bfseries display\+Node} (int d, const List\+Digraph\+::\+Node \&n)
-\item 
-\mbox{\Hypertarget{classRSA_a316784ce80957e1116d9c8ea7addc678}\label{classRSA_a316784ce80957e1116d9c8ea7addc678}} 
+void \mbox{\hyperlink{classRSA_aa43c0a4c9fda303bd9583a36906d1496}{display\+Paths}} ()
+\begin{DoxyCompactList}\small\item\em Displays the paths found for each of the new routed demands. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classRSA_a7e9fa3941b06c33a3f99e6fdb1ddc0d8}{display\+Arc}} (int d, const List\+Digraph\+::\+Arc \&a)
+\begin{DoxyCompactList}\small\item\em Displays an arc from the graph \#d. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classRSA_aef665d88560b42856e15298b67026cf1}{display\+Node}} (int d, const List\+Digraph\+::\+Node \&n)
+\begin{DoxyCompactList}\small\item\em Displays a node from the graph \#d. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classRSA_a316784ce80957e1116d9c8ea7addc678}{display\+Graph}} (int d)
-\begin{DoxyCompactList}\small\item\em Display all arcs from the graph associated with the d-\/th demand. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Display all arcs from the graph \#d. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classRSA_a6d9a0d1d331dfbb684aff707479512d9}\label{classRSA_a6d9a0d1d331dfbb684aff707479512d9}} 
-void {\bfseries display\+To\+Be\+Routed} ()
-\end{DoxyCompactItemize}
+void \mbox{\hyperlink{classRSA_a6d9a0d1d331dfbb684aff707479512d9}{display\+To\+Be\+Routed}} ()
+\begin{DoxyCompactList}\small\item\em Displays the demands to be routed in the next optimization. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -151,7 +141,7 @@ std\+::vector$<$ std\+::shared\+\_\+ptr$<$ Node\+Map $>$ $>$ \mbox{\hyperlink{cl
 std\+::vector$<$ std\+::shared\+\_\+ptr$<$ Node\+Map $>$ $>$ \mbox{\hyperlink{classRSA_a2a54bc3824b363fa221ef260cb36238c}{vec\+Node\+Slice}}
 \begin{DoxyCompactList}\small\item\em A list of pointers to the Node\+Map storing the node slices of the graph associated with each demand to be routed. \end{DoxyCompactList}\item 
 std\+::vector$<$ std\+::shared\+\_\+ptr$<$ Arc\+Map $>$ $>$ \mbox{\hyperlink{classRSA_ae7f9f30da50b99c81bedc24ae5139804}{vec\+On\+Path}}
-\begin{DoxyCompactList}\small\item\em A list of pointers to the Arc\+Map storing the demand ids that are routed through each arc of the graph associated with each demand to be routed. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em A list of pointers to the Arc\+Map storing the \mbox{\hyperlink{classRSA}{R\+SA}} solution. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classRSA_a2e25203c6373d6170031d75e93d77b4d}\label{classRSA_a2e25203c6373d6170031d75e93d77b4d}} 
 List\+Digraph \mbox{\hyperlink{classRSA_a2e25203c6373d6170031d75e93d77b4d}{compact\+Graph}}
 \begin{DoxyCompactList}\small\item\em The simple graph associated with the initial mapping. \end{DoxyCompactList}\item 
@@ -230,6 +220,172 @@ Creates an arc -- and its nodes if necessary -- between nodes (source,slice) and
 
 
 Definition at line 75 of file R\+S\+A.\+cpp.
+
+\mbox{\Hypertarget{classRSA_a4cf1a9ea2c52634d999abecba219407b}\label{classRSA_a4cf1a9ea2c52634d999abecba219407b}} 
+\index{RSA@{RSA}!contractNodesFromLabel@{contractNodesFromLabel}}
+\index{contractNodesFromLabel@{contractNodesFromLabel}!RSA@{RSA}}
+\doxysubsubsection{\texorpdfstring{contractNodesFromLabel()}{contractNodesFromLabel()}}
+{\footnotesize\ttfamily void R\+S\+A\+::contract\+Nodes\+From\+Label (\begin{DoxyParamCaption}\item[{int}]{d,  }\item[{int}]{label }\end{DoxyParamCaption})}
+
+
+
+Contract nodes with the same given label from the graph associated with the d-\/th demand to be routed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & The graph \#d.\\
+\hline
+{\em label} & The node\textquotesingle{}s label. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 143 of file R\+S\+A.\+cpp.
+
+\mbox{\Hypertarget{classRSA_a7e9fa3941b06c33a3f99e6fdb1ddc0d8}\label{classRSA_a7e9fa3941b06c33a3f99e6fdb1ddc0d8}} 
+\index{RSA@{RSA}!displayArc@{displayArc}}
+\index{displayArc@{displayArc}!RSA@{RSA}}
+\doxysubsubsection{\texorpdfstring{displayArc()}{displayArc()}}
+{\footnotesize\ttfamily void R\+S\+A\+::display\+Arc (\begin{DoxyParamCaption}\item[{int}]{d,  }\item[{const List\+Digraph\+::\+Arc \&}]{a }\end{DoxyParamCaption})}
+
+
+
+Displays an arc from the graph \#d. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & The graph \#d.\\
+\hline
+{\em a} & The arc to be displayed. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 450 of file R\+S\+A.\+cpp.
+
+\mbox{\Hypertarget{classRSA_a316784ce80957e1116d9c8ea7addc678}\label{classRSA_a316784ce80957e1116d9c8ea7addc678}} 
+\index{RSA@{RSA}!displayGraph@{displayGraph}}
+\index{displayGraph@{displayGraph}!RSA@{RSA}}
+\doxysubsubsection{\texorpdfstring{displayGraph()}{displayGraph()}}
+{\footnotesize\ttfamily void R\+S\+A\+::display\+Graph (\begin{DoxyParamCaption}\item[{int}]{d }\end{DoxyParamCaption})}
+
+
+
+Display all arcs from the graph \#d. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & The graph \#d. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 458 of file R\+S\+A.\+cpp.
+
+\mbox{\Hypertarget{classRSA_aef665d88560b42856e15298b67026cf1}\label{classRSA_aef665d88560b42856e15298b67026cf1}} 
+\index{RSA@{RSA}!displayNode@{displayNode}}
+\index{displayNode@{displayNode}!RSA@{RSA}}
+\doxysubsubsection{\texorpdfstring{displayNode()}{displayNode()}}
+{\footnotesize\ttfamily void R\+S\+A\+::display\+Node (\begin{DoxyParamCaption}\item[{int}]{d,  }\item[{const List\+Digraph\+::\+Node \&}]{n }\end{DoxyParamCaption})}
+
+
+
+Displays a node from the graph \#d. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & The graph \#d.\\
+\hline
+{\em n} & The node to be displayed. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 465 of file R\+S\+A.\+cpp.
+
+\mbox{\Hypertarget{classRSA_a7454e0a2dac0bbd5b9eddfe270013f53}\label{classRSA_a7454e0a2dac0bbd5b9eddfe270013f53}} 
+\index{RSA@{RSA}!displayNodesFromLabel@{displayNodesFromLabel}}
+\index{displayNodesFromLabel@{displayNodesFromLabel}!RSA@{RSA}}
+\doxysubsubsection{\texorpdfstring{displayNodesFromLabel()}{displayNodesFromLabel()}}
+{\footnotesize\ttfamily void R\+S\+A\+::display\+Nodes\+From\+Label (\begin{DoxyParamCaption}\item[{int}]{d,  }\item[{int}]{label }\end{DoxyParamCaption})}
+
+
+
+Displays the nodes of graph \#d that have a given label. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & The graph \#d.\\
+\hline
+{\em label} & The node\textquotesingle{}s label. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 428 of file R\+S\+A.\+cpp.
+
+\mbox{\Hypertarget{classRSA_aa2582a929e10d28c5885482bb82c3ced}\label{classRSA_aa2582a929e10d28c5885482bb82c3ced}} 
+\index{RSA@{RSA}!displayNodesIncidentTo@{displayNodesIncidentTo}}
+\index{displayNodesIncidentTo@{displayNodesIncidentTo}!RSA@{RSA}}
+\doxysubsubsection{\texorpdfstring{displayNodesIncidentTo()}{displayNodesIncidentTo()}}
+{\footnotesize\ttfamily void R\+S\+A\+::display\+Nodes\+Incident\+To (\begin{DoxyParamCaption}\item[{int}]{d,  }\item[{int}]{label,  }\item[{int}]{slice }\end{DoxyParamCaption})}
+
+
+
+Displays the nodes of graph \#d that are incident to the node identified by (label,slice). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & The graph \#d.\\
+\hline
+{\em label} & The node\textquotesingle{}s label.\\
+\hline
+{\em slice} & The node\textquotesingle{}s slice position. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 414 of file R\+S\+A.\+cpp.
+
+\mbox{\Hypertarget{classRSA_a792e9a2a6b6e0e142e21072856f7020e}\label{classRSA_a792e9a2a6b6e0e142e21072856f7020e}} 
+\index{RSA@{RSA}!eraseAllArcsFromSlice@{eraseAllArcsFromSlice}}
+\index{eraseAllArcsFromSlice@{eraseAllArcsFromSlice}!RSA@{RSA}}
+\doxysubsubsection{\texorpdfstring{eraseAllArcsFromSlice()}{eraseAllArcsFromSlice()}}
+{\footnotesize\ttfamily int R\+S\+A\+::erase\+All\+Arcs\+From\+Slice (\begin{DoxyParamCaption}\item[{int}]{d,  }\item[{int}]{slice }\end{DoxyParamCaption})}
+
+
+
+Erases every arc from graph \#d having the given slice and returns the number of arcs removed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & The graph \#d.\\
+\hline
+{\em slice} & The slice to be removed. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 213 of file R\+S\+A.\+cpp.
+
+\mbox{\Hypertarget{classRSA_ae56358698d72241f2ca054f679017ccc}\label{classRSA_ae56358698d72241f2ca054f679017ccc}} 
+\index{RSA@{RSA}!eraseNonRoutableArcs@{eraseNonRoutableArcs}}
+\index{eraseNonRoutableArcs@{eraseNonRoutableArcs}!RSA@{RSA}}
+\doxysubsubsection{\texorpdfstring{eraseNonRoutableArcs()}{eraseNonRoutableArcs()}}
+{\footnotesize\ttfamily void R\+S\+A\+::erase\+Non\+Routable\+Arcs (\begin{DoxyParamCaption}\item[{int}]{d }\end{DoxyParamCaption})}
+
+
+
+Delete arcs that are known \textquotesingle{}a priori\textquotesingle{} to be unable to route on graph \#d. 
+
+Erase arcs that do not support the demand\textquotesingle{}s load.
+\begin{DoxyParams}{Parameters}
+{\em d} & The graph \#d to be inspected. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 166 of file R\+S\+A.\+cpp.
 
 \mbox{\Hypertarget{classRSA_adfe120a9e708ced2108c1c493af0bf0c}\label{classRSA_adfe120a9e708ced2108c1c493af0bf0c}} 
 \index{RSA@{RSA}!getArcId@{getArcId}}
@@ -469,6 +625,30 @@ Returns the length of an arc on the compact graph.
 
 
 Definition at line 125 of file R\+S\+A.\+h.
+
+\mbox{\Hypertarget{classRSA_a2a95beb27713e3f9a9a376fcad6abfa5}\label{classRSA_a2a95beb27713e3f9a9a376fcad6abfa5}} 
+\index{RSA@{RSA}!getFirstNodeFromLabel@{getFirstNodeFromLabel}}
+\index{getFirstNodeFromLabel@{getFirstNodeFromLabel}!RSA@{RSA}}
+\doxysubsubsection{\texorpdfstring{getFirstNodeFromLabel()}{getFirstNodeFromLabel()}}
+{\footnotesize\ttfamily List\+Digraph\+::\+Node R\+S\+A\+::get\+First\+Node\+From\+Label (\begin{DoxyParamCaption}\item[{int}]{d,  }\item[{int}]{label }\end{DoxyParamCaption})}
+
+
+
+Returns the first node with a given label from the graph associated with the d-\/th demand to be routed. 
+
+\begin{DoxyNote}{Note}
+If such node does not exist, returns I\+N\+V\+A\+L\+ID.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em d} & The graph \#d.\\
+\hline
+{\em label} & The node\textquotesingle{}s label. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 133 of file R\+S\+A.\+cpp.
 
 \mbox{\Hypertarget{classRSA_aa5c7406517a7456c642c4c6ae25e234b}\label{classRSA_aa5c7406517a7456c642c4c6ae25e234b}} 
 \index{RSA@{RSA}!getNode@{getNode}}
@@ -783,11 +963,42 @@ Definition at line 150 of file R\+S\+A.\+h.
 Returns the distance of the shortest path from source to target passing through arc a. 
 
 \begin{DoxyNote}{Note}
-If there exists no st-\/path, returns +inifinity. 
+If there exists no st-\/path, returns +Infinity.
 \end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em d} & The graph \#d.\\
+\hline
+{\em source} & The source node.\\
+\hline
+{\em a} & The arc required to be present.\\
+\hline
+{\em target} & The target node. ~\newline
+ \\
+\hline
+\end{DoxyParams}
 
 
 Definition at line 269 of file R\+S\+A.\+cpp.
+
+\mbox{\Hypertarget{classRSA_a4bb66a2d54c695bc10fa4e3697a01a37}\label{classRSA_a4bb66a2d54c695bc10fa4e3697a01a37}} 
+\index{RSA@{RSA}!updateInstance@{updateInstance}}
+\index{updateInstance@{updateInstance}!RSA@{RSA}}
+\doxysubsubsection{\texorpdfstring{updateInstance()}{updateInstance()}}
+{\footnotesize\ttfamily void R\+S\+A\+::update\+Instance (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classInstance}{Instance}} \&}]{i }\end{DoxyParamCaption})}
+
+
+
+Updates the mapping stored in the given instance with the results obtained from \mbox{\hyperlink{classRSA}{R\+SA}} solution (i.\+e., vec\+On\+Path). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & The instance to be updated. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 118 of file R\+S\+A.\+cpp.
 
 
 
@@ -936,9 +1147,9 @@ Definition at line 62 of file R\+S\+A.\+h.
 
 
 
-A list of pointers to the Arc\+Map storing the demand ids that are routed through each arc of the graph associated with each demand to be routed. 
+A list of pointers to the Arc\+Map storing the \mbox{\hyperlink{classRSA}{R\+SA}} solution. 
 
-\begin{DoxyNote}{Note}
+It stores the id of the demand that is routed through each arc of the graph \#i. \begin{DoxyNote}{Note}
 ($\ast$vec\+On\+Path\mbox{[}i\mbox{]})\mbox{[}a\mbox{]} is the id the demand routed through arc a in the graph associated with the i-\/th demand to be routed. 
 \end{DoxyNote}
 

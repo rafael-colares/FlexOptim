@@ -11,12 +11,13 @@ var searchData=
   ['compactnodeid_14',['compactNodeId',['../classRSA.html#a37a60a79edf9747fc7dbe8c78c54d675',1,'RSA']]],
   ['compactnodelabel_15',['compactNodeLabel',['../classRSA.html#ac18380da784d30516b8cc10e024814ec',1,'RSA']]],
   ['contains_16',['contains',['../classPhysicalLink.html#a2e0fbdc73f4565b7b3bba4158498a223',1,'PhysicalLink']]],
-  ['copydemand_17',['copyDemand',['../classDemand.html#a74ef8d4d66bc26526ddabec1fa8238a7',1,'Demand']]],
-  ['copyphysicallink_18',['copyPhysicalLink',['../classPhysicalLink.html#a3246ccde1b3fd4758ccdd1f043883cd0',1,'PhysicalLink']]],
-  ['cost_19',['cost',['../classPhysicalLink.html#ac580efc68605426d67084eb3d99b0641',1,'PhysicalLink']]],
-  ['count_20',['count',['../classCplexForm.html#a9752277d0b58366e43bb706bdfec5601',1,'CplexForm']]],
-  ['cplex_21',['cplex',['../classCplexForm.html#af8c47815822458d3abc8836e8d4b9840',1,'CplexForm']]],
-  ['cplexform_22',['CplexForm',['../classCplexForm.html',1,'CplexForm'],['../classCplexForm.html#ab2dd3825ee030ef49008c5f9cd8cf5c7',1,'CplexForm::CplexForm()']]],
-  ['createinitialmapping_23',['createInitialMapping',['../classInstance.html#af48c4c8a3050c9bffae7696afa24da1a',1,'Instance']]],
-  ['csvreader_24',['CSVReader',['../classCSVReader.html',1,'CSVReader'],['../classCSVReader.html#a2096bc9b761667afa8126752f5eb4411',1,'CSVReader::CSVReader()']]]
+  ['contractnodesfromlabel_17',['contractNodesFromLabel',['../classRSA.html#a4cf1a9ea2c52634d999abecba219407b',1,'RSA']]],
+  ['copydemand_18',['copyDemand',['../classDemand.html#a74ef8d4d66bc26526ddabec1fa8238a7',1,'Demand']]],
+  ['copyphysicallink_19',['copyPhysicalLink',['../classPhysicalLink.html#a3246ccde1b3fd4758ccdd1f043883cd0',1,'PhysicalLink']]],
+  ['cost_20',['cost',['../classPhysicalLink.html#ac580efc68605426d67084eb3d99b0641',1,'PhysicalLink']]],
+  ['count_21',['count',['../classCplexForm.html#a9752277d0b58366e43bb706bdfec5601',1,'CplexForm']]],
+  ['cplex_22',['cplex',['../classCplexForm.html#af8c47815822458d3abc8836e8d4b9840',1,'CplexForm']]],
+  ['cplexform_23',['CplexForm',['../classCplexForm.html',1,'CplexForm'],['../classCplexForm.html#ab2dd3825ee030ef49008c5f9cd8cf5c7',1,'CplexForm::CplexForm()']]],
+  ['createinitialmapping_24',['createInitialMapping',['../classInstance.html#af48c4c8a3050c9bffae7696afa24da1a',1,'Instance']]],
+  ['csvreader_25',['CSVReader',['../classCSVReader.html',1,'CSVReader'],['../classCSVReader.html#a2096bc9b761667afa8126752f5eb4411',1,'CSVReader::CSVReader()']]]
 ];

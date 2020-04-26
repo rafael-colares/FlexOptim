@@ -31,7 +31,9 @@ int main(int argc, char *argv[]) {
 		}
 		std::cout << "PARAMETER FILE: " << parameterFile << std::endl;
 		Input input(parameterFile);
-
+		
+		std::cout << "> Number of online demand files: " << input.getNbOnlineDemandFiles() << std::endl;
+		
 		std::cout << "--- READING INSTANCE... --- " << std::endl;
 		Instance instance(input);
 
@@ -42,7 +44,7 @@ int main(int argc, char *argv[]) {
 		//instance.displayDetailedTopology();
 		std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
 		//instance.generateRandomDemandsFromFile();
-		instance.generateRandomDemands(10);
+		instance.generateRandomDemands(1);
 		instance.displayNonRoutedDemands();
 		std::cout << instance.getNbNonRoutedDemands() << " demands were generated." << std::endl;
 		//CplexForm::setCount(0);

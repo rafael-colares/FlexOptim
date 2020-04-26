@@ -3,7 +3,9 @@
 
 #include <iostream>
 #include <fstream>
+#include <dirent.h>
 #include <string>
+#include <vector>
 
 /*****************************************************************************************
  * This class contains all the information needed for the creation of an instance.
@@ -40,7 +42,8 @@ private:
 	std::string linkFile;				/**< Path to the file containing information on the physical topology of the network.**/
 	std::string demandFile;				/**< Path to the file containing information on the already routed demands. **/
 	std::string assignmentFile;			/**< Path to the file containing information on the assignment of demands (i.e., on which edge/slice each demand is routed).**/
-	std::string onlineDemandFile;		/**< Path to the file containing information on the non-routed demands. **/
+	std::string onlineDemandFolder;		/**< Path to the folder containing the files on the non-routed demands. **/
+	std::vector< std::string > vecOnlineDemandFile;	/**< A vector storing the paths to the files containing information on the non-routed demands. **/
 	std::string outputPath;				/**< Path to the folder where the output files will be sent by the end of the optimization procedure.**/
 	
     int nbDemandsAtOnce;				/**< How many demands are treated in a single optimization.**/
@@ -78,8 +81,17 @@ public:
 	/** Returns the path to the file containing information on the assignment of demands (i.e., on which edge/slice each demand is routed).**/
     std::string getAssignmentFile() const { return assignmentFile; }
 	
-	/** Returns the path to the file containing information on the non-routed demands. **/
-    std::string getOnlineDemandFile() const { return onlineDemandFile; }
+	/** Returns the path to the folder containing the files on the non-routed demands. **/
+    std::string getOnlineDemandFolder() const { return onlineDemandFolder; }
+
+	/** Returns the number of online demand files to be treated. **/
+	int getNbOnlineDemandFiles(){ return vecOnlineDemandFile.size(); }
+	
+	/** Returns the vector storing the paths to the files containing information on the non-routed demands. **/
+    std::vector<std::string> getOnlineDemandFiles() const { return vecOnlineDemandFile; }
+
+	/** Returns the path to the i-th file containing information on the non-routed demands. @param i The index of file. **/
+    std::string getOnlineDemandFilesFromIndex(int i) const { return vecOnlineDemandFile[i]; }
 
 	/** Returns the path to the folder where the output files will be sent by the end of the optimization procedure.**/
     std::string getOutputPath() const { return outputPath; }
@@ -116,7 +128,10 @@ public:
 	/****************************************************************************************/
 	/** Searches for a pattern in the parameter file and returns its associated value. @param pattern The substring pattern to be searched. @note It is surely not the most performant method but the parameter file has a reasonable size and the code becomes much clearer. **/
     std::string getParameterValue(std::string pattern);
-	
+
+	/** Populates the vector of paths to the files containing information on the non-routed demands. **/
+	void populateOnlineDemandFiles();
+
 	/** Converts a string into an ObjectiveMetric. **/
 	ObjectiveMetric to_ObjectiveMetric(std::string data);
 

@@ -161,10 +161,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:aca8fd46d6a592c0cae4cd96d3b3a7848"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#aca8fd46d6a592c0cae4cd96d3b3a7848">readDemandAssignment</a> ()</td></tr>
 <tr class="memdesc:aca8fd46d6a592c0cae4cd96d3b3a7848"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the assignment information from input's assignmentFile.  <a href="classInstance.html#aca8fd46d6a592c0cae4cd96d3b3a7848">More...</a><br /></td></tr>
 <tr class="separator:aca8fd46d6a592c0cae4cd96d3b3a7848"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cdefb46d4fdb1967c9b4a91ca849652"><td class="memItemLeft" align="right" valign="top"><a id="a9cdefb46d4fdb1967c9b4a91ca849652"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a9cdefb46d4fdb1967c9b4a91ca849652">generateRandomDemandsFromFile</a> ()</td></tr>
-<tr class="memdesc:a9cdefb46d4fdb1967c9b4a91ca849652"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds non-routed demands to the pool by reading the information from onlineDemands <a class="el" href="classInput.html" title="This class contains all the information needed for the creation of an instance.">Input</a> file. <br /></td></tr>
-<tr class="separator:a9cdefb46d4fdb1967c9b4a91ca849652"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a7b3f6f6028b68265b328383cecf21b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a2a7b3f6f6028b68265b328383cecf21b">generateRandomDemandsFromFile</a> (std::string filePath)</td></tr>
+<tr class="memdesc:a2a7b3f6f6028b68265b328383cecf21b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds non-routed demands to the pool by reading the information from file.  <a href="classInstance.html#a2a7b3f6f6028b68265b328383cecf21b">More...</a><br /></td></tr>
+<tr class="separator:a2a7b3f6f6028b68265b328383cecf21b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7d58f0777d8a8528bcf544aed95d463"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#ae7d58f0777d8a8528bcf544aed95d463">generateRandomDemands</a> (const int N)</td></tr>
 <tr class="memdesc:ae7d58f0777d8a8528bcf544aed95d463"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds non-routed demands to the pool by generating random demands.  <a href="classInstance.html#ae7d58f0777d8a8528bcf544aed95d463">More...</a><br /></td></tr>
 <tr class="separator:ae7d58f0777d8a8528bcf544aed95d463"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -373,6 +372,34 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
 
 </div>
 </div>
+<a id="a2a7b3f6f6028b68265b328383cecf21b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a7b3f6f6028b68265b328383cecf21b">&#9670;&nbsp;</a></span>generateRandomDemandsFromFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Instance::generateRandomDemandsFromFile </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>filePath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Adds non-routed demands to the pool by reading the information from file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filePath</td><td>The path of the file to be read. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00213">213</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+
+</div>
+</div>
 <a id="a0d8336cf95a158df86ebe53575faf6be"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0d8336cf95a158df86ebe53575faf6be">&#9670;&nbsp;</a></span>getDemandFromIndex()</h2>
 
@@ -405,7 +432,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00069">69</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00070">70</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -481,7 +508,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00060">60</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00061">61</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -803,7 +830,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>This function resizes vector tabDemand, creating default demands if nb is greater than the previous size. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00081">81</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00083">83</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -839,7 +866,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00084">84</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00086">86</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -875,7 +902,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00090">90</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00092">92</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -911,7 +938,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00087">87</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00089">89</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>

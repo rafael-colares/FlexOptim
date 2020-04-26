@@ -38,6 +38,7 @@ public:
 	/****************************************************************************************/
 	/*										Getters											*/
 	/****************************************************************************************/
+
 	/** Returns the total number of demands. **/
 	int getNbDemands() const { return (int)this->tabDemand.size(); }
 
@@ -77,6 +78,7 @@ public:
 	/****************************************************************************************/
 	/*										Setters											*/
 	/****************************************************************************************/
+
 	/** Change the total number of demands. @param nb New total number of demands. @warning This function resizes vector tabDemand, creating default demands if nb is greater than the previous size.**/
 	void setNbDemands(int nb) { this->tabDemand.resize(nb); }
 
@@ -98,6 +100,7 @@ public:
 	/****************************************************************************************/
 	/*										Methods											*/
 	/****************************************************************************************/
+	
 	/** Builds the initial mapping based on the information retrived from the Input. **/
 	void createInitialMapping();
 	
@@ -110,8 +113,8 @@ public:
 	/** Reads the assignment information from input's assignmentFile. Sets the demands to routed and update the slices of the edges. @warning File should be structured as in Demand_edges_slices.csv. **/
 	void readDemandAssignment();
 
-	/** Adds non-routed demands to the pool by reading the information from onlineDemands Input file. **/
-	void generateRandomDemandsFromFile();
+	/** Adds non-routed demands to the pool by reading the information from file. @param filePath The path of the file to be read. **/
+	void generateRandomDemandsFromFile(std::string filePath);
 
 	/** Adds non-routed demands to the pool by generating random demands. @param N The number of random demands to be generated. **/
 	void generateRandomDemands(const int N);

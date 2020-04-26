@@ -1,11 +1,11 @@
 #include "Slice.h"
 
-// Constructor, by default d = -1. That is, no demand is assigned to the slice
+/* Constructor, by default d = -1. That is, no demand is assigned to the slice. */
 Slice::Slice(int d){
 	this->setAssignment(d);
 }
 
-// isUsed returns true if slice is occupied; false otherwise.
+/* Returns true if slice is occupied; false otherwise. */
 bool Slice::isUsed(){
 	if (this->assignedDemand == -1) {
 		return false;

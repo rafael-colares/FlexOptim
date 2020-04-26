@@ -1,13 +1,13 @@
 linkFile=../Parameters/Link.csv
 demandFile=../Parameters/Demand.csv
 assignmentFile=../Parameters/Demand_edges_slices.csv
-onlineDemandFile=../Parameters/TM_1000.csv
+onlineDemandFolder=../Parameters/Instances/NSF/OnlineDemands
 nbDemandsAtOnce=1
 outputPath=../Output/
 nbSlicesInOutputFile=320
 method=1
 preprocessingLevel=1
-obj=1p
+obj=4
 
 ******* Fields below are reserved for team LIMOS ********
 lagrangianMultiplier_zero=0.0
