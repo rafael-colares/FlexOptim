@@ -56,6 +56,7 @@ void Instance::createInitialMapping(){
 	readTopology();
 	readDemands();
 	readDemandAssignment();
+	setNbInitialDemands(getNbRoutedDemands());
 }
 
 /* Reads the topology information from file. */
@@ -286,15 +287,16 @@ void Instance::displayNonRoutedDemands(){
 
 /* Call the methods allowing the build of output files. */
 void Instance::output(std::string i){
+	std::cout << "Output " << i << std::endl;
 	outputEdgeSliceHols(i);
-	outputDemand();
-	outputDemandEdgeSlices();
+	//outputDemand();
+	outputDemandEdgeSlices(i);
 }
 
 /* Builds file Demand_edges_slices.csv containing information about the assignment of routed demands. */
-void Instance::outputDemandEdgeSlices(){
+void Instance::outputDemandEdgeSlices(std::string counter){
 	std::string delimiter = ";";
-	std::string filePath = this->input.getOutputPath() + "Demand_edges_slices" + ".csv";
+	std::string filePath = this->input.getOutputPath() + "Demand_edges_slices_" + counter + ".csv";
 	std::ofstream myfile(filePath.c_str(), std::ios::out | std::ios::trunc);
 	if (myfile.is_open()){
 		myfile << "edge_slice_demand" << delimiter;
@@ -354,6 +356,7 @@ void Instance::outputDemand(){
 
 /* Builds file Edge_Slice_Holes_i.csv containing information about the mapping after n optimizations. */
 void Instance::outputEdgeSliceHols(std::string counter){
+	std::cout << "Output EdgeSliceHols: " << counter << std::endl;
 	std::string delimiter = ";";
 	std::string filePath = this->input.getOutputPath() + "Edge_Slice_Holes_" + counter + ".csv";
 	std::ofstream myfile(filePath.c_str(), std::ios::out | std::ios::trunc);
@@ -377,11 +380,26 @@ void Instance::outputEdgeSliceHols(std::string counter){
 			}
 			myfile << "\n";
 		}
+		myfile << "Nb_New_Demands:" << delimiter << getNbRoutedDemands() - getNbInitialDemands() << "\n";
 	}
 	else{
 		std::cerr << "Unable to open file.\n";
 	}
   	myfile.close();
+}
+
+
+/* Builds file results.csv containing information about the main obtained results. */
+void Instance::outputLogResults(std::string fileName){
+	std::string delimiter = ";";
+	std::string filePath = this->input.getOutputPath() + "results.csv";
+	std::ofstream myfile(filePath.c_str(), std::ios_base::app);
+	if (myfile.is_open()){
+		myfile << fileName << delimiter;
+		int nbRouted = getNbRoutedDemands();
+		myfile << nbRouted - getNbInitialDemands() << delimiter;
+		myfile << nbRouted << "\n";
+	}
 }
 
 /* Verifies if there exists a link between nodes of id u and v. */

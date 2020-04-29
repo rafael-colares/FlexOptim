@@ -324,7 +324,7 @@ double RSA::getCoeffObj1p(const ListDigraph::Arc &a, int d){
 
 /* Returns the coefficient of an arc according to metric 2 on graph #d. */
 double RSA::getCoeffObj2(const ListDigraph::Arc &a, int d){
-    double coeff = 0.0;
+    double coeff = 1.0;
     return coeff;
 }
 

@@ -33,62 +33,71 @@ int main(int argc, char *argv[]) {
 		Input input(parameterFile);
 		
 		std::cout << "> Number of online demand files: " << input.getNbOnlineDemandFiles() << std::endl;
-		
-		std::cout << "--- READING INSTANCE... --- " << std::endl;
-		Instance instance(input);
+		for (int i = 0; i < input.getNbOnlineDemandFiles(); i++) {
+			
+			std::cout << "--- READING INSTANCE... --- " << std::endl;
+			Instance instance(input);
 
-		std::cout << "--- CREATING INITIAL MAPPING... --- " << std::endl;
-		instance.createInitialMapping();
-		std::cout << instance.getNbRoutedDemands() << " demands were routed." << std::endl;
+			std::cout << "--- CREATING INITIAL MAPPING... --- " << std::endl;
+			instance.createInitialMapping();
+			std::cout << instance.getNbRoutedDemands() << " demands were routed." << std::endl;
+			
+			//instance.displayDetailedTopology();
+			std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
+			std::string nextFile = instance.getInput().getOnlineDemandFilesFromIndex(i);
+			instance.generateRandomDemandsFromFile(nextFile);
+			//instance.generateRandomDemands(1);
+			instance.displayNonRoutedDemands();
+			std::cout << instance.getNbNonRoutedDemands() << " demands were generated." << std::endl;
+			//CplexForm::setCount(0);
+			int optimizationCounter = 0;
+			std::string outputCode = getInBetweenString(nextFile, "/", ".") + "_" + std::to_string(optimizationCounter);
+			instance.output(outputCode);
+			bool feasibility = true;
+			while(instance.getNbRoutedDemands() < instance.getNbDemands() && feasibility == true){
+				optimizationCounter++;
+				outputCode = getInBetweenString(nextFile, "/", ".") + "_" + std::to_string(optimizationCounter);
+				std::chrono::_V2::system_clock::time_point start = std::chrono::high_resolution_clock::now();
 
-		//instance.displayDetailedTopology();
-		std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
-		//instance.generateRandomDemandsFromFile();
-		instance.generateRandomDemands(1);
-		instance.displayNonRoutedDemands();
-		std::cout << instance.getNbNonRoutedDemands() << " demands were generated." << std::endl;
-		//CplexForm::setCount(0);
-		int optimizationCounter = 0;
-		instance.output(std::to_string(optimizationCounter));
-
-		while(instance.getNbRoutedDemands() < instance.getNbDemands()){
-			optimizationCounter++;
-			std::chrono::_V2::system_clock::time_point start = std::chrono::high_resolution_clock::now();
-
-			switch (instance.getInput().getChosenMethod()){
-			case Input::METHOD_CPLEX:
-				{
-					CplexForm solver(instance);			
-					if (solver.getCplex().getStatus() == IloAlgorithm::Optimal){
-						solver.updateInstance(instance);
-						//instance.displayDetailedTopology();
+				switch (instance.getInput().getChosenMethod()){
+				case Input::METHOD_CPLEX:
+					{
+						CplexForm solver(instance);			
+						if (solver.getCplex().getStatus() == IloAlgorithm::Optimal){
+							solver.updateInstance(instance);
+							instance.output(outputCode);
+							//instance.displayDetailedTopology();
+						}
+						else{
+							feasibility = false;
+							instance.outputLogResults(getInBetweenString(nextFile, "/", "."));
+						}
+						break;
 					}
-					break;
+				case Input::METHOD_SUBGRADIENT:
+					{
+						Subgradient sub(instance);
+						sub.updateInstance(instance);
+						instance.output(outputCode);
+						break;
+					}
+				default:
+					{
+						std::cerr << "The parameter \'chosenMethod\' is invalid. " << std::endl;
+						throw std::invalid_argument( "did not receive an argument" );
+						break;
+					}
+					
 				}
-			case Input::METHOD_SUBGRADIENT:
-				{
-					Subgradient sub(instance);
-					sub.updateInstance(instance);
-								
-
-					break;
-				}
-			default:
-				{
-					std::cerr << "The parameter \'chosenMethod\' is invalid. " << std::endl;
-					throw std::invalid_argument( "did not receive an argument" );
-					break;
-				}
-				
+			
+				std::chrono::_V2::system_clock::time_point end = std::chrono::high_resolution_clock::now();
+				double time_taken = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count(); 
+				time_taken *= 1e-9; 
+		
+				std::cout << "Time taken by program is : " << std::fixed  << time_taken << std::setprecision(9); 
+				std::cout << " sec" << std::endl; 
 			}
-			instance.output(std::to_string(optimizationCounter));
-	
-			std::chrono::_V2::system_clock::time_point end = std::chrono::high_resolution_clock::now();
-			double time_taken = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count(); 
-			time_taken *= 1e-9; 
-	
-			std::cout << "Time taken by program is : " << std::fixed  << time_taken << std::setprecision(9); 
-			std::cout << " sec" << std::endl; 
+		
 		}
 		
 

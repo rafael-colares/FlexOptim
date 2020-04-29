@@ -27,8 +27,8 @@ std::vector<std::vector<std::string> > CSVReader::getData()
 /* Returns the substring of str between the first and last delimiters */
 std::string getInBetweenString(std::string str, std::string firstDelimiter, std::string lastDelimiter)
 {
-	size_t first = str.find(firstDelimiter)+1;
-	size_t last = str.find(lastDelimiter);
+	size_t first = str.find_last_of(firstDelimiter)+1;
+	size_t last = str.find_last_of(lastDelimiter);
 	std::string strNew = str.substr(first, last - first);
 	return strNew;
 }

@@ -41,7 +41,7 @@ CplexForm::CplexForm(const Instance &inst) : Solver(inst), model(env), cplex(mod
 	/*		    EXPORT LINEAR PROGRAM TO .LP		*/
 	/************************************************/
     std::string file = getInstance().getInput().getOutputPath() + "LP/model" + std::to_string(count) + ".lp";
-    cplex.exportModel(file.c_str());
+    //cplex.exportModel(file.c_str());
     std::cout << "LP model has been exported..." << std::endl;
     
 	/************************************************/
@@ -73,7 +73,7 @@ CplexForm::CplexForm(const Instance &inst) : Solver(inst), model(env), cplex(mod
     }
     else{
         std::cout << "Could not find a path!" << std::endl;
-        exit(0);
+        //exit(0);
     }
 }
 

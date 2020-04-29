@@ -23,6 +23,7 @@ private:
 	int nbNodes;						/**< Number of nodes in the physical network. **/
 	std::vector<PhysicalLink> tabEdge;	/**< A set of PhysicalLink. **/
 	std::vector<Demand> tabDemand;		/**< A set of Demand (already routed or not). **/
+	int nbInitialDemands;				/**< The number of demands routed in the first initial mapping. **/
 
 public:
 
@@ -47,6 +48,9 @@ public:
 
 	/** Returns the number of non-routed demands. **/
 	int getNbNonRoutedDemands() const {return getNbDemands() - getNbRoutedDemands(); }
+
+	/** Returns the number of demands routed in the first initial mapping. **/
+	int getNbInitialDemands() const { return nbInitialDemands; }
 
 	/** Returns the number of links in the physical network. **/
 	int getNbEdges() const { return (int)this->tabEdge.size(); }
@@ -81,6 +85,9 @@ public:
 
 	/** Change the total number of demands. @param nb New total number of demands. @warning This function resizes vector tabDemand, creating default demands if nb is greater than the previous size.**/
 	void setNbDemands(int nb) { this->tabDemand.resize(nb); }
+
+	/** Returns the number of demands routed in the first initial mapping. @param nb New number of demands.**/
+	void setNbInitialDemands(int nb) { this->nbInitialDemands = nb; }
 
 	/** Change the number of nodes in the physical network. @param nb New number of nodes. **/
 	void setNbNodes(int nb) { this->nbNodes = nb; }	
@@ -137,9 +144,12 @@ public:
 	/** Builds file Demand.csv containing information about the routed demands. **/
 	void outputDemand();
 	
-	/** Builds file Demand_edges_slices.csv containing information about the assignment of routed demands. **/
-	void outputDemandEdgeSlices();
+	/** Builds file Demand_edges_slices.csv containing information about the assignment of routed demands. @param i The i-th output file to be generated. **/
+	void outputDemandEdgeSlices(std::string i);
 
+	/** Builds file results.csv containing information about the main obtained results. @param fileName The name of demand file being optimized. **/
+	void outputLogResults(std::string fileName);
+	
 	/****************************************************************************************/
 	/*										Display											*/
 	/****************************************************************************************/

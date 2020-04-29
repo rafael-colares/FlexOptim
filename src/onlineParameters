@@ -1,13 +1,13 @@
-linkFile=../Parameters/Link.csv
-demandFile=../Parameters/Demand.csv
-assignmentFile=../Parameters/Demand_edges_slices.csv
-onlineDemandFolder=../Parameters/Instances/NSF/OnlineDemands
+linkFile=../Parameters/Instances/Spain_N5/InitialMappingMet1Slice30/Link.csv
+demandFile=../Parameters/Instances/Spain_N5/InitialMappingMet1Slice30/Demand.csv
+assignmentFile=../Parameters/Instances/Spain_N5/InitialMappingMet1Slice30/Demand_edges_slices.csv
+onlineDemandFolder=../Parameters/Instances/Spain_N5/OnlineDemands
 nbDemandsAtOnce=1
-outputPath=../Output/
+outputPath=../Output/Spain_N5/obj8/
 nbSlicesInOutputFile=320
-method=1
+method=0
 preprocessingLevel=1
-obj=2
+obj=1
 
 ******* Fields below are reserved for team LIMOS ********
 lagrangianMultiplier_zero=0.0
