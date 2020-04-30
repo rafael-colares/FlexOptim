@@ -97,6 +97,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a11a5362f74e001cd5e3cc263e0b7eea8">getNbNonRoutedDemands</a> () const</td></tr>
 <tr class="memdesc:a11a5362f74e001cd5e3cc263e0b7eea8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of non-routed demands. <br /></td></tr>
 <tr class="separator:a11a5362f74e001cd5e3cc263e0b7eea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0986aa4c01da70e51e0cc394dab2998"><td class="memItemLeft" align="right" valign="top"><a id="ab0986aa4c01da70e51e0cc394dab2998"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#ab0986aa4c01da70e51e0cc394dab2998">getNbInitialDemands</a> () const</td></tr>
+<tr class="memdesc:ab0986aa4c01da70e51e0cc394dab2998"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of demands routed in the first initial mapping. <br /></td></tr>
+<tr class="separator:ab0986aa4c01da70e51e0cc394dab2998"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a194a08e5acaac7022ab5a050f4e5200d"><td class="memItemLeft" align="right" valign="top"><a id="a194a08e5acaac7022ab5a050f4e5200d"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a194a08e5acaac7022ab5a050f4e5200d">getNbEdges</a> () const</td></tr>
 <tr class="memdesc:a194a08e5acaac7022ab5a050f4e5200d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of links in the physical network. <br /></td></tr>
@@ -133,6 +137,9 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
 <tr class="memitem:a26032b536301b1c7e42d553077cb9df2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a26032b536301b1c7e42d553077cb9df2">setNbDemands</a> (int nb)</td></tr>
 <tr class="memdesc:a26032b536301b1c7e42d553077cb9df2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the total number of demands.  <a href="classInstance.html#a26032b536301b1c7e42d553077cb9df2">More...</a><br /></td></tr>
 <tr class="separator:a26032b536301b1c7e42d553077cb9df2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07cab4aa758d2439ee673ed2d05c5d0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a07cab4aa758d2439ee673ed2d05c5d0b">setNbInitialDemands</a> (int nb)</td></tr>
+<tr class="memdesc:a07cab4aa758d2439ee673ed2d05c5d0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of demands routed in the first initial mapping.  <a href="classInstance.html#a07cab4aa758d2439ee673ed2d05c5d0b">More...</a><br /></td></tr>
+<tr class="separator:a07cab4aa758d2439ee673ed2d05c5d0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06b5bbc43d5a7d004e7f17f9c2661c51"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a06b5bbc43d5a7d004e7f17f9c2661c51">setNbNodes</a> (int nb)</td></tr>
 <tr class="memdesc:a06b5bbc43d5a7d004e7f17f9c2661c51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the number of nodes in the physical network.  <a href="classInstance.html#a06b5bbc43d5a7d004e7f17f9c2661c51">More...</a><br /></td></tr>
 <tr class="separator:a06b5bbc43d5a7d004e7f17f9c2661c51"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,10 +193,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a4d5798c92b2af241c1c915dec0387e3e">outputDemand</a> ()</td></tr>
 <tr class="memdesc:a4d5798c92b2af241c1c915dec0387e3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds file Demand.csv containing information about the routed demands. <br /></td></tr>
 <tr class="separator:a4d5798c92b2af241c1c915dec0387e3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6fd9ac41ed2bb8a2bf4d00798c96836"><td class="memItemLeft" align="right" valign="top"><a id="ae6fd9ac41ed2bb8a2bf4d00798c96836"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#ae6fd9ac41ed2bb8a2bf4d00798c96836">outputDemandEdgeSlices</a> ()</td></tr>
-<tr class="memdesc:ae6fd9ac41ed2bb8a2bf4d00798c96836"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds file Demand_edges_slices.csv containing information about the assignment of routed demands. <br /></td></tr>
-<tr class="separator:ae6fd9ac41ed2bb8a2bf4d00798c96836"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a147b94a3f87f8e1b0e3ab453b380b6fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a147b94a3f87f8e1b0e3ab453b380b6fb">outputDemandEdgeSlices</a> (std::string i)</td></tr>
+<tr class="memdesc:a147b94a3f87f8e1b0e3ab453b380b6fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds file Demand_edges_slices.csv containing information about the assignment of routed demands.  <a href="classInstance.html#a147b94a3f87f8e1b0e3ab453b380b6fb">More...</a><br /></td></tr>
+<tr class="separator:a147b94a3f87f8e1b0e3ab453b380b6fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6a0ddff68a2c55d557ea10fab87005a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#ac6a0ddff68a2c55d557ea10fab87005a">outputLogResults</a> (std::string fileName)</td></tr>
+<tr class="memdesc:ac6a0ddff68a2c55d557ea10fab87005a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds file results.csv containing information about the main obtained results.  <a href="classInstance.html#ac6a0ddff68a2c55d557ea10fab87005a">More...</a><br /></td></tr>
+<tr class="separator:ac6a0ddff68a2c55d557ea10fab87005a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16acf3a9e4d392961c2187e0f52c8880"><td class="memItemLeft" align="right" valign="top"><a id="a16acf3a9e4d392961c2187e0f52c8880"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a16acf3a9e4d392961c2187e0f52c8880">displayInstance</a> ()</td></tr>
 <tr class="memdesc:a16acf3a9e4d392961c2187e0f52c8880"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays overall information about the current instance. <br /></td></tr>
@@ -233,6 +242,10 @@ std::vector&lt; <a class="el" href="classPhysicalLink.html">PhysicalLink</a> &gt
 std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a22ef47ece61b3433df02bd28f18e76d5">tabDemand</a></td></tr>
 <tr class="memdesc:a22ef47ece61b3433df02bd28f18e76d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">A set of <a class="el" href="classDemand.html" title="This class identifies a demand.">Demand</a> (already routed or not). <br /></td></tr>
 <tr class="separator:a22ef47ece61b3433df02bd28f18e76d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7446da39eed844ca96a11cc93aec3a45"><td class="memItemLeft" align="right" valign="top"><a id="a7446da39eed844ca96a11cc93aec3a45"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a7446da39eed844ca96a11cc93aec3a45">nbInitialDemands</a></td></tr>
+<tr class="memdesc:a7446da39eed844ca96a11cc93aec3a45"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of demands routed in the first initial mapping. <br /></td></tr>
+<tr class="separator:a7446da39eed844ca96a11cc93aec3a45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class stores the initial mapping that serves as input for the Online Routing and Spectrum Allocation problem. </p>
@@ -340,7 +353,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00268">268</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00269">269</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -368,7 +381,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00234">234</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00235">235</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -396,7 +409,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00213">213</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00214">214</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -432,7 +445,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00070">70</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00074">74</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -472,7 +485,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00401">401</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00419">419</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -508,7 +521,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00061">61</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00065">65</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -554,7 +567,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00251">251</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00252">252</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -593,7 +606,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00388">388</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00406">406</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -621,7 +634,35 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00288">288</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00289">289</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a147b94a3f87f8e1b0e3ab453b380b6fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a147b94a3f87f8e1b0e3ab453b380b6fb">&#9670;&nbsp;</a></span>outputDemandEdgeSlices()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Instance::outputDemandEdgeSlices </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Builds file Demand_edges_slices.csv containing information about the assignment of routed demands. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>The i-th output file to be generated. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00297">297</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -649,7 +690,35 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00356">356</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00358">358</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ac6a0ddff68a2c55d557ea10fab87005a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6a0ddff68a2c55d557ea10fab87005a">&#9670;&nbsp;</a></span>outputLogResults()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Instance::outputLogResults </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>fileName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Builds file results.csv containing information about the main obtained results. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileName</td><td>The name of demand file being optimized. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00393">393</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -671,7 +740,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
 <p>Reads the assignment information from input's assignmentFile. </p>
 <p>Sets the demands to routed and update the slices of the edges. </p><dl class="section warning"><dt>Warning</dt><dd>File should be structured as in Demand_edges_slices.csv. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00115">115</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00116">116</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -693,7 +762,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
 <p>Reads the routed demand information from input's demandFile. </p>
 <p>Builds the set of demands. </p><dl class="section warning"><dt>Warning</dt><dd>File should be structured as in Demand.csv. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00095">95</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00096">96</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -715,7 +784,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
 <p>Reads the topology information from input's linkFile. </p>
 <p>Builds the set of links. </p><dl class="section warning"><dt>Warning</dt><dd>File should be structured as in Link.csv. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00062">62</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00063">63</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -830,7 +899,43 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>This function resizes vector tabDemand, creating default demands if nb is greater than the previous size. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00083">83</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00087">87</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+
+</div>
+</div>
+<a id="a07cab4aa758d2439ee673ed2d05c5d0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07cab4aa758d2439ee673ed2d05c5d0b">&#9670;&nbsp;</a></span>setNbInitialDemands()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Instance::setNbInitialDemands </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nb</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the number of demands routed in the first initial mapping. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nb</td><td>New number of demands. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00090">90</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -866,7 +971,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00086">86</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00093">93</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -902,7 +1007,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00092">92</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00099">99</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -938,7 +1043,7 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00089">89</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00096">96</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>

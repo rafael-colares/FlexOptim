@@ -1,3 +1,6 @@
 # Do not track content of these files
 Output/
+doc/latex/
+Parameters/Instances/
+Parameters/Small_Instance/
 

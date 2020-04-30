@@ -96,8 +96,8 @@ $(function() {
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">/* Returns the substring of str between the first and last delimiters */</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;std::string getInBetweenString(std::string str, std::string firstDelimiter, std::string lastDelimiter)</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">size_t</span> first = str.find(firstDelimiter)+1;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">size_t</span> last = str.find(lastDelimiter);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">size_t</span> first = str.find_last_of(firstDelimiter)+1;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">size_t</span> last = str.find_last_of(lastDelimiter);</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    std::string strNew = str.substr(first, last - first);</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">return</span> strNew;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
