@@ -55,7 +55,12 @@ void Instance::setDemandFromId(int id, Demand & demand){
 void Instance::createInitialMapping(){
 	readTopology();
 	readDemands();
-	readDemandAssignment();
+	if (!input.getAssignmentFile().empty()){
+		readDemandAssignment();
+	}
+	else{
+		std::cout << "Starting with an empty mapping. " << std::endl;
+	}
 	setNbInitialDemands(getNbRoutedDemands());
 }
 

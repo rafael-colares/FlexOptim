@@ -91,6 +91,12 @@ Public Types</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a38a43d751872865a7d1b4e84ff5f9d42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates the possible levels of applying a preprocessing step fo reducing the graphs before optimization is called.  <a href="classInput.html#a38a43d751872865a7d1b4e84ff5f9d42">More...</a><br /></td></tr>
 <tr class="separator:a38a43d751872865a7d1b4e84ff5f9d42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cba0c01fa8a52cedee285ede0aec60a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a9cba0c01fa8a52cedee285ede0aec60a">OutputLevel</a> { <a class="el" href="classInput.html#a9cba0c01fa8a52cedee285ede0aec60aa4167ea763ef63d23f6f571e003a52f88">OUTPUT_LVL_NO</a> = 0, 
+<a class="el" href="classInput.html#a9cba0c01fa8a52cedee285ede0aec60aa1a1455e5e83c71e0f867ea5974aa4dfb">OUTPUT_LVL_NORMAL</a> = 1, 
+<a class="el" href="classInput.html#a9cba0c01fa8a52cedee285ede0aec60aa48274fa3f573d83642c121c510c91f4c">OUTPUT_LVL_DETAILED</a> = 2
+ }</td></tr>
+<tr class="memdesc:a9cba0c01fa8a52cedee285ede0aec60a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates the possible output policies to be used.  <a href="classInput.html#a9cba0c01fa8a52cedee285ede0aec60a">More...</a><br /></td></tr>
+<tr class="separator:a9cba0c01fa8a52cedee285ede0aec60a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa47e0a4922a05e2d387b872813419ea0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">ObjectiveMetric</a> { <br />
 &#160;&#160;<a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0a52cbdf4a49f75aaae78968f2e1e8a77d">OBJECTIVE_METRIC_1</a> = 0, 
 <a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0aa175c00963f2c64c355fc18ee4a8b739">OBJECTIVE_METRIC_1p</a> = 1, 
@@ -166,6 +172,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">ObjectiveMetric</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a14acd46fa979e18622918dad5b5b321e">getChosenObj</a> () const</td></tr>
 <tr class="memdesc:a14acd46fa979e18622918dad5b5b321e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the identifier of the objective chosen to be optimized. <br /></td></tr>
 <tr class="separator:a14acd46fa979e18622918dad5b5b321e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1717b0ad3854bfad7db27b8f1d56223b"><td class="memItemLeft" align="right" valign="top"><a id="a1717b0ad3854bfad7db27b8f1d56223b"></a>
+<a class="el" href="classInput.html#a9cba0c01fa8a52cedee285ede0aec60a">OutputLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a1717b0ad3854bfad7db27b8f1d56223b">getChosenOutputLvl</a> () const</td></tr>
+<tr class="memdesc:a1717b0ad3854bfad7db27b8f1d56223b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the identifier of the output policy adopted. <br /></td></tr>
+<tr class="separator:a1717b0ad3854bfad7db27b8f1d56223b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a482b4eb4844051909967eefc72d062fe"><td class="memItemLeft" align="right" valign="top"><a id="a482b4eb4844051909967eefc72d062fe"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a482b4eb4844051909967eefc72d062fe">getInitialLagrangianMultiplier</a> () const</td></tr>
 <tr class="memdesc:a482b4eb4844051909967eefc72d062fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the initial value of the lagrangian multiplier used if subgradient method is chosen. <br /></td></tr>
@@ -248,6 +258,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">ObjectiveMetric</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#ab740852d7a07c44edf8c35906a021213">chosenObj</a></td></tr>
 <tr class="memdesc:ab740852d7a07c44edf8c35906a021213"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to which objective is optimized. <br /></td></tr>
 <tr class="separator:ab740852d7a07c44edf8c35906a021213"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad126d97d00d3fa565dd34e8477b9a769"><td class="memItemLeft" align="right" valign="top"><a id="ad126d97d00d3fa565dd34e8477b9a769"></a>
+<a class="el" href="classInput.html#a9cba0c01fa8a52cedee285ede0aec60a">OutputLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#ad126d97d00d3fa565dd34e8477b9a769">chosenOutputLvl</a></td></tr>
+<tr class="memdesc:ad126d97d00d3fa565dd34e8477b9a769"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to which output policy is adopted. <br /></td></tr>
+<tr class="separator:ad126d97d00d3fa565dd34e8477b9a769"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a609a07420ed7b37cb5c984c77217a034"><td class="memItemLeft" align="right" valign="top"><a id="a609a07420ed7b37cb5c984c77217a034"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a609a07420ed7b37cb5c984c77217a034">lagrangianMultiplier_zero</a></td></tr>
 <tr class="memdesc:a609a07420ed7b37cb5c984c77217a034"><td class="mdescLeft">&#160;</td><td class="mdescRight">The initial value of the lagrangian multiplier used if subgradient method is chosen. <br /></td></tr>
@@ -320,6 +334,32 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr><td class="fieldname"><a id="aa47e0a4922a05e2d387b872813419ea0a09b2d1b8b9430549351b0ef117601837"></a>OBJECTIVE_METRIC_4&#160;</td><td class="fielddoc"><p>Minimize the path lengths. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aa47e0a4922a05e2d387b872813419ea0a103d87a40b6841691091ff4ab5056738"></a>OBJECTIVE_METRIC_8&#160;</td><td class="fielddoc"><p>Minimize the max used slice position overall. </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00039">39</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+
+</div>
+</div>
+<a id="a9cba0c01fa8a52cedee285ede0aec60a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cba0c01fa8a52cedee285ede0aec60a">&#9670;&nbsp;</a></span>OutputLevel</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classInput.html#a9cba0c01fa8a52cedee285ede0aec60a">Input::OutputLevel</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enumerates the possible output policies to be used. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a9cba0c01fa8a52cedee285ede0aec60aa4167ea763ef63d23f6f571e003a52f88"></a>OUTPUT_LVL_NO&#160;</td><td class="fielddoc"><p>Do not create any output file. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a9cba0c01fa8a52cedee285ede0aec60aa1a1455e5e83c71e0f867ea5974aa4dfb"></a>OUTPUT_LVL_NORMAL&#160;</td><td class="fielddoc"><p>Generate output files corresponding to the last mapping before blocking. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a9cba0c01fa8a52cedee285ede0aec60aa48274fa3f573d83642c121c510c91f4c"></a>OUTPUT_LVL_DETAILED&#160;</td><td class="fielddoc"><p>Generate output files after every optimization procedure. </p>
 </td></tr>
 </table>
 
@@ -406,7 +446,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00029">29</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00031">31</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -443,7 +483,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00094">94</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00103">103</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -472,7 +512,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </dl>
 <dl class="section note"><dt>Note</dt><dd>It is surely not the most performant method but the parameter file has a reasonable size and the code becomes much clearer. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00049">49</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00053">53</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>

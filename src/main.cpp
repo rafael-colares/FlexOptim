@@ -21,8 +21,11 @@ using namespace lemon;
 
 int main(int argc, char *argv[]) {
 	try{
+		/********************************************************************/
+		/* 						Get Parameter file 							*/
+		/********************************************************************/
 		std::string parameterFile;
-		if (argc != 2){
+		if (argc < 2){
 			std::cerr << "A parameter file is required in the arguments. PLease run the program as \n./exec parameterFile.par\n";
 			throw std::invalid_argument( "did not receive an argument" );
 		}
@@ -32,9 +35,13 @@ int main(int argc, char *argv[]) {
 		std::cout << "PARAMETER FILE: " << parameterFile << std::endl;
 		Input input(parameterFile);
 		
+		// For each set of online demands, optimize it!
 		std::cout << "> Number of online demand files: " << input.getNbOnlineDemandFiles() << std::endl;
 		for (int i = 0; i < input.getNbOnlineDemandFiles(); i++) {
-			
+				
+			/********************************************************************/
+			/* 						Create initial mapping 						*/
+			/********************************************************************/
 			std::cout << "--- READING INSTANCE... --- " << std::endl;
 			Instance instance(input);
 
@@ -42,6 +49,10 @@ int main(int argc, char *argv[]) {
 			instance.createInitialMapping();
 			std::cout << instance.getNbRoutedDemands() << " demands were routed." << std::endl;
 			
+			
+			/********************************************************************/
+			/* 					Define set of demands to be routed 				*/
+			/********************************************************************/
 			//instance.displayDetailedTopology();
 			std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
 			std::string nextFile = instance.getInput().getOnlineDemandFilesFromIndex(i);
@@ -49,10 +60,14 @@ int main(int argc, char *argv[]) {
 			//instance.generateRandomDemands(1);
 			instance.displayNonRoutedDemands();
 			std::cout << instance.getNbNonRoutedDemands() << " demands were generated." << std::endl;
-			//CplexForm::setCount(0);
+			
+			
+			/********************************************************************/
+			/* 							Start optimizing 						*/
+			/********************************************************************/
 			int optimizationCounter = 0;
 			std::string outputCode = getInBetweenString(nextFile, "/", ".") + "_" + std::to_string(optimizationCounter);
-			instance.output(outputCode);
+			//instance.output(outputCode);
 			bool feasibility = true;
 			while(instance.getNbRoutedDemands() < instance.getNbDemands() && feasibility == true){
 				optimizationCounter++;
@@ -65,12 +80,10 @@ int main(int argc, char *argv[]) {
 						CplexForm solver(instance);			
 						if (solver.getCplex().getStatus() == IloAlgorithm::Optimal){
 							solver.updateInstance(instance);
-							instance.output(outputCode);
 							//instance.displayDetailedTopology();
 						}
 						else{
 							feasibility = false;
-							instance.outputLogResults(getInBetweenString(nextFile, "/", "."));
 						}
 						break;
 					}
@@ -89,7 +102,9 @@ int main(int argc, char *argv[]) {
 					}
 					
 				}
-			
+				if (instance.getInput().getChosenOutputLvl() == Input::OUTPUT_LVL_DETAILED){
+					instance.output(outputCode);
+				}
 				std::chrono::_V2::system_clock::time_point end = std::chrono::high_resolution_clock::now();
 				double time_taken = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count(); 
 				time_taken *= 1e-9; 
@@ -97,7 +112,11 @@ int main(int argc, char *argv[]) {
 				std::cout << "Time taken by program is : " << std::fixed  << time_taken << std::setprecision(9); 
 				std::cout << " sec" << std::endl; 
 			}
-		
+			if (instance.getInput().getChosenOutputLvl() >= Input::OUTPUT_LVL_NORMAL){
+				outputCode = getInBetweenString(nextFile, "/", ".");
+				instance.output(outputCode + "_FINAL");
+				instance.outputLogResults(outputCode);
+			}
 		}
 		
 

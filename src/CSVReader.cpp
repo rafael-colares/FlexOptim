@@ -19,7 +19,7 @@ std::vector<std::vector<std::string> > CSVReader::getData()
 		file.close();
 	}
 	else {
-		std::cout << "Unable to open file" << std::endl;
+		std::cout << "Unable to open file " << fileName << std::endl;
 	}
 	return dataList;
 }

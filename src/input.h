@@ -28,6 +28,13 @@ public:
 		PREPROCESSING_LVL_FULL = 2		/**< Previous steps recursively until no additional arc can be removed. **/
 	};
 
+	/** Enumerates the possible output policies to be used. **/
+	enum OutputLevel {
+		OUTPUT_LVL_NO = 0,			/**< Do not create any output file. **/
+		OUTPUT_LVL_NORMAL = 1,		/**< Generate output files corresponding to the last mapping before blocking. **/
+		OUTPUT_LVL_DETAILED = 2		/**< Generate output files after every optimization procedure. **/
+	};
+
 	/** Enumerates the possible objectives to be optimized. of applying a preprocessing step fo reducing the graphs before optimization is called. **/
 	enum ObjectiveMetric {
 		OBJECTIVE_METRIC_1 = 0,		/**< Minimize the sum of (max used slice positions) over demands. **/
@@ -48,9 +55,11 @@ private:
 	
     int nbDemandsAtOnce;				/**< How many demands are treated in a single optimization.**/
 	int nbSlicesInOutputFile;			/**< How many slices will be displayed in the output file. **/
+
 	Method chosenMethod;				/**< Refers to which method is applied for solving the problem.**/
 	PreprocessingLevel chosenPreprLvl;	/**< Refers to which level of preprocessing is applied before solving the problem.**/
 	ObjectiveMetric chosenObj;			/**< Refers to which objective is optimized.**/
+	OutputLevel chosenOutputLvl;		/**< Refers to which output policy is adopted.**/
 
 	double lagrangianMultiplier_zero;	/**< The initial value of the lagrangian multiplier used if subgradient method is chosen. **/
 	double lagrangianLambda_zero;		/**< The initial value of the lambda used for computing the step size if subgradient method is chosen. **/
@@ -97,19 +106,22 @@ public:
     std::string getOutputPath() const { return outputPath; }
 	
 	/** Returns the number of demands to be treated in a single optimization. **/
-    int getNbDemandsAtOnce() const {return nbDemandsAtOnce;}
+    int getNbDemandsAtOnce() const { return nbDemandsAtOnce; }
 
 	/** Returns the number of slices to be displayed in the output file. **/
-    int getnbSlicesInOutputFile() const {return nbSlicesInOutputFile;}
+    int getnbSlicesInOutputFile() const { return nbSlicesInOutputFile; }
 
 	/** Returns the identifier of the method chosen for optimization. **/
-    Method getChosenMethod() const {return chosenMethod;}
+    Method getChosenMethod() const { return chosenMethod; }
 
 	/** Returns the identifier of the method chosen for optimization. **/
-    PreprocessingLevel getChosenPreprLvl() const {return chosenPreprLvl;}
+    PreprocessingLevel getChosenPreprLvl() const { return chosenPreprLvl; }
 
 	/** Returns the identifier of the objective chosen to be optimized. **/
-    ObjectiveMetric getChosenObj() const {return chosenObj;}
+    ObjectiveMetric getChosenObj() const { return chosenObj; }
+
+	/** Returns the identifier of the output policy adopted. **/
+    OutputLevel getChosenOutputLvl() const { return chosenOutputLvl; }
 
 	/** Returns the initial value of the lagrangian multiplier used if subgradient method is chosen. **/
 	double getInitialLagrangianMultiplier() const { return lagrangianMultiplier_zero; }

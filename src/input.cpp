@@ -6,13 +6,15 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     demandFile = getParameterValue("demandFile=");
     assignmentFile = getParameterValue("assignmentFile=");
     onlineDemandFolder = getParameterValue("onlineDemandFolder=");
-    nbDemandsAtOnce = std::stoi(getParameterValue("nbDemandsAtOnce="));
     outputPath = getParameterValue("outputPath=");
+
+    nbDemandsAtOnce = std::stoi(getParameterValue("nbDemandsAtOnce="));
     nbSlicesInOutputFile = std::stoi(getParameterValue("nbSlicesInOutputFile="));
     
     chosenMethod = (Method) std::stoi(getParameterValue("method="));
     chosenPreprLvl = (PreprocessingLevel) std::stoi(getParameterValue("preprocessingLevel="));
     chosenObj = to_ObjectiveMetric(getParameterValue("obj="));
+    chosenOutputLvl = (OutputLevel) std::stoi(getParameterValue("outputLevel="));
 
     lagrangianMultiplier_zero = std::stod(getParameterValue("lagrangianMultiplier_zero="));
     lagrangianLambda_zero = std::stod(getParameterValue("lagrangianLambda_zero="));
@@ -32,13 +34,15 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     assignmentFile = i.getAssignmentFile();
     onlineDemandFolder = i.getOnlineDemandFolder();
     vecOnlineDemandFile = i.getOnlineDemandFiles();
-    nbDemandsAtOnce = i.getNbDemandsAtOnce();
     outputPath = i.getOutputPath();
+
+    nbDemandsAtOnce = i.getNbDemandsAtOnce();
     nbSlicesInOutputFile = i.getnbSlicesInOutputFile();
 
     chosenMethod = i.getChosenMethod();
     chosenPreprLvl = i.getChosenPreprLvl();
     chosenObj = i.getChosenObj();
+    chosenOutputLvl = i.getChosenOutputLvl();
 
     lagrangianMultiplier_zero = i.getInitialLagrangianMultiplier();
     lagrangianLambda_zero = i.getInitialLagrangianLambda();
