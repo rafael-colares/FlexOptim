@@ -7,7 +7,7 @@ outputPath=../Output/Spain_N5/obj8/
 nbSlicesInOutputFile=320
 method=0
 preprocessingLevel=1
-obj=1
+obj=2
 
 ******* Fields below are reserved for team LIMOS ********
 lagrangianMultiplier_zero=0.0
