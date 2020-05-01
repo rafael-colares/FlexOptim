@@ -30,6 +30,7 @@ public:
 	/****************************************************************************************/
 	/*										Constructor										*/
 	/****************************************************************************************/
+
 	/** Constructor initializes the object with the information of an Input. @param i The input used for creating the instance.**/
 	Instance(const Input &i);
 
@@ -171,6 +172,12 @@ public:
 	/** Displays information about the non-routed demands. **/
 	void displayNonRoutedDemands();
 
+	/****************************************************************************************/
+	/*										Destructor										*/
+	/****************************************************************************************/
+
+	/** Destructor. Clears the vectors of demands and links. **/
+	~Instance();
 };
 
 #endif

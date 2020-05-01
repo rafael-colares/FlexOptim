@@ -113,6 +113,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a0de7a563f878ecb3d6b2e5f7e8f9571d">displayVariableValues</a> ()</td></tr>
 <tr class="memdesc:a0de7a563f878ecb3d6b2e5f7e8f9571d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the value of each variable in the obtained solution. <br /></td></tr>
 <tr class="separator:a0de7a563f878ecb3d6b2e5f7e8f9571d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a310c137c719c51244343eea8d41bf301"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a310c137c719c51244343eea8d41bf301">~CplexForm</a> ()</td></tr>
+<tr class="memdesc:a310c137c719c51244343eea8d41bf301"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="classCplexForm.html#a310c137c719c51244343eea8d41bf301">More...</a><br /></td></tr>
+<tr class="separator:a310c137c719c51244343eea8d41bf301"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classSolver"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classSolver')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classSolver.html">Solver</a></td></tr>
 <tr class="memitem:a8271976cef5a884cb8b4deb295311466 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top"><a id="a8271976cef5a884cb8b4deb295311466"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Solver</b> (const <a class="el" href="classInstance.html">Instance</a> &amp;inst)</td></tr>
@@ -269,13 +272,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:ae56358698d72241f2ca054f679017ccc inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ae56358698d72241f2ca054f679017ccc">eraseNonRoutableArcs</a> (int d)</td></tr>
 <tr class="memdesc:ae56358698d72241f2ca054f679017ccc inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete arcs that are known 'a priori' to be unable to route on graph #d.  <a href="classRSA.html#ae56358698d72241f2ca054f679017ccc">More...</a><br /></td></tr>
 <tr class="separator:ae56358698d72241f2ca054f679017ccc inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a792e9a2a6b6e0e142e21072856f7020e inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a792e9a2a6b6e0e142e21072856f7020e">eraseAllArcsFromSlice</a> (int d, int slice)</td></tr>
-<tr class="memdesc:a792e9a2a6b6e0e142e21072856f7020e inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erases every arc from graph #d having the given slice and returns the number of arcs removed.  <a href="classRSA.html#a792e9a2a6b6e0e142e21072856f7020e">More...</a><br /></td></tr>
-<tr class="separator:a792e9a2a6b6e0e142e21072856f7020e inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afcb3bc74d438206130c9660648c5d1f0 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="afcb3bc74d438206130c9660648c5d1f0"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#afcb3bc74d438206130c9660648c5d1f0">preprocessing</a> ()</td></tr>
 <tr class="memdesc:afcb3bc74d438206130c9660648c5d1f0 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs preprocessing on every extended graph. <br /></td></tr>
 <tr class="separator:afcb3bc74d438206130c9660648c5d1f0 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d42e0c236b5315a5ee25b135b9a5fb6 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a3d42e0c236b5315a5ee25b135b9a5fb6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a3d42e0c236b5315a5ee25b135b9a5fb6">pathExistencePreprocessing</a> ()</td></tr>
+<tr class="memdesc:a3d42e0c236b5315a5ee25b135b9a5fb6 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">If there exists no path from (source,s) to (target,s), erases every arc with slice s. <br /></td></tr>
+<tr class="separator:a3d42e0c236b5315a5ee25b135b9a5fb6 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a832589d9a90339daedf9ecbc0c1360cf inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a832589d9a90339daedf9ecbc0c1360cf">lengthPreprocessing</a> ()</td></tr>
 <tr class="memdesc:a832589d9a90339daedf9ecbc0c1360cf inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs preprocessing based on the arc lengths and returns true if at least one arc is erased.  <a href="classRSA.html#a832589d9a90339daedf9ecbc0c1360cf">More...</a><br /></td></tr>
 <tr class="separator:a832589d9a90339daedf9ecbc0c1360cf inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -428,6 +432,28 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00007">7</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a310c137c719c51244343eea8d41bf301"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a310c137c719c51244343eea8d41bf301">&#9670;&nbsp;</a></span>~CplexForm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CplexForm::~CplexForm </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destructor. </p>
+<p>Clears the variable matrices, cplex model and environment. </p>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00147">147</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
 
 </div>
 </div>

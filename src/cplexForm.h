@@ -23,12 +23,14 @@ public:
 	/****************************************************************************************/
 	/*										Constructors									*/
 	/****************************************************************************************/
+
 	/** Constructor. Builds the Online RSA mixed-integer program and solves it using CPLEX.  @param instance The instance to be solved. **/
     CplexForm(const Instance &instance);
 
 	/****************************************************************************************/
 	/*										Getters											*/
 	/****************************************************************************************/
+
 	/** Returns the cplex engine in use. **/
     IloCplex getCplex(){ return cplex; }
 
@@ -38,17 +40,26 @@ public:
 	/****************************************************************************************/
 	/*										Methods											*/
 	/****************************************************************************************/
+
 	/** Recovers the obtained MIP solution and builds a path for each demand on its associated graph from RSA. **/
     void updatePath();
 
 	/****************************************************************************************/
 	/*										Display											*/
 	/****************************************************************************************/
+
 	/** Displays the obtained paths. **/
     void displayOnPath();
 
 	/** Displays the value of each variable in the obtained solution. **/
     void displayVariableValues();
+
+	/****************************************************************************************/
+	/*										Destructor										*/
+	/****************************************************************************************/
+
+	/** Destructor. Clears the variable matrices, cplex model and environment. **/
+	~CplexForm();
 
 };
 

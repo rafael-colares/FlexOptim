@@ -196,13 +196,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:ae56358698d72241f2ca054f679017ccc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ae56358698d72241f2ca054f679017ccc">eraseNonRoutableArcs</a> (int d)</td></tr>
 <tr class="memdesc:ae56358698d72241f2ca054f679017ccc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete arcs that are known 'a priori' to be unable to route on graph #d.  <a href="classRSA.html#ae56358698d72241f2ca054f679017ccc">More...</a><br /></td></tr>
 <tr class="separator:ae56358698d72241f2ca054f679017ccc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a792e9a2a6b6e0e142e21072856f7020e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a792e9a2a6b6e0e142e21072856f7020e">eraseAllArcsFromSlice</a> (int d, int slice)</td></tr>
-<tr class="memdesc:a792e9a2a6b6e0e142e21072856f7020e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erases every arc from graph #d having the given slice and returns the number of arcs removed.  <a href="classRSA.html#a792e9a2a6b6e0e142e21072856f7020e">More...</a><br /></td></tr>
-<tr class="separator:a792e9a2a6b6e0e142e21072856f7020e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afcb3bc74d438206130c9660648c5d1f0"><td class="memItemLeft" align="right" valign="top"><a id="afcb3bc74d438206130c9660648c5d1f0"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#afcb3bc74d438206130c9660648c5d1f0">preprocessing</a> ()</td></tr>
 <tr class="memdesc:afcb3bc74d438206130c9660648c5d1f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs preprocessing on every extended graph. <br /></td></tr>
 <tr class="separator:afcb3bc74d438206130c9660648c5d1f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d42e0c236b5315a5ee25b135b9a5fb6"><td class="memItemLeft" align="right" valign="top"><a id="a3d42e0c236b5315a5ee25b135b9a5fb6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a3d42e0c236b5315a5ee25b135b9a5fb6">pathExistencePreprocessing</a> ()</td></tr>
+<tr class="memdesc:a3d42e0c236b5315a5ee25b135b9a5fb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">If there exists no path from (source,s) to (target,s), erases every arc with slice s. <br /></td></tr>
+<tr class="separator:a3d42e0c236b5315a5ee25b135b9a5fb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a832589d9a90339daedf9ecbc0c1360cf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a832589d9a90339daedf9ecbc0c1360cf">lengthPreprocessing</a> ()</td></tr>
 <tr class="memdesc:a832589d9a90339daedf9ecbc0c1360cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs preprocessing based on the arc lengths and returns true if at least one arc is erased.  <a href="classRSA.html#a832589d9a90339daedf9ecbc0c1360cf">More...</a><br /></td></tr>
 <tr class="separator:a832589d9a90339daedf9ecbc0c1360cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -466,7 +467,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00450">450</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00465">465</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -494,7 +495,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00458">458</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00473">473</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -533,7 +534,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00465">465</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00480">480</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -572,7 +573,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00428">428</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00443">443</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -618,46 +619,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00414">414</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
-
-</div>
-</div>
-<a id="a792e9a2a6b6e0e142e21072856f7020e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a792e9a2a6b6e0e142e21072856f7020e">&#9670;&nbsp;</a></span>eraseAllArcsFromSlice()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int RSA::eraseAllArcsFromSlice </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>d</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>slice</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Erases every arc from graph #d having the given slice and returns the number of arcs removed. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">d</td><td>The graph #d.</td></tr>
-    <tr><td class="paramname">slice</td><td>The slice to be removed. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00213">213</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00429">429</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -913,7 +875,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Implement other metrics. For the moment, only 1p is used. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00364">364</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00379">379</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -952,7 +914,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00296">296</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00311">311</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -992,7 +954,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>Only adapted for the case of treating one demand at a time. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00311">311</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00326">326</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -1032,7 +994,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>I do not really understand this metric -&gt; to be implemented. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00326">326</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00341">341</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -1071,7 +1033,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00332">332</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00347">347</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -1111,7 +1073,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>Only adapted for the case of treating one demand at a time. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00337">337</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00352">352</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -1433,7 +1395,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>Performs preprocessing based on the arc lengths and returns true if at least one arc is erased. </p>
 <p>An arc (u,v) can only be part of a solution if the distance from demand source to u, plus the distance from v to demand target plus the arc length is less than or equal to the demand's maximum length. </p>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00233">233</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00250">250</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -1902,7 +1864,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00269">269</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00284">284</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>

@@ -197,6 +197,7 @@ void RSA::preprocessing(){
     }
     if (getInstance().getInput().getChosenPreprLvl() >= Input::PREPROCESSING_LVL_PARTIAL){
         // do partial preprocessing;
+        pathExistencePreprocessing();
         bool keepPreprocessing = lengthPreprocessing();
         
         if (getInstance().getInput().getChosenPreprLvl() >= Input::PREPROCESSING_LVL_FULL){
@@ -210,27 +211,44 @@ void RSA::preprocessing(){
 
 
 /* Erases every arc from graph #d having the given slice and returns the number of arcs removed. */
-int RSA::eraseAllArcsFromSlice(int d, int slice){
-    int nb = 0;
-    ListDigraph::ArcIt previousArc(*vecGraph[d]);
-    ListDigraph::ArcIt a(*vecGraph[d]);
-    ListDigraph::ArcIt currentArc(*vecGraph[d], a);
-    while (a != INVALID){
-        currentArc = a;
-        ListDigraph::ArcIt nextArc(*vecGraph[0], ++currentArc);
-        currentArc = a;
-        if (getArcSlice(a, d) == slice){
-            //std::cout << "Erase arc ";
-            //displayArc(d, a);
-            (*vecGraph[d]).erase(a);
-            nb++;
+void RSA::pathExistencePreprocessing(){
+    std::cout << "Called Path Existence preprocessing."<< std::endl;
+    int totalNb = 0;
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        bool STOP = false;
+        while (!STOP){
+            int nb = 0;
+            ListDigraph::ArcIt previousArc(*vecGraph[d]);
+            ListDigraph::ArcIt a(*vecGraph[d]);
+            ListDigraph::ArcIt currentArc(*vecGraph[d], a);
+
+            while (a != INVALID){
+                currentArc = a;
+                ListDigraph::ArcIt nextArc(*vecGraph[0], ++currentArc);
+                currentArc = a;
+                int slice = getArcSlice(a, d);
+                ListDigraph::Node source = getNode(d, getToBeRouted_k(d).getSource(), slice);
+                ListDigraph::Node target = getNode(d, getToBeRouted_k(d).getTarget(), slice);
+                if (source == INVALID || target == INVALID){
+                    (*vecGraph[d]).erase(a);
+                    nb++;
+                }
+                a = nextArc;
+            }
+
+            if (nb == 0){
+                STOP = true;
+            }
+            else{
+                totalNb += nb;
+            }
         }
-        a = nextArc;
+        std::cout << "> Number of erased arcs due to Path Existence in graph #" << d << ": " << totalNb << std::endl;
     }
-    return nb;
 }
 /* Performs preprocessing based on the arc lengths and returns true if at least one arc is erased. */
 bool RSA::lengthPreprocessing(){
+    std::cout << "Called Length preprocessing."<< std::endl;
     int totalNb = 0;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         //displayGraph(d);
@@ -250,9 +268,6 @@ bool RSA::lengthPreprocessing(){
                     (*vecGraph[d]).erase(a);
                     nb++;
                 }
-            }
-            else{
-                nb += eraseAllArcsFromSlice(d, slice);
             }
             a = nextArc;
         }

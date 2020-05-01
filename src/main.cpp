@@ -118,9 +118,6 @@ int main(int argc, char *argv[]) {
 				instance.outputLogResults(outputCode);
 			}
 		}
-		
-
-		//instance.displayInstance();
 	}
 	catch(const std::invalid_argument& e){
 		std::cerr << std::endl << "ERROR: Caught exception." << std::endl;

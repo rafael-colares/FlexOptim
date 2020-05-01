@@ -102,3 +102,12 @@ void Input::displayMainParameters(){
     std::cout << "DEMAND FILE: " << demandFile << std::endl;
     std::cout << "ASSIGNMENT FILE: " << assignmentFile << std::endl;
 }
+
+/****************************************************************************************/
+/*										Destructor										*/
+/****************************************************************************************/
+
+/* Destructor. Clears the vector of strings. */
+Input::~Input(){
+    vecOnlineDemandFile.clear();
+}

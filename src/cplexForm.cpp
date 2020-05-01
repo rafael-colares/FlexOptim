@@ -73,7 +73,6 @@ CplexForm::CplexForm(const Instance &inst) : Solver(inst), model(env), cplex(mod
     }
     else{
         std::cout << "Could not find a path!" << std::endl;
-        //exit(0);
     }
 }
 
@@ -138,4 +137,16 @@ void CplexForm::displayOnPath(){
             }
         }
     }
+}
+
+/****************************************************************************************/
+/*										Destructor										*/
+/****************************************************************************************/
+
+/* Destructor. Clears the vectors of demands and links. */
+CplexForm::~CplexForm(){
+    x.end();
+    cplex.end();
+    model.end();
+    env.end();
 }

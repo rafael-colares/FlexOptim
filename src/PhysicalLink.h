@@ -110,6 +110,13 @@ public:
 
 	/** Displays summarized information about slice occupation. **/
 	void displaySlices();
+	
+	/****************************************************************************************/
+	/*										Destructor										*/
+	/****************************************************************************************/
+
+	/** Destructor. Clears the spectrum. **/
+	~PhysicalLink();
 };
 
 #endif

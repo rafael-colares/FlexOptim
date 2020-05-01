@@ -1,8 +1,10 @@
 #include "Instance.h"
 
-/************************************************/
-/*				Constructors					*/
-/************************************************/
+
+/****************************************************************************************/
+/*										Constructor										*/
+/****************************************************************************************/
+
 /* Constructor initializes the object with the information of an Input. */
 Instance::Instance(const Input &i) : input(i){
 	this->setNbNodes(0);
@@ -15,9 +17,20 @@ Instance::Instance(const Instance &i) : input(i.getInput()){
 	this->setTabDemand(i.getTabDemand());
 }
 
-/************************************************/
-/*					Methods						*/
-/************************************************/
+/****************************************************************************************/
+/*										Destructor										*/
+/****************************************************************************************/
+
+/* Destructor. Clears the vectors of demands and links. */
+Instance::~Instance() {
+	tabEdge.clear();
+	tabDemand.clear();
+}
+
+/****************************************************************************************/
+/*										Methods											*/
+/****************************************************************************************/
+
 /* Returns the number of demands already routed. */
 int Instance::getNbRoutedDemands() const{
 	int counter = 0;
@@ -224,9 +237,10 @@ void Instance::generateRandomDemandsFromFile(std::string filePath){
 	/* dataList[0] corresponds to the first line of the document and dataList[0][i] to the i-th word.*/
 	std::vector<std::vector<std::string> > dataList = reader.getData();
 	int numberOfLines = (int)dataList.size();
+	int nbPreviousDemands = tabDemand.size();
 	//skip the first line (headers)
 	for (int i = 1; i < numberOfLines; i++) {
-		int idDemand = std::stoi(dataList[i][0]) - 1 + getNbRoutedDemands();
+		int idDemand = std::stoi(dataList[i][0]) - 1 + nbPreviousDemands;
 		int demandSource = std::stoi(dataList[i][1]) - 1;
 		int demandTarget = std::stoi(dataList[i][2]) - 1;
 		int demandLoad = std::stoi(dataList[i][3]);
@@ -333,6 +347,10 @@ void Instance::outputDemandEdgeSlices(std::string counter){
 			}
 		}
 		myfile << "\n";
+		myfile.close();
+	}
+	else{
+		std::cerr << "Unable to open file " << filePath << "\n";
 	}
 }
 
@@ -356,6 +374,10 @@ void Instance::outputDemand(){
 				myfile << std::to_string(getDemandFromIndex(i).getMaxLength()) << "\n";
 			}
 		}
+		myfile.close();
+	}
+	else{
+		std::cerr << "Unable to open file " << filePath << "\n";
 	}
 }
 
@@ -386,11 +408,11 @@ void Instance::outputEdgeSliceHols(std::string counter){
 			myfile << "\n";
 		}
 		myfile << "Nb_New_Demands:" << delimiter << getNbRoutedDemands() - getNbInitialDemands() << "\n";
+  		myfile.close();
 	}
 	else{
-		std::cerr << "Unable to open file.\n";
+		std::cerr << "Unable to open file " << filePath << "\n";
 	}
-  	myfile.close();
 }
 
 
@@ -404,6 +426,10 @@ void Instance::outputLogResults(std::string fileName){
 		int nbRouted = getNbRoutedDemands();
 		myfile << nbRouted - getNbInitialDemands() << delimiter;
 		myfile << nbRouted << "\n";
+		myfile.close();
+	}
+	else{
+		std::cerr << "Unable to open file " << filePath << "\n";
 	}
 }
 

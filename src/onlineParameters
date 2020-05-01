@@ -1,9 +1,9 @@
-linkFile=../Parameters/Instances/Spain_N5/InitialMappingMet1Slice30/Link.csv
-demandFile=../Parameters/Instances/Spain_N5/InitialMappingMet1Slice30/Demand.csv
+linkFile=../Parameters/Instances/NSF/InitialMappingMet1Slice120/Link.csv
+demandFile=../Parameters/Instances/NSF/InitialMappingMet1Slice120/Demand.csv
 assignmentFile=
-onlineDemandFolder=../Parameters/Instances/Spain_N5/OnlineDemands
+onlineDemandFolder=../Parameters/Instances/NSF/OnlineDemands
 nbDemandsAtOnce=1
-outputPath=../Output/Spain_N5/InitialMappingEmpty/
+outputPath=../Output/NSF/InitialMappingEmpty/obj1/
 outputLevel=1
 nbSlicesInOutputFile=320
 method=0

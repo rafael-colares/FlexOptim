@@ -149,6 +149,13 @@ public:
 
 	/** Displays the main input file paths: link, demand and assignement. **/
     void displayMainParameters();
+	
+	/****************************************************************************************/
+	/*										Destructor										*/
+	/****************************************************************************************/
+
+	/** Destructor. Clears the vector of strings. **/
+	~Input();
 };
 
 #endif

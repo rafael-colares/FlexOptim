@@ -192,12 +192,12 @@ public:
     /** Delete arcs that are known 'a priori' to be unable to route on graph #d. Erase arcs that do not support the demand's load. @param d The graph #d to be inspected. **/
     void eraseNonRoutableArcs(int d);
     
-    /** Erases every arc from graph #d having the given slice and returns the number of arcs removed. @param d The graph #d. @param slice The slice to be removed. **/
-    int eraseAllArcsFromSlice(int d, int slice);
-
     /** Runs preprocessing on every extended graph. **/
     void preprocessing();
-    
+
+    /** If there exists no path from (source,s) to (target,s), erases every arc with slice s. **/
+    void pathExistencePreprocessing();
+
     /** Performs preprocessing based on the arc lengths and returns true if at least one arc is erased. An arc (u,v) can only be part of a solution if the distance from demand source to u, plus the distance from v to demand target plus the arc length is less than or equal to the demand's maximum length. **/
     bool lengthPreprocessing();
 
