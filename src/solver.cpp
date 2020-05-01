@@ -1,6 +1,11 @@
 #include "solver.h"
 
 
+/****************************************************************************************/
+/*										Constructor										*/
+/****************************************************************************************/
+
+/* Constructor. The RSA constructor is called and the arc map storing the index of the preprocessed graphs associated is built. */
 Solver::Solver(const Instance &inst) : RSA(inst) {
     std::cout << "--- Solver has been initalized ---" << std::endl;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){ 
@@ -13,7 +18,7 @@ Solver::Solver(const Instance &inst) : RSA(inst) {
     }
 }
 
-/* Define variables x[a][d] for every arc a in the extedend graph and every demand d to be routed. */
+/* Define variables x[d][a] for every arc a in the extedend graph #d. */
 void Solver::setVariables(IloNumVarMatrix &var, IloModel &mod){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){ 
         var[d] = IloNumVarArray(mod.getEnv(), countArcs(*vecGraph[d]));  
@@ -47,7 +52,7 @@ void Solver::setObjective(IloNumVarMatrix &var, IloModel &mod){
     objective.end();
 }
 
-/* Get an Objective Function */
+/* Returns the objective function expression. */
 IloExpr Solver::getObjFunction(IloNumVarMatrix &var, IloModel &mod){
     IloExpr obj(mod.getEnv());
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
@@ -61,19 +66,19 @@ IloExpr Solver::getObjFunction(IloNumVarMatrix &var, IloModel &mod){
     return obj;
 }
 
-/* Source constraints. At most 1 leaves each node. Exactly 1 leaves the Source. */
+/* Defines Source constraints. At most one arc leaves each node and exactly one arc leaves the source. */
 void Solver::setSourceConstraints(IloNumVarMatrix &var, IloModel &mod){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){  
         for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
             int label = getNodeLabel(v, d);
-            IloRange sourceConstraint = getSourceConstraint_d(var, mod, getToBeRouted_k(d), d, label);
+            IloRange sourceConstraint = getSourceConstraint_d_n(var, mod, getToBeRouted_k(d), d, label);
             mod.add(sourceConstraint);
         } 
     }
 }
 
-/* Get an specific Source constraint */
-IloRange Solver::getSourceConstraint_d(IloNumVarMatrix &var, IloModel &mod, const Demand & demand, int d, int i){
+/* Returns the source constraint associated with a demand and a node. */
+IloRange Solver::getSourceConstraint_d_n(IloNumVarMatrix &var, IloModel &mod, const Demand & demand, int d, int i){
     IloExpr exp(mod.getEnv());
     IloInt upperBound = 1;
     IloInt lowerBound = 0;
@@ -98,7 +103,7 @@ IloRange Solver::getSourceConstraint_d(IloNumVarMatrix &var, IloModel &mod, cons
     return constraint;
 }
 
-/* Flow constraints. Everything that enters must go out. */
+/* Defines Flow Conservation constraints. If an arc enters a node, then an arc must leave it. */
 void Solver::setFlowConservationConstraints(IloNumVarMatrix &var, IloModel &mod){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
         for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
@@ -111,7 +116,7 @@ void Solver::setFlowConservationConstraints(IloNumVarMatrix &var, IloModel &mod)
     }
 }
 
-/* Get an specific Flow Conservation constraint */
+/* Returns the flow conservation constraint associated with a demand and a node. */
 IloRange Solver::getFlowConservationConstraint_i_d(IloNumVarMatrix &var, IloModel &mod, ListDigraph::Node &v, const Demand & demand, int d){
     IloExpr exp(mod.getEnv());
     IloInt rhs = 0;
@@ -132,7 +137,7 @@ IloRange Solver::getFlowConservationConstraint_i_d(IloNumVarMatrix &var, IloMode
     return constraint;
 }
 
-/* Target constraints. Only 1 enters the Target */
+/* Defines Target constraints. Exactly one arc enters the target. */
 void Solver::setTargetConstraints(IloNumVarMatrix &var, IloModel &mod){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
         IloRange targetConstraint = getTargetConstraint_d(var, mod, getToBeRouted_k(d), d);
@@ -140,7 +145,7 @@ void Solver::setTargetConstraints(IloNumVarMatrix &var, IloModel &mod){
     }
 }
 
-/* Get an specific Target constraint */
+/* Returns the target constraint associated with a demand. */
 IloRange Solver::getTargetConstraint_d(IloNumVarMatrix &var, IloModel &mod, const Demand & demand, int d){
     IloExpr exp(mod.getEnv());
     IloInt rhs = 1;
@@ -160,7 +165,7 @@ IloRange Solver::getTargetConstraint_d(IloNumVarMatrix &var, IloModel &mod, cons
     return constraint;
 }
 
-/* Length Constraints. Demands must be routed within a length limit */
+/* Defines Length constraints. Demands must be routed within a length limit. */
 void Solver::setLengthConstraints(IloNumVarMatrix &var, IloModel &mod){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
         IloRange lengthConstraint = getLengthConstraint(var, mod, getToBeRouted_k(d), d);
@@ -168,7 +173,7 @@ void Solver::setLengthConstraints(IloNumVarMatrix &var, IloModel &mod){
     }
 }
 
-/* Get an specific Length constraint */
+/* Returns the length constraint associated with a demand. */
 IloRange Solver::getLengthConstraint(IloNumVarMatrix &var, IloModel &mod, const Demand &demand, int d){
     IloExpr exp(mod.getEnv());
     double rhs = demand.getMaxLength();
@@ -184,7 +189,7 @@ IloRange Solver::getLengthConstraint(IloNumVarMatrix &var, IloModel &mod, const 
     return constraint;
 }
 
-/* Non-Overlapping constraints. Demands must not overlap eachother's slices */
+/* Defines Non-Overlapping constraints. Demands must not overlap eachother's slices. */
 void Solver::setNonOverlappingConstraints(IloNumVarMatrix &var, IloModel &mod){
     for (int d1 = 0; d1 < getNbDemandsToBeRouted(); d1++){
         for (ListDigraph::ArcIt a(*vecGraph[d1]); a != INVALID; ++a){
@@ -198,7 +203,7 @@ void Solver::setNonOverlappingConstraints(IloNumVarMatrix &var, IloModel &mod){
     }
 }
 
-/* Get an specific Non-Overlapping constraint */
+/* Returns the non-overlapping constraint associated with an arc and a pair of demands. */
 IloRange Solver::getNonOverlappingConstraint(IloNumVarMatrix &var, IloModel &mod, int linkLabel, int slice, const Demand & demand1, int d1, const Demand & demand2, int d2){
     IloExpr exp(mod.getEnv());
     IloNum rhs = 1;
