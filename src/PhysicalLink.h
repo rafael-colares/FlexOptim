@@ -96,7 +96,7 @@ public:
 	void assignSlices(const Demand &dem, int p);
 
 	/** Returns the maximal slice position used in the frequency spectrum. **/
-	int getMaxUsedSlicePosition();
+	int getMaxUsedSlicePosition() const;
 
 	/****************************************************************************************/
 	/*										Display											*/

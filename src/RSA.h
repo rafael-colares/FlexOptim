@@ -72,7 +72,7 @@ protected:
     ArcCost compactArcLength;   /**< ArcMap storing the arc lengths of the simple graph associated with the initial mapping. **/
     NodeMap compactNodeId;      /**< NodeMap storing the LEMON node ids of the simple graph associated with the initial mapping. **/
     NodeMap compactNodeLabel;   /**< NodeMap storing the node labels of the simple graph associated with the initial mapping. **/
-
+    
 public:
 	/****************************************************************************************/
 	/*										Constructor										*/

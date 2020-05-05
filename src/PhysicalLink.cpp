@@ -65,7 +65,7 @@ void PhysicalLink::assignSlices(const Demand &d, int p){
 }
 
 /* Returns the maximal slice position used in the frequency spectrum. */
-int PhysicalLink::getMaxUsedSlicePosition(){
+int PhysicalLink::getMaxUsedSlicePosition() const {
 	int max = 0;
 	for (int i = 0; i < this->getNbSlices(); i++){
 		if (getSlice_i(i).isUsed()){

@@ -71,6 +71,11 @@ $(function() {
 <div class="title">Solver Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>This class specifies which MIP solver to be used and stores the new arc maps used for identifying arcs after preprocessing has erased some arcs.  
+ <a href="classSolver.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="solver_8h_source.html">solver.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for Solver:</div>
 <div class="dyncontent">
@@ -84,54 +89,66 @@ Inheritance diagram for Solver:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8271976cef5a884cb8b4deb295311466"><td class="memItemLeft" align="right" valign="top"><a id="a8271976cef5a884cb8b4deb295311466"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Solver</b> (const <a class="el" href="classInstance.html">Instance</a> &amp;inst)</td></tr>
+<tr class="memitem:a8271976cef5a884cb8b4deb295311466"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a8271976cef5a884cb8b4deb295311466">Solver</a> (const <a class="el" href="classInstance.html">Instance</a> &amp;inst)</td></tr>
+<tr class="memdesc:a8271976cef5a884cb8b4deb295311466"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classSolver.html#a8271976cef5a884cb8b4deb295311466">More...</a><br /></td></tr>
 <tr class="separator:a8271976cef5a884cb8b4deb295311466"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b5a161a183fdc6c80f44be85930fbeb"><td class="memItemLeft" align="right" valign="top"><a id="a3b5a161a183fdc6c80f44be85930fbeb"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>getArcIndex</b> (const ListDigraph::Arc &amp;a, int d) const</td></tr>
+<tr class="memitem:a3b5a161a183fdc6c80f44be85930fbeb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a3b5a161a183fdc6c80f44be85930fbeb">getArcIndex</a> (const ListDigraph::Arc &amp;a, int d) const</td></tr>
+<tr class="memdesc:a3b5a161a183fdc6c80f44be85930fbeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the index of an arc in a preprocessed graph.  <a href="classSolver.html#a3b5a161a183fdc6c80f44be85930fbeb">More...</a><br /></td></tr>
 <tr class="separator:a3b5a161a183fdc6c80f44be85930fbeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad8261a01bdd40d200f92619eb4e7511"><td class="memItemLeft" align="right" valign="top"><a id="aad8261a01bdd40d200f92619eb4e7511"></a>
-IloExpr&#160;</td><td class="memItemRight" valign="bottom"><b>getObjFunction</b> (IloNumVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
-<tr class="separator:aad8261a01bdd40d200f92619eb4e7511"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47d3556e71472f58ad495aea9f10db83"><td class="memItemLeft" align="right" valign="top"><a id="a47d3556e71472f58ad495aea9f10db83"></a>
-IloRange&#160;</td><td class="memItemRight" valign="bottom"><b>getSourceConstraint_d</b> (IloNumVarMatrix &amp;var, IloModel &amp;mod, const <a class="el" href="classDemand.html">Demand</a> &amp;demand, int d, int i)</td></tr>
-<tr class="separator:a47d3556e71472f58ad495aea9f10db83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a659006ac5127c0822453cac4abd9e3af"><td class="memItemLeft" align="right" valign="top"><a id="a659006ac5127c0822453cac4abd9e3af"></a>
-IloRange&#160;</td><td class="memItemRight" valign="bottom"><b>getFlowConservationConstraint_i_d</b> (IloNumVarMatrix &amp;var, IloModel &amp;mod, ListDigraph::Node &amp;v, const <a class="el" href="classDemand.html">Demand</a> &amp;demand, int d)</td></tr>
-<tr class="separator:a659006ac5127c0822453cac4abd9e3af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6437c92f29131f3d8128a893bf08b0cb"><td class="memItemLeft" align="right" valign="top"><a id="a6437c92f29131f3d8128a893bf08b0cb"></a>
-IloRange&#160;</td><td class="memItemRight" valign="bottom"><b>getTargetConstraint_d</b> (IloNumVarMatrix &amp;var, IloModel &amp;mod, const <a class="el" href="classDemand.html">Demand</a> &amp;demand, int d)</td></tr>
-<tr class="separator:a6437c92f29131f3d8128a893bf08b0cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19d6c6852bbea4904b39d10516d708d8"><td class="memItemLeft" align="right" valign="top"><a id="a19d6c6852bbea4904b39d10516d708d8"></a>
-IloRange&#160;</td><td class="memItemRight" valign="bottom"><b>getLengthConstraint</b> (IloNumVarMatrix &amp;var, IloModel &amp;mod, const <a class="el" href="classDemand.html">Demand</a> &amp;demand, int d)</td></tr>
-<tr class="separator:a19d6c6852bbea4904b39d10516d708d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25e7e4bd1ef45827ea041bb343605b78"><td class="memItemLeft" align="right" valign="top"><a id="a25e7e4bd1ef45827ea041bb343605b78"></a>
-IloRange&#160;</td><td class="memItemRight" valign="bottom"><b>getNonOverlappingConstraint</b> (IloNumVarMatrix &amp;var, IloModel &amp;mod, int linkLabel, int slice, const <a class="el" href="classDemand.html">Demand</a> &amp;demand1, int d1, const <a class="el" href="classDemand.html">Demand</a> &amp;demand2, int d2)</td></tr>
-<tr class="separator:a25e7e4bd1ef45827ea041bb343605b78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4488fd901d9223aa6024d99ecd93d90"><td class="memItemLeft" align="right" valign="top"><a id="ad4488fd901d9223aa6024d99ecd93d90"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setArcIndex</b> (const ListDigraph::Arc &amp;a, int d, int val)</td></tr>
+<tr class="memitem:a7c3aec7d02f44707076e3f3dc115124f"><td class="memItemLeft" align="right" valign="top">IloExpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a7c3aec7d02f44707076e3f3dc115124f">getObjFunction</a> (IloBoolVarMatrix &amp;var, IloIntVarArray &amp;maxSliceFromLink, IloIntVar &amp;maxSlice, IloModel &amp;mod)</td></tr>
+<tr class="memdesc:a7c3aec7d02f44707076e3f3dc115124f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the objective function expression.  <a href="classSolver.html#a7c3aec7d02f44707076e3f3dc115124f">More...</a><br /></td></tr>
+<tr class="separator:a7c3aec7d02f44707076e3f3dc115124f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51aac554aa3e61b56661bb32b7aaee10"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a51aac554aa3e61b56661bb32b7aaee10">getSourceConstraint_d_n</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod, const <a class="el" href="classDemand.html">Demand</a> &amp;demand, int d, int label)</td></tr>
+<tr class="memdesc:a51aac554aa3e61b56661bb32b7aaee10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the source constraint associated with a demand and a node.  <a href="classSolver.html#a51aac554aa3e61b56661bb32b7aaee10">More...</a><br /></td></tr>
+<tr class="separator:a51aac554aa3e61b56661bb32b7aaee10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2dffcea651c323f683bea675f7487338"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a2dffcea651c323f683bea675f7487338">getFlowConservationConstraint_i_d</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod, ListDigraph::Node &amp;v, const <a class="el" href="classDemand.html">Demand</a> &amp;demand, int d)</td></tr>
+<tr class="memdesc:a2dffcea651c323f683bea675f7487338"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the flow conservation constraint associated with a demand and a node.  <a href="classSolver.html#a2dffcea651c323f683bea675f7487338">More...</a><br /></td></tr>
+<tr class="separator:a2dffcea651c323f683bea675f7487338"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab335a02584618f4ce4b089dd81e5600c"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ab335a02584618f4ce4b089dd81e5600c">getTargetConstraint_d</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod, const <a class="el" href="classDemand.html">Demand</a> &amp;demand, int d)</td></tr>
+<tr class="memdesc:ab335a02584618f4ce4b089dd81e5600c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the target constraint associated with a demand.  <a href="classSolver.html#ab335a02584618f4ce4b089dd81e5600c">More...</a><br /></td></tr>
+<tr class="separator:ab335a02584618f4ce4b089dd81e5600c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cafc8f6a44ad521c2dfa9c2f30980e3"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a9cafc8f6a44ad521c2dfa9c2f30980e3">getLengthConstraint</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod, const <a class="el" href="classDemand.html">Demand</a> &amp;demand, int d)</td></tr>
+<tr class="memdesc:a9cafc8f6a44ad521c2dfa9c2f30980e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the length constraint associated with a demand.  <a href="classSolver.html#a9cafc8f6a44ad521c2dfa9c2f30980e3">More...</a><br /></td></tr>
+<tr class="separator:a9cafc8f6a44ad521c2dfa9c2f30980e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2dad5f77e88a1211d5cb57514a930a11"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a2dad5f77e88a1211d5cb57514a930a11">getNonOverlappingConstraint</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod, int linkLabel, int slice, const <a class="el" href="classDemand.html">Demand</a> &amp;demand1, int d1, const <a class="el" href="classDemand.html">Demand</a> &amp;demand2, int d2)</td></tr>
+<tr class="memdesc:a2dad5f77e88a1211d5cb57514a930a11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the non-overlapping constraint associated with an arc and a pair of demands.  <a href="classSolver.html#a2dad5f77e88a1211d5cb57514a930a11">More...</a><br /></td></tr>
+<tr class="separator:a2dad5f77e88a1211d5cb57514a930a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a797160b17dd911487a1b23ff3919a046"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a797160b17dd911487a1b23ff3919a046">getMaxUsedSlicePerLinkConstraints</a> (IloBoolVarMatrix &amp;var, IloIntVarArray &amp;maxSlicePerLink, int linkIndex, int d, IloModel &amp;mod)</td></tr>
+<tr class="memdesc:a797160b17dd911487a1b23ff3919a046"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Link's Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraint associated with a link and a demand.  <a href="classSolver.html#a797160b17dd911487a1b23ff3919a046">More...</a><br /></td></tr>
+<tr class="separator:a797160b17dd911487a1b23ff3919a046"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef096a12846ebc0fcd518e2762c95aa2"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#aef096a12846ebc0fcd518e2762c95aa2">getMaxUsedSliceOverallConstraints</a> (IloBoolVarMatrix &amp;var, IloIntVar &amp;maxSliceOverall, int linkIndex, int d, IloModel &amp;mod)</td></tr>
+<tr class="memdesc:aef096a12846ebc0fcd518e2762c95aa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints associated with a link and a demand.  <a href="classSolver.html#aef096a12846ebc0fcd518e2762c95aa2">More...</a><br /></td></tr>
+<tr class="separator:aef096a12846ebc0fcd518e2762c95aa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4488fd901d9223aa6024d99ecd93d90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ad4488fd901d9223aa6024d99ecd93d90">setArcIndex</a> (const ListDigraph::Arc &amp;a, int d, int val)</td></tr>
+<tr class="memdesc:ad4488fd901d9223aa6024d99ecd93d90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the index of an arc in a graph.  <a href="classSolver.html#ad4488fd901d9223aa6024d99ecd93d90">More...</a><br /></td></tr>
 <tr class="separator:ad4488fd901d9223aa6024d99ecd93d90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5cbdd57b57ac3de159f95466905442c"><td class="memItemLeft" align="right" valign="top"><a id="ac5cbdd57b57ac3de159f95466905442c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setVariables</b> (IloNumVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
-<tr class="separator:ac5cbdd57b57ac3de159f95466905442c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e8b34308036cdc12acd401f735fd0f5"><td class="memItemLeft" align="right" valign="top"><a id="a5e8b34308036cdc12acd401f735fd0f5"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setObjective</b> (IloNumVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
-<tr class="separator:a5e8b34308036cdc12acd401f735fd0f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8a0c46c77c143c5a8dd886856e7ea50"><td class="memItemLeft" align="right" valign="top"><a id="ab8a0c46c77c143c5a8dd886856e7ea50"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setSourceConstraints</b> (IloNumVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
-<tr class="separator:ab8a0c46c77c143c5a8dd886856e7ea50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d8fffc93dc6f707fa792b163305c6ce"><td class="memItemLeft" align="right" valign="top"><a id="a8d8fffc93dc6f707fa792b163305c6ce"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setFlowConservationConstraints</b> (IloNumVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
-<tr class="separator:a8d8fffc93dc6f707fa792b163305c6ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af65f481c55aba58997c3ac98038c5cf3"><td class="memItemLeft" align="right" valign="top"><a id="af65f481c55aba58997c3ac98038c5cf3"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setTargetConstraints</b> (IloNumVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
-<tr class="separator:af65f481c55aba58997c3ac98038c5cf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b509242e83b1e5abefef08445211e89"><td class="memItemLeft" align="right" valign="top"><a id="a1b509242e83b1e5abefef08445211e89"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setLengthConstraints</b> (IloNumVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
-<tr class="separator:a1b509242e83b1e5abefef08445211e89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5ca64f0230ace2f6adfdde410a41acd"><td class="memItemLeft" align="right" valign="top"><a id="af5ca64f0230ace2f6adfdde410a41acd"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setNonOverlappingConstraints</b> (IloNumVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
-<tr class="separator:af5ca64f0230ace2f6adfdde410a41acd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75f3f16c75cc621bc0717dfd35cbfe36"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a75f3f16c75cc621bc0717dfd35cbfe36">setVariables</a> (IloBoolVarMatrix &amp;var, IloIntVarArray &amp;maxSliceFromLink, IloIntVar &amp;maxSlice, IloModel &amp;mod)</td></tr>
+<tr class="memdesc:a75f3f16c75cc621bc0717dfd35cbfe36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the decision variables need in the MIP formulation.  <a href="classSolver.html#a75f3f16c75cc621bc0717dfd35cbfe36">More...</a><br /></td></tr>
+<tr class="separator:a75f3f16c75cc621bc0717dfd35cbfe36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6bcfd57e217b2f82d70d206bd01e955"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ae6bcfd57e217b2f82d70d206bd01e955">setObjective</a> (IloBoolVarMatrix &amp;var, IloIntVarArray &amp;maxSliceFromLink, IloIntVar &amp;maxSlice, IloModel &amp;mod)</td></tr>
+<tr class="memdesc:ae6bcfd57e217b2f82d70d206bd01e955"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the objective function.  <a href="classSolver.html#ae6bcfd57e217b2f82d70d206bd01e955">More...</a><br /></td></tr>
+<tr class="separator:ae6bcfd57e217b2f82d70d206bd01e955"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1abe3bffa57d7a2b48a05fd5ebb14ce3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a1abe3bffa57d7a2b48a05fd5ebb14ce3">setSourceConstraints</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
+<tr class="memdesc:a1abe3bffa57d7a2b48a05fd5ebb14ce3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines Source constraints.  <a href="classSolver.html#a1abe3bffa57d7a2b48a05fd5ebb14ce3">More...</a><br /></td></tr>
+<tr class="separator:a1abe3bffa57d7a2b48a05fd5ebb14ce3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b7841441d4ca0d49ec93e341d66a7a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a0b7841441d4ca0d49ec93e341d66a7a6">setFlowConservationConstraints</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
+<tr class="memdesc:a0b7841441d4ca0d49ec93e341d66a7a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines Flow Conservation constraints.  <a href="classSolver.html#a0b7841441d4ca0d49ec93e341d66a7a6">More...</a><br /></td></tr>
+<tr class="separator:a0b7841441d4ca0d49ec93e341d66a7a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0b828554990d2cac7460c2740c5b92b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ad0b828554990d2cac7460c2740c5b92b">setTargetConstraints</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
+<tr class="memdesc:ad0b828554990d2cac7460c2740c5b92b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines Target constraints.  <a href="classSolver.html#ad0b828554990d2cac7460c2740c5b92b">More...</a><br /></td></tr>
+<tr class="separator:ad0b828554990d2cac7460c2740c5b92b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac587773213af079a5cafeb5300edce11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ac587773213af079a5cafeb5300edce11">setLengthConstraints</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
+<tr class="memdesc:ac587773213af079a5cafeb5300edce11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines Length constraints.  <a href="classSolver.html#ac587773213af079a5cafeb5300edce11">More...</a><br /></td></tr>
+<tr class="separator:ac587773213af079a5cafeb5300edce11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8961e551f9ffd18f6d771420c120236c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a8961e551f9ffd18f6d771420c120236c">setNonOverlappingConstraints</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
+<tr class="memdesc:a8961e551f9ffd18f6d771420c120236c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines Non-Overlapping constraints.  <a href="classSolver.html#a8961e551f9ffd18f6d771420c120236c">More...</a><br /></td></tr>
+<tr class="separator:a8961e551f9ffd18f6d771420c120236c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f4deec8e6acb54e0da8c71576e6840d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a6f4deec8e6acb54e0da8c71576e6840d">setMaxUsedSlicePerLinkConstraints</a> (IloBoolVarMatrix &amp;var, IloIntVarArray &amp;maxSlicePerLink, IloModel &amp;mod)</td></tr>
+<tr class="memdesc:a6f4deec8e6acb54e0da8c71576e6840d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the Link's Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints.  <a href="classSolver.html#a6f4deec8e6acb54e0da8c71576e6840d">More...</a><br /></td></tr>
+<tr class="separator:a6f4deec8e6acb54e0da8c71576e6840d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addf7bd31e36425e8cf6b6a999c4698a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#addf7bd31e36425e8cf6b6a999c4698a9">setMaxUsedSliceOverallConstraints</a> (IloBoolVarMatrix &amp;var, IloIntVar maxSliceOverall, IloModel &amp;mod)</td></tr>
+<tr class="memdesc:addf7bd31e36425e8cf6b6a999c4698a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints.  <a href="classSolver.html#addf7bd31e36425e8cf6b6a999c4698a9">More...</a><br /></td></tr>
+<tr class="separator:addf7bd31e36425e8cf6b6a999c4698a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classRSA"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classRSA')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classRSA.html">RSA</a></td></tr>
 <tr class="memitem:a3721e8ddbb15b0bbe5d4d0655c31ae6a inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a3721e8ddbb15b0bbe5d4d0655c31ae6a">RSA</a> (const <a class="el" href="classInstance.html">Instance</a> &amp;<a class="el" href="classRSA.html#ad81287af708fcfcd98c963cfafc1f4db">instance</a>)</td></tr>
 <tr class="memdesc:a3721e8ddbb15b0bbe5d4d0655c31ae6a inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classRSA.html#a3721e8ddbb15b0bbe5d4d0655c31ae6a">More...</a><br /></td></tr>
@@ -279,8 +296,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a0906c4c5ad718a1b89bf46c494c09cb7"><td class="memItemLeft" align="right" valign="top"><a id="a0906c4c5ad718a1b89bf46c494c09cb7"></a>
-std::vector&lt; std::shared_ptr&lt; ArcMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>vecArcIndex</b></td></tr>
+<tr class="memitem:a0906c4c5ad718a1b89bf46c494c09cb7"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a0906c4c5ad718a1b89bf46c494c09cb7">vecArcIndex</a></td></tr>
+<tr class="memdesc:a0906c4c5ad718a1b89bf46c494c09cb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the ArcMap storing the arc index of the preprocessed graph associated with each demand to be routed.  <a href="classSolver.html#a0906c4c5ad718a1b89bf46c494c09cb7">More...</a><br /></td></tr>
 <tr class="separator:a0906c4c5ad718a1b89bf46c494c09cb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classRSA"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classRSA')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classRSA.html">RSA</a></td></tr>
 <tr class="memitem:ad81287af708fcfcd98c963cfafc1f4db inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="ad81287af708fcfcd98c963cfafc1f4db"></a>
@@ -344,9 +361,1043 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr class="separator:ac18380da784d30516b8cc10e024814ec inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="solver_8h_source.html#l00010">10</a> of file <a class="el" href="solver_8h_source.html">solver.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+<div class="textblock"><p>This class specifies which MIP solver to be used and stores the new arc maps used for identifying arcs after preprocessing has erased some arcs. </p>
+<p>The methods needed for solving the Routing and Spectrum Allocation problem via CPLEX. </p><dl class="section note"><dt>Note</dt><dd>It uses the LEMON library to build the arc maps and CPLEX concert library to build expressions and constraints. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8h_source.html#l00018">18</a> of file <a class="el" href="solver_8h_source.html">solver.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a8271976cef5a884cb8b4deb295311466"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8271976cef5a884cb8b4deb295311466">&#9670;&nbsp;</a></span>Solver()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Solver::Solver </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classInstance.html">Instance</a> &amp;&#160;</td>
+          <td class="paramname"><em>inst</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor. </p>
+<p>The <a class="el" href="classRSA.html" title="This class stores the input needed for solving the Routing and Spectrum Allocation problem.">RSA</a> constructor is called and the arc map storing the index of the preprocessed graphs associated is built.</p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">inst</td><td>The instance to be solved. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00009">9</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a3b5a161a183fdc6c80f44be85930fbeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b5a161a183fdc6c80f44be85930fbeb">&#9670;&nbsp;</a></span>getArcIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Solver::getArcIndex </td>
+          <td>(</td>
+          <td class="paramtype">const ListDigraph::Arc &amp;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the index of an arc in a preprocessed graph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The arc.</td></tr>
+    <tr><td class="paramname">d</td><td>The graph #d. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8h_source.html#l00037">37</a> of file <a class="el" href="solver_8h_source.html">solver.h</a>.</p>
+
+</div>
+</div>
+<a id="a2dffcea651c323f683bea675f7487338"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2dffcea651c323f683bea675f7487338">&#9670;&nbsp;</a></span>getFlowConservationConstraint_i_d()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange Solver::getFlowConservationConstraint_i_d </td>
+          <td>(</td>
+          <td class="paramtype">IloBoolVarMatrix &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloModel &amp;&#160;</td>
+          <td class="paramname"><em>mod</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ListDigraph::Node &amp;&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classDemand.html">Demand</a> &amp;&#160;</td>
+          <td class="paramname"><em>demand</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the flow conservation constraint associated with a demand and a node. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>The variable matrix x[d][a].</td></tr>
+    <tr><td class="paramname">mod</td><td>The CPLEX model.</td></tr>
+    <tr><td class="paramname">v</td><td>The node.</td></tr>
+    <tr><td class="paramname">demand</td><td>The demand.</td></tr>
+    <tr><td class="paramname">d</td><td>The demand index. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00164">164</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a9cafc8f6a44ad521c2dfa9c2f30980e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cafc8f6a44ad521c2dfa9c2f30980e3">&#9670;&nbsp;</a></span>getLengthConstraint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange Solver::getLengthConstraint </td>
+          <td>(</td>
+          <td class="paramtype">IloBoolVarMatrix &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloModel &amp;&#160;</td>
+          <td class="paramname"><em>mod</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classDemand.html">Demand</a> &amp;&#160;</td>
+          <td class="paramname"><em>demand</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the length constraint associated with a demand. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>The variable matrix x[d][a].</td></tr>
+    <tr><td class="paramname">mod</td><td>The CPLEX model.</td></tr>
+    <tr><td class="paramname">demand</td><td>The demand.</td></tr>
+    <tr><td class="paramname">d</td><td>The demand index. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00221">221</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aef096a12846ebc0fcd518e2762c95aa2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef096a12846ebc0fcd518e2762c95aa2">&#9670;&nbsp;</a></span>getMaxUsedSliceOverallConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange Solver::getMaxUsedSliceOverallConstraints </td>
+          <td>(</td>
+          <td class="paramtype">IloBoolVarMatrix &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloIntVar &amp;&#160;</td>
+          <td class="paramname"><em>maxSliceOverall</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>linkIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloModel &amp;&#160;</td>
+          <td class="paramname"><em>mod</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints associated with a link and a demand. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>The assignment variable matrix.</td></tr>
+    <tr><td class="paramname">maxSliceOverall</td><td>The variable refering to the max used slice position throughout the whole network.</td></tr>
+    <tr><td class="paramname">linkindex</td><td>The link's index.</td></tr>
+    <tr><td class="paramname">d</td><td>The demand's index.</td></tr>
+    <tr><td class="paramname">mod</td><td>The CPLEX model. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00314">314</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a797160b17dd911487a1b23ff3919a046"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a797160b17dd911487a1b23ff3919a046">&#9670;&nbsp;</a></span>getMaxUsedSlicePerLinkConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange Solver::getMaxUsedSlicePerLinkConstraints </td>
+          <td>(</td>
+          <td class="paramtype">IloBoolVarMatrix &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloIntVarArray &amp;&#160;</td>
+          <td class="paramname"><em>maxSlicePerLink</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>linkIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloModel &amp;&#160;</td>
+          <td class="paramname"><em>mod</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the Link's Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraint associated with a link and a demand. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>The assignment variable matrix.</td></tr>
+    <tr><td class="paramname">maxSlicePerLink</td><td>The array of variables refering to the max used slice position of each link.</td></tr>
+    <tr><td class="paramname">linkIndex</td><td>The link's index.</td></tr>
+    <tr><td class="paramname">d</td><td>The demand's index.</td></tr>
+    <tr><td class="paramname">mod</td><td>The CPLEX model. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00283">283</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a2dad5f77e88a1211d5cb57514a930a11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2dad5f77e88a1211d5cb57514a930a11">&#9670;&nbsp;</a></span>getNonOverlappingConstraint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange Solver::getNonOverlappingConstraint </td>
+          <td>(</td>
+          <td class="paramtype">IloBoolVarMatrix &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloModel &amp;&#160;</td>
+          <td class="paramname"><em>mod</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>linkLabel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>slice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classDemand.html">Demand</a> &amp;&#160;</td>
+          <td class="paramname"><em>demand1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classDemand.html">Demand</a> &amp;&#160;</td>
+          <td class="paramname"><em>demand2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the non-overlapping constraint associated with an arc and a pair of demands. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>The variable matrix x[d][a].</td></tr>
+    <tr><td class="paramname">mod</td><td>The CPLEX model.</td></tr>
+    <tr><td class="paramname">linkLabel</td><td>The arc label.</td></tr>
+    <tr><td class="paramname">slice</td><td>The arc slice.</td></tr>
+    <tr><td class="paramname">demand1</td><td>The first demand.</td></tr>
+    <tr><td class="paramname">d1</td><td>The first demand index.</td></tr>
+    <tr><td class="paramname">demand2</td><td>The second demand.</td></tr>
+    <tr><td class="paramname">d2</td><td>The second demand index. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00251">251</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a7c3aec7d02f44707076e3f3dc115124f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c3aec7d02f44707076e3f3dc115124f">&#9670;&nbsp;</a></span>getObjFunction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloExpr Solver::getObjFunction </td>
+          <td>(</td>
+          <td class="paramtype">IloBoolVarMatrix &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloIntVarArray &amp;&#160;</td>
+          <td class="paramname"><em>maxSliceFromLink</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloIntVar &amp;&#160;</td>
+          <td class="paramname"><em>maxSlice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloModel &amp;&#160;</td>
+          <td class="paramname"><em>mod</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the objective function expression. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>The variable matrix x[d][a].</td></tr>
+    <tr><td class="paramname">maxSliceFromEdge</td><td>The array of variables refering to the max used slice position of each link.</td></tr>
+    <tr><td class="paramname">maxSlice</td><td>The variable storing the max used slice position in the whole network.</td></tr>
+    <tr><td class="paramname">mod</td><td>The CPLEX model. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00082">82</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a51aac554aa3e61b56661bb32b7aaee10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51aac554aa3e61b56661bb32b7aaee10">&#9670;&nbsp;</a></span>getSourceConstraint_d_n()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange Solver::getSourceConstraint_d_n </td>
+          <td>(</td>
+          <td class="paramtype">IloBoolVarMatrix &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloModel &amp;&#160;</td>
+          <td class="paramname"><em>mod</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classDemand.html">Demand</a> &amp;&#160;</td>
+          <td class="paramname"><em>demand</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>label</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the source constraint associated with a demand and a node. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>The variable matrix x[d][a].</td></tr>
+    <tr><td class="paramname">mod</td><td>The CPLEX model.</td></tr>
+    <tr><td class="paramname">demand</td><td>The demand.</td></tr>
+    <tr><td class="paramname">d</td><td>The demand index.</td></tr>
+    <tr><td class="paramname">label</td><td>The node label. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00125">125</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ab335a02584618f4ce4b089dd81e5600c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab335a02584618f4ce4b089dd81e5600c">&#9670;&nbsp;</a></span>getTargetConstraint_d()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange Solver::getTargetConstraint_d </td>
+          <td>(</td>
+          <td class="paramtype">IloBoolVarMatrix &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloModel &amp;&#160;</td>
+          <td class="paramname"><em>mod</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classDemand.html">Demand</a> &amp;&#160;</td>
+          <td class="paramname"><em>demand</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the target constraint associated with a demand. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>The variable matrix x[d][a].</td></tr>
+    <tr><td class="paramname">mod</td><td>The CPLEX model.</td></tr>
+    <tr><td class="paramname">demand</td><td>The demand.</td></tr>
+    <tr><td class="paramname">d</td><td>The demand index. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00193">193</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ad4488fd901d9223aa6024d99ecd93d90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4488fd901d9223aa6024d99ecd93d90">&#9670;&nbsp;</a></span>setArcIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Solver::setArcIndex </td>
+          <td>(</td>
+          <td class="paramtype">const ListDigraph::Arc &amp;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the index of an arc in a graph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The arc.</td></tr>
+    <tr><td class="paramname">d</td><td>The graph #d.</td></tr>
+    <tr><td class="paramname">val</td><td>The new index value. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8h_source.html#l00068">68</a> of file <a class="el" href="solver_8h_source.html">solver.h</a>.</p>
+
+</div>
+</div>
+<a id="a0b7841441d4ca0d49ec93e341d66a7a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b7841441d4ca0d49ec93e341d66a7a6">&#9670;&nbsp;</a></span>setFlowConservationConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Solver::setFlowConservationConstraints </td>
+          <td>(</td>
+          <td class="paramtype">IloBoolVarMatrix &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloModel &amp;&#160;</td>
+          <td class="paramname"><em>mod</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines Flow Conservation constraints. </p>
+<p>If an arc enters a node, then an arc must leave it.</p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>The variable matrix.</td></tr>
+    <tr><td class="paramname">mod</td><td>The CPLEX model. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00151">151</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ac587773213af079a5cafeb5300edce11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac587773213af079a5cafeb5300edce11">&#9670;&nbsp;</a></span>setLengthConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Solver::setLengthConstraints </td>
+          <td>(</td>
+          <td class="paramtype">IloBoolVarMatrix &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloModel &amp;&#160;</td>
+          <td class="paramname"><em>mod</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines Length constraints. </p>
+<p>Demands must be routed within a length limit.</p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>The variable matrix.</td></tr>
+    <tr><td class="paramname">mod</td><td>The CPLEX model. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00213">213</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<a id="addf7bd31e36425e8cf6b6a999c4698a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addf7bd31e36425e8cf6b6a999c4698a9">&#9670;&nbsp;</a></span>setMaxUsedSliceOverallConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Solver::setMaxUsedSliceOverallConstraints </td>
+          <td>(</td>
+          <td class="paramtype">IloBoolVarMatrix &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloIntVar&#160;</td>
+          <td class="paramname"><em>maxSliceOverall</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloModel &amp;&#160;</td>
+          <td class="paramname"><em>mod</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints. </p>
+<p>The max used slice position overall must be greater than every other slice position used in the network.</p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>The assignment variable matrix.</td></tr>
+    <tr><td class="paramname">maxSliceOverall</td><td>The variable refering to the max used slice position throughout the whole network.</td></tr>
+    <tr><td class="paramname">mod</td><td>The CPLEX model. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00304">304</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a6f4deec8e6acb54e0da8c71576e6840d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f4deec8e6acb54e0da8c71576e6840d">&#9670;&nbsp;</a></span>setMaxUsedSlicePerLinkConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Solver::setMaxUsedSlicePerLinkConstraints </td>
+          <td>(</td>
+          <td class="paramtype">IloBoolVarMatrix &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloIntVarArray &amp;&#160;</td>
+          <td class="paramname"><em>maxSlicePerLink</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloModel &amp;&#160;</td>
+          <td class="paramname"><em>mod</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines the Link's Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints. </p>
+<p>The max used slice position on each link must be greater than every slice position used in the link.</p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>The assignment variable matrix.</td></tr>
+    <tr><td class="paramname">maxSlicePerLink</td><td>The array of variables refering to the max used slice position of each link.</td></tr>
+    <tr><td class="paramname">mod</td><td>The CPLEX model. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00274">274</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a8961e551f9ffd18f6d771420c120236c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8961e551f9ffd18f6d771420c120236c">&#9670;&nbsp;</a></span>setNonOverlappingConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Solver::setNonOverlappingConstraints </td>
+          <td>(</td>
+          <td class="paramtype">IloBoolVarMatrix &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloModel &amp;&#160;</td>
+          <td class="paramname"><em>mod</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines Non-Overlapping constraints. </p>
+<p>Demands must not overlap eachother's slices.</p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>The variable matrix.</td></tr>
+    <tr><td class="paramname">mod</td><td>The CPLEX model. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00237">237</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ae6bcfd57e217b2f82d70d206bd01e955"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6bcfd57e217b2f82d70d206bd01e955">&#9670;&nbsp;</a></span>setObjective()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Solver::setObjective </td>
+          <td>(</td>
+          <td class="paramtype">IloBoolVarMatrix &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloIntVarArray &amp;&#160;</td>
+          <td class="paramname"><em>maxSliceFromLink</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloIntVar &amp;&#160;</td>
+          <td class="paramname"><em>maxSlice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloModel &amp;&#160;</td>
+          <td class="paramname"><em>mod</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines the objective function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>The variable matrix.</td></tr>
+    <tr><td class="paramname">maxSliceFromEdge</td><td>The array of variables refering to the max used slice position of each link.</td></tr>
+    <tr><td class="paramname">maxSlice</td><td>The variable storing the max used slice position in the whole network.</td></tr>
+    <tr><td class="paramname">mod</td><td>The CPLEX model. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00075">75</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a1abe3bffa57d7a2b48a05fd5ebb14ce3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1abe3bffa57d7a2b48a05fd5ebb14ce3">&#9670;&nbsp;</a></span>setSourceConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Solver::setSourceConstraints </td>
+          <td>(</td>
+          <td class="paramtype">IloBoolVarMatrix &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloModel &amp;&#160;</td>
+          <td class="paramname"><em>mod</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines Source constraints. </p>
+<p>At most one arc leaves each node and exactly one arc leaves the source.</p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>The variable matrix.</td></tr>
+    <tr><td class="paramname">mod</td><td>The CPLEX model. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00114">114</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ad0b828554990d2cac7460c2740c5b92b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0b828554990d2cac7460c2740c5b92b">&#9670;&nbsp;</a></span>setTargetConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Solver::setTargetConstraints </td>
+          <td>(</td>
+          <td class="paramtype">IloBoolVarMatrix &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloModel &amp;&#160;</td>
+          <td class="paramname"><em>mod</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines Target constraints. </p>
+<p>Exactly one arc enters the demand's target.</p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>The variable matrix.</td></tr>
+    <tr><td class="paramname">mod</td><td>The CPLEX model. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00185">185</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a75f3f16c75cc621bc0717dfd35cbfe36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75f3f16c75cc621bc0717dfd35cbfe36">&#9670;&nbsp;</a></span>setVariables()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Solver::setVariables </td>
+          <td>(</td>
+          <td class="paramtype">IloBoolVarMatrix &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloIntVarArray &amp;&#160;</td>
+          <td class="paramname"><em>maxSliceFromLink</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloIntVar &amp;&#160;</td>
+          <td class="paramname"><em>maxSlice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IloModel &amp;&#160;</td>
+          <td class="paramname"><em>mod</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines the decision variables need in the MIP formulation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>The assignement variable matrix.</td></tr>
+    <tr><td class="paramname">maxSliceFromEdge</td><td>The array of variables refering to the max used slice position of each link.</td></tr>
+    <tr><td class="paramname">maxSlice</td><td>The variable storing the max used slice position in the whole network.</td></tr>
+    <tr><td class="paramname">mod</td><td>The CPLEX model. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00026">26</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a0906c4c5ad718a1b89bf46c494c09cb7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0906c4c5ad718a1b89bf46c494c09cb7">&#9670;&nbsp;</a></span>vecArcIndex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::shared_ptr&lt;ArcMap&gt; &gt; Solver::vecArcIndex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A list of pointers to the ArcMap storing the arc index of the preprocessed graph associated with each demand to be routed. </p>
+<dl class="section note"><dt>Note</dt><dd>(*vecArcIndex[i])[a] is the index of the arc a in the preprocessed graph associated with the i-th demand to be routed. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8h_source.html#l00022">22</a> of file <a class="el" href="solver_8h_source.html">solver.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="solver_8h_source.html">solver.h</a></li>
 <li><a class="el" href="solver_8cpp_source.html">solver.cpp</a></li>
 </ul>

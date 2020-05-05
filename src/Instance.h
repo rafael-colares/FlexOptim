@@ -63,7 +63,7 @@ public:
 	Input getInput() const { return this->input; }
 
 	/** Returns the PhysicalLink with given index. @param index The index of PhysicalLink required in tabEdge. **/
-	PhysicalLink getPhysicalLinkFromId(int index) const { return this->tabEdge[index]; }	
+	PhysicalLink getPhysicalLinkFromIndex(int index) const { return this->tabEdge[index]; }	
 
 	/** Returns the first PhysicalLink with the given source and target.  @warning Should only be called if method hasLink returns true. If there is no such link, the program is aborted! @param s Source node id. @param t Target node id. **/
 	PhysicalLink getPhysicalLinkBetween(int s, int t);	
@@ -79,6 +79,12 @@ public:
 	
 	/** Returns the vector of demands to be routed in the next optimization. **/
 	std::vector<Demand> getNextDemands() const;
+
+	/** Returns the max used slice position throughout the whole network. **/
+	int getMaxUsedSlicePosition() const;
+
+	/** Returns the max slice position (used or not) throughout the whole network. **/
+	int getMaxSlice() const;
 	
 	/****************************************************************************************/
 	/*										Setters											*/

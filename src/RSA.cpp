@@ -24,14 +24,14 @@ RSA::RSA(const Instance &inst) : instance(inst), compactArcId(compactGraph), com
         vecOnPath.emplace_back(new ArcMap(*vecGraph[d]));
     
         for (int i = 0; i < instance.getNbEdges(); i++){
-            int linkSourceLabel = instance.getPhysicalLinkFromId(i).getSource();
-            int linkTargetLabel = instance.getPhysicalLinkFromId(i).getTarget();
-            for (int s = 0; s < instance.getPhysicalLinkFromId(i).getNbSlices(); s++){
+            int linkSourceLabel = instance.getPhysicalLinkFromIndex(i).getSource();
+            int linkTargetLabel = instance.getPhysicalLinkFromIndex(i).getTarget();
+            for (int s = 0; s < instance.getPhysicalLinkFromIndex(i).getNbSlices(); s++){
                 /* IF SLICE s IS NOT USED */
-                if (instance.getPhysicalLinkFromId(i).getSlice_i(s).isUsed() == false){
+                if (instance.getPhysicalLinkFromIndex(i).getSlice_i(s).isUsed() == false){
                     /* CREATE NODES (u, s) AND (v, s) IF THEY DO NOT ALREADY EXIST AND ADD AN ARC BETWEEN THEM */
-                    addArcs(d, linkSourceLabel, linkTargetLabel, i, s, instance.getPhysicalLinkFromId(i).getLength());
-                    addArcs(d, linkTargetLabel, linkSourceLabel, i, s, instance.getPhysicalLinkFromId(i).getLength());
+                    addArcs(d, linkSourceLabel, linkTargetLabel, i, s, instance.getPhysicalLinkFromIndex(i).getLength());
+                    addArcs(d, linkTargetLabel, linkSourceLabel, i, s, instance.getPhysicalLinkFromIndex(i).getLength());
                 }
             }
         }
@@ -49,7 +49,7 @@ void RSA::buildCompactGraph(){
         compactNodeId[n] = compactGraph.id(n);
     }
     for (int i = 0; i < instance.getNbEdges(); i++){
-        PhysicalLink edge = instance.getPhysicalLinkFromId(i);
+        PhysicalLink edge = instance.getPhysicalLinkFromIndex(i);
         int sourceLabel = edge.getSource();
         int targetLabel = edge.getTarget();
         ListDigraph::Node sourceNode = INVALID;
@@ -126,7 +126,7 @@ void RSA::updateInstance(Instance &i){
             }
         }
     }
-    instance.displaySlices();
+    i.displaySlices();
 }
 
 /* Returns the first node with a given label from the graph associated with the d-th demand to be routed. If such node does not exist, return INVALID. */
@@ -189,9 +189,11 @@ void RSA::eraseNonRoutableArcs(int d){
 
 /* Runs preprocessing on every extended graph. */
 void RSA::preprocessing(){
+    std::vector<int> nbArcsOld(getNbDemandsToBeRouted(), 0);
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        std::cout << "> Number of arcs in graph #" << d << ": " << countArcs((*vecGraph[d])) << std::endl;
+        nbArcsOld[d] = countArcs((*vecGraph[d]));
     }
+
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         eraseNonRoutableArcs(d);
     }
@@ -199,14 +201,21 @@ void RSA::preprocessing(){
         // do partial preprocessing;
         pathExistencePreprocessing();
         bool keepPreprocessing = lengthPreprocessing();
-        
+
         if (getInstance().getInput().getChosenPreprLvl() >= Input::PREPROCESSING_LVL_FULL){
             // do full preprocessing;
             while (keepPreprocessing){
+                pathExistencePreprocessing();
                 keepPreprocessing = lengthPreprocessing();
             }
         }
     }
+
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        std::cout << "> Number of arcs in graph #" << d << " before preprocessing: " << nbArcsOld[d] << ". After: " << countArcs((*vecGraph[d])) << std::endl;
+    }
+    
+    
 }
 
 
@@ -224,7 +233,7 @@ void RSA::pathExistencePreprocessing(){
 
             while (a != INVALID){
                 currentArc = a;
-                ListDigraph::ArcIt nextArc(*vecGraph[0], ++currentArc);
+                ListDigraph::ArcIt nextArc(*vecGraph[d], ++currentArc);
                 currentArc = a;
                 int slice = getArcSlice(a, d);
                 ListDigraph::Node source = getNode(d, getToBeRouted_k(d).getSource(), slice);
@@ -253,13 +262,14 @@ bool RSA::lengthPreprocessing(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         //displayGraph(d);
         int nb = 0;
+        int nbElse = 0;
         ListDigraph::ArcIt previousArc(*vecGraph[d]);
         ListDigraph::ArcIt a(*vecGraph[d]);
         ListDigraph::ArcIt currentArc(*vecGraph[d], a);
         while (a != INVALID){
             currentArc = a;
-            ListDigraph::ArcIt nextArc(*vecGraph[0], ++currentArc);
-            currentArc = a;
+            ListDigraph::ArcIt nextArc(*vecGraph[d], ++currentArc);
+            //currentArc = a;
             int slice = getArcSlice(a, d);
             ListDigraph::Node source = getNode(d, getToBeRouted_k(d).getSource(), slice);
             ListDigraph::Node target = getNode(d, getToBeRouted_k(d).getTarget(), slice);
@@ -267,14 +277,20 @@ bool RSA::lengthPreprocessing(){
                 if (shortestDistance(d, source, a, target) >= getToBeRouted_k(d).getMaxLength() + DBL_EPSILON){
                     (*vecGraph[d]).erase(a);
                     nb++;
+                    totalNb++;
                 }
+            }
+            else{
+                (*vecGraph[d]).erase(a);
+                nbElse++;
+                totalNb++;
             }
             a = nextArc;
         }
-        std::cout << "> Number of erased arcs due to length in graph #" << d << ": " << nb << std::endl;
-        totalNb += nb;
+        std::cout << "> Number of erased arcs due to length in graph #" << d << ". If: " << nb << ". Else: " << nbElse << std::endl;
     }
     if (totalNb >= 1){
+        std::cout << "> Number of erased arcs due to length in graph: "<< totalNb << std::endl;
         return true;
     }
     return false;
@@ -327,7 +343,7 @@ double RSA::getCoeffObj1p(const ListDigraph::Arc &a, int d){
     double coeff = 0.0;
     int arcLabel = getArcLabel(a, d);
     int arcSlice = getArcSlice(a, d);
-    int maxSliceUsedOnLink = instance.getPhysicalLinkFromId(arcLabel).getMaxUsedSlicePosition();
+    int maxSliceUsedOnLink = instance.getPhysicalLinkFromIndex(arcLabel).getMaxUsedSlicePosition();
     if(arcSlice <= maxSliceUsedOnLink){
         coeff = maxSliceUsedOnLink; 
     }
@@ -353,7 +369,7 @@ double RSA::getCoeffObj8(const ListDigraph::Arc &a, int d){
     double coeff = 0.0;
     int maxSliceUsed = 0;
     for (int i = 0; i < instance.getNbEdges(); i++){
-        int maxSliceUsedOnLink = instance.getPhysicalLinkFromId(i).getMaxUsedSlicePosition();
+        int maxSliceUsedOnLink = instance.getPhysicalLinkFromIndex(i).getMaxUsedSlicePosition();
         if (maxSliceUsedOnLink >= maxSliceUsed){
             maxSliceUsed = maxSliceUsedOnLink;
         }
@@ -417,12 +433,10 @@ double RSA::getCoeff(const ListDigraph::Arc &a, int d){
 
 /* Displays the demands to be routed in the next optimization. */
 void RSA::displayToBeRouted(){
-    std::cout << "--- ROUTING DEMANDS ";
+    std::cout << "--- ROUTING DEMANDS --- " << std::endl;
     for (int i = 0; i < getNbDemandsToBeRouted(); i++){
-        std::cout << "#" << toBeRouted[i].getId()+1 << " (" << toBeRouted[i].getSource()+1 << ", " << toBeRouted[i].getTarget()+1 << "), ";
+        std::cout << "#" << toBeRouted[i].getId()+1 << " (" << toBeRouted[i].getSource()+1 << ", " << toBeRouted[i].getTarget()+1 << "), requiring " << toBeRouted[i].getLoad() << " slices." << std::endl;
     }
-    std::cout << " --- " << std::endl;
-	
 }
 
 /* Displays the nodes of graph #d that are incident to the node identified by (label,slice). */

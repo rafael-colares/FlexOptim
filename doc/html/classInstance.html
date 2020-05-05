@@ -113,9 +113,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <a class="el" href="classInput.html">Input</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#ac652d01677c01259346ad54a4f7c272c">getInput</a> () const</td></tr>
 <tr class="memdesc:ac652d01677c01259346ad54a4f7c272c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the instance's input. <br /></td></tr>
 <tr class="separator:ac652d01677c01259346ad54a4f7c272c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad01af2582166739afd3a41411f172a5e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classPhysicalLink.html">PhysicalLink</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#ad01af2582166739afd3a41411f172a5e">getPhysicalLinkFromId</a> (int index) const</td></tr>
-<tr class="memdesc:ad01af2582166739afd3a41411f172a5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="classPhysicalLink.html" title="This class identifies a link on the physical network.">PhysicalLink</a> with given index.  <a href="classInstance.html#ad01af2582166739afd3a41411f172a5e">More...</a><br /></td></tr>
-<tr class="separator:ad01af2582166739afd3a41411f172a5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61c34eddfea1692c78071588a2d0f6a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classPhysicalLink.html">PhysicalLink</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a61c34eddfea1692c78071588a2d0f6a6">getPhysicalLinkFromIndex</a> (int index) const</td></tr>
+<tr class="memdesc:a61c34eddfea1692c78071588a2d0f6a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="classPhysicalLink.html" title="This class identifies a link on the physical network.">PhysicalLink</a> with given index.  <a href="classInstance.html#a61c34eddfea1692c78071588a2d0f6a6">More...</a><br /></td></tr>
+<tr class="separator:a61c34eddfea1692c78071588a2d0f6a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b954cf3c7c0e8ec3fd1bd28708b1af9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classPhysicalLink.html">PhysicalLink</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a7b954cf3c7c0e8ec3fd1bd28708b1af9">getPhysicalLinkBetween</a> (int s, int t)</td></tr>
 <tr class="memdesc:a7b954cf3c7c0e8ec3fd1bd28708b1af9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first <a class="el" href="classPhysicalLink.html" title="This class identifies a link on the physical network.">PhysicalLink</a> with the given source and target.  <a href="classInstance.html#a7b954cf3c7c0e8ec3fd1bd28708b1af9">More...</a><br /></td></tr>
 <tr class="separator:a7b954cf3c7c0e8ec3fd1bd28708b1af9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,6 +134,14 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
 std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a5b389d61b1c2c6992a53b40975568546">getNextDemands</a> () const</td></tr>
 <tr class="memdesc:a5b389d61b1c2c6992a53b40975568546"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the vector of demands to be routed in the next optimization. <br /></td></tr>
 <tr class="separator:a5b389d61b1c2c6992a53b40975568546"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8b6408e843eb3ea9eb7df28c81aa19e"><td class="memItemLeft" align="right" valign="top"><a id="ae8b6408e843eb3ea9eb7df28c81aa19e"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#ae8b6408e843eb3ea9eb7df28c81aa19e">getMaxUsedSlicePosition</a> () const</td></tr>
+<tr class="memdesc:ae8b6408e843eb3ea9eb7df28c81aa19e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the max used slice position throughout the whole network. <br /></td></tr>
+<tr class="separator:ae8b6408e843eb3ea9eb7df28c81aa19e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac79257e9dd694babbaf53925c84f4083"><td class="memItemLeft" align="right" valign="top"><a id="ac79257e9dd694babbaf53925c84f4083"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#ac79257e9dd694babbaf53925c84f4083">getMaxSlice</a> () const</td></tr>
+<tr class="memdesc:ac79257e9dd694babbaf53925c84f4083"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the max slice position (used or not) throughout the whole network. <br /></td></tr>
+<tr class="separator:ac79257e9dd694babbaf53925c84f4083"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26032b536301b1c7e42d553077cb9df2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a26032b536301b1c7e42d553077cb9df2">setNbDemands</a> (int nb)</td></tr>
 <tr class="memdesc:a26032b536301b1c7e42d553077cb9df2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the total number of demands.  <a href="classInstance.html#a26032b536301b1c7e42d553077cb9df2">More...</a><br /></td></tr>
 <tr class="separator:a26032b536301b1c7e42d553077cb9df2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -378,7 +386,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00288">288</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00311">311</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -406,7 +414,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00254">254</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00277">277</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -434,7 +442,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00232">232</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00255">255</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -510,12 +518,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00450">450</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00473">473</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
-<a id="ad01af2582166739afd3a41411f172a5e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad01af2582166739afd3a41411f172a5e">&#9670;&nbsp;</a></span>getPhysicalLinkFromId()</h2>
+<a id="a61c34eddfea1692c78071588a2d0f6a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61c34eddfea1692c78071588a2d0f6a6">&#9670;&nbsp;</a></span>getPhysicalLinkFromIndex()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -524,7 +532,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classPhysicalLink.html">PhysicalLink</a> Instance::getPhysicalLinkFromId </td>
+          <td class="memname"><a class="el" href="classPhysicalLink.html">PhysicalLink</a> Instance::getPhysicalLinkFromIndex </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>index</em></td><td>)</td>
@@ -592,7 +600,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00271">271</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00294">294</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -631,7 +639,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00437">437</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00460">460</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -659,7 +667,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00308">308</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00331">331</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -687,7 +695,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00316">316</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00339">339</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -715,7 +723,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00385">385</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00408">408</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -743,7 +751,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00420">420</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00443">443</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -765,7 +773,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Reads the assignment information from input's assignmentFile. </p>
 <p>Sets the demands to routed and update the slices of the edges. </p><dl class="section warning"><dt>Warning</dt><dd>File should be structured as in Demand_edges_slices.csv. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00134">134</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00157">157</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -787,7 +795,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Reads the routed demand information from input's demandFile. </p>
 <p>Builds the set of demands. </p><dl class="section warning"><dt>Warning</dt><dd>File should be structured as in Demand.csv. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00114">114</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00137">137</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -809,7 +817,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Reads the topology information from input's linkFile. </p>
 <p>Builds the set of links. </p><dl class="section warning"><dt>Warning</dt><dd>File should be structured as in Link.csv. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00081">81</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00104">104</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -848,7 +856,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00063">63</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00086">86</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -887,7 +895,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00058">58</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00081">81</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -924,7 +932,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>This function resizes vector tabDemand, creating default demands if nb is greater than the previous size. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00088">88</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00094">94</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -960,7 +968,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00091">91</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00097">97</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -996,7 +1004,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00094">94</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00100">100</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -1032,7 +1040,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00100">100</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00106">106</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -1068,7 +1076,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00097">97</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00103">103</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>

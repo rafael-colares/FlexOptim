@@ -4,19 +4,19 @@
 int CplexForm::count = 0;
 
 /* Constructor. Builds the Online RSA mixed-integer program and solves it using CPLEX. */
-CplexForm::CplexForm(const Instance &inst) : Solver(inst), model(env), cplex(model), x(env, getNbDemandsToBeRouted()){
+CplexForm::CplexForm(const Instance &inst) : Solver(inst), model(env), cplex(model), x(env, getNbDemandsToBeRouted()), maxSlicePerLink(env, instance.getNbEdges()), maxSliceOverall(env){
     std::cout << "--- CPLEX has been chosen ---" << std::endl;
     count++;
     /************************************************/
 	/*				    SET VARIABLES				*/
 	/************************************************/
-    this->setVariables(x, model);
+    this->setVariables(x, maxSlicePerLink, maxSliceOverall, model);
     std::cout << "Variables have been defined..." << std::endl;
 
 	/************************************************/
 	/*			    SET OBJECTIVE FUNCTION			*/
 	/************************************************/
-    this->setObjective(x, model);
+    this->setObjective(x, maxSlicePerLink, maxSliceOverall, model);
     std::cout << "Objective function has been defined..." << std::endl;
 
 	/************************************************/
@@ -36,6 +36,18 @@ CplexForm::CplexForm(const Instance &inst) : Solver(inst), model(env), cplex(mod
 
     this->setNonOverlappingConstraints(x, model);    
     std::cout << "Non-Overlapping constraints have been defined..." << std::endl;
+
+    
+    if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_1p){
+        this->setMaxUsedSlicePerLinkConstraints(x, maxSlicePerLink, model);    
+        std::cout << "Max Used Slice Per Link constraints have been defined..." << std::endl;
+    }
+
+    if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_8){
+        this->setMaxUsedSliceOverallConstraints(x, maxSliceOverall, model);    
+        std::cout << "Max Used Slice Overall constraints have been defined..." << std::endl;
+    }
+    
     
 	/************************************************/
 	/*		    EXPORT LINEAR PROGRAM TO .LP		*/
@@ -47,7 +59,7 @@ CplexForm::CplexForm(const Instance &inst) : Solver(inst), model(env), cplex(mod
 	/************************************************/
 	/*             DEFINE CPLEX PARAMETERS   		*/
 	/************************************************/
-    cplex.setParam(IloCplex::Param::MIP::Display, 2);
+    cplex.setParam(IloCplex::Param::MIP::Display, 3);
     std::cout << "CPLEX parameters have been defined..." << std::endl;
 
 	/************************************************/

@@ -52,7 +52,30 @@ std::vector<Demand> Instance::getNextDemands() const {
 	}
 	return toBeRouted;
 }
-	
+
+/* Returns the max used slice position throughout the whole network. */
+int Instance::getMaxUsedSlicePosition() const{
+	int maxSlice = 0;
+	for (int i = 0; i < getNbEdges(); i++){
+		int maxSliceFromEdge = tabEdge[i].getMaxUsedSlicePosition();
+		if (maxSliceFromEdge > maxSlice){
+			maxSlice = maxSliceFromEdge;
+		}
+	}
+	return maxSlice;
+}
+
+/* Returns the max slice position (used or not) throughout the whole network. */
+int Instance::getMaxSlice() const{
+	int maxSlice = 0;
+	for (int i = 0; i < getNbEdges(); i++){
+		int maxSliceFromEdge = tabEdge[i].getNbSlices();
+		if (maxSliceFromEdge > maxSlice){
+			maxSlice = maxSliceFromEdge;
+		}
+	}
+	return maxSlice;
+}
 
 /* Changes the attributes of the PhysicalLink from the given index according to the attributes of the given link. */
 void Instance::setEdgeFromId(int id, PhysicalLink & edge){
@@ -276,7 +299,7 @@ bool Instance::hasEnoughSpace(const int i, const int s, const Demand &demand){
 		return false;
 	}
 	for (int pos = firstPosition; pos <= s; pos++){
-		if (getPhysicalLinkFromId(i).getSlice_i(pos).isUsed() ==  true){
+		if (getPhysicalLinkFromIndex(i).getSlice_i(pos).isUsed() ==  true){
 			return false;
 		}
 	}
@@ -326,11 +349,11 @@ void Instance::outputDemandEdgeSlices(std::string counter){
 		}
 		myfile << "\n";
 		for (int e = 0; e < getNbEdges(); e++){
-			myfile << getPhysicalLinkFromId(e).getString() << delimiter;
+			myfile << getPhysicalLinkFromIndex(e).getString() << delimiter;
 			for (int i = 0; i < getNbDemands(); i++){
 				if (getDemandFromIndex(i).isRouted()){
 					// if demand is routed through edge: 1
-					if (getPhysicalLinkFromId(e).contains(getDemandFromIndex(i)) == true){
+					if (getPhysicalLinkFromIndex(e).contains(getDemandFromIndex(i)) == true){
 						myfile << "1" << delimiter;
 					}
 					else{
@@ -398,7 +421,7 @@ void Instance::outputEdgeSliceHols(std::string counter){
 			std::string slice = "s_" + std::to_string(s+1);
 			myfile << slice << delimiter;
 			for (int i = 0; i < getNbEdges(); i++){
-				if (s < getPhysicalLinkFromId(i).getNbSlices() && getPhysicalLinkFromId(i).getSlice_i(s).isUsed() == true){
+				if (s < getPhysicalLinkFromIndex(i).getNbSlices() && getPhysicalLinkFromIndex(i).getSlice_i(s).isUsed() == true){
 					myfile << "1" << delimiter;
 				}
 				else{

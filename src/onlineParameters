@@ -1,13 +1,13 @@
-linkFile=../Parameters/Instances/NSF/InitialMappingMet1Slice120/Link.csv
-demandFile=../Parameters/Instances/NSF/InitialMappingMet1Slice120/Demand.csv
+linkFile=../Parameters/Instances/Spain_N5/InitialMappingMet1Slice30/Link.csv
+demandFile=../Parameters/Instances/Spain_N5/InitialMappingMet1Slice30/Demand.csv
 assignmentFile=
-onlineDemandFolder=../Parameters/Instances/NSF/OnlineDemands
-nbDemandsAtOnce=1
-outputPath=../Output/NSF/InitialMappingEmpty/obj1/
+onlineDemandFolder=../Parameters/Instances/Spain_N5/TestDemands
+nbDemandsAtOnce=10
+outputPath=../Output/OtherTests/
 outputLevel=1
 nbSlicesInOutputFile=320
 method=0
-preprocessingLevel=1
+preprocessingLevel=2
 obj=1
 
 ******* Fields below are reserved for team LIMOS ********

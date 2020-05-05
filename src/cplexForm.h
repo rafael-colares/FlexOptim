@@ -3,7 +3,7 @@
 
 #include "solver.h"
 
-typedef IloArray<IloNumVarArray> IloNumVarMatrix;
+typedef IloArray<IloBoolVarArray> IloBoolVarMatrix;
 
 
 /*********************************************************************************************
@@ -12,11 +12,13 @@ typedef IloArray<IloNumVarArray> IloNumVarMatrix;
 class CplexForm : public Solver{
 
 private:
-    IloEnv env;			/**< The CPLEX environment. **/
-    IloModel model;		/**< The CPLEX model. **/
-    IloCplex cplex;		/**< The CPLEX engine. **/
-    IloNumVarMatrix x;	/**< The matrix of variables used in the MIP. x[i][j]=1 if the i-th demand to be routed is assigned to the arc from id j. **/
-    static int count;	/**< Counts how many times CPLEX is called. **/
+    IloEnv env;						/**< The CPLEX environment. **/
+    IloModel model;					/**< The CPLEX model. **/
+    IloCplex cplex;					/**< The CPLEX engine. **/
+    IloBoolVarMatrix x;				/**< The matrix of assignement variables used in the MIP. x[d][a]=1 if the d-th demand is routed through the arc from index a. **/
+    IloIntVarArray maxSlicePerLink;	/**< The array of variables used in the MIP for verifying the max used slice position for each link in the topology network. maxSlicePerLink[i]=p if p is the max used slice position from the link with id i. **/
+	IloIntVar maxSliceOverall;		/**< The max used slice position throughout all the network. **/
+	static int count;				/**< Counts how many times CPLEX is called. **/
 
 public:
 
