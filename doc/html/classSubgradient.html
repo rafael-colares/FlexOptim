@@ -71,6 +71,11 @@ $(function() {
 <div class="title">Subgradient Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>This class implements a decomposition of the Routing and Spectrum Allocation problem of k demands into k Shortest Path problems, and solves it by applying a subgradient method.  
+ <a href="classSubgradient.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="subgradient_8h_source.html">subgradient.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for Subgradient:</div>
 <div class="dyncontent">
@@ -517,8 +522,10 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr class="separator:ac18380da784d30516b8cc10e024814ec inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="subgradient_8h_source.html#l00008">8</a> of file <a class="el" href="subgradient_8h_source.html">subgradient.h</a>.</p>
+<div class="textblock"><p>This class implements a decomposition of the Routing and Spectrum Allocation problem of k demands into k Shortest Path problems, and solves it by applying a subgradient method. </p>
+<p>The Shortest Path problems have their objective function modified to penalize max length infractions and overlapping occurence. </p><dl class="section note"><dt>Note</dt><dd>It uses the LEMON library to solve the Shortest Path problems. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="subgradient_8h_source.html#l00016">16</a> of file <a class="el" href="subgradient_8h_source.html">subgradient.h</a>.</p>
 </div><hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="subgradient_8h_source.html">subgradient.h</a></li>
 <li><a class="el" href="subgradient_8cpp_source.html">subgradient.cpp</a></li>

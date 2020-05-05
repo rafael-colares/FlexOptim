@@ -4,7 +4,15 @@
 #include "RSA.h"
 
 using namespace lemon;
-// For the moment only k=1 is implemented
+// For the moment only k=1 is implemented. This class 
+
+/**********************************************************************************************
+ * This class implements a decomposition of the Routing and Spectrum Allocation problem of 
+ * k demands into k Shortest Path problems, and solves it by applying a subgradient method. 
+ * The Shortest Path problems have their objective function modified to penalize max length 
+ * infractions and overlapping occurence.
+ * \note It uses the LEMON library to solve the Shortest Path problems.
+ * *******************************************************************************************/
 class Subgradient : public RSA {
     
 private:
