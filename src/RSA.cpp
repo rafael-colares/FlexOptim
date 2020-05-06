@@ -150,10 +150,10 @@ void RSA::contractNodesFromLabel(int d, int label){
         (*vecNodeSlice[d])[n] = -1;
         while (v != INVALID){
             currentNode = v;
-            ListDigraph::NodeIt nextNode(*vecGraph[0], ++currentNode);
+            ListDigraph::NodeIt nextNode(*vecGraph[d], ++currentNode);
             currentNode = v;
             if ( (getNodeLabel(v, d) == label) && ((*vecGraph[d]).id(n) != (*vecGraph[d]).id(v)) ){
-                (*vecGraph[0]).contract(n, v);
+                (*vecGraph[d]).contract(n, v);
                 nb++;
             }
             v = nextNode;
@@ -210,12 +210,15 @@ void RSA::preprocessing(){
             }
         }
     }
+    
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        contractNodesFromLabel(d, getToBeRouted()[d].getSource());
+        contractNodesFromLabel(d, getToBeRouted()[d].getTarget());
+    }
 
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         std::cout << "> Number of arcs in graph #" << d << " before preprocessing: " << nbArcsOld[d] << ". After: " << countArcs((*vecGraph[d])) << std::endl;
     }
-    
-    
 }
 
 
@@ -435,7 +438,10 @@ double RSA::getCoeff(const ListDigraph::Arc &a, int d){
 void RSA::displayToBeRouted(){
     std::cout << "--- ROUTING DEMANDS --- " << std::endl;
     for (int i = 0; i < getNbDemandsToBeRouted(); i++){
-        std::cout << "#" << toBeRouted[i].getId()+1 << " (" << toBeRouted[i].getSource()+1 << ", " << toBeRouted[i].getTarget()+1 << "), requiring " << toBeRouted[i].getLoad() << " slices." << std::endl;
+        std::cout << "#" << toBeRouted[i].getId()+1;
+        std::cout << " (" << toBeRouted[i].getSource()+1 << ", " << toBeRouted[i].getTarget()+1 << "), ";
+        std::cout << "requiring " << toBeRouted[i].getLoad() << " slices and having Max length ";
+        std::cout << toBeRouted[i].getMaxLength() << std::endl;
     }
 }
 

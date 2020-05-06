@@ -2,15 +2,20 @@
 
 
 Subgradient::Subgradient(const Instance &inst) : RSA(inst), 
-        SOURCE(getToBeRouted()[0].getSource()), TARGET(getToBeRouted()[0].getTarget()), 
-        MAX_LENGTH(getToBeRouted()[0].getMaxLength()), 
         MAX_NB_IT_WITHOUT_IMPROVEMENT(inst.getInput().getNbIterationsWithoutImprovement()), 
         MAX_NB_IT(inst.getInput().getMaxNbIterations()), cost(*vecGraph[0]) {
     
+    std::vector<int> SOURCE(getNbDemandsToBeRouted(),-1);
+    std::vector<int> TARGET(getNbDemandsToBeRouted(),-1);
+    std::vector<int> MAX_LENGTH(getNbDemandsToBeRouted(),-1);
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){        
+        SOURCE[d] = getToBeRouted_k(d).getSource();
+        TARGET[d] = getToBeRouted_k(d).getTarget();
+        MAX_LENGTH[d] = getToBeRouted_k(d).getMaxLength();
+    }
     
     std::cout << "--- Subgradient was invoked ---" << std::endl;
-    std::cout << "> Route demand " << SOURCE+1 << "->" << TARGET+1 << std::endl;
-    std::cout << "> Max Length: " << MAX_LENGTH << std::endl << std::endl;
+    displayToBeRouted();
 
     initialization();
     std::cout << "> Subgradient was initialized. " << std::endl;
@@ -31,7 +36,6 @@ void Subgradient::initialization(){
     lagrangianMultiplier.push_back(initialMultiplier);
     std::cout << "> Initial lagrangian multiplier was defined. " << std::endl;
 
-    subgradientPreprocessing();
     updateCosts();
 
     double initialLambda = instance.getInput().getInitialLagrangianLambda();
@@ -40,11 +44,6 @@ void Subgradient::initialization(){
 
 }
 
-/* Call preprocessing methods. */
-void Subgradient::subgradientPreprocessing(){
-    contractNodesFromLabel(0, SOURCE);
-    contractNodesFromLabel(0, TARGET);
-}
 
 /* Updates the arc costs according to the last lagrangian multiplier available. cost = c + u_k*length */
 void Subgradient::updateCosts(){
@@ -57,7 +56,7 @@ void Subgradient::updateCosts(){
 /* Solves the Constrained Shortest Path from node s to node t using the Subgradient Method. */
 void Subgradient::run(const ListDigraph::Node &s, const ListDigraph::Node &t){
     bool STOP = false;
-    
+    const int MAX_LENGTH = getToBeRouted()[0].getMaxLength();
     // run a first shortest path not taking into account length (i.e., u=0)
     Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > shortestPath((*vecGraph[0]), cost);
     shortestPath.run(s,t);
@@ -68,13 +67,13 @@ void Subgradient::run(const ListDigraph::Node &s, const ListDigraph::Node &t){
         exit(0);
     }
     
-    setCurrentCost(shortestPath.dist(t) - (MAX_LENGTH*getMultiplier_k(getIteration())));
+    setCurrentCost(shortestPath.dist(t) - (MAX_LENGTH * getMultiplier_k(getIteration())));
     updateLB(getCurrentCost());
     std::cout << "> Set LB: " << getLB() << std:: endl;
     updateSlack(getPathLength(shortestPath, s, t));
 
     // if the path found is unfeasible, check for problem's feasibility
-    if( getPathLength(shortestPath, s, t) >= MAX_LENGTH + EPSILON ){
+    if( getPathLength(shortestPath, s, t) >= MAX_LENGTH + DBL_EPSILON ){
         if (testFeasibility(s,t) == false){
             STOP = true;
             setIsFeasible(false);
@@ -90,7 +89,7 @@ void Subgradient::run(const ListDigraph::Node &s, const ListDigraph::Node &t){
         updateOnPath(shortestPath, s, t);
     }
 
-    if (getLB() >= getUB() - EPSILON){
+    if (getLB() >= getUB() - DBL_EPSILON){
         setIsOptimal(true);
         STOP = true;
     }
@@ -110,7 +109,7 @@ void Subgradient::run(const ListDigraph::Node &s, const ListDigraph::Node &t){
         updateSlack(getPathLength(shortestPath, s, t));
         updateLB(getCurrentCost());
         double new_path_cost = getPathCost(shortestPath, s, t);
-        if((getSlack_k(getIteration()) >= 0.0 - EPSILON) && (new_path_cost < getUB())){
+        if((getSlack_k(getIteration()) >= 0.0 - DBL_EPSILON) && (new_path_cost < getUB())){
             updateUB(new_path_cost);
             updateOnPath(shortestPath, s, t);
         }
@@ -123,7 +122,7 @@ void Subgradient::run(const ListDigraph::Node &s, const ListDigraph::Node &t){
         if (getIteration() >= MAX_NB_IT){
             STOP = true;
         }
-        if(getLB() >= getUB() - EPSILON){
+        if(getLB() >= getUB() - DBL_EPSILON){
             setIsOptimal(true);
             STOP = true;
         }
@@ -185,6 +184,7 @@ void Subgradient::updateLambda(){
 
 /* Updates the slack of length constraint for a given path length */
 void Subgradient::updateSlack(double pathLength){
+    const int MAX_LENGTH = getToBeRouted()[0].getMaxLength();
     slack.push_back(MAX_LENGTH - pathLength);
 
     //displaySlack();
@@ -199,7 +199,7 @@ void Subgradient::setLengthCost(){
 
 /* Verifies if optimality condition has been achieved and update STOP flag. */
 void Subgradient::updateStop(bool &STOP){
-    if(getLB() >= getUB() - EPSILON){
+    if(getLB() >= getUB() - DBL_EPSILON){
         setIsOptimal(true);
         STOP = true;
     }
@@ -207,12 +207,13 @@ void Subgradient::updateStop(bool &STOP){
 
 /* Tests if CSP is feasible by searching for a shortest path with arc costs based on their physical length. */
 bool Subgradient::testFeasibility(const ListDigraph::Node &s, const ListDigraph::Node &t){
+    const int MAX_LENGTH = getToBeRouted()[0].getMaxLength();
     setLengthCost();
     Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > shortestLengthPath((*vecGraph[0]), cost);
     shortestLengthPath.run(s,t);
     //displayPath(shortestLengthPath, s, t);
     double smallestLength = getPathLength(shortestLengthPath, s, t);
-    if( smallestLength >= MAX_LENGTH + EPSILON ){
+    if( smallestLength >= MAX_LENGTH + DBL_EPSILON ){
         std::cout << "> CSP is unfeasiable." << std:: endl;
         return false;
     }

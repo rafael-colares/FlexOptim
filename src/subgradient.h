@@ -7,21 +7,18 @@ using namespace lemon;
 // For the moment only k=1 is implemented. This class 
 
 /**********************************************************************************************
- * This class implements a decomposition of the Routing and Spectrum Allocation problem of 
- * k demands into k Shortest Path problems, and solves it by applying a subgradient method. 
- * The Shortest Path problems have their objective function modified to penalize max length 
- * infractions and overlapping occurence.
+ * This class implements and solves a Langragian Relaxation of the Routing and Spectrum 
+ * Allocation problem associated with a given set of k demands. The problem is decomposed into
+ * k Shortest Path problems, and solved it by applying a subgradient method.  
+ * Langrangian Relaxation is applied and hence the Shortest Path problems have their objective 
+ * function modified to penalize max length infractions and overlapping occurence.
  * \note It uses the LEMON library to solve the Shortest Path problems.
  * *******************************************************************************************/
 class Subgradient : public RSA {
     
 private:
-    const double EPSILON = 0.0001;
-    const int SOURCE;
-    const int TARGET;
-    const int MAX_LENGTH;
-    const int MAX_NB_IT_WITHOUT_IMPROVEMENT;
-    const int MAX_NB_IT;
+    const int MAX_NB_IT_WITHOUT_IMPROVEMENT;    /**< Maximum number of iterations without lower bound improvement. **/
+    const int MAX_NB_IT;                        /**< Maximum number of performed iterations. **/
 
     int iteration;
     int itWithoutImprovement;
@@ -108,9 +105,6 @@ public:
 	/************************************************/
     /* Sets the initial parameters for the subgradient to run. */
     void initialization();
-
-    /* Call preprocessing functions. */
-    void subgradientPreprocessing();
 
     /* Updates the arc costs according to the last lagrangian multiplier available. cost = c + u_k*length */
     void updateCosts();
