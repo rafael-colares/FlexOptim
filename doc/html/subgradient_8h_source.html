@@ -167,63 +167,60 @@ $(function() {
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="comment">/* Sets the initial parameters for the subgradient to run. */</span></div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordtype">void</span> initialization();</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="comment">/* Call preprocessing functions. */</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordtype">void</span> subgradientPreprocessing();</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="comment">/* Updates the arc costs according to the last lagrangian multiplier available. cost = c + u_k*length */</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordtype">void</span> updateCosts();</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">/* Updates the arc costs according to the last lagrangian multiplier available. cost = c + u_k*length */</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordtype">void</span> updateCosts();</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">/* Solves the Constrained Shortest Path from node s to node t using the Subgradient Method. */</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordtype">void</span> run(<span class="keyword">const</span> ListDigraph::Node &amp;s, <span class="keyword">const</span> ListDigraph::Node &amp;t);</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="comment">/* Solves the Constrained Shortest Path from node s to node t using the Subgradient Method. */</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keywordtype">void</span> run(<span class="keyword">const</span> ListDigraph::Node &amp;s, <span class="keyword">const</span> ListDigraph::Node &amp;t);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="comment">/* Updates the known lower bound. */</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keywordtype">void</span> updateLB(<span class="keywordtype">double</span> bound);</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="comment">/* Updates the known lower bound. */</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordtype">void</span> updateLB(<span class="keywordtype">double</span> bound);</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="comment">/* Updates the known upper bound. */</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordtype">void</span> updateUB(<span class="keywordtype">double</span> bound);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    </div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="comment">/* Updates lagrangian multiplier with the rule: u[k+1] = u[k] + t[k]*violation */</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordtype">void</span> updateMultiplier();</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="comment">/* Updates the step size with the rule: lambda*(UB - Z[u])/|slack| */</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordtype">void</span> updateStepSize();</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="comment">/* Updates the known upper bound. */</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordtype">void</span> updateUB(<span class="keywordtype">double</span> bound);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="comment">/* Updates lagrangian multiplier with the rule: u[k+1] = u[k] + t[k]*violation */</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordtype">void</span> updateMultiplier();</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="comment">/* Updates the step size with the rule: lambda*(UB - Z[u])/|slack| */</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordtype">void</span> updateStepSize();</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    </div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="comment">/* Updates the lambda used in the update of step size. Lambda is halved if LB has failed to increade in some fixed number of iterations */</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordtype">void</span> updateLambda();</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    </div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="comment">/* Updates the lambda used in the update of step size. Lambda is halved if LB has failed to increade in some fixed number of iterations */</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordtype">void</span> updateLambda();</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="comment">/* Updates the slack of length constraint for a given path length */</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordtype">void</span> updateSlack(<span class="keywordtype">double</span> pathLength);</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    </div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="comment">/* Updates the slack of length constraint for a given path length */</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordtype">void</span> updateSlack(<span class="keywordtype">double</span> pathLength);</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    </div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="comment">/* Verifies if optimality condition has been achieved and update STOP flag. */</span></div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keywordtype">void</span> updateStop(<span class="keywordtype">bool</span> &amp;STOP);</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="comment">/* Tests if CSP is feasible by searching for a shortest path with arc costs based on their physical length. */</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="keywordtype">bool</span> testFeasibility(<span class="keyword">const</span> ListDigraph::Node &amp;s, <span class="keyword">const</span> ListDigraph::Node &amp;t);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="comment">/* Verifies if optimality condition has been achieved and update STOP flag. */</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordtype">void</span> updateStop(<span class="keywordtype">bool</span> &amp;STOP);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="comment">/* Tests if CSP is feasible by searching for a shortest path with arc costs based on their physical length. */</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keywordtype">bool</span> testFeasibility(<span class="keyword">const</span> ListDigraph::Node &amp;s, <span class="keyword">const</span> ListDigraph::Node &amp;t);</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    </div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="comment">/* Assigns length as the main cost of the arcs. */</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="keywordtype">void</span> setLengthCost();</div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    </div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="comment">/* Assigns length as the main cost of the arcs. */</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordtype">void</span> setLengthCost();</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="comment">/* Stores the path found in the arcMap onPath. */</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordtype">void</span> updateOnPath(Dijkstra&lt; ListDigraph, ListDigraph::ArcMap&lt;double&gt; &gt; &amp;path, <span class="keyword">const</span> ListDigraph::Node &amp;s, <span class="keyword">const</span> ListDigraph::Node &amp;t);</div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    </div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="comment">/* Stores the path found in the arcMap onPath. */</span></div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordtype">void</span> updateOnPath(Dijkstra&lt; ListDigraph, ListDigraph::ArcMap&lt;double&gt; &gt; &amp;path, <span class="keyword">const</span> ListDigraph::Node &amp;s, <span class="keyword">const</span> ListDigraph::Node &amp;t);</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="comment">/* Returns the physical length of the path. */</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordtype">double</span> getPathLength(Dijkstra&lt; ListDigraph, ListDigraph::ArcMap&lt;double&gt; &gt; &amp;path, <span class="keyword">const</span> ListDigraph::Node &amp;s, <span class="keyword">const</span> ListDigraph::Node &amp;t);</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    </div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="comment">/* Returns the physical length of the path. */</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">double</span> getPathLength(Dijkstra&lt; ListDigraph, ListDigraph::ArcMap&lt;double&gt; &gt; &amp;path, <span class="keyword">const</span> ListDigraph::Node &amp;s, <span class="keyword">const</span> ListDigraph::Node &amp;t);</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="comment">/* Returns the actual cost of the path according to the metric used. */</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">double</span> getPathCost(Dijkstra&lt; ListDigraph, ListDigraph::ArcMap&lt;double&gt; &gt; &amp;path, <span class="keyword">const</span> ListDigraph::Node &amp;s, <span class="keyword">const</span> ListDigraph::Node &amp;t);</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    </div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="comment">/* Returns the actual cost of the path according to the metric used. */</span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordtype">double</span> getPathCost(Dijkstra&lt; ListDigraph, ListDigraph::ArcMap&lt;double&gt; &gt; &amp;path, <span class="keyword">const</span> ListDigraph::Node &amp;s, <span class="keyword">const</span> ListDigraph::Node &amp;t);</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    </div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="comment">/*                     Display                  */</span></div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    std::string getPathString(Dijkstra&lt; ListDigraph, ListDigraph::ArcMap&lt;double&gt; &gt; &amp;path, <span class="keyword">const</span> ListDigraph::Node &amp;s, <span class="keyword">const</span> ListDigraph::Node &amp;t);</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordtype">void</span> displayPath(Dijkstra&lt; ListDigraph, ListDigraph::ArcMap&lt;double&gt; &gt; &amp;path, <span class="keyword">const</span> ListDigraph::Node &amp;s, <span class="keyword">const</span> ListDigraph::Node &amp;t);</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keywordtype">void</span> displayMainParameters(Dijkstra&lt; ListDigraph, ListDigraph::ArcMap&lt;double&gt; &gt; &amp;path, <span class="keyword">const</span> ListDigraph::Node &amp;s, <span class="keyword">const</span> ListDigraph::Node &amp;t);</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keywordtype">void</span> displayStepSize();</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordtype">void</span> displayMultiplier();</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keywordtype">void</span> displaySlack();</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keywordtype">void</span> displayLambda();</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;};    </div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="comment">/*                     Display                  */</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    std::string getPathString(Dijkstra&lt; ListDigraph, ListDigraph::ArcMap&lt;double&gt; &gt; &amp;path, <span class="keyword">const</span> ListDigraph::Node &amp;s, <span class="keyword">const</span> ListDigraph::Node &amp;t);</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordtype">void</span> displayPath(Dijkstra&lt; ListDigraph, ListDigraph::ArcMap&lt;double&gt; &gt; &amp;path, <span class="keyword">const</span> ListDigraph::Node &amp;s, <span class="keyword">const</span> ListDigraph::Node &amp;t);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordtype">void</span> displayMainParameters(Dijkstra&lt; ListDigraph, ListDigraph::ArcMap&lt;double&gt; &gt; &amp;path, <span class="keyword">const</span> ListDigraph::Node &amp;s, <span class="keyword">const</span> ListDigraph::Node &amp;t);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordtype">void</span> displayStepSize();</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordtype">void</span> displayMultiplier();</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keywordtype">void</span> displaySlack();</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keywordtype">void</span> displayLambda();</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;};    </div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassSubgradient_html"><div class="ttname"><a href="classSubgradient.html">Subgradient</a></div><div class="ttdoc">This class implements and solves a Langragian Relaxation of the Routing and Spectrum Allocation probl...</div><div class="ttdef"><b>Definition:</b> <a href="subgradient_8h_source.html#l00017">subgradient.h:17</a></div></div>
 <div class="ttc" id="aclassSubgradient_html_a30e7216eb4c3d12d39c09af0c2712333"><div class="ttname"><a href="classSubgradient.html#a30e7216eb4c3d12d39c09af0c2712333">Subgradient::MAX_NB_IT_WITHOUT_IMPROVEMENT</a></div><div class="ttdeci">const int MAX_NB_IT_WITHOUT_IMPROVEMENT</div><div class="ttdoc">Maximum number of iterations without lower bound improvement.</div><div class="ttdef"><b>Definition:</b> <a href="subgradient_8h_source.html#l00020">subgradient.h:20</a></div></div>

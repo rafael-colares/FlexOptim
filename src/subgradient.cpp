@@ -20,7 +20,7 @@ Subgradient::Subgradient(const Instance &inst) : RSA(inst),
     initialization();
     std::cout << "> Subgradient was initialized. " << std::endl;
 
-    run(getFirstNodeFromLabel(0, SOURCE), getFirstNodeFromLabel(0, TARGET));
+    run(getFirstNodeFromLabel(0, SOURCE[0]), getFirstNodeFromLabel(0, TARGET[0]));
 
 }
 
