@@ -62,7 +62,7 @@ public:
 	/** Changes the demand's source node id. @param s New source node id. **/
 	void setSource(int s) { this->source = s; }
 	
-	/** Changes the demand's target node id. @param s New target node id. **/
+	/** Changes the demand's target node id. @param t New target node id. **/
 	void setTarget(int t) { this->target = t; }
 	
 	/** Changes the number of slices requested by the demand. @param l New load value.**/

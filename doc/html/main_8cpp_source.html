@@ -72,147 +72,146 @@ $(function() {
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// cplex10Test.cpp : This file contains the &#39;main&#39; function. Program execution begins and ends there.</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;bits/stdc++.h&gt;</span> </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;chrono&gt;</span> </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;lemon/list_graph.h&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;lemon/concepts/graph.h&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;PhysicalLink.h&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;Instance.h&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;input.h&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;cplexForm.h&quot;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;subgradient.h&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">using namespace </span>lemon;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[]) {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">try</span>{</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="comment">/*                      Get Parameter file                          */</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        std::string parameterFile;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordflow">if</span> (argc &lt; 2){</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            std::cerr &lt;&lt; <span class="stringliteral">&quot;A parameter file is required in the arguments. PLease run the program as \n./exec parameterFile.par\n&quot;</span>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            <span class="keywordflow">throw</span> std::invalid_argument( <span class="stringliteral">&quot;did not receive an argument&quot;</span> );</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        }</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordflow">else</span>{</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            parameterFile = argv[1];</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        }</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;PARAMETER FILE: &quot;</span> &lt;&lt; parameterFile &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <a class="code" href="classInput.html">Input</a> input(parameterFile);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="comment">// For each set of online demands, optimize it!</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;&gt; Number of online demand files: &quot;</span> &lt;&lt; input.getNbOnlineDemandFiles() &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; input.getNbOnlineDemandFiles(); i++) {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <span class="comment">/*                      Create initial mapping                      */</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;--- READING INSTANCE... --- &quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <a class="code" href="classInstance.html">Instance</a> instance(input);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;--- CREATING INITIAL MAPPING... --- &quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            instance.createInitialMapping();</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            std::cout &lt;&lt; instance.getNbRoutedDemands() &lt;&lt; <span class="stringliteral">&quot; demands were routed.&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;bits/stdc++.h&gt;</span> </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;chrono&gt;</span> </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;lemon/list_graph.h&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;lemon/concepts/graph.h&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;PhysicalLink.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;Instance.h&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;input.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;cplexForm.h&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;subgradient.h&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">using namespace </span>lemon;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[]) {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordflow">try</span>{</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="comment">/*                      Get Parameter file                          */</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        std::string parameterFile;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">if</span> (argc &lt; 2){</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            std::cerr &lt;&lt; <span class="stringliteral">&quot;A parameter file is required in the arguments. PLease run the program as \n./exec parameterFile.par\n&quot;</span>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            <span class="keywordflow">throw</span> std::invalid_argument( <span class="stringliteral">&quot;did not receive an argument&quot;</span> );</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        }</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordflow">else</span>{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            parameterFile = argv[1];</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        }</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;PARAMETER FILE: &quot;</span> &lt;&lt; parameterFile &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <a class="code" href="classInput.html">Input</a> input(parameterFile);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="comment">// For each set of online demands, optimize it!</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;&gt; Number of online demand files: &quot;</span> &lt;&lt; input.getNbOnlineDemandFiles() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; input.getNbOnlineDemandFiles(); i++) {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            <span class="comment">/*                      Create initial mapping                      */</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;--- READING INSTANCE... --- &quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <a class="code" href="classInstance.html">Instance</a> instance(input);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;--- CREATING INITIAL MAPPING... --- &quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            instance.createInitialMapping();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            std::cout &lt;&lt; instance.getNbRoutedDemands() &lt;&lt; <span class="stringliteral">&quot; demands were routed.&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            </div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="comment">/*                  Define set of demands to be routed              */</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="comment">//instance.displayDetailedTopology();</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;--- READING NEW ONLINE DEMANDS... --- &quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            std::string nextFile = instance.getInput().getOnlineDemandFilesFromIndex(i);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            instance.generateRandomDemandsFromFile(nextFile);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="comment">//instance.generateRandomDemands(1);</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            instance.displayNonRoutedDemands();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            std::cout &lt;&lt; instance.getNbNonRoutedDemands() &lt;&lt; <span class="stringliteral">&quot; demands were generated.&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <span class="comment">/*                  Define set of demands to be routed              */</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="comment">//instance.displayDetailedTopology();</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;--- READING NEW ONLINE DEMANDS... --- &quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            std::string nextFile = instance.getInput().getOnlineDemandFilesFromIndex(i);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            instance.generateRandomDemandsFromFile(nextFile);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="comment">//instance.generateRandomDemands(1);</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            instance.displayNonRoutedDemands();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            std::cout &lt;&lt; instance.getNbNonRoutedDemands() &lt;&lt; <span class="stringliteral">&quot; demands were generated.&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            </div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="comment">/*                          Start optimizing                        */</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keywordtype">int</span> optimizationCounter = 0;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            std::string outputCode = getInBetweenString(nextFile, <span class="stringliteral">&quot;/&quot;</span>, <span class="stringliteral">&quot;.&quot;</span>) + <span class="stringliteral">&quot;_&quot;</span> + std::to_string(optimizationCounter);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="comment">//instance.output(outputCode);</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordtype">bool</span> feasibility = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keywordflow">while</span>(instance.getNbRoutedDemands() &lt; instance.getNbDemands() &amp;&amp; feasibility == <span class="keyword">true</span>){</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                optimizationCounter++;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                outputCode = getInBetweenString(nextFile, <span class="stringliteral">&quot;/&quot;</span>, <span class="stringliteral">&quot;.&quot;</span>) + <span class="stringliteral">&quot;_&quot;</span> + std::to_string(optimizationCounter);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                std::chrono::_V2::system_clock::time_point start = std::chrono::high_resolution_clock::now();</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="keywordflow">switch</span> (instance.getInput().getChosenMethod()){</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031a9bcff65f9fe67d63b9093e1703f1226b">Input::METHOD_CPLEX</a>:</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                    {</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                        <a class="code" href="classCplexForm.html">CplexForm</a> solver(instance);         </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                        <span class="keywordflow">if</span> (solver.getCplex().getStatus() == IloAlgorithm::Optimal){</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                            solver.updateInstance(instance);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                            <span class="comment">//instance.displayDetailedTopology();</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                        }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                        <span class="keywordflow">else</span>{</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                            feasibility = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                        }</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                    }</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031a1e214c54a52e9881ad79ecb513eeb24d">Input::METHOD_SUBGRADIENT</a>:</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                    {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                        <a class="code" href="classSubgradient.html">Subgradient</a> sub(instance);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                        sub.updateInstance(instance);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                        instance.output(outputCode);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                    }</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                    {</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                        std::cerr &lt;&lt; <span class="stringliteral">&quot;The parameter \&#39;chosenMethod\&#39; is invalid. &quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                        <span class="keywordflow">throw</span> std::invalid_argument( <span class="stringliteral">&quot;did not receive an argument&quot;</span> );</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                    }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                    </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                <span class="keywordflow">if</span> (instance.getInput().getChosenOutputLvl() == <a class="code" href="classInput.html#a9cba0c01fa8a52cedee285ede0aec60aa48274fa3f573d83642c121c510c91f4c">Input::OUTPUT_LVL_DETAILED</a>){</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                    instance.output(outputCode);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                }</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                std::chrono::_V2::system_clock::time_point end = std::chrono::high_resolution_clock::now();</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                <span class="keywordtype">double</span> time_taken = std::chrono::duration_cast&lt;std::chrono::nanoseconds&gt;(end - start).count(); </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                time_taken *= 1e-9; </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                std::cout &lt;&lt; <span class="stringliteral">&quot;Time taken by program is : &quot;</span> &lt;&lt; std::fixed  &lt;&lt; time_taken &lt;&lt; std::setprecision(9); </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                std::cout &lt;&lt; <span class="stringliteral">&quot; sec&quot;</span> &lt;&lt; std::endl; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            }</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            <span class="keywordflow">if</span> (instance.getInput().getChosenOutputLvl() &gt;= <a class="code" href="classInput.html#a9cba0c01fa8a52cedee285ede0aec60aa1a1455e5e83c71e0f867ea5974aa4dfb">Input::OUTPUT_LVL_NORMAL</a>){</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                outputCode = getInBetweenString(nextFile, <span class="stringliteral">&quot;/&quot;</span>, <span class="stringliteral">&quot;.&quot;</span>);</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                instance.output(outputCode + <span class="stringliteral">&quot;_FINAL&quot;</span>);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                instance.outputLogResults(outputCode);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            }</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        }</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    }</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordflow">catch</span>(<span class="keyword">const</span> std::invalid_argument&amp; e){</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        std::cerr &lt;&lt; std::endl &lt;&lt; <span class="stringliteral">&quot;ERROR: Caught exception.&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    }<span class="comment">/*</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment">    catch(...){</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment">        std::cerr &lt;&lt; std::endl &lt;&lt; &quot;BIG FUCKING ERROR !!&quot; &lt;&lt; std::endl;</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="comment">    }*/</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment">// Run program: Ctrl + F5 or Debug &gt; Start Without Debugging menu</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="comment">// Debug program: F5 or Debug &gt; Start Debugging menu</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="comment">// Tips for Getting Started: </span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="comment">//   1. Use the Solution Explorer window to add/manage files</span></div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="comment">//   2. Use the Team Explorer window to connect to source control</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="comment">//   3. Use the Output window to see build output and other messages</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="comment">//   4. Use the Error List window to view errors</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="comment">//   5. Go to Project &gt; Add New Item to create new code files, or Project &gt; Add Existing Item to add existing code files to the project</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="comment">//   6. In the future, to open this project again, go to File &gt; Open &gt; Project and select the .sln file</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="comment">/*                          Start optimizing                        */</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordtype">int</span> optimizationCounter = 0;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            std::string outputCode = getInBetweenString(nextFile, <span class="stringliteral">&quot;/&quot;</span>, <span class="stringliteral">&quot;.&quot;</span>) + <span class="stringliteral">&quot;_&quot;</span> + std::to_string(optimizationCounter);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="comment">//instance.output(outputCode);</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="keywordtype">bool</span> feasibility = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordflow">while</span>(instance.getNbRoutedDemands() &lt; instance.getNbDemands() &amp;&amp; feasibility == <span class="keyword">true</span>){</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                optimizationCounter++;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                outputCode = getInBetweenString(nextFile, <span class="stringliteral">&quot;/&quot;</span>, <span class="stringliteral">&quot;.&quot;</span>) + <span class="stringliteral">&quot;_&quot;</span> + std::to_string(optimizationCounter);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                std::chrono::_V2::system_clock::time_point start = std::chrono::high_resolution_clock::now();</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                <span class="keywordflow">switch</span> (instance.getInput().getChosenMethod()){</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031a9bcff65f9fe67d63b9093e1703f1226b">Input::METHOD_CPLEX</a>:</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                    {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                        <a class="code" href="classCplexForm.html">CplexForm</a> solver(instance);         </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                        <span class="keywordflow">if</span> (solver.getCplex().getStatus() == IloAlgorithm::Optimal){</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                            solver.updateInstance(instance);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                            <span class="comment">//instance.displayDetailedTopology();</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                        }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                        <span class="keywordflow">else</span>{</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                            feasibility = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                        }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                    }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031a1e214c54a52e9881ad79ecb513eeb24d">Input::METHOD_SUBGRADIENT</a>:</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                    {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                        <a class="code" href="classSubgradient.html">Subgradient</a> sub(instance);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                        sub.updateInstance(instance);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                        instance.output(outputCode);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                    }</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                    {</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                        std::cerr &lt;&lt; <span class="stringliteral">&quot;The parameter \&#39;chosenMethod\&#39; is invalid. &quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                        <span class="keywordflow">throw</span> std::invalid_argument( <span class="stringliteral">&quot;did not receive an argument&quot;</span> );</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                    }</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                    </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                }</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                <span class="keywordflow">if</span> (instance.getInput().getChosenOutputLvl() == <a class="code" href="classInput.html#a9cba0c01fa8a52cedee285ede0aec60aa48274fa3f573d83642c121c510c91f4c">Input::OUTPUT_LVL_DETAILED</a>){</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                    instance.output(outputCode);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                }</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                std::chrono::_V2::system_clock::time_point end = std::chrono::high_resolution_clock::now();</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                <span class="keywordtype">double</span> time_taken = std::chrono::duration_cast&lt;std::chrono::nanoseconds&gt;(end - start).count(); </div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                time_taken *= 1e-9; </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                std::cout &lt;&lt; <span class="stringliteral">&quot;Time taken by program is : &quot;</span> &lt;&lt; std::fixed  &lt;&lt; time_taken &lt;&lt; std::setprecision(9); </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                std::cout &lt;&lt; <span class="stringliteral">&quot; sec&quot;</span> &lt;&lt; std::endl; </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            }</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">if</span> (instance.getInput().getChosenOutputLvl() &gt;= <a class="code" href="classInput.html#a9cba0c01fa8a52cedee285ede0aec60aa1a1455e5e83c71e0f867ea5974aa4dfb">Input::OUTPUT_LVL_NORMAL</a>){</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                outputCode = getInBetweenString(nextFile, <span class="stringliteral">&quot;/&quot;</span>, <span class="stringliteral">&quot;.&quot;</span>);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                instance.output(outputCode + <span class="stringliteral">&quot;_FINAL&quot;</span>);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                instance.outputLogResults(outputCode);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            }</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        }</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    }</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">catch</span>(<span class="keyword">const</span> std::invalid_argument&amp; e){</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        std::cerr &lt;&lt; std::endl &lt;&lt; <span class="stringliteral">&quot;ERROR: Caught exception.&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    }<span class="comment">/*</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment">    catch(...){</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment">        std::cerr &lt;&lt; std::endl &lt;&lt; &quot;BIG FUCKING ERROR !!&quot; &lt;&lt; std::endl;</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment">    }*/</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;}</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="comment">// Run program: Ctrl + F5 or Debug &gt; Start Without Debugging menu</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment">// Debug program: F5 or Debug &gt; Start Debugging menu</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="comment">// Tips for Getting Started: </span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="comment">//   1. Use the Solution Explorer window to add/manage files</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="comment">//   2. Use the Team Explorer window to connect to source control</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="comment">//   3. Use the Output window to see build output and other messages</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="comment">//   4. Use the Error List window to view errors</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="comment">//   5. Go to Project &gt; Add New Item to create new code files, or Project &gt; Add Existing Item to add existing code files to the project</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="comment">//   6. In the future, to open this project again, go to File &gt; Open &gt; Project and select the .sln file</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassCplexForm_html"><div class="ttname"><a href="classCplexForm.html">CplexForm</a></div><div class="ttdoc">This class implements and solve the Online Routing and Spectrum Allocation MIP using CPLEX.</div><div class="ttdef"><b>Definition:</b> <a href="cplexForm_8h_source.html#l00012">cplexForm.h:12</a></div></div>
 <div class="ttc" id="aclassSubgradient_html"><div class="ttname"><a href="classSubgradient.html">Subgradient</a></div><div class="ttdoc">This class implements and solves a Langragian Relaxation of the Routing and Spectrum Allocation probl...</div><div class="ttdef"><b>Definition:</b> <a href="subgradient_8h_source.html#l00017">subgradient.h:17</a></div></div>
 <div class="ttc" id="aclassInput_html"><div class="ttname"><a href="classInput.html">Input</a></div><div class="ttdoc">This class contains all the information needed for the creation of an instance.</div><div class="ttdef"><b>Definition:</b> <a href="input_8h_source.html#l00015">input.h:15</a></div></div>
-<div class="ttc" id="aclassInstance_html"><div class="ttname"><a href="classInstance.html">Instance</a></div><div class="ttdoc">This class stores the initial mapping that serves as input for the Online Routing and Spectrum Alloca...</div><div class="ttdef"><b>Definition:</b> <a href="Instance_8h_source.html#l00020">Instance.h:20</a></div></div>
+<div class="ttc" id="aclassInstance_html"><div class="ttname"><a href="classInstance.html">Instance</a></div><div class="ttdoc">This class stores the initial mapping that serves as input for the Online Routing and Spectrum Alloca...</div><div class="ttdef"><b>Definition:</b> <a href="Instance_8h_source.html#l00017">Instance.h:17</a></div></div>
 <div class="ttc" id="aclassInput_html_a9cba0c01fa8a52cedee285ede0aec60aa48274fa3f573d83642c121c510c91f4c"><div class="ttname"><a href="classInput.html#a9cba0c01fa8a52cedee285ede0aec60aa48274fa3f573d83642c121c510c91f4c">Input::OUTPUT_LVL_DETAILED</a></div><div class="ttdeci">@ OUTPUT_LVL_DETAILED</div><div class="ttdoc">Generate output files after every optimization procedure.</div><div class="ttdef"><b>Definition:</b> <a href="input_8h_source.html#l00036">input.h:35</a></div></div>
 <div class="ttc" id="aclassInput_html_a9cba0c01fa8a52cedee285ede0aec60aa1a1455e5e83c71e0f867ea5974aa4dfb"><div class="ttname"><a href="classInput.html#a9cba0c01fa8a52cedee285ede0aec60aa1a1455e5e83c71e0f867ea5974aa4dfb">Input::OUTPUT_LVL_NORMAL</a></div><div class="ttdeci">@ OUTPUT_LVL_NORMAL</div><div class="ttdoc">Generate output files corresponding to the last mapping before blocking.</div><div class="ttdef"><b>Definition:</b> <a href="input_8h_source.html#l00034">input.h:34</a></div></div>
 <div class="ttc" id="aclassInput_html_ae19efd3d8de2230a5bb94677518a8031a1e214c54a52e9881ad79ecb513eeb24d"><div class="ttname"><a href="classInput.html#ae19efd3d8de2230a5bb94677518a8031a1e214c54a52e9881ad79ecb513eeb24d">Input::METHOD_SUBGRADIENT</a></div><div class="ttdeci">@ METHOD_SUBGRADIENT</div><div class="ttdoc">Solve it using the subgradient method.</div><div class="ttdef"><b>Definition:</b> <a href="input_8h_source.html#l00022">input.h:21</a></div></div>

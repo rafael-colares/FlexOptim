@@ -1,9 +1,6 @@
 #ifndef __Instance__h
 #define __Instance__h
 
-#include <vector>
-#include <string>
-#include <iostream>
 #include <float.h>
 
 #include "PhysicalLink.h"

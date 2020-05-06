@@ -33,10 +33,10 @@ public:
 	/*										 Getters										*/
 	/****************************************************************************************/
 
-	/** Returns the index of an arc in a preprocessed graph. @param a The arc. @param d The graph #d. **/
+	/** Returns the index of an arc in a preprocessed graph. @param a The arc. @param d The graph index. **/
     int getArcIndex(const ListDigraph::Arc &a, int d) const { return (*vecArcIndex[d])[a]; }
 
-	/** Returns the objective function expression. @param var The variable matrix x[d][a]. @param maxSliceFromEdge The array of variables refering to the max used slice position of each link. @param maxSlice The variable storing the max used slice position in the whole network. @param mod The CPLEX model. **/
+	/** Returns the objective function expression. @param var The variable matrix x[d][a]. @param maxSliceFromLink The array of variables refering to the max used slice position of each link. @param maxSlice The variable storing the max used slice position in the whole network. @param mod The CPLEX model. **/
     IloExpr getObjFunction(IloBoolVarMatrix &var, IloIntVarArray &maxSliceFromLink, IloIntVar &maxSlice, IloModel &mod);
 
 	/** Returns the source constraint associated with a demand and a node. @param var The variable matrix x[d][a]. @param mod The CPLEX model. @param demand The demand. @param d The demand index. @param label The node label. **/
@@ -57,20 +57,20 @@ public:
 	/** Returns the Link's Max Used Slice Position constraint associated with a link and a demand. @param var The assignment variable matrix. @param maxSlicePerLink The array of variables refering to the max used slice position of each link. @param linkIndex The link's index. @param d The demand's index. @param mod The CPLEX model. **/
 	IloRange getMaxUsedSlicePerLinkConstraints(IloBoolVarMatrix &var, IloIntVarArray &maxSlicePerLink, int linkIndex, int d, IloModel &mod);
 
-	/** Returns the Overall Max Used Slice Position constraints associated with a link and a demand. @param var The assignment variable matrix. @param maxSliceOverall The variable refering to the max used slice position throughout the whole network. @param linkindex The link's index. @param d The demand's index. @param mod The CPLEX model.**/
+	/** Returns the Overall Max Used Slice Position constraints associated with a link and a demand. @param var The assignment variable matrix. @param maxSliceOverall The variable refering to the max used slice position throughout the whole network. @param linkIndex The link's index. @param d The demand's index. @param mod The CPLEX model.**/
 	IloRange getMaxUsedSliceOverallConstraints(IloBoolVarMatrix &var, IloIntVar &maxSliceOverall, int linkIndex, int d, IloModel &mod);
 
 	/****************************************************************************************/
 	/*										 Setters										*/
 	/****************************************************************************************/
 
-	/** Changes the index of an arc in a graph. @param a The arc. @param d The graph #d. @param val The new index value. **/
+	/** Changes the index of an arc in a graph. @param a The arc. @param d The graph index. @param val The new index value. **/
 	void setArcIndex(const ListDigraph::Arc &a, int d, int val) { (*vecArcIndex[d])[a] = val; }
 
-	/** Defines the decision variables need in the MIP formulation. @param var The assignement variable matrix. @param maxSliceFromEdge The array of variables refering to the max used slice position of each link. @param maxSlice The variable storing the max used slice position in the whole network. @param mod The CPLEX model. **/
+	/** Defines the decision variables need in the MIP formulation. @param var The assignement variable matrix. @param maxSliceFromLink The array of variables refering to the max used slice position of each link. @param maxSlice The variable storing the max used slice position in the whole network. @param mod The CPLEX model. **/
     void setVariables(IloBoolVarMatrix &var, IloIntVarArray &maxSliceFromLink, IloIntVar &maxSlice, IloModel &mod);
 
-	/** Defines the objective function. @param var The variable matrix. @param maxSliceFromEdge The array of variables refering to the max used slice position of each link. @param maxSlice The variable storing the max used slice position in the whole network. @param mod The CPLEX model. **/
+	/** Defines the objective function. @param var The variable matrix. @param maxSliceFromLink The array of variables refering to the max used slice position of each link. @param maxSlice The variable storing the max used slice position in the whole network. @param mod The CPLEX model. **/
     void setObjective(IloBoolVarMatrix &var, IloIntVarArray &maxSliceFromLink, IloIntVar &maxSlice, IloModel &mod);
 
 	/** Defines Source constraints. At most one arc leaves each node and exactly one arc leaves the source. @param var The variable matrix. @param mod The CPLEX model. **/

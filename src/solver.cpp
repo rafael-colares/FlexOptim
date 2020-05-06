@@ -236,11 +236,13 @@ IloRange Solver::getLengthConstraint(IloBoolVarMatrix &var, IloModel &mod, const
 /* Defines Non-Overlapping constraints. Demands must not overlap eachother's slices. */
 void Solver::setNonOverlappingConstraints(IloBoolVarMatrix &var, IloModel &mod){
     for (int d1 = 0; d1 < getNbDemandsToBeRouted(); d1++){
-        for (ListDigraph::ArcIt a(*vecGraph[d1]); a != INVALID; ++a){
-            for (int d2 = 0; d2 < getNbDemandsToBeRouted(); d2++){
-                if(d1 != d2){
-                    IloRange nonOverlap = getNonOverlappingConstraint(var, mod, getArcLabel(a, d1), getArcSlice(a, d1), getToBeRouted_k(d1), d1, getToBeRouted_k(d2), d2);
-                    mod.add(nonOverlap);
+        for (int d2 = 0; d2 < getNbDemandsToBeRouted(); d2++){
+            if(d1 != d2){
+                for (int i = 0; i < instance.getNbEdges(); i++){
+                    for (int s = 0; s < instance.getPhysicalLinkFromIndex(i).getNbSlices(); s++){
+                        IloRange nonOverlap = getNonOverlappingConstraint(var, mod, instance.getPhysicalLinkFromIndex(i).getId(), s, getToBeRouted_k(d1), d1, getToBeRouted_k(d2), d2);
+                        mod.add(nonOverlap);
+                    }
                 }   
             }
         }
