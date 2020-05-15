@@ -39,6 +39,16 @@ RSA::RSA(const Instance &inst) : instance(inst), compactArcId(compactGraph), com
 
     /* Calls preprocessing. */
     preprocessing();
+
+    /* Sets arc index. */
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){ 
+        vecArcIndex.emplace_back(new ArcMap((*vecGraph[d]), -1));
+        int index=0;
+        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+            setArcIndex(a, d, index);
+            index++;
+        }
+    }
 }
 
 /* Builds the simple graph associated with the initial mapping. */

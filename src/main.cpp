@@ -89,8 +89,13 @@ int main(int argc, char *argv[]) {
 				case Input::METHOD_SUBGRADIENT:
 					{
 						Subgradient sub(instance);
-						sub.updateInstance(instance);
-						instance.output(outputCode);
+						if (sub.getIsFeasible() ==  true){
+							sub.updateInstance(instance);
+						}
+						else{
+							feasibility = false;
+						}
+						//instance.output(outputCode);
 						break;
 					}
 				default:

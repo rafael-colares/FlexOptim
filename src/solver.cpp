@@ -8,14 +8,6 @@
 /* Constructor. The RSA constructor is called and the arc map storing the index of the preprocessed graphs associated is built. */
 Solver::Solver(const Instance &inst) : RSA(inst) {
     std::cout << "--- Solver has been initalized ---" << std::endl;
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){ 
-        vecArcIndex.emplace_back(new ArcMap((*vecGraph[d]), -1));
-        int index=0;
-        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-            setArcIndex(a, d, index);
-            index++;
-        }
-    }
 }
 
 /****************************************************************************************/

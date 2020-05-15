@@ -89,13 +89,24 @@ void Instance::setDemandFromId(int id, Demand & demand){
 
 /* Builds the initial mapping based on the information retrived from the Input. */
 void Instance::createInitialMapping(){
-	readTopology();
-	readDemands();
-	if (!input.getAssignmentFile().empty()){
-		readDemandAssignment();
+	if (!input.getLinkFile().empty()){
+		readTopology();
 	}
 	else{
-		std::cout << "Starting with an empty mapping. " << std::endl;
+		std::cerr << "A topology file MUST be declared in the input file.\n";
+		exit(0);
+	}
+	if (!input.getDemandFile().empty()){
+		readDemands();
+		if (!input.getAssignmentFile().empty()){
+			readDemandAssignment();
+		}
+		else{
+			std::cout << "Starting with an empty mapping and demands from DemandFile are the first to be served. " << std::endl;
+		}
+	}
+	else{
+		std::cout << "Starting with an empty initial mapping. " << std::endl;
 	}
 	setNbInitialDemands(getNbRoutedDemands());
 }

@@ -65,6 +65,9 @@ protected:
         \note (*vecOnPath[i])[a] is the id the demand routed through arc a in the graph associated with the i-th demand to be routed. **/
     std::vector< std::shared_ptr<ArcMap> > vecOnPath;
 
+	/** A list of pointers to the ArcMap storing the arc index of the preprocessed graph associated with each demand to be routed. 
+        \note (*vecArcIndex[i])[a] is the index of the arc a in the preprocessed graph associated with the i-th demand to be routed. **/
+	std::vector< std::shared_ptr<ArcMap> > vecArcIndex; 
 
     ListDigraph compactGraph;   /**< The simple graph associated with the initial mapping. **/
     ArcMap compactArcId;        /**< ArcMap storing the arc ids of the simple graph associated with the initial mapping. **/
@@ -95,9 +98,9 @@ public:
     Demand getToBeRouted_k(int k){ return toBeRouted[k]; }
 
     /** Returns the number of demands to be routed. **/
-    int getNbDemandsToBeRouted() { return toBeRouted.size(); }
+    int getNbDemandsToBeRouted() const { return toBeRouted.size(); }
 
-    /** Returns the id of a node in a graph. @param n The node. @param d The graph index. **/
+    /** Returns the LEMON id of a node in a graph. @param n The node. @param d The graph index. **/
     int getNodeId(const ListDigraph::Node &n, int d) const { return (*vecNodeId[d])[n]; }
     
     /** Returns the label of a node in a graph. @param n The node. @param d The graph index. **/
@@ -106,9 +109,12 @@ public:
     /** Returns the slice of a node in a graph. @param n The node. @param d The graph index. **/
     int getNodeSlice(const ListDigraph::Node &n, int d) const { return (*vecNodeSlice[d])[n]; }
     
-    /** Returns the lemon id of an arc in a graph. @param a The arc. @param d The graph index. **/
+    /** Returns the LEMON id of an arc in a graph. @param a The arc. @param d The graph index. **/
     int getArcId(const ListDigraph::Arc &a, int d) const { return (*vecArcId[d])[a]; }
     
+	/** Returns the index of an arc in a preprocessed graph. @param a The arc. @param d The graph index. **/
+    int getArcIndex(const ListDigraph::Arc &a, int d) const { return (*vecArcIndex[d])[a]; }
+
     /** Returns the label of an arc in a graph. @param a The arc. @param d The graph index. **/
     int getArcLabel(const ListDigraph::Arc &a, int d) const { return (*vecArcLabel[d])[a]; }
     
@@ -161,6 +167,9 @@ public:
     /** Changes the id of an arc in a graph. @param a The arc. @param d The graph index. @param val The new id. **/
     void setArcId(const ListDigraph::Arc &a, int d, int val) { (*vecArcId[d])[a] = val; }
     
+	/** Changes the index of an arc in a graph. @param a The arc. @param d The graph index. @param val The new index value. **/
+	void setArcIndex(const ListDigraph::Arc &a, int d, int val) { (*vecArcIndex[d])[a] = val; }
+
     /** Changes the label of an arc in a graph. @param a The arc. @param d The graph index. @param val The new label. **/
     void setArcLabel(const ListDigraph::Arc &a, int d, int val) { (*vecArcLabel[d])[a] = val; }
     

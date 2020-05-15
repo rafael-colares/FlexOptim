@@ -65,7 +65,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classSolver-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Solver Class Reference</div>  </div>
@@ -92,9 +91,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8271976cef5a884cb8b4deb295311466"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a8271976cef5a884cb8b4deb295311466">Solver</a> (const <a class="el" href="classInstance.html">Instance</a> &amp;inst)</td></tr>
 <tr class="memdesc:a8271976cef5a884cb8b4deb295311466"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classSolver.html#a8271976cef5a884cb8b4deb295311466">More...</a><br /></td></tr>
 <tr class="separator:a8271976cef5a884cb8b4deb295311466"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b5a161a183fdc6c80f44be85930fbeb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a3b5a161a183fdc6c80f44be85930fbeb">getArcIndex</a> (const ListDigraph::Arc &amp;a, int d) const</td></tr>
-<tr class="memdesc:a3b5a161a183fdc6c80f44be85930fbeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the index of an arc in a preprocessed graph.  <a href="classSolver.html#a3b5a161a183fdc6c80f44be85930fbeb">More...</a><br /></td></tr>
-<tr class="separator:a3b5a161a183fdc6c80f44be85930fbeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c3aec7d02f44707076e3f3dc115124f"><td class="memItemLeft" align="right" valign="top">IloExpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a7c3aec7d02f44707076e3f3dc115124f">getObjFunction</a> (IloBoolVarMatrix &amp;var, IloIntVarArray &amp;maxSliceFromLink, IloIntVar &amp;maxSlice, IloModel &amp;mod)</td></tr>
 <tr class="memdesc:a7c3aec7d02f44707076e3f3dc115124f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the objective function expression.  <a href="classSolver.html#a7c3aec7d02f44707076e3f3dc115124f">More...</a><br /></td></tr>
 <tr class="separator:a7c3aec7d02f44707076e3f3dc115124f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -119,9 +115,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aef096a12846ebc0fcd518e2762c95aa2"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#aef096a12846ebc0fcd518e2762c95aa2">getMaxUsedSliceOverallConstraints</a> (IloBoolVarMatrix &amp;var, IloIntVar &amp;maxSliceOverall, int linkIndex, int d, IloModel &amp;mod)</td></tr>
 <tr class="memdesc:aef096a12846ebc0fcd518e2762c95aa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints associated with a link and a demand.  <a href="classSolver.html#aef096a12846ebc0fcd518e2762c95aa2">More...</a><br /></td></tr>
 <tr class="separator:aef096a12846ebc0fcd518e2762c95aa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4488fd901d9223aa6024d99ecd93d90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ad4488fd901d9223aa6024d99ecd93d90">setArcIndex</a> (const ListDigraph::Arc &amp;a, int d, int val)</td></tr>
-<tr class="memdesc:ad4488fd901d9223aa6024d99ecd93d90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the index of an arc in a graph.  <a href="classSolver.html#ad4488fd901d9223aa6024d99ecd93d90">More...</a><br /></td></tr>
-<tr class="separator:ad4488fd901d9223aa6024d99ecd93d90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75f3f16c75cc621bc0717dfd35cbfe36"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a75f3f16c75cc621bc0717dfd35cbfe36">setVariables</a> (IloBoolVarMatrix &amp;var, IloIntVarArray &amp;maxSliceFromLink, IloIntVar &amp;maxSlice, IloModel &amp;mod)</td></tr>
 <tr class="memdesc:a75f3f16c75cc621bc0717dfd35cbfe36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the decision variables need in the MIP formulation.  <a href="classSolver.html#a75f3f16c75cc621bc0717dfd35cbfe36">More...</a><br /></td></tr>
 <tr class="separator:a75f3f16c75cc621bc0717dfd35cbfe36"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -164,12 +157,12 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
 <tr class="memitem:a2a3b848644b3d5b503c3b84df689570c inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDemand.html">Demand</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a2a3b848644b3d5b503c3b84df689570c">getToBeRouted_k</a> (int k)</td></tr>
 <tr class="memdesc:a2a3b848644b3d5b503c3b84df689570c inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the i-th demand to be routed.  <a href="classRSA.html#a2a3b848644b3d5b503c3b84df689570c">More...</a><br /></td></tr>
 <tr class="separator:a2a3b848644b3d5b503c3b84df689570c inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1c5535c119071bd448e6a5a0b6a1cf5 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="ae1c5535c119071bd448e6a5a0b6a1cf5"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ae1c5535c119071bd448e6a5a0b6a1cf5">getNbDemandsToBeRouted</a> ()</td></tr>
-<tr class="memdesc:ae1c5535c119071bd448e6a5a0b6a1cf5 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of demands to be routed. <br /></td></tr>
-<tr class="separator:ae1c5535c119071bd448e6a5a0b6a1cf5 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a574b85eda76013c54bd4d88e123f8fa1 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a574b85eda76013c54bd4d88e123f8fa1"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a574b85eda76013c54bd4d88e123f8fa1">getNbDemandsToBeRouted</a> () const</td></tr>
+<tr class="memdesc:a574b85eda76013c54bd4d88e123f8fa1 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of demands to be routed. <br /></td></tr>
+<tr class="separator:a574b85eda76013c54bd4d88e123f8fa1 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade475be1f126a7bdd1fb730158028cc3 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ade475be1f126a7bdd1fb730158028cc3">getNodeId</a> (const ListDigraph::Node &amp;n, int d) const</td></tr>
-<tr class="memdesc:ade475be1f126a7bdd1fb730158028cc3 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the id of a node in a graph.  <a href="classRSA.html#ade475be1f126a7bdd1fb730158028cc3">More...</a><br /></td></tr>
+<tr class="memdesc:ade475be1f126a7bdd1fb730158028cc3 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the LEMON id of a node in a graph.  <a href="classRSA.html#ade475be1f126a7bdd1fb730158028cc3">More...</a><br /></td></tr>
 <tr class="separator:ade475be1f126a7bdd1fb730158028cc3 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16727945d70e67ecd314577054ea25fd inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a16727945d70e67ecd314577054ea25fd">getNodeLabel</a> (const ListDigraph::Node &amp;n, int d) const</td></tr>
 <tr class="memdesc:a16727945d70e67ecd314577054ea25fd inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the label of a node in a graph.  <a href="classRSA.html#a16727945d70e67ecd314577054ea25fd">More...</a><br /></td></tr>
@@ -178,8 +171,11 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr class="memdesc:aac5b2380b7179493011a9e476555899a inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the slice of a node in a graph.  <a href="classRSA.html#aac5b2380b7179493011a9e476555899a">More...</a><br /></td></tr>
 <tr class="separator:aac5b2380b7179493011a9e476555899a inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfe120a9e708ced2108c1c493af0bf0c inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#adfe120a9e708ced2108c1c493af0bf0c">getArcId</a> (const ListDigraph::Arc &amp;a, int d) const</td></tr>
-<tr class="memdesc:adfe120a9e708ced2108c1c493af0bf0c inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the lemon id of an arc in a graph.  <a href="classRSA.html#adfe120a9e708ced2108c1c493af0bf0c">More...</a><br /></td></tr>
+<tr class="memdesc:adfe120a9e708ced2108c1c493af0bf0c inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the LEMON id of an arc in a graph.  <a href="classRSA.html#adfe120a9e708ced2108c1c493af0bf0c">More...</a><br /></td></tr>
 <tr class="separator:adfe120a9e708ced2108c1c493af0bf0c inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdacea888dece000f90ec92cb4c2e068 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#abdacea888dece000f90ec92cb4c2e068">getArcIndex</a> (const ListDigraph::Arc &amp;a, int d) const</td></tr>
+<tr class="memdesc:abdacea888dece000f90ec92cb4c2e068 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the index of an arc in a preprocessed graph.  <a href="classRSA.html#abdacea888dece000f90ec92cb4c2e068">More...</a><br /></td></tr>
+<tr class="separator:abdacea888dece000f90ec92cb4c2e068 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2256e2f93c22fe30c1a0686ebc7bd45 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ac2256e2f93c22fe30c1a0686ebc7bd45">getArcLabel</a> (const ListDigraph::Arc &amp;a, int d) const</td></tr>
 <tr class="memdesc:ac2256e2f93c22fe30c1a0686ebc7bd45 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the label of an arc in a graph.  <a href="classRSA.html#ac2256e2f93c22fe30c1a0686ebc7bd45">More...</a><br /></td></tr>
 <tr class="separator:ac2256e2f93c22fe30c1a0686ebc7bd45 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -228,6 +224,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr class="memitem:acf8b0e6f4229caa95cdd9c62d15ab4de inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#acf8b0e6f4229caa95cdd9c62d15ab4de">setArcId</a> (const ListDigraph::Arc &amp;a, int d, int val)</td></tr>
 <tr class="memdesc:acf8b0e6f4229caa95cdd9c62d15ab4de inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the id of an arc in a graph.  <a href="classRSA.html#acf8b0e6f4229caa95cdd9c62d15ab4de">More...</a><br /></td></tr>
 <tr class="separator:acf8b0e6f4229caa95cdd9c62d15ab4de inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93848f7573b729e138342a525d26c9d7 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a93848f7573b729e138342a525d26c9d7">setArcIndex</a> (const ListDigraph::Arc &amp;a, int d, int val)</td></tr>
+<tr class="memdesc:a93848f7573b729e138342a525d26c9d7 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the index of an arc in a graph.  <a href="classRSA.html#a93848f7573b729e138342a525d26c9d7">More...</a><br /></td></tr>
+<tr class="separator:a93848f7573b729e138342a525d26c9d7 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af510d0b4de7c9dd10fc1e4978ac4f214 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#af510d0b4de7c9dd10fc1e4978ac4f214">setArcLabel</a> (const ListDigraph::Arc &amp;a, int d, int val)</td></tr>
 <tr class="memdesc:af510d0b4de7c9dd10fc1e4978ac4f214 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the label of an arc in a graph.  <a href="classRSA.html#af510d0b4de7c9dd10fc1e4978ac4f214">More...</a><br /></td></tr>
 <tr class="separator:af510d0b4de7c9dd10fc1e4978ac4f214 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -294,11 +293,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:a6d9a0d1d331dfbb684aff707479512d9 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the demands to be routed in the next optimization. <br /></td></tr>
 <tr class="separator:a6d9a0d1d331dfbb684aff707479512d9 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:a0906c4c5ad718a1b89bf46c494c09cb7"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a0906c4c5ad718a1b89bf46c494c09cb7">vecArcIndex</a></td></tr>
-<tr class="memdesc:a0906c4c5ad718a1b89bf46c494c09cb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the ArcMap storing the arc index of the preprocessed graph associated with each demand to be routed.  <a href="classSolver.html#a0906c4c5ad718a1b89bf46c494c09cb7">More...</a><br /></td></tr>
-<tr class="separator:a0906c4c5ad718a1b89bf46c494c09cb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_attribs_classRSA"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classRSA')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classRSA.html">RSA</a></td></tr>
 <tr class="memitem:ad81287af708fcfcd98c963cfafc1f4db inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="ad81287af708fcfcd98c963cfafc1f4db"></a>
 <a class="el" href="classInstance.html">Instance</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ad81287af708fcfcd98c963cfafc1f4db">instance</a></td></tr>
@@ -335,6 +331,9 @@ std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td>
 <tr class="memitem:ae7f9f30da50b99c81bedc24ae5139804 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ae7f9f30da50b99c81bedc24ae5139804">vecOnPath</a></td></tr>
 <tr class="memdesc:ae7f9f30da50b99c81bedc24ae5139804 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the ArcMap storing the <a class="el" href="classRSA.html" title="This class stores the input needed for solving the Routing and Spectrum Allocation problem.">RSA</a> solution.  <a href="classRSA.html#ae7f9f30da50b99c81bedc24ae5139804">More...</a><br /></td></tr>
 <tr class="separator:ae7f9f30da50b99c81bedc24ae5139804 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e5e3c07e9cc04f012be9e28b1c32b6d inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a6e5e3c07e9cc04f012be9e28b1c32b6d">vecArcIndex</a></td></tr>
+<tr class="memdesc:a6e5e3c07e9cc04f012be9e28b1c32b6d inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the ArcMap storing the arc index of the preprocessed graph associated with each demand to be routed.  <a href="classRSA.html#a6e5e3c07e9cc04f012be9e28b1c32b6d">More...</a><br /></td></tr>
+<tr class="separator:a6e5e3c07e9cc04f012be9e28b1c32b6d inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e25203c6373d6170031d75e93d77b4d inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a2e25203c6373d6170031d75e93d77b4d"></a>
 ListDigraph&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a2e25203c6373d6170031d75e93d77b4d">compactGraph</a></td></tr>
 <tr class="memdesc:a2e25203c6373d6170031d75e93d77b4d inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">The simple graph associated with the initial mapping. <br /></td></tr>
@@ -395,53 +394,6 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a3b5a161a183fdc6c80f44be85930fbeb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b5a161a183fdc6c80f44be85930fbeb">&#9670;&nbsp;</a></span>getArcIndex()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int Solver::getArcIndex </td>
-          <td>(</td>
-          <td class="paramtype">const ListDigraph::Arc &amp;&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>d</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the index of an arc in a preprocessed graph. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td>The arc.</td></tr>
-    <tr><td class="paramname">d</td><td>The graph index. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="solver_8h_source.html#l00037">37</a> of file <a class="el" href="solver_8h_source.html">solver.h</a>.</p>
-
-</div>
-</div>
 <a id="a2dffcea651c323f683bea675f7487338"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2dffcea651c323f683bea675f7487338">&#9670;&nbsp;</a></span>getFlowConservationConstraint_i_d()</h2>
 
@@ -498,7 +450,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00164">164</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00156">156</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>
@@ -551,7 +503,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00221">221</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00213">213</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>
@@ -611,7 +563,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00316">316</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00308">308</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>
@@ -671,7 +623,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00285">285</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00277">277</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>
@@ -752,7 +704,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00253">253</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00245">245</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>
@@ -805,7 +757,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00082">82</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00074">74</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>
@@ -865,7 +817,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00125">125</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00117">117</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>
@@ -918,61 +870,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00193">193</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
-
-</div>
-</div>
-<a id="ad4488fd901d9223aa6024d99ecd93d90"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4488fd901d9223aa6024d99ecd93d90">&#9670;&nbsp;</a></span>setArcIndex()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Solver::setArcIndex </td>
-          <td>(</td>
-          <td class="paramtype">const ListDigraph::Arc &amp;&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>d</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>val</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Changes the index of an arc in a graph. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td>The arc.</td></tr>
-    <tr><td class="paramname">d</td><td>The graph index.</td></tr>
-    <tr><td class="paramname">val</td><td>The new index value. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="solver_8h_source.html#l00068">68</a> of file <a class="el" href="solver_8h_source.html">solver.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00185">185</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>
@@ -1011,7 +909,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00151">151</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00143">143</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>
@@ -1050,7 +948,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00213">213</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00205">205</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>
@@ -1096,7 +994,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00306">306</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00298">298</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>
@@ -1142,7 +1040,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00276">276</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00268">268</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>
@@ -1181,7 +1079,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00237">237</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00229">229</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>
@@ -1234,7 +1132,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00075">75</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00067">67</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>
@@ -1273,7 +1171,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00114">114</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00106">106</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>
@@ -1312,7 +1210,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00185">185</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00177">177</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>
@@ -1365,35 +1263,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00026">26</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a0906c4c5ad718a1b89bf46c494c09cb7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0906c4c5ad718a1b89bf46c494c09cb7">&#9670;&nbsp;</a></span>vecArcIndex</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; std::shared_ptr&lt;ArcMap&gt; &gt; Solver::vecArcIndex</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>A list of pointers to the ArcMap storing the arc index of the preprocessed graph associated with each demand to be routed. </p>
-<dl class="section note"><dt>Note</dt><dd>(*vecArcIndex[i])[a] is the index of the arc a in the preprocessed graph associated with the i-th demand to be routed. </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="solver_8h_source.html#l00022">22</a> of file <a class="el" href="solver_8h_source.html">solver.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00018">18</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>

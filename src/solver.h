@@ -17,9 +17,6 @@ typedef IloArray<IloBoolVarArray> IloBoolVarMatrix;
  * *******************************************************************************************/
 class Solver : public RSA{
 protected:
-	/** A list of pointers to the ArcMap storing the arc index of the preprocessed graph associated with each demand to be routed. 
-        \note (*vecArcIndex[i])[a] is the index of the arc a in the preprocessed graph associated with the i-th demand to be routed. **/
-	std::vector< std::shared_ptr<ArcMap> > vecArcIndex; 
 
 public:
 	/****************************************************************************************/
@@ -33,8 +30,6 @@ public:
 	/*										 Getters										*/
 	/****************************************************************************************/
 
-	/** Returns the index of an arc in a preprocessed graph. @param a The arc. @param d The graph index. **/
-    int getArcIndex(const ListDigraph::Arc &a, int d) const { return (*vecArcIndex[d])[a]; }
 
 	/** Returns the objective function expression. @param var The variable matrix x[d][a]. @param maxSliceFromLink The array of variables refering to the max used slice position of each link. @param maxSlice The variable storing the max used slice position in the whole network. @param mod The CPLEX model. **/
     IloExpr getObjFunction(IloBoolVarMatrix &var, IloIntVarArray &maxSliceFromLink, IloIntVar &maxSlice, IloModel &mod);
@@ -63,9 +58,6 @@ public:
 	/****************************************************************************************/
 	/*										 Setters										*/
 	/****************************************************************************************/
-
-	/** Changes the index of an arc in a graph. @param a The arc. @param d The graph index. @param val The new index value. **/
-	void setArcIndex(const ListDigraph::Arc &a, int d, int val) { (*vecArcIndex[d])[a] = val; }
 
 	/** Defines the decision variables need in the MIP formulation. @param var The assignement variable matrix. @param maxSliceFromLink The array of variables refering to the max used slice position of each link. @param maxSlice The variable storing the max used slice position in the whole network. @param mod The CPLEX model. **/
     void setVariables(IloBoolVarMatrix &var, IloIntVarArray &maxSliceFromLink, IloIntVar &maxSlice, IloModel &mod);
