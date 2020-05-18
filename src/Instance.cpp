@@ -117,7 +117,7 @@ void Instance::createInitialMapping(){
 
 /* Reads the topology information from file. */
 void Instance::readTopology(){
-	std::cout << "Reading " << input.getLinkFile() << " ..."  << std::endl;
+	std::cout << "Reading " << input.getLinkFile() << "."  << std::endl;
 	CSVReader reader(input.getLinkFile());
 	/* dataList is a vector of vectors of strings. */
 	/* dataList[0] corresponds to the first line of the document and dataList[0][i] to the i-th word.*/
@@ -150,7 +150,7 @@ void Instance::readTopology(){
 
 /* Reads the routed demand information from file. */
 void Instance::readDemands(){
-	std::cout << "Reading " << input.getDemandFile() << " ..." << std::endl;
+	std::cout << "Reading " << input.getDemandFile() << "." << std::endl;
 	CSVReader reader(input.getDemandFile());
 	/* dataList is a vector of vectors of strings. */
 	/* dataList[0] corresponds to the first line of the document and dataList[0][i] to the i-th word.*/
@@ -171,7 +171,7 @@ void Instance::readDemands(){
 /* Reads the assignment information from file. */
 void Instance::readDemandAssignment(){
 	CSVReader reader(input.getAssignmentFile());
-	std::cout << "Reading " << input.getAssignmentFile() << " ..." << std::endl;
+	std::cout << "Reading " << input.getAssignmentFile() << "." << std::endl;
 
 	/* dataList is a vector of vectors of strings. */
 	/* dataList[0] corresponds to the first line of the document and dataList[0][0] to the first word.*/

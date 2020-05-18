@@ -2,45 +2,52 @@
 
 /* Default constructor initializes the object with the information contained in the parameterFile. */
 Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
+    std::cout << "Getting linkFile." << std::endl;
     linkFile = getParameterValue("linkFile=");
-    std::cout << "Reading linkFile." << std::endl;
+
+    std::cout << "Getting demandFile." << std::endl;
     demandFile = getParameterValue("demandFile=");
-    std::cout << "Reading demandFile." << std::endl;
+
+    std::cout << "Getting assignementFile." << std::endl;
     assignmentFile = getParameterValue("assignmentFile=");
-    std::cout << "Reading assignementFile." << std::endl;
+
+    std::cout << "Getting onlineDemandFolder." << std::endl;
     onlineDemandFolder = getParameterValue("onlineDemandFolder=");
-    std::cout << "Reading onlineDemandFolder." << std::endl;
+
+    std::cout << "Getting output path." << std::endl;
     outputPath = getParameterValue("outputPath=");
-    std::cout << "Reading outputPath." << std::endl;
 
+
+
+    std::cout << "Getting number of demands to be treated at once." << std::endl;
     nbDemandsAtOnce = std::stoi(getParameterValue("nbDemandsAtOnce="));
-    std::cout << "Reading nbDemandsAtOnce." << std::endl;
+
+    std::cout << "Getting number of slices in output." << std::endl;
     nbSlicesInOutputFile = std::stoi(getParameterValue("nbSlicesInOutputFile="));
-    std::cout << "Reading nbSlicesInOutput." << std::endl;
     
+    std::cout << "Getting method." << std::endl;
     chosenMethod = (Method) std::stoi(getParameterValue("method="));
-    std::cout << "Reading method." << std::endl;
+
+    std::cout << "Getting preprocessing level." << std::endl;
     chosenPreprLvl = (PreprocessingLevel) std::stoi(getParameterValue("preprocessingLevel="));
-    std::cout << "Reading preprocessingLevel." << std::endl;
+
+    std::cout << "Getting objective." << std::endl;
     chosenObj = to_ObjectiveMetric(getParameterValue("obj="));
-    std::cout << "Reading obj." << std::endl;
+
+    std::cout << "Getting output level." << std::endl;
     chosenOutputLvl = (OutputLevel) std::stoi(getParameterValue("outputLevel="));
-    std::cout << "Reading outputlvl." << std::endl;
 
+
+    std::cout << "Getting subgradient parameters." << std::endl;
     lagrangianMultiplier_zero = std::stod(getParameterValue("lagrangianMultiplier_zero="));
-    std::cout << "Reading lagr1." << std::endl;
     lagrangianLambda_zero = std::stod(getParameterValue("lagrangianLambda_zero="));
-    std::cout << "Reading lagr2." << std::endl;
     nbIterationsWithoutImprovement = std::stoi(getParameterValue("nbIterationsWithoutImprovement="));
-    std::cout << "Reading lagr3." << std::endl;
     maxNbIterations = std::stoi(getParameterValue("maxNbIterations="));
-    std::cout << "Reading lagr4." << std::endl;
 
-    std::cout << "Populating onlineDemands." << std::endl;
+    std::cout << "Populating online demand files." << std::endl;
     if (!onlineDemandFolder.empty()) {
         populateOnlineDemandFiles();
     }
-    
     
     std::cout << "Finish input." << std::endl;
     displayMainParameters();
@@ -79,15 +86,20 @@ std::string Input::getParameterValue(std::string pattern){
             if (pos != std::string::npos){
                 value = line.substr(pos + pattern.size());
                 value.pop_back();
+                if (value.empty()){
+                    std::cout << "WARNING: Found " << pattern << " but field is empty." << std::endl; 
+                }
                 return value;
             }
         }
         myfile.close();
     }
     else {
-        std::cout << "ERROR: Unable to open parameters file" << std::endl; 
-        abort();
+        std::cerr << "ERROR: Unable to open parameters file" << std::endl; 
+        exit(0);
     }
+    
+    std::cout << "WARNING: Did not found " << pattern << " inside parameters file." << std::endl; 
     return value;
 }
 
