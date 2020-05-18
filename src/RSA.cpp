@@ -4,6 +4,7 @@
 RSA::RSA(const Instance &inst) : instance(inst), compactArcId(compactGraph), compactArcLabel(compactGraph), 
                                 compactArcLength(compactGraph), compactNodeId(compactGraph), 
                                 compactNodeLabel(compactGraph){
+    setStatus(STATUS_UNKNOWN);
     /* Creates compact graph. */
     buildCompactGraph();
 

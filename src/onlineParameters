@@ -2,7 +2,7 @@ linkFile=../Parameters/Instances/NSF/InitialMappingMet1Slice120/Link.csv
 demandFile=
 assignmentFile=
 onlineDemandFolder=../Parameters/Instances/NSF/TestDemands
-nbDemandsAtOnce=1
+nbDemandsAtOnce=15
 outputPath=../Output/OtherTests/
 outputLevel=1
 nbSlicesInOutputFile=320
@@ -15,4 +15,3 @@ lagrangianMultiplier_zero=0.0
 lagrangianLambda_zero=2.0
 nbIterationsWithoutImprovement=3
 maxNbIterations=100
-

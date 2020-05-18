@@ -39,6 +39,9 @@ public:
 	/** Returns the total number of CPLEX default cuts applied during optimization. **/
 	IloInt getNbCutsFromCplex();
 
+	/** Returns the cplex status. **/
+    Status getStatus();
+
 	/****************************************************************************************/
 	/*										Methods											*/
 	/****************************************************************************************/

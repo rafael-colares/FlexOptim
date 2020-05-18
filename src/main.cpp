@@ -76,12 +76,23 @@ int main(int argc, char *argv[]) {
 				switch (instance.getInput().getChosenMethod()){
 				case Input::METHOD_CPLEX:
 					{
-						CplexForm solver(instance);			
-						if (solver.getCplex().getStatus() == IloAlgorithm::Optimal){
+						CplexForm solver(instance);	
+						
+						std::cout << "Status: " << solver.getCplex().getStatus() << std::endl;
+						if (solver.getStatus() == RSA::STATUS_INFEASIBLE){
+							std::cout << "Decrease the number of demands to be treated." << std::endl;
+							instance.decreaseNbDemandsAtOnce();
+						}
+						else{
+							if (solver.getStatus() == RSA::STATUS_ERROR){
+								std::cout << "Got error on CPLEX status." << std::endl;
+								exit(0);
+							}
 							solver.updateInstance(instance);
 							//instance.displayDetailedTopology();
 						}
-						else{
+						if (instance.getInput().getNbDemandsAtOnce() <= 0){
+							std::cout << "There is no room for an additional demand." << std::endl;
 							feasibility = false;
 						}
 						break;

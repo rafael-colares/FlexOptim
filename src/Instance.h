@@ -108,6 +108,9 @@ public:
 	/** Changes the attributes of the Demand from the given index according to the attributes of the given demand. @param i The index of the Demand to be changed. @param demand the Demand to be copied. **/
 	void setDemandFromId(int i, Demand &demand);
 
+	/** Decreases the number of demands to be treated by one. **/
+	void decreaseNbDemandsAtOnce();
+
 	/****************************************************************************************/
 	/*										Methods											*/
 	/****************************************************************************************/

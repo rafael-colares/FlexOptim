@@ -88,6 +88,32 @@ CplexForm::CplexForm(const Instance &inst) : Solver(inst), model(env), cplex(mod
     }
 }
 
+
+RSA::Status CplexForm::getStatus(){
+    setStatus(STATUS_ERROR);
+
+    if (cplex.getStatus() == IloAlgorithm::Unknown) {
+        setStatus(STATUS_UNKNOWN);
+    }
+    if (cplex.getStatus() == IloAlgorithm::Feasible) {
+        setStatus(STATUS_FEASIBLE);
+    }
+    if (cplex.getStatus() == IloAlgorithm::Optimal) {
+        setStatus(STATUS_OPTIMAL);
+    }
+    if (cplex.getStatus() == IloAlgorithm::Infeasible) {
+        setStatus(STATUS_INFEASIBLE);
+    }
+    if (cplex.getStatus() == IloAlgorithm::Unbounded) {
+        setStatus(STATUS_UNBOUNDED);
+    }
+    if (cplex.getStatus() == IloAlgorithm::InfeasibleOrUnbounded) {
+        setStatus(STATUS_INFEASIBLE_OR_UNBOUNDED);
+    }
+    
+    return currentStatus;
+}
+
 /* Returns the total number of CPLEX default cuts applied during optimization. */
 IloInt CplexForm::getNbCutsFromCplex(){
     IloInt cutsFromCplex = 0;

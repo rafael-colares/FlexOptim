@@ -24,6 +24,18 @@ typedef ListDigraph::ArcMap<double> ArcCost;
  * *******************************************************************************************/
 class RSA{
 
+public: 
+	/** Enumerates the possible algorithm status according to the current model and solution in hand. **/
+	enum Status {
+        STATUS_UNKNOWN	= 0,        /**< The algorithm has no information about the solution of the model. **/					
+		STATUS_FEASIBLE = 1,        /**< The algorithm found a feasible solution that may not necessarily be optimal. **/
+		STATUS_OPTIMAL = 2,         /**< The algorithm found an optimal solution. **/
+        STATUS_INFEASIBLE = 3,      /**< The algorithm proved the model infeasible; that is, it is not possible to find a feasible solution. **/
+        STATUS_UNBOUNDED = 4,       /**< The algorithm proved the model unbounded. **/
+        STATUS_INFEASIBLE_OR_UNBOUNDED = 5, /**< The model is infeasible or unbounded. **/
+        STATUS_ERROR = 6            /**< An error occurred. **/
+	};
+
 protected:
     Instance instance;                  /**< An instance describing the initial mapping. **/
 
@@ -76,6 +88,8 @@ protected:
     NodeMap compactNodeId;      /**< NodeMap storing the LEMON node ids of the simple graph associated with the initial mapping. **/
     NodeMap compactNodeLabel;   /**< NodeMap storing the node labels of the simple graph associated with the initial mapping. **/
     
+    Status currentStatus;		/**< Provides information about the current model and solution. **/
+	
 public:
 	/****************************************************************************************/
 	/*										Constructor										*/
@@ -148,6 +162,9 @@ public:
     /** Returns the coefficient of an arc according to metric 8 on a graph. @param a The arc. @param d The graph index. @warning Only adapted for the case of treating one demand at a time. **/
     double getCoeffObj8(const ListDigraph::Arc &a, int d);
 
+	/** Returns the algorithm status. **/
+    Status getStatus() const { return currentStatus; }
+
 	/****************************************************************************************/
 	/*										Setters											*/
 	/****************************************************************************************/
@@ -179,6 +196,8 @@ public:
     /** Changes the length of an arc in a graph. @param a The arc. @param d The graph index. @param val The new length. **/
     void setArcLength(const ListDigraph::Arc &a, int d, double val) { (*vecArcLength[d])[a] = val; }
 
+	/** Changes the algorithm status. **/
+    void setStatus(Status val) { currentStatus = val; }
 	/****************************************************************************************/
 	/*										Methods											*/
 	/****************************************************************************************/

@@ -136,6 +136,13 @@ public:
 	int getMaxNbIterations() const { return maxNbIterations; }
 
 	/****************************************************************************************/
+	/*										Setters											*/
+	/****************************************************************************************/
+	
+	/** Returns the number of demands to be treated in a single optimization. **/
+    void setNbDemandsAtOnce(const int val) { nbDemandsAtOnce = val; }
+
+	/****************************************************************************************/
 	/*										Methods											*/
 	/****************************************************************************************/
 	/** Searches for a pattern in the parameter file and returns its associated value. @param pattern The substring pattern to be searched. @note It is surely not the most performant method but the parameter file has a reasonable size and the code becomes much clearer. **/
