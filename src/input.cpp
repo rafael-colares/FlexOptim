@@ -14,17 +14,27 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     std::cout << "Reading outputPath." << std::endl;
 
     nbDemandsAtOnce = std::stoi(getParameterValue("nbDemandsAtOnce="));
+    std::cout << "Reading nbDemandsAtOnce." << std::endl;
     nbSlicesInOutputFile = std::stoi(getParameterValue("nbSlicesInOutputFile="));
+    std::cout << "Reading nbSlicesInOutput." << std::endl;
     
     chosenMethod = (Method) std::stoi(getParameterValue("method="));
+    std::cout << "Reading method." << std::endl;
     chosenPreprLvl = (PreprocessingLevel) std::stoi(getParameterValue("preprocessingLevel="));
+    std::cout << "Reading preprocessingLevel." << std::endl;
     chosenObj = to_ObjectiveMetric(getParameterValue("obj="));
+    std::cout << "Reading obj." << std::endl;
     chosenOutputLvl = (OutputLevel) std::stoi(getParameterValue("outputLevel="));
+    std::cout << "Reading outputlvl." << std::endl;
 
     lagrangianMultiplier_zero = std::stod(getParameterValue("lagrangianMultiplier_zero="));
+    std::cout << "Reading lagr1." << std::endl;
     lagrangianLambda_zero = std::stod(getParameterValue("lagrangianLambda_zero="));
+    std::cout << "Reading lagr2." << std::endl;
     nbIterationsWithoutImprovement = std::stoi(getParameterValue("nbIterationsWithoutImprovement="));
+    std::cout << "Reading lagr3." << std::endl;
     maxNbIterations = std::stoi(getParameterValue("maxNbIterations="));
+    std::cout << "Reading lagr4." << std::endl;
 
     std::cout << "Populating onlineDemands." << std::endl;
     if (!onlineDemandFolder.empty()) {
