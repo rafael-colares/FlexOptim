@@ -3,10 +3,15 @@
 /* Default constructor initializes the object with the information contained in the parameterFile. */
 Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     linkFile = getParameterValue("linkFile=");
+    std::cout << "Reading linkFile." << std::endl;
     demandFile = getParameterValue("demandFile=");
+    std::cout << "Reading demandFile." << std::endl;
     assignmentFile = getParameterValue("assignmentFile=");
+    std::cout << "Reading assignementFile." << std::endl;
     onlineDemandFolder = getParameterValue("onlineDemandFolder=");
+    std::cout << "Reading onlineDemandFolder." << std::endl;
     outputPath = getParameterValue("outputPath=");
+    std::cout << "Reading outputPath." << std::endl;
 
     nbDemandsAtOnce = std::stoi(getParameterValue("nbDemandsAtOnce="));
     nbSlicesInOutputFile = std::stoi(getParameterValue("nbSlicesInOutputFile="));
@@ -21,9 +26,13 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     nbIterationsWithoutImprovement = std::stoi(getParameterValue("nbIterationsWithoutImprovement="));
     maxNbIterations = std::stoi(getParameterValue("maxNbIterations="));
 
+    std::cout << "Populating onlineDemands." << std::endl;
     if (!onlineDemandFolder.empty()) {
         populateOnlineDemandFiles();
     }
+    
+    
+    std::cout << "Finish input." << std::endl;
     displayMainParameters();
 }
 
