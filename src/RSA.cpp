@@ -11,6 +11,15 @@ RSA::RSA(const Instance &inst) : instance(inst), compactArcId(compactGraph), com
     /* Set demands to be routed. */
     this->setToBeRouted(instance.getNextDemands());
     displayToBeRouted();
+    
+    /* Set loads to be routed. */
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        int demandLoad = getToBeRouted_k(d).getLoad();
+        if(std::find(loadsToBeRouted.begin(), loadsToBeRouted.end(), demandLoad) == loadsToBeRouted.end()) {
+            loadsToBeRouted.push_back(demandLoad);
+        }
+    }
+    displayLoadsToBeRouted();
 
     /* Creates an extended graph for each one of the demands to be routed. */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
@@ -454,6 +463,19 @@ void RSA::displayToBeRouted(){
         std::cout << "requiring " << toBeRouted[i].getLoad() << " slices and having Max length ";
         std::cout << toBeRouted[i].getMaxLength() << std::endl;
     }
+}
+/* Displays the loads to be routed in the next optimization. */
+void RSA::displayLoadsToBeRouted(){
+    std::cout << "--- THE DIFFERENT ROUTING LOADS --- " << std::endl;
+    if (getNbLoadsToBeRouted() <= 0){
+        std::cout << "ERROR: Loads have not been computed." << std::endl;
+        exit(0);
+    }
+    std::cout << loadsToBeRouted[0];
+    for (int i = 1; i < getNbLoadsToBeRouted(); i++){
+        std::cout << ", " << loadsToBeRouted[i] ;
+    }
+    std::cout << "." << std::endl;
 }
 
 /* Displays the nodes of graph #d that are incident to the node identified by (label,slice). */

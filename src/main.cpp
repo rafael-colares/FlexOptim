@@ -23,6 +23,8 @@ int main(int argc, char *argv[]) {
 		/********************************************************************/
 		/* 						Get Parameter file 							*/
 		/********************************************************************/
+		
+		std::chrono::_V2::system_clock::time_point GLOBAL_START = std::chrono::high_resolution_clock::now();
 		std::string parameterFile;
 		if (argc < 2){
 			std::cerr << "A parameter file is required in the arguments. PLease run the program as \n./exec parameterFile.par\n";
@@ -55,7 +57,7 @@ int main(int argc, char *argv[]) {
 			//instance.displayDetailedTopology();
 			std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
 			std::string nextFile = instance.getInput().getOnlineDemandFilesFromIndex(i);
-			instance.generateRandomDemandsFromFile(nextFile);
+			instance.generateDemandsFromFile(nextFile);
 			//instance.generateRandomDemands(1);
 			instance.displayNonRoutedDemands();
 			std::cout << instance.getNbNonRoutedDemands() << " demands were generated." << std::endl;
@@ -133,6 +135,13 @@ int main(int argc, char *argv[]) {
 				instance.outputLogResults(outputCode);
 			}
 		}
+		
+		std::chrono::_V2::system_clock::time_point GLOBAL_END = std::chrono::high_resolution_clock::now();
+		double GLOBAL_TIME = std::chrono::duration_cast<std::chrono::nanoseconds>(GLOBAL_END - GLOBAL_START).count(); 
+		GLOBAL_TIME *= 1e-9; 
+
+		std::cout << "Total time taken by program is : " << std::fixed  << GLOBAL_TIME << std::setprecision(9); 
+		std::cout << " sec" << std::endl; 
 	}
 	catch(const std::invalid_argument& e){
 		std::cerr << std::endl << "ERROR: Caught exception." << std::endl;

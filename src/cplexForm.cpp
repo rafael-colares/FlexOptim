@@ -34,8 +34,14 @@ CplexForm::CplexForm(const Instance &inst) : Solver(inst), model(env), cplex(mod
     this->setLengthConstraints(x, model);
     std::cout << "Length constraints have been defined..." << std::endl;
 
-    this->setNonOverlappingConstraints(x, model);    
-    std::cout << "Non-Overlapping constraints have been defined..." << std::endl;
+    //this->setNonOverlappingConstraints(x, model);    
+    //std::cout << "Non-Overlapping constraints have been defined..." << std::endl;
+
+    this->setImprovedNonOverlappingConstraints_1(x, model);    
+    std::cout << "First set of Improved Non-Overlapping constraints has been defined..." << std::endl;
+
+    this->setImprovedNonOverlappingConstraints_2(x, model);    
+    std::cout << "Second set of Improved Non-Overlapping constraints has been defined..." << std::endl;
 
     
     if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_1p){

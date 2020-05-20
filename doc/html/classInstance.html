@@ -180,9 +180,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:aca8fd46d6a592c0cae4cd96d3b3a7848"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#aca8fd46d6a592c0cae4cd96d3b3a7848">readDemandAssignment</a> ()</td></tr>
 <tr class="memdesc:aca8fd46d6a592c0cae4cd96d3b3a7848"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the assignment information from input's assignmentFile.  <a href="classInstance.html#aca8fd46d6a592c0cae4cd96d3b3a7848">More...</a><br /></td></tr>
 <tr class="separator:aca8fd46d6a592c0cae4cd96d3b3a7848"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a7b3f6f6028b68265b328383cecf21b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a2a7b3f6f6028b68265b328383cecf21b">generateRandomDemandsFromFile</a> (std::string filePath)</td></tr>
-<tr class="memdesc:a2a7b3f6f6028b68265b328383cecf21b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds non-routed demands to the pool by reading the information from file.  <a href="classInstance.html#a2a7b3f6f6028b68265b328383cecf21b">More...</a><br /></td></tr>
-<tr class="separator:a2a7b3f6f6028b68265b328383cecf21b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5c7beb93834162f74f273752faf1641"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#ae5c7beb93834162f74f273752faf1641">generateDemandsFromFile</a> (std::string filePath)</td></tr>
+<tr class="memdesc:ae5c7beb93834162f74f273752faf1641"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds non-routed demands to the pool by reading the information from file.  <a href="classInstance.html#ae5c7beb93834162f74f273752faf1641">More...</a><br /></td></tr>
+<tr class="separator:ae5c7beb93834162f74f273752faf1641"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7d58f0777d8a8528bcf544aed95d463"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#ae7d58f0777d8a8528bcf544aed95d463">generateRandomDemands</a> (const int N)</td></tr>
 <tr class="memdesc:ae7d58f0777d8a8528bcf544aed95d463"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds non-routed demands to the pool by generating random demands.  <a href="classInstance.html#ae7d58f0777d8a8528bcf544aed95d463">More...</a><br /></td></tr>
 <tr class="separator:ae7d58f0777d8a8528bcf544aed95d463"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -394,6 +394,34 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 </div>
 </div>
+<a id="ae5c7beb93834162f74f273752faf1641"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5c7beb93834162f74f273752faf1641">&#9670;&nbsp;</a></span>generateDemandsFromFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Instance::generateDemandsFromFile </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>filePath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Adds non-routed demands to the pool by reading the information from file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filePath</td><td>The path of the file to be read. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00270">270</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+
+</div>
+</div>
 <a id="ae7d58f0777d8a8528bcf544aed95d463"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae7d58f0777d8a8528bcf544aed95d463">&#9670;&nbsp;</a></span>generateRandomDemands()</h2>
 
@@ -419,34 +447,6 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00292">292</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
-
-</div>
-</div>
-<a id="a2a7b3f6f6028b68265b328383cecf21b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a7b3f6f6028b68265b328383cecf21b">&#9670;&nbsp;</a></span>generateRandomDemandsFromFile()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Instance::generateRandomDemandsFromFile </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>filePath</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Adds non-routed demands to the pool by reading the information from file. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">filePath</td><td>The path of the file to be read. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00270">270</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>

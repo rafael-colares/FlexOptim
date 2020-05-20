@@ -118,13 +118,24 @@ Public Member Functions</h2></td></tr>
 std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a06e9f1e6bbfcb2c928fdd6f5b7c50ed9">getToBeRouted</a> ()</td></tr>
 <tr class="memdesc:a06e9f1e6bbfcb2c928fdd6f5b7c50ed9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the vector of demands to be routed. <br /></td></tr>
 <tr class="separator:a06e9f1e6bbfcb2c928fdd6f5b7c50ed9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7b9af4d55abf64fb98b242142535a75"><td class="memItemLeft" align="right" valign="top"><a id="af7b9af4d55abf64fb98b242142535a75"></a>
+std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#af7b9af4d55abf64fb98b242142535a75">getLoadsToBeRouted</a> ()</td></tr>
+<tr class="memdesc:af7b9af4d55abf64fb98b242142535a75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the vector of loads to be routed. <br /></td></tr>
+<tr class="separator:af7b9af4d55abf64fb98b242142535a75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a3b848644b3d5b503c3b84df689570c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDemand.html">Demand</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a2a3b848644b3d5b503c3b84df689570c">getToBeRouted_k</a> (int k)</td></tr>
 <tr class="memdesc:a2a3b848644b3d5b503c3b84df689570c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the i-th demand to be routed.  <a href="classRSA.html#a2a3b848644b3d5b503c3b84df689570c">More...</a><br /></td></tr>
 <tr class="separator:a2a3b848644b3d5b503c3b84df689570c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a438ccfae6e281c7916502358bd1ee25d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a438ccfae6e281c7916502358bd1ee25d">getLoadsToBeRouted_k</a> (int k)</td></tr>
+<tr class="memdesc:a438ccfae6e281c7916502358bd1ee25d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the i-th load to be routed.  <a href="classRSA.html#a438ccfae6e281c7916502358bd1ee25d">More...</a><br /></td></tr>
+<tr class="separator:a438ccfae6e281c7916502358bd1ee25d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a574b85eda76013c54bd4d88e123f8fa1"><td class="memItemLeft" align="right" valign="top"><a id="a574b85eda76013c54bd4d88e123f8fa1"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a574b85eda76013c54bd4d88e123f8fa1">getNbDemandsToBeRouted</a> () const</td></tr>
 <tr class="memdesc:a574b85eda76013c54bd4d88e123f8fa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of demands to be routed. <br /></td></tr>
 <tr class="separator:a574b85eda76013c54bd4d88e123f8fa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1bd29ff23f9bdaf0a427ba3fb00284d"><td class="memItemLeft" align="right" valign="top"><a id="ab1bd29ff23f9bdaf0a427ba3fb00284d"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ab1bd29ff23f9bdaf0a427ba3fb00284d">getNbLoadsToBeRouted</a> () const</td></tr>
+<tr class="memdesc:ab1bd29ff23f9bdaf0a427ba3fb00284d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of loads to be routed. <br /></td></tr>
+<tr class="separator:ab1bd29ff23f9bdaf0a427ba3fb00284d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade475be1f126a7bdd1fb730158028cc3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ade475be1f126a7bdd1fb730158028cc3">getNodeId</a> (const ListDigraph::Node &amp;n, int d) const</td></tr>
 <tr class="memdesc:ade475be1f126a7bdd1fb730158028cc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the LEMON id of a node in a graph.  <a href="classRSA.html#ade475be1f126a7bdd1fb730158028cc3">More...</a><br /></td></tr>
 <tr class="separator:ade475be1f126a7bdd1fb730158028cc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -264,6 +275,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a6d9a0d1d331dfbb684aff707479512d9">displayToBeRouted</a> ()</td></tr>
 <tr class="memdesc:a6d9a0d1d331dfbb684aff707479512d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the demands to be routed in the next optimization. <br /></td></tr>
 <tr class="separator:a6d9a0d1d331dfbb684aff707479512d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dc539b9ce3171ab66d479ba4f94ec0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a7dc539b9ce3171ab66d479ba4f94ec0f">displayLoadsToBeRouted</a> ()</td></tr>
+<tr class="memdesc:a7dc539b9ce3171ab66d479ba4f94ec0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the loads to be routed in the next optimization.  <a href="classRSA.html#a7dc539b9ce3171ab66d479ba4f94ec0f">More...</a><br /></td></tr>
+<tr class="separator:a7dc539b9ce3171ab66d479ba4f94ec0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -275,6 +289,10 @@ Protected Attributes</h2></td></tr>
 std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a7a1ff13e3e35e50eb96a35c75c5f965e">toBeRouted</a></td></tr>
 <tr class="memdesc:a7a1ff13e3e35e50eb96a35c75c5f965e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The list of demands to be routed in the next optimization. <br /></td></tr>
 <tr class="separator:a7a1ff13e3e35e50eb96a35c75c5f965e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e362f9fa2e5de15997695f618dd49e2"><td class="memItemLeft" align="right" valign="top"><a id="a2e362f9fa2e5de15997695f618dd49e2"></a>
+std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a2e362f9fa2e5de15997695f618dd49e2">loadsToBeRouted</a></td></tr>
+<tr class="memdesc:a2e362f9fa2e5de15997695f618dd49e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The set of different loads present in the set of demands to be routed. <br /></td></tr>
+<tr class="separator:a2e362f9fa2e5de15997695f618dd49e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77a9bbd4299569fbd6c7042563337418"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ListDigraph &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a77a9bbd4299569fbd6c7042563337418">vecGraph</a></td></tr>
 <tr class="memdesc:a77a9bbd4299569fbd6c7042563337418"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the extended graph associated with each demand to be routed.  <a href="classRSA.html#a77a9bbd4299569fbd6c7042563337418">More...</a><br /></td></tr>
 <tr class="separator:a77a9bbd4299569fbd6c7042563337418"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -462,7 +480,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00086">86</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00095">95</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -501,7 +519,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00154">154</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00163">163</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -540,7 +558,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00496">496</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00518">518</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -568,7 +586,29 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00504">504</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00526">526</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a7dc539b9ce3171ab66d479ba4f94ec0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7dc539b9ce3171ab66d479ba4f94ec0f">&#9670;&nbsp;</a></span>displayLoadsToBeRouted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RSA::displayLoadsToBeRouted </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Displays the loads to be routed in the next optimization. </p>
+<dl class="section note"><dt>Note</dt><dd>If the there is no demand to be routed, the function will exit with an error. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00468">468</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -607,7 +647,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00511">511</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00533">533</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -646,7 +686,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00474">474</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00496">496</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -692,7 +732,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00460">460</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00482">482</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -720,7 +760,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00177">177</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00186">186</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -767,7 +807,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00127">127</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00137">137</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -814,7 +854,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00130">130</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00140">140</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -861,7 +901,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00133">133</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00143">143</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -908,7 +948,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00139">139</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00149">149</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -955,7 +995,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00136">136</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00146">146</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -995,7 +1035,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Implement other metrics. For the moment, only 1p is used. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00409">409</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00418">418</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -1034,7 +1074,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00341">341</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00350">350</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -1074,7 +1114,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>Only adapted for the case of treating one demand at a time. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00356">356</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00365">365</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -1114,7 +1154,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>I do not really understand this metric -&gt; to be implemented. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00371">371</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00380">380</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -1153,7 +1193,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00377">377</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00386">386</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -1193,7 +1233,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>Only adapted for the case of treating one demand at a time. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00382">382</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00391">391</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -1229,7 +1269,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00145">145</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00155">155</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1269,7 +1309,43 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00144">144</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00153">153</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a438ccfae6e281c7916502358bd1ee25d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a438ccfae6e281c7916502358bd1ee25d">&#9670;&nbsp;</a></span>getLoadsToBeRouted_k()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int RSA::getLoadsToBeRouted_k </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>k</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the i-th load to be routed. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">k</td><td>The index of the required load. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00119">119</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1316,7 +1392,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>If it does not exist, returns INVALID. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00119">119</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00128">128</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -1363,7 +1439,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00118">118</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00128">128</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1410,7 +1486,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00121">121</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00131">131</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1457,7 +1533,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00124">124</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00134">134</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1493,7 +1569,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00112">112</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00116">116</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1515,7 +1591,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>Performs preprocessing based on the arc lengths and returns true if at least one arc is erased. </p>
 <p>An arc (u,v) can only be part of a solution if the distance from demand source to u, plus the distance from v to demand target plus the arc length is less than or equal to the demand's maximum length. </p>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00273">273</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00282">282</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -1569,7 +1645,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00185">185</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00195">195</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1623,7 +1699,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00188">188</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00198">198</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1677,7 +1753,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00191">191</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00201">201</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1731,7 +1807,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00197">197</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00207">207</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1785,7 +1861,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00194">194</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00204">204</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1839,7 +1915,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00176">176</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00186">186</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1893,7 +1969,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00179">179</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00189">189</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1947,7 +2023,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00182">182</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00192">192</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1983,7 +2059,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00173">173</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00183">183</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2038,7 +2114,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00314">314</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00323">323</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -2066,7 +2142,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00129">129</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8cpp_source.html#l00138">138</a> of file <a class="el" href="RSA_8cpp_source.html">RSA.cpp</a>.</p>
 
 </div>
 </div>
@@ -2094,7 +2170,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the ArcMap storing the arc ids of the graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecArcId[i])[a] is the id of arc a in the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00050">50</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00051">51</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2121,7 +2197,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the ArcMap storing the arc index of the preprocessed graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecArcIndex[i])[a] is the index of the arc a in the preprocessed graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00082">82</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00083">83</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2148,7 +2224,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the ArcMap storing the arc labels of the graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecArcLabel[i])[a] is the label of arc a in the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00054">54</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00055">55</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2175,7 +2251,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the map storing the arc lengths of the graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecArcLength[i])[a] is the length of arc a in the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00062">62</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00063">63</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2202,7 +2278,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the ArcMap storing the arc slices of the graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecArcSlice[i])[a] is the slice of arc a in the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00058">58</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00059">59</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2229,7 +2305,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the extended graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecGraph[i]) is the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00046">46</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00047">47</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2256,7 +2332,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the NodeMap storing the node ids of the graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecNodeId[i])[v] is the id of node v in the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00066">66</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00067">67</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2283,7 +2359,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the NodeMap storing the node labels of the graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecNodeLabel[i])[v] is the label of node v in the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00070">70</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00071">71</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2310,7 +2386,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the NodeMap storing the node slices of the graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecNodeSlice[i])[v] is the slice of node v in the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00074">74</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00075">75</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2337,7 +2413,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the ArcMap storing the <a class="el" href="classRSA.html" title="This class stores the input needed for solving the Routing and Spectrum Allocation problem.">RSA</a> solution. </p>
 <p>It stores the id of the demand that is routed through each arc of each graph. </p><dl class="section note"><dt>Note</dt><dd>(*vecOnPath[i])[a] is the id the demand routed through arc a in the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00078">78</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00079">79</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>

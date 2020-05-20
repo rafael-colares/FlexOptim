@@ -128,7 +128,7 @@ public:
 	void readDemandAssignment();
 
 	/** Adds non-routed demands to the pool by reading the information from file. @param filePath The path of the file to be read. **/
-	void generateRandomDemandsFromFile(std::string filePath);
+	void generateDemandsFromFile(std::string filePath);
 
 	/** Adds non-routed demands to the pool by generating random demands. @param N The number of random demands to be generated. **/
 	void generateRandomDemands(const int N);

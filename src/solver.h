@@ -54,7 +54,13 @@ public:
 
 	/** Returns the Overall Max Used Slice Position constraints associated with a link and a demand. @param var The assignment variable matrix. @param maxSliceOverall The variable refering to the max used slice position throughout the whole network. @param linkIndex The link's index. @param d The demand's index. @param mod The CPLEX model.**/
 	IloRange getMaxUsedSliceOverallConstraints(IloBoolVarMatrix &var, IloIntVar &maxSliceOverall, int linkIndex, int d, IloModel &mod);
-
+	
+	/** Returns the constraint from the first set of improved non-overlapping associated with an arc, a demand and a load.  @param var The variable matrix x[d][a]. @param mod The CPLEX model. @param linkLabel The arc label. @param slice The arc slice. @param min_load The minimum load required for a demand to be part of D[k]. @param demand2 The second demand. @param d2 The second demand index.**/
+	IloRange getImprovedNonOverlappingConstraint_1(IloBoolVarMatrix &var, IloModel &mod, int linkLabel, int slice, int min_load, const Demand & demand2, int d2);
+	
+	/** Returns the constraint from the second set of improved non-overlapping associated with an arc and a pair of loads.  @param var The variable matrix x[d][a]. @param mod The CPLEX model. @param linkLabel The arc label. @param slice The arc slice. @param min_load1 The minimum load required for a demand to be part of D[k1]). @param min_load2 The minimum load required for a demand to be part of D[k2]). **/
+	IloRange getImprovedNonOverlappingConstraint_2(IloBoolVarMatrix &var, IloModel &mod, int linkLabel, int slice, int min_load1, int min_load2);
+	
 	/****************************************************************************************/
 	/*										 Setters										*/
 	/****************************************************************************************/
@@ -86,5 +92,10 @@ public:
 	/** Defines the Overall Max Used Slice Position constraints. The max used slice position overall must be greater than every other slice position used in the network. @param var The assignment variable matrix. @param maxSliceOverall The variable refering to the max used slice position throughout the whole network. @param mod The CPLEX model.**/
 	void setMaxUsedSliceOverallConstraints(IloBoolVarMatrix &var, IloIntVar maxSliceOverall, IloModel &mod);
 
+	/** Defines the first set of Improved Non-Overlapping constraints. @param var The variable matrix. @param mod The CPLEX model. **/
+	void setImprovedNonOverlappingConstraints_1(IloBoolVarMatrix &var, IloModel &mod);
+		
+	/** Defines the second set of Improved Non-Overlapping constraints. @param var The variable matrix. @param mod The CPLEX model. **/
+	void setImprovedNonOverlappingConstraints_2(IloBoolVarMatrix &var, IloModel &mod);
 };    
 #endif

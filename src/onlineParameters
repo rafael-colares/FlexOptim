@@ -1,9 +1,9 @@
-linkFile=../Parameters/Instances/NSF/InitialMappingMet1Slice120/Link.csv
+linkFile=../Parameters/Instances/YoussoufNSF/TopologyInput/NewLink.csv
 demandFile=
 assignmentFile=
 onlineDemandFolder=../Parameters/Instances/NSF/TestDemands
-nbDemandsAtOnce=1
-outputPath=../Output/OtherTests/
+nbDemandsAtOnce=59
+outputPath=../Output/YoussoufNSF/
 outputLevel=1
 nbSlicesInOutputFile=320
 method=0

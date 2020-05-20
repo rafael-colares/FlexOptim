@@ -45,9 +45,7 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     maxNbIterations = std::stoi(getParameterValue("maxNbIterations="));
 
     std::cout << "Populating online demand files." << std::endl;
-    if (!onlineDemandFolder.empty()) {
-        populateOnlineDemandFiles();
-    }
+    populateOnlineDemandFiles();
     
     std::cout << "Finish input." << std::endl;
     displayMainParameters();
@@ -87,7 +85,7 @@ std::string Input::getParameterValue(std::string pattern){
                 value = line.substr(pos + pattern.size());
                 value.pop_back();
                 if (value.empty()){
-                    std::cout << "WARNING: Found " << pattern << " but field is empty." << std::endl; 
+                    std::cout << "WARNING: Field '" << pattern << "' is empty." << std::endl; 
                 }
                 return value;
             }
@@ -95,25 +93,37 @@ std::string Input::getParameterValue(std::string pattern){
         myfile.close();
     }
     else {
-        std::cerr << "ERROR: Unable to open parameters file" << std::endl; 
+        std::cerr << "ERROR: Unable to open parameters file '" << PARAMETER_FILE << "'." << std::endl; 
         exit(0);
     }
-    
-    std::cout << "WARNING: Did not found " << pattern << " inside parameters file." << std::endl; 
+    std::cout << "WARNING: Did not found '" << pattern << "' inside parameters file." << std::endl; 
     return value;
 }
 
 void Input::populateOnlineDemandFiles(){
+    
+    if (onlineDemandFolder.empty()) {
+        std::cout << "ERROR: No online demand folder was provided." << std::endl;
+        exit(0);
+    }
     DIR *dir;
     dirent *pdir;
-    dir = opendir(onlineDemandFolder.c_str());
+    int numberOfFiles = 0;
+    if((dir = opendir(onlineDemandFolder.c_str())) == NULL) {
+        std::cout << "ERROR: Could not open folder '" << onlineDemandFolder << "'." << std::endl;
+        exit(0);
+    }
     while ( (pdir = readdir(dir)) != NULL) {
         std::string file = onlineDemandFolder + "/" + pdir->d_name;    
         if (file.back() != '.'){
             vecOnlineDemandFile.push_back(file);
+            numberOfFiles++;
         }
     }
     closedir(dir);
+    if (numberOfFiles == 0){
+        std::cout << "WARNING: The folder '" << onlineDemandFolder << "' of online demands is empty!" << std::endl;
+    }
 }
 /* Converts a string into an ObjectiveMetric. */
 Input::ObjectiveMetric Input::to_ObjectiveMetric(std::string data){

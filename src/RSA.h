@@ -40,6 +40,7 @@ protected:
     Instance instance;                  /**< An instance describing the initial mapping. **/
 
     std::vector<Demand> toBeRouted;     /**< The list of demands to be routed in the next optimization. **/
+    std::vector<int> loadsToBeRouted;   /**< The set of different loads present in the set of demands to be routed. **/
 
     /** A list of pointers to the extended graph associated with each demand to be routed. 
         \note (*vecGraph[i]) is the graph associated with the i-th demand to be routed. **/
@@ -108,11 +109,20 @@ public:
     /** Returns the vector of demands to be routed. **/
     std::vector<Demand> getToBeRouted() { return toBeRouted; } 
     
+    /** Returns the vector of loads to be routed. **/
+    std::vector<int> getLoadsToBeRouted() { return loadsToBeRouted; } 
+    
     /** Returns the i-th demand to be routed. @param k The index of the required demand. **/
     Demand getToBeRouted_k(int k){ return toBeRouted[k]; }
 
+    /** Returns the i-th load to be routed. @param k The index of the required load. **/
+    int getLoadsToBeRouted_k(int k){ return loadsToBeRouted[k]; }
+
     /** Returns the number of demands to be routed. **/
     int getNbDemandsToBeRouted() const { return toBeRouted.size(); }
+
+    /** Returns the number of loads to be routed. **/
+    int getNbLoadsToBeRouted() const { return loadsToBeRouted.size(); }
 
     /** Returns the LEMON id of a node in a graph. @param n The node. @param d The graph index. **/
     int getNodeId(const ListDigraph::Node &n, int d) const { return (*vecNodeId[d])[n]; }
@@ -256,6 +266,9 @@ public:
 
     /** Displays the demands to be routed in the next optimization. **/
     void displayToBeRouted();
+
+    /** Displays the loads to be routed in the next optimization. @note If the there is no demand to be routed, the function will exit with an error. **/
+    void displayLoadsToBeRouted();
 
 };
 #endif

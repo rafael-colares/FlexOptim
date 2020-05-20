@@ -99,7 +99,7 @@ IloExpr Solver::getObjFunction(IloBoolVarMatrix &var, IloIntVarArray &maxSliceFr
 }
 
 /****************************************************************************************/
-/*										Constraints    									*/
+/*									Base Constraints    								*/
 /****************************************************************************************/
 
 /* Defines Source constraints. At most one arc leaves each node and exactly one arc leaves the source. */
@@ -258,11 +258,15 @@ IloRange Solver::getNonOverlappingConstraint(IloBoolVarMatrix &var, IloModel &mo
         }
     }
     std::ostringstream constraintName;
-    constraintName << "Subcycle(" << linkLabel+1 << "," << slice+1 << "," << demand1.getId()+1 << "," << demand2.getId()+1 << ")";
+    constraintName << "NonOverlap(" << linkLabel+1 << "," << slice+1 << "," << demand1.getId()+1 << "," << demand2.getId()+1 << ")";
     IloRange constraint(mod.getEnv(), -IloInfinity, exp, rhs, constraintName.str().c_str());
     exp.end();
     return constraint;
 }
+
+/****************************************************************************************/
+/*						Objective function related constraints    						*/
+/****************************************************************************************/
 
 /* Defines the Link's Max Used Slice Position constraints. The max used slice position on each link must be greater than every slice position used in the link. */
 void Solver::setMaxUsedSlicePerLinkConstraints(IloBoolVarMatrix &var, IloIntVarArray &maxSlicePerLink, IloModel &mod){
@@ -324,3 +328,108 @@ IloRange Solver::getMaxUsedSliceOverallConstraints(IloBoolVarMatrix &var, IloInt
     exp.end();
     return constraint;
 }
+
+
+
+/****************************************************************************************/
+/*						Improved Non-Overlapping constraints    						*/
+/****************************************************************************************/
+
+/* Defines the first set of Improved Non-Overlapping constraints. */
+void Solver::setImprovedNonOverlappingConstraints_1(IloBoolVarMatrix &var, IloModel &mod){
+    for (int k = 0; k < getNbLoadsToBeRouted(); k++){
+        int load_k = getLoadsToBeRouted_k(k);
+        for (int d2 = 0; d2 < getNbDemandsToBeRouted(); d2++){
+            for (int i = 0; i < instance.getNbEdges(); i++){
+                for (int s = 0; s < instance.getPhysicalLinkFromIndex(i).getNbSlices(); s++){
+                    IloRange improvedNonOverlap1 = getImprovedNonOverlappingConstraint_1(var, mod, instance.getPhysicalLinkFromIndex(i).getId(), s, load_k, getToBeRouted_k(d2), d2);
+                    mod.add(improvedNonOverlap1);
+                }
+            }
+        }
+    }
+}
+
+/* Returns the first improved non-overlapping constraint associated with an arc, a demand and a load. */
+IloRange Solver::getImprovedNonOverlappingConstraint_1(IloBoolVarMatrix &var, IloModel &mod, int linkLabel, int slice, int min_load, const Demand & demand2, int d2){
+	IloExpr exp(mod.getEnv());
+    IloNum rhs = 1;
+    
+    for (int d1 = 0; d1 < getNbDemandsToBeRouted(); d1++){
+        if ((d1 != d2) && (getToBeRouted_k(d1).getLoad() >= min_load)){
+            for (ListDigraph::ArcIt a(*vecGraph[d1]); a != INVALID; ++a){
+                if( (getArcLabel(a, d1) == linkLabel) && (getArcSlice(a, d1) == slice) ){
+                    int index = getArcIndex(a, d1);
+                    exp += var[d1][index];
+                }
+            }
+        }
+    }
+    
+    for (ListDigraph::ArcIt a(*vecGraph[d2]); a != INVALID; ++a){
+        if( (getArcLabel(a, d2) == linkLabel) && (getArcSlice(a, d2) >= slice - min_load + 1) && (getArcSlice(a, d2) <= slice + demand2.getLoad() - 1) ){
+            int index = getArcIndex(a, d2);
+            exp += var[d2][index];
+        }
+    }
+    
+    std::ostringstream constraintName;
+    constraintName << "ImprNonOverlap_1(" << linkLabel+1 << "," << slice+1 << "," << min_load << "," << demand2.getId()+1 << ")";
+    IloRange constraint(mod.getEnv(), -IloInfinity, exp, rhs, constraintName.str().c_str());
+    exp.end();
+    return constraint;
+}
+
+/* Defines the second set of Improved Non-Overlapping constraints. */
+void Solver::setImprovedNonOverlappingConstraints_2(IloBoolVarMatrix &var, IloModel &mod){
+    for (int k1 = 0; k1 < getNbLoadsToBeRouted(); k1++){
+        int load_k1 = getLoadsToBeRouted_k(k1);
+        for (int k2 = 0; k2 < getNbLoadsToBeRouted(); k2++){
+            int load_k2 = getLoadsToBeRouted_k(k2);
+            for (int i = 0; i < instance.getNbEdges(); i++){
+                for (int s = 0; s < instance.getPhysicalLinkFromIndex(i).getNbSlices(); s++){
+                    IloRange improvedNonOverlap2 = getImprovedNonOverlappingConstraint_2(var, mod, instance.getPhysicalLinkFromIndex(i).getId(), s, load_k1, load_k2);
+                    mod.add(improvedNonOverlap2);
+                }
+            }
+        }
+    }
+}
+
+/* Returns the first improved non-overlapping constraint associated with an arc, a demand and a load. */
+IloRange Solver::getImprovedNonOverlappingConstraint_2(IloBoolVarMatrix &var, IloModel &mod, int linkLabel, int slice, int min_load1, int min_load2){
+	IloExpr exp(mod.getEnv());
+    IloNum rhs = 1;
+    
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        int demandLoad = getToBeRouted_k(d).getLoad();
+        if ( (demandLoad >= min_load1) && (demandLoad <= min_load2 - 1) ){
+            for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+                if( (getArcLabel(a, d) == linkLabel) && (getArcSlice(a, d) >= slice)  && (getArcSlice(a, d) <= slice + min_load1 - 1) ){
+                    int index = getArcIndex(a, d);
+                    exp += var[d][index];
+                }
+            }
+        }
+    }
+
+    
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        int demandLoad = getToBeRouted_k(d).getLoad();
+        if (demandLoad >= min_load2){
+            for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+                if( (getArcLabel(a, d) == linkLabel) && (getArcSlice(a, d) >= slice)  && (getArcSlice(a, d) <= slice + min_load2 - 1) ){
+                    int index = getArcIndex(a, d);
+                    exp += var[d][index];
+                }
+            }
+        }
+    }
+    
+    std::ostringstream constraintName;
+    constraintName << "ImprNonOverlap_2(" << linkLabel+1 << "," << slice+1 << "," << min_load1 << "," << min_load2 << ")";
+    IloRange constraint(mod.getEnv(), -IloInfinity, exp, rhs, constraintName.str().c_str());
+    exp.end();
+    return constraint;
+}
+
