@@ -8,6 +8,7 @@
 /* Constructor initializes the object with the information of an Input. */
 Instance::Instance(const Input &i) : input(i){
 	this->setNbNodes(0);
+	createInitialMapping();
 }
 
 /* Copy constructor. */
@@ -93,6 +94,7 @@ void Instance::setDemandFromId(int id, Demand & demand){
 
 /* Builds the initial mapping based on the information retrived from the Input. */
 void Instance::createInitialMapping(){
+	std::cout << "--- CREATING INITIAL MAPPING... --- " << std::endl;
 	if (!input.getLinkFile().empty()){
 		readTopology();
 	}

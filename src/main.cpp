@@ -45,9 +45,6 @@ int main(int argc, char *argv[]) {
 			/********************************************************************/
 			std::cout << "--- READING INSTANCE... --- " << std::endl;
 			Instance instance(input);
-
-			std::cout << "--- CREATING INITIAL MAPPING... --- " << std::endl;
-			instance.createInitialMapping();
 			std::cout << instance.getNbRoutedDemands() << " demands were routed." << std::endl;
 			
 			

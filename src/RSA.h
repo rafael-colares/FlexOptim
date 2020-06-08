@@ -154,22 +154,22 @@ public:
     /** Returns the length of an arc on the compact graph. @param a The arc. */
     double getCompactLength(const ListDigraph::Arc &a) { return compactArcLength[a]; }
     
-    /** Returns the coefficient of an arc (according to the chosen metric) on a graph. @param a The arc. @param d The graph index. @todo Implement other metrics. For the moment, only 1p is used. **/
+    /** Returns the coefficient of an arc (according to the chosen metric) on a graph. @param a The arc. @param d The graph index. **/
     double getCoeff(const ListDigraph::Arc &a, int d);
     
-    /** Returns the coefficient of an arc according to metric 1 on a graph. @param a The arc. @param d The graph index. **/
+    /** Returns the coefficient of an arc according to metric 1 on a graph. @param a The arc. @param d The graph index. \note Min sum(max used slice positions) over demands. **/
     double getCoeffObj1(const ListDigraph::Arc &a, int d);
 
-    /** Returns the coefficient of an arc according to metric 1p on a graph. @param a The arc. @param d The graph index. @warning Only adapted for the case of treating one demand at a time. **/
+    /** Returns the coefficient of an arc according to metric 1p on a graph. @param a The arc. @param d The graph index. \note Min sum(max used slice positions) over edges. **/
     double getCoeffObj1p(const ListDigraph::Arc &a, int d);
 
-    /** Returns the coefficient of an arc according to metric 2 on a graph. @param a The arc. @param d The graph index. @todo I do not really understand this metric -> to be implemented. **/
+    /** Returns the coefficient of an arc according to metric 2 on a graph. @param a The arc. @param d The graph index. \note Min number of hops (number of edges in path). **/
     double getCoeffObj2(const ListDigraph::Arc &a, int d);
 
-    /** Returns the coefficient of an arc according to metric 4 on a graph. @param a The arc. @param d The graph index. **/
+    /** Returns the coefficient of an arc according to metric 4 on a graph. @param a The arc. @param d The graph index. \note Min path lengths. **/
     double getCoeffObj4(const ListDigraph::Arc &a, int d);
 
-    /** Returns the coefficient of an arc according to metric 8 on a graph. @param a The arc. @param d The graph index. @warning Only adapted for the case of treating one demand at a time. **/
+    /** Returns the coefficient of an arc according to metric 8 on a graph. @param a The arc. @param d The graph index. \note Min max global used slice position. **/
     double getCoeffObj8(const ListDigraph::Arc &a, int d);
 
 	/** Returns the algorithm status. **/
@@ -269,6 +269,13 @@ public:
 
     /** Displays the loads to be routed in the next optimization. @note If the there is no demand to be routed, the function will exit with an error. **/
     void displayLoadsToBeRouted();
+    
+	/****************************************************************************************/
+	/*										Destructor										*/
+	/****************************************************************************************/
+
+	/** Destructor. Clears the spectrum. **/
+	~RSA();
 
 };
 #endif

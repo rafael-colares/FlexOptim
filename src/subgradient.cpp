@@ -7,6 +7,7 @@ Subgradient::Subgradient(const Instance &inst) : RSA(inst),
         MIN_STEPSIZE(0.00001){
     
     std::cout << "--- Subgradient was invoked ---" << std::endl;
+    setStatus(STATUS_UNKNOWN);
     displayToBeRouted();
 
     initialization();
@@ -15,7 +16,7 @@ Subgradient::Subgradient(const Instance &inst) : RSA(inst),
     bool STOP = false;
     while (!STOP){
         runIteration();
-        if (getIsUnfeasible() == false){
+        if (getStatus() != STATUS_INFEASIBLE){
             displayMainParameters();
 
             updateLambda();
@@ -23,10 +24,6 @@ Subgradient::Subgradient(const Instance &inst) : RSA(inst),
             updateMultiplier();
             updateCosts();
             
-            if (getLB() >= getUB() - DBL_EPSILON){
-                setIsOptimal(true);
-                STOP = true;
-            }
             if (getIteration() >= MAX_NB_IT){
                 STOP = true;
             }
@@ -34,6 +31,11 @@ Subgradient::Subgradient(const Instance &inst) : RSA(inst),
                 STOP = true;
             }
             if (isGradientMoving() == false){
+                STOP = true;
+            }
+            if (getLB() >= getUB() - DBL_EPSILON){
+                setIsOptimal(true);
+                setStatus(STATUS_OPTIMAL);
                 STOP = true;
             }
         }
@@ -225,7 +227,8 @@ void Subgradient::runIteration(){
         if (shortestPath.reached(TARGET) == false){
             setIsFeasible(false);
             setIsUnfeasible(true);
-            std::cout << "> RSA is unfeasible because there is no path from " << getToBeRouted_k(d).getSource()+1 << " to " << getToBeRouted_k(d).getTarget()+1 << " required for routing demand " << getToBeRouted_k(d).getId()+1 << "." << std::endl;
+            setStatus(STATUS_INFEASIBLE);
+            std::cout << "> RSA is infeasible because there is no path from " << getToBeRouted_k(d).getSource()+1 << " to " << getToBeRouted_k(d).getTarget()+1 << " required for routing demand " << getToBeRouted_k(d).getId()+1 << "." << std::endl;
             return;
         }
 
@@ -241,6 +244,7 @@ void Subgradient::runIteration(){
     std::cout << "> Set LB: " << getLB() << std:: endl;
     if (checkFeasibility() == true){
         setIsFeasible(true);
+        setStatus(STATUS_FEASIBLE);
         setIsUnfeasible(false);
         double feasibleSolutionCost = getRealCurrentCost();
         if (feasibleSolutionCost < getUB()){

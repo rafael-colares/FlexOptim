@@ -108,6 +108,12 @@ Public Types</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:aa47e0a4922a05e2d387b872813419ea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates the possible objectives to be optimized.  <a href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">More...</a><br /></td></tr>
 <tr class="separator:aa47e0a4922a05e2d387b872813419ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a996a9f36dc32b41c9c7291ad49deb7ed"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a996a9f36dc32b41c9c7291ad49deb7ed">PartitionPolicy</a> { <a class="el" href="classInput.html#a996a9f36dc32b41c9c7291ad49deb7eda7ee9e469d275c446e56dd4c14ee6e080">PARTITION_POLICY_NO</a> = 0, 
+<a class="el" href="classInput.html#a996a9f36dc32b41c9c7291ad49deb7edad393c4fb45c7b7e880e77a94eaef4772">PARTITION_POLICY_SOFT</a> = 1, 
+<a class="el" href="classInput.html#a996a9f36dc32b41c9c7291ad49deb7eda3079fb016304acb2ffd24d2e868620d6">PARTITION_POLICY_HARD</a> = 2
+ }</td></tr>
+<tr class="memdesc:a996a9f36dc32b41c9c7291ad49deb7ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates the possible spectrum partitioning policies to be applied.  <a href="classInput.html#a996a9f36dc32b41c9c7291ad49deb7ed">More...</a><br /></td></tr>
+<tr class="separator:a996a9f36dc32b41c9c7291ad49deb7ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -160,6 +166,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#aefa5639038be0f18870dc0b7a04a49be">getnbSlicesInOutputFile</a> () const</td></tr>
 <tr class="memdesc:aefa5639038be0f18870dc0b7a04a49be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of slices to be displayed in the output file. <br /></td></tr>
 <tr class="separator:aefa5639038be0f18870dc0b7a04a49be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad037390d93759f956835010ea0d1e690"><td class="memItemLeft" align="right" valign="top"><a id="ad037390d93759f956835010ea0d1e690"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#ad037390d93759f956835010ea0d1e690">getPartitionSlice</a> () const</td></tr>
+<tr class="memdesc:ad037390d93759f956835010ea0d1e690"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the max slice of Left spectrum region. <br /></td></tr>
+<tr class="separator:ad037390d93759f956835010ea0d1e690"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3bbbf7c6f98a2d867f91d88356379c8"><td class="memItemLeft" align="right" valign="top"><a id="ab3bbbf7c6f98a2d867f91d88356379c8"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#ab3bbbf7c6f98a2d867f91d88356379c8">getPartitionLoad</a> () const</td></tr>
+<tr class="memdesc:ab3bbbf7c6f98a2d867f91d88356379c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the max load that should be pushed to the Left spectrum region. <br /></td></tr>
+<tr class="separator:ab3bbbf7c6f98a2d867f91d88356379c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff4fc7846b4a72901d62f25728be0fb7"><td class="memItemLeft" align="right" valign="top"><a id="aff4fc7846b4a72901d62f25728be0fb7"></a>
 <a class="el" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031">Method</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#aff4fc7846b4a72901d62f25728be0fb7">getChosenMethod</a> () const</td></tr>
 <tr class="memdesc:aff4fc7846b4a72901d62f25728be0fb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the identifier of the method chosen for optimization. <br /></td></tr>
@@ -176,6 +190,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <a class="el" href="classInput.html#a9cba0c01fa8a52cedee285ede0aec60a">OutputLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a1717b0ad3854bfad7db27b8f1d56223b">getChosenOutputLvl</a> () const</td></tr>
 <tr class="memdesc:a1717b0ad3854bfad7db27b8f1d56223b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the identifier of the output policy adopted. <br /></td></tr>
 <tr class="separator:a1717b0ad3854bfad7db27b8f1d56223b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab18d5a46d1f43a5c51b4495832ef9c2a"><td class="memItemLeft" align="right" valign="top"><a id="ab18d5a46d1f43a5c51b4495832ef9c2a"></a>
+<a class="el" href="classInput.html#a996a9f36dc32b41c9c7291ad49deb7ed">PartitionPolicy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#ab18d5a46d1f43a5c51b4495832ef9c2a">getChosenPartitionPolicy</a> () const</td></tr>
+<tr class="memdesc:ab18d5a46d1f43a5c51b4495832ef9c2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the identifier of the partition policy adopted. <br /></td></tr>
+<tr class="separator:ab18d5a46d1f43a5c51b4495832ef9c2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a482b4eb4844051909967eefc72d062fe"><td class="memItemLeft" align="right" valign="top"><a id="a482b4eb4844051909967eefc72d062fe"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a482b4eb4844051909967eefc72d062fe">getInitialLagrangianMultiplier</a> () const</td></tr>
 <tr class="memdesc:a482b4eb4844051909967eefc72d062fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the initial value of the lagrangian multiplier used if subgradient method is chosen. <br /></td></tr>
@@ -207,6 +225,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">ObjectiveMetric</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a5e50577300f398831d3a3e5dfc20860e">to_ObjectiveMetric</a> (std::string data)</td></tr>
 <tr class="memdesc:a5e50577300f398831d3a3e5dfc20860e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a string into an ObjectiveMetric. <br /></td></tr>
 <tr class="separator:a5e50577300f398831d3a3e5dfc20860e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa585d1d79c85954e05ee2a4fa63f9d4b"><td class="memItemLeft" align="right" valign="top"><a id="aa585d1d79c85954e05ee2a4fa63f9d4b"></a>
+<a class="el" href="classInput.html#a996a9f36dc32b41c9c7291ad49deb7ed">PartitionPolicy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#aa585d1d79c85954e05ee2a4fa63f9d4b">to_PartitionPolicy</a> (std::string data)</td></tr>
+<tr class="memdesc:aa585d1d79c85954e05ee2a4fa63f9d4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a string into a PartitionPolicy. <br /></td></tr>
+<tr class="separator:aa585d1d79c85954e05ee2a4fa63f9d4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fdd308273d27628c515f6ba722301d9"><td class="memItemLeft" align="right" valign="top"><a id="a5fdd308273d27628c515f6ba722301d9"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a5fdd308273d27628c515f6ba722301d9">displayMainParameters</a> ()</td></tr>
 <tr class="memdesc:a5fdd308273d27628c515f6ba722301d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the main input file paths: link, demand and assignement. <br /></td></tr>
@@ -253,6 +275,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#ae0fff1fed72489ac812f7fbc25490d4b">nbSlicesInOutputFile</a></td></tr>
 <tr class="memdesc:ae0fff1fed72489ac812f7fbc25490d4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">How many slices will be displayed in the output file. <br /></td></tr>
 <tr class="separator:ae0fff1fed72489ac812f7fbc25490d4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9235239603350274a3bd51daab995892"><td class="memItemLeft" align="right" valign="top"><a id="a9235239603350274a3bd51daab995892"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a9235239603350274a3bd51daab995892">partitionSlice</a></td></tr>
+<tr class="memdesc:a9235239603350274a3bd51daab995892"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to the max slice of Left spectrum region, if partitioning policy is set to Hard. <br /></td></tr>
+<tr class="separator:a9235239603350274a3bd51daab995892"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84a0618e1d8c95113037fb5839c2e608"><td class="memItemLeft" align="right" valign="top"><a id="a84a0618e1d8c95113037fb5839c2e608"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a84a0618e1d8c95113037fb5839c2e608">partitionLoad</a></td></tr>
+<tr class="memdesc:a84a0618e1d8c95113037fb5839c2e608"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to the max load that can be routed on the Left spectrum region, if some partioning policy is set. <br /></td></tr>
+<tr class="separator:a84a0618e1d8c95113037fb5839c2e608"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e4b66817ca693839ff6dc53243d7a77"><td class="memItemLeft" align="right" valign="top"><a id="a9e4b66817ca693839ff6dc53243d7a77"></a>
 <a class="el" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031">Method</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a9e4b66817ca693839ff6dc53243d7a77">chosenMethod</a></td></tr>
 <tr class="memdesc:a9e4b66817ca693839ff6dc53243d7a77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to which method is applied for solving the problem. <br /></td></tr>
@@ -269,6 +299,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <a class="el" href="classInput.html#a9cba0c01fa8a52cedee285ede0aec60a">OutputLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#ad126d97d00d3fa565dd34e8477b9a769">chosenOutputLvl</a></td></tr>
 <tr class="memdesc:ad126d97d00d3fa565dd34e8477b9a769"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to which output policy is adopted. <br /></td></tr>
 <tr class="separator:ad126d97d00d3fa565dd34e8477b9a769"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fa7de7b9e9adb5c516cf5a96baa4513"><td class="memItemLeft" align="right" valign="top"><a id="a9fa7de7b9e9adb5c516cf5a96baa4513"></a>
+<a class="el" href="classInput.html#a996a9f36dc32b41c9c7291ad49deb7ed">PartitionPolicy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a9fa7de7b9e9adb5c516cf5a96baa4513">chosenPartitionPolicy</a></td></tr>
+<tr class="memdesc:a9fa7de7b9e9adb5c516cf5a96baa4513"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to which partition policy is adopted. <br /></td></tr>
+<tr class="separator:a9fa7de7b9e9adb5c516cf5a96baa4513"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a609a07420ed7b37cb5c984c77217a034"><td class="memItemLeft" align="right" valign="top"><a id="a609a07420ed7b37cb5c984c77217a034"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a609a07420ed7b37cb5c984c77217a034">lagrangianMultiplier_zero</a></td></tr>
 <tr class="memdesc:a609a07420ed7b37cb5c984c77217a034"><td class="mdescLeft">&#160;</td><td class="mdescRight">The initial value of the lagrangian multiplier used if subgradient method is chosen. <br /></td></tr>
@@ -330,7 +364,6 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </div><div class="memdoc">
 
 <p>Enumerates the possible objectives to be optimized. </p>
-<p>of applying a preprocessing step fo reducing the graphs before optimization is called. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aa47e0a4922a05e2d387b872813419ea0a52cbdf4a49f75aaae78968f2e1e8a77d"></a>OBJECTIVE_METRIC_1&#160;</td><td class="fielddoc"><p>Minimize the sum of (max used slice positions) over demands. </p>
 </td></tr>
@@ -371,6 +404,32 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </table>
 
 <p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00032">32</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+
+</div>
+</div>
+<a id="a996a9f36dc32b41c9c7291ad49deb7ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a996a9f36dc32b41c9c7291ad49deb7ed">&#9670;&nbsp;</a></span>PartitionPolicy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classInput.html#a996a9f36dc32b41c9c7291ad49deb7ed">Input::PartitionPolicy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enumerates the possible spectrum partitioning policies to be applied. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a996a9f36dc32b41c9c7291ad49deb7eda7ee9e469d275c446e56dd4c14ee6e080"></a>PARTITION_POLICY_NO&#160;</td><td class="fielddoc"><p>No spectrum partition. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a996a9f36dc32b41c9c7291ad49deb7edad393c4fb45c7b7e880e77a94eaef4772"></a>PARTITION_POLICY_SOFT&#160;</td><td class="fielddoc"><p>A subset of demands is pushed to the Right region of the spectrum. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a996a9f36dc32b41c9c7291ad49deb7eda3079fb016304acb2ffd24d2e868620d6"></a>PARTITION_POLICY_HARD&#160;</td><td class="fielddoc"><p>Divide the spectrum into two fixed regions (Left and Right). </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00048">48</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -453,7 +512,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00055">55</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00068">68</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -475,7 +534,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Destructor. </p>
 <p>Clears the vector of strings. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00152">152</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00186">186</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -512,7 +571,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00103">103</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00113">113</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -541,7 +600,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </dl>
 <dl class="section note"><dt>Note</dt><dd>It is surely not the most performant method but the parameter file has a reasonable size and the code becomes much clearer. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00077">77</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00093">93</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>

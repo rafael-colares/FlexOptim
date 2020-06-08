@@ -24,7 +24,10 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
 
     std::cout << "Getting number of slices in output." << std::endl;
     nbSlicesInOutputFile = std::stoi(getParameterValue("nbSlicesInOutputFile="));
-    
+
+
+
+
     std::cout << "Getting method." << std::endl;
     chosenMethod = (Method) std::stoi(getParameterValue("method="));
 
@@ -37,6 +40,16 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     std::cout << "Getting output level." << std::endl;
     chosenOutputLvl = (OutputLevel) std::stoi(getParameterValue("outputLevel="));
 
+    std::cout << "Getting partitioning policy parameters." << std::endl;
+    chosenPartitionPolicy = to_PartitionPolicy(getParameterValue("partitionPolicy="));
+    partitionLoad = std::stoi(getParameterValue("partitionLoad="));
+    partitionSlice = std::stoi(getParameterValue("partitionSlice="));
+
+
+    
+    std::cout << "Getting number of slices in Left region." << std::endl;
+    partitionSlice = std::stoi(getParameterValue("partitionSlice="));
+    
 
     std::cout << "Getting subgradient parameters." << std::endl;
     lagrangianMultiplier_zero = std::stod(getParameterValue("lagrangianMultiplier_zero="));
@@ -62,11 +75,14 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
 
     nbDemandsAtOnce = i.getNbDemandsAtOnce();
     nbSlicesInOutputFile = i.getnbSlicesInOutputFile();
+    partitionSlice = i.getPartitionSlice();
+    partitionLoad = i.getPartitionLoad();
 
     chosenMethod = i.getChosenMethod();
     chosenPreprLvl = i.getChosenPreprLvl();
     chosenObj = i.getChosenObj();
     chosenOutputLvl = i.getChosenOutputLvl();
+    chosenPartitionPolicy = i.getChosenPartitionPolicy();
 
     lagrangianMultiplier_zero = i.getInitialLagrangianMultiplier();
     lagrangianLambda_zero = i.getInitialLagrangianLambda();
@@ -135,6 +151,24 @@ Input::ObjectiveMetric Input::to_ObjectiveMetric(std::string data){
         obj = OBJECTIVE_METRIC_1p;
     }
     return obj;
+}
+/* Converts a string into a PartitionPolicy. */
+Input::PartitionPolicy Input::to_PartitionPolicy(std::string data){
+    Input::PartitionPolicy policy;
+    if (!data.empty()){
+        int policyId = std::stoi(data);
+        Input::PartitionPolicy policy;
+        if (policyId == 1){
+            policy = PARTITION_POLICY_SOFT;
+            return policy;
+        }
+        if (policyId == 2){
+            policy = PARTITION_POLICY_HARD;
+            return policy;
+        }
+    }
+    policy = PARTITION_POLICY_NO;
+    return policy;
 }
 
 /* Displays the main input file paths: link, demand and assignement. */

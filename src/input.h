@@ -35,13 +35,20 @@ public:
 		OUTPUT_LVL_DETAILED = 2		/**< Generate output files after every optimization procedure. **/
 	};
 
-	/** Enumerates the possible objectives to be optimized. of applying a preprocessing step fo reducing the graphs before optimization is called. **/
+	/** Enumerates the possible objectives to be optimized. **/
 	enum ObjectiveMetric {
 		OBJECTIVE_METRIC_1 = 0,		/**< Minimize the sum of (max used slice positions) over demands. **/
 		OBJECTIVE_METRIC_1p = 1,	/**< Minimize the sum of (max used slice positions) over edges. **/
 		OBJECTIVE_METRIC_2 = 2,		/**< Minimize the sum of (number of hops in paths) over demands. **/
 		OBJECTIVE_METRIC_4 = 4,		/**< Minimize the path lengths. **/
 		OBJECTIVE_METRIC_8 = 8		/**< Minimize the max used slice position overall. **/
+	};
+	
+	/** Enumerates the possible spectrum partitioning policies to be applied. **/
+	enum PartitionPolicy {
+		PARTITION_POLICY_NO = 0,	/**< No spectrum partition. **/
+		PARTITION_POLICY_SOFT = 1,	/**< A subset of demands is pushed to the Right region of the spectrum. **/
+		PARTITION_POLICY_HARD = 2	/**< Divide the spectrum into two fixed regions (Left and Right). **/
 	};
 	
 private:
@@ -55,11 +62,14 @@ private:
 	
     int nbDemandsAtOnce;				/**< How many demands are treated in a single optimization.**/
 	int nbSlicesInOutputFile;			/**< How many slices will be displayed in the output file. **/
+	int partitionSlice;					/**< Refers to the max slice of Left spectrum region, if partitioning policy is set to Hard. **/
+	int partitionLoad;					/**< Refers to the max load that can be routed on the Left spectrum region, if some partioning policy is set. **/
 
 	Method chosenMethod;				/**< Refers to which method is applied for solving the problem.**/
 	PreprocessingLevel chosenPreprLvl;	/**< Refers to which level of preprocessing is applied before solving the problem.**/
 	ObjectiveMetric chosenObj;			/**< Refers to which objective is optimized.**/
 	OutputLevel chosenOutputLvl;		/**< Refers to which output policy is adopted.**/
+	PartitionPolicy chosenPartitionPolicy;	/**< Refers to which partition policy is adopted.**/
 
 	double lagrangianMultiplier_zero;	/**< The initial value of the lagrangian multiplier used if subgradient method is chosen. **/
 	double lagrangianLambda_zero;		/**< The initial value of the lambda used for computing the step size if subgradient method is chosen. **/
@@ -111,6 +121,12 @@ public:
 	/** Returns the number of slices to be displayed in the output file. **/
     int getnbSlicesInOutputFile() const { return nbSlicesInOutputFile; }
 
+	/** Returns the max slice of Left spectrum region. **/
+    int getPartitionSlice() const { return partitionSlice; }
+
+	/** Returns the max load that should be pushed to the Left spectrum region. **/
+    int getPartitionLoad() const { return partitionLoad; }
+
 	/** Returns the identifier of the method chosen for optimization. **/
     Method getChosenMethod() const { return chosenMethod; }
 
@@ -122,6 +138,9 @@ public:
 
 	/** Returns the identifier of the output policy adopted. **/
     OutputLevel getChosenOutputLvl() const { return chosenOutputLvl; }
+
+	/** Returns the identifier of the partition policy adopted. **/
+    PartitionPolicy getChosenPartitionPolicy() const { return chosenPartitionPolicy; }
 
 	/** Returns the initial value of the lagrangian multiplier used if subgradient method is chosen. **/
 	double getInitialLagrangianMultiplier() const { return lagrangianMultiplier_zero; }
@@ -153,6 +172,9 @@ public:
 
 	/** Converts a string into an ObjectiveMetric. **/
 	ObjectiveMetric to_ObjectiveMetric(std::string data);
+
+	/** Converts a string into a PartitionPolicy. **/
+	PartitionPolicy to_PartitionPolicy(std::string data);
 
 	/** Displays the main input file paths: link, demand and assignement. **/
     void displayMainParameters();

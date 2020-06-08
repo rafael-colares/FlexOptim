@@ -23,15 +23,16 @@ RSA::RSA(const Instance &inst) : instance(inst), compactArcId(compactGraph), com
 
     /* Creates an extended graph for each one of the demands to be routed. */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        vecGraph.emplace_back(new ListDigraph);
-        vecArcId.emplace_back(new ArcMap(*vecGraph[d]));
-        vecArcLabel.emplace_back(new ArcMap(*vecGraph[d]));
-        vecArcSlice.emplace_back(new ArcMap(*vecGraph[d]));
-        vecArcLength.emplace_back(new ArcCost(*vecGraph[d]));
-        vecNodeId.emplace_back(new NodeMap(*vecGraph[d]));
-        vecNodeLabel.emplace_back(new NodeMap(*vecGraph[d]));
-        vecNodeSlice.emplace_back(new NodeMap(*vecGraph[d]));
-        vecOnPath.emplace_back(new ArcMap(*vecGraph[d]));
+        
+        vecGraph.emplace_back( std::make_shared<ListDigraph>() );
+        vecArcId.emplace_back( std::make_shared<ArcMap>((*vecGraph[d])) );
+        vecArcLabel.emplace_back( std::make_shared<ArcMap>((*vecGraph[d])) );
+        vecArcSlice.emplace_back( std::make_shared<ArcMap>((*vecGraph[d])) );
+        vecArcLength.emplace_back( std::make_shared<ArcCost>((*vecGraph[d])) );
+        vecNodeId.emplace_back( std::make_shared<NodeMap>((*vecGraph[d])) );
+        vecNodeLabel.emplace_back( std::make_shared<NodeMap>((*vecGraph[d])) );
+        vecNodeSlice.emplace_back(std::make_shared<NodeMap>((*vecGraph[d])) );
+        vecOnPath.emplace_back( std::make_shared<ArcMap>((*vecGraph[d])) );
     
         for (int i = 0; i < instance.getNbEdges(); i++){
             int linkSourceLabel = instance.getPhysicalLinkFromIndex(i).getSource();
@@ -39,9 +40,26 @@ RSA::RSA(const Instance &inst) : instance(inst), compactArcId(compactGraph), com
             for (int s = 0; s < instance.getPhysicalLinkFromIndex(i).getNbSlices(); s++){
                 /* IF SLICE s IS NOT USED */
                 if (instance.getPhysicalLinkFromIndex(i).getSlice_i(s).isUsed() == false){
-                    /* CREATE NODES (u, s) AND (v, s) IF THEY DO NOT ALREADY EXIST AND ADD AN ARC BETWEEN THEM */
-                    addArcs(d, linkSourceLabel, linkTargetLabel, i, s, instance.getPhysicalLinkFromIndex(i).getLength());
-                    addArcs(d, linkTargetLabel, linkSourceLabel, i, s, instance.getPhysicalLinkFromIndex(i).getLength());
+                    
+                    if (instance.getInput().getChosenPartitionPolicy() == Input::PARTITION_POLICY_HARD){
+                        bool onLeftRegion = true;
+                        if (getToBeRouted_k(d).getLoad() > instance.getInput().getPartitionLoad()){
+                            onLeftRegion = false;
+                        }
+                        if ( (onLeftRegion) && (s <= instance.getInput().getPartitionSlice()) ){
+                            addArcs(d, linkSourceLabel, linkTargetLabel, i, s, instance.getPhysicalLinkFromIndex(i).getLength());
+                            addArcs(d, linkTargetLabel, linkSourceLabel, i, s, instance.getPhysicalLinkFromIndex(i).getLength());
+                        }
+                        if ( (!onLeftRegion) && (s > instance.getInput().getPartitionSlice()) ){
+                            addArcs(d, linkSourceLabel, linkTargetLabel, i, s, instance.getPhysicalLinkFromIndex(i).getLength());
+                            addArcs(d, linkTargetLabel, linkSourceLabel, i, s, instance.getPhysicalLinkFromIndex(i).getLength());
+                        }
+                    }
+                    else{
+                        /* CREATE NODES (u, s) AND (v, s) IF THEY DO NOT ALREADY EXIST AND ADD AN ARC BETWEEN THEM */
+                        addArcs(d, linkSourceLabel, linkTargetLabel, i, s, instance.getPhysicalLinkFromIndex(i).getLength());
+                        addArcs(d, linkTargetLabel, linkSourceLabel, i, s, instance.getPhysicalLinkFromIndex(i).getLength());
+                    }
                 }
             }
         }
@@ -349,11 +367,37 @@ double RSA::shortestDistance(int d, ListDigraph::Node &s, ListDigraph::Arc &a, L
 /* Returns the coefficient of an arc according to metric 1 on graph #d. */
 double RSA::getCoeffObj1(const ListDigraph::Arc &a, int d){
     double coeff = 0.0;
+    int NB_EDGES = instance.getNbEdges();
     ListDigraph::Node u = (*vecGraph[d]).source(a);
     int uLabel = getNodeLabel(u, d);
     int arcSlice = getArcSlice(a, d);
+    int arcLabel = getArcLabel(a, d);
     if(uLabel == getToBeRouted_k(d).getSource()){
-        coeff = arcSlice + 1; 
+        switch (instance.getInput().getChosenPartitionPolicy() ){
+            case Input::PARTITION_POLICY_NO:
+                coeff = NB_EDGES*(arcSlice + 1); 
+            break;
+            case Input::PARTITION_POLICY_SOFT:
+                if(getToBeRouted_k(d).getLoad() <= instance.getInput().getPartitionLoad()){
+                    coeff = NB_EDGES*(arcSlice + 1); 
+                }
+                else{
+                    coeff = NB_EDGES*(instance.getPhysicalLinkFromIndex(arcLabel).getNbSlices() - arcSlice);
+                }
+            break;
+            case Input::PARTITION_POLICY_HARD:
+                if(getToBeRouted_k(d).getLoad() <= instance.getInput().getPartitionLoad()){
+                    coeff = NB_EDGES*(arcSlice + 1); 
+                }
+                else{
+                    coeff = NB_EDGES*(instance.getPhysicalLinkFromIndex(arcLabel).getNbSlices() - arcSlice);
+                }
+            break;
+            default:
+                std::cout << "ERROR: Partition policy not recognized." << std::endl;
+                exit(0);
+            break;
+        }
     }
     else{
         coeff = 1; 
@@ -532,4 +576,25 @@ void RSA::displayGraph(int d){
 /* Displays a node from the graph #d. */
 void RSA::displayNode(int d, const ListDigraph::Node &n){
     std::cout << "(" << getNodeLabel(n, d)+1 << "," << getNodeSlice(n, d)+1 << ")";
+}
+
+
+/****************************************************************************************/
+/*										Destructor										*/
+/****************************************************************************************/
+
+/* Destructor. Clears the vectors of demands and links. */
+RSA::~RSA() {
+	toBeRouted.clear();
+	loadsToBeRouted.clear();
+    vecArcId.clear();
+    vecArcLabel.clear();
+    vecArcSlice.clear();
+    vecArcLength.clear();
+    vecNodeId.clear();
+    vecNodeLabel.clear();
+    vecNodeSlice.clear();
+    vecOnPath.clear();
+    vecArcIndex.clear();
+    vecGraph.clear();
 }

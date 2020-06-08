@@ -190,6 +190,8 @@ void CplexForm::displayOnPath(){
 /* Destructor. Clears the vectors of demands and links. */
 CplexForm::~CplexForm(){
     x.end();
+    maxSlicePerLink.end();
+    maxSliceOverall.end();
     cplex.end();
     model.end();
     env.end();

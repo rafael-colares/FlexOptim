@@ -89,7 +89,7 @@ IloExpr Solver::getObjFunction(IloBoolVarMatrix &var, IloIntVarArray &maxSliceFr
 
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-            int arc = getArcIndex(a, d); 
+            int arc = getArcIndex(a, d);
             double coeff = getCoeff(a, d);
             //coeff += (instance.getInput().getInitialLagrangianMultiplier() * getArcLength(a, 0) );
             obj += coeff*var[d][arc];
