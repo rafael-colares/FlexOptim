@@ -46,11 +46,11 @@ RSA::RSA(const Instance &inst) : instance(inst), compactArcId(compactGraph), com
                         if (getToBeRouted_k(d).getLoad() > instance.getInput().getPartitionLoad()){
                             onLeftRegion = false;
                         }
-                        if ( (onLeftRegion) && (s <= instance.getInput().getPartitionSlice()) ){
+                        if ( (onLeftRegion) && (s < instance.getInput().getPartitionSlice()) ){
                             addArcs(d, linkSourceLabel, linkTargetLabel, i, s, instance.getPhysicalLinkFromIndex(i).getLength());
                             addArcs(d, linkTargetLabel, linkSourceLabel, i, s, instance.getPhysicalLinkFromIndex(i).getLength());
                         }
-                        if ( (!onLeftRegion) && (s > instance.getInput().getPartitionSlice()) ){
+                        if ( (!onLeftRegion) && (s >= instance.getInput().getPartitionSlice()) ){
                             addArcs(d, linkSourceLabel, linkTargetLabel, i, s, instance.getPhysicalLinkFromIndex(i).getLength());
                             addArcs(d, linkTargetLabel, linkSourceLabel, i, s, instance.getPhysicalLinkFromIndex(i).getLength());
                         }
