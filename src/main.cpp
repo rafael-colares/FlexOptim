@@ -78,18 +78,20 @@ int main(int argc, char *argv[]) {
 						CplexForm solver(instance);	
 						
 						std::cout << "Status: " << solver.getCplex().getStatus() << std::endl;
-						if (solver.getStatus() == RSA::STATUS_INFEASIBLE){
-							std::cout << "Decrease the number of demands to be treated." << std::endl;
-							instance.decreaseNbDemandsAtOnce();
+						RSA::Status STATUS = solver.getStatus();
+						if (STATUS == RSA::STATUS_ERROR){
+							std::cout << "Got error on CPLEX status." << std::endl;
+							exit(0);
+						}
+						if (STATUS == RSA::STATUS_FEASIBLE || STATUS == RSA::STATUS_OPTIMAL){
+							solver.updateInstance(instance);
 						}
 						else{
-							if (solver.getStatus() == RSA::STATUS_ERROR){
-								std::cout << "Got error on CPLEX status." << std::endl;
-								exit(0);
-							}
-							solver.updateInstance(instance);
+							std::cout << "Decrease the number of demands to be treated." << std::endl;
+							instance.decreaseNbDemandsAtOnce();
 							//instance.displayDetailedTopology();
 						}
+
 						if (instance.getInput().getNbDemandsAtOnce() <= 0){
 							std::cout << "There is no room for an additional demand." << std::endl;
 							feasibility = false;

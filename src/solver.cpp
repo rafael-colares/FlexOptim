@@ -74,6 +74,12 @@ void Solver::setObjective(IloBoolVarMatrix &var, IloIntVarArray &maxSliceFromLin
 IloExpr Solver::getObjFunction(IloBoolVarMatrix &var, IloIntVarArray &maxSliceFromLink, IloIntVar &maxSlice, IloModel &mod){
     IloExpr obj(mod.getEnv());
     
+    if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_0){
+        IloInt CONSTANT = 0;
+        obj += CONSTANT;
+        return obj;
+    }
+
     if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_1p){
         for (int i = 0; i < instance.getNbEdges(); i++){
             obj += maxSliceFromLink[i];

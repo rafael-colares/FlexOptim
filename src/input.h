@@ -6,6 +6,7 @@
 #include <dirent.h>
 #include <string>
 #include <vector>
+#include <climits>
 
 /*****************************************************************************************
  * This class contains all the information needed for the creation of an instance.
@@ -37,8 +38,9 @@ public:
 
 	/** Enumerates the possible objectives to be optimized. **/
 	enum ObjectiveMetric {
-		OBJECTIVE_METRIC_1 = 0,		/**< Minimize the sum of (max used slice positions) over demands. **/
-		OBJECTIVE_METRIC_1p = 1,	/**< Minimize the sum of (max used slice positions) over edges. **/
+		OBJECTIVE_METRIC_0 = 0,		/**< Minimize nothing, just search for a feasible solution. **/
+		OBJECTIVE_METRIC_1 = 1,		/**< Minimize the sum of (max used slice positions) over demands. **/
+		OBJECTIVE_METRIC_1p = 11,	/**< Minimize the sum of (max used slice positions) over edges. **/
 		OBJECTIVE_METRIC_2 = 2,		/**< Minimize the sum of (number of hops in paths) over demands. **/
 		OBJECTIVE_METRIC_4 = 4,		/**< Minimize the path lengths. **/
 		OBJECTIVE_METRIC_8 = 8		/**< Minimize the max used slice position overall. **/
@@ -64,6 +66,7 @@ private:
 	int nbSlicesInOutputFile;			/**< How many slices will be displayed in the output file. **/
 	int partitionSlice;					/**< Refers to the max slice of Left spectrum region, if partitioning policy is set to Hard. **/
 	int partitionLoad;					/**< Refers to the max load that can be routed on the Left spectrum region, if some partioning policy is set. **/
+	int timeLimit;						/**< Refers to how much time (in seconds) can be spent during one optimization. **/
 
 	Method chosenMethod;				/**< Refers to which method is applied for solving the problem.**/
 	PreprocessingLevel chosenPreprLvl;	/**< Refers to which level of preprocessing is applied before solving the problem.**/
@@ -127,6 +130,9 @@ public:
 	/** Returns the max load that should be pushed to the Left spectrum region. **/
     int getPartitionLoad() const { return partitionLoad; }
 
+	/** Returns the timeLimit for a single optimization. **/
+    int getTimeLimit() const { return timeLimit; }
+
 	/** Returns the identifier of the method chosen for optimization. **/
     Method getChosenMethod() const { return chosenMethod; }
 
@@ -175,6 +181,9 @@ public:
 
 	/** Converts a string into a PartitionPolicy. **/
 	PartitionPolicy to_PartitionPolicy(std::string data);
+
+	/** Converts a string into time limit. \note By default, time limit is unlimited. **/
+	int to_timeLimit(std::string data);
 
 	/** Displays the main input file paths: link, demand and assignement. **/
     void displayMainParameters();

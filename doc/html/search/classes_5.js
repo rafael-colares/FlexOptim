@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['slice_321',['Slice',['../classSlice.html',1,'']]],
-  ['solver_322',['Solver',['../classSolver.html',1,'']]],
-  ['subgradient_323',['Subgradient',['../classSubgradient.html',1,'']]]
+  ['slice_325',['Slice',['../classSlice.html',1,'']]],
+  ['solver_326',['Solver',['../classSolver.html',1,'']]],
+  ['subgradient_327',['Subgradient',['../classSubgradient.html',1,'']]]
 ];

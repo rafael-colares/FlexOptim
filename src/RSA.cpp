@@ -197,7 +197,7 @@ void RSA::contractNodesFromLabel(int d, int label){
             v = nextNode;
         }
     }
-    std::cout << "> Number of nodes with label " << label << " contracted: " << nb << std::endl; 
+    //std::cout << "> Number of nodes with label " << label << " contracted: " << nb << std::endl; 
 }
 
 /* Delete arcs that are known 'a priori' to be unable to route on graph #d. */
@@ -222,7 +222,7 @@ void RSA::eraseNonRoutableArcs(int d){
         }
         a = nextArc;
     }
-    std::cout << "> Number of non-routable arcs erased on graph #" << d << ": " << nb << std::endl; 
+    //std::cout << "> Number of non-routable arcs erased on graph #" << d << ": " << nb << std::endl; 
 }
 
 /* Runs preprocessing on every extended graph. */
@@ -255,7 +255,7 @@ void RSA::preprocessing(){
     }
 
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        std::cout << "> Number of arcs in graph #" << d << " before preprocessing: " << nbArcsOld[d] << ". After: " << countArcs((*vecGraph[d])) << std::endl;
+        //std::cout << "> Number of arcs in graph #" << d << " before preprocessing: " << nbArcsOld[d] << ". After: " << countArcs((*vecGraph[d])) << std::endl;
     }
 }
 
@@ -293,7 +293,7 @@ void RSA::pathExistencePreprocessing(){
                 totalNb += nb;
             }
         }
-        std::cout << "> Number of erased arcs due to Path Existence in graph #" << d << ": " << totalNb << std::endl;
+        //std::cout << "> Number of erased arcs due to Path Existence in graph #" << d << ": " << totalNb << std::endl;
     }
 }
 /* Performs preprocessing based on the arc lengths and returns true if at least one arc is erased. */
@@ -328,10 +328,10 @@ bool RSA::lengthPreprocessing(){
             }
             a = nextArc;
         }
-        std::cout << "> Number of erased arcs due to length in graph #" << d << ". If: " << nb << ". Else: " << nbElse << std::endl;
+        //std::cout << "> Number of erased arcs due to length in graph #" << d << ". If: " << nb << ". Else: " << nbElse << std::endl;
     }
     if (totalNb >= 1){
-        std::cout << "> Number of erased arcs due to length in graph: "<< totalNb << std::endl;
+        //std::cout << "> Number of erased arcs due to length in graph: "<< totalNb << std::endl;
         return true;
     }
     return false;
@@ -462,6 +462,11 @@ double RSA::getCoeffObj8(const ListDigraph::Arc &a, int d){
 double RSA::getCoeff(const ListDigraph::Arc &a, int d){
     double coeff = 0.0;
     switch (getInstance().getInput().getChosenObj()){
+        case Input::OBJECTIVE_METRIC_0:
+        {
+            coeff = 0;
+            break;
+        }
         case Input::OBJECTIVE_METRIC_1:
         {
             coeff = getCoeffObj1(a, d);

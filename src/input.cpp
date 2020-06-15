@@ -24,8 +24,9 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
 
     std::cout << "Getting number of slices in output." << std::endl;
     nbSlicesInOutputFile = std::stoi(getParameterValue("nbSlicesInOutputFile="));
-
-
+    
+    std::cout << "Getting time limit." << std::endl;
+    timeLimit = to_timeLimit(getParameterValue("timeLimit="));
 
 
     std::cout << "Getting method." << std::endl;
@@ -77,6 +78,7 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     nbSlicesInOutputFile = i.getnbSlicesInOutputFile();
     partitionSlice = i.getPartitionSlice();
     partitionLoad = i.getPartitionLoad();
+    timeLimit = i.getTimeLimit();
 
     chosenMethod = i.getChosenMethod();
     chosenPreprLvl = i.getChosenPreprLvl();
@@ -169,6 +171,14 @@ Input::PartitionPolicy Input::to_PartitionPolicy(std::string data){
     }
     policy = PARTITION_POLICY_NO;
     return policy;
+}
+
+/* Converts a string into a PartitionPolicy. */
+int Input::to_timeLimit(std::string data){
+    if (data.empty()){
+        return INT_MAX;
+    }
+    return std::stoi(data);
 }
 
 /* Displays the main input file paths: link, demand and assignement. */

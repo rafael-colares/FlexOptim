@@ -2,13 +2,14 @@ linkFile=../Parameters/Instances/Spain_N5/InitialMappingMet1Slice30/Link.csv
 demandFile=
 assignmentFile=
 onlineDemandFolder=../Parameters/Instances/Spain_N5/TestDemands
-nbDemandsAtOnce=1
+nbDemandsAtOnce=33
 outputPath=../Output/OtherTests/
 outputLevel=1
 nbSlicesInOutputFile=320
 method=0
 preprocessingLevel=2
-obj=1
+obj=0
+timeLimit=30
 
 ******* Partition Parameters *******
 partitionPolicy=0

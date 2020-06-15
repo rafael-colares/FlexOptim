@@ -89,6 +89,7 @@ var searchData=
   ['gettabedge_143',['getTabEdge',['../classInstance.html#a07a8d48674bab34b1836ce9b679162f2',1,'Instance']]],
   ['gettarget_144',['getTarget',['../classDemand.html#a18777344fb0667b5289516a87e4e21fc',1,'Demand::getTarget()'],['../classPhysicalLink.html#aea363aa0b2bcd646f8a87e5417a4e079',1,'PhysicalLink::getTarget()']]],
   ['gettargetconstraint_5fd_145',['getTargetConstraint_d',['../classSolver.html#ab335a02584618f4ce4b089dd81e5600c',1,'Solver']]],
-  ['gettoberouted_146',['getToBeRouted',['../classRSA.html#a06e9f1e6bbfcb2c928fdd6f5b7c50ed9',1,'RSA']]],
-  ['gettoberouted_5fk_147',['getToBeRouted_k',['../classRSA.html#a2a3b848644b3d5b503c3b84df689570c',1,'RSA']]]
+  ['gettimelimit_146',['getTimeLimit',['../classInput.html#a1212b12be0541c6946017ad478df9dbd',1,'Input']]],
+  ['gettoberouted_147',['getToBeRouted',['../classRSA.html#a06e9f1e6bbfcb2c928fdd6f5b7c50ed9',1,'RSA']]],
+  ['gettoberouted_5fk_148',['getToBeRouted_k',['../classRSA.html#a2a3b848644b3d5b503c3b84df689570c',1,'RSA']]]
 ];

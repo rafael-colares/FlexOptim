@@ -66,6 +66,7 @@ CplexForm::CplexForm(const Instance &inst) : Solver(inst), model(env), cplex(mod
 	/*             DEFINE CPLEX PARAMETERS   		*/
 	/************************************************/
     cplex.setParam(IloCplex::Param::MIP::Display, 3);
+    cplex.setParam(IloCplex::Param::TimeLimit, getInstance().getInput().getTimeLimit());
     std::cout << "CPLEX parameters have been defined..." << std::endl;
 
 	/************************************************/
