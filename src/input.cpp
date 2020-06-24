@@ -25,8 +25,9 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     std::cout << "Getting number of slices in output." << std::endl;
     nbSlicesInOutputFile = std::stoi(getParameterValue("nbSlicesInOutputFile="));
     
-    std::cout << "Getting time limit." << std::endl;
+    std::cout << "Getting time limits." << std::endl;
     timeLimit = to_timeLimit(getParameterValue("timeLimit="));
+    globalTimeLimit = to_timeLimit(getParameterValue("globalTimeLimit="));
 
 
     std::cout << "Getting method." << std::endl;
@@ -79,6 +80,7 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     partitionSlice = i.getPartitionSlice();
     partitionLoad = i.getPartitionLoad();
     timeLimit = i.getTimeLimit();
+    globalTimeLimit = i.getGlobalTimeLimit();
 
     chosenMethod = i.getChosenMethod();
     chosenPreprLvl = i.getChosenPreprLvl();
@@ -89,6 +91,7 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     lagrangianMultiplier_zero = i.getInitialLagrangianMultiplier();
     lagrangianLambda_zero = i.getInitialLagrangianLambda();
     maxNbIterations = i.getMaxNbIterations();
+    nbIterationsWithoutImprovement = i.getNbIterationsWithoutImprovement();
 }
 
 /* Returns the path to the file containing all the parameters. */

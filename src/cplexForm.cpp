@@ -81,7 +81,7 @@ CplexForm::CplexForm(const Instance &inst) : Solver(inst), model(env), cplex(mod
 	/************************************************/
 	/*		    GET OPTIMAL SOLUTION FOUND        	*/
 	/************************************************/
-    if (cplex.getStatus() == IloAlgorithm::Optimal){
+    if ((cplex.getStatus() == IloAlgorithm::Optimal) || (cplex.getStatus() == IloAlgorithm::Feasible)){
         std::cout << "Optimization done in " << timeFinish - timeStart << " secs." << std::endl;
         std::cout << "Objective Function Value: " << cplex.getObjValue() << std::endl;
         //displayVariableValues();

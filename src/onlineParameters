@@ -1,15 +1,16 @@
-linkFile=../Parameters/Instances/Spain_N5/InitialMappingMet1Slice30/Link.csv
+linkFile=../Parameters/Instances/YoussoufNSF/TopologyInput/NewLink.csv
 demandFile=
 assignmentFile=
-onlineDemandFolder=../Parameters/Instances/Spain_N5/TestDemands
-nbDemandsAtOnce=33
+onlineDemandFolder=../Parameters/Instances/NSF/TestDemands
+nbDemandsAtOnce=20
 outputPath=../Output/OtherTests/
 outputLevel=1
 nbSlicesInOutputFile=320
 method=0
 preprocessingLevel=2
-obj=0
+obj=1
 timeLimit=30
+globalTimeLimit=40
 
 ******* Partition Parameters *******
 partitionPolicy=0
@@ -19,5 +20,5 @@ partitionSlice=15
 ******* Fields below are reserved for team LIMOS ********
 lagrangianMultiplier_zero=0.0
 lagrangianLambda_zero=2.0
-nbIterationsWithoutImprovement=3
-maxNbIterations=100
+nbIterationsWithoutImprovement=5
+maxNbIterations=1000

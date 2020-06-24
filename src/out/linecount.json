@@ -1,0 +1,162 @@
+{
+    "extension": "linecount",
+    "version": "0.1.7",
+    "workspace": "/mnt/c/FlexOptim/RSA/src",
+    "linecount": [
+        {
+            "version": "0.1.7",
+            "counttime": "2020-06-16 15:33:53",
+            "filesum": 24,
+            "codesum": 2989,
+            "commentsum": 867,
+            "blanksum": 706,
+            "filelist": [
+                {
+                    "blank": 30,
+                    "code": 135,
+                    "comment": 34,
+                    "filename": "cplexForm.cpp"
+                },
+                {
+                    "blank": 22,
+                    "code": 24,
+                    "comment": 26,
+                    "filename": "cplexForm.h"
+                },
+                {
+                    "blank": 4,
+                    "code": 43,
+                    "comment": 5,
+                    "filename": "CSVReader.cpp"
+                },
+                {
+                    "blank": 8,
+                    "code": 23,
+                    "comment": 13,
+                    "filename": "CSVReader.h"
+                },
+                {
+                    "blank": 6,
+                    "code": 40,
+                    "comment": 5,
+                    "filename": "Demand.cpp"
+                },
+                {
+                    "blank": 21,
+                    "code": 35,
+                    "comment": 40,
+                    "filename": "Demand.h"
+                },
+                {
+                    "filename": "exec",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 34,
+                    "code": 153,
+                    "comment": 11,
+                    "filename": "input.cpp"
+                },
+                {
+                    "blank": 46,
+                    "code": 95,
+                    "comment": 58,
+                    "filename": "input.h"
+                },
+                {
+                    "blank": 45,
+                    "code": 397,
+                    "comment": 61,
+                    "filename": "Instance.cpp"
+                },
+                {
+                    "blank": 57,
+                    "code": 63,
+                    "comment": 69,
+                    "filename": "Instance.h"
+                },
+                {
+                    "blank": 23,
+                    "code": 109,
+                    "comment": 32,
+                    "filename": "main.cpp"
+                },
+                {
+                    "blank": 11,
+                    "code": 50,
+                    "comment": 2,
+                    "filename": "makefile"
+                },
+                {
+                    "blank": 2,
+                    "code": 21,
+                    "comment": 0,
+                    "filename": "onlineParameters"
+                },
+                {
+                    "blank": 13,
+                    "code": 81,
+                    "comment": 22,
+                    "filename": "PhysicalLink.cpp"
+                },
+                {
+                    "blank": 32,
+                    "code": 41,
+                    "comment": 49,
+                    "filename": "PhysicalLink.h"
+                },
+                {
+                    "blank": 50,
+                    "code": 502,
+                    "comment": 53,
+                    "filename": "RSA.cpp"
+                },
+                {
+                    "blank": 80,
+                    "code": 102,
+                    "comment": 99,
+                    "filename": "RSA.h"
+                },
+                {
+                    "blank": 2,
+                    "code": 12,
+                    "comment": 2,
+                    "filename": "Slice.cpp"
+                },
+                {
+                    "blank": 8,
+                    "code": 13,
+                    "comment": 10,
+                    "filename": "Slice.h"
+                },
+                {
+                    "blank": 49,
+                    "code": 352,
+                    "comment": 40,
+                    "filename": "solver.cpp"
+                },
+                {
+                    "blank": 31,
+                    "code": 31,
+                    "comment": 39,
+                    "filename": "solver.h"
+                },
+                {
+                    "blank": 63,
+                    "code": 549,
+                    "comment": 131,
+                    "filename": "subgradient.cpp"
+                },
+                {
+                    "blank": 69,
+                    "code": 118,
+                    "comment": 66,
+                    "filename": "subgradient.h"
+                }
+            ]
+        }
+    ]
+}

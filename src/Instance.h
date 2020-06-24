@@ -111,6 +111,9 @@ public:
 	/** Decreases the number of demands to be treated by one. **/
 	void decreaseNbDemandsAtOnce();
 
+	/** Changes the time limit. @param val The new time limit (in seconds). **/
+	void setTimeLimit(int val){ this->input.setTimeLimit(val); };
+
 	/****************************************************************************************/
 	/*										Methods											*/
 	/****************************************************************************************/

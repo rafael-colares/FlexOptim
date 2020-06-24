@@ -177,8 +177,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr class="separator:ab3bbbf7c6f98a2d867f91d88356379c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1212b12be0541c6946017ad478df9dbd"><td class="memItemLeft" align="right" valign="top"><a id="a1212b12be0541c6946017ad478df9dbd"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a1212b12be0541c6946017ad478df9dbd">getTimeLimit</a> () const</td></tr>
-<tr class="memdesc:a1212b12be0541c6946017ad478df9dbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the timeLimit for a single optimization. <br /></td></tr>
+<tr class="memdesc:a1212b12be0541c6946017ad478df9dbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the timeLimit for a single optimization iteration. <br /></td></tr>
 <tr class="separator:a1212b12be0541c6946017ad478df9dbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa7e4cbd3d0008f33782b7f68170ed7a"><td class="memItemLeft" align="right" valign="top"><a id="aaa7e4cbd3d0008f33782b7f68170ed7a"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#aaa7e4cbd3d0008f33782b7f68170ed7a">getGlobalTimeLimit</a> () const</td></tr>
+<tr class="memdesc:aaa7e4cbd3d0008f33782b7f68170ed7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the global time limit applied to the optimization. <br /></td></tr>
+<tr class="separator:aaa7e4cbd3d0008f33782b7f68170ed7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff4fc7846b4a72901d62f25728be0fb7"><td class="memItemLeft" align="right" valign="top"><a id="aff4fc7846b4a72901d62f25728be0fb7"></a>
 <a class="el" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031">Method</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#aff4fc7846b4a72901d62f25728be0fb7">getChosenMethod</a> () const</td></tr>
 <tr class="memdesc:aff4fc7846b4a72901d62f25728be0fb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the identifier of the method chosen for optimization. <br /></td></tr>
@@ -215,10 +219,15 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a070ab27352cb7aa9c03b4fd8509aab46">getMaxNbIterations</a> () const</td></tr>
 <tr class="memdesc:a070ab27352cb7aa9c03b4fd8509aab46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the maximal number of iterations allowed without improving the lower bound in the subgradient method. <br /></td></tr>
 <tr class="separator:a070ab27352cb7aa9c03b4fd8509aab46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac265037c93de7344bf313fc2f338b93e"><td class="memItemLeft" align="right" valign="top"><a id="ac265037c93de7344bf313fc2f338b93e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#ac265037c93de7344bf313fc2f338b93e">setNbDemandsAtOnce</a> (const int val)</td></tr>
-<tr class="memdesc:ac265037c93de7344bf313fc2f338b93e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of demands to be treated in a single optimization. <br /></td></tr>
+<tr class="memitem:ac265037c93de7344bf313fc2f338b93e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#ac265037c93de7344bf313fc2f338b93e">setNbDemandsAtOnce</a> (const int val)</td></tr>
+<tr class="memdesc:ac265037c93de7344bf313fc2f338b93e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the number of demands to be treated in a single optimization.  <a href="classInput.html#ac265037c93de7344bf313fc2f338b93e">More...</a><br /></td></tr>
 <tr class="separator:ac265037c93de7344bf313fc2f338b93e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af82000dddb4d83ac082c0bda110e1920"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#af82000dddb4d83ac082c0bda110e1920">setTimeLimit</a> (const int val)</td></tr>
+<tr class="memdesc:af82000dddb4d83ac082c0bda110e1920"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the time limit of one iteration.  <a href="classInput.html#af82000dddb4d83ac082c0bda110e1920">More...</a><br /></td></tr>
+<tr class="separator:af82000dddb4d83ac082c0bda110e1920"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4576c4fc3e87be0cce0b9b0f081b06a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a4576c4fc3e87be0cce0b9b0f081b06a9">setGlobalTimeLimit</a> (const int val)</td></tr>
+<tr class="memdesc:a4576c4fc3e87be0cce0b9b0f081b06a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the global time limit.  <a href="classInput.html#a4576c4fc3e87be0cce0b9b0f081b06a9">More...</a><br /></td></tr>
+<tr class="separator:a4576c4fc3e87be0cce0b9b0f081b06a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c92e2c8fd207b941060a22ba4519075"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a6c92e2c8fd207b941060a22ba4519075">getParameterValue</a> (std::string pattern)</td></tr>
 <tr class="memdesc:a6c92e2c8fd207b941060a22ba4519075"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches for a pattern in the parameter file and returns its associated value.  <a href="classInput.html#a6c92e2c8fd207b941060a22ba4519075">More...</a><br /></td></tr>
 <tr class="separator:a6c92e2c8fd207b941060a22ba4519075"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -295,6 +304,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a6195af390ab6316c6aefc4da6b8c8db1">timeLimit</a></td></tr>
 <tr class="memdesc:a6195af390ab6316c6aefc4da6b8c8db1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to how much time (in seconds) can be spent during one optimization. <br /></td></tr>
 <tr class="separator:a6195af390ab6316c6aefc4da6b8c8db1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62ebff856547a1967af13697fbb9a839"><td class="memItemLeft" align="right" valign="top"><a id="a62ebff856547a1967af13697fbb9a839"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a62ebff856547a1967af13697fbb9a839">globalTimeLimit</a></td></tr>
+<tr class="memdesc:a62ebff856547a1967af13697fbb9a839"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to how much time (in seconds) can be spent during the whole optmization. <br /></td></tr>
+<tr class="separator:a62ebff856547a1967af13697fbb9a839"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e4b66817ca693839ff6dc53243d7a77"><td class="memItemLeft" align="right" valign="top"><a id="a9e4b66817ca693839ff6dc53243d7a77"></a>
 <a class="el" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031">Method</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a9e4b66817ca693839ff6dc53243d7a77">chosenMethod</a></td></tr>
 <tr class="memdesc:a9e4b66817ca693839ff6dc53243d7a77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to which method is applied for solving the problem. <br /></td></tr>
@@ -526,7 +539,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00069">69</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00070">70</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -548,7 +561,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Destructor. </p>
 <p>Clears the vector of strings. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00196">196</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00199">199</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -585,7 +598,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00116">116</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00117">117</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -614,7 +627,115 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </dl>
 <dl class="section note"><dt>Note</dt><dd>It is surely not the most performant method but the parameter file has a reasonable size and the code becomes much clearer. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00095">95</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00098">98</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a4576c4fc3e87be0cce0b9b0f081b06a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4576c4fc3e87be0cce0b9b0f081b06a9">&#9670;&nbsp;</a></span>setGlobalTimeLimit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Input::setGlobalTimeLimit </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>val</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the global time limit. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">val</td><td>The new time limit (in seconds). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00178">178</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+
+</div>
+</div>
+<a id="ac265037c93de7344bf313fc2f338b93e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac265037c93de7344bf313fc2f338b93e">&#9670;&nbsp;</a></span>setNbDemandsAtOnce()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Input::setNbDemandsAtOnce </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>val</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the number of demands to be treated in a single optimization. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">val</td><td>The new number of demands. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00172">172</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+
+</div>
+</div>
+<a id="af82000dddb4d83ac082c0bda110e1920"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af82000dddb4d83ac082c0bda110e1920">&#9670;&nbsp;</a></span>setTimeLimit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Input::setTimeLimit </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>val</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the time limit of one iteration. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">val</td><td>The new time limit (in seconds). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00175">175</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -637,7 +758,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Converts a string into time limit. </p>
 <dl class="section note"><dt>Note</dt><dd>By default, time limit is unlimited. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00177">177</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00180">180</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>

@@ -67,6 +67,7 @@ private:
 	int partitionSlice;					/**< Refers to the max slice of Left spectrum region, if partitioning policy is set to Hard. **/
 	int partitionLoad;					/**< Refers to the max load that can be routed on the Left spectrum region, if some partioning policy is set. **/
 	int timeLimit;						/**< Refers to how much time (in seconds) can be spent during one optimization. **/
+	int globalTimeLimit;				/**< Refers to how much time (in seconds) can be spent during the whole optmization. **/
 
 	Method chosenMethod;				/**< Refers to which method is applied for solving the problem.**/
 	PreprocessingLevel chosenPreprLvl;	/**< Refers to which level of preprocessing is applied before solving the problem.**/
@@ -130,8 +131,11 @@ public:
 	/** Returns the max load that should be pushed to the Left spectrum region. **/
     int getPartitionLoad() const { return partitionLoad; }
 
-	/** Returns the timeLimit for a single optimization. **/
+	/** Returns the timeLimit for a single optimization iteration. **/
     int getTimeLimit() const { return timeLimit; }
+
+	/** Returns the global time limit applied to the optimization. **/
+    int getGlobalTimeLimit() const { return globalTimeLimit; }
 
 	/** Returns the identifier of the method chosen for optimization. **/
     Method getChosenMethod() const { return chosenMethod; }
@@ -164,8 +168,14 @@ public:
 	/*										Setters											*/
 	/****************************************************************************************/
 	
-	/** Returns the number of demands to be treated in a single optimization. **/
+	/** Changes the number of demands to be treated in a single optimization. @param val The new number of demands. **/
     void setNbDemandsAtOnce(const int val) { nbDemandsAtOnce = val; }
+
+	/** Changes the time limit of one iteration. @param val The new time limit (in seconds). **/
+    void setTimeLimit(const int val) { timeLimit = val; }
+
+	/** Changes the global time limit. @param val The new time limit (in seconds). **/
+    void setGlobalTimeLimit(const int val) { globalTimeLimit = val; }
 
 	/****************************************************************************************/
 	/*										Methods											*/

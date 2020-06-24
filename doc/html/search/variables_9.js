@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['onlinedemandfolder_589',['onlineDemandFolder',['../classInput.html#a881a784f4538f31d8d8c4e35a2d0a012',1,'Input']]],
-  ['outputpath_590',['outputPath',['../classInput.html#ace895093433d8de4fb4655d726f22de7',1,'Input']]],
-  ['overlapslack_591',['overlapSlack',['../classSubgradient.html#a8d2aef8fb752901b5c7f4eb6e6977df5',1,'Subgradient']]]
+  ['nbdemandsatonce_623',['nbDemandsAtOnce',['../classInput.html#acb7eb7db33b7e232e64db4d70ce4fd47',1,'Input']]],
+  ['nbinitialdemands_624',['nbInitialDemands',['../classInstance.html#a7446da39eed844ca96a11cc93aec3a45',1,'Instance']]],
+  ['nbiterationswithoutimprovement_625',['nbIterationsWithoutImprovement',['../classInput.html#aa1ac392cf74560f7d4ac8420dd817a4c',1,'Input']]],
+  ['nbnodes_626',['nbNodes',['../classInstance.html#ad62f032a3dca06ba592902dc18f070e2',1,'Instance']]],
+  ['nbslices_627',['nbSlices',['../classPhysicalLink.html#aed90debab63d3f2e1198a2ded7beedac',1,'PhysicalLink']]],
+  ['nbslicesinoutputfile_628',['nbSlicesInOutputFile',['../classInput.html#ae0fff1fed72489ac812f7fbc25490d4b',1,'Input']]]
 ];

@@ -124,9 +124,21 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>getLengthMultiplier
 <tr class="memitem:a676fc7537c1e18327bb95bebb4259fba"><td class="memItemLeft" align="right" valign="top"><a id="a676fc7537c1e18327bb95bebb4259fba"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>getOverlapMultiplier_k</b> (int d1, int d2, int e, int s) const</td></tr>
 <tr class="separator:a676fc7537c1e18327bb95bebb4259fba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4129a5afc5a1fd57b7629d57e65967b"><td class="memItemLeft" align="right" valign="top"><a id="ae4129a5afc5a1fd57b7629d57e65967b"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>getOverlapMultiplier1_k</b> (int d, int w, int e, int s) const</td></tr>
+<tr class="separator:ae4129a5afc5a1fd57b7629d57e65967b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61b276d2bee43d3fc3c0ab1fb87d5ed5"><td class="memItemLeft" align="right" valign="top"><a id="a61b276d2bee43d3fc3c0ab1fb87d5ed5"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>getOverlapMultiplier2_k</b> (int w1, int w2, int e, int s) const</td></tr>
+<tr class="separator:a61b276d2bee43d3fc3c0ab1fb87d5ed5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad031fc81f1dc87e67776f84e37fd0216"><td class="memItemLeft" align="right" valign="top"><a id="ad031fc81f1dc87e67776f84e37fd0216"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>getOverlapSlack_k</b> (int d1, int d2, int e, int s) const</td></tr>
 <tr class="separator:ad031fc81f1dc87e67776f84e37fd0216"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a521081c1688521aac4b082d1fdd0aebd"><td class="memItemLeft" align="right" valign="top"><a id="a521081c1688521aac4b082d1fdd0aebd"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>getOverlap_1Slack_k</b> (int d, int w, int e, int s) const</td></tr>
+<tr class="separator:a521081c1688521aac4b082d1fdd0aebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a064196391f9fbed73f4fd35645274f9d"><td class="memItemLeft" align="right" valign="top"><a id="a064196391f9fbed73f4fd35645274f9d"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>getOverlap_2Slack_k</b> (int w1, int w2, int e, int s) const</td></tr>
+<tr class="separator:a064196391f9fbed73f4fd35645274f9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50abbec9c7f22650c568e206daf79665"><td class="memItemLeft" align="right" valign="top"><a id="a50abbec9c7f22650c568e206daf79665"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>getLengthSlack_k</b> (int k) const</td></tr>
 <tr class="separator:a50abbec9c7f22650c568e206daf79665"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -157,24 +169,24 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>incItWithoutImproveme
 <tr class="memitem:a8e18076cd69080a2a465c8525e832022"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a8e18076cd69080a2a465c8525e832022">incArcCost</a> (const ListDigraph::Arc &amp;a, int d, double val)</td></tr>
 <tr class="memdesc:a8e18076cd69080a2a465c8525e832022"><td class="mdescLeft">&#160;</td><td class="mdescRight">Increments the cost of an arc in a graph.  <a href="classSubgradient.html#a8e18076cd69080a2a465c8525e832022">More...</a><br /></td></tr>
 <tr class="separator:a8e18076cd69080a2a465c8525e832022"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bf4d5ae6f6442a088e418b8bfb524b4"><td class="memItemLeft" align="right" valign="top"><a id="a8bf4d5ae6f6442a088e418b8bfb524b4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setUB</b> (double i)</td></tr>
-<tr class="separator:a8bf4d5ae6f6442a088e418b8bfb524b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63e481e444755ee14c9d32fdeda8a940"><td class="memItemLeft" align="right" valign="top"><a id="a63e481e444755ee14c9d32fdeda8a940"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setLB</b> (double i)</td></tr>
-<tr class="separator:a63e481e444755ee14c9d32fdeda8a940"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25234066c6c24397889db6146a9ffa32"><td class="memItemLeft" align="right" valign="top"><a id="a25234066c6c24397889db6146a9ffa32"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setCurrentLagrCost</b> (double i)</td></tr>
-<tr class="separator:a25234066c6c24397889db6146a9ffa32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3fe1e1e032bd7041eed50bee8a4cd573"><td class="memItemLeft" align="right" valign="top"><a id="a3fe1e1e032bd7041eed50bee8a4cd573"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>incCurrentLagrCost</b> (double i)</td></tr>
-<tr class="separator:a3fe1e1e032bd7041eed50bee8a4cd573"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89c7b4216f4cf8d5d65615e1c811e6d6"><td class="memItemLeft" align="right" valign="top"><a id="a89c7b4216f4cf8d5d65615e1c811e6d6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setCurrentRealCost</b> (double i)</td></tr>
-<tr class="separator:a89c7b4216f4cf8d5d65615e1c811e6d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e7b92c05ae0090505e82c75370aa0d4"><td class="memItemLeft" align="right" valign="top"><a id="a5e7b92c05ae0090505e82c75370aa0d4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>incCurrentRealCost</b> (double i)</td></tr>
-<tr class="separator:a5e7b92c05ae0090505e82c75370aa0d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f19a5b4166477af641b2ffc242efc83"><td class="memItemLeft" align="right" valign="top"><a id="a0f19a5b4166477af641b2ffc242efc83"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setUB</b> (double val)</td></tr>
+<tr class="separator:a0f19a5b4166477af641b2ffc242efc83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95d6544f30145942a5d1671ed43623d7"><td class="memItemLeft" align="right" valign="top"><a id="a95d6544f30145942a5d1671ed43623d7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setLB</b> (double val)</td></tr>
+<tr class="separator:a95d6544f30145942a5d1671ed43623d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef915333eb69995616b3945cd6a0b903"><td class="memItemLeft" align="right" valign="top"><a id="aef915333eb69995616b3945cd6a0b903"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setCurrentLagrCost</b> (double val)</td></tr>
+<tr class="separator:aef915333eb69995616b3945cd6a0b903"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acde6101999269dea5851b7e70cebf189"><td class="memItemLeft" align="right" valign="top"><a id="acde6101999269dea5851b7e70cebf189"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>incCurrentLagrCost</b> (double val)</td></tr>
+<tr class="separator:acde6101999269dea5851b7e70cebf189"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ef7c5bb758fc5d541e107726ed9c82d"><td class="memItemLeft" align="right" valign="top"><a id="a2ef7c5bb758fc5d541e107726ed9c82d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setCurrentRealCost</b> (double val)</td></tr>
+<tr class="separator:a2ef7c5bb758fc5d541e107726ed9c82d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5208470d121eeae8fc8f54a78741ba95"><td class="memItemLeft" align="right" valign="top"><a id="a5208470d121eeae8fc8f54a78741ba95"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>incCurrentRealCost</b> (double val)</td></tr>
+<tr class="separator:a5208470d121eeae8fc8f54a78741ba95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1fa4737f041a519fa8321e43f3b2c01d"><td class="memItemLeft" align="right" valign="top"><a id="a1fa4737f041a519fa8321e43f3b2c01d"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setIsUnfeasible</b> (bool i)</td></tr>
 <tr class="separator:a1fa4737f041a519fa8321e43f3b2c01d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -184,21 +196,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setIsFeasible</b> (bo
 <tr class="memitem:ae44e0518ef1ef3df5f8ea7ba8b775350"><td class="memItemLeft" align="right" valign="top"><a id="ae44e0518ef1ef3df5f8ea7ba8b775350"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setIsOptimal</b> (bool i)</td></tr>
 <tr class="separator:ae44e0518ef1ef3df5f8ea7ba8b775350"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9334a02599b911ef8c949759540e0bbb"><td class="memItemLeft" align="right" valign="top"><a id="a9334a02599b911ef8c949759540e0bbb"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setLengthMultiplier_k</b> (int k, double i)</td></tr>
-<tr class="separator:a9334a02599b911ef8c949759540e0bbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c9f024e1f165d2b908a252d72ba39f8"><td class="memItemLeft" align="right" valign="top"><a id="a5c9f024e1f165d2b908a252d72ba39f8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setOverlapMultiplier_k</b> (int d1, int d2, int e, int s, double i)</td></tr>
-<tr class="separator:a5c9f024e1f165d2b908a252d72ba39f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea7abdbc274dcc22baece3cd2d45d65b"><td class="memItemLeft" align="right" valign="top"><a id="aea7abdbc274dcc22baece3cd2d45d65b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setLengthMultiplier_k</b> (int k, double val)</td></tr>
+<tr class="separator:aea7abdbc274dcc22baece3cd2d45d65b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29af752b1c5a15c8fb20b1efd0f96c1e"><td class="memItemLeft" align="right" valign="top"><a id="a29af752b1c5a15c8fb20b1efd0f96c1e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setOverlapMultiplier_k</b> (int d1, int d2, int e, int s, double val)</td></tr>
+<tr class="separator:a29af752b1c5a15c8fb20b1efd0f96c1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86b3d56e3a3ac24f0723f0cf4b45ab8f"><td class="memItemLeft" align="right" valign="top"><a id="a86b3d56e3a3ac24f0723f0cf4b45ab8f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setOverlapMultiplier1_k</b> (int d, int w, int e, int s, double val)</td></tr>
+<tr class="separator:a86b3d56e3a3ac24f0723f0cf4b45ab8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af48e6e12e6ed79afcb2de3a03225cf64"><td class="memItemLeft" align="right" valign="top"><a id="af48e6e12e6ed79afcb2de3a03225cf64"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setOverlapMultiplier2_k</b> (int w1, int w2, int e, int s, double val)</td></tr>
+<tr class="separator:af48e6e12e6ed79afcb2de3a03225cf64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca9e016f6227f116a8b87d6dfe75f340"><td class="memItemLeft" align="right" valign="top"><a id="aca9e016f6227f116a8b87d6dfe75f340"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setStepSize</b> (double val)</td></tr>
 <tr class="separator:aca9e016f6227f116a8b87d6dfe75f340"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bbce263fbe5fe04e5c77dc85b23d017"><td class="memItemLeft" align="right" valign="top"><a id="a1bbce263fbe5fe04e5c77dc85b23d017"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setLengthSlack_k</b> (int k, double val)</td></tr>
-<tr class="separator:a1bbce263fbe5fe04e5c77dc85b23d017"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6b4f37c790daef186254ef60ef3a6fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#aa6b4f37c790daef186254ef60ef3a6fd">setLengthSlack_k</a> (int d, double val)</td></tr>
+<tr class="memdesc:aa6b4f37c790daef186254ef60ef3a6fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the value of the slack from a length constraint.  <a href="classSubgradient.html#aa6b4f37c790daef186254ef60ef3a6fd">More...</a><br /></td></tr>
+<tr class="separator:aa6b4f37c790daef186254ef60ef3a6fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94d1e762e3f620168e7a074aaa14d011"><td class="memItemLeft" align="right" valign="top"><a id="a94d1e762e3f620168e7a074aaa14d011"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setOverlapSlack_k</b> (int d1, int d2, int e, int s, double val)</td></tr>
 <tr class="separator:a94d1e762e3f620168e7a074aaa14d011"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3f0c4110fdf7b6ea794e843cfe5d286"><td class="memItemLeft" align="right" valign="top"><a id="af3f0c4110fdf7b6ea794e843cfe5d286"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setOverlap_1Slack_k</b> (int d, int w, int e, int s, double val)</td></tr>
+<tr class="separator:af3f0c4110fdf7b6ea794e843cfe5d286"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e60feb6fda3263156ce0c6db77591be"><td class="memItemLeft" align="right" valign="top"><a id="a6e60feb6fda3263156ce0c6db77591be"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setOverlap_2Slack_k</b> (int w1, int w2, int e, int s, double val)</td></tr>
+<tr class="separator:a6e60feb6fda3263156ce0c6db77591be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e2618142984249c1564e10006a0dac0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a4e2618142984249c1564e10006a0dac0">setLambda</a> (double val)</td></tr>
 <tr class="memdesc:a4e2618142984249c1564e10006a0dac0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the value of lambda.  <a href="classSubgradient.html#a4e2618142984249c1564e10006a0dac0">More...</a><br /></td></tr>
 <tr class="separator:a4e2618142984249c1564e10006a0dac0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -206,6 +230,26 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setOverlapSlack_k</b>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#af02de9b2361a2d2993d00243418ebc8f">initMultipliers</a> ()</td></tr>
 <tr class="memdesc:af02de9b2361a2d2993d00243418ebc8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the initial lagrangian multipliers values for the subgradient to run. <br /></td></tr>
 <tr class="separator:af02de9b2361a2d2993d00243418ebc8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d4dc502eb70b2f52b79cae974434185"><td class="memItemLeft" align="right" valign="top"><a id="a6d4dc502eb70b2f52b79cae974434185"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a6d4dc502eb70b2f52b79cae974434185">initLambda</a> ()</td></tr>
+<tr class="memdesc:a6d4dc502eb70b2f52b79cae974434185"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the initial lambda used for updating the step size. <br /></td></tr>
+<tr class="separator:a6d4dc502eb70b2f52b79cae974434185"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee8858df3d59757d70e845c2f82f0fbb"><td class="memItemLeft" align="right" valign="top"><a id="aee8858df3d59757d70e845c2f82f0fbb"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#aee8858df3d59757d70e845c2f82f0fbb">initializeLengthMultipliers</a> ()</td></tr>
+<tr class="memdesc:aee8858df3d59757d70e845c2f82f0fbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the initial lagrangian multipliers associated with length constraints. <br /></td></tr>
+<tr class="separator:aee8858df3d59757d70e845c2f82f0fbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab272b7b375e40cf8451920b570a15491"><td class="memItemLeft" align="right" valign="top"><a id="ab272b7b375e40cf8451920b570a15491"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#ab272b7b375e40cf8451920b570a15491">initializeOverlapMultipliers</a> ()</td></tr>
+<tr class="memdesc:ab272b7b375e40cf8451920b570a15491"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the initial lagrangian multipliers associated with non-overlapping constraints. <br /></td></tr>
+<tr class="separator:ab272b7b375e40cf8451920b570a15491"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32d78ad2840b054c6bfb600d3b4210b1"><td class="memItemLeft" align="right" valign="top"><a id="a32d78ad2840b054c6bfb600d3b4210b1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a32d78ad2840b054c6bfb600d3b4210b1">initializeOverlap_1Multipliers</a> ()</td></tr>
+<tr class="memdesc:a32d78ad2840b054c6bfb600d3b4210b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the initial lagrangian multipliers associated with 1st set of improved non-overlapping constraints. <br /></td></tr>
+<tr class="separator:a32d78ad2840b054c6bfb600d3b4210b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2a514380be379384f67662201e374ee"><td class="memItemLeft" align="right" valign="top"><a id="ae2a514380be379384f67662201e374ee"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#ae2a514380be379384f67662201e374ee">initializeOverlap_2Multipliers</a> ()</td></tr>
+<tr class="memdesc:ae2a514380be379384f67662201e374ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the initial lagrangian multipliers associated with 2nd set of improved non-overlapping constraints. <br /></td></tr>
+<tr class="separator:ae2a514380be379384f67662201e374ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d55114ba9cfa2111f0c0da888683bf5"><td class="memItemLeft" align="right" valign="top"><a id="a7d55114ba9cfa2111f0c0da888683bf5"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a7d55114ba9cfa2111f0c0da888683bf5">initAssignmentMatrix</a> ()</td></tr>
 <tr class="memdesc:a7d55114ba9cfa2111f0c0da888683bf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the assignement matrix. <br /></td></tr>
@@ -214,6 +258,22 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a5e9ae2f71676f74e834022b140d518d6">initSlacks</a> ()</td></tr>
 <tr class="memdesc:a5e9ae2f71676f74e834022b140d518d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the slack of relaxed constraints. <br /></td></tr>
 <tr class="separator:a5e9ae2f71676f74e834022b140d518d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a295fec4628764e90c571177f5d11df9a"><td class="memItemLeft" align="right" valign="top"><a id="a295fec4628764e90c571177f5d11df9a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a295fec4628764e90c571177f5d11df9a">initializeLengthSlacks</a> ()</td></tr>
+<tr class="memdesc:a295fec4628764e90c571177f5d11df9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the slack of length constraints. <br /></td></tr>
+<tr class="separator:a295fec4628764e90c571177f5d11df9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01ae880c8676865a4343d48d08d5602d"><td class="memItemLeft" align="right" valign="top"><a id="a01ae880c8676865a4343d48d08d5602d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a01ae880c8676865a4343d48d08d5602d">initializeOverlapSlacks</a> ()</td></tr>
+<tr class="memdesc:a01ae880c8676865a4343d48d08d5602d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the slack of non-overlap constraints. <br /></td></tr>
+<tr class="separator:a01ae880c8676865a4343d48d08d5602d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a331a82dbc3ab0ce6910741253c22172c"><td class="memItemLeft" align="right" valign="top"><a id="a331a82dbc3ab0ce6910741253c22172c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a331a82dbc3ab0ce6910741253c22172c">initializeOverlap_1Slacks</a> ()</td></tr>
+<tr class="memdesc:a331a82dbc3ab0ce6910741253c22172c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the slack of 1st set of improved non-overlap constraints. <br /></td></tr>
+<tr class="separator:a331a82dbc3ab0ce6910741253c22172c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ce88e7d07f3b91999266edbf25e3140"><td class="memItemLeft" align="right" valign="top"><a id="a8ce88e7d07f3b91999266edbf25e3140"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a8ce88e7d07f3b91999266edbf25e3140">initializeOverlap_2Slacks</a> ()</td></tr>
+<tr class="memdesc:a8ce88e7d07f3b91999266edbf25e3140"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the slack of 2nd set of improved non-overlap constraints. <br /></td></tr>
+<tr class="separator:a8ce88e7d07f3b91999266edbf25e3140"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adec2c8ad92828b8ba566a1c335f82d60"><td class="memItemLeft" align="right" valign="top"><a id="adec2c8ad92828b8ba566a1c335f82d60"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#adec2c8ad92828b8ba566a1c335f82d60">initCosts</a> ()</td></tr>
 <tr class="memdesc:adec2c8ad92828b8ba566a1c335f82d60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the costs in the objective function. <br /></td></tr>
@@ -226,6 +286,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a96c8238e115fcb7001d677e22e515239">checkFeasibility</a> ()</td></tr>
 <tr class="memdesc:a96c8238e115fcb7001d677e22e515239"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if all slacks are non-negative. <br /></td></tr>
 <tr class="separator:a96c8238e115fcb7001d677e22e515239"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae18e5de228f072dec9778f168040951f"><td class="memItemLeft" align="right" valign="top"><a id="ae18e5de228f072dec9778f168040951f"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>checkLengthFeasibility</b> ()</td></tr>
+<tr class="separator:ae18e5de228f072dec9778f168040951f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ab98c84905a215ab5853499a61ab48e"><td class="memItemLeft" align="right" valign="top"><a id="a9ab98c84905a215ab5853499a61ab48e"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>checkOverlap_1Feasibility</b> ()</td></tr>
+<tr class="separator:a9ab98c84905a215ab5853499a61ab48e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a246bd1c2a865463c8b544e84db480a5d"><td class="memItemLeft" align="right" valign="top"><a id="a246bd1c2a865463c8b544e84db480a5d"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>checkOverlap_2Feasibility</b> ()</td></tr>
+<tr class="separator:a246bd1c2a865463c8b544e84db480a5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7965eafcf11c5b924d8a192ecab8d809"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a7965eafcf11c5b924d8a192ecab8d809">updateCosts</a> ()</td></tr>
 <tr class="memdesc:a7965eafcf11c5b924d8a192ecab8d809"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the arc costs.  <a href="classSubgradient.html#a7965eafcf11c5b924d8a192ecab8d809">More...</a><br /></td></tr>
 <tr class="separator:a7965eafcf11c5b924d8a192ecab8d809"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -261,6 +330,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>updateLambda</b> ()</
 <tr class="memitem:a979c98fae441921d8111840e92a00ff0"><td class="memItemLeft" align="right" valign="top"><a id="a979c98fae441921d8111840e92a00ff0"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>updateOverlapSlack</b> ()</td></tr>
 <tr class="separator:a979c98fae441921d8111840e92a00ff0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4dcb5495b09bd1ce3205e625443a9b1"><td class="memItemLeft" align="right" valign="top"><a id="ab4dcb5495b09bd1ce3205e625443a9b1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>updateOverlapSlack_1</b> ()</td></tr>
+<tr class="separator:ab4dcb5495b09bd1ce3205e625443a9b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7dde361809a83491222e2b2c2f8e847"><td class="memItemLeft" align="right" valign="top"><a id="af7dde361809a83491222e2b2c2f8e847"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>updateOverlapSlack_2</b> ()</td></tr>
+<tr class="separator:af7dde361809a83491222e2b2c2f8e847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e9c2a071d421a06144d3e6271c101ed"><td class="memItemLeft" align="right" valign="top"><a id="a3e9c2a071d421a06144d3e6271c101ed"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>subtractConstantValuesFromLagrCost</b> ()</td></tr>
+<tr class="separator:a3e9c2a071d421a06144d3e6271c101ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aecde88c158ccb130ad41ca8538c0a75e"><td class="memItemLeft" align="right" valign="top"><a id="aecde88c158ccb130ad41ca8538c0a75e"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>updateStop</b> (bool &amp;STOP)</td></tr>
 <tr class="separator:aecde88c158ccb130ad41ca8538c0a75e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -520,11 +598,21 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>isUnfeasible</b></td>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>isOptimal</b></td></tr>
 <tr class="separator:ae6de04949d51cf27a7eff8ef9a0276a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca49e443fff3c10c729a483daa810e81"><td class="memItemLeft" align="right" valign="top"><a id="aca49e443fff3c10c729a483daa810e81"></a>
-std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>lagrangianMultiplierLength</b></td></tr>
+std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#aca49e443fff3c10c729a483daa810e81">lagrangianMultiplierLength</a></td></tr>
+<tr class="memdesc:aca49e443fff3c10c729a483daa810e81"><td class="mdescLeft">&#160;</td><td class="mdescRight">A vector storing the value of the Lagrangian multipliers associated with Length Constraints. <br /></td></tr>
 <tr class="separator:aca49e443fff3c10c729a483daa810e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6497e98863e502ef9416f29bc71c0448"><td class="memItemLeft" align="right" valign="top"><a id="a6497e98863e502ef9416f29bc71c0448"></a>
-std::vector&lt; std::vector&lt; std::vector&lt; std::vector&lt; double &gt; &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>lagrangianMultiplierOverlap</b></td></tr>
+std::vector&lt; std::vector&lt; std::vector&lt; std::vector&lt; double &gt; &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a6497e98863e502ef9416f29bc71c0448">lagrangianMultiplierOverlap</a></td></tr>
+<tr class="memdesc:a6497e98863e502ef9416f29bc71c0448"><td class="mdescLeft">&#160;</td><td class="mdescRight">A 4-dimensional vector storing the value of the Lagrangian multipliers associated with each Non-Overlapping constraint. <br /></td></tr>
 <tr class="separator:a6497e98863e502ef9416f29bc71c0448"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee92908caa321632bf74764bde3d75a7"><td class="memItemLeft" align="right" valign="top"><a id="aee92908caa321632bf74764bde3d75a7"></a>
+std::vector&lt; std::vector&lt; std::vector&lt; std::vector&lt; double &gt; &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#aee92908caa321632bf74764bde3d75a7">lagrangianMultiplierOverlap_1</a></td></tr>
+<tr class="memdesc:aee92908caa321632bf74764bde3d75a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">A 4-dimensional vector storing the value of the Lagrangian multipliers associated with improved 1st set of Non-Overlapping constraint. <br /></td></tr>
+<tr class="separator:aee92908caa321632bf74764bde3d75a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7981c4a618c3ca1836295b7279a74cae"><td class="memItemLeft" align="right" valign="top"><a id="a7981c4a618c3ca1836295b7279a74cae"></a>
+std::vector&lt; std::vector&lt; std::vector&lt; std::vector&lt; double &gt; &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a7981c4a618c3ca1836295b7279a74cae">lagrangianMultiplierOverlap_2</a></td></tr>
+<tr class="memdesc:a7981c4a618c3ca1836295b7279a74cae"><td class="mdescLeft">&#160;</td><td class="mdescRight">A 4-dimensional vector storing the value of the Lagrangian multipliers associated with improved 2nd set of Non-Overlapping constraint. <br /></td></tr>
+<tr class="separator:a7981c4a618c3ca1836295b7279a74cae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ac3ab443cffb52a7601239d4bb581b8"><td class="memItemLeft" align="right" valign="top"><a id="a4ac3ab443cffb52a7601239d4bb581b8"></a>
 std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a4ac3ab443cffb52a7601239d4bb581b8">lengthSlack</a></td></tr>
 <tr class="memdesc:a4ac3ab443cffb52a7601239d4bb581b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the value of the slack of lengths constraints (i.e., b - Dx). <br /></td></tr>
@@ -533,6 +621,14 @@ std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><
 std::vector&lt; std::vector&lt; std::vector&lt; std::vector&lt; double &gt; &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a8d2aef8fb752901b5c7f4eb6e6977df5">overlapSlack</a></td></tr>
 <tr class="memdesc:a8d2aef8fb752901b5c7f4eb6e6977df5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the value of the slack of Non-Overlapping constraints (i.e., b - Dx). <br /></td></tr>
 <tr class="separator:a8d2aef8fb752901b5c7f4eb6e6977df5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71aea3bc4c1dc5919f2aadf6aeb73b5e"><td class="memItemLeft" align="right" valign="top"><a id="a71aea3bc4c1dc5919f2aadf6aeb73b5e"></a>
+std::vector&lt; std::vector&lt; std::vector&lt; std::vector&lt; double &gt; &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a71aea3bc4c1dc5919f2aadf6aeb73b5e">overlapSlack_1</a></td></tr>
+<tr class="memdesc:a71aea3bc4c1dc5919f2aadf6aeb73b5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the value of the slack of 1st set of Non-Overlapping constraints (i.e., b - Dx). <br /></td></tr>
+<tr class="separator:a71aea3bc4c1dc5919f2aadf6aeb73b5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2177b68ed8062c0030c5e5bdfd71285f"><td class="memItemLeft" align="right" valign="top"><a id="a2177b68ed8062c0030c5e5bdfd71285f"></a>
+std::vector&lt; std::vector&lt; std::vector&lt; std::vector&lt; double &gt; &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a2177b68ed8062c0030c5e5bdfd71285f">overlapSlack_2</a></td></tr>
+<tr class="memdesc:a2177b68ed8062c0030c5e5bdfd71285f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the value of the slack of 2nd set of Non-Overlapping constraints (i.e., b - Dx). <br /></td></tr>
+<tr class="separator:a2177b68ed8062c0030c5e5bdfd71285f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a390457d4bab339f347f39bfbb68d3552"><td class="memItemLeft" align="right" valign="top"><a id="a390457d4bab339f347f39bfbb68d3552"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSubgradient.html#a390457d4bab339f347f39bfbb68d3552">stepSize</a></td></tr>
 <tr class="memdesc:a390457d4bab339f347f39bfbb68d3552"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the value of the step size used for updating the Lagrangian multipliers. <br /></td></tr>
@@ -693,7 +789,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="subgradient_8h_source.html#l00104">104</a> of file <a class="el" href="subgradient_8h_source.html">subgradient.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="subgradient_8h_source.html#l00120">120</a> of file <a class="el" href="subgradient_8h_source.html">subgradient.h</a>.</p>
 
 </div>
 </div>
@@ -747,7 +843,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="subgradient_8h_source.html#l00101">101</a> of file <a class="el" href="subgradient_8h_source.html">subgradient.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="subgradient_8h_source.html#l00117">117</a> of file <a class="el" href="subgradient_8h_source.html">subgradient.h</a>.</p>
 
 </div>
 </div>
@@ -783,7 +879,54 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="subgradient_8h_source.html#l00125">125</a> of file <a class="el" href="subgradient_8h_source.html">subgradient.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="subgradient_8h_source.html#l00148">148</a> of file <a class="el" href="subgradient_8h_source.html">subgradient.h</a>.</p>
+
+</div>
+</div>
+<a id="aa6b4f37c790daef186254ef60ef3a6fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6b4f37c790daef186254ef60ef3a6fd">&#9670;&nbsp;</a></span>setLengthSlack_k()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Subgradient::setLengthSlack_k </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the value of the slack from a length constraint. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>The demand index.</td></tr>
+    <tr><td class="paramname">val</td><td>The new slack value. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="subgradient_8h_source.html#l00142">142</a> of file <a class="el" href="subgradient_8h_source.html">subgradient.h</a>.</p>
 
 </div>
 </div>
@@ -836,7 +979,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="subgradient_8cpp_source.html#l00167">167</a> of file <a class="el" href="subgradient_8cpp_source.html">subgradient.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="subgradient_8cpp_source.html#l00334">334</a> of file <a class="el" href="subgradient_8cpp_source.html">subgradient.cpp</a>.</p>
 
 </div>
 </div>
@@ -858,7 +1001,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>Updates the arc costs. </p>
 <dl class="section note"><dt>Note</dt><dd>cost = coeff + u_d*length </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="subgradient_8cpp_source.html#l00149">149</a> of file <a class="el" href="subgradient_8cpp_source.html">subgradient.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="subgradient_8cpp_source.html#l00248">248</a> of file <a class="el" href="subgradient_8cpp_source.html">subgradient.cpp</a>.</p>
 
 </div>
 </div>
@@ -897,7 +1040,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="subgradient_8cpp_source.html#l00331">331</a> of file <a class="el" href="subgradient_8cpp_source.html">subgradient.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="subgradient_8cpp_source.html#l00611">611</a> of file <a class="el" href="subgradient_8cpp_source.html">subgradient.cpp</a>.</p>
 
 </div>
 </div>

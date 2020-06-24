@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['nbdemandsatonce_583',['nbDemandsAtOnce',['../classInput.html#acb7eb7db33b7e232e64db4d70ce4fd47',1,'Input']]],
-  ['nbinitialdemands_584',['nbInitialDemands',['../classInstance.html#a7446da39eed844ca96a11cc93aec3a45',1,'Instance']]],
-  ['nbiterationswithoutimprovement_585',['nbIterationsWithoutImprovement',['../classInput.html#aa1ac392cf74560f7d4ac8420dd817a4c',1,'Input']]],
-  ['nbnodes_586',['nbNodes',['../classInstance.html#ad62f032a3dca06ba592902dc18f070e2',1,'Instance']]],
-  ['nbslices_587',['nbSlices',['../classPhysicalLink.html#aed90debab63d3f2e1198a2ded7beedac',1,'PhysicalLink']]],
-  ['nbslicesinoutputfile_588',['nbSlicesInOutputFile',['../classInput.html#ae0fff1fed72489ac812f7fbc25490d4b',1,'Input']]]
+  ['max_5fnb_5fit_616',['MAX_NB_IT',['../classSubgradient.html#af3fddec2ec92ef7fd74dca1bffc6e332',1,'Subgradient']]],
+  ['max_5fnb_5fit_5fwithout_5fimprovement_617',['MAX_NB_IT_WITHOUT_IMPROVEMENT',['../classSubgradient.html#a30e7216eb4c3d12d39c09af0c2712333',1,'Subgradient']]],
+  ['maxlength_618',['maxLength',['../classDemand.html#ab7127eeb4c27bec1427ba04b89f3e4be',1,'Demand']]],
+  ['maxnbiterations_619',['maxNbIterations',['../classInput.html#a8815f4f616dd76c5ca29d3573d90f0a6',1,'Input']]],
+  ['maxsliceoverall_620',['maxSliceOverall',['../classCplexForm.html#afb4a0fec238f56a9bbab93b533ad662a',1,'CplexForm']]],
+  ['maxsliceperlink_621',['maxSlicePerLink',['../classCplexForm.html#a4f1709f7149f1210db43d9ecf63ad338',1,'CplexForm']]],
+  ['model_622',['model',['../classCplexForm.html#aedc957cac0f7ee0c663e31e8fdf5f613',1,'CplexForm']]]
 ];

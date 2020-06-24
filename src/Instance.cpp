@@ -58,6 +58,7 @@ void Instance::decreaseNbDemandsAtOnce(){
 	int currentNbDemands = getInput().getNbDemandsAtOnce();
 	this->input.setNbDemandsAtOnce(currentNbDemands - 1);
 }
+
 /* Returns the max used slice position throughout the whole network. */
 int Instance::getMaxUsedSlicePosition() const{
 	int maxSlice = 0;

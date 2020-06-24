@@ -12,9 +12,11 @@ ILOSTLBEGIN
 #include "PhysicalLink.h"
 #include "Instance.h"
 #include "input.h"
+#include "ClockTime.h"
 
 #include "cplexForm.h"
 #include "subgradient.h"
+
 
 using namespace lemon;
 
@@ -24,7 +26,7 @@ int main(int argc, char *argv[]) {
 		/* 						Get Parameter file 							*/
 		/********************************************************************/
 		
-		std::chrono::_V2::system_clock::time_point GLOBAL_START = std::chrono::high_resolution_clock::now();
+		ClockTime GLOBAL_TIME(ClockTime::getTimeNow());
 		std::string parameterFile;
 		if (argc < 2){
 			std::cerr << "A parameter file is required in the arguments. PLease run the program as \n./exec parameterFile.par\n";
@@ -39,10 +41,10 @@ int main(int argc, char *argv[]) {
 		// For each set of online demands, optimize it!
 		std::cout << "> Number of online demand files: " << input.getNbOnlineDemandFiles() << std::endl;
 		for (int i = 0; i < input.getNbOnlineDemandFiles(); i++) {
-				
 			/********************************************************************/
 			/* 						Create initial mapping 						*/
 			/********************************************************************/
+			ClockTime OPTIMIZATION_TIME(ClockTime::getTimeNow());
 			std::cout << "--- READING INSTANCE... --- " << std::endl;
 			Instance instance(input);
 			std::cout << instance.getNbRoutedDemands() << " demands were routed." << std::endl;
@@ -68,79 +70,95 @@ int main(int argc, char *argv[]) {
 			//instance.output(outputCode);
 			bool feasibility = true;
 			while(instance.getNbRoutedDemands() < instance.getNbDemands() && feasibility == true){
-				optimizationCounter++;
-				outputCode = getInBetweenString(nextFile, "/", ".") + "_" + std::to_string(optimizationCounter);
-				std::chrono::_V2::system_clock::time_point start = std::chrono::high_resolution_clock::now();
+				
+				if ((instance.getInput().getGlobalTimeLimit() >= OPTIMIZATION_TIME.getTimeInSecFromStart())){
+					
+					optimizationCounter++;
+					outputCode = getInBetweenString(nextFile, "/", ".") + "_" + std::to_string(optimizationCounter);
+					ClockTime ITERATION_TIME(ClockTime::getTimeNow());
 
-				switch (instance.getInput().getChosenMethod()){
-				case Input::METHOD_CPLEX:
-					{
-						CplexForm solver(instance);	
+					if ((instance.getInput().getGlobalTimeLimit() - OPTIMIZATION_TIME.getTimeInSecFromStart()) < instance.getInput().getTimeLimit()){
+						instance.setTimeLimit(std::max(0, instance.getInput().getGlobalTimeLimit() - (int)OPTIMIZATION_TIME.getTimeInSecFromStart()));
+					}
+					switch (instance.getInput().getChosenMethod()){
+					case Input::METHOD_CPLEX:
+						{
+							CplexForm solver(instance);	
+							
+							std::cout << "Status: " << solver.getCplex().getStatus() << std::endl;
+							RSA::Status STATUS = solver.getStatus();
+							if (STATUS == RSA::STATUS_ERROR){
+								std::cout << "Got error on CPLEX." << std::endl;
+								exit(0);
+							}
+							if (STATUS == RSA::STATUS_FEASIBLE || STATUS == RSA::STATUS_OPTIMAL){
+								solver.updateInstance(instance);
+							}
+							else{
+								std::cout << "Decrease the number of demands to be treated." << std::endl;
+								instance.decreaseNbDemandsAtOnce();
+								//instance.displayDetailedTopology();
+							}
+
+							if (instance.getInput().getNbDemandsAtOnce() <= 0){
+								std::cout << "There is no room for an additional demand." << std::endl;
+								feasibility = false;
+							}
+							break;
+						}
+					case Input::METHOD_SUBGRADIENT:
+						{
+							Subgradient solver(instance);
+							RSA::Status STATUS = solver.getStatus();
+							if (STATUS == RSA::STATUS_FEASIBLE || STATUS == RSA::STATUS_OPTIMAL){
+								solver.updateInstance(instance);
+							}
+							else{
+								std::cout << "Decrease the number of demands to be treated." << std::endl;
+								instance.decreaseNbDemandsAtOnce();
+								//instance.displayDetailedTopology();
+							}
+
+							if (instance.getInput().getNbDemandsAtOnce() <= 0){
+								std::cout << "There is no room for an additional demand." << std::endl;
+								feasibility = false;
+							}
+							//instance.output(outputCode);
+							break;
+						}
+					default:
+						{
+							std::cerr << "The parameter \'chosenMethod\' is invalid. " << std::endl;
+							throw std::invalid_argument( "did not receive an argument" );
+							break;
+						}
 						
-						std::cout << "Status: " << solver.getCplex().getStatus() << std::endl;
-						RSA::Status STATUS = solver.getStatus();
-						if (STATUS == RSA::STATUS_ERROR){
-							std::cout << "Got error on CPLEX status." << std::endl;
-							exit(0);
-						}
-						if (STATUS == RSA::STATUS_FEASIBLE || STATUS == RSA::STATUS_OPTIMAL){
-							solver.updateInstance(instance);
-						}
-						else{
-							std::cout << "Decrease the number of demands to be treated." << std::endl;
-							instance.decreaseNbDemandsAtOnce();
-							//instance.displayDetailedTopology();
-						}
-
-						if (instance.getInput().getNbDemandsAtOnce() <= 0){
-							std::cout << "There is no room for an additional demand." << std::endl;
-							feasibility = false;
-						}
-						break;
 					}
-				case Input::METHOD_SUBGRADIENT:
-					{
-						Subgradient sub(instance);
-						if (sub.getIsFeasible() ==  true){
-							sub.updateInstance(instance);
-						}
-						else{
-							feasibility = false;
-						}
-						//instance.output(outputCode);
-						break;
-					}
-				default:
-					{
-						std::cerr << "The parameter \'chosenMethod\' is invalid. " << std::endl;
-						throw std::invalid_argument( "did not receive an argument" );
-						break;
+					if (instance.getInput().getChosenOutputLvl() == Input::OUTPUT_LVL_DETAILED){
+						instance.output(outputCode);
 					}
 					
+					std::cout << "Time taken by iteration is : ";
+					std::cout << std::fixed  << ITERATION_TIME.getTimeInSecFromStart() << std::setprecision(9); 
+					std::cout << " sec" << std::endl; 
 				}
-				if (instance.getInput().getChosenOutputLvl() == Input::OUTPUT_LVL_DETAILED){
-					instance.output(outputCode);
+				else{
+					feasibility = false;
 				}
-				std::chrono::_V2::system_clock::time_point end = std::chrono::high_resolution_clock::now();
-				double time_taken = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count(); 
-				time_taken *= 1e-9; 
-		
-				std::cout << "Time taken by program is : " << std::fixed  << time_taken << std::setprecision(9); 
-				std::cout << " sec" << std::endl; 
 			}
 			if (instance.getInput().getChosenOutputLvl() >= Input::OUTPUT_LVL_NORMAL){
 				outputCode = getInBetweenString(nextFile, "/", ".");
 				instance.output(outputCode + "_FINAL");
 				instance.outputLogResults(outputCode);
 			}
+			std::cout << "Time taken by optimization is : ";
+			std::cout << std::fixed  << OPTIMIZATION_TIME.getTimeInSecFromStart() << std::setprecision(9); 
+			std::cout << " sec" << std::endl; 
 		}
-		
-		std::chrono::_V2::system_clock::time_point GLOBAL_END = std::chrono::high_resolution_clock::now();
-		double GLOBAL_TIME = std::chrono::duration_cast<std::chrono::nanoseconds>(GLOBAL_END - GLOBAL_START).count(); 
-		GLOBAL_TIME *= 1e-9; 
 
-		std::cout << "Total time taken by program is : " << std::fixed  << GLOBAL_TIME << std::setprecision(9); 
-		std::cout << " sec" << std::endl; 
+		std::cout << "Total time taken by program is : ";
+		std::cout << std::fixed  << GLOBAL_TIME.getTimeInSecFromStart() << std::setprecision(9); 
+		std::cout << " sec" << std::endl;
 	}
 	catch(const std::invalid_argument& e){
 		std::cerr << std::endl << "ERROR: Caught exception." << std::endl;
