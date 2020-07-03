@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['method_5fcplex_665',['METHOD_CPLEX',['../classInput.html#ae19efd3d8de2230a5bb94677518a8031a9bcff65f9fe67d63b9093e1703f1226b',1,'Input']]],
-  ['method_5fsubgradient_666',['METHOD_SUBGRADIENT',['../classInput.html#ae19efd3d8de2230a5bb94677518a8031a1e214c54a52e9881ad79ecb513eeb24d',1,'Input']]]
+  ['method_5fcplex_739',['METHOD_CPLEX',['../classInput.html#ae19efd3d8de2230a5bb94677518a8031a9bcff65f9fe67d63b9093e1703f1226b',1,'Input']]],
+  ['method_5fsubgradient_740',['METHOD_SUBGRADIENT',['../classInput.html#ae19efd3d8de2230a5bb94677518a8031a1e214c54a52e9881ad79ecb513eeb24d',1,'Input']]],
+  ['method_5fyoussouf_741',['METHOD_YOUSSOUF',['../classInput.html#ae19efd3d8de2230a5bb94677518a8031a74f6bb7ea7d8e371bc25ab2a79ec79f4',1,'Input']]]
 ];

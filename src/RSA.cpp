@@ -1,8 +1,8 @@
 #include "RSA.h"
 
 /* Constructor. A graph associated to the initial mapping (instance) is built as well as an extended graph for each demand to be routed. */
-RSA::RSA(const Instance &inst) : instance(inst), compactArcId(compactGraph), compactArcLabel(compactGraph), 
-                                compactArcLength(compactGraph), compactNodeId(compactGraph), 
+RSA::RSA(const Instance &inst) : instance(inst), compactEdgeId(compactGraph), compactEdgeLabel(compactGraph), 
+                                compactEdgeLength(compactGraph), compactNodeId(compactGraph), 
                                 compactNodeLabel(compactGraph){
     setStatus(STATUS_UNKNOWN);
     /* Creates compact graph. */
@@ -82,7 +82,7 @@ RSA::RSA(const Instance &inst) : instance(inst), compactArcId(compactGraph), com
 /* Builds the simple graph associated with the initial mapping. */
 void RSA::buildCompactGraph(){
     for (int i = 0; i < instance.getNbNodes(); i++){
-        ListDigraph::Node n = compactGraph.addNode();
+        ListGraph::Node n = compactGraph.addNode();
         compactNodeLabel[n] = i;
         compactNodeId[n] = compactGraph.id(n);
     }
@@ -90,9 +90,9 @@ void RSA::buildCompactGraph(){
         PhysicalLink edge = instance.getPhysicalLinkFromIndex(i);
         int sourceLabel = edge.getSource();
         int targetLabel = edge.getTarget();
-        ListDigraph::Node sourceNode = INVALID;
-        ListDigraph::Node targetNode = INVALID;
-        for (ListDigraph::NodeIt v(compactGraph); v != INVALID; ++v){
+        ListGraph::Node sourceNode = INVALID;
+        ListGraph::Node targetNode = INVALID;
+        for (ListGraph::NodeIt v(compactGraph); v != INVALID; ++v){
             if(compactNodeLabel[v] == sourceLabel){
                 sourceNode = v;
             }
@@ -101,10 +101,10 @@ void RSA::buildCompactGraph(){
             }
         }
         if (targetNode != INVALID && sourceNode != INVALID){
-            ListDigraph::Arc a = compactGraph.addArc(sourceNode, targetNode);
-            compactArcId[a] = compactGraph.id(a);
-            compactArcLabel[a] = edge.getId();
-            compactArcLength[a] = edge.getLength();
+            ListGraph::Edge e = compactGraph.addEdge(sourceNode, targetNode);
+            compactEdgeId[e] = compactGraph.id(e);
+            compactEdgeLabel[e] = edge.getIndex();
+            compactEdgeLength[e] = edge.getLength();
         }
     }
 }
@@ -565,9 +565,9 @@ void RSA::displayPaths(){
 
 /* Displays an arc from the graph #d. */
 void RSA::displayArc(int d, const ListDigraph::Arc &a){
-    std::cout << "(" << getNodeLabel((*vecGraph[d]).source(a), d) + 1 << ", " <<  getNodeSlice((*vecGraph[d]).source(a), d) + 1 << ")";
+    std::cout << "(" << getNodeLabel((*vecGraph[d]).source(a), d) + 1;
     std::cout << "--";
-    std::cout << "(" <<  getNodeLabel((*vecGraph[d]).target(a), d) + 1 << ", " << getNodeSlice((*vecGraph[d]).target(a), d) + 1 << ")" << std::endl;
+    std::cout <<  getNodeLabel((*vecGraph[d]).target(a), d) + 1 << ", " << getArcSlice(a, d) + 1 << ")" << std::endl;
 }
 
 

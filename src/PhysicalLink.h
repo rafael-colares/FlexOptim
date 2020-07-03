@@ -14,6 +14,7 @@
 class PhysicalLink{
 private:
 	int id;							/**< Link identifier. **/
+	int index;						/**< Edge index position in the vector. **/
 	int idSource;					/**< Source node identifier. **/ 
 	int idTarget;					/**< Target node identifier. **/ 
 	int nbSlices;					/**< Number of slices the frequency spectrum is divided into. **/
@@ -26,8 +27,8 @@ public:
 	/*										Constructor										*/
 	/****************************************************************************************/
 
-	/** Constructor. @param i Id. @param s Source node's id. @param t Target node's id. @param len Link's length n the physical network. @param nb Number of slices its frequency spectrum is divided into. @param c Cost of routing a demand through the link. **/
-	PhysicalLink(int i, int s, int t, double len = 0.0, int nb = 1, double c = 0.0);
+	/** Constructor. @param i Id. @param ind Index. @param s Source node's id. @param t Target node's id. @param len Link's length n the physical network. @param nb Number of slices its frequency spectrum is divided into. @param c Cost of routing a demand through the link. **/
+	PhysicalLink(int i, int ind, int s, int t, double len = 0.0, int nb = 1, double c = 0.0);
 
 	/****************************************************************************************/
 	/*										Getters											*/
@@ -35,6 +36,9 @@ public:
 
 	/** Returns the link's id. **/
 	int getId() const { return id; }
+
+	/** Returns the link's index. **/
+	int getIndex() const { return index; }
 	
 	/** Returns the link's source node id. **/
 	int getSource() const { return idSource; }
@@ -66,6 +70,9 @@ public:
 
 	/** Changes the link's id. @param i New id. **/
 	void setId(int i) { this->id = i; }
+
+	/** Changes the link's index. @param i New index. **/
+	void setIndex(int i) { this->index = i; }
 	
 	/** Changes the link's source node id. @param s New source node's id. **/
 	void setSource(int s) { this->idSource = s; }

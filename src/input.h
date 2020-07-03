@@ -19,7 +19,8 @@ public:
 	/** Enumerates the possible methods to be applied for solving the Online Routing and Spectrum Allocation problem.**/
 	enum Method {						
 		METHOD_CPLEX = 0,  /**< Solve it through a MIP using CPLEX. **/
-		METHOD_SUBGRADIENT = 1 /**<  Solve it using the subgradient method.**/
+		METHOD_SUBGRADIENT = 1, /**<  Solve it using the subgradient method.**/
+		METHOD_YOUSSOUF = 2  /**< Solve it through a MIP using CPLEX. **/
 	};
 
 	/** Enumerates the possible levels of applying a preprocessing step fo reducing the graphs before optimization is called. **/
@@ -68,6 +69,7 @@ private:
 	int partitionLoad;					/**< Refers to the max load that can be routed on the Left spectrum region, if some partioning policy is set. **/
 	int timeLimit;						/**< Refers to how much time (in seconds) can be spent during one optimization. **/
 	int globalTimeLimit;				/**< Refers to how much time (in seconds) can be spent during the whole optmization. **/
+	bool allowBlocking;					/**< If this option is inactive, optimization stops within first blocking. Otherwise, blocking is accepted (this only works in online case). **/
 
 	Method chosenMethod;				/**< Refers to which method is applied for solving the problem.**/
 	PreprocessingLevel chosenPreprLvl;	/**< Refers to which level of preprocessing is applied before solving the problem.**/
@@ -133,6 +135,9 @@ public:
 
 	/** Returns the timeLimit for a single optimization iteration. **/
     int getTimeLimit() const { return timeLimit; }
+
+	/** Returns true if blocking is accepted and false, otherwise. **/
+    bool getAllowBlocking() const { return allowBlocking; }
 
 	/** Returns the global time limit applied to the optimization. **/
     int getGlobalTimeLimit() const { return globalTimeLimit; }

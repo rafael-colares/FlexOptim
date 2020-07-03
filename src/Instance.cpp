@@ -132,12 +132,13 @@ void Instance::readTopology(){
 	// edges and nodes id starts on 1 in the input files. In this program ids will be in the range [0,n-1]!
 	for (int i = 1; i < numberOfLines; i++)	{
 		int idEdge = std::stoi(dataList[i][0]) - 1;
+		int edgeIndex = i - 1;
 		int edgeSource = std::stoi(dataList[i][1]) - 1;
 		int edgeTarget = std::stoi(dataList[i][2]) - 1;
 		double edgeLength = std::stod(dataList[i][3]);
 		int edgeNbSlices = std::stoi(dataList[i][4]);
 		double edgeCost = std::stod(dataList[i][5]);
-		PhysicalLink edge(idEdge, edgeSource, edgeTarget, edgeLength, edgeNbSlices, edgeCost);
+		PhysicalLink edge(idEdge, edgeIndex, edgeSource, edgeTarget, edgeLength, edgeNbSlices, edgeCost);
 		this->tabEdge.push_back(edge);
 		if (edgeSource > maxNode) {
 			maxNode = edgeSource;
@@ -499,6 +500,6 @@ PhysicalLink Instance::getPhysicalLinkBetween(int u, int v){
 	}
 	std::cerr << "Did not found a link between " << u << " and " << v << "!!\n";
 	exit(0);
-	PhysicalLink link(-1,-1,-1);
+	PhysicalLink link(-1,-1,-1,-1);
 	return link;
 }

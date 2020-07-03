@@ -83,9 +83,10 @@ Inheritance diagram for RSA:</div>
  <div class="center">
   <img src="classRSA.png" usemap="#RSA_map" alt=""/>
   <map id="RSA_map" name="RSA_map">
-<area href="classSolver.html" title="This class specifies which MIP solver to be used and stores the new arc maps used for identifying arc..." alt="Solver" shape="rect" coords="0,56,80,80"/>
-<area href="classSubgradient.html" title="This class implements and solves a Langragian Relaxation of the Routing and Spectrum Allocation probl..." alt="Subgradient" shape="rect" coords="90,56,170,80"/>
-<area href="classCplexForm.html" title="This class implements and solve the Online Routing and Spectrum Allocation MIP using CPLEX." alt="CplexForm" shape="rect" coords="0,112,80,136"/>
+<area href="classSolver.html" title="This class specifies which MIP solver to be used The methods needed for solving the Routing and Spect..." alt="Solver" shape="rect" coords="52,56,146,80"/>
+<area href="classSubgradient.html" title="This class implements and solves a Langragian Relaxation of the Routing and Spectrum Allocation probl..." alt="Subgradient" shape="rect" coords="156,56,250,80"/>
+<area href="classFlowForm.html" title="This class implements the Online Routing and Spectrum Allocation through a Flow MIP formulation using..." alt="FlowForm" shape="rect" coords="0,112,94,136"/>
+<area href="classYoussoufForm.html" title="This class implements the Online Routing and Spectrum Allocation through the Youssouf&#39;s Edge-Node MIP..." alt="YoussoufForm" shape="rect" coords="104,112,198,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -163,9 +164,6 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr class="memitem:aa5c7406517a7456c642c4c6ae25e234b"><td class="memItemLeft" align="right" valign="top">ListDigraph::Node&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aa5c7406517a7456c642c4c6ae25e234b">getNode</a> (int d, int label, int slice)</td></tr>
 <tr class="memdesc:aa5c7406517a7456c642c4c6ae25e234b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first node identified by (label, slice) on a graph.  <a href="classRSA.html#aa5c7406517a7456c642c4c6ae25e234b">More...</a><br /></td></tr>
 <tr class="separator:aa5c7406517a7456c642c4c6ae25e234b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8e48645cf88f5b5b7c9a19b6feeaf51"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ad8e48645cf88f5b5b7c9a19b6feeaf51">getCompactLength</a> (const ListDigraph::Arc &amp;a)</td></tr>
-<tr class="memdesc:ad8e48645cf88f5b5b7c9a19b6feeaf51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the length of an arc on the compact graph.  <a href="classRSA.html#ad8e48645cf88f5b5b7c9a19b6feeaf51">More...</a><br /></td></tr>
-<tr class="separator:ad8e48645cf88f5b5b7c9a19b6feeaf51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b0a937d2de7e7aa0bf97d48ccf83771"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a6b0a937d2de7e7aa0bf97d48ccf83771">getCoeff</a> (const ListDigraph::Arc &amp;a, int d)</td></tr>
 <tr class="memdesc:a6b0a937d2de7e7aa0bf97d48ccf83771"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the coefficient of an arc (according to the chosen metric) on a graph.  <a href="classRSA.html#a6b0a937d2de7e7aa0bf97d48ccf83771">More...</a><br /></td></tr>
 <tr class="separator:a6b0a937d2de7e7aa0bf97d48ccf83771"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -188,6 +186,21 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108f">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ab039b585ecf1d3b8e6733588496975a5">getStatus</a> () const</td></tr>
 <tr class="memdesc:ab039b585ecf1d3b8e6733588496975a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the algorithm status. <br /></td></tr>
 <tr class="separator:ab039b585ecf1d3b8e6733588496975a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6add4a24fb147fc51424ca7159d52d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ae6add4a24fb147fc51424ca7159d52d4">getCompactNodeId</a> (const ListGraph::Node &amp;n) const</td></tr>
+<tr class="memdesc:ae6add4a24fb147fc51424ca7159d52d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the LEMON id of a node in the compact graph.  <a href="classRSA.html#ae6add4a24fb147fc51424ca7159d52d4">More...</a><br /></td></tr>
+<tr class="separator:ae6add4a24fb147fc51424ca7159d52d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6e6dfc7407c1c204f2f586395efea83"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ac6e6dfc7407c1c204f2f586395efea83">getCompactNodeLabel</a> (const ListGraph::Node &amp;n) const</td></tr>
+<tr class="memdesc:ac6e6dfc7407c1c204f2f586395efea83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the label of a node in the compact graph.  <a href="classRSA.html#ac6e6dfc7407c1c204f2f586395efea83">More...</a><br /></td></tr>
+<tr class="separator:ac6e6dfc7407c1c204f2f586395efea83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86c93ad71046ac92d34c93611693fc36"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a86c93ad71046ac92d34c93611693fc36">getCompactEdgeId</a> (const ListGraph::Edge &amp;e) const</td></tr>
+<tr class="memdesc:a86c93ad71046ac92d34c93611693fc36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the LEMON id of an edge in the compact graph.  <a href="classRSA.html#a86c93ad71046ac92d34c93611693fc36">More...</a><br /></td></tr>
+<tr class="separator:a86c93ad71046ac92d34c93611693fc36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57e0d635d9631193f1ac478d1ec3acd8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a57e0d635d9631193f1ac478d1ec3acd8">getCompactEdgeLabel</a> (const ListGraph::Edge &amp;e) const</td></tr>
+<tr class="memdesc:a57e0d635d9631193f1ac478d1ec3acd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the label of an edge in the compact graph.  <a href="classRSA.html#a57e0d635d9631193f1ac478d1ec3acd8">More...</a><br /></td></tr>
+<tr class="separator:a57e0d635d9631193f1ac478d1ec3acd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fe5adf75ab626b7896874ffecb9eef1"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a5fe5adf75ab626b7896874ffecb9eef1">getCompactLength</a> (const ListGraph::Edge &amp;e)</td></tr>
+<tr class="memdesc:a5fe5adf75ab626b7896874ffecb9eef1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the length of an edge on the compact graph.  <a href="classRSA.html#a5fe5adf75ab626b7896874ffecb9eef1">More...</a><br /></td></tr>
+<tr class="separator:a5fe5adf75ab626b7896874ffecb9eef1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ee45b88cfa6455df1228005792f0d52"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a5ee45b88cfa6455df1228005792f0d52">setToBeRouted</a> (const std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt; &amp;vec)</td></tr>
 <tr class="memdesc:a5ee45b88cfa6455df1228005792f0d52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the vector of demands to be routed.  <a href="classRSA.html#a5ee45b88cfa6455df1228005792f0d52">More...</a><br /></td></tr>
 <tr class="separator:a5ee45b88cfa6455df1228005792f0d52"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -219,6 +232,21 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ac1b1f1775992c6ce234952a122767161">setStatus</a> (<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108f">Status</a> val)</td></tr>
 <tr class="memdesc:ac1b1f1775992c6ce234952a122767161"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the algorithm status. <br /></td></tr>
 <tr class="separator:ac1b1f1775992c6ce234952a122767161"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4fd97003555db54e0c4bf95006b799c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ab4fd97003555db54e0c4bf95006b799c">setCompactNodeId</a> (const ListGraph::Node &amp;n, int val)</td></tr>
+<tr class="memdesc:ab4fd97003555db54e0c4bf95006b799c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the id of a node in the compact graph.  <a href="classRSA.html#ab4fd97003555db54e0c4bf95006b799c">More...</a><br /></td></tr>
+<tr class="separator:ab4fd97003555db54e0c4bf95006b799c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bad3cc54601782e1b20f39bdbe6fd54"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a5bad3cc54601782e1b20f39bdbe6fd54">setCompactNodeLabel</a> (const ListGraph::Node &amp;n, int val)</td></tr>
+<tr class="memdesc:a5bad3cc54601782e1b20f39bdbe6fd54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the label of a node in the compact graph.  <a href="classRSA.html#a5bad3cc54601782e1b20f39bdbe6fd54">More...</a><br /></td></tr>
+<tr class="separator:a5bad3cc54601782e1b20f39bdbe6fd54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fdfecaaf66cb4e73dd388cccf2f2b39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a7fdfecaaf66cb4e73dd388cccf2f2b39">setCompactEdgeId</a> (const ListGraph::Edge &amp;e, int val)</td></tr>
+<tr class="memdesc:a7fdfecaaf66cb4e73dd388cccf2f2b39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the id of an edge in the compact graph.  <a href="classRSA.html#a7fdfecaaf66cb4e73dd388cccf2f2b39">More...</a><br /></td></tr>
+<tr class="separator:a7fdfecaaf66cb4e73dd388cccf2f2b39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1cb4da13163ee3670f3a874fa6da138"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ac1cb4da13163ee3670f3a874fa6da138">setCompactEdgeLabel</a> (const ListGraph::Edge &amp;e, int val)</td></tr>
+<tr class="memdesc:ac1cb4da13163ee3670f3a874fa6da138"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the label of an edge in the compact graph.  <a href="classRSA.html#ac1cb4da13163ee3670f3a874fa6da138">More...</a><br /></td></tr>
+<tr class="separator:ac1cb4da13163ee3670f3a874fa6da138"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85152327b02d7da8094077ef53a62807"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a85152327b02d7da8094077ef53a62807">setCompactLength</a> (const ListGraph::Edge &amp;e, double val)</td></tr>
+<tr class="memdesc:a85152327b02d7da8094077ef53a62807"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the length of an edge on the compact graph.  <a href="classRSA.html#a85152327b02d7da8094077ef53a62807">More...</a><br /></td></tr>
+<tr class="separator:a85152327b02d7da8094077ef53a62807"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdb6663e19b3db20839902209e1f18a4"><td class="memItemLeft" align="right" valign="top"><a id="abdb6663e19b3db20839902209e1f18a4"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#abdb6663e19b3db20839902209e1f18a4">buildCompactGraph</a> ()</td></tr>
 <tr class="memdesc:abdb6663e19b3db20839902209e1f18a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds the simple graph associated with the initial mapping. <br /></td></tr>
@@ -326,30 +354,30 @@ std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a c
 <tr class="memitem:a6e5e3c07e9cc04f012be9e28b1c32b6d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a6e5e3c07e9cc04f012be9e28b1c32b6d">vecArcIndex</a></td></tr>
 <tr class="memdesc:a6e5e3c07e9cc04f012be9e28b1c32b6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the ArcMap storing the arc index of the preprocessed graph associated with each demand to be routed.  <a href="classRSA.html#a6e5e3c07e9cc04f012be9e28b1c32b6d">More...</a><br /></td></tr>
 <tr class="separator:a6e5e3c07e9cc04f012be9e28b1c32b6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e25203c6373d6170031d75e93d77b4d"><td class="memItemLeft" align="right" valign="top"><a id="a2e25203c6373d6170031d75e93d77b4d"></a>
-ListDigraph&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a2e25203c6373d6170031d75e93d77b4d">compactGraph</a></td></tr>
-<tr class="memdesc:a2e25203c6373d6170031d75e93d77b4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:a2e25203c6373d6170031d75e93d77b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1caa8a5d7e45fbc8d594f36641b7e03f"><td class="memItemLeft" align="right" valign="top"><a id="a1caa8a5d7e45fbc8d594f36641b7e03f"></a>
-ArcMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a1caa8a5d7e45fbc8d594f36641b7e03f">compactArcId</a></td></tr>
-<tr class="memdesc:a1caa8a5d7e45fbc8d594f36641b7e03f"><td class="mdescLeft">&#160;</td><td class="mdescRight">ArcMap storing the arc ids of the simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:a1caa8a5d7e45fbc8d594f36641b7e03f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0dd1e3fde0e2ac7c42434b95f747658"><td class="memItemLeft" align="right" valign="top"><a id="af0dd1e3fde0e2ac7c42434b95f747658"></a>
-ArcMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#af0dd1e3fde0e2ac7c42434b95f747658">compactArcLabel</a></td></tr>
-<tr class="memdesc:af0dd1e3fde0e2ac7c42434b95f747658"><td class="mdescLeft">&#160;</td><td class="mdescRight">ArcMap storing the arc labels of the simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:af0dd1e3fde0e2ac7c42434b95f747658"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71f440afa2d14f6abc950b3fae5fa7ab"><td class="memItemLeft" align="right" valign="top"><a id="a71f440afa2d14f6abc950b3fae5fa7ab"></a>
-ArcCost&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a71f440afa2d14f6abc950b3fae5fa7ab">compactArcLength</a></td></tr>
-<tr class="memdesc:a71f440afa2d14f6abc950b3fae5fa7ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">ArcMap storing the arc lengths of the simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:a71f440afa2d14f6abc950b3fae5fa7ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37a60a79edf9747fc7dbe8c78c54d675"><td class="memItemLeft" align="right" valign="top"><a id="a37a60a79edf9747fc7dbe8c78c54d675"></a>
-NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a37a60a79edf9747fc7dbe8c78c54d675">compactNodeId</a></td></tr>
-<tr class="memdesc:a37a60a79edf9747fc7dbe8c78c54d675"><td class="mdescLeft">&#160;</td><td class="mdescRight">NodeMap storing the LEMON node ids of the simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:a37a60a79edf9747fc7dbe8c78c54d675"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac18380da784d30516b8cc10e024814ec"><td class="memItemLeft" align="right" valign="top"><a id="ac18380da784d30516b8cc10e024814ec"></a>
-NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ac18380da784d30516b8cc10e024814ec">compactNodeLabel</a></td></tr>
-<tr class="memdesc:ac18380da784d30516b8cc10e024814ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">NodeMap storing the node labels of the simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:ac18380da784d30516b8cc10e024814ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb490cd3aca155c1b2ba5c8e37e13377"><td class="memItemLeft" align="right" valign="top"><a id="acb490cd3aca155c1b2ba5c8e37e13377"></a>
+ListGraph&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#acb490cd3aca155c1b2ba5c8e37e13377">compactGraph</a></td></tr>
+<tr class="memdesc:acb490cd3aca155c1b2ba5c8e37e13377"><td class="mdescLeft">&#160;</td><td class="mdescRight">The simple graph associated with the initial mapping. <br /></td></tr>
+<tr class="separator:acb490cd3aca155c1b2ba5c8e37e13377"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4a0934a94741007b2c048f92b3c0d0d"><td class="memItemLeft" align="right" valign="top"><a id="ab4a0934a94741007b2c048f92b3c0d0d"></a>
+EdgeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ab4a0934a94741007b2c048f92b3c0d0d">compactEdgeId</a></td></tr>
+<tr class="memdesc:ab4a0934a94741007b2c048f92b3c0d0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">EdgeMap storing the edge ids of the simple graph associated with the initial mapping. <br /></td></tr>
+<tr class="separator:ab4a0934a94741007b2c048f92b3c0d0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4195c0316e5800f639645df2270b99d9"><td class="memItemLeft" align="right" valign="top"><a id="a4195c0316e5800f639645df2270b99d9"></a>
+EdgeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a4195c0316e5800f639645df2270b99d9">compactEdgeLabel</a></td></tr>
+<tr class="memdesc:a4195c0316e5800f639645df2270b99d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">EdgeMap storing the edge labels of the simple graph associated with the initial mapping. <br /></td></tr>
+<tr class="separator:a4195c0316e5800f639645df2270b99d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba8529480dd7bada2c1e085ca00713a3"><td class="memItemLeft" align="right" valign="top"><a id="aba8529480dd7bada2c1e085ca00713a3"></a>
+EdgeCost&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aba8529480dd7bada2c1e085ca00713a3">compactEdgeLength</a></td></tr>
+<tr class="memdesc:aba8529480dd7bada2c1e085ca00713a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">EdgeMap storing the edge lengths of the simple graph associated with the initial mapping. <br /></td></tr>
+<tr class="separator:aba8529480dd7bada2c1e085ca00713a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa229e85cc3046d42029ac3817d2ff77f"><td class="memItemLeft" align="right" valign="top"><a id="aa229e85cc3046d42029ac3817d2ff77f"></a>
+CompactNodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aa229e85cc3046d42029ac3817d2ff77f">compactNodeId</a></td></tr>
+<tr class="memdesc:aa229e85cc3046d42029ac3817d2ff77f"><td class="mdescLeft">&#160;</td><td class="mdescRight">NodeMap storing the LEMON node ids of the simple graph associated with the initial mapping. <br /></td></tr>
+<tr class="separator:aa229e85cc3046d42029ac3817d2ff77f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a563506a023a036ab2480b553f92c4cf5"><td class="memItemLeft" align="right" valign="top"><a id="a563506a023a036ab2480b553f92c4cf5"></a>
+CompactNodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a563506a023a036ab2480b553f92c4cf5">compactNodeLabel</a></td></tr>
+<tr class="memdesc:a563506a023a036ab2480b553f92c4cf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">NodeMap storing the node labels of the simple graph associated with the initial mapping. <br /></td></tr>
+<tr class="separator:a563506a023a036ab2480b553f92c4cf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00269970b2f36a59c6b556a12ab76bc3"><td class="memItemLeft" align="right" valign="top"><a id="a00269970b2f36a59c6b556a12ab76bc3"></a>
 <a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108f">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a00269970b2f36a59c6b556a12ab76bc3">currentStatus</a></td></tr>
 <tr class="memdesc:a00269970b2f36a59c6b556a12ab76bc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides information about the current model and solution. <br /></td></tr>
@@ -359,7 +387,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <div class="textblock"><p>This class stores the input needed for solving the Routing and Spectrum Allocation problem. </p>
 <p>This consists of an initial mapping and a set of demands to be routed. A graph associated to this initial mapping is built as well as an extended graph for each demand to be routed. </p><dl class="section note"><dt>Note</dt><dd>It uses the LEMON library to build the associated graphs. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00025">25</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00028">28</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a031c6f3d4ddc838dbc015b1f3fbb108f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a031c6f3d4ddc838dbc015b1f3fbb108f">&#9670;&nbsp;</a></span>Status</h2>
@@ -391,7 +419,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00029">29</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00032">32</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -832,7 +860,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00137">137</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00140">140</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -879,7 +907,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00140">140</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00143">143</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -926,7 +954,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00143">143</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00146">146</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -973,7 +1001,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00149">149</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00152">152</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1020,7 +1048,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00146">146</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00149">149</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1263,8 +1291,80 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 
 </div>
 </div>
-<a id="ad8e48645cf88f5b5b7c9a19b6feeaf51"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8e48645cf88f5b5b7c9a19b6feeaf51">&#9670;&nbsp;</a></span>getCompactLength()</h2>
+<a id="a86c93ad71046ac92d34c93611693fc36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86c93ad71046ac92d34c93611693fc36">&#9670;&nbsp;</a></span>getCompactEdgeId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int RSA::getCompactEdgeId </td>
+          <td>(</td>
+          <td class="paramtype">const ListGraph::Edge &amp;&#160;</td>
+          <td class="paramname"><em>e</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the LEMON id of an edge in the compact graph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">e</td><td>The edge. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00185">185</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+
+</div>
+</div>
+<a id="a57e0d635d9631193f1ac478d1ec3acd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57e0d635d9631193f1ac478d1ec3acd8">&#9670;&nbsp;</a></span>getCompactEdgeLabel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int RSA::getCompactEdgeLabel </td>
+          <td>(</td>
+          <td class="paramtype">const ListGraph::Edge &amp;&#160;</td>
+          <td class="paramname"><em>e</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the label of an edge in the compact graph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">e</td><td>The edge. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00188">188</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+
+</div>
+</div>
+<a id="a5fe5adf75ab626b7896874ffecb9eef1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fe5adf75ab626b7896874ffecb9eef1">&#9670;&nbsp;</a></span>getCompactLength()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1275,8 +1375,8 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
         <tr>
           <td class="memname">double RSA::getCompactLength </td>
           <td>(</td>
-          <td class="paramtype">const ListDigraph::Arc &amp;&#160;</td>
-          <td class="paramname"><em>a</em></td><td>)</td>
+          <td class="paramtype">const ListGraph::Edge &amp;&#160;</td>
+          <td class="paramname"><em>e</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1287,15 +1387,87 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </table>
 </div><div class="memdoc">
 
-<p>Returns the length of an arc on the compact graph. </p>
+<p>Returns the length of an edge on the compact graph. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">a</td><td>The arc. </td></tr>
+    <tr><td class="paramname">e</td><td>The edge. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00155">155</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00191">191</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+
+</div>
+</div>
+<a id="ae6add4a24fb147fc51424ca7159d52d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6add4a24fb147fc51424ca7159d52d4">&#9670;&nbsp;</a></span>getCompactNodeId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int RSA::getCompactNodeId </td>
+          <td>(</td>
+          <td class="paramtype">const ListGraph::Node &amp;&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the LEMON id of a node in the compact graph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>The node. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00179">179</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+
+</div>
+</div>
+<a id="ac6e6dfc7407c1c204f2f586395efea83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6e6dfc7407c1c204f2f586395efea83">&#9670;&nbsp;</a></span>getCompactNodeLabel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int RSA::getCompactNodeLabel </td>
+          <td>(</td>
+          <td class="paramtype">const ListGraph::Node &amp;&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the label of a node in the compact graph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>The node. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00182">182</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1371,7 +1543,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00119">119</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00122">122</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1465,7 +1637,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00128">128</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00131">131</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1512,7 +1684,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00131">131</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00134">134</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1559,7 +1731,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00134">134</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00137">137</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1595,7 +1767,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00116">116</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00119">119</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1671,7 +1843,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00195">195</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00210">210</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1725,7 +1897,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00198">198</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00213">213</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1779,7 +1951,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00201">201</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00216">216</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1833,7 +2005,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00207">207</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00222">222</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1887,7 +2059,242 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00204">204</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00219">219</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+
+</div>
+</div>
+<a id="a7fdfecaaf66cb4e73dd388cccf2f2b39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fdfecaaf66cb4e73dd388cccf2f2b39">&#9670;&nbsp;</a></span>setCompactEdgeId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RSA::setCompactEdgeId </td>
+          <td>(</td>
+          <td class="paramtype">const ListGraph::Edge &amp;&#160;</td>
+          <td class="paramname"><em>e</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the id of an edge in the compact graph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">e</td><td>The edge.</td></tr>
+    <tr><td class="paramname">val</td><td>The new id. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00235">235</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+
+</div>
+</div>
+<a id="ac1cb4da13163ee3670f3a874fa6da138"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1cb4da13163ee3670f3a874fa6da138">&#9670;&nbsp;</a></span>setCompactEdgeLabel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RSA::setCompactEdgeLabel </td>
+          <td>(</td>
+          <td class="paramtype">const ListGraph::Edge &amp;&#160;</td>
+          <td class="paramname"><em>e</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the label of an edge in the compact graph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">e</td><td>The edge.</td></tr>
+    <tr><td class="paramname">val</td><td>The new label. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00238">238</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+
+</div>
+</div>
+<a id="a85152327b02d7da8094077ef53a62807"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85152327b02d7da8094077ef53a62807">&#9670;&nbsp;</a></span>setCompactLength()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RSA::setCompactLength </td>
+          <td>(</td>
+          <td class="paramtype">const ListGraph::Edge &amp;&#160;</td>
+          <td class="paramname"><em>e</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the length of an edge on the compact graph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">e</td><td>The edge.</td></tr>
+    <tr><td class="paramname">val</td><td>The new length value. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00241">241</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+
+</div>
+</div>
+<a id="ab4fd97003555db54e0c4bf95006b799c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4fd97003555db54e0c4bf95006b799c">&#9670;&nbsp;</a></span>setCompactNodeId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RSA::setCompactNodeId </td>
+          <td>(</td>
+          <td class="paramtype">const ListGraph::Node &amp;&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the id of a node in the compact graph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>The node.</td></tr>
+    <tr><td class="paramname">val</td><td>The new id. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00229">229</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+
+</div>
+</div>
+<a id="a5bad3cc54601782e1b20f39bdbe6fd54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bad3cc54601782e1b20f39bdbe6fd54">&#9670;&nbsp;</a></span>setCompactNodeLabel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RSA::setCompactNodeLabel </td>
+          <td>(</td>
+          <td class="paramtype">const ListGraph::Node &amp;&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the label of a node in the compact graph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>The node.</td></tr>
+    <tr><td class="paramname">val</td><td>The new label. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00232">232</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1941,7 +2348,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00186">186</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00201">201</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -1995,7 +2402,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00189">189</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00204">204</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2049,7 +2456,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00192">192</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00207">207</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2085,7 +2492,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00183">183</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00198">198</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2196,7 +2603,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the ArcMap storing the arc ids of the graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecArcId[i])[a] is the id of arc a in the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00051">51</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00054">54</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2223,7 +2630,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the ArcMap storing the arc index of the preprocessed graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecArcIndex[i])[a] is the index of the arc a in the preprocessed graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00083">83</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00086">86</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2250,7 +2657,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the ArcMap storing the arc labels of the graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecArcLabel[i])[a] is the label of arc a in the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00055">55</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00058">58</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2277,7 +2684,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the map storing the arc lengths of the graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecArcLength[i])[a] is the length of arc a in the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00063">63</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00066">66</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2304,7 +2711,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the ArcMap storing the arc slices of the graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecArcSlice[i])[a] is the slice of arc a in the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00059">59</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00062">62</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2331,7 +2738,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the extended graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecGraph[i]) is the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00047">47</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00050">50</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2358,7 +2765,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the NodeMap storing the node ids of the graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecNodeId[i])[v] is the id of node v in the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00067">67</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00070">70</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2385,7 +2792,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the NodeMap storing the node labels of the graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecNodeLabel[i])[v] is the label of node v in the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00071">71</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00074">74</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2412,7 +2819,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the NodeMap storing the node slices of the graph associated with each demand to be routed. </p>
 <dl class="section note"><dt>Note</dt><dd>(*vecNodeSlice[i])[v] is the slice of node v in the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00075">75</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00078">78</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>
@@ -2439,7 +2846,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>A list of pointers to the ArcMap storing the <a class="el" href="classRSA.html" title="This class stores the input needed for solving the Routing and Spectrum Allocation problem.">RSA</a> solution. </p>
 <p>It stores the id of the demand that is routed through each arc of each graph. </p><dl class="section note"><dt>Note</dt><dd>(*vecOnPath[i])[a] is the id the demand routed through arc a in the graph associated with the i-th demand to be routed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00079">79</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RSA_8h_source.html#l00082">82</a> of file <a class="el" href="RSA_8h_source.html">RSA.h</a>.</p>
 
 </div>
 </div>

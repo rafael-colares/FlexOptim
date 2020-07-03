@@ -81,7 +81,8 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:ae19efd3d8de2230a5bb94677518a8031"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031">Method</a> { <a class="el" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031a9bcff65f9fe67d63b9093e1703f1226b">METHOD_CPLEX</a> = 0, 
-<a class="el" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031a1e214c54a52e9881ad79ecb513eeb24d">METHOD_SUBGRADIENT</a> = 1
+<a class="el" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031a1e214c54a52e9881ad79ecb513eeb24d">METHOD_SUBGRADIENT</a> = 1, 
+<a class="el" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031a74f6bb7ea7d8e371bc25ab2a79ec79f4">METHOD_YOUSSOUF</a> = 2
  }</td></tr>
 <tr class="memdesc:ae19efd3d8de2230a5bb94677518a8031"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates the possible methods to be applied for solving the Online Routing and Spectrum Allocation problem.  <a href="classInput.html#ae19efd3d8de2230a5bb94677518a8031">More...</a><br /></td></tr>
 <tr class="separator:ae19efd3d8de2230a5bb94677518a8031"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -179,6 +180,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a1212b12be0541c6946017ad478df9dbd">getTimeLimit</a> () const</td></tr>
 <tr class="memdesc:a1212b12be0541c6946017ad478df9dbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the timeLimit for a single optimization iteration. <br /></td></tr>
 <tr class="separator:a1212b12be0541c6946017ad478df9dbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53777fda8fc19abe9a914608ea4311f6"><td class="memItemLeft" align="right" valign="top"><a id="a53777fda8fc19abe9a914608ea4311f6"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a53777fda8fc19abe9a914608ea4311f6">getAllowBlocking</a> () const</td></tr>
+<tr class="memdesc:a53777fda8fc19abe9a914608ea4311f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if blocking is accepted and false, otherwise. <br /></td></tr>
+<tr class="separator:a53777fda8fc19abe9a914608ea4311f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa7e4cbd3d0008f33782b7f68170ed7a"><td class="memItemLeft" align="right" valign="top"><a id="aaa7e4cbd3d0008f33782b7f68170ed7a"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#aaa7e4cbd3d0008f33782b7f68170ed7a">getGlobalTimeLimit</a> () const</td></tr>
 <tr class="memdesc:aaa7e4cbd3d0008f33782b7f68170ed7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the global time limit applied to the optimization. <br /></td></tr>
@@ -308,6 +313,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a62ebff856547a1967af13697fbb9a839">globalTimeLimit</a></td></tr>
 <tr class="memdesc:a62ebff856547a1967af13697fbb9a839"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to how much time (in seconds) can be spent during the whole optmization. <br /></td></tr>
 <tr class="separator:a62ebff856547a1967af13697fbb9a839"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25f81d22463d6bf1c7397480bccbd82a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a25f81d22463d6bf1c7397480bccbd82a">allowBlocking</a></td></tr>
+<tr class="memdesc:a25f81d22463d6bf1c7397480bccbd82a"><td class="mdescLeft">&#160;</td><td class="mdescRight">If this option is inactive, optimization stops within first blocking.  <a href="classInput.html#a25f81d22463d6bf1c7397480bccbd82a">More...</a><br /></td></tr>
+<tr class="separator:a25f81d22463d6bf1c7397480bccbd82a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e4b66817ca693839ff6dc53243d7a77"><td class="memItemLeft" align="right" valign="top"><a id="a9e4b66817ca693839ff6dc53243d7a77"></a>
 <a class="el" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031">Method</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a9e4b66817ca693839ff6dc53243d7a77">chosenMethod</a></td></tr>
 <tr class="memdesc:a9e4b66817ca693839ff6dc53243d7a77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to which method is applied for solving the problem. <br /></td></tr>
@@ -370,6 +378,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </td></tr>
 <tr><td class="fieldname"><a id="ae19efd3d8de2230a5bb94677518a8031a1e214c54a52e9881ad79ecb513eeb24d"></a>METHOD_SUBGRADIENT&#160;</td><td class="fielddoc"><p>Solve it using the subgradient method. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="ae19efd3d8de2230a5bb94677518a8031a74f6bb7ea7d8e371bc25ab2a79ec79f4"></a>METHOD_YOUSSOUF&#160;</td><td class="fielddoc"><p>Solve it through a MIP using CPLEX. </p>
+</td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00020">20</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
@@ -404,7 +414,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00040">40</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00041">41</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -430,7 +440,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00033">33</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00034">34</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -456,7 +466,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00050">50</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00051">51</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -482,7 +492,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00026">26</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00027">27</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -539,7 +549,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00070">70</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00072">72</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -561,7 +571,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Destructor. </p>
 <p>Clears the vector of strings. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00199">199</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00202">202</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -598,7 +608,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00117">117</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00119">119</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -627,7 +637,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </dl>
 <dl class="section note"><dt>Note</dt><dd>It is surely not the most performant method but the parameter file has a reasonable size and the code becomes much clearer. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00098">98</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00101">101</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -663,7 +673,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00178">178</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00183">183</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -699,7 +709,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00172">172</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00177">177</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -735,7 +745,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00175">175</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00180">180</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -758,7 +768,35 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Converts a string into time limit. </p>
 <dl class="section note"><dt>Note</dt><dd>By default, time limit is unlimited. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00180">180</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00183">183</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a25f81d22463d6bf1c7397480bccbd82a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25f81d22463d6bf1c7397480bccbd82a">&#9670;&nbsp;</a></span>allowBlocking</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Input::allowBlocking</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If this option is inactive, optimization stops within first blocking. </p>
+<p>Otherwise, blocking is accepted (this only works in online case). </p>
+
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00072">72</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>

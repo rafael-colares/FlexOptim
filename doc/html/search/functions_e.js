@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['updateassignment_5fk_567',['updateAssignment_k',['../classSubgradient.html#afecb49dfb50f2cced078016f9244b0e7',1,'Subgradient']]],
-  ['updatecosts_568',['updateCosts',['../classSubgradient.html#a7965eafcf11c5b924d8a192ecab8d809',1,'Subgradient']]],
-  ['updateinstance_569',['updateInstance',['../classRSA.html#a4bb66a2d54c695bc10fa4e3697a01a37',1,'RSA']]],
-  ['updatelengthslack_570',['updateLengthSlack',['../classSubgradient.html#af8eb556979baf574944086ebe9c03211',1,'Subgradient']]],
-  ['updatepath_571',['updatePath',['../classCplexForm.html#a9c6a67efafde78d153d7f01c41422263',1,'CplexForm']]]
+  ['to_5fobjectivemetric_631',['to_ObjectiveMetric',['../classInput.html#a5e50577300f398831d3a3e5dfc20860e',1,'Input']]],
+  ['to_5fpartitionpolicy_632',['to_PartitionPolicy',['../classInput.html#aa585d1d79c85954e05ee2a4fa63f9d4b',1,'Input']]],
+  ['to_5ftimelimit_633',['to_timeLimit',['../classInput.html#a2dbb36732c20299063c992c6c26b3ccb',1,'Input']]]
 ];

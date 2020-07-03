@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['_7ecplexform_572',['~CplexForm',['../classCplexForm.html#a310c137c719c51244343eea8d41bf301',1,'CplexForm']]],
-  ['_7einput_573',['~Input',['../classInput.html#af2db35ba67c8a8ccd23bef6a482fc291',1,'Input']]],
-  ['_7einstance_574',['~Instance',['../classInstance.html#a6e6f2ab25aa37838f8c4af014f663117',1,'Instance']]],
-  ['_7ephysicallink_575',['~PhysicalLink',['../classPhysicalLink.html#a3216d5a0a7f9756728125e23d1a81e8e',1,'PhysicalLink']]],
-  ['_7ersa_576',['~RSA',['../classRSA.html#a29c927dcea18686cd95818d2cfd413cf',1,'RSA']]]
+  ['updateassignment_5fk_634',['updateAssignment_k',['../classSubgradient.html#afecb49dfb50f2cced078016f9244b0e7',1,'Subgradient']]],
+  ['updatecosts_635',['updateCosts',['../classSubgradient.html#a7965eafcf11c5b924d8a192ecab8d809',1,'Subgradient']]],
+  ['updateinstance_636',['updateInstance',['../classRSA.html#a4bb66a2d54c695bc10fa4e3697a01a37',1,'RSA']]],
+  ['updatelengthslack_637',['updateLengthSlack',['../classSubgradient.html#af8eb556979baf574944086ebe9c03211',1,'Subgradient']]],
+  ['updatepath_638',['updatePath',['../classFlowForm.html#a5015f5b85616b6817fdeb030001c89fb',1,'FlowForm::updatePath()'],['../classYoussoufForm.html#adf6d32953b21e5f7b255927949567b93',1,'YoussoufForm::updatePath()']]]
 ];

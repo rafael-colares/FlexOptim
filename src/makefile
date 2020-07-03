@@ -39,7 +39,7 @@ CCFLAGS = $(CCOPT) -I$(CPLEXINCDIR) -I$(CONCERTINCDIR)
 #---------------------------------------------------------
 # .cpp Files
 #---------------------------------------------------------
-CPPFILES = main.cpp RSA.cpp solver.cpp cplexForm.cpp subgradient.cpp Slice.cpp Demand.cpp PhysicalLink.cpp Instance.cpp CSVReader.cpp input.cpp
+CPPFILES = main.cpp RSA.cpp solver.cpp cplexForm.cpp YoussoufForm.cpp subgradient.cpp Slice.cpp Demand.cpp PhysicalLink.cpp Instance.cpp CSVReader.cpp input.cpp
 
 # ---------------------------------------------------------------------
 # Comands

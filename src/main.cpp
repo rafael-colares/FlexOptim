@@ -15,6 +15,7 @@ ILOSTLBEGIN
 #include "ClockTime.h"
 
 #include "cplexForm.h"
+#include "YoussoufForm.h"
 #include "subgradient.h"
 
 
@@ -22,11 +23,10 @@ using namespace lemon;
 
 int main(int argc, char *argv[]) {
 	try{
+		ClockTime GLOBAL_TIME(ClockTime::getTimeNow());
 		/********************************************************************/
 		/* 						Get Parameter file 							*/
 		/********************************************************************/
-		
-		ClockTime GLOBAL_TIME(ClockTime::getTimeNow());
 		std::string parameterFile;
 		if (argc < 2){
 			std::cerr << "A parameter file is required in the arguments. PLease run the program as \n./exec parameterFile.par\n";
@@ -38,16 +38,18 @@ int main(int argc, char *argv[]) {
 		std::cout << "PARAMETER FILE: " << parameterFile << std::endl;
 		Input input(parameterFile);
 		
-		// For each set of online demands, optimize it!
+		/********************************************************************/
+		/* 				For each file of demands, optimize it 				*/
+		/********************************************************************/
 		std::cout << "> Number of online demand files: " << input.getNbOnlineDemandFiles() << std::endl;
 		for (int i = 0; i < input.getNbOnlineDemandFiles(); i++) {
+			ClockTime OPTIMIZATION_TIME(ClockTime::getTimeNow());
 			/********************************************************************/
 			/* 						Create initial mapping 						*/
 			/********************************************************************/
-			ClockTime OPTIMIZATION_TIME(ClockTime::getTimeNow());
 			std::cout << "--- READING INSTANCE... --- " << std::endl;
 			Instance instance(input);
-			std::cout << instance.getNbRoutedDemands() << " demands were routed." << std::endl;
+			std::cout << instance.getNbRoutedDemands() << " are present in the initial mapping." << std::endl;
 			
 			
 			/********************************************************************/
@@ -59,7 +61,7 @@ int main(int argc, char *argv[]) {
 			instance.generateDemandsFromFile(nextFile);
 			//instance.generateRandomDemands(1);
 			instance.displayNonRoutedDemands();
-			std::cout << instance.getNbNonRoutedDemands() << " demands were generated." << std::endl;
+			std::cout << instance.getNbNonRoutedDemands() << " demands to be routed." << std::endl;
 			
 			
 			/********************************************************************/
@@ -83,7 +85,7 @@ int main(int argc, char *argv[]) {
 					switch (instance.getInput().getChosenMethod()){
 					case Input::METHOD_CPLEX:
 						{
-							CplexForm solver(instance);	
+							FlowForm solver(instance);	
 							
 							std::cout << "Status: " << solver.getCplex().getStatus() << std::endl;
 							RSA::Status STATUS = solver.getStatus();
@@ -124,6 +126,31 @@ int main(int argc, char *argv[]) {
 								feasibility = false;
 							}
 							//instance.output(outputCode);
+							break;
+						}
+					case Input::METHOD_YOUSSOUF:
+						{
+							YoussoufForm solver(instance);	
+							
+							std::cout << "Status: " << solver.getCplex().getStatus() << std::endl;
+							RSA::Status STATUS = solver.getStatus();
+							if (STATUS == RSA::STATUS_ERROR){
+								std::cout << "Got error on CPLEX." << std::endl;
+								exit(0);
+							}
+							if (STATUS == RSA::STATUS_FEASIBLE || STATUS == RSA::STATUS_OPTIMAL){
+								solver.updateInstance(instance);
+							}
+							else{
+								std::cout << "Decrease the number of demands to be treated." << std::endl;
+								instance.decreaseNbDemandsAtOnce();
+								//instance.displayDetailedTopology();
+							}
+
+							if (instance.getInput().getNbDemandsAtOnce() <= 0){
+								std::cout << "There is no room for an additional demand." << std::endl;
+								feasibility = false;
+							}
 							break;
 						}
 					default:

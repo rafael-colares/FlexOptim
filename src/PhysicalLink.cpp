@@ -6,8 +6,9 @@
 /****************************************************************************************/
 
 /** Constructor. **/
-PhysicalLink::PhysicalLink(int i, int s, int t, double l, int nb, double c) {
+PhysicalLink::PhysicalLink(int i, int ind, int s, int t, double l, int nb, double c) {
 	this->setId(i);
+	this->setIndex(ind);
 	this->setSource(s);
 	this->setTarget(t);
 	this->setLength(l);

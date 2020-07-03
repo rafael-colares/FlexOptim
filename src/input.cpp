@@ -29,6 +29,8 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     timeLimit = to_timeLimit(getParameterValue("timeLimit="));
     globalTimeLimit = to_timeLimit(getParameterValue("globalTimeLimit="));
 
+    std::cout << "Getting allow blocking property." << std::endl;
+    allowBlocking = std::stoi(getParameterValue("allowBlocking="));
 
     std::cout << "Getting method." << std::endl;
     chosenMethod = (Method) std::stoi(getParameterValue("method="));
@@ -81,7 +83,8 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     partitionLoad = i.getPartitionLoad();
     timeLimit = i.getTimeLimit();
     globalTimeLimit = i.getGlobalTimeLimit();
-
+    allowBlocking = i.getAllowBlocking();
+    
     chosenMethod = i.getChosenMethod();
     chosenPreprLvl = i.getChosenPreprLvl();
     chosenObj = i.getChosenObj();

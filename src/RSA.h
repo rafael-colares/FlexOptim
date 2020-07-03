@@ -15,6 +15,9 @@ using namespace lemon;
 typedef ListDigraph::NodeMap<int> NodeMap;
 typedef ListDigraph::ArcMap<int> ArcMap;
 typedef ListDigraph::ArcMap<double> ArcCost;
+typedef ListGraph::EdgeMap<int> EdgeMap;
+typedef ListGraph::EdgeMap<double> EdgeCost;
+typedef ListGraph::NodeMap<int> CompactNodeMap;
 
 /**********************************************************************************************
  * This class stores the input needed for solving the Routing and Spectrum Allocation problem.
@@ -82,12 +85,12 @@ protected:
         \note (*vecArcIndex[i])[a] is the index of the arc a in the preprocessed graph associated with the i-th demand to be routed. **/
 	std::vector< std::shared_ptr<ArcMap> > vecArcIndex; 
 
-    ListDigraph compactGraph;   /**< The simple graph associated with the initial mapping. **/
-    ArcMap compactArcId;        /**< ArcMap storing the arc ids of the simple graph associated with the initial mapping. **/
-    ArcMap compactArcLabel;     /**< ArcMap storing the arc labels of the simple graph associated with the initial mapping. **/
-    ArcCost compactArcLength;   /**< ArcMap storing the arc lengths of the simple graph associated with the initial mapping. **/
-    NodeMap compactNodeId;      /**< NodeMap storing the LEMON node ids of the simple graph associated with the initial mapping. **/
-    NodeMap compactNodeLabel;   /**< NodeMap storing the node labels of the simple graph associated with the initial mapping. **/
+    ListGraph compactGraph;             /**< The simple graph associated with the initial mapping. **/
+    EdgeMap compactEdgeId;              /**< EdgeMap storing the edge ids of the simple graph associated with the initial mapping. **/
+    EdgeMap compactEdgeLabel;           /**< EdgeMap storing the edge labels of the simple graph associated with the initial mapping. **/
+    EdgeCost compactEdgeLength;         /**< EdgeMap storing the edge lengths of the simple graph associated with the initial mapping. **/
+    CompactNodeMap compactNodeId;       /**< NodeMap storing the LEMON node ids of the simple graph associated with the initial mapping. **/
+    CompactNodeMap compactNodeLabel;    /**< NodeMap storing the node labels of the simple graph associated with the initial mapping. **/
     
     Status currentStatus;		/**< Provides information about the current model and solution. **/
 	
@@ -129,7 +132,7 @@ public:
     
     /** Returns the label of a node in a graph. @param n The node. @param d The graph index. **/
     int getNodeLabel(const ListDigraph::Node &n, int d) const { return (*vecNodeLabel[d])[n]; }
-    
+
     /** Returns the slice of a node in a graph. @param n The node. @param d The graph index. **/
     int getNodeSlice(const ListDigraph::Node &n, int d) const { return (*vecNodeSlice[d])[n]; }
     
@@ -150,9 +153,6 @@ public:
 
     /** Returns the first node identified by (label, slice) on a graph. @param d The graph index. @param label The node's label. @param slice The node's slice. \warning If it does not exist, returns INVALID. **/
     ListDigraph::Node getNode(int d, int label, int slice);
-
-    /** Returns the length of an arc on the compact graph. @param a The arc. */
-    double getCompactLength(const ListDigraph::Arc &a) { return compactArcLength[a]; }
     
     /** Returns the coefficient of an arc (according to the chosen metric) on a graph. @param a The arc. @param d The graph index. **/
     double getCoeff(const ListDigraph::Arc &a, int d);
@@ -174,6 +174,21 @@ public:
 
 	/** Returns the algorithm status. **/
     Status getStatus() const { return currentStatus; }
+
+    /** Returns the LEMON id of a node in the compact graph. @param n The node. **/
+    int getCompactNodeId(const ListGraph::Node &n) const { return compactNodeId[n]; }
+    
+    /** Returns the label of a node in the compact graph. @param n The node. **/
+    int getCompactNodeLabel(const ListGraph::Node &n) const { return compactNodeLabel[n]; }
+    
+    /** Returns the LEMON id of an edge in the compact graph. @param e The edge. **/
+    int getCompactEdgeId(const ListGraph::Edge &e) const { return compactEdgeId[e]; }
+
+    /** Returns the label of an edge in the compact graph. @param e The edge. **/
+    int getCompactEdgeLabel(const ListGraph::Edge &e) const { return compactEdgeLabel[e]; }
+    
+    /** Returns the length of an edge on the compact graph. @param e The edge. */
+    double getCompactLength(const ListGraph::Edge &e) { return compactEdgeLength[e]; }
 
 	/****************************************************************************************/
 	/*										Setters											*/
@@ -208,6 +223,23 @@ public:
 
 	/** Changes the algorithm status. **/
     void setStatus(Status val) { currentStatus = val; }
+
+    
+    /** Changes the id of a node in the compact graph. @param n The node. @param val The new id. **/
+    void setCompactNodeId(const ListGraph::Node &n, int val) { compactNodeId[n] = val; }
+    
+    /** Changes the label of a node in the compact graph. @param n The node. @param val The new label. **/
+    void setCompactNodeLabel(const ListGraph::Node &n, int val) { compactNodeLabel[n] = val; }
+    
+    /** Changes the id of an edge in the compact graph. @param e The edge. @param val The new id. **/
+    void setCompactEdgeId(const ListGraph::Edge &e, int val) { compactEdgeId[e] = val; }
+
+    /** Changes the label of an edge in the compact graph. @param e The edge. @param val The new label. **/
+    void setCompactEdgeLabel(const ListGraph::Edge &e, int val) { compactEdgeLabel[e]= val; }
+    
+    /** Changes the length of an edge on the compact graph. @param e The edge. @param val The new length value. */
+    void setCompactLength(const ListGraph::Edge &e, double val) { compactEdgeLength[e] = val; }
+    
 	/****************************************************************************************/
 	/*										Methods											*/
 	/****************************************************************************************/
