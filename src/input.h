@@ -134,13 +134,13 @@ public:
     int getPartitionLoad() const { return partitionLoad; }
 
 	/** Returns the timeLimit for a single optimization iteration. **/
-    int getTimeLimit() const { return timeLimit; }
-
-	/** Returns true if blocking is accepted and false, otherwise. **/
-    bool getAllowBlocking() const { return allowBlocking; }
+    int getIterationTimeLimit() const { return timeLimit; }
 
 	/** Returns the global time limit applied to the optimization. **/
-    int getGlobalTimeLimit() const { return globalTimeLimit; }
+    int getOptimizationTimeLimit() const { return globalTimeLimit; }
+
+	/** Returns true if blocking is accepted and false, otherwise. **/
+    bool isBlockingAllowed() const { return allowBlocking; }
 
 	/** Returns the identifier of the method chosen for optimization. **/
     Method getChosenMethod() const { return chosenMethod; }

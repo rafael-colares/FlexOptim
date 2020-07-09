@@ -9,6 +9,7 @@
 Instance::Instance(const Input &i) : input(i){
 	this->setNbNodes(0);
 	createInitialMapping();
+	this->setNextDemandToBeRoutedIndex(0);
 }
 
 /* Copy constructor. */
@@ -16,6 +17,7 @@ Instance::Instance(const Instance &i) : input(i.getInput()){
 	this->setNbNodes(i.getNbNodes());
 	this->setTabEdge(i.getTabEdge());
 	this->setTabDemand(i.getTabDemand());
+	this->setNextDemandToBeRoutedIndex(i.getNextDemandToBeRoutedIndex());
 }
 
 /****************************************************************************************/
@@ -46,8 +48,11 @@ int Instance::getNbRoutedDemands() const{
 /* Returns the vector of demands to be routed in the next optimization. */
 std::vector<Demand> Instance::getNextDemands() const { 
 	std::vector<Demand> toBeRouted;
-	for(int i = 0; i < getNbDemands(); i++){
-		if( (tabDemand[i].isRouted() == false) && ((int)toBeRouted.size() < getInput().getNbDemandsAtOnce()) ){
+	for(int i = getNextDemandToBeRoutedIndex(); i < getNbDemands(); i++){
+		if ((int)toBeRouted.size() >= getInput().getNbDemandsAtOnce()){
+			return toBeRouted;
+		}
+		if( tabDemand[i].isRouted() == false ){
 			toBeRouted.push_back(tabDemand[i]);
 		}
 	}
@@ -341,6 +346,16 @@ void Instance::displayNonRoutedDemands(){
 		if (tabDemand[i].isRouted() == false) {
 			tabDemand[i].displayDemand();
 		}
+	}
+	std::cout << std::endl;
+
+}
+
+/* Displays information about the non-routed demands. */
+void Instance::displayAllDemands(){
+	std::cout << std::endl << "--- The Demands ---" << std::endl;
+	for (int i = 0; i < this->getNbDemands(); i++) {
+		tabDemand[i].displayDemand();
 	}
 	std::cout << std::endl;
 

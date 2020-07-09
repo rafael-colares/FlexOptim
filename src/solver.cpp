@@ -36,6 +36,11 @@ RSA::Status Solver::getStatus(){
         setStatus(STATUS_INFEASIBLE_OR_UNBOUNDED);
     }
     
+    if (currentStatus == STATUS_ERROR){
+		std::cout << "Got an status error." << std::endl;
+		exit(0);
+	}
+    
     return currentStatus;
 }
 

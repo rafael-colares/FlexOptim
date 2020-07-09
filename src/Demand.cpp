@@ -26,8 +26,16 @@ void Demand::copyDemand(Demand & demand){
 
 /* Displays demand information. */
 void Demand::displayDemand(){
+	std::string r;
+	if (this->isRouted()){
+		r = "YES";
+	}
+	else{
+		r = "NO";
+	}
 	std::cout << "#" << this->getId()+1 << ". " << this->getSource()+1 << " -- " << this->getTarget()+1;
-	std::cout << ". nbSlices: " << this->getLoad() << ", maxLength: " << this->getMaxLength() << std::endl;
+	std::cout << ". nbSlices: " << this->getLoad() << ", maxLength: " << this->getMaxLength();
+	std::cout << ", ROUTED: " << r << std::endl;
 }
 
 /* Verifies if the demand has exactly the given informations. */

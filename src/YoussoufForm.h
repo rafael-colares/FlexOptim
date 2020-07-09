@@ -2,6 +2,7 @@
 #define __YoussoufForm__h
 
 #include "solver.h"
+#include "genericCallback.h"
 
 typedef IloArray<IloBoolVarArray> IloBoolVarMatrix;
 typedef IloArray<IloBoolVarMatrix> IloBoolVarMatrix3D;

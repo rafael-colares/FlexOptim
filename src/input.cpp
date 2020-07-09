@@ -81,10 +81,10 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     nbSlicesInOutputFile = i.getnbSlicesInOutputFile();
     partitionSlice = i.getPartitionSlice();
     partitionLoad = i.getPartitionLoad();
-    timeLimit = i.getTimeLimit();
-    globalTimeLimit = i.getGlobalTimeLimit();
-    allowBlocking = i.getAllowBlocking();
-    
+    timeLimit = i.getIterationTimeLimit();
+    globalTimeLimit = i.getOptimizationTimeLimit();
+    allowBlocking = i.isBlockingAllowed();
+
     chosenMethod = i.getChosenMethod();
     chosenPreprLvl = i.getChosenPreprLvl();
     chosenObj = i.getChosenObj();

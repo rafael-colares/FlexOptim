@@ -71,113 +71,153 @@ int main(int argc, char *argv[]) {
 			std::string outputCode = getInBetweenString(nextFile, "/", ".") + "_" + std::to_string(optimizationCounter);
 			//instance.output(outputCode);
 			bool feasibility = true;
-			while(instance.getNbRoutedDemands() < instance.getNbDemands() && feasibility == true){
-				
-				if ((instance.getInput().getGlobalTimeLimit() >= OPTIMIZATION_TIME.getTimeInSecFromStart())){
+			bool lastIterationFeas = true;
+			while(instance.getNextDemandToBeRoutedIndex() < instance.getNbDemands() && feasibility == true && (instance.getInput().getOptimizationTimeLimit() >= OPTIMIZATION_TIME.getTimeInSecFromStart())){
 					
-					optimizationCounter++;
-					outputCode = getInBetweenString(nextFile, "/", ".") + "_" + std::to_string(optimizationCounter);
-					ClockTime ITERATION_TIME(ClockTime::getTimeNow());
+				/********************************************************************/
+				/* 							Initialization	 						*/
+				/********************************************************************/
+				optimizationCounter++;
+				outputCode = getInBetweenString(nextFile, "/", ".") + "_" + std::to_string(optimizationCounter);
+				ClockTime ITERATION_TIME(ClockTime::getTimeNow());
+				if ((instance.getInput().getOptimizationTimeLimit() - OPTIMIZATION_TIME.getTimeInSecFromStart()) < instance.getInput().getIterationTimeLimit()){
+					instance.setTimeLimit(std::max(0, instance.getInput().getOptimizationTimeLimit() - (int)OPTIMIZATION_TIME.getTimeInSecFromStart()));
+				}
 
-					if ((instance.getInput().getGlobalTimeLimit() - OPTIMIZATION_TIME.getTimeInSecFromStart()) < instance.getInput().getTimeLimit()){
-						instance.setTimeLimit(std::max(0, instance.getInput().getGlobalTimeLimit() - (int)OPTIMIZATION_TIME.getTimeInSecFromStart()));
-					}
-					switch (instance.getInput().getChosenMethod()){
+				/********************************************************************/
+				/* 								Solve	 							*/
+				/********************************************************************/
+				switch (instance.getInput().getChosenMethod()){
 					case Input::METHOD_CPLEX:
-						{
-							FlowForm solver(instance);	
-							
-							std::cout << "Status: " << solver.getCplex().getStatus() << std::endl;
-							RSA::Status STATUS = solver.getStatus();
-							if (STATUS == RSA::STATUS_ERROR){
-								std::cout << "Got error on CPLEX." << std::endl;
-								exit(0);
-							}
-							if (STATUS == RSA::STATUS_FEASIBLE || STATUS == RSA::STATUS_OPTIMAL){
-								solver.updateInstance(instance);
-							}
-							else{
-								std::cout << "Decrease the number of demands to be treated." << std::endl;
-								instance.decreaseNbDemandsAtOnce();
-								//instance.displayDetailedTopology();
-							}
-
-							if (instance.getInput().getNbDemandsAtOnce() <= 0){
-								std::cout << "There is no room for an additional demand." << std::endl;
-								feasibility = false;
-							}
-							break;
-						}
-					case Input::METHOD_SUBGRADIENT:
-						{
-							Subgradient solver(instance);
-							RSA::Status STATUS = solver.getStatus();
-							if (STATUS == RSA::STATUS_FEASIBLE || STATUS == RSA::STATUS_OPTIMAL){
-								solver.updateInstance(instance);
-							}
-							else{
-								std::cout << "Decrease the number of demands to be treated." << std::endl;
-								instance.decreaseNbDemandsAtOnce();
-								//instance.displayDetailedTopology();
-							}
-
-							if (instance.getInput().getNbDemandsAtOnce() <= 0){
-								std::cout << "There is no room for an additional demand." << std::endl;
-								feasibility = false;
-							}
-							//instance.output(outputCode);
-							break;
-						}
-					case Input::METHOD_YOUSSOUF:
-						{
-							YoussoufForm solver(instance);	
-							
-							std::cout << "Status: " << solver.getCplex().getStatus() << std::endl;
-							RSA::Status STATUS = solver.getStatus();
-							if (STATUS == RSA::STATUS_ERROR){
-								std::cout << "Got error on CPLEX." << std::endl;
-								exit(0);
-							}
-							if (STATUS == RSA::STATUS_FEASIBLE || STATUS == RSA::STATUS_OPTIMAL){
-								solver.updateInstance(instance);
-							}
-							else{
-								std::cout << "Decrease the number of demands to be treated." << std::endl;
-								instance.decreaseNbDemandsAtOnce();
-								//instance.displayDetailedTopology();
-							}
-
-							if (instance.getInput().getNbDemandsAtOnce() <= 0){
-								std::cout << "There is no room for an additional demand." << std::endl;
-								feasibility = false;
-							}
-							break;
-						}
-					default:
-						{
-							std::cerr << "The parameter \'chosenMethod\' is invalid. " << std::endl;
-							throw std::invalid_argument( "did not receive an argument" );
-							break;
-						}
-						
-					}
-					if (instance.getInput().getChosenOutputLvl() == Input::OUTPUT_LVL_DETAILED){
-						instance.output(outputCode);
-					}
+					{
+						FlowForm solver(instance);	
+						std::cout << "Status: " << solver.getCplex().getStatus() << std::endl;
+						RSA::Status STATUS = solver.getStatus();
 					
-					std::cout << "Time taken by iteration is : ";
-					std::cout << std::fixed  << ITERATION_TIME.getTimeInSecFromStart() << std::setprecision(9); 
-					std::cout << " sec" << std::endl; 
+						if (STATUS == RSA::STATUS_FEASIBLE || STATUS == RSA::STATUS_OPTIMAL){
+							solver.updateInstance(instance);
+							int nextDemandToBeRouted = instance.getNextDemandToBeRoutedIndex() + solver.getNbDemandsToBeRouted();
+							if (instance.getInput().isBlockingAllowed()){
+								if (lastIterationFeas == false){
+									nextDemandToBeRouted++;
+								}
+								instance.setNbDemandsAtOnce(input.getNbDemandsAtOnce());
+							}
+							else{
+								if (lastIterationFeas == false){
+									instance.setNbDemandsAtOnce(0);
+								}
+							}
+							instance.setNextDemandToBeRoutedIndex(nextDemandToBeRouted);
+							lastIterationFeas = true;
+						}
+						else{
+							std::cout << "Decrease the number of demands to be treated." << std::endl;
+							instance.decreaseNbDemandsAtOnce();
+							lastIterationFeas = false;
+							//instance.displayDetailedTopology();
+						}
+
+						if (instance.getInput().getNbDemandsAtOnce() <= 0){
+							std::cout << "There is no room for an additional demand." << std::endl;
+							if (instance.getInput().isBlockingAllowed()){
+								lastIterationFeas = true;
+								int nextDemandToBeRouted = instance.getNextDemandToBeRoutedIndex() + 1;
+								instance.setNextDemandToBeRoutedIndex(nextDemandToBeRouted);
+								instance.setNbDemandsAtOnce(input.getNbDemandsAtOnce());
+							}
+							else{
+								feasibility = false;
+							}
+						}
+						break;
+					}
+					case Input::METHOD_SUBGRADIENT:
+					{
+						Subgradient solver(instance);
+						RSA::Status STATUS = solver.getStatus();
+						if (STATUS == RSA::STATUS_FEASIBLE || STATUS == RSA::STATUS_OPTIMAL){
+							solver.updateInstance(instance);
+						}
+						else{
+							std::cout << "Decrease the number of demands to be treated." << std::endl;
+							instance.decreaseNbDemandsAtOnce();
+							//instance.displayDetailedTopology();
+						}
+
+						if (instance.getInput().getNbDemandsAtOnce() <= 0){
+							std::cout << "There is no room for an additional demand." << std::endl;
+							feasibility = false;
+						}
+						//instance.output(outputCode);
+						break;
+					}
+					case Input::METHOD_YOUSSOUF:
+					{
+						YoussoufForm solver(instance);	
+							
+						std::cout << "Status: " << solver.getCplex().getStatus() << std::endl;
+						RSA::Status STATUS = solver.getStatus();
+					
+						if (STATUS == RSA::STATUS_FEASIBLE || STATUS == RSA::STATUS_OPTIMAL){
+							solver.updateInstance(instance);
+							int nextDemandToBeRouted = instance.getNextDemandToBeRoutedIndex() + solver.getNbDemandsToBeRouted();
+							if (instance.getInput().isBlockingAllowed()){
+								if (lastIterationFeas == false){
+									nextDemandToBeRouted++;
+								}
+								instance.setNbDemandsAtOnce(input.getNbDemandsAtOnce());
+							}
+							else{
+								if (lastIterationFeas == false){
+									instance.setNbDemandsAtOnce(0);
+								}
+							}
+							instance.setNextDemandToBeRoutedIndex(nextDemandToBeRouted);
+							lastIterationFeas = true;
+						}
+						else{
+							std::cout << "Decrease the number of demands to be treated." << std::endl;
+							instance.decreaseNbDemandsAtOnce();
+							lastIterationFeas = false;
+							//instance.displayDetailedTopology();
+						}
+
+						if (instance.getInput().getNbDemandsAtOnce() <= 0){
+							std::cout << "There is no room for an additional demand." << std::endl;
+							if (instance.getInput().isBlockingAllowed()){
+								lastIterationFeas = true;
+								int nextDemandToBeRouted = instance.getNextDemandToBeRoutedIndex() + 1;
+								instance.setNextDemandToBeRoutedIndex(nextDemandToBeRouted);
+								instance.setNbDemandsAtOnce(input.getNbDemandsAtOnce());
+							}
+							else{
+								feasibility = false;
+							}
+						}
+						break;
+					}
+					default:
+					{
+						std::cerr << "The parameter \'chosenMethod\' is invalid. " << std::endl;
+						throw std::invalid_argument( "did not receive an argument" );
+						break;
+					}	
 				}
-				else{
-					feasibility = false;
+				if (instance.getInput().getChosenOutputLvl() == Input::OUTPUT_LVL_DETAILED){
+					instance.output(outputCode);
 				}
+					
+				std::cout << "Time taken by iteration is : ";
+				std::cout << std::fixed  << ITERATION_TIME.getTimeInSecFromStart() << std::setprecision(9); 
+				std::cout << " sec" << std::endl; 
 			}
 			if (instance.getInput().getChosenOutputLvl() >= Input::OUTPUT_LVL_NORMAL){
 				outputCode = getInBetweenString(nextFile, "/", ".");
 				instance.output(outputCode + "_FINAL");
 				instance.outputLogResults(outputCode);
 			}
+			instance.displayAllDemands();
 			std::cout << "Time taken by optimization is : ";
 			std::cout << std::fixed  << OPTIMIZATION_TIME.getTimeInSecFromStart() << std::setprecision(9); 
 			std::cout << " sec" << std::endl; 

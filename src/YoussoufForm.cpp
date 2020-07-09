@@ -1,5 +1,6 @@
 #include "YoussoufForm.h"
 
+#include <sstream>
 
 
 /* Constructor. Builds the Online RSA mixed-integer program and solves it using CPLEX. */
@@ -42,11 +43,6 @@ YoussoufForm::YoussoufForm(const Instance &inst) :
     std::cout << "Demand-edge-slot constraints have been defined..." << std::endl;
     this->setNonOverlappingConstraints();
     std::cout << "Non-overlapping constraints have been defined..." << std::endl;
-
-    //this->setFlowConservationConstraints(x, model);
-    //std::cout << "Flow conservation constraints have been defined..." << std::endl;
-
-
     
     if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_1p){
         //this->setMaxUsedSlicePerLinkConstraints(x, maxSlicePerLink, model);    
@@ -70,8 +66,19 @@ YoussoufForm::YoussoufForm(const Instance &inst) :
 	/*             DEFINE CPLEX PARAMETERS   		*/
 	/************************************************/
     cplex.setParam(IloCplex::Param::MIP::Display, 3);
-    cplex.setParam(IloCplex::Param::TimeLimit, getInstance().getInput().getTimeLimit());
+    cplex.setParam(IloCplex::Param::TimeLimit, getInstance().getInput().getIterationTimeLimit());
     std::cout << "CPLEX parameters have been defined..." << std::endl;
+
+
+	/************************************************/
+	/*           SET UP THE GENERIC CALLBACK   		*/
+	/************************************************/
+    GenericCallback myGenericCallback(x, instance, compactGraph, toBeRouted, compactNodeLabel, compactNodeId, compactEdgeLabel, compactEdgeId);
+    // The generic callback will be used in relaxation and candidate contexts.
+    CPXLONG contextMask = 0;
+    contextMask |= IloCplex::Callback::Context::Id::Relaxation;
+    contextMask |= IloCplex::Callback::Context::Id::Candidate;
+    cplex.use(&myGenericCallback, contextMask);
 
 	/************************************************/
 	/*		         SOLVE LINEAR PROGRAM   		*/

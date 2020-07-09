@@ -1,6 +1,6 @@
 #include "cplexForm.h"
 
-
+#define EPS 1e-6
 
 /* Constructor. Builds the Online RSA mixed-integer program and solves it using CPLEX. */
 FlowForm::FlowForm(const Instance &inst) : Solver(inst), x(env, getNbDemandsToBeRouted()), maxSlicePerLink(env, instance.getNbEdges()), maxSliceOverall(env){
@@ -8,48 +8,52 @@ FlowForm::FlowForm(const Instance &inst) : Solver(inst), x(env, getNbDemandsToBe
     /************************************************/
 	/*				    SET VARIABLES				*/
 	/************************************************/
-    this->setVariables(x, maxSlicePerLink, maxSliceOverall, model);
+    this->setVariables();
     std::cout << "Variables have been defined..." << std::endl;
 
 	/************************************************/
 	/*			    SET OBJECTIVE FUNCTION			*/
 	/************************************************/
-    this->setObjective(x, maxSlicePerLink, maxSliceOverall, model);
+    this->setObjective();
     std::cout << "Objective function has been defined..." << std::endl;
 
 	/************************************************/
 	/*			      SET CONSTRAINTS				*/
 	/************************************************/
-    this->setSourceConstraints(x, model);
+    this->setSourceConstraints();
     std::cout << "Source constraints have been defined..." << std::endl;
 
-    this->setFlowConservationConstraints(x, model);
+    this->setFlowConservationConstraints();
     std::cout << "Flow conservation constraints have been defined..." << std::endl;
 
-    this->setTargetConstraints(x, model);
+    this->setTargetConstraints();
     std::cout << "Target constraints have been defined..." << std::endl;
 
-    this->setLengthConstraints(x, model);
+    this->setLengthConstraints();
     std::cout << "Length constraints have been defined..." << std::endl;
 
     //this->setNonOverlappingConstraints(x, model);    
     //std::cout << "Non-Overlapping constraints have been defined..." << std::endl;
 
-    this->setImprovedNonOverlappingConstraints_1(x, model);    
+    //this->setImprovedNonOverlappingConstraints_1();    
     std::cout << "First set of Improved Non-Overlapping constraints has been defined..." << std::endl;
 
-    this->setImprovedNonOverlappingConstraints_2(x, model);    
+    this->setImprovedNonOverlappingConstraints_2();    
     std::cout << "Second set of Improved Non-Overlapping constraints has been defined..." << std::endl;
 
     
     if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_1p){
-        this->setMaxUsedSlicePerLinkConstraints(x, maxSlicePerLink, model);    
+        this->setMaxUsedSlicePerLinkConstraints();    
         std::cout << "Max Used Slice Per Link constraints have been defined..." << std::endl;
     }
 
     if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_8){
-        this->setMaxUsedSliceOverallConstraints(x, maxSliceOverall, model);    
+        this->setMaxUsedSliceOverallConstraints();    
         std::cout << "Max Used Slice Overall constraints have been defined..." << std::endl;
+        this->setMaxUsedSliceOverallConstraints2();    
+        std::cout << "Max Used Slice Overall2 constraints have been defined..." << std::endl;
+        this->setMaxUsedSliceOverallConstraints3();    
+        std::cout << "Max Used Slice Overall3 constraints have been defined..." << std::endl;
     }
     
     
@@ -63,8 +67,8 @@ FlowForm::FlowForm(const Instance &inst) : Solver(inst), x(env, getNbDemandsToBe
 	/************************************************/
 	/*             DEFINE CPLEX PARAMETERS   		*/
 	/************************************************/
-    cplex.setParam(IloCplex::Param::MIP::Display, 3);
-    cplex.setParam(IloCplex::Param::TimeLimit, getInstance().getInput().getTimeLimit());
+    cplex.setParam(IloCplex::Param::MIP::Display, 4);
+    cplex.setParam(IloCplex::Param::TimeLimit, getInstance().getInput().getIterationTimeLimit());
     std::cout << "CPLEX parameters have been defined..." << std::endl;
 
 	/************************************************/
@@ -101,9 +105,9 @@ FlowForm::FlowForm(const Instance &inst) : Solver(inst), x(env, getNbDemandsToBe
 /****************************************************************************************/
 
 /* Define variables x[d][a] for every arc a in the extedend graph #d. */
-void FlowForm::setVariables(IloBoolVarMatrix &var, IloIntVarArray &maxSliceFromLink, IloIntVar &maxSlice, IloModel &mod){
+void FlowForm::setVariables(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){ 
-        var[d] = IloBoolVarArray(mod.getEnv(), countArcs(*vecGraph[d]));  
+        x[d] = IloBoolVarArray(model.getEnv(), countArcs(*vecGraph[d]));  
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
             int arc = getArcIndex(a, d); 
             int label = getArcLabel(a, d); 
@@ -120,8 +124,8 @@ void FlowForm::setVariables(IloBoolVarMatrix &var, IloIntVarArray &maxSliceFromL
                 upperBound = 0;
                 std::cout << "STILL REMOVING VARIABLES IN CPLEX. \n" ;
             }
-            var[d][arc] = IloBoolVar(mod.getEnv(), 0, upperBound, varName.str().c_str());
-            mod.add(var[d][arc]);
+            x[d][arc] = IloBoolVar(model.getEnv(), 0, upperBound, varName.str().c_str());
+            model.add(x[d][arc]);
             // std::cout << "Created variable: " << var[d][arc].getName() << std::endl;
         }
     }
@@ -131,8 +135,8 @@ void FlowForm::setVariables(IloBoolVarMatrix &var, IloIntVarArray &maxSliceFromL
             std::string varName = "maxSlice(" + std::to_string(instance.getPhysicalLinkFromIndex(i).getId() + 1) + ")";
             IloInt lowerBound = instance.getPhysicalLinkFromIndex(i).getMaxUsedSlicePosition();
             IloInt upperBound = instance.getPhysicalLinkFromIndex(i).getNbSlices();
-            maxSliceFromLink[i] = IloIntVar(mod.getEnv(), lowerBound, upperBound, varName.c_str());
-            mod.add(maxSliceFromLink[i]);
+            maxSlicePerLink[i] = IloIntVar(model.getEnv(), lowerBound, upperBound, varName.c_str());
+            model.add(maxSlicePerLink[i]);
         }
     }
 
@@ -140,8 +144,8 @@ void FlowForm::setVariables(IloBoolVarMatrix &var, IloIntVarArray &maxSliceFromL
         std::string varName = "maxSlice";
         IloInt lowerBound = instance.getMaxUsedSlicePosition();
         IloInt upperBound = instance.getMaxSlice();
-        maxSlice = IloIntVar(mod.getEnv(), lowerBound, upperBound, varName.c_str()); 
-        mod.add(maxSlice);
+        maxSliceOverall = IloIntVar(model.getEnv(), lowerBound, upperBound, varName.c_str()); 
+        model.add(maxSliceOverall);
     }
 }
 
@@ -150,15 +154,15 @@ void FlowForm::setVariables(IloBoolVarMatrix &var, IloIntVarArray &maxSliceFromL
 /****************************************************************************************/
 
 /* Set the objective Function */
-void FlowForm::setObjective(IloBoolVarMatrix &var, IloIntVarArray &maxSliceFromLink, IloIntVar &maxSlice, IloModel &mod){
-    IloExpr objective = getObjFunction(var, maxSliceFromLink, maxSlice, mod);
-    mod.add(IloMinimize(mod.getEnv(), objective));
+void FlowForm::setObjective(){
+    IloExpr objective = getObjFunction();
+    model.add(IloMinimize(model.getEnv(), objective));
     objective.end();
 }
 
 /* Returns the objective function expression. */
-IloExpr FlowForm::getObjFunction(IloBoolVarMatrix &var, IloIntVarArray &maxSliceFromLink, IloIntVar &maxSlice, IloModel &mod){
-    IloExpr obj(mod.getEnv());
+IloExpr FlowForm::getObjFunction(){
+    IloExpr obj(model.getEnv());
     
     if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_0){
         IloInt CONSTANT = 0;
@@ -168,13 +172,13 @@ IloExpr FlowForm::getObjFunction(IloBoolVarMatrix &var, IloIntVarArray &maxSlice
 
     if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_1p){
         for (int i = 0; i < instance.getNbEdges(); i++){
-            obj += maxSliceFromLink[i];
+            obj += maxSlicePerLink[i];
         }
         return obj;
     }
 
     if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_8){
-        obj += maxSlice;
+        obj += maxSliceOverall;
         return obj;
     }
 
@@ -184,7 +188,7 @@ IloExpr FlowForm::getObjFunction(IloBoolVarMatrix &var, IloIntVarArray &maxSlice
             int arc = getArcIndex(a, d);
             double coeff = getCoeff(a, d);
             //coeff += (instance.getInput().getInitialLagrangianMultiplier() * getArcLength(a, 0) );
-            obj += coeff*var[d][arc];
+            obj += coeff*x[d][arc];
         }
     }
     return obj;
@@ -195,163 +199,163 @@ IloExpr FlowForm::getObjFunction(IloBoolVarMatrix &var, IloIntVarArray &maxSlice
 /****************************************************************************************/
 
 /* Defines Source constraints. At most one arc leaves each node and exactly one arc leaves the source. */
-void FlowForm::setSourceConstraints(IloBoolVarMatrix &var, IloModel &mod){
+void FlowForm::setSourceConstraints(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){  
         for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
             int label = getNodeLabel(v, d);
-            IloRange sourceConstraint = getSourceConstraint_d_n(var, mod, getToBeRouted_k(d), d, label);
-            mod.add(sourceConstraint);
+            IloRange sourceConstraint = getSourceConstraint_d_n(getToBeRouted_k(d), d, label);
+            model.add(sourceConstraint);
         } 
     }
 }
 
 /* Returns the source constraint associated with a demand and a node. */
-IloRange FlowForm::getSourceConstraint_d_n(IloBoolVarMatrix &var, IloModel &mod, const Demand & demand, int d, int i){
-    IloExpr exp(mod.getEnv());
+IloRange FlowForm::getSourceConstraint_d_n(const Demand & demand, int d, int nodeLabel){
+    IloExpr exp(model.getEnv());
     IloInt upperBound = 1;
     IloInt lowerBound = 0;
     for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
-        if (getNodeLabel(v, d) == i){
+        if (getNodeLabel(v, d) == nodeLabel){
             for (ListDigraph::OutArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
                 int arc = getArcIndex(a, d); 
-                exp += var[d][arc];
+                exp += x[d][arc];
             }
         }
     }
     std::ostringstream constraintName;
-    constraintName << "Source(" << i+1 << "," << demand.getId()+1 << ")";
-    if (i == demand.getSource()){
+    constraintName << "Source(" << nodeLabel+1 << "," << demand.getId()+1 << ")";
+    if (nodeLabel == demand.getSource()){
         lowerBound = 1;
     }
-    if (i == demand.getTarget()){
+    if (nodeLabel == demand.getTarget()){
         upperBound = 0;
     }
-    IloRange constraint(mod.getEnv(), lowerBound, exp, upperBound, constraintName.str().c_str());
+    IloRange constraint(model.getEnv(), lowerBound, exp, upperBound, constraintName.str().c_str());
     exp.end();
     return constraint;
 }
 
 /* Defines Flow Conservation constraints. If an arc enters a node, then an arc must leave it. */
-void FlowForm::setFlowConservationConstraints(IloBoolVarMatrix &var, IloModel &mod){
+void FlowForm::setFlowConservationConstraints(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
         for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
             int label = getNodeLabel(v, d);
             if( (label != getToBeRouted_k(d).getSource()) && (label != getToBeRouted_k(d).getTarget()) ){
-                IloRange st = getFlowConservationConstraint_i_d(var, mod, v, getToBeRouted_k(d), d);
-                mod.add(st);
+                IloRange st = getFlowConservationConstraint_i_d(v, getToBeRouted_k(d), d);
+                model.add(st);
             }
         }
     }
 }
 
 /* Returns the flow conservation constraint associated with a demand and a node. */
-IloRange FlowForm::getFlowConservationConstraint_i_d(IloBoolVarMatrix &var, IloModel &mod, ListDigraph::Node &v, const Demand & demand, int d){
-    IloExpr exp(mod.getEnv());
+IloRange FlowForm::getFlowConservationConstraint_i_d(ListDigraph::Node &v, const Demand & demand, int d){
+    IloExpr exp(model.getEnv());
     IloInt rhs = 0;
     for (ListDigraph::OutArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
         int arc = getArcIndex(a, d); 
-        exp += var[d][arc];
+        exp += x[d][arc];
     }
     for (ListDigraph::InArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
         int arc = getArcIndex(a, d); 
-        exp += (-1)*var[d][arc];
+        exp += (-1)*x[d][arc];
     }
     std::ostringstream constraintName;
     int label = getNodeLabel(v, d);
     int slice = getNodeSlice(v, d);
     constraintName << "Flow(" << label+1 << "," << slice+1 << "," << demand.getId()+1 << ")";
-    IloRange constraint(mod.getEnv(), rhs, exp, rhs, constraintName.str().c_str());
+    IloRange constraint(model.getEnv(), rhs, exp, rhs, constraintName.str().c_str());
     exp.end();
     return constraint;
 }
 
 /* Defines Target constraints. Exactly one arc enters the target. */
-void FlowForm::setTargetConstraints(IloBoolVarMatrix &var, IloModel &mod){
+void FlowForm::setTargetConstraints(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
-        IloRange targetConstraint = getTargetConstraint_d(var, mod, getToBeRouted_k(d), d);
-        mod.add(targetConstraint);
+        IloRange targetConstraint = getTargetConstraint_d(getToBeRouted_k(d), d);
+        model.add(targetConstraint);
     }
 }
 
 /* Returns the target constraint associated with a demand. */
-IloRange FlowForm::getTargetConstraint_d(IloBoolVarMatrix &var, IloModel &mod, const Demand & demand, int d){
-    IloExpr exp(mod.getEnv());
+IloRange FlowForm::getTargetConstraint_d(const Demand & demand, int d){
+    IloExpr exp(model.getEnv());
     IloInt rhs = 1;
     for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
         int label = getNodeLabel(v, d);
         if (label == demand.getTarget()){
             for (ListDigraph::InArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
                 int arc = getArcIndex(a, d); 
-                exp += var[d][arc];
+                exp += x[d][arc];
             }
         }
     }
     std::ostringstream constraintName;
     constraintName << "Target(" << demand.getId()+1 << ")";
-    IloRange constraint(mod.getEnv(), rhs, exp, rhs, constraintName.str().c_str());
+    IloRange constraint(model.getEnv(), rhs, exp, rhs, constraintName.str().c_str());
     exp.end();
     return constraint;
 }
 
 /* Defines Length constraints. Demands must be routed within a length limit. */
-void FlowForm::setLengthConstraints(IloBoolVarMatrix &var, IloModel &mod){
+void FlowForm::setLengthConstraints(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
-        IloRange lengthConstraint = getLengthConstraint(var, mod, getToBeRouted_k(d), d);
-        mod.add(lengthConstraint);
+        IloRange lengthConstraint = getLengthConstraint(getToBeRouted_k(d), d);
+        model.add(lengthConstraint);
     }
 }
 
 /* Returns the length constraint associated with a demand. */
-IloRange FlowForm::getLengthConstraint(IloBoolVarMatrix &var, IloModel &mod, const Demand &demand, int d){
-    IloExpr exp(mod.getEnv());
+IloRange FlowForm::getLengthConstraint(const Demand &demand, int d){
+    IloExpr exp(model.getEnv());
     double rhs = demand.getMaxLength();
     for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
         int arc = getArcIndex(a, d); 
         double coeff = getArcLength(a, d);
-        exp += coeff*var[d][arc];
+        exp += coeff*x[d][arc];
     }
     std::ostringstream constraintName;
     constraintName << "Length(" << demand.getId()+1 << ")";
-    IloRange constraint(mod.getEnv(), -IloInfinity, exp, rhs, constraintName.str().c_str());
+    IloRange constraint(model.getEnv(), -IloInfinity, exp, rhs, constraintName.str().c_str());
     exp.end();
     return constraint;
 }
 
 /* Defines Non-Overlapping constraints. Demands must not overlap eachother's slices. */
-void FlowForm::setNonOverlappingConstraints(IloBoolVarMatrix &var, IloModel &mod){
+void FlowForm::setNonOverlappingConstraints(){
     for (int d1 = 0; d1 < getNbDemandsToBeRouted(); d1++){
         for (int d2 = 0; d2 < getNbDemandsToBeRouted(); d2++){
             if(d1 != d2){
                 for (int i = 0; i < instance.getNbEdges(); i++){
                     for (int s = 0; s < instance.getPhysicalLinkFromIndex(i).getNbSlices(); s++){
-                        IloRange nonOverlap = getNonOverlappingConstraint(var, mod, instance.getPhysicalLinkFromIndex(i).getId(), s, getToBeRouted_k(d1), d1, getToBeRouted_k(d2), d2);
-                        mod.add(nonOverlap);
+                        IloRange nonOverlap = getNonOverlappingConstraint(instance.getPhysicalLinkFromIndex(i).getId(), s, getToBeRouted_k(d1), d1, getToBeRouted_k(d2), d2);
+                        model.add(nonOverlap);
                     }
-                }   
+                }
             }
         }
     }
 }
 
 /* Returns the non-overlapping constraint associated with an arc and a pair of demands. */
-IloRange FlowForm::getNonOverlappingConstraint(IloBoolVarMatrix &var, IloModel &mod, int linkLabel, int slice, const Demand & demand1, int d1, const Demand & demand2, int d2){
-    IloExpr exp(mod.getEnv());
+IloRange FlowForm::getNonOverlappingConstraint(int linkLabel, int slice, const Demand & demand1, int d1, const Demand & demand2, int d2){
+    IloExpr exp(model.getEnv());
     IloNum rhs = 1;
     for (ListDigraph::ArcIt a(*vecGraph[d1]); a != INVALID; ++a){
         if( (getArcLabel(a, d1) == linkLabel) && (getArcSlice(a, d1) == slice) ){
             int id = getArcIndex(a, d1);
-            exp += var[d1][id];
+            exp += x[d1][id];
         }
     }
     for (ListDigraph::ArcIt a(*vecGraph[d2]); a != INVALID; ++a){
         if( (getArcLabel(a, d2) == linkLabel) && (getArcSlice(a, d2) >= slice - demand1.getLoad() + 1) && (getArcSlice(a, d2) <= slice + demand2.getLoad() - 1) ){
             int id = getArcIndex(a, d2);
-            exp += var[d2][id];
+            exp += x[d2][id];
         }
     }
     std::ostringstream constraintName;
     constraintName << "NonOverlap(" << linkLabel+1 << "," << slice+1 << "," << demand1.getId()+1 << "," << demand2.getId()+1 << ")";
-    IloRange constraint(mod.getEnv(), -IloInfinity, exp, rhs, constraintName.str().c_str());
+    IloRange constraint(model.getEnv(), -IloInfinity, exp, rhs, constraintName.str().c_str());
     exp.end();
     return constraint;
 }
@@ -361,81 +365,159 @@ IloRange FlowForm::getNonOverlappingConstraint(IloBoolVarMatrix &var, IloModel &
 /****************************************************************************************/
 
 /* Defines the Link's Max Used Slice Position constraints. The max used slice position on each link must be greater than every slice position used in the link. */
-void FlowForm::setMaxUsedSlicePerLinkConstraints(IloBoolVarMatrix &var, IloIntVarArray &maxSlicePerLink, IloModel &mod){
+void FlowForm::setMaxUsedSlicePerLinkConstraints(){
     for (int i = 0; i < instance.getNbEdges(); i++){
         for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-            IloRange maxUsedSlicePerLinkConst = getMaxUsedSlicePerLinkConstraints(var, maxSlicePerLink, i, d, mod);
-            mod.add(maxUsedSlicePerLinkConst);
+            IloRange maxUsedSlicePerLinkConst = getMaxUsedSlicePerLinkConstraints(i, d);
+            model.add(maxUsedSlicePerLinkConst);
         }
     }
 }
 
-IloRange FlowForm::getMaxUsedSlicePerLinkConstraints(IloBoolVarMatrix &var, IloIntVarArray &maxSlicePerLink, int linkIndex, int d, IloModel &mod){
-    IloExpr exp(mod.getEnv());
+IloRange FlowForm::getMaxUsedSlicePerLinkConstraints(int linkIndex, int d){
+    IloExpr exp(model.getEnv());
     IloInt rhs = 0;
     int linkLabel = instance.getPhysicalLinkFromIndex(linkIndex).getId();
     for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
         if (getArcLabel(a, d) == linkLabel){
             int index = getArcIndex(a, d);
             int slice = getArcSlice(a, d);
-            exp += slice*var[d][index];
+            exp += slice*x[d][index];
         }
     }
     exp += -maxSlicePerLink[linkIndex];
     
     std::ostringstream constraintName;
     constraintName << "MaxUsedSlicePerLink(" << linkLabel+1 << "," << getToBeRouted_k(d).getId()+1 << ")";
-    IloRange constraint(mod.getEnv(), -IloInfinity, exp, rhs, constraintName.str().c_str());
+    IloRange constraint(model.getEnv(), -IloInfinity, exp, rhs, constraintName.str().c_str());
     exp.end();
     return constraint;
 }
 
 /* Defines the Overall Max Used Slice Position constraints. */
-void FlowForm::setMaxUsedSliceOverallConstraints(IloBoolVarMatrix &var, IloIntVar maxSliceOverall, IloModel &mod){
+void FlowForm::setMaxUsedSliceOverallConstraints(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        IloRange maxUsedSliceOverallConst = getMaxUsedSliceOverallConstraints(d);
+        model.add(maxUsedSliceOverallConst);
+    }
+}
+
+IloRange FlowForm::getMaxUsedSliceOverallConstraints(int d){
+    IloExpr exp(model.getEnv());
+    IloInt rhs = 0;
+    for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+        if (getToBeRouted_k(d).getSource() == getNodeLabel((*vecGraph[d]).source(a), d)){
+            int index = getArcIndex(a, d);
+            int slice = getArcSlice(a, d);
+            exp += slice*x[d][index];
+        }
+    }
+    exp += -maxSliceOverall;
+    
+    std::ostringstream constraintName;
+    constraintName << "MaxUsedSliceOverall(" << getToBeRouted_k(d).getId()+1 << ")";
+    IloRange constraint(model.getEnv(), -IloInfinity, exp, rhs, constraintName.str().c_str());
+    exp.end();
+    return constraint;
+}
+
+/* Defines the Overall Max Used Slice Position constraints. */
+void FlowForm::setMaxUsedSliceOverallConstraints2(){
     for (int i = 0; i < instance.getNbEdges(); i++){
-        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-            IloRange maxUsedSliceOverallConst = getMaxUsedSliceOverallConstraints(var, maxSliceOverall, i, d, mod);
-            mod.add(maxUsedSliceOverallConst);
+        for (int s = 0; s < instance.getPhysicalLinkFromIndex(i).getNbSlices(); s++){
+            IloRange maxUsedSliceOverallConst = getMaxUsedSliceOverallConstraints2(instance.getPhysicalLinkFromIndex(i).getId(), s);
+            model.add(maxUsedSliceOverallConst);
         }
     }
 }
 
 
-IloRange FlowForm::getMaxUsedSliceOverallConstraints(IloBoolVarMatrix &var, IloIntVar &maxSlice, int linkIndex, int d, IloModel &mod){
-    IloExpr exp(mod.getEnv());
+
+IloRange FlowForm::getMaxUsedSliceOverallConstraints2(int linkLabel, int s){
+    IloExpr exp(model.getEnv());
     IloInt rhs = 0;
-    int linkLabel = instance.getPhysicalLinkFromIndex(linkIndex).getId();
-    for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-        if (getArcLabel(a, d) == linkLabel){
-            int index = getArcIndex(a, d);
-            int slice = getArcSlice(a, d);
-            exp += slice*var[d][index];
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        int demandLoad = getToBeRouted_k(d).getLoad();
+        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+            if ((getArcLabel(a, d) == linkLabel) && (getArcSlice(a, d) >= s) && (getArcSlice(a, d) <= s + demandLoad - 1)){
+                int index = getArcIndex(a, d);
+                int slice = getArcSlice(a, d);
+                exp += slice*x[d][index];
+            }
         }
     }
-    exp += -maxSlice;
+    exp += -maxSliceOverall;
     
     std::ostringstream constraintName;
-    constraintName << "MaxUsedSliceOverall(" << linkLabel+1 << "," << getToBeRouted_k(d).getId()+1 << ")";
-    IloRange constraint(mod.getEnv(), -IloInfinity, exp, rhs, constraintName.str().c_str());
+    constraintName << "MaxUsedSliceOverall2(" << linkLabel+1 << "," << s+1 << ")";
+    IloRange constraint(model.getEnv(), -IloInfinity, exp, rhs, constraintName.str().c_str());
     exp.end();
     return constraint;
 }
 
 
+/* Defines the Overall Max Used Slice Position constraints 3. */
+void FlowForm::setMaxUsedSliceOverallConstraints3(){
+    for (int i = 0; i < instance.getNbNodes(); i++){
+        for (int s = 0; s < instance.getPhysicalLinkFromIndex(0).getNbSlices(); s++){
+            IloRange maxUsedSliceOverallConst = getMaxUsedSliceOverallConstraints3(i, s);
+            model.add(maxUsedSliceOverallConst);
+        }
+    }
+}
+
+
+
+IloRange FlowForm::getMaxUsedSliceOverallConstraints3(int nodeLabel, int s){
+    IloExpr exp(model.getEnv());
+    IloInt rhs = 0;
+    int degree = 0;
+    for (ListGraph::NodeIt v(compactGraph); v != INVALID; ++v){
+        if ((getCompactNodeLabel(v) == nodeLabel)){
+            for (ListGraph::IncEdgeIt a(compactGraph, v); a != INVALID; ++a){
+                degree++;
+            }
+        }
+    }
+
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        int demandLoad = getToBeRouted_k(d).getLoad();
+        for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
+            if ((getNodeLabel(v, d) == nodeLabel)){
+                for (ListDigraph::OutArcIt a(*vecGraph[d], v); a != INVALID; ++a){
+                    if ( (getArcSlice(a, d) >= s) && (getArcSlice(a, d) <= s + demandLoad - 1) ){
+
+                        int index = getArcIndex(a, d);
+                        int slice = getArcSlice(a, d);
+                        int coeff = ceil(((double)slice)/((double)degree-1));
+                        exp += coeff*x[d][index];
+                    }
+                }
+            }
+        }
+    }
+    exp += -maxSliceOverall;
+    
+    std::ostringstream constraintName;
+    constraintName << "MaxUsedSliceOverall2(" << nodeLabel+1 << "," << s+1 << ")";
+    IloRange constraint(model.getEnv(), -IloInfinity, exp, rhs, constraintName.str().c_str());
+    exp.end();
+    return constraint;
+}
 
 /****************************************************************************************/
 /*						Improved Non-Overlapping constraints    						*/
 /****************************************************************************************/
 
 /* Defines the first set of Improved Non-Overlapping constraints. */
-void FlowForm::setImprovedNonOverlappingConstraints_1(IloBoolVarMatrix &var, IloModel &mod){
+void FlowForm::setImprovedNonOverlappingConstraints_1(){
     for (int k = 0; k < getNbLoadsToBeRouted(); k++){
         int load_k = getLoadsToBeRouted_k(k);
         for (int d2 = 0; d2 < getNbDemandsToBeRouted(); d2++){
             for (int i = 0; i < instance.getNbEdges(); i++){
                 for (int s = 0; s < instance.getPhysicalLinkFromIndex(i).getNbSlices(); s++){
-                    IloRange improvedNonOverlap1 = getImprovedNonOverlappingConstraint_1(var, mod, instance.getPhysicalLinkFromIndex(i).getId(), s, load_k, getToBeRouted_k(d2), d2);
-                    mod.add(improvedNonOverlap1);
+                    IloRange improvedNonOverlap1 = getImprovedNonOverlappingConstraint_1(instance.getPhysicalLinkFromIndex(i).getId(), s, load_k, getToBeRouted_k(d2), d2);
+                    model.add(improvedNonOverlap1);
                 }
             }
         }
@@ -443,8 +525,8 @@ void FlowForm::setImprovedNonOverlappingConstraints_1(IloBoolVarMatrix &var, Ilo
 }
 
 /* Returns the first improved non-overlapping constraint associated with an arc, a demand and a load. */
-IloRange FlowForm::getImprovedNonOverlappingConstraint_1(IloBoolVarMatrix &var, IloModel &mod, int linkLabel, int slice, int min_load, const Demand & demand2, int d2){
-	IloExpr exp(mod.getEnv());
+IloRange FlowForm::getImprovedNonOverlappingConstraint_1(int linkLabel, int slice, int min_load, const Demand & demand2, int d2){
+	IloExpr exp(model.getEnv());
     IloNum rhs = 1;
     
     for (int d1 = 0; d1 < getNbDemandsToBeRouted(); d1++){
@@ -452,7 +534,7 @@ IloRange FlowForm::getImprovedNonOverlappingConstraint_1(IloBoolVarMatrix &var, 
             for (ListDigraph::ArcIt a(*vecGraph[d1]); a != INVALID; ++a){
                 if( (getArcLabel(a, d1) == linkLabel) && (getArcSlice(a, d1) == slice) ){
                     int index = getArcIndex(a, d1);
-                    exp += var[d1][index];
+                    exp += x[d1][index];
                 }
             }
         }
@@ -461,66 +543,45 @@ IloRange FlowForm::getImprovedNonOverlappingConstraint_1(IloBoolVarMatrix &var, 
     for (ListDigraph::ArcIt a(*vecGraph[d2]); a != INVALID; ++a){
         if( (getArcLabel(a, d2) == linkLabel) && (getArcSlice(a, d2) >= slice - min_load + 1) && (getArcSlice(a, d2) <= slice + demand2.getLoad() - 1) ){
             int index = getArcIndex(a, d2);
-            exp += var[d2][index];
+            exp += x[d2][index];
         }
     }
     
     std::ostringstream constraintName;
     constraintName << "ImprNonOverlap_1(" << linkLabel+1 << "," << slice+1 << "," << min_load << "," << demand2.getId()+1 << ")";
-    IloRange constraint(mod.getEnv(), -IloInfinity, exp, rhs, constraintName.str().c_str());
+    IloRange constraint(model.getEnv(), -IloInfinity, exp, rhs, constraintName.str().c_str());
     exp.end();
     return constraint;
 }
 
 /* Defines the second set of Improved Non-Overlapping constraints. */
-void FlowForm::setImprovedNonOverlappingConstraints_2(IloBoolVarMatrix &var, IloModel &mod){
-    for (int k1 = 0; k1 < getNbLoadsToBeRouted(); k1++){
-        int load_k1 = getLoadsToBeRouted_k(k1);
-        for (int k2 = 0; k2 < getNbLoadsToBeRouted(); k2++){
-            int load_k2 = getLoadsToBeRouted_k(k2);
-            for (int i = 0; i < instance.getNbEdges(); i++){
-                for (int s = 0; s < instance.getPhysicalLinkFromIndex(i).getNbSlices(); s++){
-                    IloRange improvedNonOverlap2 = getImprovedNonOverlappingConstraint_2(var, mod, instance.getPhysicalLinkFromIndex(i).getId(), s, load_k1, load_k2);
-                    mod.add(improvedNonOverlap2);
-                }
-            }
+void FlowForm::setImprovedNonOverlappingConstraints_2(){
+    for (int i = 0; i < instance.getNbEdges(); i++){
+        for (int s = 0; s < instance.getPhysicalLinkFromIndex(i).getNbSlices(); s++){
+            IloRange improvedNonOverlap2 = getImprovedNonOverlappingConstraint_2(instance.getPhysicalLinkFromIndex(i).getId(), s);
+            model.add(improvedNonOverlap2);
         }
     }
 }
 
-/* Returns the first improved non-overlapping constraint associated with an arc, a demand and a load. */
-IloRange FlowForm::getImprovedNonOverlappingConstraint_2(IloBoolVarMatrix &var, IloModel &mod, int linkLabel, int slice, int min_load1, int min_load2){
-	IloExpr exp(mod.getEnv());
+/* Returns the second improved non-overlapping constraint associated with an edge-slice. */
+IloRange FlowForm::getImprovedNonOverlappingConstraint_2(int linkLabel, int slice){
+	IloExpr exp(model.getEnv());
     IloNum rhs = 1;
     
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         int demandLoad = getToBeRouted_k(d).getLoad();
-        if ( (demandLoad >= min_load1) && (demandLoad <= min_load2 - 1) ){
-            for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-                if( (getArcLabel(a, d) == linkLabel) && (getArcSlice(a, d) >= slice)  && (getArcSlice(a, d) <= slice + min_load1 - 1) ){
-                    int index = getArcIndex(a, d);
-                    exp += var[d][index];
-                }
-            }
-        }
-    }
-
-    
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        int demandLoad = getToBeRouted_k(d).getLoad();
-        if (demandLoad >= min_load2){
-            for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-                if( (getArcLabel(a, d) == linkLabel) && (getArcSlice(a, d) >= slice)  && (getArcSlice(a, d) <= slice + min_load2 - 1) ){
-                    int index = getArcIndex(a, d);
-                    exp += var[d][index];
-                }
+        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+            if( (getArcLabel(a, d) == linkLabel) && (getArcSlice(a, d) >= slice)  && (getArcSlice(a, d) <= slice + demandLoad - 1) ){
+                int index = getArcIndex(a, d);
+                exp += x[d][index];
             }
         }
     }
     
     std::ostringstream constraintName;
-    constraintName << "ImprNonOverlap_2(" << linkLabel+1 << "," << slice+1 << "," << min_load1 << "," << min_load2 << ")";
-    IloRange constraint(mod.getEnv(), -IloInfinity, exp, rhs, constraintName.str().c_str());
+    constraintName << "ImprNonOverlap_2(" << linkLabel+1 << "," << slice+1 << ")";
+    IloRange constraint(model.getEnv(), -IloInfinity, exp, rhs, constraintName.str().c_str());
     exp.end();
     return constraint;
 }
@@ -529,15 +590,43 @@ IloRange FlowForm::getImprovedNonOverlappingConstraint_2(IloBoolVarMatrix &var, 
 
 /* Recovers the obtained MIP solution and builds a path for each demand on its associated graph from RSA. */
 void FlowForm::updatePath(){
+    // Reinitialize OnPath
     for(int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-            int arc = getArcIndex(a, d);
-            if (cplex.getValue(x[d][arc]) >= 0.9){
-                (*vecOnPath[d])[a] = getToBeRouted_k(d).getId();
-            }
-            else{
                 (*vecOnPath[d])[a] = -1;
+        }
+    }
+    // Fill the mapping with the corresponding demands id.
+    for(int d = 0; d < getNbDemandsToBeRouted(); d++){
+        int origin = getToBeRouted_k(d).getSource();
+        int destination = getToBeRouted_k(d).getTarget();
+        ListDigraph::Node SOURCE = INVALID;
+        ListDigraph::Node TARGET = INVALID;
+        for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
+            if (getNodeLabel(v, d) == origin){
+                SOURCE = v;
             }
+            if (getNodeLabel(v, d) == destination){
+                TARGET = v;
+            }
+        }
+        if (TARGET == INVALID || SOURCE == INVALID){
+            throw IloCplex::Exception(-1, "Could not find source or target from demand.");
+        }
+        ListDigraph::Node currentNode = TARGET;
+        while (currentNode != SOURCE){
+            ListDigraph::Arc previousArc = INVALID;
+            for (ListDigraph::InArcIt a(*vecGraph[d], currentNode); a != INVALID; ++a){
+                int arc = getArcIndex(a, d);
+                if (cplex.getValue(x[d][arc]) >= 1 - EPS){
+                    (*vecOnPath[d])[a] = getToBeRouted_k(d).getId();
+                    previousArc = a;
+                }
+            }
+            if (previousArc == INVALID){
+                throw IloCplex::Exception(-1, "Could not find path continuity.");
+            }
+            currentNode = (*vecGraph[d]).source(previousArc);
         }
     }
 }

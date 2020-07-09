@@ -21,6 +21,7 @@ private:
 	std::vector<PhysicalLink> tabEdge;	/**< A set of PhysicalLink. **/
 	std::vector<Demand> tabDemand;		/**< A set of Demand (already routed or not). **/
 	int nbInitialDemands;				/**< The number of demands routed in the first initial mapping. **/
+	int nextDemandToBeRoutedIndex;		/**< Stores the index of the next demand to be analyzed in tabDemand. **/
 
 public:
 
@@ -82,6 +83,9 @@ public:
 
 	/** Returns the max slice position (used or not) throughout the whole network. **/
 	int getMaxSlice() const;
+
+	/** Returns the index of the next demand to be analyzed in tabDemand. **/
+	int getNextDemandToBeRoutedIndex() const { return this->nextDemandToBeRoutedIndex; }
 	
 	/****************************************************************************************/
 	/*										Setters											*/
@@ -113,6 +117,12 @@ public:
 
 	/** Changes the time limit. @param val The new time limit (in seconds). **/
 	void setTimeLimit(int val){ this->input.setTimeLimit(val); };
+	
+	/** Changes the index of the next demand to be analyzed in tabDemand. @param val The new index.**/
+	void setNextDemandToBeRoutedIndex(int val) { this->nextDemandToBeRoutedIndex = val; }
+
+	/** Changes the number of demands to be treated in a single optimization. @param val The new number of demands. **/
+    void setNbDemandsAtOnce(const int val) { this->input.setNbDemandsAtOnce(val); }
 
 	/****************************************************************************************/
 	/*										Methods											*/
@@ -180,6 +190,9 @@ public:
 
 	/** Displays information about the non-routed demands. **/
 	void displayNonRoutedDemands();
+
+	/** Displays information about the all the demands. **/
+	void displayAllDemands();
 
 	/****************************************************************************************/
 	/*										Destructor										*/
