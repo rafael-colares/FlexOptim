@@ -58,8 +58,10 @@ YoussoufForm::YoussoufForm(const Instance &inst) :
 	/************************************************/
 	/*		    EXPORT LINEAR PROGRAM TO .LP		*/
 	/************************************************/
-    std::string file = getInstance().getInput().getOutputPath() + "LP/model" + std::to_string(count) + ".lp";
-    //cplex.exportModel(file.c_str());
+    //std::string file = getInstance().getInput().getOutputPath() + "LP/model" + std::to_string(count) + ".lp";
+    std::string file = "model.lp";
+    std::cout << "Exporting model to " << file << std::endl;
+    cplex.exportModel(file.c_str());
     std::cout << "LP model has been exported..." << std::endl;
     
 	/************************************************/
@@ -67,6 +69,7 @@ YoussoufForm::YoussoufForm(const Instance &inst) :
 	/************************************************/
     cplex.setParam(IloCplex::Param::MIP::Display, 3);
     cplex.setParam(IloCplex::Param::TimeLimit, getInstance().getInput().getIterationTimeLimit());
+    cplex.setParam(IloCplex::Threads, 1);
     std::cout << "CPLEX parameters have been defined..." << std::endl;
 
 
@@ -122,7 +125,7 @@ void YoussoufForm::setVariables(){
         for (int k = 0; k < getNbDemandsToBeRouted(); k++){
             std::ostringstream varName;
             varName << "x";
-            varName << "(" + std::to_string(edge) + "," ;
+            varName << "(" + std::to_string(edge + 1) + "," ;
             varName <<  std::to_string(getToBeRouted_k(k).getId() + 1) + ")";
             IloInt upperBound = 1;
             x[edge][k] = IloBoolVar(model.getEnv(), 0, upperBound, varName.str().c_str());
@@ -130,13 +133,14 @@ void YoussoufForm::setVariables(){
         }
     }
     std::cout << "X variables were created." << std::endl;
+
     // Variables z[s][k]
     for (int s = 0; s < instance.getPhysicalLinkFromIndex(0).getNbSlices(); s++){
         z[s] = IloBoolVarArray(model.getEnv(), getNbDemandsToBeRouted());  
         for (int k = 0; k < getNbDemandsToBeRouted(); k++){
             std::ostringstream varName;
             varName << "z";
-            varName << "(" + std::to_string(s) + "," ;
+            varName << "(" + std::to_string(s + 1) + "," ;
             varName <<  std::to_string(getToBeRouted_k(k).getId() + 1) + ")";
             IloInt upperBound = 1;
             z[s][k] = IloBoolVar(model.getEnv(), 0, upperBound, varName.str().c_str());
@@ -145,6 +149,7 @@ void YoussoufForm::setVariables(){
         }
     }
     std::cout << "Z variables were created." << std::endl;
+
     // Variables t[e][s][k]
     for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
         int edge = getCompactEdgeLabel(e);
@@ -154,7 +159,7 @@ void YoussoufForm::setVariables(){
             for (int k = 0; k < getNbDemandsToBeRouted(); k++){
                 std::ostringstream varName;
                 varName << "t";
-                varName << "(" + std::to_string(edge) + "," + std::to_string(s) + "," ;
+                varName << "(" + std::to_string(edge+1) + "," + std::to_string(s+1) + "," ;
                 varName <<  std::to_string(getToBeRouted_k(k).getId() + 1) + ")";
                 IloInt upperBound = 1;
                 t[edge][s][k] = IloBoolVar(model.getEnv(), 0, upperBound, varName.str().c_str());
@@ -205,26 +210,26 @@ IloExpr YoussoufForm::getObjFunction(){
         obj += CONSTANT;
         return obj;
     }
-    /*
+    
     if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_1p){
         for (int i = 0; i < instance.getNbEdges(); i++){
-            obj += maxSliceFromLink[i];
+            obj += maxSlicePerLink[i];
         }
         return obj;
     }
 
     if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_8){
-        obj += maxSlice;
+        obj += maxSliceOverall;
         return obj;
     }
-    */
+    
 
     for (int k = 0; k < getNbDemandsToBeRouted(); k++){
         for (int s = 0; s < instance.getPhysicalLinkFromIndex(0).getNbSlices(); s++){
             //int arc = getArcIndex(a, d);
             //double coeff = getCoeff(a, d);
             //coeff += (instance.getInput().getInitialLagrangianMultiplier() * getArcLength(a, 0) );
-            obj += z[s][k];
+            obj += s*z[s][k];
         }
     }
     return obj;
@@ -343,7 +348,7 @@ void YoussoufForm::setDegreeConstraints(){
 IloRange YoussoufForm::getDegreeConstraint_k(int k, ListGraph::Node &v){
     IloExpr exp(model.getEnv());
     IloInt upperBound = 2;
-    IloInt lowerBound = 0;
+    IloInt lowerBound = -IloInfinity;
     for (ListGraph::IncEdgeIt e(compactGraph, v); e != INVALID; ++e){
         int edge = getCompactEdgeLabel(e);
         exp += x[edge][k];
@@ -475,7 +480,7 @@ void YoussoufForm::setDemandEdgeSlotConstraints(){
 IloRange YoussoufForm::getDemandEdgeSlotConstraint_k_e_s(int k, int e, int s){
     IloExpr exp(model.getEnv());
     IloNum upperBound = 1;
-    IloNum lowerBound = 0;
+    IloNum lowerBound = -IloInfinity;
     int load_k = getToBeRouted_k(k).getLoad();
     int maxS = s + load_k - 1;
     if (instance.getPhysicalLinkFromIndex(e).getNbSlices() - 1 < s + load_k - 1){
@@ -489,7 +494,6 @@ IloRange YoussoufForm::getDemandEdgeSlotConstraint_k_e_s(int k, int e, int s){
     
     std::ostringstream constraintName;
     constraintName << "DemandEdgeSlot(" << getToBeRouted_k(k).getId()+1 << "," << e+1 << "," << s+1 << ")";
-    std::cout << "Creating " << constraintName.str() << std::endl;
     IloRange constraint(model.getEnv(), lowerBound, exp, upperBound, constraintName.str().c_str());
     exp.end();
     return constraint;

@@ -78,6 +78,10 @@ class GenericCallback: public IloCplex::Callback::Function {
       // constraint.
       void addLazyConstraints(const IloCplex::Callback::Context &context) const;
 
+
+      void displayEdge(const ListGraph::Edge &e) const ;
+      void displaySet(const std::vector<int> set) const ;
+      void displaySolution_d(const IloCplex::Callback::Context &context, const int d) const;
       // This is the function that we have to implement and that CPLEX will call
       // during the solution process at the places that we asked for.
       virtual void invoke (const IloCplex::Callback::Context &context);
