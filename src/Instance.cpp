@@ -365,7 +365,7 @@ void Instance::displayAllDemands(){
 void Instance::output(std::string i){
 	std::cout << "Output " << i << std::endl;
 	outputEdgeSliceHols(i);
-	//outputDemand();
+	outputDemands(i);
 	outputDemandEdgeSlices(i);
 }
 
@@ -412,29 +412,44 @@ void Instance::outputDemandEdgeSlices(std::string counter){
 }
 
 /* Builds file Demand.csv containing information about the routed demands. */
-void Instance::outputDemand(){
+void Instance::outputDemands(std::string counter){
 	std::string delimiter = ";";
-	std::string filePath = this->input.getOutputPath() + "Demand" + ".csv";
+	std::string filePath = this->input.getOutputPath() + "ServedDemands" + counter + ".csv";
 	std::ofstream myfile(filePath.c_str(), std::ios::out | std::ios::trunc);
 	if (myfile.is_open()){
+		int nbServedSlices = 0;
+		int nbBlockedSlices = 0;
 		myfile << "index" << delimiter;
 		myfile << "origin" << delimiter;
 		myfile << "destination" << delimiter;
 		myfile << "slots" << delimiter;
-		myfile << "max_length" << "\n";
+		myfile << "max_length" << delimiter;
+		myfile << "Routed" << "\n";
 		for (int i = 0; i < getNbDemands(); i++){
+			myfile << std::to_string(getDemandFromIndex(i).getId()+1) << delimiter;
+			myfile << std::to_string(getDemandFromIndex(i).getSource()+1) << delimiter;
+			myfile << std::to_string(getDemandFromIndex(i).getTarget()+1) << delimiter;
+			myfile << std::to_string(getDemandFromIndex(i).getLoad()) << delimiter;
+			myfile << std::to_string(getDemandFromIndex(i).getMaxLength()) << delimiter;
 			if (getDemandFromIndex(i).isRouted()){
-				myfile << std::to_string(getDemandFromIndex(i).getId()+1) << delimiter;
-				myfile << std::to_string(getDemandFromIndex(i).getSource()+1) << delimiter;
-				myfile << std::to_string(getDemandFromIndex(i).getTarget()+1) << delimiter;
-				myfile << std::to_string(getDemandFromIndex(i).getLoad()) << delimiter;
-				myfile << std::to_string(getDemandFromIndex(i).getMaxLength()) << "\n";
+				myfile << "1" << "\n";
+				nbServedSlices += getDemandFromIndex(i).getLoad();
+			}
+			else{
+				myfile << "0" << "\n";
+				nbBlockedSlices += getDemandFromIndex(i).getLoad();
 			}
 		}
+
+		myfile << "\n";
+		myfile << "# Served Demands" << delimiter << getNbRoutedDemands() << "\n";
+		myfile << "# Blocked Demands" << delimiter << getNbNonRoutedDemands() << "\n"; 
+		myfile << "# Served Slices" << delimiter << nbServedSlices << "\n";
+		myfile << "# Blocked Slices" << delimiter << nbBlockedSlices << "\n"; 
 		myfile.close();
 	}
 	else{
-		std::cerr << "Unable to open file " << filePath << "\n";
+		std::cerr << "Unable to open output file " << filePath << "\n";
 	}
 }
 

@@ -159,7 +159,7 @@ $(function() {
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                <span class="keywordflow">switch</span> (instance.getInput().getChosenMethod()){</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                    <span class="keywordflow">case</span> <a class="code" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031a9bcff65f9fe67d63b9093e1703f1226b">Input::METHOD_CPLEX</a>:</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                    {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                        <a class="code" href="classFlowForm.html">FlowForm</a> solver(instance);  </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                        <a class="code" href="classFlowForm.html">FlowForm</a> solver(instance);</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                        std::cout &lt;&lt; <span class="stringliteral">&quot;Status: &quot;</span> &lt;&lt; solver.getCplex().getStatus() &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                        <a class="code" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108f">RSA::Status</a> STATUS = solver.getStatus();</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                    </div>

@@ -161,8 +161,8 @@ public:
 	/** Builds file Edge_Slice_Holes_i.csv containing information about the mapping after n optimizations. @param i The i-th output file to be generated. **/
 	void outputEdgeSliceHols(std::string i);
 
-	/** Builds file Demand.csv containing information about the routed demands. **/
-	void outputDemand();
+	/** Builds file Demand.csv containing information about the routed demands. @param i The i-th output file to be generated. **/
+	void outputDemands(std::string i);
 	
 	/** Builds file Demand_edges_slices.csv containing information about the assignment of routed demands. @param i The i-th output file to be generated. **/
 	void outputDemandEdgeSlices(std::string i);

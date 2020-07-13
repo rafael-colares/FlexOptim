@@ -214,10 +214,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a22bef9c5b0738fd603388ef37d1b4480"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a22bef9c5b0738fd603388ef37d1b4480">outputEdgeSliceHols</a> (std::string i)</td></tr>
 <tr class="memdesc:a22bef9c5b0738fd603388ef37d1b4480"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds file Edge_Slice_Holes_i.csv containing information about the mapping after n optimizations.  <a href="classInstance.html#a22bef9c5b0738fd603388ef37d1b4480">More...</a><br /></td></tr>
 <tr class="separator:a22bef9c5b0738fd603388ef37d1b4480"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d5798c92b2af241c1c915dec0387e3e"><td class="memItemLeft" align="right" valign="top"><a id="a4d5798c92b2af241c1c915dec0387e3e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a4d5798c92b2af241c1c915dec0387e3e">outputDemand</a> ()</td></tr>
-<tr class="memdesc:a4d5798c92b2af241c1c915dec0387e3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds file Demand.csv containing information about the routed demands. <br /></td></tr>
-<tr class="separator:a4d5798c92b2af241c1c915dec0387e3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef2c225721c1e33de28403ec08d53c57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#aef2c225721c1e33de28403ec08d53c57">outputDemands</a> (std::string i)</td></tr>
+<tr class="memdesc:aef2c225721c1e33de28403ec08d53c57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds file Demand.csv containing information about the routed demands.  <a href="classInstance.html#aef2c225721c1e33de28403ec08d53c57">More...</a><br /></td></tr>
+<tr class="separator:aef2c225721c1e33de28403ec08d53c57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a147b94a3f87f8e1b0e3ab453b380b6fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a147b94a3f87f8e1b0e3ab453b380b6fb">outputDemandEdgeSlices</a> (std::string i)</td></tr>
 <tr class="memdesc:a147b94a3f87f8e1b0e3ab453b380b6fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds file Demand_edges_slices.csv containing information about the assignment of routed demands.  <a href="classInstance.html#a147b94a3f87f8e1b0e3ab453b380b6fb">More...</a><br /></td></tr>
 <tr class="separator:a147b94a3f87f8e1b0e3ab453b380b6fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -543,7 +542,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00507">507</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00522">522</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -664,7 +663,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00494">494</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00509">509</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -724,6 +723,34 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 </div>
 </div>
+<a id="aef2c225721c1e33de28403ec08d53c57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef2c225721c1e33de28403ec08d53c57">&#9670;&nbsp;</a></span>outputDemands()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Instance::outputDemands </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Builds file Demand.csv containing information about the routed demands. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>The i-th output file to be generated. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00415">415</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+
+</div>
+</div>
 <a id="a22bef9c5b0738fd603388ef37d1b4480"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a22bef9c5b0738fd603388ef37d1b4480">&#9670;&nbsp;</a></span>outputEdgeSliceHols()</h2>
 
@@ -748,7 +775,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00442">442</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00457">457</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -776,7 +803,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00477">477</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00492">492</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>

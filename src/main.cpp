@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
 				switch (instance.getInput().getChosenMethod()){
 					case Input::METHOD_CPLEX:
 					{
-						FlowForm solver(instance);	
+						FlowForm solver(instance);
 						std::cout << "Status: " << solver.getCplex().getStatus() << std::endl;
 						RSA::Status STATUS = solver.getStatus();
 					
