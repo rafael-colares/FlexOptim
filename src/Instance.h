@@ -15,6 +15,16 @@
  * edges are already occupied by some given demands.												
 ********************************************************************************************/
 class Instance {
+public:
+	
+	/** Enumerates the possible output policies to be used. **/
+	enum Metric {
+		METRIC_ONE = 0,			/**< Sum over demands of last slot used for each demand. **/
+		METRIC_ONE_P = 1,		/**< Sum over edges of the last slot used on each edge. **/
+		METRIC_TWO = 2,			/**< Sum of hops. **/
+		METRIC_FOUR = 4,		/**< Sum of path lengths. **/
+		METRIC_EIGHT = 8		/**< Last slot used overall. **/
+	};
 private:
 	Input input;						/**< An instance needs an input. **/
 	int nbNodes;						/**< Number of nodes in the physical network. **/
@@ -87,6 +97,7 @@ public:
 	/** Returns the index of the next demand to be analyzed in tabDemand. **/
 	int getNextDemandToBeRoutedIndex() const { return this->nextDemandToBeRoutedIndex; }
 	
+	double getMetricValue(Metric m) const;
 	/****************************************************************************************/
 	/*										Setters											*/
 	/****************************************************************************************/
@@ -110,7 +121,7 @@ public:
 	void setEdgeFromId(int i, PhysicalLink &link);
 
 	/** Changes the attributes of the Demand from the given index according to the attributes of the given demand. @param i The index of the Demand to be changed. @param demand the Demand to be copied. **/
-	void setDemandFromId(int i, Demand &demand);
+	void setDemandFromId(int i, const Demand &demand);
 
 	/** Decreases the number of demands to be treated by one. **/
 	void decreaseNbDemandsAtOnce();
@@ -162,7 +173,10 @@ public:
 	void outputEdgeSliceHols(std::string i);
 
 	/** Builds file Demand.csv containing information about the routed demands. @param i The i-th output file to be generated. **/
-	void outputDemands(std::string i);
+	void outputDemands(std::string i);\
+
+	/** Builds file Metrics.csv containing information about the obtained metric values. @param i The i-th output file to be generated. **/
+	void outputMetrics(std::string i);
 	
 	/** Builds file Demand_edges_slices.csv containing information about the assignment of routed demands. @param i The i-th output file to be generated. **/
 	void outputDemandEdgeSlices(std::string i);

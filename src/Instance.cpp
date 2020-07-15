@@ -94,7 +94,7 @@ void Instance::setEdgeFromId(int id, PhysicalLink & edge){
 }
 
 /* Changes the attributes of the Demand from the given index according to the attributes of the given demand. */
-void Instance::setDemandFromId(int id, Demand & demand){
+void Instance::setDemandFromId(int id, const Demand & demand){
 	this->tabDemand[id].copyDemand(demand);
 }
 
@@ -210,11 +210,17 @@ void Instance::readDemandAssignment(){
 				this->tabDemand[d].setRouted(true);
 				this->tabDemand[d].setSliceAllocation(demandMaxSlice);
 				// look for which edges the demand is routed
+				double lengthOfPath = 0.0;
+				int numberOfHops = 0;
 				for (int i = 0; i < this->getNbEdges(); i++) {
 					if (dataList[i+1][d+1] == "1") {
 						this->tabEdge[i].assignSlices(this->tabDemand[d], demandMaxSlice);
+						lengthOfPath += this->tabEdge[i].getLength();
+						numberOfHops++;
 					}
 				}
+				this->tabDemand[d].setPathLength(lengthOfPath);
+				this->tabDemand[d].setNbHops(numberOfHops);
 			}
 		}
 	}
@@ -336,6 +342,13 @@ void Instance::assignSlicesOfLink(int linkLabel, int slice, const Demand &demand
 	this->tabEdge[linkLabel].assignSlices(demand, slice);
 	this->tabDemand[demand.getId()].setRouted(true);
 	this->tabDemand[demand.getId()].setSliceAllocation(slice);
+	
+	int currentNbHops = this->tabDemand[demand.getId()].getNbHops();
+	this->tabDemand[demand.getId()].setNbHops(currentNbHops+1);
+
+	double currentPathLength = this->tabDemand[demand.getId()].getPathLength();
+	double linkLength = this->tabEdge[linkLabel].getLength();
+	this->tabDemand[demand.getId()].setPathLength(currentPathLength + linkLength);
 }
 
 
@@ -367,6 +380,7 @@ void Instance::output(std::string i){
 	outputEdgeSliceHols(i);
 	outputDemands(i);
 	outputDemandEdgeSlices(i);
+	outputMetrics(i);
 }
 
 /* Builds file Demand_edges_slices.csv containing information about the assignment of routed demands. */
@@ -452,6 +466,83 @@ void Instance::outputDemands(std::string counter){
 		std::cerr << "Unable to open output file " << filePath << "\n";
 	}
 }
+
+double Instance::getMetricValue(Metric metric) const{
+	double value = 0;
+	switch (metric){
+        case METRIC_ONE:
+        {
+			for (int i = 0; i < getNbDemands(); i++){
+				if (getDemandFromIndex(i).isRouted()){
+					value += getDemandFromIndex(i).getSliceAllocation()+1;
+				}
+			}
+            break;
+        }
+        case METRIC_ONE_P:
+        {
+            for (int e = 0; e < getNbEdges(); e++){
+				value += getPhysicalLinkFromIndex(e).getMaxUsedSlicePosition()+1;
+			}
+			break;
+		}
+        case METRIC_TWO:
+        {
+			for (int i = 0; i < getNbDemands(); i++){
+				if (getDemandFromIndex(i).isRouted()){
+					value += getDemandFromIndex(i).getNbHops();
+				}
+			}
+            break;
+        }
+        case METRIC_FOUR:
+        {
+			for (int i = 0; i < getNbDemands(); i++){
+				if (getDemandFromIndex(i).isRouted()){
+					value += getDemandFromIndex(i).getPathLength();
+				}
+			}
+            break;
+        }
+        case METRIC_EIGHT:
+        {
+            for (int e = 0; e < getNbEdges(); e++){
+				double lastSlice = getPhysicalLinkFromIndex(e).getMaxUsedSlicePosition()+1;
+				if (lastSlice > value){
+					value = lastSlice; 
+				}
+			}
+            break;
+        }
+        default:
+        {
+            std::cerr << "The chosen metric to be evaluated is out of range.\n";
+            exit(0);
+            break;
+        }
+    }
+	return value;
+}
+/* Builds file Metrics.csv containing information about the obtained metric values. */
+void Instance::outputMetrics(std::string counter){
+	std::string delimiter = ";";
+	std::string filePath = this->input.getOutputPath() + "Metrics" + counter + ".csv";
+	std::ofstream myfile(filePath.c_str(), std::ios::out | std::ios::trunc);
+	if (myfile.is_open()){
+		int nbServedSlices = 0;
+		int nbBlockedSlices = 0;
+		myfile << "met1" << delimiter << getMetricValue(METRIC_ONE) << "\n";
+		myfile << "met1p" << delimiter << getMetricValue(METRIC_ONE_P) << "\n";
+		myfile << "met2" << delimiter << getMetricValue(METRIC_TWO) << "\n";
+		myfile << "met4" << delimiter << getMetricValue(METRIC_FOUR) << "\n";
+		myfile << "met8" << delimiter << getMetricValue(METRIC_EIGHT) << "\n";
+		myfile.close();
+	}
+	else{
+		std::cerr << "Unable to open output file " << filePath << "\n";
+	}
+}
+
 
 /* Builds file Edge_Slice_Holes_i.csv containing information about the mapping after n optimizations. */
 void Instance::outputEdgeSliceHols(std::string counter){

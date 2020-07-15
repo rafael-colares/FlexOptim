@@ -79,9 +79,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a732f92de58ff5760a688507cfa843ffb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a732f92de58ff5760a688507cfa843ffb">Demand</a> (int i=-1, int s=-1, int t=-1, int l=0, double maxL=0, bool route=false, int pos=-1)</td></tr>
-<tr class="memdesc:a732f92de58ff5760a688507cfa843ffb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classDemand.html#a732f92de58ff5760a688507cfa843ffb">More...</a><br /></td></tr>
-<tr class="separator:a732f92de58ff5760a688507cfa843ffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cc7746958576450518958a97e5789fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a6cc7746958576450518958a97e5789fe">Demand</a> (int i=-1, int s=-1, int t=-1, int l=0, double maxL=0, bool route=false, int pos=-1, double len=0, int hop=0)</td></tr>
+<tr class="memdesc:a6cc7746958576450518958a97e5789fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classDemand.html#a6cc7746958576450518958a97e5789fe">More...</a><br /></td></tr>
+<tr class="separator:a6cc7746958576450518958a97e5789fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06cc49c08a34834499b3af46b2f2d34d"><td class="memItemLeft" align="right" valign="top"><a id="a06cc49c08a34834499b3af46b2f2d34d"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a06cc49c08a34834499b3af46b2f2d34d">getId</a> () const</td></tr>
 <tr class="memdesc:a06cc49c08a34834499b3af46b2f2d34d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the demand's id. <br /></td></tr>
@@ -102,6 +102,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#acedbd23672e0ee8f517f0630073db206">getSliceAllocation</a> () const</td></tr>
 <tr class="memdesc:acedbd23672e0ee8f517f0630073db206"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the id of the last slice assigned to the demand. <br /></td></tr>
 <tr class="separator:acedbd23672e0ee8f517f0630073db206"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44c20d9cb413e629f75feb0f0b195ba4"><td class="memItemLeft" align="right" valign="top"><a id="a44c20d9cb413e629f75feb0f0b195ba4"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a44c20d9cb413e629f75feb0f0b195ba4">getPathLength</a> () const</td></tr>
+<tr class="memdesc:a44c20d9cb413e629f75feb0f0b195ba4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the length of the path on which demand is routed. <br /></td></tr>
+<tr class="separator:a44c20d9cb413e629f75feb0f0b195ba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a0cd6bc385fc34302e2738b30715136"><td class="memItemLeft" align="right" valign="top"><a id="a2a0cd6bc385fc34302e2738b30715136"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a2a0cd6bc385fc34302e2738b30715136">getNbHops</a> () const</td></tr>
+<tr class="memdesc:a2a0cd6bc385fc34302e2738b30715136"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of hops of the path on which demand is routed. <br /></td></tr>
+<tr class="separator:a2a0cd6bc385fc34302e2738b30715136"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a972686de418dc36bb27726e8ea29de02"><td class="memItemLeft" align="right" valign="top"><a id="a972686de418dc36bb27726e8ea29de02"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a972686de418dc36bb27726e8ea29de02">getMaxLength</a> () const</td></tr>
 <tr class="memdesc:a972686de418dc36bb27726e8ea29de02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the maximum length of the path on which the demand can be routed. <br /></td></tr>
@@ -135,9 +143,15 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr class="memitem:a8fb9583718ab84e77717f6e51522218e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a8fb9583718ab84e77717f6e51522218e">setRouted</a> (bool b)</td></tr>
 <tr class="memdesc:a8fb9583718ab84e77717f6e51522218e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the status of a demand.  <a href="classDemand.html#a8fb9583718ab84e77717f6e51522218e">More...</a><br /></td></tr>
 <tr class="separator:a8fb9583718ab84e77717f6e51522218e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a74ef8d4d66bc26526ddabec1fa8238a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a74ef8d4d66bc26526ddabec1fa8238a7">copyDemand</a> (<a class="el" href="classDemand.html">Demand</a> &amp;demand)</td></tr>
-<tr class="memdesc:a74ef8d4d66bc26526ddabec1fa8238a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies all information from a given demand.  <a href="classDemand.html#a74ef8d4d66bc26526ddabec1fa8238a7">More...</a><br /></td></tr>
-<tr class="separator:a74ef8d4d66bc26526ddabec1fa8238a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4a220692b395253800b923a4f18c2db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#ad4a220692b395253800b923a4f18c2db">setPathLength</a> (double l)</td></tr>
+<tr class="memdesc:ad4a220692b395253800b923a4f18c2db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the length of the path on which demand is routed.  <a href="classDemand.html#ad4a220692b395253800b923a4f18c2db">More...</a><br /></td></tr>
+<tr class="separator:ad4a220692b395253800b923a4f18c2db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bca519087545b0b770d28541b6c8de2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a9bca519087545b0b770d28541b6c8de2">setNbHops</a> (int n)</td></tr>
+<tr class="memdesc:a9bca519087545b0b770d28541b6c8de2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the number of hops of the path on which demand is routed.  <a href="classDemand.html#a9bca519087545b0b770d28541b6c8de2">More...</a><br /></td></tr>
+<tr class="separator:a9bca519087545b0b770d28541b6c8de2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af37847de8be74cc4870b1bc92dd48907"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#af37847de8be74cc4870b1bc92dd48907">copyDemand</a> (const <a class="el" href="classDemand.html">Demand</a> &amp;demand)</td></tr>
+<tr class="memdesc:af37847de8be74cc4870b1bc92dd48907"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies all information from a given demand.  <a href="classDemand.html#af37847de8be74cc4870b1bc92dd48907">More...</a><br /></td></tr>
+<tr class="separator:af37847de8be74cc4870b1bc92dd48907"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5cf6756e2d4c0bd6c48fceef7425f56"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#ad5cf6756e2d4c0bd6c48fceef7425f56">checkDemand</a> (int <a class="el" href="classDemand.html#a729433cc8ea88ac9afa328431bf09c42">id</a>, int <a class="el" href="classDemand.html#aba0b2f49b117edde4743e4ba0575bd97">source</a>, int <a class="el" href="classDemand.html#a96bf37cfc8f9a9fbd2fae9837bc9880b">target</a>, int <a class="el" href="classDemand.html#a5946235088ae98bf1dfe2fcdab7b8c9f">load</a>)</td></tr>
 <tr class="memdesc:ad5cf6756e2d4c0bd6c48fceef7425f56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifies if the demand has exactly the given informations.  <a href="classDemand.html#ad5cf6756e2d4c0bd6c48fceef7425f56">More...</a><br /></td></tr>
 <tr class="separator:ad5cf6756e2d4c0bd6c48fceef7425f56"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -175,6 +189,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a7f22780dd6801abfaa70808d5367cdf3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a7f22780dd6801abfaa70808d5367cdf3">sliceAllocation</a></td></tr>
 <tr class="memdesc:a7f22780dd6801abfaa70808d5367cdf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The id of the last slice assigned to this demand.  <a href="classDemand.html#a7f22780dd6801abfaa70808d5367cdf3">More...</a><br /></td></tr>
 <tr class="separator:a7f22780dd6801abfaa70808d5367cdf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa2910b570c73557cc5673dbd506c7ff"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#afa2910b570c73557cc5673dbd506c7ff">pathLength</a></td></tr>
+<tr class="memdesc:afa2910b570c73557cc5673dbd506c7ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">The length of the path on which demand is routed.  <a href="classDemand.html#afa2910b570c73557cc5673dbd506c7ff">More...</a><br /></td></tr>
+<tr class="separator:afa2910b570c73557cc5673dbd506c7ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21e29d05a8bdb2eb368d1b56bb86085c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a21e29d05a8bdb2eb368d1b56bb86085c">nbHops</a></td></tr>
+<tr class="memdesc:a21e29d05a8bdb2eb368d1b56bb86085c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of hops of the path on which demand is routed.  <a href="classDemand.html#a21e29d05a8bdb2eb368d1b56bb86085c">More...</a><br /></td></tr>
+<tr class="separator:a21e29d05a8bdb2eb368d1b56bb86085c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class identifies a demand. </p>
@@ -182,8 +202,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00011">11</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a732f92de58ff5760a688507cfa843ffb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a732f92de58ff5760a688507cfa843ffb">&#9670;&nbsp;</a></span>Demand()</h2>
+<a id="a6cc7746958576450518958a97e5789fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cc7746958576450518958a97e5789fe">&#9670;&nbsp;</a></span>Demand()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -228,7 +248,19 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>pos</em> = <code>-1</code>&#160;</td>
+          <td class="paramname"><em>pos</em> = <code>-1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>len</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>hop</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -247,7 +279,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
     <tr><td class="paramname">l</td><td>Load.</td></tr>
     <tr><td class="paramname">maxL</td><td>Maximum length.</td></tr>
     <tr><td class="paramname">route</td><td>Whether the demand is already routed.</td></tr>
-    <tr><td class="paramname">pos</td><td>The last slice position assigned to the demand. </td></tr>
+    <tr><td class="paramname">pos</td><td>The last slice position assigned to the demand.</td></tr>
+    <tr><td class="paramname">len</td><td>The length of the path assigned to the demand.</td></tr>
+    <tr><td class="paramname">hop</td><td>The number of hops in the path assigned to the demand. </td></tr>
   </table>
   </dd>
 </dl>
@@ -306,12 +340,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Demand_8cpp_source.html#l00042">42</a> of file <a class="el" href="Demand_8cpp_source.html">Demand.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Demand_8cpp_source.html#l00046">46</a> of file <a class="el" href="Demand_8cpp_source.html">Demand.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a74ef8d4d66bc26526ddabec1fa8238a7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74ef8d4d66bc26526ddabec1fa8238a7">&#9670;&nbsp;</a></span>copyDemand()</h2>
+<a id="af37847de8be74cc4870b1bc92dd48907"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af37847de8be74cc4870b1bc92dd48907">&#9670;&nbsp;</a></span>copyDemand()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -319,7 +353,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="memname">void Demand::copyDemand </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classDemand.html">Demand</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classDemand.html">Demand</a> &amp;&#160;</td>
           <td class="paramname"><em>demand</em></td><td>)</td>
           <td></td>
         </tr>
@@ -334,7 +368,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Demand_8cpp_source.html#l00017">17</a> of file <a class="el" href="Demand_8cpp_source.html">Demand.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Demand_8cpp_source.html#l00019">19</a> of file <a class="el" href="Demand_8cpp_source.html">Demand.cpp</a>.</p>
 
 </div>
 </div>
@@ -370,7 +404,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00060">60</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00068">68</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
 
 </div>
 </div>
@@ -406,7 +440,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00069">69</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00077">77</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
 
 </div>
 </div>
@@ -442,7 +476,79 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00075">75</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00083">83</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
+
+</div>
+</div>
+<a id="a9bca519087545b0b770d28541b6c8de2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bca519087545b0b770d28541b6c8de2">&#9670;&nbsp;</a></span>setNbHops()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Demand::setNbHops </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the number of hops of the path on which demand is routed. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>The new number of hops </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00092">92</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
+
+</div>
+</div>
+<a id="ad4a220692b395253800b923a4f18c2db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4a220692b395253800b923a4f18c2db">&#9670;&nbsp;</a></span>setPathLength()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Demand::setPathLength </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>l</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the length of the path on which demand is routed. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">l</td><td>The new path length. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00089">89</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
 
 </div>
 </div>
@@ -478,7 +584,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00078">78</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00086">86</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
 
 </div>
 </div>
@@ -514,7 +620,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00072">72</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00080">80</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
 
 </div>
 </div>
@@ -550,7 +656,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00063">63</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00071">71</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
 
 </div>
 </div>
@@ -586,11 +692,65 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00066">66</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00074">74</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a21e29d05a8bdb2eb368d1b56bb86085c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21e29d05a8bdb2eb368d1b56bb86085c">&#9670;&nbsp;</a></span>nbHops</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Demand::nbHops</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The number of hops of the path on which demand is routed. </p>
+<dl class="section warning"><dt>Warning</dt><dd>Equals -1 if not routed yet. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00022">22</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
+
+</div>
+</div>
+<a id="afa2910b570c73557cc5673dbd506c7ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa2910b570c73557cc5673dbd506c7ff">&#9670;&nbsp;</a></span>pathLength</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Demand::pathLength</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The length of the path on which demand is routed. </p>
+<dl class="section warning"><dt>Warning</dt><dd>Equals -1 if not routed yet. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="Demand_8h_source.html#l00021">21</a> of file <a class="el" href="Demand_8h_source.html">Demand.h</a>.</p>
+
+</div>
+</div>
 <a id="a7f22780dd6801abfaa70808d5367cdf3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7f22780dd6801abfaa70808d5367cdf3">&#9670;&nbsp;</a></span>sliceAllocation</h2>
 

@@ -18,13 +18,15 @@ private:
 	double maxLength;	/**< Refers to the maximum length of the path on which the demand can be routed. **/
 	bool routed;		/**< True if the demand is already routed. **/
 	int sliceAllocation;/**< The id of the last slice assigned to this demand. @warning Equals -1 if not routed yet. **/
+	double pathLength;	/**< The length of the path on which demand is routed. @warning Equals -1 if not routed yet. **/
+	int nbHops;			/**< The number of hops of the path on which demand is routed. @warning Equals -1 if not routed yet. **/
 
 public:
 	/****************************************************************************************/
 	/*									Constructors										*/
 	/****************************************************************************************/
-	/** Constructor. @param i Id. @param s Source node id. @param t Target node id. @param l Load. @param maxL Maximum length. @param route Whether the demand is already routed. @param pos The last slice position assigned to the demand. **/
-	Demand(int i = -1, int s = -1, int t = -1, int l = 0, double maxL = 0, bool route=false, int pos=-1);
+	/** Constructor. @param i Id. @param s Source node id. @param t Target node id. @param l Load. @param maxL Maximum length. @param route Whether the demand is already routed. @param pos The last slice position assigned to the demand. @param len The length of the path assigned to the demand. @param hop The number of hops in the path assigned to the demand. **/
+	Demand(int i = -1, int s = -1, int t = -1, int l = 0, double maxL = 0, bool route=false, int pos=-1, double len = 0, int hop = 0);
 
 	/****************************************************************************************/
 	/*										Getters											*/
@@ -43,6 +45,12 @@ public:
 	
 	/** Returns the id of the last slice assigned to the demand. **/
 	int getSliceAllocation() const { return sliceAllocation; }
+
+	/** Returns the length of the path on which demand is routed. **/
+	double getPathLength() const { return pathLength; }
+
+	/** Returns the number of hops of the path on which demand is routed. **/
+	int getNbHops() const { return nbHops; }
 	
 	/** Returns the maximum length of the path on which the demand can be routed. **/
 	double getMaxLength() const { return maxLength; }
@@ -76,12 +84,18 @@ public:
 
 	/** Changes the status of a demand. @param b If true, demand becomes routed. Otherwise, it becomes non-routed.**/
 	void setRouted(bool b) { this->routed = b; }
+	
+	/** Changes the length of the path on which demand is routed. @param l The new path length. **/
+	void setPathLength(double l) { this->pathLength = l; }
+
+	/** Changes the number of hops of the path on which demand is routed. @param n The new number of hops**/
+	void setNbHops(int n) { this->nbHops = n; }
 
 	/****************************************************************************************/
 	/*										Methods											*/
 	/****************************************************************************************/
 	/** Copies all information from a given demand. @param demand The demand to be copied. **/
-	void copyDemand(Demand &demand);
+	void copyDemand(const Demand &demand);
 
 	/** Verifies if the demand has exactly the given informations. @param id The supposed id value. @param source The supposed source node id value. @param target The supposed target node id value. @param load The supposed load value.**/
 	void checkDemand(int id, int source, int target, int load);

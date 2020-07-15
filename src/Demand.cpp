@@ -2,7 +2,7 @@
 #include <iostream>
 
 /* Constructor. */
-Demand::Demand(int i, int s, int t, int l, double max, bool a, int slice){
+Demand::Demand(int i, int s, int t, int l, double max, bool a, int slice, double pathLen, int hops){
 	this->setId(i);
 	this->setSource(s);
 	this->setTarget(t);
@@ -10,11 +10,13 @@ Demand::Demand(int i, int s, int t, int l, double max, bool a, int slice){
 	this->setMaxLength(max);
 	this->setRouted(a);
 	this->setSliceAllocation(slice);
+	this->setPathLength(pathLen);
+	this->setNbHops(hops);
 }
 
 
 /* Copies all information from a given demand. */
-void Demand::copyDemand(Demand & demand){
+void Demand::copyDemand(const Demand & demand){
 	this->setId(demand.getId());
 	this->setSource(demand.getSource());
 	this->setTarget(demand.getTarget());
@@ -22,6 +24,8 @@ void Demand::copyDemand(Demand & demand){
 	this->setMaxLength(demand.getMaxLength());
 	this->setRouted(demand.isRouted());
 	this->setSliceAllocation(demand.getSliceAllocation());
+	this->setPathLength(demand.getPathLength());
+	this->setNbHops(demand.getNbHops());
 }
 
 /* Displays demand information. */
