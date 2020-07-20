@@ -3,6 +3,7 @@
 
 
 #include <ilcplex/ilocplex.h>
+#include <lemon/preflow.h>
 #include "RSA.h"
 
 #define EPS 1e-6 /**< Epsilon used for violation of cuts. **/
@@ -45,7 +46,7 @@ class GenericCallback: public IloCplex::Callback::Function {
       // that must be satisfied by every feasible solution. These constraints
       // tend to be violated in LP relaxation. In this callback we separate
       // them.
-      inline void addUserCuts (const IloCplex::Callback::Context &context) const {
+      void addUserCuts (const IloCplex::Callback::Context &context) const; 
           /*
          IloInt const nbLocations = opened.getSize();
          IloInt const nbClients = supply.getSize();
@@ -65,7 +66,6 @@ class GenericCallback: public IloCplex::Callback::Function {
                }
             }
          }*/
-      }
 
 
       // Lazy constraint callback to enforce the capacity constraints.
@@ -78,6 +78,20 @@ class GenericCallback: public IloCplex::Callback::Function {
       // constraint.
       void addLazyConstraints(const IloCplex::Callback::Context &context) const;
 
+
+      inline Demand getDemand_k(int k) const { return (*demands)[k]; }
+      inline int getNodeLabel(ListGraph::Node v) const { return (*nodeLabel)[v]; }
+      inline int getNodeId(ListGraph::Node v) const { return (*nodeId)[v]; }
+      inline int getEdgeLabel(ListGraph::Edge e) const { return (*edgeLabel)[e]; }
+      inline int getEdgeId(ListGraph::Edge e) const { return (*edgeId)[e]; }
+      inline ListGraph::Node getNodeFromLabel(int label) const {
+         for (ListGraph::NodeIt v(*graph); v != INVALID; ++v){
+            if (getNodeLabel(v) == label){
+                return v;
+            }
+         }
+         return INVALID;
+      }
 
       void displayEdge(const ListGraph::Edge &e) const ;
       void displaySet(const std::vector<int> set) const ;

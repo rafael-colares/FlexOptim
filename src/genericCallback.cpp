@@ -25,29 +25,51 @@ void GenericCallback::invoke (const IloCplex::Callback::Context &context){
     }
 }
 
+void GenericCallback::addUserCuts(const IloCplex::Callback::Context &context) const{
+    for(unsigned int d = 0; d < demands->size(); d++){
+        int origin = getDemand_k(d).getSource();
+        int destination = getDemand_k(d).getTarget();
+        ListGraph::Node SOURCE = getNodeFromLabel(origin);
+        ListGraph::Node TARGET = getNodeFromLabel(destination);
+        
+        //std::cout << "Checking path of demand " << d << ". From " << origin+1 << " to " << destination+1 << std::endl;
+        //displaySolution_d(context, d);
+        ListGraph::EdgeMap<double> capacityMap(*graph, 0.0);
+        for (ListGraph::EdgeIt e(*graph); e != INVALID; ++e){
+            int edge = getEdgeLabel(e);
+            capacityMap[e] = context.getRelaxationPoint(x[edge][d]);
+        }
+        Preflow< ListGraph, ListGraph::EdgeMap<double> > maxFlow((*graph), capacityMap, SOURCE, TARGET);
+        maxFlow.runMinCut();
+
+        IloExpr expr(context.getEnv());
+        for (ListGraph::EdgeIt e(*graph); e != INVALID; ++e){
+            if (maxFlow.minCut(graph->u(e)) != maxFlow.minCut(graph->v(e))){
+                int edge = getEdgeLabel(e);
+                expr += x[edge][d];
+            }  
+        }
+
+        if (context.getRelaxationValue(expr) <= 1 - EPS){
+            //std::cout << "Adding user cut: " << expr << " >= 1" << std::endl;
+            context.addUserCut( expr >= 1, IloCplex::UseCutPurge, IloFalse);
+        }
+    }
+}
+
 void GenericCallback::addLazyConstraints(const IloCplex::Callback::Context &context) const{
     std::cout << "Entering callback." << std::endl;
-    IloInt const nbEdges = x.getSize();
-    IloInt const nbDemands = x[0].getSize();
     if ( !context.isCandidatePoint() ){
         throw IloCplex::Exception(-1, "Unbounded solution");
     }
-    for(int d = 0; d < demands->size(); d++){
-        int origin = (*demands)[d].getSource();
-        int destination = (*demands)[d].getTarget();
-        ListGraph::Node SOURCE = INVALID;
-        ListGraph::Node TARGET = INVALID;
-        std::cout << "Checking path of demand " << d << ". From " << origin+1 << " to " << destination+1 << std::endl;
+    for(unsigned int d = 0; d < demands->size(); d++){
+        int origin = getDemand_k(d).getSource();
+        int destination = getDemand_k(d).getTarget();
+        ListGraph::Node SOURCE = getNodeFromLabel(origin);
+        ListGraph::Node TARGET = getNodeFromLabel(destination);
+        //std::cout << "Checking path of demand " << d << ". From " << origin+1 << " to " << destination+1 << std::endl;
         
-        displaySolution_d(context, d);
-        for (ListGraph::NodeIt v(*graph); v != INVALID; ++v){
-            if ((*nodeLabel)[v] == origin){
-                SOURCE = v;
-            }
-            if ((*nodeLabel)[v] == destination){
-                TARGET = v;
-            }
-        }
+        //displaySolution_d(context, d);
         if (TARGET == INVALID || SOURCE == INVALID){
             throw IloCplex::Exception(-1, "Could not find source or target from demand inside generic callback.");
         }
@@ -59,11 +81,11 @@ void GenericCallback::addLazyConstraints(const IloCplex::Callback::Context &cont
         int previousNodeLabel = -1;
         while (currentNode != TARGET && !cutFound){
             //std::cout << "Add Node: " << (*nodeLabel)[currentNode]+1 << std::endl;
-            setOfNodes.push_back((*nodeLabel)[currentNode]);
+            setOfNodes.push_back(getNodeLabel(currentNode));
             ListGraph::Edge nextEdge = INVALID;
             for (ListGraph::IncEdgeIt e(*graph, currentNode); e != INVALID; ++e){
-                int edge = (*edgeLabel)[e];
-                if ((*nodeLabel)[graph->u(e)] != previousNodeLabel && (*nodeLabel)[graph->v(e)] != previousNodeLabel){
+                int edge = getEdgeLabel(e);
+                if (getNodeLabel(graph->u(e)) != previousNodeLabel && getNodeLabel(graph->v(e)) != previousNodeLabel){
                     if (context.getCandidatePoint(x[edge][d]) >= 1 - EPS){
                         nextEdge = e;
                     }
@@ -75,34 +97,34 @@ void GenericCallback::addLazyConstraints(const IloCplex::Callback::Context &cont
                 displaySet(setOfNodes);
                 IloExpr exp(context.getEnv());
                 for (ListGraph::EdgeIt e(*graph); e != INVALID; ++e){
-                    int u = (*nodeLabel)[(*graph).u(e)];
-                    int v = (*nodeLabel)[(*graph).v(e)];
+                    int u = getNodeLabel(graph->u(e));
+                    int v = getNodeLabel(graph->v(e));
                     if (std::find(setOfNodes.begin(), setOfNodes.end(), u) != setOfNodes.end()){
                         if (std::find(setOfNodes.begin(), setOfNodes.end(), v) == setOfNodes.end()){
                             // add edge to cut
-                            int edge = (*edgeLabel)[e];
+                            int edge = getEdgeLabel(e);
                             exp += x[edge][d];
                         }
                     }
                     else{
                         if (std::find(setOfNodes.begin(), setOfNodes.end(), v) != setOfNodes.end()){
                             // add edge to cut
-                            int edge = (*edgeLabel)[e];
+                            int edge = getEdgeLabel(e);
                             exp += x[edge][d];
                         }
                     }
                 }
                 
-                std::cout << "Adding lazy capacity constraint " << exp << " >= 1" << std::endl;
-                std::cout << "Candidate has: " << context.getCandidateValue(exp) << " > 1" << std::endl;
+                //std::cout << "Adding lazy constraint: " << exp << " >= 1" << std::endl;
+                //std::cout << "Candidate has: " << context.getCandidateValue(exp) << " > 1" << std::endl;
                 context.rejectCandidate(exp >= 1);
                 exp.end();
                 cutFound = true;
             }
             else{
                 //displayEdge(nextEdge);
-                previousNodeLabel = (*nodeLabel)[currentNode];
-                if((*nodeLabel)[currentNode] == (*nodeLabel)[(*graph).u(nextEdge)]){
+                previousNodeLabel = getNodeLabel(currentNode);
+                if(getNodeLabel(currentNode) == getNodeLabel(graph->u(nextEdge))){
                     currentNode = (*graph).v(nextEdge);
                 }
                 else{
@@ -145,8 +167,15 @@ void GenericCallback::displaySolution_d(const IloCplex::Callback::Context &conte
         int edge = (*edgeLabel)[e];
         int u = (*nodeLabel)[(*graph).u(e)]+1;
         int v = (*nodeLabel)[(*graph).v(e)]+1;
-        if (context.getCandidatePoint(x[edge][d]) >= 1 - EPS){
-            std::cout << x[edge][d] << ": (" << u << "," << v << ")" << context.getCandidatePoint(x[edge][d]) << std::endl;
+        if(context.inCandidate()){
+            if (context.getCandidatePoint(x[edge][d]) >= 1 - EPS){
+                std::cout << x[edge][d] << ": (" << u << "," << v << ")" << context.getCandidatePoint(x[edge][d]) << std::endl;
+            }
+        }
+        if (context.inRelaxation()){
+            if (context.getRelaxationPoint(x[edge][d]) >= EPS){
+                std::cout << x[edge][d] << ": (" << u << "," << v << ")" << context.getRelaxationPoint(x[edge][d]) << std::endl;
+            }
         }
     }
 

@@ -456,10 +456,10 @@ void Instance::outputDemands(std::string counter){
 		}
 
 		myfile << "\n";
-		myfile << "# Served Demands" << delimiter << getNbRoutedDemands() << "\n";
-		myfile << "# Blocked Demands" << delimiter << getNbNonRoutedDemands() << "\n"; 
-		myfile << "# Served Slices" << delimiter << nbServedSlices << "\n";
-		myfile << "# Blocked Slices" << delimiter << nbBlockedSlices << "\n"; 
+		myfile << "Nb_Served_Demands" << delimiter << getNbRoutedDemands() << "\n";
+		myfile << "Nb_Blocked_Demands" << delimiter << getNbNonRoutedDemands() << "\n"; 
+		myfile << "Nb_Served_Slices" << delimiter << nbServedSlices << "\n";
+		myfile << "Nb_Blocked_Slices" << delimiter << nbBlockedSlices << "\n"; 
 		myfile.close();
 	}
 	else{
@@ -529,8 +529,6 @@ void Instance::outputMetrics(std::string counter){
 	std::string filePath = this->input.getOutputPath() + "Metrics" + counter + ".csv";
 	std::ofstream myfile(filePath.c_str(), std::ios::out | std::ios::trunc);
 	if (myfile.is_open()){
-		int nbServedSlices = 0;
-		int nbBlockedSlices = 0;
 		myfile << "met1" << delimiter << getMetricValue(METRIC_ONE) << "\n";
 		myfile << "met1p" << delimiter << getMetricValue(METRIC_ONE_P) << "\n";
 		myfile << "met2" << delimiter << getMetricValue(METRIC_TWO) << "\n";

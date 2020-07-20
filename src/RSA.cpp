@@ -375,7 +375,7 @@ double RSA::getCoeffObj1(const ListDigraph::Arc &a, int d){
     if(uLabel == getToBeRouted_k(d).getSource()){
         switch (instance.getInput().getChosenPartitionPolicy() ){
             case Input::PARTITION_POLICY_NO:
-                coeff = NB_EDGES*(arcSlice + 1); 
+                coeff = NB_EDGES*(arcSlice + 1) + 1;
             break;
             case Input::PARTITION_POLICY_SOFT:
                 if(getToBeRouted_k(d).getLoad() <= instance.getInput().getPartitionLoad()){

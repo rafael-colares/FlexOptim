@@ -223,13 +223,20 @@ IloExpr YoussoufForm::getObjFunction(){
         return obj;
     }
     
-
+    int NB_EDGES = 0;
+    for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
+        NB_EDGES++;
+    }
     for (int k = 0; k < getNbDemandsToBeRouted(); k++){
         for (int s = 0; s < instance.getPhysicalLinkFromIndex(0).getNbSlices(); s++){
             //int arc = getArcIndex(a, d);
             //double coeff = getCoeff(a, d);
             //coeff += (instance.getInput().getInitialLagrangianMultiplier() * getArcLength(a, 0) );
-            obj += s*z[s][k];
+            obj += (NB_EDGES*(s+1)*z[s][k]);
+        }
+        for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
+            int edge = getCompactEdgeLabel(e);
+            obj += x[edge][k];
         }
     }
     return obj;

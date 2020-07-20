@@ -8,8 +8,10 @@ Getting onlineDemandFolder.
 Getting output path.
 Getting number of demands to be treated at once.
 Getting number of slices in output.
-Getting time limit.
+Getting time limits.
 WARNING: Field 'timeLimit=' is empty.
+WARNING: Field 'globalTimeLimit=' is empty.
+Getting allow blocking property.
 Getting method.
 Getting preprocessing level.
 Getting objective.
@@ -34,1869 +36,485 @@ Creating edge #5. 2 -- 3. lenght: 28, cost: 1
 Creating edge #6. 2 -- 5. lenght: 23, cost: 1
 Creating edge #7. 3 -- 4. lenght: 50, cost: 1
 Starting with an empty initial mapping. 
-0 demands were routed.
+0 are present in the initial mapping.
 --- READING NEW ONLINE DEMANDS... --- 
-Reading ../Parameters/Instances/Spain_N5/TestDemands/TM_1.csv ...
+Reading ../Parameters/Instances/Spain_N5/TestDemands_Offline/Demand.csv ...
 
 --- The Non Routed Demands ---
-#1. 5 -- 1. nbSlices: 4, maxLength: 1500
-#2. 1 -- 2. nbSlices: 5, maxLength: 1500
-#3. 4 -- 1. nbSlices: 4, maxLength: 1500
-#4. 1 -- 2. nbSlices: 4, maxLength: 1500
-#5. 3 -- 1. nbSlices: 4, maxLength: 1500
-#6. 3 -- 5. nbSlices: 3, maxLength: 3000
-#7. 5 -- 2. nbSlices: 5, maxLength: 1500
-#8. 3 -- 5. nbSlices: 5, maxLength: 1500
-#9. 4 -- 2. nbSlices: 6, maxLength: 600
-#10. 5 -- 4. nbSlices: 3, maxLength: 3000
-#11. 4 -- 1. nbSlices: 3, maxLength: 3000
-#12. 4 -- 5. nbSlices: 5, maxLength: 1500
-#13. 3 -- 4. nbSlices: 6, maxLength: 600
-#14. 3 -- 1. nbSlices: 4, maxLength: 1500
-#15. 3 -- 4. nbSlices: 6, maxLength: 600
-#16. 1 -- 2. nbSlices: 4, maxLength: 1500
-#17. 4 -- 2. nbSlices: 4, maxLength: 1500
-#18. 5 -- 1. nbSlices: 5, maxLength: 1500
-#19. 1 -- 2. nbSlices: 4, maxLength: 1500
-#20. 1 -- 2. nbSlices: 6, maxLength: 600
-#21. 4 -- 3. nbSlices: 6, maxLength: 600
-#22. 5 -- 4. nbSlices: 3, maxLength: 3000
-#23. 1 -- 2. nbSlices: 3, maxLength: 3000
-#24. 1 -- 2. nbSlices: 4, maxLength: 1500
-#25. 5 -- 1. nbSlices: 4, maxLength: 1500
-#26. 5 -- 2. nbSlices: 4, maxLength: 1500
-#27. 1 -- 2. nbSlices: 5, maxLength: 1500
-#28. 3 -- 2. nbSlices: 4, maxLength: 1500
-#29. 3 -- 2. nbSlices: 3, maxLength: 3000
-#30. 4 -- 2. nbSlices: 4, maxLength: 1500
-#31. 2 -- 5. nbSlices: 6, maxLength: 600
-#32. 5 -- 4. nbSlices: 5, maxLength: 1500
-#33. 2 -- 1. nbSlices: 4, maxLength: 1500
-#34. 3 -- 4. nbSlices: 6, maxLength: 600
-#35. 4 -- 3. nbSlices: 6, maxLength: 600
-#36. 4 -- 5. nbSlices: 6, maxLength: 600
-#37. 5 -- 3. nbSlices: 4, maxLength: 1500
-#38. 5 -- 1. nbSlices: 4, maxLength: 1500
-#39. 4 -- 1. nbSlices: 5, maxLength: 1500
-#40. 5 -- 2. nbSlices: 4, maxLength: 1500
-#41. 3 -- 1. nbSlices: 4, maxLength: 1500
-#42. 5 -- 2. nbSlices: 5, maxLength: 1500
-#43. 1 -- 2. nbSlices: 3, maxLength: 3000
-#44. 3 -- 4. nbSlices: 6, maxLength: 600
-#45. 4 -- 3. nbSlices: 3, maxLength: 3000
-#46. 5 -- 4. nbSlices: 3, maxLength: 3000
-#47. 2 -- 3. nbSlices: 4, maxLength: 1500
-#48. 1 -- 2. nbSlices: 6, maxLength: 600
-#49. 3 -- 1. nbSlices: 6, maxLength: 600
-#50. 4 -- 3. nbSlices: 5, maxLength: 1500
-#51. 1 -- 2. nbSlices: 6, maxLength: 600
-#52. 1 -- 2. nbSlices: 6, maxLength: 600
-#53. 3 -- 1. nbSlices: 6, maxLength: 600
-#54. 3 -- 2. nbSlices: 4, maxLength: 1500
-#55. 2 -- 4. nbSlices: 4, maxLength: 1500
-#56. 4 -- 2. nbSlices: 4, maxLength: 1500
-#57. 4 -- 5. nbSlices: 3, maxLength: 3000
-#58. 4 -- 5. nbSlices: 3, maxLength: 3000
-#59. 4 -- 1. nbSlices: 4, maxLength: 1500
-#60. 2 -- 3. nbSlices: 5, maxLength: 1500
-#61. 2 -- 1. nbSlices: 4, maxLength: 1500
-#62. 3 -- 4. nbSlices: 6, maxLength: 600
-#63. 3 -- 4. nbSlices: 6, maxLength: 600
-#64. 2 -- 1. nbSlices: 6, maxLength: 600
-#65. 3 -- 2. nbSlices: 5, maxLength: 1500
-#66. 4 -- 1. nbSlices: 6, maxLength: 600
-#67. 2 -- 4. nbSlices: 5, maxLength: 1500
-#68. 3 -- 5. nbSlices: 6, maxLength: 600
-#69. 4 -- 2. nbSlices: 5, maxLength: 1500
-#70. 3 -- 4. nbSlices: 6, maxLength: 600
-#71. 4 -- 5. nbSlices: 6, maxLength: 600
-#72. 5 -- 4. nbSlices: 6, maxLength: 600
-#73. 5 -- 3. nbSlices: 4, maxLength: 1500
-#74. 4 -- 5. nbSlices: 4, maxLength: 1500
-#75. 2 -- 4. nbSlices: 6, maxLength: 600
-#76. 2 -- 5. nbSlices: 4, maxLength: 1500
-#77. 1 -- 2. nbSlices: 4, maxLength: 1500
-#78. 4 -- 2. nbSlices: 4, maxLength: 1500
-#79. 2 -- 4. nbSlices: 5, maxLength: 1500
-#80. 4 -- 2. nbSlices: 3, maxLength: 3000
-#81. 4 -- 2. nbSlices: 3, maxLength: 3000
-#82. 2 -- 1. nbSlices: 5, maxLength: 1500
-#83. 1 -- 2. nbSlices: 4, maxLength: 1500
-#84. 4 -- 5. nbSlices: 6, maxLength: 600
-#85. 4 -- 2. nbSlices: 3, maxLength: 3000
-#86. 3 -- 1. nbSlices: 6, maxLength: 600
-#87. 4 -- 1. nbSlices: 5, maxLength: 1500
-#88. 1 -- 2. nbSlices: 6, maxLength: 600
-#89. 5 -- 3. nbSlices: 3, maxLength: 3000
-#90. 2 -- 4. nbSlices: 3, maxLength: 3000
-#91. 5 -- 2. nbSlices: 4, maxLength: 1500
-#92. 4 -- 2. nbSlices: 6, maxLength: 600
-#93. 1 -- 2. nbSlices: 4, maxLength: 1500
-#94. 4 -- 2. nbSlices: 5, maxLength: 1500
-#95. 3 -- 1. nbSlices: 6, maxLength: 600
-#96. 1 -- 2. nbSlices: 5, maxLength: 1500
-#97. 5 -- 1. nbSlices: 6, maxLength: 600
-#98. 1 -- 2. nbSlices: 4, maxLength: 1500
-#99. 4 -- 2. nbSlices: 4, maxLength: 1500
-#100. 5 -- 3. nbSlices: 4, maxLength: 1500
-#101. 1 -- 2. nbSlices: 5, maxLength: 1500
-#102. 5 -- 1. nbSlices: 3, maxLength: 3000
-#103. 4 -- 1. nbSlices: 4, maxLength: 1500
-#104. 5 -- 1. nbSlices: 4, maxLength: 1500
-#105. 3 -- 5. nbSlices: 4, maxLength: 1500
-#106. 3 -- 2. nbSlices: 3, maxLength: 3000
-#107. 5 -- 1. nbSlices: 3, maxLength: 3000
-#108. 4 -- 1. nbSlices: 3, maxLength: 3000
-#109. 5 -- 1. nbSlices: 5, maxLength: 1500
-#110. 3 -- 4. nbSlices: 5, maxLength: 1500
-#111. 3 -- 1. nbSlices: 3, maxLength: 3000
-#112. 4 -- 3. nbSlices: 5, maxLength: 1500
-#113. 1 -- 2. nbSlices: 3, maxLength: 3000
-#114. 2 -- 5. nbSlices: 6, maxLength: 600
-#115. 5 -- 1. nbSlices: 3, maxLength: 3000
-#116. 5 -- 4. nbSlices: 6, maxLength: 600
-#117. 5 -- 3. nbSlices: 4, maxLength: 1500
-#118. 5 -- 3. nbSlices: 4, maxLength: 1500
-#119. 5 -- 1. nbSlices: 6, maxLength: 600
-#120. 2 -- 4. nbSlices: 6, maxLength: 600
-#121. 3 -- 5. nbSlices: 3, maxLength: 3000
-#122. 2 -- 5. nbSlices: 6, maxLength: 600
-#123. 1 -- 2. nbSlices: 5, maxLength: 1500
-#124. 5 -- 2. nbSlices: 4, maxLength: 1500
-#125. 2 -- 3. nbSlices: 3, maxLength: 3000
-#126. 3 -- 5. nbSlices: 5, maxLength: 1500
-#127. 3 -- 1. nbSlices: 4, maxLength: 1500
-#128. 5 -- 2. nbSlices: 4, maxLength: 1500
-#129. 4 -- 1. nbSlices: 3, maxLength: 3000
-#130. 4 -- 2. nbSlices: 5, maxLength: 1500
-#131. 2 -- 1. nbSlices: 5, maxLength: 1500
-#132. 5 -- 3. nbSlices: 5, maxLength: 1500
-#133. 4 -- 1. nbSlices: 6, maxLength: 600
-#134. 5 -- 2. nbSlices: 3, maxLength: 3000
-#135. 1 -- 2. nbSlices: 5, maxLength: 1500
-#136. 4 -- 1. nbSlices: 3, maxLength: 3000
-#137. 4 -- 1. nbSlices: 6, maxLength: 600
-#138. 1 -- 2. nbSlices: 5, maxLength: 1500
-#139. 2 -- 1. nbSlices: 5, maxLength: 1500
-#140. 4 -- 3. nbSlices: 3, maxLength: 3000
-#141. 2 -- 4. nbSlices: 6, maxLength: 600
-#142. 2 -- 4. nbSlices: 4, maxLength: 1500
-#143. 5 -- 4. nbSlices: 5, maxLength: 1500
-#144. 1 -- 2. nbSlices: 6, maxLength: 600
-#145. 5 -- 2. nbSlices: 4, maxLength: 1500
-#146. 2 -- 1. nbSlices: 3, maxLength: 3000
-#147. 4 -- 3. nbSlices: 4, maxLength: 1500
-#148. 1 -- 2. nbSlices: 3, maxLength: 3000
-#149. 4 -- 2. nbSlices: 6, maxLength: 600
-#150. 3 -- 5. nbSlices: 5, maxLength: 1500
-#151. 2 -- 3. nbSlices: 4, maxLength: 1500
-#152. 3 -- 5. nbSlices: 3, maxLength: 3000
-#153. 3 -- 4. nbSlices: 3, maxLength: 3000
-#154. 1 -- 2. nbSlices: 4, maxLength: 1500
-#155. 4 -- 1. nbSlices: 3, maxLength: 3000
-#156. 2 -- 5. nbSlices: 6, maxLength: 600
-#157. 5 -- 2. nbSlices: 3, maxLength: 3000
-#158. 5 -- 4. nbSlices: 3, maxLength: 3000
-#159. 5 -- 3. nbSlices: 5, maxLength: 1500
-#160. 4 -- 5. nbSlices: 6, maxLength: 600
-#161. 5 -- 4. nbSlices: 6, maxLength: 600
-#162. 3 -- 5. nbSlices: 6, maxLength: 600
-#163. 2 -- 5. nbSlices: 3, maxLength: 3000
-#164. 1 -- 2. nbSlices: 3, maxLength: 3000
-#165. 4 -- 2. nbSlices: 5, maxLength: 1500
-#166. 4 -- 5. nbSlices: 6, maxLength: 600
-#167. 1 -- 2. nbSlices: 5, maxLength: 1500
-#168. 3 -- 2. nbSlices: 6, maxLength: 600
-#169. 1 -- 2. nbSlices: 3, maxLength: 3000
-#170. 2 -- 4. nbSlices: 6, maxLength: 600
-#171. 1 -- 2. nbSlices: 3, maxLength: 3000
-#172. 4 -- 1. nbSlices: 5, maxLength: 1500
-#173. 5 -- 3. nbSlices: 4, maxLength: 1500
-#174. 1 -- 2. nbSlices: 6, maxLength: 600
-#175. 1 -- 2. nbSlices: 5, maxLength: 1500
-#176. 3 -- 2. nbSlices: 4, maxLength: 1500
-#177. 2 -- 1. nbSlices: 5, maxLength: 1500
-#178. 2 -- 3. nbSlices: 6, maxLength: 600
-#179. 5 -- 2. nbSlices: 4, maxLength: 1500
-#180. 4 -- 5. nbSlices: 3, maxLength: 3000
-#181. 4 -- 3. nbSlices: 3, maxLength: 3000
-#182. 5 -- 4. nbSlices: 4, maxLength: 1500
-#183. 4 -- 3. nbSlices: 5, maxLength: 1500
-#184. 5 -- 2. nbSlices: 3, maxLength: 3000
-#185. 1 -- 2. nbSlices: 6, maxLength: 600
-#186. 1 -- 2. nbSlices: 3, maxLength: 3000
-#187. 2 -- 1. nbSlices: 3, maxLength: 3000
-#188. 4 -- 3. nbSlices: 5, maxLength: 1500
-#189. 3 -- 2. nbSlices: 6, maxLength: 600
-#190. 3 -- 4. nbSlices: 3, maxLength: 3000
-#191. 4 -- 1. nbSlices: 6, maxLength: 600
-#192. 2 -- 4. nbSlices: 4, maxLength: 1500
-#193. 2 -- 4. nbSlices: 3, maxLength: 3000
-#194. 4 -- 2. nbSlices: 5, maxLength: 1500
-#195. 2 -- 4. nbSlices: 5, maxLength: 1500
-#196. 2 -- 5. nbSlices: 3, maxLength: 3000
-#197. 5 -- 4. nbSlices: 4, maxLength: 1500
-#198. 5 -- 3. nbSlices: 6, maxLength: 600
-#199. 2 -- 4. nbSlices: 5, maxLength: 1500
-#200. 5 -- 1. nbSlices: 6, maxLength: 600
-#201. 3 -- 1. nbSlices: 5, maxLength: 1500
-#202. 3 -- 1. nbSlices: 5, maxLength: 1500
-#203. 3 -- 1. nbSlices: 6, maxLength: 600
-#204. 4 -- 1. nbSlices: 6, maxLength: 600
-#205. 4 -- 2. nbSlices: 4, maxLength: 1500
-#206. 4 -- 3. nbSlices: 4, maxLength: 1500
-#207. 5 -- 4. nbSlices: 6, maxLength: 600
-#208. 2 -- 3. nbSlices: 6, maxLength: 600
-#209. 4 -- 2. nbSlices: 6, maxLength: 600
-#210. 1 -- 2. nbSlices: 4, maxLength: 1500
-#211. 2 -- 5. nbSlices: 3, maxLength: 3000
-#212. 4 -- 2. nbSlices: 6, maxLength: 600
-#213. 1 -- 2. nbSlices: 5, maxLength: 1500
-#214. 4 -- 3. nbSlices: 4, maxLength: 1500
-#215. 2 -- 4. nbSlices: 3, maxLength: 3000
-#216. 3 -- 2. nbSlices: 4, maxLength: 1500
-#217. 1 -- 2. nbSlices: 3, maxLength: 3000
-#218. 5 -- 4. nbSlices: 4, maxLength: 1500
-#219. 1 -- 2. nbSlices: 5, maxLength: 1500
-#220. 4 -- 1. nbSlices: 4, maxLength: 1500
-#221. 1 -- 2. nbSlices: 4, maxLength: 1500
-#222. 5 -- 2. nbSlices: 5, maxLength: 1500
-#223. 3 -- 5. nbSlices: 5, maxLength: 1500
-#224. 5 -- 3. nbSlices: 6, maxLength: 600
-#225. 1 -- 2. nbSlices: 5, maxLength: 1500
-#226. 3 -- 4. nbSlices: 3, maxLength: 3000
-#227. 1 -- 2. nbSlices: 4, maxLength: 1500
-#228. 1 -- 2. nbSlices: 6, maxLength: 600
-#229. 2 -- 4. nbSlices: 6, maxLength: 600
-#230. 1 -- 2. nbSlices: 5, maxLength: 1500
-#231. 2 -- 5. nbSlices: 4, maxLength: 1500
-#232. 4 -- 2. nbSlices: 5, maxLength: 1500
-#233. 3 -- 1. nbSlices: 4, maxLength: 1500
-#234. 3 -- 5. nbSlices: 6, maxLength: 600
-#235. 4 -- 5. nbSlices: 6, maxLength: 600
-#236. 4 -- 5. nbSlices: 5, maxLength: 1500
-#237. 5 -- 1. nbSlices: 6, maxLength: 600
-#238. 1 -- 2. nbSlices: 6, maxLength: 600
-#239. 2 -- 1. nbSlices: 3, maxLength: 3000
-#240. 5 -- 4. nbSlices: 3, maxLength: 3000
-#241. 4 -- 2. nbSlices: 4, maxLength: 1500
-#242. 5 -- 1. nbSlices: 3, maxLength: 3000
-#243. 5 -- 3. nbSlices: 6, maxLength: 600
-#244. 2 -- 3. nbSlices: 4, maxLength: 1500
-#245. 5 -- 1. nbSlices: 5, maxLength: 1500
-#246. 4 -- 3. nbSlices: 5, maxLength: 1500
-#247. 1 -- 2. nbSlices: 3, maxLength: 3000
-#248. 3 -- 5. nbSlices: 4, maxLength: 1500
-#249. 1 -- 2. nbSlices: 6, maxLength: 600
-#250. 2 -- 5. nbSlices: 3, maxLength: 3000
-#251. 4 -- 2. nbSlices: 6, maxLength: 600
-#252. 2 -- 3. nbSlices: 5, maxLength: 1500
-#253. 2 -- 3. nbSlices: 4, maxLength: 1500
-#254. 4 -- 2. nbSlices: 4, maxLength: 1500
-#255. 4 -- 2. nbSlices: 6, maxLength: 600
-#256. 4 -- 1. nbSlices: 5, maxLength: 1500
-#257. 2 -- 4. nbSlices: 5, maxLength: 1500
-#258. 2 -- 4. nbSlices: 3, maxLength: 3000
-#259. 3 -- 5. nbSlices: 5, maxLength: 1500
-#260. 3 -- 5. nbSlices: 6, maxLength: 600
-#261. 3 -- 1. nbSlices: 4, maxLength: 1500
-#262. 4 -- 3. nbSlices: 6, maxLength: 600
-#263. 4 -- 5. nbSlices: 5, maxLength: 1500
-#264. 2 -- 1. nbSlices: 4, maxLength: 1500
-#265. 3 -- 5. nbSlices: 3, maxLength: 3000
-#266. 1 -- 2. nbSlices: 4, maxLength: 1500
-#267. 4 -- 3. nbSlices: 4, maxLength: 1500
-#268. 5 -- 4. nbSlices: 4, maxLength: 1500
-#269. 3 -- 4. nbSlices: 4, maxLength: 1500
-#270. 5 -- 2. nbSlices: 6, maxLength: 600
-#271. 4 -- 2. nbSlices: 5, maxLength: 1500
-#272. 3 -- 4. nbSlices: 5, maxLength: 1500
-#273. 4 -- 3. nbSlices: 6, maxLength: 600
-#274. 4 -- 1. nbSlices: 6, maxLength: 600
-#275. 1 -- 2. nbSlices: 4, maxLength: 1500
-#276. 4 -- 5. nbSlices: 6, maxLength: 600
-#277. 1 -- 2. nbSlices: 3, maxLength: 3000
-#278. 2 -- 3. nbSlices: 5, maxLength: 1500
-#279. 3 -- 1. nbSlices: 6, maxLength: 600
-#280. 2 -- 4. nbSlices: 6, maxLength: 600
-#281. 5 -- 4. nbSlices: 3, maxLength: 3000
-#282. 2 -- 4. nbSlices: 6, maxLength: 600
-#283. 5 -- 1. nbSlices: 6, maxLength: 600
-#284. 4 -- 1. nbSlices: 6, maxLength: 600
-#285. 2 -- 3. nbSlices: 4, maxLength: 1500
-#286. 3 -- 2. nbSlices: 6, maxLength: 600
-#287. 2 -- 1. nbSlices: 4, maxLength: 1500
-#288. 1 -- 2. nbSlices: 5, maxLength: 1500
-#289. 1 -- 2. nbSlices: 6, maxLength: 600
-#290. 3 -- 1. nbSlices: 6, maxLength: 600
-#291. 1 -- 2. nbSlices: 4, maxLength: 1500
-#292. 2 -- 4. nbSlices: 4, maxLength: 1500
-#293. 1 -- 2. nbSlices: 6, maxLength: 600
-#294. 5 -- 2. nbSlices: 3, maxLength: 3000
-#295. 4 -- 5. nbSlices: 6, maxLength: 600
-#296. 1 -- 2. nbSlices: 3, maxLength: 3000
-#297. 2 -- 1. nbSlices: 5, maxLength: 1500
-#298. 2 -- 5. nbSlices: 3, maxLength: 3000
-#299. 4 -- 3. nbSlices: 4, maxLength: 1500
-#300. 5 -- 4. nbSlices: 4, maxLength: 1500
-#301. 5 -- 1. nbSlices: 4, maxLength: 1500
-#302. 1 -- 2. nbSlices: 6, maxLength: 600
-#303. 2 -- 1. nbSlices: 3, maxLength: 3000
-#304. 1 -- 2. nbSlices: 5, maxLength: 1500
-#305. 2 -- 3. nbSlices: 4, maxLength: 1500
-#306. 5 -- 4. nbSlices: 3, maxLength: 3000
-#307. 3 -- 5. nbSlices: 5, maxLength: 1500
-#308. 5 -- 1. nbSlices: 5, maxLength: 1500
-#309. 5 -- 1. nbSlices: 6, maxLength: 600
-#310. 1 -- 2. nbSlices: 3, maxLength: 3000
-#311. 2 -- 3. nbSlices: 6, maxLength: 600
-#312. 1 -- 2. nbSlices: 3, maxLength: 3000
-#313. 3 -- 1. nbSlices: 6, maxLength: 600
-#314. 4 -- 3. nbSlices: 4, maxLength: 1500
-#315. 5 -- 3. nbSlices: 3, maxLength: 3000
-#316. 1 -- 2. nbSlices: 4, maxLength: 1500
-#317. 2 -- 5. nbSlices: 3, maxLength: 3000
-#318. 3 -- 5. nbSlices: 5, maxLength: 1500
-#319. 2 -- 1. nbSlices: 3, maxLength: 3000
-#320. 3 -- 4. nbSlices: 5, maxLength: 1500
-#321. 4 -- 2. nbSlices: 6, maxLength: 600
-#322. 4 -- 5. nbSlices: 6, maxLength: 600
-#323. 5 -- 4. nbSlices: 3, maxLength: 3000
-#324. 3 -- 1. nbSlices: 4, maxLength: 1500
-#325. 3 -- 4. nbSlices: 6, maxLength: 600
-#326. 1 -- 2. nbSlices: 4, maxLength: 1500
-#327. 3 -- 5. nbSlices: 3, maxLength: 3000
-#328. 3 -- 2. nbSlices: 5, maxLength: 1500
-#329. 2 -- 1. nbSlices: 4, maxLength: 1500
-#330. 3 -- 2. nbSlices: 6, maxLength: 600
-#331. 2 -- 4. nbSlices: 4, maxLength: 1500
-#332. 2 -- 3. nbSlices: 6, maxLength: 600
-#333. 2 -- 5. nbSlices: 3, maxLength: 3000
-#334. 5 -- 1. nbSlices: 6, maxLength: 600
-#335. 3 -- 4. nbSlices: 5, maxLength: 1500
-#336. 2 -- 3. nbSlices: 4, maxLength: 1500
-#337. 1 -- 2. nbSlices: 5, maxLength: 1500
-#338. 5 -- 2. nbSlices: 5, maxLength: 1500
-#339. 2 -- 1. nbSlices: 6, maxLength: 600
-#340. 1 -- 2. nbSlices: 3, maxLength: 3000
-#341. 1 -- 2. nbSlices: 3, maxLength: 3000
-#342. 3 -- 4. nbSlices: 5, maxLength: 1500
-#343. 4 -- 2. nbSlices: 5, maxLength: 1500
-#344. 4 -- 2. nbSlices: 6, maxLength: 600
-#345. 5 -- 2. nbSlices: 6, maxLength: 600
-#346. 4 -- 1. nbSlices: 5, maxLength: 1500
-#347. 1 -- 2. nbSlices: 3, maxLength: 3000
-#348. 4 -- 5. nbSlices: 3, maxLength: 3000
-#349. 3 -- 4. nbSlices: 3, maxLength: 3000
-#350. 5 -- 4. nbSlices: 5, maxLength: 1500
-#351. 3 -- 2. nbSlices: 4, maxLength: 1500
-#352. 3 -- 5. nbSlices: 3, maxLength: 3000
-#353. 3 -- 2. nbSlices: 6, maxLength: 600
-#354. 3 -- 5. nbSlices: 3, maxLength: 3000
-#355. 4 -- 2. nbSlices: 6, maxLength: 600
-#356. 5 -- 4. nbSlices: 6, maxLength: 600
-#357. 4 -- 3. nbSlices: 5, maxLength: 1500
-#358. 2 -- 4. nbSlices: 6, maxLength: 600
-#359. 3 -- 4. nbSlices: 5, maxLength: 1500
-#360. 5 -- 2. nbSlices: 3, maxLength: 3000
-#361. 1 -- 2. nbSlices: 5, maxLength: 1500
-#362. 2 -- 4. nbSlices: 6, maxLength: 600
-#363. 2 -- 5. nbSlices: 3, maxLength: 3000
-#364. 2 -- 5. nbSlices: 5, maxLength: 1500
-#365. 2 -- 3. nbSlices: 6, maxLength: 600
-#366. 2 -- 3. nbSlices: 6, maxLength: 600
-#367. 3 -- 5. nbSlices: 3, maxLength: 3000
-#368. 2 -- 5. nbSlices: 3, maxLength: 3000
-#369. 5 -- 1. nbSlices: 5, maxLength: 1500
-#370. 5 -- 2. nbSlices: 4, maxLength: 1500
-#371. 5 -- 4. nbSlices: 5, maxLength: 1500
-#372. 5 -- 4. nbSlices: 5, maxLength: 1500
-#373. 2 -- 4. nbSlices: 5, maxLength: 1500
-#374. 3 -- 2. nbSlices: 3, maxLength: 3000
-#375. 5 -- 2. nbSlices: 4, maxLength: 1500
-#376. 4 -- 1. nbSlices: 4, maxLength: 1500
-#377. 2 -- 5. nbSlices: 3, maxLength: 3000
-#378. 5 -- 1. nbSlices: 3, maxLength: 3000
-#379. 1 -- 2. nbSlices: 3, maxLength: 3000
-#380. 1 -- 2. nbSlices: 6, maxLength: 600
-#381. 4 -- 3. nbSlices: 5, maxLength: 1500
-#382. 2 -- 3. nbSlices: 5, maxLength: 1500
-#383. 3 -- 2. nbSlices: 4, maxLength: 1500
-#384. 4 -- 1. nbSlices: 5, maxLength: 1500
-#385. 4 -- 2. nbSlices: 4, maxLength: 1500
-#386. 2 -- 4. nbSlices: 3, maxLength: 3000
-#387. 4 -- 3. nbSlices: 5, maxLength: 1500
-#388. 5 -- 1. nbSlices: 6, maxLength: 600
-#389. 5 -- 1. nbSlices: 4, maxLength: 1500
-#390. 3 -- 1. nbSlices: 3, maxLength: 3000
-#391. 2 -- 3. nbSlices: 6, maxLength: 600
-#392. 1 -- 2. nbSlices: 4, maxLength: 1500
-#393. 1 -- 2. nbSlices: 4, maxLength: 1500
-#394. 1 -- 2. nbSlices: 6, maxLength: 600
-#395. 5 -- 3. nbSlices: 4, maxLength: 1500
-#396. 5 -- 4. nbSlices: 5, maxLength: 1500
-#397. 2 -- 4. nbSlices: 5, maxLength: 1500
-#398. 3 -- 2. nbSlices: 6, maxLength: 600
-#399. 1 -- 2. nbSlices: 5, maxLength: 1500
-#400. 4 -- 5. nbSlices: 5, maxLength: 1500
-#401. 2 -- 1. nbSlices: 3, maxLength: 3000
-#402. 2 -- 5. nbSlices: 5, maxLength: 1500
-#403. 3 -- 5. nbSlices: 5, maxLength: 1500
-#404. 1 -- 2. nbSlices: 5, maxLength: 1500
-#405. 1 -- 2. nbSlices: 4, maxLength: 1500
-#406. 2 -- 4. nbSlices: 5, maxLength: 1500
-#407. 1 -- 2. nbSlices: 4, maxLength: 1500
-#408. 3 -- 4. nbSlices: 4, maxLength: 1500
-#409. 3 -- 2. nbSlices: 5, maxLength: 1500
-#410. 2 -- 4. nbSlices: 4, maxLength: 1500
-#411. 3 -- 4. nbSlices: 6, maxLength: 600
-#412. 2 -- 3. nbSlices: 6, maxLength: 600
-#413. 5 -- 2. nbSlices: 5, maxLength: 1500
-#414. 4 -- 3. nbSlices: 3, maxLength: 3000
-#415. 1 -- 2. nbSlices: 4, maxLength: 1500
-#416. 5 -- 1. nbSlices: 4, maxLength: 1500
-#417. 2 -- 1. nbSlices: 6, maxLength: 600
-#418. 4 -- 1. nbSlices: 5, maxLength: 1500
-#419. 1 -- 2. nbSlices: 5, maxLength: 1500
-#420. 3 -- 1. nbSlices: 4, maxLength: 1500
-#421. 2 -- 1. nbSlices: 4, maxLength: 1500
-#422. 2 -- 3. nbSlices: 5, maxLength: 1500
-#423. 5 -- 2. nbSlices: 3, maxLength: 3000
-#424. 2 -- 1. nbSlices: 3, maxLength: 3000
-#425. 3 -- 2. nbSlices: 4, maxLength: 1500
-#426. 5 -- 1. nbSlices: 3, maxLength: 3000
-#427. 1 -- 2. nbSlices: 5, maxLength: 1500
-#428. 2 -- 1. nbSlices: 5, maxLength: 1500
-#429. 1 -- 2. nbSlices: 5, maxLength: 1500
-#430. 4 -- 2. nbSlices: 3, maxLength: 3000
-#431. 1 -- 2. nbSlices: 6, maxLength: 600
-#432. 2 -- 3. nbSlices: 5, maxLength: 1500
-#433. 4 -- 1. nbSlices: 4, maxLength: 1500
-#434. 1 -- 2. nbSlices: 3, maxLength: 3000
-#435. 5 -- 1. nbSlices: 6, maxLength: 600
-#436. 3 -- 4. nbSlices: 4, maxLength: 1500
-#437. 3 -- 4. nbSlices: 3, maxLength: 3000
-#438. 5 -- 2. nbSlices: 5, maxLength: 1500
-#439. 1 -- 2. nbSlices: 3, maxLength: 3000
-#440. 2 -- 5. nbSlices: 4, maxLength: 1500
-#441. 3 -- 1. nbSlices: 6, maxLength: 600
-#442. 4 -- 2. nbSlices: 5, maxLength: 1500
-#443. 5 -- 1. nbSlices: 6, maxLength: 600
-#444. 3 -- 5. nbSlices: 5, maxLength: 1500
-#445. 1 -- 2. nbSlices: 4, maxLength: 1500
-#446. 3 -- 1. nbSlices: 3, maxLength: 3000
-#447. 3 -- 4. nbSlices: 5, maxLength: 1500
-#448. 4 -- 1. nbSlices: 3, maxLength: 3000
-#449. 4 -- 3. nbSlices: 5, maxLength: 1500
-#450. 3 -- 5. nbSlices: 3, maxLength: 3000
-#451. 1 -- 2. nbSlices: 4, maxLength: 1500
-#452. 4 -- 2. nbSlices: 4, maxLength: 1500
-#453. 2 -- 3. nbSlices: 6, maxLength: 600
-#454. 3 -- 5. nbSlices: 5, maxLength: 1500
-#455. 4 -- 2. nbSlices: 3, maxLength: 3000
-#456. 1 -- 2. nbSlices: 4, maxLength: 1500
-#457. 4 -- 3. nbSlices: 3, maxLength: 3000
-#458. 1 -- 2. nbSlices: 6, maxLength: 600
-#459. 1 -- 2. nbSlices: 4, maxLength: 1500
-#460. 5 -- 2. nbSlices: 5, maxLength: 1500
-#461. 4 -- 2. nbSlices: 6, maxLength: 600
-#462. 4 -- 3. nbSlices: 5, maxLength: 1500
-#463. 5 -- 3. nbSlices: 5, maxLength: 1500
-#464. 1 -- 2. nbSlices: 4, maxLength: 1500
-#465. 3 -- 2. nbSlices: 6, maxLength: 600
-#466. 5 -- 4. nbSlices: 3, maxLength: 3000
-#467. 3 -- 5. nbSlices: 3, maxLength: 3000
-#468. 5 -- 1. nbSlices: 4, maxLength: 1500
-#469. 3 -- 4. nbSlices: 5, maxLength: 1500
-#470. 4 -- 2. nbSlices: 6, maxLength: 600
-#471. 3 -- 1. nbSlices: 3, maxLength: 3000
-#472. 5 -- 2. nbSlices: 6, maxLength: 600
-#473. 2 -- 1. nbSlices: 6, maxLength: 600
-#474. 4 -- 2. nbSlices: 4, maxLength: 1500
-#475. 5 -- 3. nbSlices: 6, maxLength: 600
-#476. 1 -- 2. nbSlices: 6, maxLength: 600
-#477. 5 -- 4. nbSlices: 4, maxLength: 1500
-#478. 1 -- 2. nbSlices: 4, maxLength: 1500
-#479. 5 -- 3. nbSlices: 4, maxLength: 1500
-#480. 1 -- 2. nbSlices: 4, maxLength: 1500
-#481. 5 -- 1. nbSlices: 6, maxLength: 600
-#482. 2 -- 1. nbSlices: 4, maxLength: 1500
-#483. 4 -- 2. nbSlices: 5, maxLength: 1500
-#484. 4 -- 2. nbSlices: 4, maxLength: 1500
-#485. 5 -- 2. nbSlices: 4, maxLength: 1500
-#486. 5 -- 1. nbSlices: 3, maxLength: 3000
-#487. 4 -- 2. nbSlices: 3, maxLength: 3000
-#488. 3 -- 1. nbSlices: 5, maxLength: 1500
-#489. 1 -- 2. nbSlices: 4, maxLength: 1500
-#490. 2 -- 1. nbSlices: 4, maxLength: 1500
-#491. 1 -- 2. nbSlices: 4, maxLength: 1500
-#492. 2 -- 1. nbSlices: 5, maxLength: 1500
-#493. 5 -- 4. nbSlices: 6, maxLength: 600
-#494. 3 -- 2. nbSlices: 3, maxLength: 3000
-#495. 1 -- 2. nbSlices: 3, maxLength: 3000
-#496. 3 -- 4. nbSlices: 3, maxLength: 3000
-#497. 1 -- 2. nbSlices: 4, maxLength: 1500
-#498. 3 -- 2. nbSlices: 4, maxLength: 1500
-#499. 2 -- 1. nbSlices: 6, maxLength: 600
-#500. 2 -- 1. nbSlices: 6, maxLength: 600
-#501. 4 -- 1. nbSlices: 4, maxLength: 1500
-#502. 2 -- 4. nbSlices: 3, maxLength: 3000
-#503. 1 -- 2. nbSlices: 3, maxLength: 3000
-#504. 4 -- 5. nbSlices: 6, maxLength: 600
-#505. 5 -- 1. nbSlices: 5, maxLength: 1500
-#506. 4 -- 1. nbSlices: 5, maxLength: 1500
-#507. 5 -- 4. nbSlices: 4, maxLength: 1500
-#508. 5 -- 1. nbSlices: 5, maxLength: 1500
-#509. 4 -- 2. nbSlices: 3, maxLength: 3000
-#510. 5 -- 2. nbSlices: 3, maxLength: 3000
-#511. 3 -- 1. nbSlices: 5, maxLength: 1500
-#512. 5 -- 4. nbSlices: 6, maxLength: 600
-#513. 1 -- 2. nbSlices: 4, maxLength: 1500
-#514. 3 -- 1. nbSlices: 6, maxLength: 600
-#515. 3 -- 4. nbSlices: 5, maxLength: 1500
-#516. 1 -- 2. nbSlices: 5, maxLength: 1500
-#517. 5 -- 2. nbSlices: 5, maxLength: 1500
-#518. 2 -- 3. nbSlices: 4, maxLength: 1500
-#519. 4 -- 3. nbSlices: 3, maxLength: 3000
-#520. 3 -- 4. nbSlices: 6, maxLength: 600
-#521. 5 -- 3. nbSlices: 5, maxLength: 1500
-#522. 4 -- 5. nbSlices: 6, maxLength: 600
-#523. 1 -- 2. nbSlices: 4, maxLength: 1500
-#524. 2 -- 3. nbSlices: 4, maxLength: 1500
-#525. 3 -- 1. nbSlices: 5, maxLength: 1500
-#526. 1 -- 2. nbSlices: 4, maxLength: 1500
-#527. 2 -- 4. nbSlices: 5, maxLength: 1500
-#528. 3 -- 2. nbSlices: 3, maxLength: 3000
-#529. 4 -- 3. nbSlices: 4, maxLength: 1500
-#530. 5 -- 4. nbSlices: 3, maxLength: 3000
-#531. 5 -- 3. nbSlices: 5, maxLength: 1500
-#532. 1 -- 2. nbSlices: 3, maxLength: 3000
-#533. 2 -- 1. nbSlices: 3, maxLength: 3000
-#534. 3 -- 5. nbSlices: 3, maxLength: 3000
-#535. 1 -- 2. nbSlices: 3, maxLength: 3000
-#536. 2 -- 1. nbSlices: 6, maxLength: 600
-#537. 5 -- 2. nbSlices: 6, maxLength: 600
-#538. 3 -- 2. nbSlices: 3, maxLength: 3000
-#539. 2 -- 5. nbSlices: 5, maxLength: 1500
-#540. 3 -- 5. nbSlices: 3, maxLength: 3000
-#541. 2 -- 5. nbSlices: 4, maxLength: 1500
-#542. 5 -- 1. nbSlices: 5, maxLength: 1500
-#543. 1 -- 2. nbSlices: 3, maxLength: 3000
-#544. 4 -- 1. nbSlices: 6, maxLength: 600
-#545. 3 -- 2. nbSlices: 6, maxLength: 600
-#546. 1 -- 2. nbSlices: 4, maxLength: 1500
-#547. 2 -- 1. nbSlices: 6, maxLength: 600
-#548. 2 -- 5. nbSlices: 4, maxLength: 1500
-#549. 2 -- 4. nbSlices: 6, maxLength: 600
-#550. 2 -- 5. nbSlices: 3, maxLength: 3000
-#551. 1 -- 2. nbSlices: 4, maxLength: 1500
-#552. 3 -- 2. nbSlices: 4, maxLength: 1500
-#553. 1 -- 2. nbSlices: 5, maxLength: 1500
-#554. 5 -- 4. nbSlices: 6, maxLength: 600
-#555. 4 -- 2. nbSlices: 3, maxLength: 3000
-#556. 3 -- 2. nbSlices: 6, maxLength: 600
-#557. 1 -- 2. nbSlices: 5, maxLength: 1500
-#558. 1 -- 2. nbSlices: 5, maxLength: 1500
-#559. 5 -- 3. nbSlices: 3, maxLength: 3000
-#560. 2 -- 5. nbSlices: 4, maxLength: 1500
-#561. 5 -- 3. nbSlices: 4, maxLength: 1500
-#562. 4 -- 3. nbSlices: 5, maxLength: 1500
-#563. 3 -- 5. nbSlices: 4, maxLength: 1500
-#564. 4 -- 1. nbSlices: 6, maxLength: 600
-#565. 4 -- 1. nbSlices: 4, maxLength: 1500
-#566. 5 -- 1. nbSlices: 5, maxLength: 1500
-#567. 4 -- 3. nbSlices: 5, maxLength: 1500
-#568. 5 -- 4. nbSlices: 4, maxLength: 1500
-#569. 3 -- 2. nbSlices: 6, maxLength: 600
-#570. 1 -- 2. nbSlices: 5, maxLength: 1500
-#571. 1 -- 2. nbSlices: 6, maxLength: 600
-#572. 2 -- 4. nbSlices: 5, maxLength: 1500
-#573. 2 -- 5. nbSlices: 5, maxLength: 1500
-#574. 5 -- 4. nbSlices: 3, maxLength: 3000
-#575. 4 -- 5. nbSlices: 3, maxLength: 3000
-#576. 3 -- 4. nbSlices: 5, maxLength: 1500
-#577. 2 -- 5. nbSlices: 3, maxLength: 3000
-#578. 5 -- 4. nbSlices: 3, maxLength: 3000
-#579. 5 -- 4. nbSlices: 3, maxLength: 3000
-#580. 4 -- 5. nbSlices: 3, maxLength: 3000
-#581. 5 -- 1. nbSlices: 3, maxLength: 3000
-#582. 5 -- 3. nbSlices: 4, maxLength: 1500
-#583. 4 -- 1. nbSlices: 4, maxLength: 1500
-#584. 2 -- 3. nbSlices: 5, maxLength: 1500
-#585. 1 -- 2. nbSlices: 4, maxLength: 1500
-#586. 5 -- 3. nbSlices: 6, maxLength: 600
-#587. 4 -- 2. nbSlices: 4, maxLength: 1500
-#588. 4 -- 5. nbSlices: 6, maxLength: 600
-#589. 1 -- 2. nbSlices: 6, maxLength: 600
-#590. 1 -- 2. nbSlices: 5, maxLength: 1500
-#591. 4 -- 3. nbSlices: 4, maxLength: 1500
-#592. 2 -- 4. nbSlices: 4, maxLength: 1500
-#593. 1 -- 2. nbSlices: 4, maxLength: 1500
-#594. 3 -- 4. nbSlices: 3, maxLength: 3000
-#595. 3 -- 2. nbSlices: 6, maxLength: 600
-#596. 4 -- 1. nbSlices: 3, maxLength: 3000
-#597. 2 -- 3. nbSlices: 4, maxLength: 1500
-#598. 3 -- 1. nbSlices: 3, maxLength: 3000
-#599. 5 -- 4. nbSlices: 5, maxLength: 1500
-#600. 1 -- 2. nbSlices: 3, maxLength: 3000
-#601. 4 -- 1. nbSlices: 6, maxLength: 600
-#602. 3 -- 5. nbSlices: 5, maxLength: 1500
-#603. 3 -- 2. nbSlices: 5, maxLength: 1500
-#604. 4 -- 2. nbSlices: 4, maxLength: 1500
-#605. 2 -- 5. nbSlices: 4, maxLength: 1500
-#606. 1 -- 2. nbSlices: 5, maxLength: 1500
-#607. 2 -- 5. nbSlices: 3, maxLength: 3000
-#608. 4 -- 3. nbSlices: 5, maxLength: 1500
-#609. 5 -- 4. nbSlices: 6, maxLength: 600
-#610. 2 -- 5. nbSlices: 6, maxLength: 600
-#611. 3 -- 4. nbSlices: 6, maxLength: 600
-#612. 2 -- 3. nbSlices: 4, maxLength: 1500
-#613. 3 -- 1. nbSlices: 4, maxLength: 1500
-#614. 3 -- 2. nbSlices: 3, maxLength: 3000
-#615. 3 -- 5. nbSlices: 3, maxLength: 3000
-#616. 5 -- 3. nbSlices: 4, maxLength: 1500
-#617. 5 -- 3. nbSlices: 6, maxLength: 600
-#618. 5 -- 1. nbSlices: 4, maxLength: 1500
-#619. 3 -- 1. nbSlices: 4, maxLength: 1500
-#620. 5 -- 4. nbSlices: 4, maxLength: 1500
-#621. 4 -- 1. nbSlices: 6, maxLength: 600
-#622. 1 -- 2. nbSlices: 3, maxLength: 3000
-#623. 1 -- 2. nbSlices: 5, maxLength: 1500
-#624. 5 -- 3. nbSlices: 6, maxLength: 600
-#625. 1 -- 2. nbSlices: 3, maxLength: 3000
-#626. 4 -- 3. nbSlices: 6, maxLength: 600
-#627. 4 -- 3. nbSlices: 4, maxLength: 1500
-#628. 5 -- 4. nbSlices: 5, maxLength: 1500
-#629. 4 -- 3. nbSlices: 3, maxLength: 3000
-#630. 4 -- 3. nbSlices: 5, maxLength: 1500
-#631. 2 -- 4. nbSlices: 5, maxLength: 1500
-#632. 3 -- 1. nbSlices: 5, maxLength: 1500
-#633. 3 -- 5. nbSlices: 4, maxLength: 1500
-#634. 3 -- 5. nbSlices: 3, maxLength: 3000
-#635. 5 -- 1. nbSlices: 5, maxLength: 1500
-#636. 3 -- 5. nbSlices: 4, maxLength: 1500
-#637. 2 -- 5. nbSlices: 6, maxLength: 600
-#638. 5 -- 3. nbSlices: 5, maxLength: 1500
-#639. 2 -- 5. nbSlices: 6, maxLength: 600
-#640. 3 -- 1. nbSlices: 3, maxLength: 3000
-#641. 4 -- 1. nbSlices: 6, maxLength: 600
-#642. 1 -- 2. nbSlices: 5, maxLength: 1500
-#643. 2 -- 3. nbSlices: 5, maxLength: 1500
-#644. 3 -- 5. nbSlices: 6, maxLength: 600
-#645. 2 -- 3. nbSlices: 3, maxLength: 3000
-#646. 4 -- 5. nbSlices: 5, maxLength: 1500
-#647. 1 -- 2. nbSlices: 6, maxLength: 600
-#648. 1 -- 2. nbSlices: 3, maxLength: 3000
-#649. 3 -- 4. nbSlices: 3, maxLength: 3000
-#650. 5 -- 4. nbSlices: 3, maxLength: 3000
-#651. 4 -- 1. nbSlices: 4, maxLength: 1500
-#652. 3 -- 2. nbSlices: 6, maxLength: 600
-#653. 5 -- 2. nbSlices: 6, maxLength: 600
-#654. 1 -- 2. nbSlices: 4, maxLength: 1500
-#655. 4 -- 2. nbSlices: 4, maxLength: 1500
-#656. 4 -- 5. nbSlices: 3, maxLength: 3000
-#657. 1 -- 2. nbSlices: 4, maxLength: 1500
-#658. 3 -- 1. nbSlices: 5, maxLength: 1500
-#659. 3 -- 5. nbSlices: 6, maxLength: 600
-#660. 5 -- 4. nbSlices: 5, maxLength: 1500
-#661. 3 -- 2. nbSlices: 6, maxLength: 600
-#662. 1 -- 2. nbSlices: 3, maxLength: 3000
-#663. 3 -- 4. nbSlices: 5, maxLength: 1500
-#664. 3 -- 2. nbSlices: 3, maxLength: 3000
-#665. 5 -- 1. nbSlices: 5, maxLength: 1500
-#666. 5 -- 1. nbSlices: 5, maxLength: 1500
-#667. 2 -- 5. nbSlices: 6, maxLength: 600
-#668. 1 -- 2. nbSlices: 3, maxLength: 3000
-#669. 5 -- 2. nbSlices: 4, maxLength: 1500
-#670. 1 -- 2. nbSlices: 3, maxLength: 3000
-#671. 2 -- 4. nbSlices: 6, maxLength: 600
-#672. 3 -- 1. nbSlices: 6, maxLength: 600
-#673. 5 -- 2. nbSlices: 4, maxLength: 1500
-#674. 5 -- 4. nbSlices: 6, maxLength: 600
-#675. 5 -- 2. nbSlices: 4, maxLength: 1500
-#676. 3 -- 5. nbSlices: 5, maxLength: 1500
-#677. 5 -- 4. nbSlices: 5, maxLength: 1500
-#678. 3 -- 5. nbSlices: 6, maxLength: 600
-#679. 3 -- 5. nbSlices: 4, maxLength: 1500
-#680. 3 -- 4. nbSlices: 5, maxLength: 1500
-#681. 2 -- 5. nbSlices: 5, maxLength: 1500
-#682. 3 -- 2. nbSlices: 3, maxLength: 3000
-#683. 1 -- 2. nbSlices: 3, maxLength: 3000
-#684. 2 -- 1. nbSlices: 5, maxLength: 1500
-#685. 3 -- 5. nbSlices: 6, maxLength: 600
-#686. 2 -- 4. nbSlices: 5, maxLength: 1500
-#687. 4 -- 2. nbSlices: 3, maxLength: 3000
-#688. 4 -- 1. nbSlices: 5, maxLength: 1500
-#689. 3 -- 5. nbSlices: 4, maxLength: 1500
-#690. 5 -- 1. nbSlices: 3, maxLength: 3000
-#691. 1 -- 2. nbSlices: 6, maxLength: 600
-#692. 4 -- 5. nbSlices: 4, maxLength: 1500
-#693. 2 -- 4. nbSlices: 5, maxLength: 1500
-#694. 4 -- 5. nbSlices: 5, maxLength: 1500
-#695. 1 -- 2. nbSlices: 3, maxLength: 3000
-#696. 1 -- 2. nbSlices: 6, maxLength: 600
-#697. 2 -- 3. nbSlices: 4, maxLength: 1500
-#698. 1 -- 2. nbSlices: 6, maxLength: 600
-#699. 4 -- 2. nbSlices: 3, maxLength: 3000
-#700. 2 -- 5. nbSlices: 4, maxLength: 1500
-#701. 4 -- 5. nbSlices: 3, maxLength: 3000
-#702. 2 -- 1. nbSlices: 5, maxLength: 1500
-#703. 4 -- 5. nbSlices: 6, maxLength: 600
-#704. 2 -- 3. nbSlices: 5, maxLength: 1500
-#705. 3 -- 5. nbSlices: 3, maxLength: 3000
-#706. 4 -- 3. nbSlices: 4, maxLength: 1500
-#707. 4 -- 3. nbSlices: 6, maxLength: 600
-#708. 5 -- 1. nbSlices: 4, maxLength: 1500
-#709. 5 -- 4. nbSlices: 6, maxLength: 600
-#710. 1 -- 2. nbSlices: 3, maxLength: 3000
-#711. 4 -- 2. nbSlices: 6, maxLength: 600
-#712. 3 -- 5. nbSlices: 4, maxLength: 1500
-#713. 5 -- 3. nbSlices: 5, maxLength: 1500
-#714. 2 -- 3. nbSlices: 5, maxLength: 1500
-#715. 2 -- 3. nbSlices: 5, maxLength: 1500
-#716. 4 -- 5. nbSlices: 6, maxLength: 600
-#717. 4 -- 2. nbSlices: 6, maxLength: 600
-#718. 1 -- 2. nbSlices: 5, maxLength: 1500
-#719. 2 -- 3. nbSlices: 5, maxLength: 1500
-#720. 2 -- 3. nbSlices: 5, maxLength: 1500
-#721. 2 -- 3. nbSlices: 6, maxLength: 600
-#722. 4 -- 2. nbSlices: 3, maxLength: 3000
-#723. 2 -- 3. nbSlices: 5, maxLength: 1500
-#724. 5 -- 3. nbSlices: 6, maxLength: 600
-#725. 5 -- 1. nbSlices: 6, maxLength: 600
-#726. 5 -- 2. nbSlices: 4, maxLength: 1500
-#727. 3 -- 1. nbSlices: 6, maxLength: 600
-#728. 5 -- 3. nbSlices: 6, maxLength: 600
-#729. 3 -- 1. nbSlices: 5, maxLength: 1500
-#730. 4 -- 5. nbSlices: 6, maxLength: 600
-#731. 4 -- 5. nbSlices: 6, maxLength: 600
-#732. 4 -- 3. nbSlices: 3, maxLength: 3000
-#733. 5 -- 2. nbSlices: 3, maxLength: 3000
-#734. 4 -- 5. nbSlices: 4, maxLength: 1500
-#735. 2 -- 3. nbSlices: 4, maxLength: 1500
-#736. 2 -- 4. nbSlices: 6, maxLength: 600
-#737. 1 -- 2. nbSlices: 5, maxLength: 1500
-#738. 1 -- 2. nbSlices: 4, maxLength: 1500
-#739. 3 -- 5. nbSlices: 3, maxLength: 3000
-#740. 1 -- 2. nbSlices: 4, maxLength: 1500
-#741. 1 -- 2. nbSlices: 4, maxLength: 1500
-#742. 4 -- 3. nbSlices: 5, maxLength: 1500
-#743. 2 -- 3. nbSlices: 4, maxLength: 1500
-#744. 1 -- 2. nbSlices: 3, maxLength: 3000
-#745. 3 -- 2. nbSlices: 4, maxLength: 1500
-#746. 2 -- 1. nbSlices: 3, maxLength: 3000
-#747. 3 -- 5. nbSlices: 3, maxLength: 3000
-#748. 5 -- 1. nbSlices: 4, maxLength: 1500
-#749. 2 -- 1. nbSlices: 3, maxLength: 3000
-#750. 3 -- 1. nbSlices: 4, maxLength: 1500
-#751. 2 -- 4. nbSlices: 5, maxLength: 1500
-#752. 5 -- 2. nbSlices: 4, maxLength: 1500
-#753. 5 -- 1. nbSlices: 5, maxLength: 1500
-#754. 2 -- 4. nbSlices: 3, maxLength: 3000
-#755. 2 -- 5. nbSlices: 3, maxLength: 3000
-#756. 1 -- 2. nbSlices: 4, maxLength: 1500
-#757. 1 -- 2. nbSlices: 4, maxLength: 1500
-#758. 3 -- 5. nbSlices: 3, maxLength: 3000
-#759. 2 -- 3. nbSlices: 3, maxLength: 3000
-#760. 3 -- 4. nbSlices: 6, maxLength: 600
-#761. 4 -- 5. nbSlices: 4, maxLength: 1500
-#762. 1 -- 2. nbSlices: 6, maxLength: 600
-#763. 2 -- 1. nbSlices: 3, maxLength: 3000
-#764. 1 -- 2. nbSlices: 6, maxLength: 600
-#765. 4 -- 2. nbSlices: 6, maxLength: 600
-#766. 3 -- 2. nbSlices: 3, maxLength: 3000
-#767. 1 -- 2. nbSlices: 5, maxLength: 1500
-#768. 2 -- 1. nbSlices: 3, maxLength: 3000
-#769. 1 -- 2. nbSlices: 5, maxLength: 1500
-#770. 2 -- 4. nbSlices: 5, maxLength: 1500
-#771. 1 -- 2. nbSlices: 5, maxLength: 1500
-#772. 3 -- 2. nbSlices: 4, maxLength: 1500
-#773. 2 -- 1. nbSlices: 3, maxLength: 3000
-#774. 4 -- 3. nbSlices: 4, maxLength: 1500
-#775. 1 -- 2. nbSlices: 3, maxLength: 3000
-#776. 2 -- 1. nbSlices: 5, maxLength: 1500
-#777. 5 -- 4. nbSlices: 6, maxLength: 600
-#778. 4 -- 1. nbSlices: 4, maxLength: 1500
-#779. 5 -- 4. nbSlices: 5, maxLength: 1500
-#780. 4 -- 1. nbSlices: 4, maxLength: 1500
-#781. 5 -- 2. nbSlices: 4, maxLength: 1500
-#782. 2 -- 4. nbSlices: 3, maxLength: 3000
-#783. 3 -- 5. nbSlices: 6, maxLength: 600
-#784. 5 -- 3. nbSlices: 4, maxLength: 1500
-#785. 5 -- 2. nbSlices: 4, maxLength: 1500
-#786. 5 -- 3. nbSlices: 3, maxLength: 3000
-#787. 5 -- 1. nbSlices: 4, maxLength: 1500
-#788. 5 -- 2. nbSlices: 3, maxLength: 3000
-#789. 3 -- 5. nbSlices: 4, maxLength: 1500
-#790. 5 -- 1. nbSlices: 6, maxLength: 600
-#791. 3 -- 4. nbSlices: 6, maxLength: 600
-#792. 5 -- 1. nbSlices: 5, maxLength: 1500
-#793. 3 -- 5. nbSlices: 6, maxLength: 600
-#794. 5 -- 4. nbSlices: 4, maxLength: 1500
-#795. 5 -- 4. nbSlices: 6, maxLength: 600
-#796. 2 -- 4. nbSlices: 5, maxLength: 1500
-#797. 1 -- 2. nbSlices: 4, maxLength: 1500
-#798. 3 -- 5. nbSlices: 5, maxLength: 1500
-#799. 5 -- 4. nbSlices: 6, maxLength: 600
-#800. 5 -- 2. nbSlices: 3, maxLength: 3000
-#801. 5 -- 3. nbSlices: 6, maxLength: 600
-#802. 4 -- 3. nbSlices: 5, maxLength: 1500
-#803. 5 -- 2. nbSlices: 6, maxLength: 600
-#804. 5 -- 3. nbSlices: 6, maxLength: 600
-#805. 4 -- 1. nbSlices: 5, maxLength: 1500
-#806. 4 -- 1. nbSlices: 4, maxLength: 1500
-#807. 4 -- 5. nbSlices: 6, maxLength: 600
-#808. 4 -- 1. nbSlices: 3, maxLength: 3000
-#809. 2 -- 3. nbSlices: 6, maxLength: 600
-#810. 2 -- 4. nbSlices: 3, maxLength: 3000
-#811. 1 -- 2. nbSlices: 5, maxLength: 1500
-#812. 2 -- 4. nbSlices: 6, maxLength: 600
-#813. 1 -- 2. nbSlices: 4, maxLength: 1500
-#814. 1 -- 2. nbSlices: 6, maxLength: 600
-#815. 4 -- 1. nbSlices: 4, maxLength: 1500
-#816. 2 -- 4. nbSlices: 3, maxLength: 3000
-#817. 3 -- 5. nbSlices: 6, maxLength: 600
-#818. 5 -- 2. nbSlices: 4, maxLength: 1500
-#819. 5 -- 2. nbSlices: 4, maxLength: 1500
-#820. 4 -- 3. nbSlices: 5, maxLength: 1500
-#821. 2 -- 1. nbSlices: 5, maxLength: 1500
-#822. 4 -- 2. nbSlices: 4, maxLength: 1500
-#823. 5 -- 4. nbSlices: 4, maxLength: 1500
-#824. 3 -- 4. nbSlices: 3, maxLength: 3000
-#825. 2 -- 1. nbSlices: 6, maxLength: 600
-#826. 5 -- 1. nbSlices: 5, maxLength: 1500
-#827. 5 -- 1. nbSlices: 4, maxLength: 1500
-#828. 5 -- 1. nbSlices: 5, maxLength: 1500
-#829. 3 -- 2. nbSlices: 5, maxLength: 1500
-#830. 3 -- 1. nbSlices: 6, maxLength: 600
-#831. 1 -- 2. nbSlices: 6, maxLength: 600
-#832. 1 -- 2. nbSlices: 3, maxLength: 3000
-#833. 3 -- 2. nbSlices: 5, maxLength: 1500
-#834. 4 -- 3. nbSlices: 6, maxLength: 600
-#835. 5 -- 1. nbSlices: 5, maxLength: 1500
-#836. 3 -- 1. nbSlices: 6, maxLength: 600
-#837. 5 -- 1. nbSlices: 3, maxLength: 3000
-#838. 4 -- 1. nbSlices: 6, maxLength: 600
-#839. 1 -- 2. nbSlices: 4, maxLength: 1500
-#840. 1 -- 2. nbSlices: 5, maxLength: 1500
-#841. 1 -- 2. nbSlices: 6, maxLength: 600
-#842. 5 -- 3. nbSlices: 3, maxLength: 3000
-#843. 4 -- 5. nbSlices: 6, maxLength: 600
-#844. 1 -- 2. nbSlices: 6, maxLength: 600
-#845. 4 -- 1. nbSlices: 5, maxLength: 1500
-#846. 5 -- 3. nbSlices: 6, maxLength: 600
-#847. 5 -- 2. nbSlices: 3, maxLength: 3000
-#848. 4 -- 3. nbSlices: 3, maxLength: 3000
-#849. 5 -- 2. nbSlices: 5, maxLength: 1500
-#850. 3 -- 5. nbSlices: 4, maxLength: 1500
-#851. 3 -- 2. nbSlices: 3, maxLength: 3000
-#852. 2 -- 1. nbSlices: 5, maxLength: 1500
-#853. 1 -- 2. nbSlices: 3, maxLength: 3000
-#854. 4 -- 3. nbSlices: 5, maxLength: 1500
-#855. 3 -- 1. nbSlices: 4, maxLength: 1500
-#856. 3 -- 2. nbSlices: 3, maxLength: 3000
-#857. 5 -- 2. nbSlices: 4, maxLength: 1500
-#858. 5 -- 3. nbSlices: 5, maxLength: 1500
-#859. 1 -- 2. nbSlices: 5, maxLength: 1500
-#860. 4 -- 2. nbSlices: 6, maxLength: 600
-#861. 4 -- 2. nbSlices: 4, maxLength: 1500
-#862. 1 -- 2. nbSlices: 3, maxLength: 3000
-#863. 2 -- 5. nbSlices: 6, maxLength: 600
-#864. 2 -- 3. nbSlices: 6, maxLength: 600
-#865. 4 -- 1. nbSlices: 3, maxLength: 3000
-#866. 1 -- 2. nbSlices: 3, maxLength: 3000
-#867. 5 -- 3. nbSlices: 5, maxLength: 1500
-#868. 5 -- 1. nbSlices: 5, maxLength: 1500
-#869. 1 -- 2. nbSlices: 3, maxLength: 3000
-#870. 4 -- 3. nbSlices: 5, maxLength: 1500
-#871. 4 -- 3. nbSlices: 5, maxLength: 1500
-#872. 5 -- 2. nbSlices: 4, maxLength: 1500
-#873. 4 -- 2. nbSlices: 5, maxLength: 1500
-#874. 1 -- 2. nbSlices: 5, maxLength: 1500
-#875. 4 -- 1. nbSlices: 6, maxLength: 600
-#876. 2 -- 5. nbSlices: 5, maxLength: 1500
-#877. 4 -- 3. nbSlices: 6, maxLength: 600
-#878. 3 -- 5. nbSlices: 4, maxLength: 1500
-#879. 2 -- 1. nbSlices: 3, maxLength: 3000
-#880. 1 -- 2. nbSlices: 6, maxLength: 600
-#881. 2 -- 4. nbSlices: 6, maxLength: 600
-#882. 3 -- 4. nbSlices: 4, maxLength: 1500
-#883. 5 -- 2. nbSlices: 4, maxLength: 1500
-#884. 1 -- 2. nbSlices: 3, maxLength: 3000
-#885. 5 -- 1. nbSlices: 4, maxLength: 1500
-#886. 1 -- 2. nbSlices: 6, maxLength: 600
-#887. 1 -- 2. nbSlices: 4, maxLength: 1500
-#888. 3 -- 4. nbSlices: 4, maxLength: 1500
-#889. 4 -- 3. nbSlices: 6, maxLength: 600
-#890. 3 -- 4. nbSlices: 5, maxLength: 1500
-#891. 1 -- 2. nbSlices: 6, maxLength: 600
-#892. 5 -- 4. nbSlices: 5, maxLength: 1500
-#893. 5 -- 4. nbSlices: 5, maxLength: 1500
-#894. 5 -- 2. nbSlices: 6, maxLength: 600
-#895. 3 -- 2. nbSlices: 5, maxLength: 1500
-#896. 4 -- 3. nbSlices: 6, maxLength: 600
-#897. 4 -- 2. nbSlices: 3, maxLength: 3000
-#898. 2 -- 4. nbSlices: 4, maxLength: 1500
-#899. 4 -- 5. nbSlices: 6, maxLength: 600
-#900. 2 -- 5. nbSlices: 3, maxLength: 3000
-#901. 5 -- 2. nbSlices: 6, maxLength: 600
-#902. 2 -- 3. nbSlices: 4, maxLength: 1500
-#903. 1 -- 2. nbSlices: 3, maxLength: 3000
-#904. 2 -- 4. nbSlices: 3, maxLength: 3000
-#905. 4 -- 2. nbSlices: 3, maxLength: 3000
-#906. 3 -- 4. nbSlices: 4, maxLength: 1500
-#907. 2 -- 3. nbSlices: 4, maxLength: 1500
-#908. 5 -- 3. nbSlices: 6, maxLength: 600
-#909. 3 -- 1. nbSlices: 6, maxLength: 600
-#910. 4 -- 1. nbSlices: 4, maxLength: 1500
-#911. 2 -- 1. nbSlices: 3, maxLength: 3000
-#912. 2 -- 1. nbSlices: 5, maxLength: 1500
-#913. 1 -- 2. nbSlices: 6, maxLength: 600
-#914. 3 -- 2. nbSlices: 5, maxLength: 1500
-#915. 2 -- 3. nbSlices: 6, maxLength: 600
-#916. 4 -- 2. nbSlices: 6, maxLength: 600
-#917. 4 -- 3. nbSlices: 3, maxLength: 3000
-#918. 1 -- 2. nbSlices: 4, maxLength: 1500
-#919. 2 -- 5. nbSlices: 5, maxLength: 1500
-#920. 1 -- 2. nbSlices: 5, maxLength: 1500
-#921. 3 -- 5. nbSlices: 4, maxLength: 1500
-#922. 2 -- 4. nbSlices: 3, maxLength: 3000
-#923. 2 -- 3. nbSlices: 3, maxLength: 3000
-#924. 1 -- 2. nbSlices: 5, maxLength: 1500
-#925. 1 -- 2. nbSlices: 6, maxLength: 600
-#926. 3 -- 5. nbSlices: 4, maxLength: 1500
-#927. 4 -- 5. nbSlices: 6, maxLength: 600
-#928. 3 -- 1. nbSlices: 6, maxLength: 600
-#929. 5 -- 4. nbSlices: 3, maxLength: 3000
-#930. 2 -- 5. nbSlices: 5, maxLength: 1500
-#931. 3 -- 1. nbSlices: 6, maxLength: 600
-#932. 2 -- 4. nbSlices: 6, maxLength: 600
-#933. 3 -- 2. nbSlices: 3, maxLength: 3000
-#934. 2 -- 3. nbSlices: 3, maxLength: 3000
-#935. 2 -- 5. nbSlices: 4, maxLength: 1500
-#936. 2 -- 5. nbSlices: 4, maxLength: 1500
-#937. 4 -- 5. nbSlices: 3, maxLength: 3000
-#938. 2 -- 3. nbSlices: 6, maxLength: 600
-#939. 5 -- 4. nbSlices: 3, maxLength: 3000
-#940. 5 -- 2. nbSlices: 6, maxLength: 600
-#941. 5 -- 3. nbSlices: 4, maxLength: 1500
-#942. 4 -- 5. nbSlices: 5, maxLength: 1500
-#943. 2 -- 1. nbSlices: 6, maxLength: 600
-#944. 4 -- 5. nbSlices: 3, maxLength: 3000
-#945. 5 -- 2. nbSlices: 6, maxLength: 600
-#946. 4 -- 3. nbSlices: 5, maxLength: 1500
-#947. 1 -- 2. nbSlices: 4, maxLength: 1500
-#948. 1 -- 2. nbSlices: 6, maxLength: 600
-#949. 1 -- 2. nbSlices: 4, maxLength: 1500
-#950. 5 -- 4. nbSlices: 3, maxLength: 3000
-#951. 4 -- 2. nbSlices: 4, maxLength: 1500
-#952. 4 -- 1. nbSlices: 6, maxLength: 600
-#953. 5 -- 1. nbSlices: 6, maxLength: 600
-#954. 3 -- 1. nbSlices: 5, maxLength: 1500
-#955. 5 -- 4. nbSlices: 6, maxLength: 600
-#956. 1 -- 2. nbSlices: 5, maxLength: 1500
-#957. 4 -- 3. nbSlices: 5, maxLength: 1500
-#958. 4 -- 5. nbSlices: 5, maxLength: 1500
-#959. 4 -- 1. nbSlices: 6, maxLength: 600
-#960. 5 -- 2. nbSlices: 4, maxLength: 1500
-#961. 3 -- 2. nbSlices: 6, maxLength: 600
-#962. 4 -- 3. nbSlices: 5, maxLength: 1500
-#963. 2 -- 3. nbSlices: 6, maxLength: 600
-#964. 2 -- 4. nbSlices: 3, maxLength: 3000
-#965. 2 -- 5. nbSlices: 6, maxLength: 600
-#966. 3 -- 1. nbSlices: 3, maxLength: 3000
-#967. 2 -- 3. nbSlices: 4, maxLength: 1500
-#968. 3 -- 5. nbSlices: 6, maxLength: 600
-#969. 2 -- 5. nbSlices: 3, maxLength: 3000
-#970. 2 -- 3. nbSlices: 6, maxLength: 600
-#971. 4 -- 3. nbSlices: 3, maxLength: 3000
-#972. 1 -- 2. nbSlices: 4, maxLength: 1500
-#973. 1 -- 2. nbSlices: 4, maxLength: 1500
-#974. 3 -- 1. nbSlices: 6, maxLength: 600
-#975. 4 -- 5. nbSlices: 3, maxLength: 3000
-#976. 2 -- 4. nbSlices: 4, maxLength: 1500
-#977. 3 -- 4. nbSlices: 4, maxLength: 1500
-#978. 1 -- 2. nbSlices: 6, maxLength: 600
-#979. 5 -- 1. nbSlices: 3, maxLength: 3000
-#980. 1 -- 2. nbSlices: 6, maxLength: 600
-#981. 2 -- 1. nbSlices: 6, maxLength: 600
-#982. 2 -- 1. nbSlices: 3, maxLength: 3000
-#983. 1 -- 2. nbSlices: 4, maxLength: 1500
-#984. 5 -- 3. nbSlices: 3, maxLength: 3000
-#985. 1 -- 2. nbSlices: 4, maxLength: 1500
-#986. 3 -- 5. nbSlices: 6, maxLength: 600
-#987. 2 -- 5. nbSlices: 3, maxLength: 3000
-#988. 1 -- 2. nbSlices: 4, maxLength: 1500
-#989. 5 -- 3. nbSlices: 4, maxLength: 1500
-#990. 4 -- 2. nbSlices: 5, maxLength: 1500
-#991. 2 -- 4. nbSlices: 6, maxLength: 600
-#992. 2 -- 1. nbSlices: 4, maxLength: 1500
-#993. 2 -- 4. nbSlices: 4, maxLength: 1500
-#994. 2 -- 1. nbSlices: 5, maxLength: 1500
-#995. 5 -- 4. nbSlices: 3, maxLength: 3000
-#996. 2 -- 1. nbSlices: 5, maxLength: 1500
-#997. 1 -- 2. nbSlices: 4, maxLength: 1500
-#998. 5 -- 2. nbSlices: 4, maxLength: 1500
-#999. 1 -- 2. nbSlices: 5, maxLength: 1500
-#1000. 1 -- 2. nbSlices: 3, maxLength: 3000
+#1. 1 -- 2. nbSlices: 6, maxLength: 600, ROUTED: NO
+#2. 1 -- 2. nbSlices: 6, maxLength: 600, ROUTED: NO
+#3. 1 -- 2. nbSlices: 5, maxLength: 1500, ROUTED: NO
+#4. 1 -- 3. nbSlices: 6, maxLength: 600, ROUTED: NO
+#5. 1 -- 3. nbSlices: 5, maxLength: 1500, ROUTED: NO
+#6. 1 -- 4. nbSlices: 6, maxLength: 600, ROUTED: NO
+#7. 1 -- 4. nbSlices: 5, maxLength: 1500, ROUTED: NO
+#8. 1 -- 5. nbSlices: 6, maxLength: 600, ROUTED: NO
+#9. 1 -- 5. nbSlices: 5, maxLength: 1500, ROUTED: NO
+#10. 2 -- 3. nbSlices: 3, maxLength: 3000, ROUTED: NO
+#11. 2 -- 4. nbSlices: 3, maxLength: 3000, ROUTED: NO
+#12. 2 -- 5. nbSlices: 3, maxLength: 3000, ROUTED: NO
+#13. 3 -- 4. nbSlices: 3, maxLength: 3000, ROUTED: NO
+#14. 3 -- 5. nbSlices: 3, maxLength: 3000, ROUTED: NO
+#15. 4 -- 5. nbSlices: 3, maxLength: 3000, ROUTED: NO
 
-1000 demands were generated.
+15 demands to be routed.
 --- ROUTING DEMANDS --- 
-#1 (5, 1), requiring 4 slices and having Max length 1500
-#2 (1, 2), requiring 5 slices and having Max length 1500
-#3 (4, 1), requiring 4 slices and having Max length 1500
-#4 (1, 2), requiring 4 slices and having Max length 1500
-#5 (3, 1), requiring 4 slices and having Max length 1500
-#6 (3, 5), requiring 3 slices and having Max length 3000
-#7 (5, 2), requiring 5 slices and having Max length 1500
-#8 (3, 5), requiring 5 slices and having Max length 1500
-#9 (4, 2), requiring 6 slices and having Max length 600
-#10 (5, 4), requiring 3 slices and having Max length 3000
+#1 (1, 2), requiring 6 slices and having Max length 600
+#2 (1, 2), requiring 6 slices and having Max length 600
+#3 (1, 2), requiring 5 slices and having Max length 1500
+#4 (1, 3), requiring 6 slices and having Max length 600
+#5 (1, 3), requiring 5 slices and having Max length 1500
+#6 (1, 4), requiring 6 slices and having Max length 600
+#7 (1, 4), requiring 5 slices and having Max length 1500
+#8 (1, 5), requiring 6 slices and having Max length 600
+#9 (1, 5), requiring 5 slices and having Max length 1500
+#10 (2, 3), requiring 3 slices and having Max length 3000
+#11 (2, 4), requiring 3 slices and having Max length 3000
+#12 (2, 5), requiring 3 slices and having Max length 3000
+#13 (3, 4), requiring 3 slices and having Max length 3000
+#14 (3, 5), requiring 3 slices and having Max length 3000
+#15 (4, 5), requiring 3 slices and having Max length 3000
 --- THE DIFFERENT ROUTING LOADS --- 
-4, 5, 3, 6.
+6, 5, 3.
 Called Path Existence preprocessing.
 Called Length preprocessing.
---- Solver has been initalized ---
---- CPLEX has been chosen ---
+--- CPLEX has been initalized ---
+--- Youssouf formulation has been chosen ---
+X variables were created.
+Z variables were created.
+T variables were created.
 Variables have been defined...
 Objective function has been defined...
-Source constraints have been defined...
-Flow conservation constraints have been defined...
-Target constraints have been defined...
-Length constraints have been defined...
-First set of Improved Non-Overlapping constraints has been defined...
-Second set of Improved Non-Overlapping constraints has been defined...
+Origin constraints have been defined...
+Destination constraints have been defined...
+Degree constraints have been defined...
+Transmission-reach constraints have been defined...
+Channel-selection constraints have been defined...
+Forbidden-slot constraints have been defined...
+Edge-slot constraints have been defined...
+Demand-edge-slot constraints have been defined...
+Non-overlapping constraints have been defined...
+Exporting model to model.lp
 LP model has been exported...
 CPLEX parameters have been defined...
 Solving...
 Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de
+CPXPARAM_Threads                                 1
 CPXPARAM_MIP_Display                             3
 CPXPARAM_TimeLimit                               2147483647
+Lazy constraint(s) or lazy constraint/branch callback is present.
+    Disabling dual reductions (CPX_PARAM_REDUCE) in presolve.
+    Disabling presolve reductions that prevent crushing forms.
 Tried aggregator 2 times.
-MIP Presolve eliminated 6244 rows and 1167 columns.
-MIP Presolve modified 3720 coefficients.
-Aggregator did 293 substitutions.
-Reduced MIP has 7063 rows, 1817 columns, and 145615 nonzeros.
-Reduced MIP has 1817 binaries, 0 generals, 0 SOSs, and 0 indicators.
-Presolve time = 0.58 sec. (849.16 ticks)
-Found incumbent of value 1469.000000 after 0.76 sec. (1069.54 ticks)
-Probing time = 0.02 sec. (3.64 ticks)
+MIP Presolve eliminated 50 rows and 88 columns.
+Aggregator did 10 substitutions.
+Reduced MIP has 3525 rows, 3877 columns, and 25905 nonzeros.
+Reduced MIP has 3642 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (15.43 ticks)
+Probing time = 0.00 sec. (3.77 ticks)
 Tried aggregator 1 time.
-Detecting symmetries...
-Reduced MIP has 7063 rows, 1817 columns, and 145615 nonzeros.
-Reduced MIP has 1817 binaries, 0 generals, 0 SOSs, and 0 indicators.
-Presolve time = 0.17 sec. (203.45 ticks)
-Probing time = 0.01 sec. (3.62 ticks)
-Clique table members: 9385.
+Reduced MIP has 3525 rows, 3877 columns, and 25905 nonzeros.
+Reduced MIP has 3642 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (11.40 ticks)
+Probing time = 0.00 sec. (3.68 ticks)
+Clique table members: 9103.
 MIP emphasis: balance optimality and feasibility.
 MIP search method: dynamic search.
-Parallel mode: deterministic, using up to 8 threads.
-Root relaxation solution time = 0.05 sec. (34.16 ticks)
+Parallel mode: none, using 1 thread.
+Root relaxation solution time = 0.05 sec. (63.75 ticks)
 
         Nodes                                         Cuts/
    Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
 
-*     0+    0                         1469.0000        0.0000           100.00%
-Found incumbent of value 1469.000000 after 1.03 sec. (1342.94 ticks)
-*     0+    0                         1252.0000        0.0000           100.00%
-Found incumbent of value 1252.000000 after 1.03 sec. (1343.63 ticks)
-*     0+    0                          877.0000        0.0000           100.00%
-Found incumbent of value 877.000000 after 1.03 sec. (1343.98 ticks)
-*     0     0      integral     0      452.0000      452.0000      219    0.00%
-Elapsed time = 1.04 sec. (1348.43 ticks, tree = 0.00 MB, solutions = 4)
-Found incumbent of value 452.000000 after 1.04 sec. (1348.43 ticks)
+      0     0      591.1667   326                    591.1667     1109         
+      0     0      619.2729   326                   Cuts: 440     2354         
+      0     0      640.6016   326                   Cuts: 570     3844         
+      0     0      660.6289   326                   Cuts: 530     5008         
+      0     0      677.1873   326                   Cuts: 448     6435         
+      0     0      691.5270   326                   Cuts: 495     8036         
+      0     0      708.0698   326                   Cuts: 503     9448         
+      0     0      721.2650   326                   Cuts: 434    10952         
+      0     0      730.3692   326                   Cuts: 356    12232         
+      0     0      737.8647   326                   Cuts: 363    13633         
+      0     0      744.2889   326                   Cuts: 298    15344         
+      0     0      751.2263   326                   Cuts: 334    16341         
+      0     0      755.7800   326                   Cuts: 238    17338         
+      0     0      759.4271   326                   Cuts: 272    18347         
+      0     0      761.8175   326                   Cuts: 273    19013         
+      0     0      764.0931   326                   Cuts: 233    19805         
+      0     0      766.9704   326                   Cuts: 211    20680         
+      0     0      769.0721   326                   Cuts: 250    21449         
+      0     0      771.2293   326                   Cuts: 249    22216         
+      0     0      772.8101   326                   Cuts: 232    22819         
+      0     0      774.3615   326                   Cuts: 220    23349         
+      0     0      775.0551   326                   Cuts: 179    23754         
+      0     0      776.0427   326                   Cuts: 197    24504         
+      0     0      776.6205   326                   Cuts: 222    25022         
+      0     0      777.0373   326                   Cuts: 163    25416         
+      0     0      777.4425   326                   Cuts: 170    25738         
+      0     0      777.6518   326                   Cuts: 158    26030         
+      0     0      778.0065   326                   Cuts: 141    26374         
+      0     0      778.4309   326                   Cuts: 151    26724         
+      0     0      778.7163   326                   Cuts: 143    27011         
+      0     0      778.9940   326                   Cuts: 130    27287         
+      0     0      779.2059   326                   Cuts: 164    27610         
+      0     0      779.3263   326                   Cuts: 104    27839         
+Entering callback.
+A cut has been found with set {3, 4, 1}
+Entering callback.
+*     0+    0                         1057.0000      779.3263            26.27%
+Found incumbent of value 1057.000000 after 5.02 sec. (5802.38 ticks)
+      0     2      779.3263   558     1057.0000      779.3263    27839   26.27%
+Elapsed time = 5.15 sec. (5988.35 ticks, tree = 0.01 MB, solutions = 1)
+      4     6      779.9554   498     1057.0000      779.5981    29907   26.24%
+                                                UserPurge1: 3                  
+      7     9      787.1062   445     1057.0000      779.5981    32127   26.24%
+                                                UserPurge1: 3                  
+      9    11      783.1672   399     1057.0000      779.5981    33302   26.24%
+     11    13      784.1813   394     1057.0000      779.5981    34326   26.24%
+                                                UserPurge1: 1                  
+     14    16      824.8549   378     1057.0000      779.5981    38728   26.24%
+                                                UserPurge1: 3                  
+     17    19      807.2144   339     1057.0000      779.5981    40509   26.24%
+     22    22        cutoff           1057.0000      779.5981    42753   26.24%
+     28    24    infeasible           1057.0000      779.5981    44785   26.24%
+     34    28    infeasible           1057.0000      779.5981    47003   26.24%
+Entering callback.
+*    69    46      integral     0      915.0000      779.5981    51124   14.80%
+Elapsed time = 7.47 sec. (9652.98 ticks, tree = 0.95 MB, solutions = 2)
+Found incumbent of value 915.000000 after 7.47 sec. (9652.98 ticks)
+     80    53      785.0065   430      915.0000      779.6006    54933   14.80%
+                                                     Cuts: 33                  
+    100    67      811.3047   231      915.0000      779.6006    60555   14.80%
+                                                UserPurge1: 3                  
+Entering callback.
+*   120+   62                          861.0000      779.6006             9.45%
+Found incumbent of value 861.000000 after 9.21 sec. (12128.10 ticks)
+Entering callback.
+*   124    62      integral     0      859.0000      779.6006    63196    9.24%
+Found incumbent of value 859.000000 after 9.24 sec. (12160.87 ticks)
+    130    66      785.9652   581      859.0000      780.2409    64823    9.17%
+                                                     Cuts: 41                  
+    150    86      815.4412   530      859.0000      780.2409    70813    9.17%
+                                                UserPurge1: 2                  
+    163    99      840.7290   490      859.0000      780.2409    77845    9.17%
+    178   110      796.5468   454      859.0000      780.2489    83949    9.17%
+                                                     Cuts: 38                  
+    202   134      848.8333    73      859.0000      780.2489    89725    9.17%
+                                                UserPurge1: 1                  
+    219   147      793.1121   449      859.0000      780.4814    93313    9.14%
+                                                     Cuts: 37                  
+    240   168      827.2092   362      859.0000      780.4814    98230    9.14%
+    259   181      794.9495   449      859.0000      780.5358   104195    9.13%
+                                                     Cuts: 44                  
+Elapsed time = 14.02 sec. (19891.22 ticks, tree = 4.21 MB, solutions = 4)
+    269   191      810.9271   349      859.0000      780.5358   109487    9.13%
+    292   200      792.3492   551      859.0000      780.5929   116096    9.13%
+                                                     Cuts: 45                  
+    309   217      818.9393   436      859.0000      780.5929   121111    9.13%
+    340   244      788.7388   512      859.0000      781.1434   126936    9.06%
+                                                     Cuts: 26                  
+    358   260      832.8021   350      859.0000      781.1434   133071    9.06%
+    374   272      812.4369   386      859.0000      781.1649   138897    9.06%
+                                                     Cuts: 37                  
+    390   288      848.1739   376      859.0000      781.1649   143076    9.06%
+    418   306      790.8313   630      859.0000      781.5553   149828    9.02%
+                                                     Cuts: 35                  
+    431   319      838.2065   415      859.0000      781.5553   155635    9.02%
+    459   332      816.2964   416      859.0000      781.5567   161181    9.02%
+                                                     Cuts: 33                  
+Elapsed time = 20.57 sec. (30001.05 ticks, tree = 7.28 MB, solutions = 4)
+    482   351      794.1635   464      859.0000      781.6056   166455    9.01%
+                                                     Cuts: 21                  
+    503   372      826.4232   438      859.0000      781.6056   172944    9.01%
+    520   385      830.2623   351      859.0000      781.6743   178002    9.00%
+    539   398      798.4224   493      859.0000      782.0936   184792    8.95%
+                                                     Cuts: 21                  
+    561   420      829.9632   486      859.0000      782.0936   190789    8.95%
+    575   430      794.3066   426      859.0000      782.1296   197030    8.95%
+                                                     Cuts: 14                  
+    591   442      815.8824   317      859.0000      782.1296   203542    8.95%
+    621   452      798.1953   556      859.0000      782.2120   208261    8.94%
+                                                     Cuts: 31                  
+    646   477      842.2146   519      859.0000      782.2120   214057    8.94%
+    667   494      809.2451   498      859.0000      782.3160   219600    8.93%
+                                                     Cuts: 12                  
+Elapsed time = 27.25 sec. (40043.52 ticks, tree = 10.33 MB, solutions = 4)
+    683   504      839.5423   525      859.0000      782.5374   225307    8.90%
+    707   522      793.6963   569      859.0000      782.5586   230961    8.90%
+                                                     Cuts: 18                  
+    734   546      789.8181   463      859.0000      782.7166   237069    8.88%
+                                                     Cuts: 21                  
+    751   559      814.4206   259      859.0000      782.7166   242960    8.88%
+Entering callback.
+*   765   554      integral     0      852.0000      782.7166   244889    8.13%
+Found incumbent of value 852.000000 after 30.06 sec. (44332.42 ticks)
+    774   562      837.8958   348      852.0000      782.9686   248544    8.10%
+    798   582      798.2502   595      852.0000      783.1526   253855    8.08%
+                                                     Cuts: 25                  
+    816   600      831.9177   541      852.0000      783.1526   260072    8.08%
+    829   609      809.8770   509      852.0000      783.2076   265636    8.07%
+                                                     Cuts: 19                  
+    845   621      790.2782   598      852.0000      783.7767   272262    8.01%
+                                                     Cuts: 25                  
+    867   643      826.7735   535      852.0000      783.7767   278023    8.01%
+Elapsed time = 33.73 sec. (50003.17 ticks, tree = 14.16 MB, solutions = 5)
+    886   652      832.9883   496      852.0000      783.8641   283854    8.00%
+    902   664      832.5069   543      852.0000      783.9115   289248    7.99%
+    925   683      789.8580   515      852.0000      783.9923   295060    7.98%
+                                                     Cuts: 22                  
+    945   703      832.9009   453      852.0000      783.9923   300884    7.98%
 
-Root node processing (before b&c):
-  Real time             =    1.04 sec. (1348.58 ticks)
-Parallel b&c, 8 threads:
-  Real time             =    0.00 sec. (0.00 ticks)
-  Sync time (average)   =    0.00 sec.
-  Wait time (average)   =    0.00 sec.
-                          ------------
-Total (root+branch&cut) =    1.04 sec. (1348.58 ticks)
-Solved!
-Optimization done in 1.0485 secs.
-Objective Function Value: 452
-For demand 1 : 
-(5, 0)--(1, 0)
-For demand 2 : 
-(1, 0)--(2, 0)
-For demand 3 : 
-(4, 0)--(1, 0)
-For demand 4 : 
-(1, 0)--(2, 0)
-For demand 5 : 
-(3, 0)--(1, 0)
-For demand 6 : 
-(2, 3)--(5, 0)
-(3, 0)--(2, 3)
-For demand 7 : 
-(5, 0)--(2, 0)
-For demand 8 : 
-(3, 0)--(1, 12)
-(1, 12)--(5, 0)
-For demand 9 : 
-(4, 0)--(3, 9)
-(3, 9)--(2, 0)
-For demand 10 : 
-(5, 0)--(1, 7)
-(1, 7)--(4, 0)
-Number of cplex cuts: 0
-Status: Optimal
+Performing restart 1
 
---- Slice occupation ---
-#1. ****   *****                  
-#2. ************                  
-#3. *********                     
-#4. *******                       
-#5. *********                     
-#6. ********                      
-#7.    ******                     
-
-Time taken by program is : 1.239467 sec
---- ROUTING DEMANDS --- 
-#11 (4, 1), requiring 3 slices and having Max length 3000.000000000
-#12 (4, 5), requiring 5 slices and having Max length 1500.000000000
-#13 (3, 4), requiring 6 slices and having Max length 600.000000000
-#14 (3, 1), requiring 4 slices and having Max length 1500.000000000
-#15 (3, 4), requiring 6 slices and having Max length 600.000000000
-#16 (1, 2), requiring 4 slices and having Max length 1500.000000000
-#17 (4, 2), requiring 4 slices and having Max length 1500.000000000
-#18 (5, 1), requiring 5 slices and having Max length 1500.000000000
-#19 (1, 2), requiring 4 slices and having Max length 1500.000000000
-#20 (1, 2), requiring 6 slices and having Max length 600.000000000
---- THE DIFFERENT ROUTING LOADS --- 
-3, 5, 6, 4.
-Called Path Existence preprocessing.
-Called Length preprocessing.
-Called Path Existence preprocessing.
-Called Length preprocessing.
---- Solver has been initalized ---
---- CPLEX has been chosen ---
-Variables have been defined...
-Objective function has been defined...
-Source constraints have been defined...
-Flow conservation constraints have been defined...
-Target constraints have been defined...
-Length constraints have been defined...
-First set of Improved Non-Overlapping constraints has been defined...
-Second set of Improved Non-Overlapping constraints has been defined...
-LP model has been exported...
-CPLEX parameters have been defined...
-Solving...
-Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de
-CPXPARAM_MIP_Display                             3
-CPXPARAM_TimeLimit                               2147483647
-Tried aggregator 2 times.
-MIP Presolve eliminated 9665 rows and 941 columns.
-MIP Presolve modified 2025 coefficients.
-Aggregator did 218 substitutions.
-Reduced MIP has 3378 rows, 1023 columns, and 85606 nonzeros.
-Reduced MIP has 1023 binaries, 0 generals, 0 SOSs, and 0 indicators.
-Presolve time = 0.38 sec. (629.35 ticks)
-Found incumbent of value 1518.000000 after 0.49 sec. (783.03 ticks)
-Probing fixed 14 vars, tightened 0 bounds.
-Probing time = 0.01 sec. (9.47 ticks)
+Repeating presolve.
 Tried aggregator 1 time.
-Detecting symmetries...
-MIP Presolve eliminated 12 rows and 21 columns.
-MIP Presolve modified 1454 coefficients.
-Reduced MIP has 3267 rows, 1002 columns, and 82350 nonzeros.
-Reduced MIP has 1002 binaries, 0 generals, 0 SOSs, and 0 indicators.
-Presolve time = 0.11 sec. (143.25 ticks)
-Probing time = 0.01 sec. (3.20 ticks)
-Clique table members: 4550.
-MIP emphasis: balance optimality and feasibility.
-MIP search method: dynamic search.
-Parallel mode: deterministic, using up to 8 threads.
-Root relaxation solution time = 0.03 sec. (31.54 ticks)
+MIP Presolve eliminated 777 rows and 111 columns.
+Reduced MIP has 2748 rows, 3766 columns, and 20999 nonzeros.
+Reduced MIP has 3531 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (10.04 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 2748 rows, 3766 columns, and 20999 nonzeros.
+Reduced MIP has 3531 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (9.53 ticks)
+Represolve time = 0.09 sec. (80.89 ticks)
+    962     0      780.3993   626      852.0000     Cuts: 108   310888    7.94%
+    962     0      782.2760   626      852.0000     Cuts: 147   311369    7.94%
+    962     0      784.2150   626      852.0000     Cuts: 158   311787    7.94%
+    962     0      785.4309   626      852.0000     Cuts: 154   312237    7.81%
+    962     0      786.4157   626      852.0000     Cuts: 160   312620    7.70%
+    962     0      788.5081   626      852.0000     Cuts: 140   313108    7.45%
+    962     0      789.5801   626      852.0000     Cuts: 166   313459    7.33%
+    962     0      790.4383   626      852.0000     Cuts: 160   313742    7.23%
+    962     0      791.2922   626      852.0000     Cuts: 117   314090    7.13%
+    962     0      792.1182   626      852.0000     Cuts: 141   314617    7.03%
+    962     0      792.7311   626      852.0000     Cuts: 159   314991    6.96%
+    962     0      792.9398   626      852.0000     Cuts: 116   315163    6.93%
+    962     0      793.4186   626      852.0000      Cuts: 96   315444    6.88%
+    962     0      793.6244   626      852.0000      Cuts: 88   315634    6.85%
+    962     0      793.7369   626      852.0000      Cuts: 71   315806    6.84%
+    962     0      793.8205   626      852.0000      Cuts: 65   315951    6.83%
+    962     0      793.9164   626      852.0000      Cuts: 53   316250    6.82%
+    962     0      793.9807   626      852.0000      Cuts: 68   316375    6.81%
+    962     0      793.9860   626      852.0000      Cuts: 36   316428    6.81%
+    962     0      793.9950   626      852.0000      Cuts: 28   316488    6.81%
+    962     0      794.0738   626      852.0000     Cuts: 113   316641    6.80%
+    962     0      794.3018   626      852.0000      Cuts: 79   316841    6.77%
+    962     0      794.3761   626      852.0000     Cuts: 163   317036    6.76%
+    962     0      794.5618   626      852.0000     Cuts: 120   317219    6.74%
+    962     0      794.6038   626      852.0000     Cuts: 141   317357    6.74%
+    962     2      794.6038   629      852.0000      794.6072   317357    6.74%
+    966     6      794.7697   569      852.0000      794.6149   317859    6.74%
+                                                UserPurge1: 1                  
+    971    11      795.6826   480      852.0000      794.6149   319626    6.74%
+                                                UserPurge1: 3                  
+    980    18      800.5101   384      852.0000      794.6149   322464    6.74%
+                                                UserPurge1: 1                  
+    987    23      821.2892   436      852.0000      794.6149   328303    6.74%
+    992    28      798.6934   444      852.0000      794.6149   332198    6.74%
+                                                UserPurge1: 1                  
+Elapsed time = 49.04 sec. (70291.00 ticks, tree = 0.13 MB, solutions = 5)
+    999    35      817.9417   409      852.0000      794.6149   337562    6.74%
+   1006    42      817.1503   368      852.0000      794.6149   342664    6.74%
+   1024    58      823.8136   231      852.0000      794.6149   347908    6.74%
+                                                UserPurge1: 1                  
+   1040    64      808.7156   595      852.0000      794.8443   355113    6.71%
+                                                     Cuts: 47                  
+   1044    68      815.8029   509      852.0000      794.8443   357920    6.71%
+   1053    77      818.7011   499      852.0000      794.8443   361563    6.71%
+                                                UserPurge1: 1                  
+   1073    95      843.1726   421      852.0000      794.8443   369810    6.71%
+                                                UserPurge1: 1                  
+   1081   101      836.3792   470      852.0000      794.8443   375646    6.71%
+   1097   105      808.0150   561      852.0000      794.8728   383570    6.71%
+                                                     Cuts: 44                  
+   1102   110      814.1983   524      852.0000      794.8728   386644    6.71%
+Elapsed time = 57.36 sec. (82199.23 ticks, tree = 0.60 MB, solutions = 5)
+   1124   132      834.4770   446      852.0000      794.8728   392678    6.71%
+                                                UserPurge1: 1                  
+   1141   144      795.3271   551      852.0000      794.8781   397519    6.70%
+   1147   150      803.8145   447      852.0000      794.8781   401687    6.70%
+   1179   180      845.3938   131      852.0000      794.8781   408046    6.70%
+   1191   188      811.0472   375      852.0000      794.8825   412962    6.70%
+   1235   232      833.9612   283      852.0000      794.8825   419435    6.70%
+   1251   244      802.8103   607      852.0000      795.1865   426239    6.67%
+                                                     Cuts: 48                  
+   1257   250      809.2447   504      852.0000      795.1865   431434    6.67%
+   1266   259      820.0553   419      852.0000      795.1865   437864    6.67%
+   1287   276      826.4592   398      852.0000      795.1865   444066    6.67%
+Elapsed time = 64.17 sec. (92631.13 ticks, tree = 0.94 MB, solutions = 5)
+   1316   293      842.5553   318      852.0000      795.1865   451998    6.67%
+   1320   291      809.1409   593      852.0000      795.3658   458017    6.65%
+                                                     Cuts: 38                  
+   1329   300      817.3861   430      852.0000      795.3658   462707    6.65%
+   1344   312      806.9484   582      852.0000      795.7153   470314    6.61%
+                                                     Cuts: 40                  
+   1362   330      821.5857   386      852.0000      795.7153   476327    6.61%
+   1410   374      803.5472   582      852.0000      795.9147   484113    6.58%
+                                                     Cuts: 14                  
+   1417   381      816.2022   499      852.0000      795.9147   489434    6.58%
+Entering callback.
+*  1422+  371                          845.0000      795.9147             5.81%
+Found incumbent of value 845.000000 after 69.77 sec. (101101.80 ticks)
+   1435   386      830.9586   357      845.0000      795.9147   494513    5.81%
+   1454   399      811.2090   620      845.0000      796.5803   502287    5.73%
+                                                     Cuts: 27                  
+   1459   404      823.7691   525      845.0000      796.5803   507405    5.73%
+Elapsed time = 71.87 sec. (104347.80 ticks, tree = 1.17 MB, solutions = 6)
+   1465   406      802.0939   543      845.0000      796.7051   513426    5.72%
+                                                     Cuts: 28                  
+   1478   419      813.2568   372      845.0000      796.7051   516929    5.72%
+   1509   444      816.1706   455      845.0000      798.7032   524167    5.48%
+   1516   449      838.6860   330      845.0000      798.7032   529146    5.48%
+   1522   451      840.3742   461      845.0000      798.8119   535339    5.47%
+   1525   450      818.7478   492      845.0000      799.5883   539317    5.37%
+                                                     Cuts: 33                  
+   1532   456      840.0110   315      845.0000      799.5883   543697    5.37%
+   1537   459      838.3313   492      845.0000      799.6152   551345    5.37%
+   1541   457      821.9028   607      845.0000      800.5456   555495    5.26%
+                                                     Cuts: 60                  
+   1566   476      840.3242   239      845.0000      800.7430   574637    5.24%
+                                                     Cuts: 23                  
+Elapsed time = 81.15 sec. (118015.13 ticks, tree = 1.24 MB, solutions = 6)
+   1596   490        cutoff            845.0000      801.7540   593992    5.12%
+                                                     Cuts: 27                  
+   1638   521      808.1455   458      845.0000      802.7108   618639    5.00%
+   1669   538      823.5828   525      845.0000      802.9720   639707    4.97%
+                                                     Cuts: 25                  
+   1698   560      815.7090   473      845.0000      803.4064   659828    4.92%
+                                                     Cuts: 24                  
+   1742   597      832.2677   234      845.0000      803.7564   679045    4.88%
+   1764   608      838.6572   492      845.0000      803.9486   698626    4.86%
+                                                  ZeroHalf: 7                  
+   1792   627      826.5686   472      845.0000      804.4858   718963    4.79%
+                                                     Cuts: 21                  
+   1817   638      840.0513   431      845.0000      804.6109   740854    4.78%
+                                                     Cuts: 31                  
+   1856   654      815.8208   431      845.0000      806.2681   765825    4.58%
+                                                     Cuts: 29                  
+   1898   683        cutoff            845.0000      806.3703   787936    4.57%
+                                                 ZeroHalf: 22                  
+Elapsed time = 108.54 sec. (157659.98 ticks, tree = 1.67 MB, solutions = 6)
+   1924   699      833.4315   560      845.0000      806.6876   807990    4.53%
+                                                     Cuts: 21                  
+   1949   716      821.7784   446      845.0000      806.9678   827990    4.50%
+                                                     Cuts: 45                  
+   1978   736      831.7888   216      845.0000      807.4152   849873    4.45%
+                                                     Cuts: 14                  
+   2006   753      831.8955   598      845.0000      808.1520   872661    4.36%
+   2029   764      830.8831   405      845.0000      808.2993   892798    4.34%
+                                                 ZeroHalf: 11                  
+   2051   770      839.4694   502      845.0000      808.5320   913094    4.32%
+                                                     Cuts: 10                  
+   2077   786      837.9072   579      845.0000      808.7724   933897    4.29%
+   2098   791      825.9780   648      845.0000      809.4001   962852    4.21%
+                                                     Cuts: 23                  
+   2121   806      828.4118   584      845.0000      810.1169   985299    4.13%
+   2145   818      833.2849   621      845.0000      810.6192  1007377    4.07%
+Elapsed time = 136.47 sec. (197739.88 ticks, tree = 2.07 MB, solutions = 6)
+   2162   823      839.4747   509      845.0000      810.7401  1027308    4.05%
+                                                     Cuts: 13                  
+   2186   832      842.4848   497      845.0000      810.7913  1051838    4.05%
+   2218   850      842.6481   252      845.0000      811.0581  1074951    4.02%
+                                                     Cuts: 11                  
+   2242   862      839.8598   531      845.0000      811.2025  1097931    4.00%
+   2278   866      840.3986   491      845.0000      811.6125  1125592    3.95%
+   2301   870      842.1022   463      845.0000      811.9606  1152361    3.91%
+                                                     Cuts: 24                  
+   2327   874      831.3312   539      845.0000      812.4988  1178264    3.85%
+                                                      Cuts: 7                  
+   2351   876        cutoff            845.0000      812.9381  1202711    3.79%
+   2380   885        cutoff            845.0000      813.5107  1223533    3.73%
+                                                     Cuts: 15                  
+   2408   895      828.7143   536      845.0000      813.9270  1246143    3.68%
+                                                     Cuts: 32                  
+Elapsed time = 164.47 sec. (237209.97 ticks, tree = 2.30 MB, solutions = 6)
+   2430   901      826.5356   606      845.0000      814.3527  1270814    3.63%
+   2453   902      837.0000    45      845.0000      814.6163  1295482    3.60%
+Entering callback.
+*  2454   778      integral     0      838.0000      814.6163  1295717    2.79%
+Found incumbent of value 838.000000 after 169.99 sec. (245045.10 ticks)
+   2486   768      829.1684   393      838.0000      815.6254  1321969    2.67%
+                                                     Cuts: 13                  
+   2511   759        cutoff            838.0000      815.9291  1350750    2.63%
+   2539   749      831.8110   555      838.0000      816.5458  1375313    2.56%
+                                                     Cuts: 23                  
+   2565   740      828.9836   646      838.0000      817.0604  1401393    2.50%
+   2597   728      831.5748   554      838.0000      817.5948  1431767    2.43%
+   2632   715      834.2087   456      838.0000      818.0348  1447252    2.38%
+                                                     Cuts: 43                  
+   2672   707        cutoff            838.0000      818.8540  1462552    2.28%
+                                                     Cuts: 17                  
+Elapsed time = 189.32 sec. (272853.21 ticks, tree = 1.96 MB, solutions = 7)
+   2717   690        cutoff            838.0000      820.0118  1477544    2.15%
+                                                      Cuts: 7                  
+   2757   669        cutoff            838.0000      820.9831  1492064    2.03%
+                                                      Cuts: 6                  
+   2796   643        cutoff            838.0000      821.9242  1509382    1.92%
+                                                     Cuts: 16                  
+   2841   610        cutoff            838.0000      822.9346  1526675    1.80%
+   2897   565      833.9268   408      838.0000      824.3100  1545536    1.63%
+   2961   518      829.4758   534      838.0000      825.6550  1564630    1.47%
+   3007   486      835.4668   329      838.0000      826.3243  1580191    1.39%
+   3058   456        cutoff            838.0000      826.8860  1596517    1.33%
+   3128   392        cutoff            838.0000      828.4423  1607616    1.14%
+   3202   319        cutoff            838.0000      830.0613  1629459    0.95%
+Elapsed time = 217.44 sec. (311749.25 ticks, tree = 1.14 MB, solutions = 7)
+   3288   239        cutoff            838.0000      831.5654  1648963    0.77%
+   3405   124        cutoff            838.0000      834.1971  1670322    0.45%
 
-        Nodes                                         Cuts/
-   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
-
-*     0+    0                         1518.0000        0.0000           100.00%
-Found incumbent of value 1518.000000 after 0.67 sec. (988.25 ticks)
-*     0+    0                         1420.0000        0.0000           100.00%
-Found incumbent of value 1420.000000 after 0.67 sec. (988.61 ticks)
-*     0+    0                         1399.0000        0.0000           100.00%
-Found incumbent of value 1399.000000 after 0.67 sec. (988.70 ticks)
-*     0+    0                         1371.0000        0.0000           100.00%
-Found incumbent of value 1371.000000 after 0.67 sec. (988.88 ticks)
-      0     0     1209.0000    19     1371.0000     1209.0000      363   11.82%
-*     0+    0                         1308.0000     1209.0000             7.57%
-Found incumbent of value 1308.000000 after 0.69 sec. (1004.56 ticks)
-*     0+    0                         1214.0000     1209.0000             0.41%
-Found incumbent of value 1214.000000 after 0.76 sec. (1075.42 ticks)
-      0     0        cutoff           1214.0000     1214.0000      459    0.00%
-Elapsed time = 0.76 sec. (1075.72 ticks, tree = 0.01 MB, solutions = 6)
-
-Clique cuts applied:  1
-Zero-half cuts applied:  6
-Lift and project cuts applied:  1
+GUB cover cuts applied:  2
+Clique cuts applied:  112
+Cover cuts applied:  166
+Implied bound cuts applied:  1
+Flow cuts applied:  6
+Mixed integer rounding cuts applied:  246
+Zero-half cuts applied:  839
+Lift and project cuts applied:  78
 Gomory fractional cuts applied:  3
+User cuts applied:  40
 
 Root node processing (before b&c):
-  Real time             =    0.76 sec. (1076.06 ticks)
-Parallel b&c, 8 threads:
-  Real time             =    0.00 sec. (0.00 ticks)
-  Sync time (average)   =    0.00 sec.
-  Wait time (average)   =    0.00 sec.
+  Real time             =    5.12 sec. (5949.80 ticks)
+Sequential b&c:
+  Real time             =  219.21 sec. (314941.95 ticks)
                           ------------
-Total (root+branch&cut) =    0.76 sec. (1076.06 ticks)
+Total (root+branch&cut) =  224.33 sec. (320891.74 ticks)
 Solved!
-Optimization done in 0.766622066 secs.
-Objective Function Value: 1214.000000000
-For demand 11 : 
-(4, 0)--(1, 0)
-For demand 12 : 
-(4, 0)--(1, 17)
-(1, 17)--(5, 0)
-For demand 13 : 
-(3, 0)--(1, 23)
-(1, 23)--(4, 0)
-For demand 14 : 
-(3, 0)--(1, 0)
-For demand 15 : 
-(3, 0)--(4, 0)
-For demand 16 : 
-(1, 0)--(2, 0)
-For demand 17 : 
-(4, 0)--(3, 13)
-(3, 13)--(2, 0)
-For demand 18 : 
-(5, 0)--(1, 0)
-For demand 19 : 
-(1, 0)--(2, 0)
-For demand 20 : 
-(1, 0)--(2, 0)
-Number of cplex cuts: 11
+Optimization done in 224.332 secs.
+Objective Function Value: 838
+Number of cplex cuts: 1453
 Status: Optimal
 
 --- Slice occupation ---
-#1. ****   ********* ******       
-#2. **********************        
-#3. ***********************       
-#4. **********  ***********       
-#5. *************                 
-#6. ********                      
-#7.    ****************           
+#1. ***********                   
+#2. ***********                   
+#3. *****************             
+#4. ***********                   
+#5. ************                  
+#6. ***   ******                  
+#7. *********                     
 
-Time taken by program is : 0.887852200 sec
---- ROUTING DEMANDS --- 
-#21 (4, 3), requiring 6 slices and having Max length 600.000000000
-#22 (5, 4), requiring 3 slices and having Max length 3000.000000000
-#23 (1, 2), requiring 3 slices and having Max length 3000.000000000
-#24 (1, 2), requiring 4 slices and having Max length 1500.000000000
-#25 (5, 1), requiring 4 slices and having Max length 1500.000000000
-#26 (5, 2), requiring 4 slices and having Max length 1500.000000000
-#27 (1, 2), requiring 5 slices and having Max length 1500.000000000
-#28 (3, 2), requiring 4 slices and having Max length 1500.000000000
-#29 (3, 2), requiring 3 slices and having Max length 3000.000000000
-#30 (4, 2), requiring 4 slices and having Max length 1500.000000000
---- THE DIFFERENT ROUTING LOADS --- 
-6, 3, 4, 5.
-Called Path Existence preprocessing.
-Called Length preprocessing.
-Called Path Existence preprocessing.
-Called Length preprocessing.
---- Solver has been initalized ---
---- CPLEX has been chosen ---
-Variables have been defined...
-Objective function has been defined...
-Source constraints have been defined...
-Flow conservation constraints have been defined...
-Target constraints have been defined...
-Length constraints have been defined...
-First set of Improved Non-Overlapping constraints has been defined...
-Second set of Improved Non-Overlapping constraints has been defined...
-LP model has been exported...
-CPLEX parameters have been defined...
-Solving...
-Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de
-CPXPARAM_MIP_Display                             3
-CPXPARAM_TimeLimit                               2147483647
-Tried aggregator 2 times.
-MIP Presolve eliminated 12529 rows and 685 columns.
-MIP Presolve modified 1447 coefficients.
-Aggregator did 65 substitutions.
-Reduced MIP has 286 rows, 256 columns, and 3493 nonzeros.
-Reduced MIP has 256 binaries, 0 generals, 0 SOSs, and 0 indicators.
-Presolve time = 0.02 sec. (30.59 ticks)
-Found incumbent of value 1706.000000 after 0.03 sec. (37.93 ticks)
-Probing fixed 111 vars, tightened 0 bounds.
-Probing time = 0.00 sec. (1.94 ticks)
-Tried aggregator 2 times.
-MIP Presolve eliminated 126 rows and 139 columns.
-MIP Presolve modified 14 coefficients.
-Aggregator did 6 substitutions.
-Reduced MIP has 154 rows, 111 columns, and 1386 nonzeros.
-Reduced MIP has 111 binaries, 0 generals, 0 SOSs, and 0 indicators.
-Presolve time = 0.00 sec. (2.15 ticks)
-Probing fixed 4 vars, tightened 0 bounds.
-Probing time = 0.00 sec. (0.55 ticks)
-Tried aggregator 1 time.
-Detecting symmetries...
-MIP Presolve eliminated 26 rows and 11 columns.
-MIP Presolve modified 4 coefficients.
-Reduced MIP has 128 rows, 100 columns, and 1090 nonzeros.
-Reduced MIP has 100 binaries, 0 generals, 0 SOSs, and 0 indicators.
-Presolve time = 0.00 sec. (1.12 ticks)
-Probing time = 0.00 sec. (0.44 ticks)
-Clique table members: 303.
-MIP emphasis: balance optimality and feasibility.
-MIP search method: dynamic search.
-Parallel mode: deterministic, using up to 8 threads.
-Root relaxation solution time = 0.00 sec. (0.48 ticks)
+Time taken by iteration is : 224.399204 sec
+Output Demand_FINAL
+Output EdgeSliceHols: Demand_FINAL
 
-        Nodes                                         Cuts/
-   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+--- The Demands ---
+#1. 1 -- 2. nbSlices: 6, maxLength: 600.000000000, ROUTED: YES
+#2. 1 -- 2. nbSlices: 6, maxLength: 600.000000000, ROUTED: YES
+#3. 1 -- 2. nbSlices: 5, maxLength: 1500.000000000, ROUTED: YES
+#4. 1 -- 3. nbSlices: 6, maxLength: 600.000000000, ROUTED: YES
+#5. 1 -- 3. nbSlices: 5, maxLength: 1500.000000000, ROUTED: YES
+#6. 1 -- 4. nbSlices: 6, maxLength: 600.000000000, ROUTED: YES
+#7. 1 -- 4. nbSlices: 5, maxLength: 1500.000000000, ROUTED: YES
+#8. 1 -- 5. nbSlices: 6, maxLength: 600.000000000, ROUTED: YES
+#9. 1 -- 5. nbSlices: 5, maxLength: 1500.000000000, ROUTED: YES
+#10. 2 -- 3. nbSlices: 3, maxLength: 3000.000000000, ROUTED: YES
+#11. 2 -- 4. nbSlices: 3, maxLength: 3000.000000000, ROUTED: YES
+#12. 2 -- 5. nbSlices: 3, maxLength: 3000.000000000, ROUTED: YES
+#13. 3 -- 4. nbSlices: 3, maxLength: 3000.000000000, ROUTED: YES
+#14. 3 -- 5. nbSlices: 3, maxLength: 3000.000000000, ROUTED: YES
+#15. 4 -- 5. nbSlices: 3, maxLength: 3000.000000000, ROUTED: YES
 
-*     0+    0                         1706.0000       84.0000            95.08%
-Found incumbent of value 1706.000000 after 0.04 sec. (46.13 ticks)
-*     0+    0                         1685.0000       84.0000            95.01%
-Found incumbent of value 1685.000000 after 0.04 sec. (46.22 ticks)
-      0     0        cutoff           1685.0000     1685.0000       47    0.00%
-      0     0        cutoff           1685.0000     1685.0000       47    0.00%
-Elapsed time = 0.04 sec. (46.35 ticks, tree = 0.01 MB, solutions = 2)
-
-Root node processing (before b&c):
-  Real time             =    0.04 sec. (46.37 ticks)
-Parallel b&c, 8 threads:
-  Real time             =    0.00 sec. (0.00 ticks)
-  Sync time (average)   =    0.00 sec.
-  Wait time (average)   =    0.00 sec.
-                          ------------
-Total (root+branch&cut) =    0.04 sec. (46.37 ticks)
-Solved!
-Optimization done in 0.044892073 secs.
-Objective Function Value: 1685.000000000
-For demand 21 : 
-(4, 0)--(3, 0)
-For demand 22 : 
-(5, 0)--(2, 23)
-(3, 23)--(4, 0)
-(2, 23)--(3, 23)
-For demand 23 : 
-(1, 0)--(2, 0)
-For demand 24 : 
-(1, 0)--(5, 30)
-(5, 30)--(2, 0)
-For demand 25 : 
-(5, 0)--(1, 0)
-For demand 26 : 
-(5, 0)--(2, 0)
-For demand 27 : 
-(1, 0)--(3, 28)
-(3, 28)--(2, 0)
-For demand 28 : 
-(3, 0)--(2, 0)
-For demand 29 : 
-(3, 0)--(2, 0)
-For demand 30 : 
-(4, 0)--(1, 30)
-(1, 30)--(2, 0)
-Number of cplex cuts: 0
-Status: Optimal
-
---- Slice occupation ---
-#1. ****   ********* ***********  
-#2. ******************************
-#3. ******************************
-#4. **********  ***********   ****
-#5. ****************************  
-#6. ************        ***   ****
-#7.    **************** ********* 
-
-Time taken by program is : 0.095644700 sec
---- ROUTING DEMANDS --- 
-#31 (2, 5), requiring 6 slices and having Max length 600.000000000
-#32 (5, 4), requiring 5 slices and having Max length 1500.000000000
-#33 (2, 1), requiring 4 slices and having Max length 1500.000000000
-#34 (3, 4), requiring 6 slices and having Max length 600.000000000
-#35 (4, 3), requiring 6 slices and having Max length 600.000000000
-#36 (4, 5), requiring 6 slices and having Max length 600.000000000
-#37 (5, 3), requiring 4 slices and having Max length 1500.000000000
-#38 (5, 1), requiring 4 slices and having Max length 1500.000000000
-#39 (4, 1), requiring 5 slices and having Max length 1500.000000000
-#40 (5, 2), requiring 4 slices and having Max length 1500.000000000
---- THE DIFFERENT ROUTING LOADS --- 
-6, 5, 4.
-Called Path Existence preprocessing.
-Called Length preprocessing.
-Called Path Existence preprocessing.
-Called Length preprocessing.
---- Solver has been initalized ---
---- CPLEX has been chosen ---
-Variables have been defined...
-Objective function has been defined...
-Source constraints have been defined...
-Flow conservation constraints have been defined...
-Target constraints have been defined...
-Length constraints have been defined...
-First set of Improved Non-Overlapping constraints has been defined...
-Second set of Improved Non-Overlapping constraints has been defined...
-LP model has been exported...
-CPLEX parameters have been defined...
-Solving...
-Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de
-CPXPARAM_MIP_Display                             3
-CPXPARAM_TimeLimit                               2147483647
-Infeasibility row 'Source(5,32)':  0  = 1.
-Presolve time = 0.00 sec. (0.59 ticks)
-
-Root node processing (before b&c):
-  Real time             =    0.00 sec. (0.70 ticks)
-Parallel b&c, 8 threads:
-  Real time             =    0.00 sec. (0.00 ticks)
-  Sync time (average)   =    0.00 sec.
-  Wait time (average)   =    0.00 sec.
-                          ------------
-Total (root+branch&cut) =    0.00 sec. (0.70 ticks)
-Solved!
-Could not find a path!
-Status: Infeasible
-Decrease the number of demands to be treated.
-Time taken by program is : 0.021048800 sec
---- ROUTING DEMANDS --- 
-#31 (2, 5), requiring 6 slices and having Max length 600.000000000
-#32 (5, 4), requiring 5 slices and having Max length 1500.000000000
-#33 (2, 1), requiring 4 slices and having Max length 1500.000000000
-#34 (3, 4), requiring 6 slices and having Max length 600.000000000
-#35 (4, 3), requiring 6 slices and having Max length 600.000000000
-#36 (4, 5), requiring 6 slices and having Max length 600.000000000
-#37 (5, 3), requiring 4 slices and having Max length 1500.000000000
-#38 (5, 1), requiring 4 slices and having Max length 1500.000000000
-#39 (4, 1), requiring 5 slices and having Max length 1500.000000000
---- THE DIFFERENT ROUTING LOADS --- 
-6, 5, 4.
-Called Path Existence preprocessing.
-Called Length preprocessing.
-Called Path Existence preprocessing.
-Called Length preprocessing.
---- Solver has been initalized ---
---- CPLEX has been chosen ---
-Variables have been defined...
-Objective function has been defined...
-Source constraints have been defined...
-Flow conservation constraints have been defined...
-Target constraints have been defined...
-Length constraints have been defined...
-First set of Improved Non-Overlapping constraints has been defined...
-Second set of Improved Non-Overlapping constraints has been defined...
-LP model has been exported...
-CPLEX parameters have been defined...
-Solving...
-Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de
-CPXPARAM_MIP_Display                             3
-CPXPARAM_TimeLimit                               2147483647
-Infeasibility row 'Source(5,32)':  0  = 1.
-Presolve time = 0.00 sec. (0.54 ticks)
-
-Root node processing (before b&c):
-  Real time             =    0.00 sec. (0.64 ticks)
-Parallel b&c, 8 threads:
-  Real time             =    0.00 sec. (0.00 ticks)
-  Sync time (average)   =    0.00 sec.
-  Wait time (average)   =    0.00 sec.
-                          ------------
-Total (root+branch&cut) =    0.00 sec. (0.64 ticks)
-Solved!
-Could not find a path!
-Status: Infeasible
-Decrease the number of demands to be treated.
-Time taken by program is : 0.018974000 sec
---- ROUTING DEMANDS --- 
-#31 (2, 5), requiring 6 slices and having Max length 600.000000000
-#32 (5, 4), requiring 5 slices and having Max length 1500.000000000
-#33 (2, 1), requiring 4 slices and having Max length 1500.000000000
-#34 (3, 4), requiring 6 slices and having Max length 600.000000000
-#35 (4, 3), requiring 6 slices and having Max length 600.000000000
-#36 (4, 5), requiring 6 slices and having Max length 600.000000000
-#37 (5, 3), requiring 4 slices and having Max length 1500.000000000
-#38 (5, 1), requiring 4 slices and having Max length 1500.000000000
---- THE DIFFERENT ROUTING LOADS --- 
-6, 5, 4.
-Called Path Existence preprocessing.
-Called Length preprocessing.
-Called Path Existence preprocessing.
-Called Length preprocessing.
---- Solver has been initalized ---
---- CPLEX has been chosen ---
-Variables have been defined...
-Objective function has been defined...
-Source constraints have been defined...
-Flow conservation constraints have been defined...
-Target constraints have been defined...
-Length constraints have been defined...
-First set of Improved Non-Overlapping constraints has been defined...
-Second set of Improved Non-Overlapping constraints has been defined...
-LP model has been exported...
-CPLEX parameters have been defined...
-Solving...
-Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de
-CPXPARAM_MIP_Display                             3
-CPXPARAM_TimeLimit                               2147483647
-Infeasibility row 'Source(5,32)':  0  = 1.
-Presolve time = 0.00 sec. (0.49 ticks)
-
-Root node processing (before b&c):
-  Real time             =    0.00 sec. (0.59 ticks)
-Parallel b&c, 8 threads:
-  Real time             =    0.00 sec. (0.00 ticks)
-  Sync time (average)   =    0.00 sec.
-  Wait time (average)   =    0.00 sec.
-                          ------------
-Total (root+branch&cut) =    0.00 sec. (0.59 ticks)
-Solved!
-Could not find a path!
-Status: Infeasible
-Decrease the number of demands to be treated.
-Time taken by program is : 0.016674800 sec
---- ROUTING DEMANDS --- 
-#31 (2, 5), requiring 6 slices and having Max length 600.000000000
-#32 (5, 4), requiring 5 slices and having Max length 1500.000000000
-#33 (2, 1), requiring 4 slices and having Max length 1500.000000000
-#34 (3, 4), requiring 6 slices and having Max length 600.000000000
-#35 (4, 3), requiring 6 slices and having Max length 600.000000000
-#36 (4, 5), requiring 6 slices and having Max length 600.000000000
-#37 (5, 3), requiring 4 slices and having Max length 1500.000000000
---- THE DIFFERENT ROUTING LOADS --- 
-6, 5, 4.
-Called Path Existence preprocessing.
-Called Length preprocessing.
-Called Path Existence preprocessing.
-Called Length preprocessing.
---- Solver has been initalized ---
---- CPLEX has been chosen ---
-Variables have been defined...
-Objective function has been defined...
-Source constraints have been defined...
-Flow conservation constraints have been defined...
-Target constraints have been defined...
-Length constraints have been defined...
-First set of Improved Non-Overlapping constraints has been defined...
-Second set of Improved Non-Overlapping constraints has been defined...
-LP model has been exported...
-CPLEX parameters have been defined...
-Solving...
-Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de
-CPXPARAM_MIP_Display                             3
-CPXPARAM_TimeLimit                               2147483647
-Infeasibility row 'Source(5,32)':  0  = 1.
-Presolve time = 0.00 sec. (0.45 ticks)
-
-Root node processing (before b&c):
-  Real time             =    0.00 sec. (0.53 ticks)
-Parallel b&c, 8 threads:
-  Real time             =    0.00 sec. (0.00 ticks)
-  Sync time (average)   =    0.00 sec.
-  Wait time (average)   =    0.00 sec.
-                          ------------
-Total (root+branch&cut) =    0.00 sec. (0.53 ticks)
-Solved!
-Could not find a path!
-Status: Infeasible
-Decrease the number of demands to be treated.
-Time taken by program is : 0.014917200 sec
---- ROUTING DEMANDS --- 
-#31 (2, 5), requiring 6 slices and having Max length 600.000000000
-#32 (5, 4), requiring 5 slices and having Max length 1500.000000000
-#33 (2, 1), requiring 4 slices and having Max length 1500.000000000
-#34 (3, 4), requiring 6 slices and having Max length 600.000000000
-#35 (4, 3), requiring 6 slices and having Max length 600.000000000
-#36 (4, 5), requiring 6 slices and having Max length 600.000000000
---- THE DIFFERENT ROUTING LOADS --- 
-6, 5, 4.
-Called Path Existence preprocessing.
-Called Length preprocessing.
-Called Path Existence preprocessing.
-Called Length preprocessing.
---- Solver has been initalized ---
---- CPLEX has been chosen ---
-Variables have been defined...
-Objective function has been defined...
-Source constraints have been defined...
-Flow conservation constraints have been defined...
-Target constraints have been defined...
-Length constraints have been defined...
-First set of Improved Non-Overlapping constraints has been defined...
-Second set of Improved Non-Overlapping constraints has been defined...
-LP model has been exported...
-CPLEX parameters have been defined...
-Solving...
-Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de
-CPXPARAM_MIP_Display                             3
-CPXPARAM_TimeLimit                               2147483647
-Infeasibility row 'Source(5,32)':  0  = 1.
-Presolve time = 0.00 sec. (0.40 ticks)
-
-Root node processing (before b&c):
-  Real time             =    0.00 sec. (0.48 ticks)
-Parallel b&c, 8 threads:
-  Real time             =    0.00 sec. (0.00 ticks)
-  Sync time (average)   =    0.00 sec.
-  Wait time (average)   =    0.00 sec.
-                          ------------
-Total (root+branch&cut) =    0.00 sec. (0.48 ticks)
-Solved!
-Could not find a path!
-Status: Infeasible
-Decrease the number of demands to be treated.
-Time taken by program is : 0.013682500 sec
---- ROUTING DEMANDS --- 
-#31 (2, 5), requiring 6 slices and having Max length 600.000000000
-#32 (5, 4), requiring 5 slices and having Max length 1500.000000000
-#33 (2, 1), requiring 4 slices and having Max length 1500.000000000
-#34 (3, 4), requiring 6 slices and having Max length 600.000000000
-#35 (4, 3), requiring 6 slices and having Max length 600.000000000
---- THE DIFFERENT ROUTING LOADS --- 
-6, 5, 4.
-Called Path Existence preprocessing.
-Called Length preprocessing.
-Called Path Existence preprocessing.
-Called Length preprocessing.
---- Solver has been initalized ---
---- CPLEX has been chosen ---
-Variables have been defined...
-Objective function has been defined...
-Source constraints have been defined...
-Flow conservation constraints have been defined...
-Target constraints have been defined...
-Length constraints have been defined...
-First set of Improved Non-Overlapping constraints has been defined...
-Second set of Improved Non-Overlapping constraints has been defined...
-LP model has been exported...
-CPLEX parameters have been defined...
-Solving...
-Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de
-CPXPARAM_MIP_Display                             3
-CPXPARAM_TimeLimit                               2147483647
-Infeasibility row 'Source(5,32)':  0  = 1.
-Presolve time = 0.00 sec. (0.36 ticks)
-
-Root node processing (before b&c):
-  Real time             =    0.00 sec. (0.42 ticks)
-Parallel b&c, 8 threads:
-  Real time             =    0.00 sec. (0.00 ticks)
-  Sync time (average)   =    0.00 sec.
-  Wait time (average)   =    0.00 sec.
-                          ------------
-Total (root+branch&cut) =    0.00 sec. (0.42 ticks)
-Solved!
-Could not find a path!
-Status: Infeasible
-Decrease the number of demands to be treated.
-Time taken by program is : 0.011732900 sec
---- ROUTING DEMANDS --- 
-#31 (2, 5), requiring 6 slices and having Max length 600.000000000
-#32 (5, 4), requiring 5 slices and having Max length 1500.000000000
-#33 (2, 1), requiring 4 slices and having Max length 1500.000000000
-#34 (3, 4), requiring 6 slices and having Max length 600.000000000
---- THE DIFFERENT ROUTING LOADS --- 
-6, 5, 4.
-Called Path Existence preprocessing.
-Called Length preprocessing.
-Called Path Existence preprocessing.
-Called Length preprocessing.
---- Solver has been initalized ---
---- CPLEX has been chosen ---
-Variables have been defined...
-Objective function has been defined...
-Source constraints have been defined...
-Flow conservation constraints have been defined...
-Target constraints have been defined...
-Length constraints have been defined...
-First set of Improved Non-Overlapping constraints has been defined...
-Second set of Improved Non-Overlapping constraints has been defined...
-LP model has been exported...
-CPLEX parameters have been defined...
-Solving...
-Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de
-CPXPARAM_MIP_Display                             3
-CPXPARAM_TimeLimit                               2147483647
-Infeasibility row 'Source(5,32)':  0  = 1.
-Presolve time = 0.00 sec. (0.31 ticks)
-
-Root node processing (before b&c):
-  Real time             =    0.00 sec. (0.37 ticks)
-Parallel b&c, 8 threads:
-  Real time             =    0.00 sec. (0.00 ticks)
-  Sync time (average)   =    0.00 sec.
-  Wait time (average)   =    0.00 sec.
-                          ------------
-Total (root+branch&cut) =    0.00 sec. (0.37 ticks)
-Solved!
-Could not find a path!
-Status: Infeasible
-Decrease the number of demands to be treated.
-Time taken by program is : 0.009987000 sec
---- ROUTING DEMANDS --- 
-#31 (2, 5), requiring 6 slices and having Max length 600.000000000
-#32 (5, 4), requiring 5 slices and having Max length 1500.000000000
-#33 (2, 1), requiring 4 slices and having Max length 1500.000000000
---- THE DIFFERENT ROUTING LOADS --- 
-6, 5, 4.
-Called Path Existence preprocessing.
-Called Length preprocessing.
-Called Path Existence preprocessing.
-Called Length preprocessing.
---- Solver has been initalized ---
---- CPLEX has been chosen ---
-Variables have been defined...
-Objective function has been defined...
-Source constraints have been defined...
-Flow conservation constraints have been defined...
-Target constraints have been defined...
-Length constraints have been defined...
-First set of Improved Non-Overlapping constraints has been defined...
-Second set of Improved Non-Overlapping constraints has been defined...
-LP model has been exported...
-CPLEX parameters have been defined...
-Solving...
-Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de
-CPXPARAM_MIP_Display                             3
-CPXPARAM_TimeLimit                               2147483647
-Infeasibility row 'Source(5,32)':  0  = 1.
-Presolve time = 0.00 sec. (0.26 ticks)
-
-Root node processing (before b&c):
-  Real time             =    0.00 sec. (0.31 ticks)
-Parallel b&c, 8 threads:
-  Real time             =    0.00 sec. (0.00 ticks)
-  Sync time (average)   =    0.00 sec.
-  Wait time (average)   =    0.00 sec.
-                          ------------
-Total (root+branch&cut) =    0.00 sec. (0.31 ticks)
-Solved!
-Could not find a path!
-Status: Infeasible
-Decrease the number of demands to be treated.
-Time taken by program is : 0.008436600 sec
---- ROUTING DEMANDS --- 
-#31 (2, 5), requiring 6 slices and having Max length 600.000000000
-#32 (5, 4), requiring 5 slices and having Max length 1500.000000000
---- THE DIFFERENT ROUTING LOADS --- 
-6, 5.
-Called Path Existence preprocessing.
-Called Length preprocessing.
-Called Path Existence preprocessing.
-Called Length preprocessing.
---- Solver has been initalized ---
---- CPLEX has been chosen ---
-Variables have been defined...
-Objective function has been defined...
-Source constraints have been defined...
-Flow conservation constraints have been defined...
-Target constraints have been defined...
-Length constraints have been defined...
-First set of Improved Non-Overlapping constraints has been defined...
-Second set of Improved Non-Overlapping constraints has been defined...
-LP model has been exported...
-CPLEX parameters have been defined...
-Solving...
-Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de
-CPXPARAM_MIP_Display                             3
-CPXPARAM_TimeLimit                               2147483647
-Infeasibility row 'Source(5,32)':  0  = 1.
-Presolve time = 0.00 sec. (0.12 ticks)
-
-Root node processing (before b&c):
-  Real time             =    0.00 sec. (0.14 ticks)
-Parallel b&c, 8 threads:
-  Real time             =    0.00 sec. (0.00 ticks)
-  Sync time (average)   =    0.00 sec.
-  Wait time (average)   =    0.00 sec.
-                          ------------
-Total (root+branch&cut) =    0.00 sec. (0.14 ticks)
-Solved!
-Could not find a path!
-Status: Infeasible
-Decrease the number of demands to be treated.
-Time taken by program is : 0.004877400 sec
---- ROUTING DEMANDS --- 
-#31 (2, 5), requiring 6 slices and having Max length 600.000000000
---- THE DIFFERENT ROUTING LOADS --- 
-6.
-Called Path Existence preprocessing.
-Called Length preprocessing.
---- Solver has been initalized ---
---- CPLEX has been chosen ---
-Variables have been defined...
-Objective function has been defined...
-Source constraints have been defined...
-Flow conservation constraints have been defined...
-Target constraints have been defined...
-Length constraints have been defined...
-First set of Improved Non-Overlapping constraints has been defined...
-Second set of Improved Non-Overlapping constraints has been defined...
-LP model has been exported...
-CPLEX parameters have been defined...
-Solving...
-Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de
-CPXPARAM_MIP_Display                             3
-CPXPARAM_TimeLimit                               2147483647
-Found incumbent of value 126.000000 after 0.00 sec. (0.01 ticks)
-Tried aggregator 1 time.
-MIP Presolve eliminated 486 rows and 34 columns.
-All rows and columns eliminated.
-Presolve time = 0.00 sec. (0.16 ticks)
-
-Root node processing (before b&c):
-  Real time             =    0.00 sec. (0.17 ticks)
-Parallel b&c, 8 threads:
-  Real time             =    0.00 sec. (0.00 ticks)
-  Sync time (average)   =    0.00 sec.
-  Wait time (average)   =    0.00 sec.
-                          ------------
-Total (root+branch&cut) =    0.00 sec. (0.17 ticks)
-Solved!
-Optimization done in 0.001778126 secs.
-Objective Function Value: 126.000000000
-For demand 31 : 
-(2, 0)--(5, 0)
-Number of cplex cuts: 0
-Status: Optimal
-
---- Slice occupation ---
-#1. ****   ********* ***********  
-#2. ******************************
-#3. ******************************
-#4. **********  ***********   ****
-#5. ****************************  
-#6. ******************  ***   ****
-#7.    **************** ********* 
-
-Time taken by program is : 0.002969100 sec
---- ROUTING DEMANDS --- 
-#32 (5, 4), requiring 5 slices and having Max length 1500.000000000
---- THE DIFFERENT ROUTING LOADS --- 
-5.
-Called Path Existence preprocessing.
-Called Length preprocessing.
---- Solver has been initalized ---
---- CPLEX has been chosen ---
-Variables have been defined...
-Objective function has been defined...
-Source constraints have been defined...
-Flow conservation constraints have been defined...
-Target constraints have been defined...
-Length constraints have been defined...
-First set of Improved Non-Overlapping constraints has been defined...
-Second set of Improved Non-Overlapping constraints has been defined...
-LP model has been exported...
-CPLEX parameters have been defined...
-Solving...
-Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de
-CPXPARAM_MIP_Display                             3
-CPXPARAM_TimeLimit                               2147483647
-Infeasibility row 'Source(5,32)':  0  = 1.
-Presolve time = 0.00 sec. (0.03 ticks)
-Solved!
-Could not find a path!
-Status: Infeasible
-Decrease the number of demands to be treated.
-There is no room for an additional demand.
-Time taken by program is : 0.001182300 sec
-Output TM_1_FINAL
-Output EdgeSliceHols: TM_1_FINAL
-Total time taken by program is : 2.377426700 sec
+Time taken by optimization is : 224.411840000 sec
+Total time taken by program is : 224.414506800 sec
