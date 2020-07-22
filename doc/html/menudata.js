@@ -92,6 +92,10 @@ var menudata={children:[
 {text:"x",url:"functions_vars.html#index_x"},
 {text:"z",url:"functions_vars.html#index_z"}]},
 {text:"Enumerations",url:"functions_enum.html"},
-{text:"Enumerator",url:"functions_eval.html"}]}]},
+{text:"Enumerator",url:"functions_eval.html",children:[
+{text:"m",url:"functions_eval.html#index_m"},
+{text:"o",url:"functions_eval.html#index_o"},
+{text:"p",url:"functions_eval.html#index_p"},
+{text:"s",url:"functions_eval.html#index_s"}]}]}]},
 {text:"Files",url:"files.html",children:[
 {text:"File List",url:"files.html"}]}]}

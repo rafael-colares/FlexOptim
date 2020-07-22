@@ -467,7 +467,16 @@ void Instance::outputDemands(std::string counter){
 	}
 }
 
+int Instance::getNumberOfOccupiedSlices() const{
+	int value = 0;
+	for (int e = 0; e < getNbEdges(); e++){
+		value += getPhysicalLinkFromIndex(e).getNbUsedSlices();
+	}
+	return value;
+}
+
 double Instance::getMetricValue(Metric metric) const{
+	
 	double value = 0;
 	switch (metric){
         case METRIC_ONE:
@@ -534,6 +543,7 @@ void Instance::outputMetrics(std::string counter){
 		myfile << "met2" << delimiter << getMetricValue(METRIC_TWO) << "\n";
 		myfile << "met4" << delimiter << getMetricValue(METRIC_FOUR) << "\n";
 		myfile << "met8" << delimiter << getMetricValue(METRIC_EIGHT) << "\n";
+		myfile << "BlackPixels" << delimiter << getNumberOfOccupiedSlices() << "\n";
 		myfile.close();
 	}
 	else{

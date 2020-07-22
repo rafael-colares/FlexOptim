@@ -104,6 +104,8 @@ public:
 
 	/** Returns the maximal slice position used in the frequency spectrum. **/
 	int getMaxUsedSlicePosition() const;
+	
+	int getNbUsedSlices() const;
 
 	/****************************************************************************************/
 	/*										Display											*/

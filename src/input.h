@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <climits>
+#include <boost/algorithm/string.hpp>
 
 /*****************************************************************************************
  * This class contains all the information needed for the creation of an instance.
@@ -43,6 +44,7 @@ public:
 		OBJECTIVE_METRIC_1 = 1,		/**< Minimize the sum of (max used slice positions) over demands. **/
 		OBJECTIVE_METRIC_1p = 11,	/**< Minimize the sum of (max used slice positions) over edges. **/
 		OBJECTIVE_METRIC_2 = 2,		/**< Minimize the sum of (number of hops in paths) over demands. **/
+		OBJECTIVE_METRIC_2p = 3,	/**< Minimize the sum of occupied slices. **/
 		OBJECTIVE_METRIC_4 = 4,		/**< Minimize the path lengths. **/
 		OBJECTIVE_METRIC_8 = 8		/**< Minimize the max used slice position overall. **/
 	};
@@ -73,7 +75,7 @@ private:
 
 	Method chosenMethod;				/**< Refers to which method is applied for solving the problem.**/
 	PreprocessingLevel chosenPreprLvl;	/**< Refers to which level of preprocessing is applied before solving the problem.**/
-	ObjectiveMetric chosenObj;			/**< Refers to which objective is optimized.**/
+	std::vector<ObjectiveMetric> chosenObj;			/**< Refers to which objective is optimized.**/
 	OutputLevel chosenOutputLvl;		/**< Refers to which output policy is adopted.**/
 	PartitionPolicy chosenPartitionPolicy;	/**< Refers to which partition policy is adopted.**/
 
@@ -149,7 +151,10 @@ public:
     PreprocessingLevel getChosenPreprLvl() const { return chosenPreprLvl; }
 
 	/** Returns the identifier of the objective chosen to be optimized. **/
-    ObjectiveMetric getChosenObj() const { return chosenObj; }
+    ObjectiveMetric getChosenObj_k(int i) const { return chosenObj[i]; }
+
+	/** Returns the vector of objectives chosen to be optimized. **/
+    std::vector<ObjectiveMetric> getChosenObj() const { return chosenObj; }
 
 	/** Returns the identifier of the output policy adopted. **/
     OutputLevel getChosenOutputLvl() const { return chosenOutputLvl; }
@@ -191,8 +196,8 @@ public:
 	/** Populates the vector of paths to the files containing information on the non-routed demands. **/
 	void populateOnlineDemandFiles();
 
-	/** Converts a string into an ObjectiveMetric. **/
-	ObjectiveMetric to_ObjectiveMetric(std::string data);
+	/** Converts a string into an ObjectiveMetric vector. **/
+	std::vector<ObjectiveMetric> to_ObjectiveMetric(std::string data);
 
 	/** Converts a string into a PartitionPolicy. **/
 	PartitionPolicy to_PartitionPolicy(std::string data);

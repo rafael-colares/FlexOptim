@@ -150,15 +150,37 @@ void Input::populateOnlineDemandFiles(){
     }
 }
 /* Converts a string into an ObjectiveMetric. */
-Input::ObjectiveMetric Input::to_ObjectiveMetric(std::string data){
-    Input::ObjectiveMetric obj = (ObjectiveMetric) std::stoi(data);
-    if (data == "1"){
-        obj = OBJECTIVE_METRIC_1;
+std::vector<Input::ObjectiveMetric> Input::to_ObjectiveMetric(std::string data){
+    std::string delimeter = ",";
+    std::vector<std::string> strVec;
+	boost::algorithm::split(strVec, data, boost::is_any_of(delimeter));
+    
+    std::vector<Input::ObjectiveMetric> objVec;
+    for (auto i = 0; i < strVec.size(); i++){
+        Input::ObjectiveMetric obj;
+        if (strVec[i] == "0"){
+            objVec.push_back(OBJECTIVE_METRIC_0);
+        }
+        if (strVec[i] == "1"){
+            objVec.push_back(OBJECTIVE_METRIC_1);
+        }
+        if (strVec[i] == "1p"){
+            objVec.push_back(OBJECTIVE_METRIC_1p);
+        }
+        if (strVec[i] == "2"){
+            objVec.push_back(OBJECTIVE_METRIC_2);
+        }
+        if (strVec[i] == "2p"){
+            objVec.push_back(OBJECTIVE_METRIC_2p);
+        }
+        if (strVec[i] == "4"){
+            objVec.push_back(OBJECTIVE_METRIC_4);
+        }
+        if (strVec[i] == "8"){
+            objVec.push_back(OBJECTIVE_METRIC_8);
+        }
     }
-    if (data == "1p"){
-        obj = OBJECTIVE_METRIC_1p;
-    }
-    return obj;
+    return objVec;
 }
 /* Converts a string into a PartitionPolicy. */
 Input::PartitionPolicy Input::to_PartitionPolicy(std::string data){

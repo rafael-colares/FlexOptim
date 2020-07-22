@@ -14,6 +14,7 @@ YoussoufForm::YoussoufForm(const Instance &inst) :
 	/*				    SET VARIABLES				*/
 	/************************************************/
     this->setVariables();
+    /** @todo implement vector of objectives. **/
     std::cout << "Variables have been defined..." << std::endl;
 
 	/************************************************/
@@ -44,12 +45,12 @@ YoussoufForm::YoussoufForm(const Instance &inst) :
     this->setNonOverlappingConstraints();
     std::cout << "Non-overlapping constraints have been defined..." << std::endl;
     
-    if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_1p){
+    if(instance.getInput().getChosenObj_k(0) == Input::OBJECTIVE_METRIC_1p){
         //this->setMaxUsedSlicePerLinkConstraints(x, maxSlicePerLink, model);    
         std::cout << "Max Used Slice Per Link constraints have been defined..." << std::endl;
     }
 
-    if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().getChosenObj_k(0) == Input::OBJECTIVE_METRIC_8){
         //this->setMaxUsedSliceOverallConstraints(x, maxSliceOverall, model);    
         std::cout << "Max Used Slice Overall constraints have been defined..." << std::endl;
     }
@@ -170,7 +171,7 @@ void YoussoufForm::setVariables(){
     }
     std::cout << "T variables were created." << std::endl;
 
-    if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_1p){
+    if(instance.getInput().getChosenObj_k(0) == Input::OBJECTIVE_METRIC_1p){
         for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
             int edge = getCompactEdgeLabel(e);
             std::string varName = "maxSlice(" + std::to_string(edge) + ")";
@@ -181,7 +182,7 @@ void YoussoufForm::setVariables(){
         }
     }
 
-    if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().getChosenObj_k(0) == Input::OBJECTIVE_METRIC_8){
         std::string varName = "maxSlice";
         IloInt lowerBound = instance.getMaxUsedSlicePosition();
         IloInt upperBound = instance.getMaxSlice();
@@ -205,20 +206,20 @@ void YoussoufForm::setObjective(){
 IloExpr YoussoufForm::getObjFunction(){
     IloExpr obj(model.getEnv());
     
-    if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_0){
+    if(instance.getInput().getChosenObj_k(0) == Input::OBJECTIVE_METRIC_0){
         IloInt CONSTANT = 0;
         obj += CONSTANT;
         return obj;
     }
     
-    if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_1p){
+    if(instance.getInput().getChosenObj_k(0) == Input::OBJECTIVE_METRIC_1p){
         for (int i = 0; i < instance.getNbEdges(); i++){
             obj += maxSlicePerLink[i];
         }
         return obj;
     }
 
-    if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().getChosenObj_k(0) == Input::OBJECTIVE_METRIC_8){
         obj += maxSliceOverall;
         return obj;
     }

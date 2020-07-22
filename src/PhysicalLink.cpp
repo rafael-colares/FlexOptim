@@ -78,6 +78,17 @@ int PhysicalLink::getMaxUsedSlicePosition() const {
 	return max;
 }
 
+/* Returns the maximal slice position used in the frequency spectrum. */
+int PhysicalLink::getNbUsedSlices() const {
+	int value = 0;
+	for (int i = 0; i < this->getNbSlices(); i++){
+		if (getSlice_i(i).isUsed()){
+			value++;
+		}
+	}
+	return value;
+}
+
 /****************************************************************************************/
 /*										Display											*/
 /****************************************************************************************/

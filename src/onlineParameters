@@ -6,12 +6,12 @@ nbDemandsAtOnce=15
 outputPath=../Output/OtherTests/
 outputLevel=1
 nbSlicesInOutputFile=320
-method=2
+method=0
 preprocessingLevel=2
-obj=1
+obj=1,8,4
 timeLimit=
 globalTimeLimit=
-allowBlocking=1
+allowBlocking=0
 
 ******* Partition Parameters *******
 partitionPolicy=0

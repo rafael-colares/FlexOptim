@@ -98,6 +98,9 @@ public:
 	int getNextDemandToBeRoutedIndex() const { return this->nextDemandToBeRoutedIndex; }
 	
 	double getMetricValue(Metric m) const;
+
+	int getNumberOfOccupiedSlices() const;
+	
 	/****************************************************************************************/
 	/*										Setters											*/
 	/****************************************************************************************/
@@ -173,7 +176,7 @@ public:
 	void outputEdgeSliceHols(std::string i);
 
 	/** Builds file Demand.csv containing information about the routed demands. @param i The i-th output file to be generated. **/
-	void outputDemands(std::string i);\
+	void outputDemands(std::string i);
 
 	/** Builds file Metrics.csv containing information about the obtained metric values. @param i The i-th output file to be generated. **/
 	void outputMetrics(std::string i);

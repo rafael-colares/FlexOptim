@@ -375,22 +375,22 @@ double RSA::getCoeffObj1(const ListDigraph::Arc &a, int d){
     if(uLabel == getToBeRouted_k(d).getSource()){
         switch (instance.getInput().getChosenPartitionPolicy() ){
             case Input::PARTITION_POLICY_NO:
-                coeff = NB_EDGES*(arcSlice + 1) + 1;
+                coeff = arcSlice + 1;
             break;
             case Input::PARTITION_POLICY_SOFT:
                 if(getToBeRouted_k(d).getLoad() <= instance.getInput().getPartitionLoad()){
-                    coeff = NB_EDGES*(arcSlice + 1); 
+                    coeff = arcSlice + 1; 
                 }
                 else{
-                    coeff = NB_EDGES*(instance.getPhysicalLinkFromIndex(arcLabel).getNbSlices() - arcSlice);
+                    coeff = (instance.getPhysicalLinkFromIndex(arcLabel).getNbSlices() - arcSlice);
                 }
             break;
             case Input::PARTITION_POLICY_HARD:
                 if(getToBeRouted_k(d).getLoad() <= instance.getInput().getPartitionLoad()){
-                    coeff = NB_EDGES*(arcSlice + 1); 
+                    coeff = (arcSlice + 1); 
                 }
                 else{
-                    coeff = NB_EDGES*(instance.getPhysicalLinkFromIndex(arcLabel).getNbSlices() - arcSlice);
+                    coeff = (instance.getPhysicalLinkFromIndex(arcLabel).getNbSlices() - arcSlice);
                 }
             break;
             default:
@@ -400,7 +400,7 @@ double RSA::getCoeffObj1(const ListDigraph::Arc &a, int d){
         }
     }
     else{
-        coeff = 1; 
+        coeff = 0; 
     }
     return coeff;
 }
@@ -423,6 +423,12 @@ double RSA::getCoeffObj1p(const ListDigraph::Arc &a, int d){
 /* Returns the coefficient of an arc according to metric 2 on graph #d. */
 double RSA::getCoeffObj2(const ListDigraph::Arc &a, int d){
     double coeff = 1.0;
+    return coeff;
+}
+
+/* Returns the coefficient of an arc according to metric 2p on graph #d. */
+double RSA::getCoeffObj2p(const ListDigraph::Arc &a, int d){
+    double coeff = getToBeRouted_k(d).getLoad();
     return coeff;
 }
 
@@ -461,7 +467,7 @@ double RSA::getCoeffObj8(const ListDigraph::Arc &a, int d){
 /* Returns the coefficient of an arc (according to the chosen metric) on graph #d. */
 double RSA::getCoeff(const ListDigraph::Arc &a, int d){
     double coeff = 0.0;
-    switch (getInstance().getInput().getChosenObj()){
+    switch (getInstance().getInput().getChosenObj_k(0)){
         case Input::OBJECTIVE_METRIC_0:
         {
             coeff = 0;
@@ -480,6 +486,11 @@ double RSA::getCoeff(const ListDigraph::Arc &a, int d){
         case Input::OBJECTIVE_METRIC_2:
         {
             coeff = getCoeffObj2(a, d);
+            break;
+        }
+        case Input::OBJECTIVE_METRIC_2p:
+        {
+            coeff = getCoeffObj2p(a, d);
             break;
         }
         case Input::OBJECTIVE_METRIC_4:

@@ -11,11 +11,6 @@ FlowForm::FlowForm(const Instance &inst) : Solver(inst), x(env, getNbDemandsToBe
     this->setVariables();
     std::cout << "Variables have been defined..." << std::endl;
 
-	/************************************************/
-	/*			    SET OBJECTIVE FUNCTION			*/
-	/************************************************/
-    this->setObjective();
-    std::cout << "Objective function has been defined..." << std::endl;
 
 	/************************************************/
 	/*			      SET CONSTRAINTS				*/
@@ -41,21 +36,34 @@ FlowForm::FlowForm(const Instance &inst) : Solver(inst), x(env, getNbDemandsToBe
     this->setImprovedNonOverlappingConstraints_2();    
     std::cout << "Second set of Improved Non-Overlapping constraints has been defined..." << std::endl;
 
-    
-    if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_1p){
-        this->setMaxUsedSlicePerLinkConstraints();    
-        std::cout << "Max Used Slice Per Link constraints have been defined..." << std::endl;
-    }
 
-    if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_8){
-        this->setMaxUsedSliceOverallConstraints();    
-        std::cout << "Max Used Slice Overall constraints have been defined..." << std::endl;
-        this->setMaxUsedSliceOverallConstraints2();    
-        std::cout << "Max Used Slice Overall2 constraints have been defined..." << std::endl;
-        this->setMaxUsedSliceOverallConstraints3();    
-        std::cout << "Max Used Slice Overall3 constraints have been defined..." << std::endl;
-    }
+    this->setMaxUsedSlicePerLinkConstraints();    
+    std::cout << "Max Used Slice Per Link constraints have been defined..." << std::endl;
+
+    this->setMaxUsedSliceOverallConstraints();    
+    std::cout << "Max Used Slice Overall constraints have been defined..." << std::endl;
+    this->setMaxUsedSliceOverallConstraints2();    
+    std::cout << "Max Used Slice Overall2 constraints have been defined..." << std::endl;
+    this->setMaxUsedSliceOverallConstraints3();    
+    std::cout << "Max Used Slice Overall3 constraints have been defined..." << std::endl;
+
+	/************************************************/
+    /*             DEFINE OBJECTIVE FUNCTION   		*/
+	/************************************************/
     
+    Input::ObjectiveMetric chosenObjective = instance.getInput().getChosenObj_k(0);
+    IloObjective myObjective(model.getEnv());
+    myObjective = IloMinimize(model.getEnv(), this->getObjFunction(chosenObjective));
+    model.add(myObjective);
+    //this->setObjective(instance.getInput().getChosenObj_k(0));
+    //std::cout << "Objective function has been defined..." << std::endl;
+    
+	/************************************************/
+	/*             DEFINE CPLEX PARAMETERS   		*/
+	/************************************************/
+    cplex.setParam(IloCplex::Param::MIP::Display, 4);
+    cplex.setParam(IloCplex::Param::TimeLimit, getInstance().getInput().getIterationTimeLimit());
+    std::cout << "CPLEX parameters have been defined..." << std::endl;
     
 	/************************************************/
 	/*		    EXPORT LINEAR PROGRAM TO .LP		*/
@@ -64,26 +72,119 @@ FlowForm::FlowForm(const Instance &inst) : Solver(inst), x(env, getNbDemandsToBe
     //cplex.exportModel(file.c_str());
     std::cout << "LP model has been exported..." << std::endl;
     
-	/************************************************/
-	/*             DEFINE CPLEX PARAMETERS   		*/
-	/************************************************/
-    cplex.setParam(IloCplex::Param::MIP::Display, 4);
-    cplex.setParam(IloCplex::Param::TimeLimit, getInstance().getInput().getIterationTimeLimit());
-    std::cout << "CPLEX parameters have been defined..." << std::endl;
 
 	/************************************************/
 	/*		         SOLVE LINEAR PROGRAM   		*/
 	/************************************************/
     IloNum timeStart = cplex.getCplexTime();
     std::cout << "Solving..." << std::endl;
-    cplex.solve();
-    std::cout << "Solved!" << std::endl;
+    for (unsigned int i = 0; i < instance.getInput().getChosenObj().size(); i++){
+        if (i >= 1){
+            model.remove(myObjective);
+            chosenObjective = instance.getInput().getChosenObj_k(i);
+            myObjective = IloMinimize(model.getEnv(), this->getObjFunction(chosenObjective));
+            model.add(myObjective);
+        }
+        
+        std::cout << "Chosen objective: " << chosenObjective << std::endl;
+        /*
+        else{
+            for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+                for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+                    int arc = getArcIndex(a, d);
+                    switch (chosenObjective)
+                    {
+                    case Input::OBJECTIVE_METRIC_0:
+                        {
+                        myObjective.setLinearCoef(x[d][arc], 0);
+                        break;
+                        }
+                    case Input::OBJECTIVE_METRIC_1:
+                        {
+                        double coeff = getCoeffObj1(a, d);
+                        myObjective.setLinearCoef(x[d][arc], coeff);
+                        break;
+                        }
+                    case Input::OBJECTIVE_METRIC_1p:
+                        {
+                        myObjective.setLinearCoef(x[d][arc], 0);
+                        break;
+                        }
+                    case Input::OBJECTIVE_METRIC_2:
+                        {
+                        double coeff = getCoeffObj2(a, d);
+                        myObjective.setLinearCoef(x[d][arc], coeff);
+                        break;
+                        }
+                    case Input::OBJECTIVE_METRIC_2p:
+                        {
+                        double coeff = getCoeffObj2p(a, d);
+                        myObjective.setLinearCoef(x[d][arc], coeff);
+                        break;
+                        }
+                    case Input::OBJECTIVE_METRIC_4:
+                        {
+                        double coeff = getCoeffObj4(a, d);
+                        myObjective.setLinearCoef(x[d][arc], coeff);
+                        break;
+                        }
+                    case Input::OBJECTIVE_METRIC_8:
+                        {
+                        myObjective.setLinearCoef(x[d][arc], 0);
+                        break;
+                        }
+                    default:
+                        {
+                        std::cout << "ERROR: Objective '" << chosenObjective << "' is not known." << std::endl;
+                        exit(0);
+                        break;
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < instance.getNbEdges(); i++){
+                if (chosenObjective == Input::OBJECTIVE_METRIC_1p){
+                    myObjective.setLinearCoef(maxSlicePerLink[i], 1);
+                }
+                else{
+                    myObjective.setLinearCoef(maxSlicePerLink[i], 0);
+                }
+            }
+            
+            if (chosenObjective == Input::OBJECTIVE_METRIC_8){
+                myObjective.setLinearCoef(maxSliceOverall, 1);
+            }
+            else{
+                myObjective.setLinearCoef(maxSliceOverall, 0);
+            }
+        }
+        */
+        //cplex.extract(model);
+        cplex.solve();
+        
+        if ((cplex.getStatus() == IloAlgorithm::Optimal) || (cplex.getStatus() == IloAlgorithm::Feasible)){
+            
+            std::cout << "Objective Function Value: " << cplex.getObjValue() << std::endl;
+            if (i < instance.getInput().getChosenObj().size() - 1){
+                IloExpr objectiveConst = getObjFunction(chosenObjective);
+                IloRange constraint(model.getEnv(), cplex.getObjValue(), objectiveConst, cplex.getObjValue());
+                //std::cout << "Add constraint: " << objectiveConst << " = " << cplex.getObjValue() << std::endl;
+                model.add(constraint);
+                objectiveConst.end();
+            }
+        }
+        else{
+            std::cout << "Could not find a feasible solution..." << std::endl;
+            i = instance.getInput().getChosenObj().size();
+        }
+    }
     IloNum timeFinish = cplex.getCplexTime();
 
 	/************************************************/
 	/*		    GET OPTIMAL SOLUTION FOUND        	*/
 	/************************************************/
-    if ((cplex.getStatus() == IloAlgorithm::Optimal) || (cplex.getStatus() == IloAlgorithm::Feasible)){
+    if ((cplex.getStatus() == IloAlgorithm::Optimal) || (cplex.getStatus() == IloAlgorithm::Feasible)){    
+        std::cout << "Solved!" << std::endl;
         std::cout << "Optimization done in " << timeFinish - timeStart << " secs." << std::endl;
         std::cout << "Objective Function Value: " << cplex.getObjValue() << std::endl;
         //displayVariableValues();
@@ -130,23 +231,20 @@ void FlowForm::setVariables(){
         }
     }
 
-    if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_1p){
-        for (int i = 0; i < instance.getNbEdges(); i++){
-            std::string varName = "maxSlice(" + std::to_string(instance.getPhysicalLinkFromIndex(i).getId() + 1) + ")";
-            IloInt lowerBound = instance.getPhysicalLinkFromIndex(i).getMaxUsedSlicePosition();
-            IloInt upperBound = instance.getPhysicalLinkFromIndex(i).getNbSlices();
-            maxSlicePerLink[i] = IloIntVar(model.getEnv(), lowerBound, upperBound, varName.c_str());
-            model.add(maxSlicePerLink[i]);
-        }
+    for (int i = 0; i < instance.getNbEdges(); i++){
+        std::string varName = "maxSlice(" + std::to_string(instance.getPhysicalLinkFromIndex(i).getId() + 1) + ")";
+        IloInt lowerBound = instance.getPhysicalLinkFromIndex(i).getMaxUsedSlicePosition();
+        IloInt upperBound = instance.getPhysicalLinkFromIndex(i).getNbSlices();
+        maxSlicePerLink[i] = IloIntVar(model.getEnv(), lowerBound, upperBound, varName.c_str());
+        model.add(maxSlicePerLink[i]);
     }
 
-    if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_8){
-        std::string varName = "maxSlice";
-        IloInt lowerBound = instance.getMaxUsedSlicePosition();
-        IloInt upperBound = instance.getMaxSlice();
-        maxSliceOverall = IloIntVar(model.getEnv(), lowerBound, upperBound, varName.c_str()); 
-        model.add(maxSliceOverall);
-    }
+    std::string varName = "maxSlice";
+    IloInt lowerBound = instance.getMaxUsedSlicePosition();
+    IloInt upperBound = instance.getMaxSlice();
+    maxSliceOverall = IloIntVar(model.getEnv(), lowerBound, upperBound, varName.c_str()); 
+    model.add(maxSliceOverall);
+
 }
 
 /****************************************************************************************/
@@ -154,41 +252,84 @@ void FlowForm::setVariables(){
 /****************************************************************************************/
 
 /* Set the objective Function */
-void FlowForm::setObjective(){
-    IloExpr objective = getObjFunction();
+void FlowForm::setObjective(Input::ObjectiveMetric chosenObjective){
+    IloExpr objective = getObjFunction(chosenObjective);
     model.add(IloMinimize(model.getEnv(), objective));
     objective.end();
 }
 
 /* Returns the objective function expression. */
-IloExpr FlowForm::getObjFunction(){
+IloExpr FlowForm::getObjFunction(Input::ObjectiveMetric chosenObjective){
     IloExpr obj(model.getEnv());
-    
-    if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_0){
+    switch (chosenObjective)
+    {
+    case Input::OBJECTIVE_METRIC_0:
+        {
         IloInt CONSTANT = 0;
         obj += CONSTANT;
-        return obj;
-    }
-
-    if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_1p){
+        break;
+        }
+    case Input::OBJECTIVE_METRIC_1:
+        {
+        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+            for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+                int arc = getArcIndex(a, d);
+                double coeff = getCoeffObj1(a, d);
+                obj += coeff*x[d][arc];
+            }
+        }
+        break;
+        }
+    case Input::OBJECTIVE_METRIC_1p:
+        {
         for (int i = 0; i < instance.getNbEdges(); i++){
             obj += maxSlicePerLink[i];
         }
-        return obj;
-    }
-
-    if(instance.getInput().getChosenObj() == Input::OBJECTIVE_METRIC_8){
+        break;
+        }
+    case Input::OBJECTIVE_METRIC_2:
+        {
+        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+            for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+                int arc = getArcIndex(a, d);
+                double coeff = getCoeffObj2(a, d);
+                obj += coeff*x[d][arc];
+            }
+        }
+        break;
+        }
+    case Input::OBJECTIVE_METRIC_2p:
+        {
+        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+            for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+                int arc = getArcIndex(a, d);
+                double coeff = getCoeffObj2p(a, d);
+                obj += coeff*x[d][arc];
+            }
+        }
+        break;
+        }
+    case Input::OBJECTIVE_METRIC_4:
+        {
+        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+            for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+                int arc = getArcIndex(a, d);
+                double coeff = getCoeffObj4(a, d);
+                obj += coeff*x[d][arc];
+            }
+        }
+        break;
+        }
+    case Input::OBJECTIVE_METRIC_8:
+        {
         obj += maxSliceOverall;
-        return obj;
-    }
-
-
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-            int arc = getArcIndex(a, d);
-            double coeff = getCoeff(a, d);
-            //coeff += (instance.getInput().getInitialLagrangianMultiplier() * getArcLength(a, 0) );
-            obj += coeff*x[d][arc];
+        break;
+        }
+    default:
+        {
+        std::cout << "ERROR: Objective '" << chosenObjective << "' is not known." << std::endl;
+        exit(0);
+        break;
         }
     }
     return obj;
@@ -591,6 +732,7 @@ IloRange FlowForm::getImprovedNonOverlappingConstraint_2(int linkLabel, int slic
 /* Recovers the obtained MIP solution and builds a path for each demand on its associated graph from RSA. */
 void FlowForm::updatePath(){
     // Reinitialize OnPath
+    //std::cout << "Enter update." << std::endl;
     for(int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
                 (*vecOnPath[d])[a] = -1;
@@ -613,6 +755,8 @@ void FlowForm::updatePath(){
         if (TARGET == INVALID || SOURCE == INVALID){
             throw IloCplex::Exception(-1, "Could not find source or target from demand.");
         }
+        
+        //std::cout << "Search the path from origin to destination." << std::endl;
         ListDigraph::Node currentNode = TARGET;
         while (currentNode != SOURCE){
             ListDigraph::Arc previousArc = INVALID;
@@ -629,6 +773,8 @@ void FlowForm::updatePath(){
             currentNode = (*vecGraph[d]).source(previousArc);
         }
     }
+    
+    //std::cout << "Leave update." << std::endl;
 }
 
 /* Displays the value of each variable in the obtained solution. */

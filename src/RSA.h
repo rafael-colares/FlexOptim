@@ -166,6 +166,9 @@ public:
     /** Returns the coefficient of an arc according to metric 2 on a graph. @param a The arc. @param d The graph index. \note Min number of hops (number of edges in path). **/
     double getCoeffObj2(const ListDigraph::Arc &a, int d);
 
+    /** Returns the coefficient of an arc according to metric 2p on a graph. @param a The arc. @param d The graph index. \note Min number of hops (number of edges in path). **/
+    double getCoeffObj2p(const ListDigraph::Arc &a, int d);
+
     /** Returns the coefficient of an arc according to metric 4 on a graph. @param a The arc. @param d The graph index. \note Min path lengths. **/
     double getCoeffObj4(const ListDigraph::Arc &a, int d);
 

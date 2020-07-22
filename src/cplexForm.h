@@ -32,7 +32,7 @@ public:
 	/****************************************************************************************/
 
 	/** Returns the objective function expression. **/
-    IloExpr getObjFunction();
+    IloExpr getObjFunction(Input::ObjectiveMetric chosenObjective);
 
 	/** Returns the source constraint associated with a demand and a node. @param demand The demand. @param d The demand index. @param nodeLabel The node label. **/
     IloRange getSourceConstraint_d_n(const Demand & demand, int d, int nodeLabel);
@@ -72,8 +72,8 @@ public:
 	/** Defines the decision variables need in the MIP formulation. **/
     void setVariables();
 
-	/** Defines the objective function. **/
-    void setObjective();
+	/** Defines the objective function. @param chosenObjective The chosen objective metric. **/
+    void setObjective(Input::ObjectiveMetric chosenObjective);
 
 	/** Defines Source constraints. At most one arc leaves each node and exactly one arc leaves the source. **/
     void setSourceConstraints();

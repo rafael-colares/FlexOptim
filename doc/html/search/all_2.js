@@ -3,7 +3,7 @@ var searchData=
   ['checkdemand_7',['checkDemand',['../classDemand.html#ad5cf6756e2d4c0bd6c48fceef7425f56',1,'Demand']]],
   ['checkfeasibility_8',['checkFeasibility',['../classSubgradient.html#a96c8238e115fcb7001d677e22e515239',1,'Subgradient']]],
   ['chosenmethod_9',['chosenMethod',['../classInput.html#a9e4b66817ca693839ff6dc53243d7a77',1,'Input']]],
-  ['chosenobj_10',['chosenObj',['../classInput.html#ab740852d7a07c44edf8c35906a021213',1,'Input']]],
+  ['chosenobj_10',['chosenObj',['../classInput.html#a7d331c2b618c8d261f612c47aa2e095b',1,'Input']]],
   ['chosenoutputlvl_11',['chosenOutputLvl',['../classInput.html#ad126d97d00d3fa565dd34e8477b9a769',1,'Input']]],
   ['chosenpartitionpolicy_12',['chosenPartitionPolicy',['../classInput.html#a9fa7de7b9e9adb5c516cf5a96baa4513',1,'Input']]],
   ['chosenpreprlvl_13',['chosenPreprLvl',['../classInput.html#a8c583193d46cd61dc630f12f2671b45e',1,'Input']]],
