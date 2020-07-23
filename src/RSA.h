@@ -65,6 +65,10 @@ protected:
         \note (*vecArcLength[i])[a] is the length of arc a in the graph associated with the i-th demand to be routed. **/
     std::vector< std::shared_ptr<ArcCost> > vecArcLength;
 
+    /** A list of pointers to the map storing the arc lengths with hop penalties included of the graph associated with each demand to be routed. 
+        \note (*vecArcLengthWithPenalty[i])[a] is the length with penalties of arc a in the graph associated with the i-th demand to be routed. **/
+    std::vector< std::shared_ptr<ArcCost> > vecArcLengthWithPenalty;
+
     /** A list of pointers to the NodeMap storing the node ids of the graph associated with each demand to be routed. 
         \note (*vecNodeId[i])[v] is the id of node v in the graph associated with the i-th demand to be routed. **/  
     std::vector< std::shared_ptr<NodeMap> > vecNodeId;
@@ -151,6 +155,9 @@ public:
     /** Returns the length of an arc in a graph. @param a The arc. @param d The graph index. **/
     double getArcLength(const ListDigraph::Arc &a, int d) const  {return (*vecArcLength[d])[a]; }
 
+    /** Returns the length with hop penalties of an arc in a graph. @param a The arc. @param d The graph index. **/
+    double getArcLengthWithPenalties(const ListDigraph::Arc &a, int d) const  {return (*vecArcLengthWithPenalty[d])[a]; }
+
     /** Returns the first node identified by (label, slice) on a graph. @param d The graph index. @param label The node's label. @param slice The node's slice. \warning If it does not exist, returns INVALID. **/
     ListDigraph::Node getNode(int d, int label, int slice);
     
@@ -223,11 +230,13 @@ public:
     
     /** Changes the length of an arc in a graph. @param a The arc. @param d The graph index. @param val The new length. **/
     void setArcLength(const ListDigraph::Arc &a, int d, double val) { (*vecArcLength[d])[a] = val; }
+    
+    /** Changes the length with hop penalty of an arc in a graph. @param a The arc. @param d The graph index. @param val The new length. **/
+    void setArcLengthWithPenalty(const ListDigraph::Arc &a, int d, double val) { (*vecArcLengthWithPenalty[d])[a] = val; }
 
 	/** Changes the algorithm status. **/
     void setStatus(Status val) { currentStatus = val; }
 
-    
     /** Changes the id of a node in the compact graph. @param n The node. @param val The new id. **/
     void setCompactNodeId(const ListGraph::Node &n, int val) { compactNodeId[n] = val; }
     

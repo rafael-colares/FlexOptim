@@ -32,6 +32,9 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     std::cout << "Getting allow blocking property." << std::endl;
     allowBlocking = std::stoi(getParameterValue("allowBlocking="));
 
+    std::cout << "Getting hop penalty." << std::endl;
+    hopPenalty = std::stoi(getParameterValue("hopPenalty="));
+
     std::cout << "Getting method." << std::endl;
     chosenMethod = (Method) std::stoi(getParameterValue("method="));
 
@@ -84,6 +87,7 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     timeLimit = i.getIterationTimeLimit();
     globalTimeLimit = i.getOptimizationTimeLimit();
     allowBlocking = i.isBlockingAllowed();
+    hopPenalty = i.getHopPenalty();
 
     chosenMethod = i.getChosenMethod();
     chosenPreprLvl = i.getChosenPreprLvl();

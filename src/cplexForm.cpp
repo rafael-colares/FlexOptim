@@ -450,9 +450,15 @@ void FlowForm::setLengthConstraints(){
 IloRange FlowForm::getLengthConstraint(const Demand &demand, int d){
     IloExpr exp(model.getEnv());
     double rhs = demand.getMaxLength();
+    int source = demand.getSource();
+    int hop = instance.getInput().getHopPenalty();
     for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
         int arc = getArcIndex(a, d); 
         double coeff = getArcLength(a, d);
+        int tail = getNodeLabel((*vecGraph[d]).source(a), d);
+        if (tail != source){
+            coeff += hop;
+        }
         exp += coeff*x[d][arc];
     }
     std::ostringstream constraintName;

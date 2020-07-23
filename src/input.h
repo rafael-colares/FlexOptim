@@ -72,6 +72,7 @@ private:
 	int timeLimit;						/**< Refers to how much time (in seconds) can be spent during one optimization. **/
 	int globalTimeLimit;				/**< Refers to how much time (in seconds) can be spent during the whole optmization. **/
 	bool allowBlocking;					/**< If this option is inactive, optimization stops within first blocking. Otherwise, blocking is accepted (this only works in online case). **/
+	int hopPenalty;						/**< Refers to the penalty of reach applied on each hop. **/
 
 	Method chosenMethod;				/**< Refers to which method is applied for solving the problem.**/
 	PreprocessingLevel chosenPreprLvl;	/**< Refers to which level of preprocessing is applied before solving the problem.**/
@@ -143,6 +144,9 @@ public:
 
 	/** Returns true if blocking is accepted and false, otherwise. **/
     bool isBlockingAllowed() const { return allowBlocking; }
+
+	/** Returns the hop penality. **/
+    int getHopPenalty() const { return hopPenalty; }
 
 	/** Returns the identifier of the method chosen for optimization. **/
     Method getChosenMethod() const { return chosenMethod; }

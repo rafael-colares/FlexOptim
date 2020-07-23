@@ -29,6 +29,7 @@ RSA::RSA(const Instance &inst) : instance(inst), compactEdgeId(compactGraph), co
         vecArcLabel.emplace_back( std::make_shared<ArcMap>((*vecGraph[d])) );
         vecArcSlice.emplace_back( std::make_shared<ArcMap>((*vecGraph[d])) );
         vecArcLength.emplace_back( std::make_shared<ArcCost>((*vecGraph[d])) );
+        vecArcLengthWithPenalty.emplace_back( std::make_shared<ArcCost>((*vecGraph[d])) );
         vecNodeId.emplace_back( std::make_shared<NodeMap>((*vecGraph[d])) );
         vecNodeLabel.emplace_back( std::make_shared<NodeMap>((*vecGraph[d])) );
         vecNodeSlice.emplace_back(std::make_shared<NodeMap>((*vecGraph[d])) );
@@ -138,6 +139,13 @@ void RSA::addArcs(int d, int linkSourceLabel, int linkTargetLabel, int linkLabel
     setArcLabel(a, d, linkLabel);
     setArcSlice(a, d, slice);
     setArcLength(a, d, l);
+    int hop = instance.getInput().getHopPenalty();
+    if (linkSourceLabel == getToBeRouted_k(d).getSource()){
+        setArcLengthWithPenalty(a, d, l);
+    }
+    else{
+        setArcLengthWithPenalty(a, d, l + hop);
+    }
     (*vecOnPath[d])[a] = -1;
     //displayEdge(a);
 }
@@ -282,6 +290,7 @@ void RSA::pathExistencePreprocessing(){
                 if (source == INVALID || target == INVALID){
                     (*vecGraph[d]).erase(a);
                     nb++;
+                    totalNb++;
                 }
                 a = nextArc;
             }
@@ -289,12 +298,9 @@ void RSA::pathExistencePreprocessing(){
             if (nb == 0){
                 STOP = true;
             }
-            else{
-                totalNb += nb;
-            }
         }
-        //std::cout << "> Number of erased arcs due to Path Existence in graph #" << d << ": " << totalNb << std::endl;
     }
+    std::cout << "> Number of erased arcs due to Path Existence: " << totalNb << std::endl;
 }
 /* Performs preprocessing based on the arc lengths and returns true if at least one arc is erased. */
 bool RSA::lengthPreprocessing(){
@@ -331,7 +337,7 @@ bool RSA::lengthPreprocessing(){
         //std::cout << "> Number of erased arcs due to length in graph #" << d << ". If: " << nb << ". Else: " << nbElse << std::endl;
     }
     if (totalNb >= 1){
-        //std::cout << "> Number of erased arcs due to length in graph: "<< totalNb << std::endl;
+        std::cout << "> Number of erased arcs due to length in graph: "<< totalNb << std::endl;
         return true;
     }
     return false;
@@ -340,7 +346,7 @@ bool RSA::lengthPreprocessing(){
 /* Returns the distance of the shortest path from source to target passing through arc a. */
 double RSA::shortestDistance(int d, ListDigraph::Node &s, ListDigraph::Arc &a, ListDigraph::Node &t){
     double distance = 0.0;
-    Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > s_u_path((*vecGraph[d]), (*vecArcLength[d]));
+    Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > s_u_path((*vecGraph[d]), (*vecArcLengthWithPenalty[d]));
 
     s_u_path.run(s,(*vecGraph[d]).source(a));
     if (s_u_path.reached((*vecGraph[d]).source(a))){
@@ -350,9 +356,9 @@ double RSA::shortestDistance(int d, ListDigraph::Node &s, ListDigraph::Arc &a, L
         return DBL_MAX;
     }
     
-    distance += getArcLength(a, d);
+    distance += getArcLengthWithPenalties(a, d);
 
-    Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > v_t_path((*vecGraph[d]), (*vecArcLength[d]));
+    Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > v_t_path((*vecGraph[d]), (*vecArcLengthWithPenalty[d]));
     v_t_path.run((*vecGraph[d]).target(a), t);
     if (v_t_path.reached(t)){
         distance += v_t_path.dist(t);
@@ -375,7 +381,7 @@ double RSA::getCoeffObj1(const ListDigraph::Arc &a, int d){
     if(uLabel == getToBeRouted_k(d).getSource()){
         switch (instance.getInput().getChosenPartitionPolicy() ){
             case Input::PARTITION_POLICY_NO:
-                coeff = arcSlice + 1;
+                coeff = NB_EDGES*(arcSlice + 1) + 1;
             break;
             case Input::PARTITION_POLICY_SOFT:
                 if(getToBeRouted_k(d).getLoad() <= instance.getInput().getPartitionLoad()){
@@ -400,7 +406,7 @@ double RSA::getCoeffObj1(const ListDigraph::Arc &a, int d){
         }
     }
     else{
-        coeff = 0; 
+        coeff = 1; 
     }
     return coeff;
 }
