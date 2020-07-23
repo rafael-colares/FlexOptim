@@ -17,10 +17,17 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     std::cout << "Getting output path." << std::endl;
     outputPath = getParameterValue("outputPath=");
 
-
-
-    std::cout << "Getting number of demands to be treated at once." << std::endl;
-    nbDemandsAtOnce = std::stoi(getParameterValue("nbDemandsAtOnce="));
+    try
+    {
+        std::cout << "Getting number of demands to be treated at once." << std::endl;
+        std::cout << "Value = " << getParameterValue("nbDemandsAtOnce=") << std::endl;
+        nbDemandsAtOnce = std::stoi(getParameterValue("nbDemandsAtOnce="));
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << ' Tried to get nb demands at once.\n';
+    }
+    
 
     std::cout << "Getting number of slices in output." << std::endl;
     nbSlicesInOutputFile = std::stoi(getParameterValue("nbSlicesInOutputFile="));

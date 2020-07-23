@@ -2,7 +2,7 @@ linkFile=../Parameters/Instances/NSF/InitialMappingMet1Slice120/Link.csv
 demandFile=
 assignmentFile=
 onlineDemandFolder=../Parameters/Instances/NSF/TestDemands_Offline
-nbDemandsAtOnce=59
+nbDemandsAtOnce=2 
 outputPath=../Output/OtherTests/
 outputLevel=1
 nbSlicesInOutputFile=320
@@ -10,8 +10,8 @@ method=0
 preprocessingLevel=2
 obj=1
 timeLimit=
-globalTimeLimit=
-allowBlocking=0
+globalTimeLimit=70000 
+allowBlocking=1
 hopPenalty=0
 
 ******* Partition Parameters *******
@@ -23,4 +23,4 @@ partitionSlice=15
 lagrangianMultiplier_zero=0.0
 lagrangianLambda_zero=2.0
 nbIterationsWithoutImprovement=5
-maxNbIterations=1000
+maxNbIterations=100
