@@ -9,7 +9,7 @@ echo "removing all spain_n5 output  files"
 #(rm -rf ./Parameters/Instances/spain_n5/*)
 #(cp -rf ../../flexoptim/Parameters/Instances/spain_n5/* ../Parameters/Instances/spain_n5/)
 
-
+ 
 echo "modifying online perm1"
 ######Perm1#######
 file=onlineParameters.txt
