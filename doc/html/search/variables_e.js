@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['sliceallocation_764',['sliceAllocation',['../classDemand.html#a7f22780dd6801abfaa70808d5367cdf3',1,'Demand']]],
-  ['source_765',['source',['../classDemand.html#aba0b2f49b117edde4743e4ba0575bd97',1,'Demand']]],
-  ['spectrum_766',['spectrum',['../classPhysicalLink.html#aef21b855284e629c3c865e28049bea87',1,'PhysicalLink']]],
-  ['stepsize_767',['stepSize',['../classSubgradient.html#a390457d4bab339f347f39bfbb68d3552',1,'Subgradient']]]
+  ['sliceallocation_823',['sliceAllocation',['../classDemand.html#a7f22780dd6801abfaa70808d5367cdf3',1,'Demand']]],
+  ['source_824',['source',['../classDemand.html#aba0b2f49b117edde4743e4ba0575bd97',1,'Demand']]],
+  ['spectrum_825',['spectrum',['../classPhysicalLink.html#aef21b855284e629c3c865e28049bea87',1,'PhysicalLink']]],
+  ['stepsize_826',['stepSize',['../classSubgradient.html#a390457d4bab339f347f39bfbb68d3552',1,'Subgradient']]]
 ];

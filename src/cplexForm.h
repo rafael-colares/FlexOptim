@@ -2,9 +2,11 @@
 #define __cplexForm__h
 
 #include "solver.h"
+#include "FormulationComponents.h"
 
 typedef IloArray<IloBoolVarArray> IloBoolVarMatrix;
 typedef IloArray<IloNumVarArray> IloNumVarMatrix;
+typedef std::vector<std::vector<Variable> > VarMatrix;
 
 
 /*********************************************************************************************
