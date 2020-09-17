@@ -4,12 +4,13 @@
 #include <string>
 #include <vector>
 /********************************************************************************************
- * This class identifies a Variable in a MIP formulation. A demand is defined by its lower 
- * and upper bounds, and its type. 
+ * This class identifies a Variable in a MIP formulation. A demand is defined by its id, its 
+ * lower and upper bounds, and its type. 
  ********************************************************************************************/
 class Variable
 {    
     
+public: 
 	/** Enumerates the possible types of variable. **/
     enum Type {						
 		TYPE_REAL = 0,    /**< Variable can admit real values. **/
@@ -18,17 +19,23 @@ class Variable
 	};
 
 private:
+    int id;         /**< The variable identifier. **/
     double lb;      /**< The variable lower bound. **/
     double ub;      /**< The variable upper bound. **/
     Type type;      /**< The variable type. **/
+    std::string name;
+	double value;
 
 public:
     /** Constructor. @param lowerBound The variable lower bound. @param upperBound The variable upper bound. @param varType The variable type. **/
-    Variable(double lowerBound=0, double upperBound=1, Type varType=TYPE_BOOLEAN);
+    Variable(int identifier=-1, double lowerBound=0, double upperBound=1, Type varType=TYPE_BOOLEAN, double val=0, std::string name="");
 
 	/****************************************************************************************/
 	/*										Getters											*/
 	/****************************************************************************************/
+	/** Returns the variable's id. **/
+    int getId() const { return id; }
+
 	/** Returns the variable's lower bound. **/
     double getLb() const { return lb; }
 
@@ -38,9 +45,18 @@ public:
 	/** Returns the variable's type. **/
     Type getType() const { return type; }
 
+	/** Returns the variable's name. **/
+    std::string getName() const { return name; }
+
+	/** Returns the variable's value. **/
+    double getVal() const { return value; }
+
 	/****************************************************************************************/
 	/*										Setters											*/
 	/****************************************************************************************/
+	/** Changes the variable's id. @param identifier The new id. **/
+    void setId(int identifier) { this->id = identifier; }
+
 	/** Changes the variable's lower bound. @param lowerBound The new lower bound. **/
     void setLb(double lowerBound) { this->lb = lowerBound; }
 
@@ -49,6 +65,10 @@ public:
 
 	/** Changes the variable's type.  @param varType The new type. **/
     void setType(Type varType) { this->type = varType; }
+
+	/** Changes the variable's value. @param val The new value. **/
+    void setVal(double val) { this->value = val; }
+	
 
 };
 
@@ -98,8 +118,8 @@ private:
     std::vector<Term> termsArray;  /**< The array of terms. **/
 
 public:
-    /** Constructor. @param lowerBound The variable lower bound. @param upperBound The variable upper bound. @param varType The variable type. **/
-    Expression();
+    /** Default constructor. **/
+    Expression(){}
 
     /** Copy constructor. @param e The expression to be copied. **/
     Expression(const Expression &e);
@@ -126,12 +146,66 @@ public:
 	/*										Methods											*/
 	/****************************************************************************************/
 	/** Adds a new term to the expression. @param term The term to be added. **/
-    void addTerm(Term &term) { termsArray.push_back(term); }
+    void addTerm(Term &term);
 
     /** Clear the expression. **/
     void clear() { termsArray.clear(); }
 };
 
+
+/********************************************************************************************
+ * This class identifies an objective function in a MIP formulation. An Objective Function
+ * is defined by an Expression and a Direction.
+ ********************************************************************************************/
+class ObjectiveFunction
+{    
+public:
+	/** Enumerates the possible directions to optimize. **/
+    enum Direction {						
+		DIRECTION_MIN = 0,    /**< Minimize expression. **/
+		DIRECTION_MAX = 1,    /**< Maximize expression. **/
+	};
+
+private:
+    Expression expr;        /**< The objective function expression. **/
+    Direction direction;    /**< The direction to be optimized. **/
+	std::string name;
+
+public:
+    /** Constructor. @param e The expression. @param d The direction. **/
+    ObjectiveFunction(Expression &e, Direction d);
+    /** Default constructor.**/
+    ObjectiveFunction(std::string n = "") : name(n) {}
+
+	/****************************************************************************************/
+	/*										Getters											*/
+	/****************************************************************************************/
+
+	/** Returns the objective function's direction. **/
+    Direction getDirection() const { return direction; }
+    
+	/** Returns the objective function's expression. **/
+    Expression getExpression() const { return expr; }
+
+	/** Returns the objective's name. **/
+    std::string getName() const { return name; }
+
+	/****************************************************************************************/
+	/*										Setters											*/
+	/****************************************************************************************/
+
+	/** Changes the objective function's direction. @param d The new direction. **/
+    void setDirection(Direction d) { this->direction = d; }
+
+	/** Changes the objective function's expression. @param e The new expression. **/
+    void setExpression(Expression &e) {this->expr = e; }
+    
+	/** Changes the objective's name. **/
+    void setName(std::string str) { this->name = str; }
+
+    /** Clear the objective's expression. **/
+    void clear() { this->expr.clear(); }
+};
 
 
 /********************************************************************************************
@@ -145,10 +219,11 @@ private:
     double lb;          /**< The constraint lower bound. **/
     Expression expr;    /**< The constraint expression. **/
     double ub;          /**< The constraint upper bound. **/
+    std::string name;   /**< The constraint name. **/
 
 public:
     /** Constructor. @param lowerBound The variable lower bound. @param upperBound The variable upper bound. @param varType The variable type. **/
-    Constraint(double lowerBound, Expression &e, double upperBound);
+    Constraint(double lowerBound, Expression &e, double upperBound, std::string constName="");
 
 	/****************************************************************************************/
 	/*										Getters											*/
@@ -162,6 +237,9 @@ public:
 	/** Returns the constraint's expression. **/
     Expression getExpression() const { return expr; }
 
+	/** Returns the constraint's name. **/
+    std::string getName() const { return name; }
+
 	/****************************************************************************************/
 	/*										Setters											*/
 	/****************************************************************************************/
@@ -174,7 +252,7 @@ public:
 	/** Changes the constraint's expression. @param e The new expression. **/
     void setExpression(Expression &e) {this->expr = e; }
     
-    /** Clear the constriant's expression. **/
+    /** Clear the constraint's expression. **/
     void clear() { this->expr.clear(); }
 };
 

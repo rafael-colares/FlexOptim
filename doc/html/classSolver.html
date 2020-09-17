@@ -64,12 +64,12 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
-<a href="#pro-static-attribs">Static Protected Attributes</a> &#124;
 <a href="classSolver-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">Solver Class Reference</div>  </div>
+<div class="title">Solver Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -83,365 +83,91 @@ Inheritance diagram for Solver:</div>
  <div class="center">
   <img src="classSolver.png" usemap="#Solver_map" alt=""/>
   <map id="Solver_map" name="Solver_map">
-<area href="classRSA.html" title="This class stores the input needed for solving the Routing and Spectrum Allocation problem." alt="RSA" shape="rect" coords="52,0,146,24"/>
-<area href="classFlowForm.html" title="This class implements the Online Routing and Spectrum Allocation through a Flow MIP formulation using..." alt="FlowForm" shape="rect" coords="0,112,94,136"/>
-<area href="classYoussoufForm.html" title="This class implements the Online Routing and Spectrum Allocation through the Youssouf&#39;s Edge-Node MIP..." alt="YoussoufForm" shape="rect" coords="104,112,198,136"/>
+<area href="classCplexForm.html" title="This class implements the Online Routing and Spectrum Allocation through a Flow MIP formulation using..." alt="CplexForm" shape="rect" coords="0,56,94,80"/>
+<area href="classSolverCplex.html" title="This class implements the Online Routing and Spectrum Allocation through a Flow MIP formulation using..." alt="SolverCplex" shape="rect" coords="104,56,198,80"/>
+<area href="classYoussoufForm.html" title="This class implements the Online Routing and Spectrum Allocation through the Youssouf&#39;s Edge-Node MIP..." alt="YoussoufForm" shape="rect" coords="208,56,302,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ac05d31305623304f32119b5eb0385bf8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8">Status</a> { <br />
+&#160;&#160;<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8af697d79f09119a1a8ff1455f2d863eba">STATUS_UNKNOWN</a> = 0, 
+<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8a9d8d381616673ec54d036f82d84cee20">STATUS_FEASIBLE</a> = 1, 
+<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8a7727904dfba8b4c9330522cf5d66e058">STATUS_OPTIMAL</a> = 2, 
+<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8a54afb38b991bd3afb2569aa0f67a19f5">STATUS_INFEASIBLE</a> = 3, 
+<br />
+&#160;&#160;<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8a2abddbcee3f77350ed295525f423bcac">STATUS_UNBOUNDED</a> = 4, 
+<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8a9d746d1a156ae626cda4d051fa520a7d">STATUS_INFEASIBLE_OR_UNBOUNDED</a> = 5, 
+<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8aff14b4aaeaf852929f18345f1173e873">STATUS_ERROR</a> = 6
+<br />
+ }</td></tr>
+<tr class="memdesc:ac05d31305623304f32119b5eb0385bf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates the possible algorithm status according to the current model and solution in hand.  <a href="classSolver.html#ac05d31305623304f32119b5eb0385bf8">More...</a><br /></td></tr>
+<tr class="separator:ac05d31305623304f32119b5eb0385bf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8271976cef5a884cb8b4deb295311466"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a8271976cef5a884cb8b4deb295311466">Solver</a> (const <a class="el" href="classInstance.html">Instance</a> &amp;inst)</td></tr>
-<tr class="memdesc:a8271976cef5a884cb8b4deb295311466"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classSolver.html#a8271976cef5a884cb8b4deb295311466">More...</a><br /></td></tr>
-<tr class="separator:a8271976cef5a884cb8b4deb295311466"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76ffaa1bb3079a5e29f08b87a7c1c083"><td class="memItemLeft" align="right" valign="top"><a id="a76ffaa1bb3079a5e29f08b87a7c1c083"></a>
-IloCplex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a76ffaa1bb3079a5e29f08b87a7c1c083">getCplex</a> ()</td></tr>
-<tr class="memdesc:a76ffaa1bb3079a5e29f08b87a7c1c083"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the cplex engine in use. <br /></td></tr>
-<tr class="separator:a76ffaa1bb3079a5e29f08b87a7c1c083"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc755ff6e3573f15ebe2fc26d4586b7c"><td class="memItemLeft" align="right" valign="top"><a id="adc755ff6e3573f15ebe2fc26d4586b7c"></a>
-IloInt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#adc755ff6e3573f15ebe2fc26d4586b7c">getNbCutsFromCplex</a> ()</td></tr>
-<tr class="memdesc:adc755ff6e3573f15ebe2fc26d4586b7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total number of CPLEX default cuts applied during optimization. <br /></td></tr>
-<tr class="separator:adc755ff6e3573f15ebe2fc26d4586b7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c414a2824692a461cf6b98edbe073a2"><td class="memItemLeft" align="right" valign="top"><a id="a4c414a2824692a461cf6b98edbe073a2"></a>
-<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108f">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a4c414a2824692a461cf6b98edbe073a2">getStatus</a> ()</td></tr>
-<tr class="memdesc:a4c414a2824692a461cf6b98edbe073a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the cplex status. <br /></td></tr>
-<tr class="separator:a4c414a2824692a461cf6b98edbe073a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba52d3c92fafceb6fe39f937f2d73db3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#aba52d3c92fafceb6fe39f937f2d73db3">~Solver</a> ()</td></tr>
-<tr class="memdesc:aba52d3c92fafceb6fe39f937f2d73db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="classSolver.html#aba52d3c92fafceb6fe39f937f2d73db3">More...</a><br /></td></tr>
-<tr class="separator:aba52d3c92fafceb6fe39f937f2d73db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classRSA"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classRSA')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classRSA.html">RSA</a></td></tr>
-<tr class="memitem:a3721e8ddbb15b0bbe5d4d0655c31ae6a inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a3721e8ddbb15b0bbe5d4d0655c31ae6a">RSA</a> (const <a class="el" href="classInstance.html">Instance</a> &amp;<a class="el" href="classRSA.html#ad81287af708fcfcd98c963cfafc1f4db">instance</a>)</td></tr>
-<tr class="memdesc:a3721e8ddbb15b0bbe5d4d0655c31ae6a inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classRSA.html#a3721e8ddbb15b0bbe5d4d0655c31ae6a">More...</a><br /></td></tr>
-<tr class="separator:a3721e8ddbb15b0bbe5d4d0655c31ae6a inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a095f1de05dce4eb6d8ccdceae1cbc33f inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a095f1de05dce4eb6d8ccdceae1cbc33f"></a>
-<a class="el" href="classInstance.html">Instance</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a095f1de05dce4eb6d8ccdceae1cbc33f">getInstance</a> () const</td></tr>
-<tr class="memdesc:a095f1de05dce4eb6d8ccdceae1cbc33f inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the input instance. <br /></td></tr>
-<tr class="separator:a095f1de05dce4eb6d8ccdceae1cbc33f inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06e9f1e6bbfcb2c928fdd6f5b7c50ed9 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a06e9f1e6bbfcb2c928fdd6f5b7c50ed9"></a>
-std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a06e9f1e6bbfcb2c928fdd6f5b7c50ed9">getToBeRouted</a> ()</td></tr>
-<tr class="memdesc:a06e9f1e6bbfcb2c928fdd6f5b7c50ed9 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the vector of demands to be routed. <br /></td></tr>
-<tr class="separator:a06e9f1e6bbfcb2c928fdd6f5b7c50ed9 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7b9af4d55abf64fb98b242142535a75 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="af7b9af4d55abf64fb98b242142535a75"></a>
-std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#af7b9af4d55abf64fb98b242142535a75">getLoadsToBeRouted</a> ()</td></tr>
-<tr class="memdesc:af7b9af4d55abf64fb98b242142535a75 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the vector of loads to be routed. <br /></td></tr>
-<tr class="separator:af7b9af4d55abf64fb98b242142535a75 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a3b848644b3d5b503c3b84df689570c inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDemand.html">Demand</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a2a3b848644b3d5b503c3b84df689570c">getToBeRouted_k</a> (int k)</td></tr>
-<tr class="memdesc:a2a3b848644b3d5b503c3b84df689570c inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the i-th demand to be routed.  <a href="classRSA.html#a2a3b848644b3d5b503c3b84df689570c">More...</a><br /></td></tr>
-<tr class="separator:a2a3b848644b3d5b503c3b84df689570c inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a438ccfae6e281c7916502358bd1ee25d inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a438ccfae6e281c7916502358bd1ee25d">getLoadsToBeRouted_k</a> (int k)</td></tr>
-<tr class="memdesc:a438ccfae6e281c7916502358bd1ee25d inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the i-th load to be routed.  <a href="classRSA.html#a438ccfae6e281c7916502358bd1ee25d">More...</a><br /></td></tr>
-<tr class="separator:a438ccfae6e281c7916502358bd1ee25d inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a574b85eda76013c54bd4d88e123f8fa1 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a574b85eda76013c54bd4d88e123f8fa1"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a574b85eda76013c54bd4d88e123f8fa1">getNbDemandsToBeRouted</a> () const</td></tr>
-<tr class="memdesc:a574b85eda76013c54bd4d88e123f8fa1 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of demands to be routed. <br /></td></tr>
-<tr class="separator:a574b85eda76013c54bd4d88e123f8fa1 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1bd29ff23f9bdaf0a427ba3fb00284d inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="ab1bd29ff23f9bdaf0a427ba3fb00284d"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ab1bd29ff23f9bdaf0a427ba3fb00284d">getNbLoadsToBeRouted</a> () const</td></tr>
-<tr class="memdesc:ab1bd29ff23f9bdaf0a427ba3fb00284d inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of loads to be routed. <br /></td></tr>
-<tr class="separator:ab1bd29ff23f9bdaf0a427ba3fb00284d inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade475be1f126a7bdd1fb730158028cc3 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ade475be1f126a7bdd1fb730158028cc3">getNodeId</a> (const ListDigraph::Node &amp;n, int d) const</td></tr>
-<tr class="memdesc:ade475be1f126a7bdd1fb730158028cc3 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the LEMON id of a node in a graph.  <a href="classRSA.html#ade475be1f126a7bdd1fb730158028cc3">More...</a><br /></td></tr>
-<tr class="separator:ade475be1f126a7bdd1fb730158028cc3 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16727945d70e67ecd314577054ea25fd inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a16727945d70e67ecd314577054ea25fd">getNodeLabel</a> (const ListDigraph::Node &amp;n, int d) const</td></tr>
-<tr class="memdesc:a16727945d70e67ecd314577054ea25fd inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the label of a node in a graph.  <a href="classRSA.html#a16727945d70e67ecd314577054ea25fd">More...</a><br /></td></tr>
-<tr class="separator:a16727945d70e67ecd314577054ea25fd inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac5b2380b7179493011a9e476555899a inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aac5b2380b7179493011a9e476555899a">getNodeSlice</a> (const ListDigraph::Node &amp;n, int d) const</td></tr>
-<tr class="memdesc:aac5b2380b7179493011a9e476555899a inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the slice of a node in a graph.  <a href="classRSA.html#aac5b2380b7179493011a9e476555899a">More...</a><br /></td></tr>
-<tr class="separator:aac5b2380b7179493011a9e476555899a inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adfe120a9e708ced2108c1c493af0bf0c inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#adfe120a9e708ced2108c1c493af0bf0c">getArcId</a> (const ListDigraph::Arc &amp;a, int d) const</td></tr>
-<tr class="memdesc:adfe120a9e708ced2108c1c493af0bf0c inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the LEMON id of an arc in a graph.  <a href="classRSA.html#adfe120a9e708ced2108c1c493af0bf0c">More...</a><br /></td></tr>
-<tr class="separator:adfe120a9e708ced2108c1c493af0bf0c inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abdacea888dece000f90ec92cb4c2e068 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#abdacea888dece000f90ec92cb4c2e068">getArcIndex</a> (const ListDigraph::Arc &amp;a, int d) const</td></tr>
-<tr class="memdesc:abdacea888dece000f90ec92cb4c2e068 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the index of an arc in a preprocessed graph.  <a href="classRSA.html#abdacea888dece000f90ec92cb4c2e068">More...</a><br /></td></tr>
-<tr class="separator:abdacea888dece000f90ec92cb4c2e068 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2256e2f93c22fe30c1a0686ebc7bd45 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ac2256e2f93c22fe30c1a0686ebc7bd45">getArcLabel</a> (const ListDigraph::Arc &amp;a, int d) const</td></tr>
-<tr class="memdesc:ac2256e2f93c22fe30c1a0686ebc7bd45 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the label of an arc in a graph.  <a href="classRSA.html#ac2256e2f93c22fe30c1a0686ebc7bd45">More...</a><br /></td></tr>
-<tr class="separator:ac2256e2f93c22fe30c1a0686ebc7bd45 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59ef7dc281ee8d1181c59a14c6f25149 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a59ef7dc281ee8d1181c59a14c6f25149">getArcSlice</a> (const ListDigraph::Arc &amp;a, int d) const</td></tr>
-<tr class="memdesc:a59ef7dc281ee8d1181c59a14c6f25149 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the slice of an arc in a graph.  <a href="classRSA.html#a59ef7dc281ee8d1181c59a14c6f25149">More...</a><br /></td></tr>
-<tr class="separator:a59ef7dc281ee8d1181c59a14c6f25149 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40b7809f4e2b716d83c8d57b157bb291 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a40b7809f4e2b716d83c8d57b157bb291">getArcLength</a> (const ListDigraph::Arc &amp;a, int d) const</td></tr>
-<tr class="memdesc:a40b7809f4e2b716d83c8d57b157bb291 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the length of an arc in a graph.  <a href="classRSA.html#a40b7809f4e2b716d83c8d57b157bb291">More...</a><br /></td></tr>
-<tr class="separator:a40b7809f4e2b716d83c8d57b157bb291 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f4798206997729981a61dcc437fc247 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a8f4798206997729981a61dcc437fc247">getArcLengthWithPenalties</a> (const ListDigraph::Arc &amp;a, int d) const</td></tr>
-<tr class="memdesc:a8f4798206997729981a61dcc437fc247 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the length with hop penalties of an arc in a graph.  <a href="classRSA.html#a8f4798206997729981a61dcc437fc247">More...</a><br /></td></tr>
-<tr class="separator:a8f4798206997729981a61dcc437fc247 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5c7406517a7456c642c4c6ae25e234b inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">ListDigraph::Node&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aa5c7406517a7456c642c4c6ae25e234b">getNode</a> (int d, int label, int slice)</td></tr>
-<tr class="memdesc:aa5c7406517a7456c642c4c6ae25e234b inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first node identified by (label, slice) on a graph.  <a href="classRSA.html#aa5c7406517a7456c642c4c6ae25e234b">More...</a><br /></td></tr>
-<tr class="separator:aa5c7406517a7456c642c4c6ae25e234b inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b0a937d2de7e7aa0bf97d48ccf83771 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a6b0a937d2de7e7aa0bf97d48ccf83771">getCoeff</a> (const ListDigraph::Arc &amp;a, int d)</td></tr>
-<tr class="memdesc:a6b0a937d2de7e7aa0bf97d48ccf83771 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the coefficient of an arc (according to the chosen metric) on a graph.  <a href="classRSA.html#a6b0a937d2de7e7aa0bf97d48ccf83771">More...</a><br /></td></tr>
-<tr class="separator:a6b0a937d2de7e7aa0bf97d48ccf83771 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a905faac0c037a20ab5c0dee8754ad12f inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a905faac0c037a20ab5c0dee8754ad12f">getCoeffObj1</a> (const ListDigraph::Arc &amp;a, int d)</td></tr>
-<tr class="memdesc:a905faac0c037a20ab5c0dee8754ad12f inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the coefficient of an arc according to metric 1 on a graph.  <a href="classRSA.html#a905faac0c037a20ab5c0dee8754ad12f">More...</a><br /></td></tr>
-<tr class="separator:a905faac0c037a20ab5c0dee8754ad12f inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a477e23bb1659bc108853878a2c1a18d8 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a477e23bb1659bc108853878a2c1a18d8">getCoeffObj1p</a> (const ListDigraph::Arc &amp;a, int d)</td></tr>
-<tr class="memdesc:a477e23bb1659bc108853878a2c1a18d8 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the coefficient of an arc according to metric 1p on a graph.  <a href="classRSA.html#a477e23bb1659bc108853878a2c1a18d8">More...</a><br /></td></tr>
-<tr class="separator:a477e23bb1659bc108853878a2c1a18d8 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a810c7b50e414a8be7547d3f2413194a3 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a810c7b50e414a8be7547d3f2413194a3">getCoeffObj2</a> (const ListDigraph::Arc &amp;a, int d)</td></tr>
-<tr class="memdesc:a810c7b50e414a8be7547d3f2413194a3 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the coefficient of an arc according to metric 2 on a graph.  <a href="classRSA.html#a810c7b50e414a8be7547d3f2413194a3">More...</a><br /></td></tr>
-<tr class="separator:a810c7b50e414a8be7547d3f2413194a3 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48e69042cab35baa9481ac7ec2ddc70b inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a48e69042cab35baa9481ac7ec2ddc70b">getCoeffObj2p</a> (const ListDigraph::Arc &amp;a, int d)</td></tr>
-<tr class="memdesc:a48e69042cab35baa9481ac7ec2ddc70b inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the coefficient of an arc according to metric 2p on a graph.  <a href="classRSA.html#a48e69042cab35baa9481ac7ec2ddc70b">More...</a><br /></td></tr>
-<tr class="separator:a48e69042cab35baa9481ac7ec2ddc70b inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfeaebdee95e33bf4852c4c5d9e527da inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#abfeaebdee95e33bf4852c4c5d9e527da">getCoeffObj4</a> (const ListDigraph::Arc &amp;a, int d)</td></tr>
-<tr class="memdesc:abfeaebdee95e33bf4852c4c5d9e527da inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the coefficient of an arc according to metric 4 on a graph.  <a href="classRSA.html#abfeaebdee95e33bf4852c4c5d9e527da">More...</a><br /></td></tr>
-<tr class="separator:abfeaebdee95e33bf4852c4c5d9e527da inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bc0e108344172c603752ff04887cd86 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a4bc0e108344172c603752ff04887cd86">getCoeffObj8</a> (const ListDigraph::Arc &amp;a, int d)</td></tr>
-<tr class="memdesc:a4bc0e108344172c603752ff04887cd86 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the coefficient of an arc according to metric 8 on a graph.  <a href="classRSA.html#a4bc0e108344172c603752ff04887cd86">More...</a><br /></td></tr>
-<tr class="separator:a4bc0e108344172c603752ff04887cd86 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab039b585ecf1d3b8e6733588496975a5 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="ab039b585ecf1d3b8e6733588496975a5"></a>
-<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108f">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ab039b585ecf1d3b8e6733588496975a5">getStatus</a> () const</td></tr>
-<tr class="memdesc:ab039b585ecf1d3b8e6733588496975a5 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the algorithm status. <br /></td></tr>
-<tr class="separator:ab039b585ecf1d3b8e6733588496975a5 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6add4a24fb147fc51424ca7159d52d4 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ae6add4a24fb147fc51424ca7159d52d4">getCompactNodeId</a> (const ListGraph::Node &amp;n) const</td></tr>
-<tr class="memdesc:ae6add4a24fb147fc51424ca7159d52d4 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the LEMON id of a node in the compact graph.  <a href="classRSA.html#ae6add4a24fb147fc51424ca7159d52d4">More...</a><br /></td></tr>
-<tr class="separator:ae6add4a24fb147fc51424ca7159d52d4 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6e6dfc7407c1c204f2f586395efea83 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ac6e6dfc7407c1c204f2f586395efea83">getCompactNodeLabel</a> (const ListGraph::Node &amp;n) const</td></tr>
-<tr class="memdesc:ac6e6dfc7407c1c204f2f586395efea83 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the label of a node in the compact graph.  <a href="classRSA.html#ac6e6dfc7407c1c204f2f586395efea83">More...</a><br /></td></tr>
-<tr class="separator:ac6e6dfc7407c1c204f2f586395efea83 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86c93ad71046ac92d34c93611693fc36 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a86c93ad71046ac92d34c93611693fc36">getCompactEdgeId</a> (const ListGraph::Edge &amp;e) const</td></tr>
-<tr class="memdesc:a86c93ad71046ac92d34c93611693fc36 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the LEMON id of an edge in the compact graph.  <a href="classRSA.html#a86c93ad71046ac92d34c93611693fc36">More...</a><br /></td></tr>
-<tr class="separator:a86c93ad71046ac92d34c93611693fc36 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57e0d635d9631193f1ac478d1ec3acd8 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a57e0d635d9631193f1ac478d1ec3acd8">getCompactEdgeLabel</a> (const ListGraph::Edge &amp;e) const</td></tr>
-<tr class="memdesc:a57e0d635d9631193f1ac478d1ec3acd8 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the label of an edge in the compact graph.  <a href="classRSA.html#a57e0d635d9631193f1ac478d1ec3acd8">More...</a><br /></td></tr>
-<tr class="separator:a57e0d635d9631193f1ac478d1ec3acd8 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5fe5adf75ab626b7896874ffecb9eef1 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a5fe5adf75ab626b7896874ffecb9eef1">getCompactLength</a> (const ListGraph::Edge &amp;e)</td></tr>
-<tr class="memdesc:a5fe5adf75ab626b7896874ffecb9eef1 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the length of an edge on the compact graph.  <a href="classRSA.html#a5fe5adf75ab626b7896874ffecb9eef1">More...</a><br /></td></tr>
-<tr class="separator:a5fe5adf75ab626b7896874ffecb9eef1 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ee45b88cfa6455df1228005792f0d52 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a5ee45b88cfa6455df1228005792f0d52">setToBeRouted</a> (const std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt; &amp;vec)</td></tr>
-<tr class="memdesc:a5ee45b88cfa6455df1228005792f0d52 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the vector of demands to be routed.  <a href="classRSA.html#a5ee45b88cfa6455df1228005792f0d52">More...</a><br /></td></tr>
-<tr class="separator:a5ee45b88cfa6455df1228005792f0d52 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf8be457e5d6b65c3776f629f41aeecb inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#abf8be457e5d6b65c3776f629f41aeecb">setNodeId</a> (const ListDigraph::Node &amp;n, int d, int val)</td></tr>
-<tr class="memdesc:abf8be457e5d6b65c3776f629f41aeecb inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the id of a node in a graph.  <a href="classRSA.html#abf8be457e5d6b65c3776f629f41aeecb">More...</a><br /></td></tr>
-<tr class="separator:abf8be457e5d6b65c3776f629f41aeecb inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a455ad10ce9aded2a4a1c93d7344842d4 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a455ad10ce9aded2a4a1c93d7344842d4">setNodeLabel</a> (const ListDigraph::Node &amp;n, int d, int val)</td></tr>
-<tr class="memdesc:a455ad10ce9aded2a4a1c93d7344842d4 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the label of a node in a graph.  <a href="classRSA.html#a455ad10ce9aded2a4a1c93d7344842d4">More...</a><br /></td></tr>
-<tr class="separator:a455ad10ce9aded2a4a1c93d7344842d4 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07ece679f3c45008ca9f054db947409c inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a07ece679f3c45008ca9f054db947409c">setNodeSlice</a> (const ListDigraph::Node &amp;n, int d, int val)</td></tr>
-<tr class="memdesc:a07ece679f3c45008ca9f054db947409c inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the slice of a node in a graph.  <a href="classRSA.html#a07ece679f3c45008ca9f054db947409c">More...</a><br /></td></tr>
-<tr class="separator:a07ece679f3c45008ca9f054db947409c inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf8b0e6f4229caa95cdd9c62d15ab4de inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#acf8b0e6f4229caa95cdd9c62d15ab4de">setArcId</a> (const ListDigraph::Arc &amp;a, int d, int val)</td></tr>
-<tr class="memdesc:acf8b0e6f4229caa95cdd9c62d15ab4de inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the id of an arc in a graph.  <a href="classRSA.html#acf8b0e6f4229caa95cdd9c62d15ab4de">More...</a><br /></td></tr>
-<tr class="separator:acf8b0e6f4229caa95cdd9c62d15ab4de inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93848f7573b729e138342a525d26c9d7 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a93848f7573b729e138342a525d26c9d7">setArcIndex</a> (const ListDigraph::Arc &amp;a, int d, int val)</td></tr>
-<tr class="memdesc:a93848f7573b729e138342a525d26c9d7 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the index of an arc in a graph.  <a href="classRSA.html#a93848f7573b729e138342a525d26c9d7">More...</a><br /></td></tr>
-<tr class="separator:a93848f7573b729e138342a525d26c9d7 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af510d0b4de7c9dd10fc1e4978ac4f214 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#af510d0b4de7c9dd10fc1e4978ac4f214">setArcLabel</a> (const ListDigraph::Arc &amp;a, int d, int val)</td></tr>
-<tr class="memdesc:af510d0b4de7c9dd10fc1e4978ac4f214 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the label of an arc in a graph.  <a href="classRSA.html#af510d0b4de7c9dd10fc1e4978ac4f214">More...</a><br /></td></tr>
-<tr class="separator:af510d0b4de7c9dd10fc1e4978ac4f214 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c513e1ca16f26149dcf792656da1f16 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a3c513e1ca16f26149dcf792656da1f16">setArcSlice</a> (const ListDigraph::Arc &amp;a, int d, int val)</td></tr>
-<tr class="memdesc:a3c513e1ca16f26149dcf792656da1f16 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the slice of an arc in a graph.  <a href="classRSA.html#a3c513e1ca16f26149dcf792656da1f16">More...</a><br /></td></tr>
-<tr class="separator:a3c513e1ca16f26149dcf792656da1f16 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73a65831c954114e51f7c2887d7589da inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a73a65831c954114e51f7c2887d7589da">setArcLength</a> (const ListDigraph::Arc &amp;a, int d, double val)</td></tr>
-<tr class="memdesc:a73a65831c954114e51f7c2887d7589da inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the length of an arc in a graph.  <a href="classRSA.html#a73a65831c954114e51f7c2887d7589da">More...</a><br /></td></tr>
-<tr class="separator:a73a65831c954114e51f7c2887d7589da inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49100bd61ae2ed8469cae338495d440a inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a49100bd61ae2ed8469cae338495d440a">setArcLengthWithPenalty</a> (const ListDigraph::Arc &amp;a, int d, double val)</td></tr>
-<tr class="memdesc:a49100bd61ae2ed8469cae338495d440a inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the length with hop penalty of an arc in a graph.  <a href="classRSA.html#a49100bd61ae2ed8469cae338495d440a">More...</a><br /></td></tr>
-<tr class="separator:a49100bd61ae2ed8469cae338495d440a inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1b1f1775992c6ce234952a122767161 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="ac1b1f1775992c6ce234952a122767161"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ac1b1f1775992c6ce234952a122767161">setStatus</a> (<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108f">Status</a> val)</td></tr>
-<tr class="memdesc:ac1b1f1775992c6ce234952a122767161 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the algorithm status. <br /></td></tr>
-<tr class="separator:ac1b1f1775992c6ce234952a122767161 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4fd97003555db54e0c4bf95006b799c inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ab4fd97003555db54e0c4bf95006b799c">setCompactNodeId</a> (const ListGraph::Node &amp;n, int val)</td></tr>
-<tr class="memdesc:ab4fd97003555db54e0c4bf95006b799c inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the id of a node in the compact graph.  <a href="classRSA.html#ab4fd97003555db54e0c4bf95006b799c">More...</a><br /></td></tr>
-<tr class="separator:ab4fd97003555db54e0c4bf95006b799c inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bad3cc54601782e1b20f39bdbe6fd54 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a5bad3cc54601782e1b20f39bdbe6fd54">setCompactNodeLabel</a> (const ListGraph::Node &amp;n, int val)</td></tr>
-<tr class="memdesc:a5bad3cc54601782e1b20f39bdbe6fd54 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the label of a node in the compact graph.  <a href="classRSA.html#a5bad3cc54601782e1b20f39bdbe6fd54">More...</a><br /></td></tr>
-<tr class="separator:a5bad3cc54601782e1b20f39bdbe6fd54 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7fdfecaaf66cb4e73dd388cccf2f2b39 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a7fdfecaaf66cb4e73dd388cccf2f2b39">setCompactEdgeId</a> (const ListGraph::Edge &amp;e, int val)</td></tr>
-<tr class="memdesc:a7fdfecaaf66cb4e73dd388cccf2f2b39 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the id of an edge in the compact graph.  <a href="classRSA.html#a7fdfecaaf66cb4e73dd388cccf2f2b39">More...</a><br /></td></tr>
-<tr class="separator:a7fdfecaaf66cb4e73dd388cccf2f2b39 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1cb4da13163ee3670f3a874fa6da138 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ac1cb4da13163ee3670f3a874fa6da138">setCompactEdgeLabel</a> (const ListGraph::Edge &amp;e, int val)</td></tr>
-<tr class="memdesc:ac1cb4da13163ee3670f3a874fa6da138 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the label of an edge in the compact graph.  <a href="classRSA.html#ac1cb4da13163ee3670f3a874fa6da138">More...</a><br /></td></tr>
-<tr class="separator:ac1cb4da13163ee3670f3a874fa6da138 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85152327b02d7da8094077ef53a62807 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a85152327b02d7da8094077ef53a62807">setCompactLength</a> (const ListGraph::Edge &amp;e, double val)</td></tr>
-<tr class="memdesc:a85152327b02d7da8094077ef53a62807 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the length of an edge on the compact graph.  <a href="classRSA.html#a85152327b02d7da8094077ef53a62807">More...</a><br /></td></tr>
-<tr class="separator:a85152327b02d7da8094077ef53a62807 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abdb6663e19b3db20839902209e1f18a4 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="abdb6663e19b3db20839902209e1f18a4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#abdb6663e19b3db20839902209e1f18a4">buildCompactGraph</a> ()</td></tr>
-<tr class="memdesc:abdb6663e19b3db20839902209e1f18a4 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds the simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:abdb6663e19b3db20839902209e1f18a4 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a473aa2ee82f8cd9503b453266985ee18 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a473aa2ee82f8cd9503b453266985ee18">addArcs</a> (int d, int source, int target, int linkLabel, int slice, double l)</td></tr>
-<tr class="memdesc:a473aa2ee82f8cd9503b453266985ee18 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an arc &ndash; and its nodes if necessary &ndash; between nodes (source,slice) and (target,slice) on a graph.  <a href="classRSA.html#a473aa2ee82f8cd9503b453266985ee18">More...</a><br /></td></tr>
-<tr class="separator:a473aa2ee82f8cd9503b453266985ee18 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bb66a2d54c695bc10fa4e3697a01a37 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a4bb66a2d54c695bc10fa4e3697a01a37">updateInstance</a> (<a class="el" href="classInstance.html">Instance</a> &amp;i)</td></tr>
-<tr class="memdesc:a4bb66a2d54c695bc10fa4e3697a01a37 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the mapping stored in the given instance with the results obtained from <a class="el" href="classRSA.html" title="This class stores the input needed for solving the Routing and Spectrum Allocation problem.">RSA</a> solution (i.e., vecOnPath).  <a href="classRSA.html#a4bb66a2d54c695bc10fa4e3697a01a37">More...</a><br /></td></tr>
-<tr class="separator:a4bb66a2d54c695bc10fa4e3697a01a37 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a95beb27713e3f9a9a376fcad6abfa5 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">ListDigraph::Node&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a2a95beb27713e3f9a9a376fcad6abfa5">getFirstNodeFromLabel</a> (int d, int label)</td></tr>
-<tr class="memdesc:a2a95beb27713e3f9a9a376fcad6abfa5 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first node with a given label from the graph associated with the d-th demand to be routed.  <a href="classRSA.html#a2a95beb27713e3f9a9a376fcad6abfa5">More...</a><br /></td></tr>
-<tr class="separator:a2a95beb27713e3f9a9a376fcad6abfa5 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4cf1a9ea2c52634d999abecba219407b inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a4cf1a9ea2c52634d999abecba219407b">contractNodesFromLabel</a> (int d, int label)</td></tr>
-<tr class="memdesc:a4cf1a9ea2c52634d999abecba219407b inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contract nodes with the same given label from the graph associated with the d-th demand to be routed.  <a href="classRSA.html#a4cf1a9ea2c52634d999abecba219407b">More...</a><br /></td></tr>
-<tr class="separator:a4cf1a9ea2c52634d999abecba219407b inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae56358698d72241f2ca054f679017ccc inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ae56358698d72241f2ca054f679017ccc">eraseNonRoutableArcs</a> (int d)</td></tr>
-<tr class="memdesc:ae56358698d72241f2ca054f679017ccc inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete arcs that are known 'a priori' to be unable to route on a graph.  <a href="classRSA.html#ae56358698d72241f2ca054f679017ccc">More...</a><br /></td></tr>
-<tr class="separator:ae56358698d72241f2ca054f679017ccc inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afcb3bc74d438206130c9660648c5d1f0 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="afcb3bc74d438206130c9660648c5d1f0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#afcb3bc74d438206130c9660648c5d1f0">preprocessing</a> ()</td></tr>
-<tr class="memdesc:afcb3bc74d438206130c9660648c5d1f0 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs preprocessing on every extended graph. <br /></td></tr>
-<tr class="separator:afcb3bc74d438206130c9660648c5d1f0 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d42e0c236b5315a5ee25b135b9a5fb6 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a3d42e0c236b5315a5ee25b135b9a5fb6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a3d42e0c236b5315a5ee25b135b9a5fb6">pathExistencePreprocessing</a> ()</td></tr>
-<tr class="memdesc:a3d42e0c236b5315a5ee25b135b9a5fb6 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">If there exists no path from (source,s) to (target,s), erases every arc with slice s. <br /></td></tr>
-<tr class="separator:a3d42e0c236b5315a5ee25b135b9a5fb6 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a832589d9a90339daedf9ecbc0c1360cf inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a832589d9a90339daedf9ecbc0c1360cf">lengthPreprocessing</a> ()</td></tr>
-<tr class="memdesc:a832589d9a90339daedf9ecbc0c1360cf inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs preprocessing based on the arc lengths and returns true if at least one arc is erased.  <a href="classRSA.html#a832589d9a90339daedf9ecbc0c1360cf">More...</a><br /></td></tr>
-<tr class="separator:a832589d9a90339daedf9ecbc0c1360cf inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad108768263d27606a28c4aa5f9f3481e inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ad108768263d27606a28c4aa5f9f3481e">shortestDistance</a> (int d, ListDigraph::Node &amp;source, ListDigraph::Arc &amp;a, ListDigraph::Node &amp;target)</td></tr>
-<tr class="memdesc:ad108768263d27606a28c4aa5f9f3481e inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the distance of the shortest path from source to target passing through arc a.  <a href="classRSA.html#ad108768263d27606a28c4aa5f9f3481e">More...</a><br /></td></tr>
-<tr class="separator:ad108768263d27606a28c4aa5f9f3481e inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2582a929e10d28c5885482bb82c3ced inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aa2582a929e10d28c5885482bb82c3ced">displayNodesIncidentTo</a> (int d, int label, int slice)</td></tr>
-<tr class="memdesc:aa2582a929e10d28c5885482bb82c3ced inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the nodes of a graph that are incident to the node identified by (label,slice).  <a href="classRSA.html#aa2582a929e10d28c5885482bb82c3ced">More...</a><br /></td></tr>
-<tr class="separator:aa2582a929e10d28c5885482bb82c3ced inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7454e0a2dac0bbd5b9eddfe270013f53 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a7454e0a2dac0bbd5b9eddfe270013f53">displayNodesFromLabel</a> (int d, int label)</td></tr>
-<tr class="memdesc:a7454e0a2dac0bbd5b9eddfe270013f53 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the nodes of a graph that have a given label.  <a href="classRSA.html#a7454e0a2dac0bbd5b9eddfe270013f53">More...</a><br /></td></tr>
-<tr class="separator:a7454e0a2dac0bbd5b9eddfe270013f53 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa43c0a4c9fda303bd9583a36906d1496 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="aa43c0a4c9fda303bd9583a36906d1496"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aa43c0a4c9fda303bd9583a36906d1496">displayPaths</a> ()</td></tr>
-<tr class="memdesc:aa43c0a4c9fda303bd9583a36906d1496 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the paths found for each of the new routed demands. <br /></td></tr>
-<tr class="separator:aa43c0a4c9fda303bd9583a36906d1496 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e9fa3941b06c33a3f99e6fdb1ddc0d8 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a7e9fa3941b06c33a3f99e6fdb1ddc0d8">displayArc</a> (int d, const ListDigraph::Arc &amp;a)</td></tr>
-<tr class="memdesc:a7e9fa3941b06c33a3f99e6fdb1ddc0d8 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays an arc from a graph.  <a href="classRSA.html#a7e9fa3941b06c33a3f99e6fdb1ddc0d8">More...</a><br /></td></tr>
-<tr class="separator:a7e9fa3941b06c33a3f99e6fdb1ddc0d8 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef665d88560b42856e15298b67026cf1 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aef665d88560b42856e15298b67026cf1">displayNode</a> (int d, const ListDigraph::Node &amp;n)</td></tr>
-<tr class="memdesc:aef665d88560b42856e15298b67026cf1 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays a node from a graph.  <a href="classRSA.html#aef665d88560b42856e15298b67026cf1">More...</a><br /></td></tr>
-<tr class="separator:aef665d88560b42856e15298b67026cf1 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a316784ce80957e1116d9c8ea7addc678 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a316784ce80957e1116d9c8ea7addc678">displayGraph</a> (int d)</td></tr>
-<tr class="memdesc:a316784ce80957e1116d9c8ea7addc678 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display all arcs from a graph.  <a href="classRSA.html#a316784ce80957e1116d9c8ea7addc678">More...</a><br /></td></tr>
-<tr class="separator:a316784ce80957e1116d9c8ea7addc678 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d9a0d1d331dfbb684aff707479512d9 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a6d9a0d1d331dfbb684aff707479512d9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a6d9a0d1d331dfbb684aff707479512d9">displayToBeRouted</a> ()</td></tr>
-<tr class="memdesc:a6d9a0d1d331dfbb684aff707479512d9 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the demands to be routed in the next optimization. <br /></td></tr>
-<tr class="separator:a6d9a0d1d331dfbb684aff707479512d9 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dc539b9ce3171ab66d479ba4f94ec0f inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a7dc539b9ce3171ab66d479ba4f94ec0f">displayLoadsToBeRouted</a> ()</td></tr>
-<tr class="memdesc:a7dc539b9ce3171ab66d479ba4f94ec0f inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the loads to be routed in the next optimization.  <a href="classRSA.html#a7dc539b9ce3171ab66d479ba4f94ec0f">More...</a><br /></td></tr>
-<tr class="separator:a7dc539b9ce3171ab66d479ba4f94ec0f inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29c927dcea18686cd95818d2cfd413cf inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a29c927dcea18686cd95818d2cfd413cf">~RSA</a> ()</td></tr>
-<tr class="memdesc:a29c927dcea18686cd95818d2cfd413cf inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="classRSA.html#a29c927dcea18686cd95818d2cfd413cf">More...</a><br /></td></tr>
-<tr class="separator:a29c927dcea18686cd95818d2cfd413cf inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9a1ae6407e5ffc82aa6380674f6452d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ab9a1ae6407e5ffc82aa6380674f6452d">Solver</a> (const <a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8">Status</a> &amp;s=<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8af697d79f09119a1a8ff1455f2d863eba">STATUS_UNKNOWN</a>)</td></tr>
+<tr class="memdesc:ab9a1ae6407e5ffc82aa6380674f6452d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classSolver.html#ab9a1ae6407e5ffc82aa6380674f6452d">More...</a><br /></td></tr>
+<tr class="separator:ab9a1ae6407e5ffc82aa6380674f6452d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a80406d46b817f539b68fff03c94952"><td class="memItemLeft" align="right" valign="top"><a id="a5a80406d46b817f539b68fff03c94952"></a>
+virtual <a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a5a80406d46b817f539b68fff03c94952">getStatus</a> ()=0</td></tr>
+<tr class="memdesc:a5a80406d46b817f539b68fff03c94952"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the status. <br /></td></tr>
+<tr class="separator:a5a80406d46b817f539b68fff03c94952"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae41e384ff05b15d12d7eb6dd045d9087"><td class="memItemLeft" align="right" valign="top"><a id="ae41e384ff05b15d12d7eb6dd045d9087"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ae41e384ff05b15d12d7eb6dd045d9087">setStatus</a> (const <a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8">Status</a> &amp;s)</td></tr>
+<tr class="memdesc:ae41e384ff05b15d12d7eb6dd045d9087"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the status. <br /></td></tr>
+<tr class="separator:ae41e384ff05b15d12d7eb6dd045d9087"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:afa13ae36aea6dd78e8ee786348eaac67"><td class="memItemLeft" align="right" valign="top"><a id="afa13ae36aea6dd78e8ee786348eaac67"></a>
-IloEnv&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#afa13ae36aea6dd78e8ee786348eaac67">env</a></td></tr>
-<tr class="memdesc:afa13ae36aea6dd78e8ee786348eaac67"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CPLEX environment. <br /></td></tr>
-<tr class="separator:afa13ae36aea6dd78e8ee786348eaac67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af017cc4da8b817abcaf0c0142d6d3120"><td class="memItemLeft" align="right" valign="top"><a id="af017cc4da8b817abcaf0c0142d6d3120"></a>
-IloModel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#af017cc4da8b817abcaf0c0142d6d3120">model</a></td></tr>
-<tr class="memdesc:af017cc4da8b817abcaf0c0142d6d3120"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CPLEX model. <br /></td></tr>
-<tr class="separator:af017cc4da8b817abcaf0c0142d6d3120"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6bcb93b2d2b60835c4005346d1dc98de"><td class="memItemLeft" align="right" valign="top"><a id="a6bcb93b2d2b60835c4005346d1dc98de"></a>
-IloCplex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a6bcb93b2d2b60835c4005346d1dc98de">cplex</a></td></tr>
-<tr class="memdesc:a6bcb93b2d2b60835c4005346d1dc98de"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CPLEX engine. <br /></td></tr>
-<tr class="separator:a6bcb93b2d2b60835c4005346d1dc98de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_classRSA"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classRSA')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classRSA.html">RSA</a></td></tr>
-<tr class="memitem:ad81287af708fcfcd98c963cfafc1f4db inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="ad81287af708fcfcd98c963cfafc1f4db"></a>
-<a class="el" href="classInstance.html">Instance</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ad81287af708fcfcd98c963cfafc1f4db">instance</a></td></tr>
-<tr class="memdesc:ad81287af708fcfcd98c963cfafc1f4db inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">An instance describing the initial mapping. <br /></td></tr>
-<tr class="separator:ad81287af708fcfcd98c963cfafc1f4db inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a1ff13e3e35e50eb96a35c75c5f965e inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a7a1ff13e3e35e50eb96a35c75c5f965e"></a>
-std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a7a1ff13e3e35e50eb96a35c75c5f965e">toBeRouted</a></td></tr>
-<tr class="memdesc:a7a1ff13e3e35e50eb96a35c75c5f965e inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">The list of demands to be routed in the next optimization. <br /></td></tr>
-<tr class="separator:a7a1ff13e3e35e50eb96a35c75c5f965e inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e362f9fa2e5de15997695f618dd49e2 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a2e362f9fa2e5de15997695f618dd49e2"></a>
-std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a2e362f9fa2e5de15997695f618dd49e2">loadsToBeRouted</a></td></tr>
-<tr class="memdesc:a2e362f9fa2e5de15997695f618dd49e2 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">The set of different loads present in the set of demands to be routed. <br /></td></tr>
-<tr class="separator:a2e362f9fa2e5de15997695f618dd49e2 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77a9bbd4299569fbd6c7042563337418 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ListDigraph &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a77a9bbd4299569fbd6c7042563337418">vecGraph</a></td></tr>
-<tr class="memdesc:a77a9bbd4299569fbd6c7042563337418 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the extended graph associated with each demand to be routed.  <a href="classRSA.html#a77a9bbd4299569fbd6c7042563337418">More...</a><br /></td></tr>
-<tr class="separator:a77a9bbd4299569fbd6c7042563337418 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0562f78387fd03cf8610cfeac1104688 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a0562f78387fd03cf8610cfeac1104688">vecArcId</a></td></tr>
-<tr class="memdesc:a0562f78387fd03cf8610cfeac1104688 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the ArcMap storing the arc ids of the graph associated with each demand to be routed.  <a href="classRSA.html#a0562f78387fd03cf8610cfeac1104688">More...</a><br /></td></tr>
-<tr class="separator:a0562f78387fd03cf8610cfeac1104688 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97239559fa75ccab0437bbe57fafe963 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a97239559fa75ccab0437bbe57fafe963">vecArcLabel</a></td></tr>
-<tr class="memdesc:a97239559fa75ccab0437bbe57fafe963 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the ArcMap storing the arc labels of the graph associated with each demand to be routed.  <a href="classRSA.html#a97239559fa75ccab0437bbe57fafe963">More...</a><br /></td></tr>
-<tr class="separator:a97239559fa75ccab0437bbe57fafe963 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ea82cc012d2adddadf15ff7c5e33877 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a7ea82cc012d2adddadf15ff7c5e33877">vecArcSlice</a></td></tr>
-<tr class="memdesc:a7ea82cc012d2adddadf15ff7c5e33877 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the ArcMap storing the arc slices of the graph associated with each demand to be routed.  <a href="classRSA.html#a7ea82cc012d2adddadf15ff7c5e33877">More...</a><br /></td></tr>
-<tr class="separator:a7ea82cc012d2adddadf15ff7c5e33877 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad2c8f2506bb532975c662f8a60d616a inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcCost &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aad2c8f2506bb532975c662f8a60d616a">vecArcLength</a></td></tr>
-<tr class="memdesc:aad2c8f2506bb532975c662f8a60d616a inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the map storing the arc lengths of the graph associated with each demand to be routed.  <a href="classRSA.html#aad2c8f2506bb532975c662f8a60d616a">More...</a><br /></td></tr>
-<tr class="separator:aad2c8f2506bb532975c662f8a60d616a inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab440cb793d47d8bef7bef2b8d4871b9c inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcCost &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ab440cb793d47d8bef7bef2b8d4871b9c">vecArcLengthWithPenalty</a></td></tr>
-<tr class="memdesc:ab440cb793d47d8bef7bef2b8d4871b9c inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the map storing the arc lengths with hop penalties included of the graph associated with each demand to be routed.  <a href="classRSA.html#ab440cb793d47d8bef7bef2b8d4871b9c">More...</a><br /></td></tr>
-<tr class="separator:ab440cb793d47d8bef7bef2b8d4871b9c inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5d768eb12c42e917b5e85f0b5cbed2f inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; NodeMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ac5d768eb12c42e917b5e85f0b5cbed2f">vecNodeId</a></td></tr>
-<tr class="memdesc:ac5d768eb12c42e917b5e85f0b5cbed2f inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the NodeMap storing the node ids of the graph associated with each demand to be routed.  <a href="classRSA.html#ac5d768eb12c42e917b5e85f0b5cbed2f">More...</a><br /></td></tr>
-<tr class="separator:ac5d768eb12c42e917b5e85f0b5cbed2f inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ee1651a2d68f485e4b10d8625d121dc inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; NodeMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a0ee1651a2d68f485e4b10d8625d121dc">vecNodeLabel</a></td></tr>
-<tr class="memdesc:a0ee1651a2d68f485e4b10d8625d121dc inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the NodeMap storing the node labels of the graph associated with each demand to be routed.  <a href="classRSA.html#a0ee1651a2d68f485e4b10d8625d121dc">More...</a><br /></td></tr>
-<tr class="separator:a0ee1651a2d68f485e4b10d8625d121dc inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a54bc3824b363fa221ef260cb36238c inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; NodeMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a2a54bc3824b363fa221ef260cb36238c">vecNodeSlice</a></td></tr>
-<tr class="memdesc:a2a54bc3824b363fa221ef260cb36238c inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the NodeMap storing the node slices of the graph associated with each demand to be routed.  <a href="classRSA.html#a2a54bc3824b363fa221ef260cb36238c">More...</a><br /></td></tr>
-<tr class="separator:a2a54bc3824b363fa221ef260cb36238c inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7f9f30da50b99c81bedc24ae5139804 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ae7f9f30da50b99c81bedc24ae5139804">vecOnPath</a></td></tr>
-<tr class="memdesc:ae7f9f30da50b99c81bedc24ae5139804 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the ArcMap storing the <a class="el" href="classRSA.html" title="This class stores the input needed for solving the Routing and Spectrum Allocation problem.">RSA</a> solution.  <a href="classRSA.html#ae7f9f30da50b99c81bedc24ae5139804">More...</a><br /></td></tr>
-<tr class="separator:ae7f9f30da50b99c81bedc24ae5139804 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e5e3c07e9cc04f012be9e28b1c32b6d inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a6e5e3c07e9cc04f012be9e28b1c32b6d">vecArcIndex</a></td></tr>
-<tr class="memdesc:a6e5e3c07e9cc04f012be9e28b1c32b6d inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the ArcMap storing the arc index of the preprocessed graph associated with each demand to be routed.  <a href="classRSA.html#a6e5e3c07e9cc04f012be9e28b1c32b6d">More...</a><br /></td></tr>
-<tr class="separator:a6e5e3c07e9cc04f012be9e28b1c32b6d inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb490cd3aca155c1b2ba5c8e37e13377 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="acb490cd3aca155c1b2ba5c8e37e13377"></a>
-ListGraph&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#acb490cd3aca155c1b2ba5c8e37e13377">compactGraph</a></td></tr>
-<tr class="memdesc:acb490cd3aca155c1b2ba5c8e37e13377 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">The simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:acb490cd3aca155c1b2ba5c8e37e13377 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4a0934a94741007b2c048f92b3c0d0d inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="ab4a0934a94741007b2c048f92b3c0d0d"></a>
-EdgeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ab4a0934a94741007b2c048f92b3c0d0d">compactEdgeId</a></td></tr>
-<tr class="memdesc:ab4a0934a94741007b2c048f92b3c0d0d inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">EdgeMap storing the edge ids of the simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:ab4a0934a94741007b2c048f92b3c0d0d inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4195c0316e5800f639645df2270b99d9 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a4195c0316e5800f639645df2270b99d9"></a>
-EdgeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a4195c0316e5800f639645df2270b99d9">compactEdgeLabel</a></td></tr>
-<tr class="memdesc:a4195c0316e5800f639645df2270b99d9 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">EdgeMap storing the edge labels of the simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:a4195c0316e5800f639645df2270b99d9 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba8529480dd7bada2c1e085ca00713a3 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="aba8529480dd7bada2c1e085ca00713a3"></a>
-EdgeCost&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aba8529480dd7bada2c1e085ca00713a3">compactEdgeLength</a></td></tr>
-<tr class="memdesc:aba8529480dd7bada2c1e085ca00713a3 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">EdgeMap storing the edge lengths of the simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:aba8529480dd7bada2c1e085ca00713a3 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa229e85cc3046d42029ac3817d2ff77f inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="aa229e85cc3046d42029ac3817d2ff77f"></a>
-CompactNodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aa229e85cc3046d42029ac3817d2ff77f">compactNodeId</a></td></tr>
-<tr class="memdesc:aa229e85cc3046d42029ac3817d2ff77f inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">NodeMap storing the LEMON node ids of the simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:aa229e85cc3046d42029ac3817d2ff77f inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a563506a023a036ab2480b553f92c4cf5 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a563506a023a036ab2480b553f92c4cf5"></a>
-CompactNodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a563506a023a036ab2480b553f92c4cf5">compactNodeLabel</a></td></tr>
-<tr class="memdesc:a563506a023a036ab2480b553f92c4cf5 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">NodeMap storing the node labels of the simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:a563506a023a036ab2480b553f92c4cf5 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00269970b2f36a59c6b556a12ab76bc3 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a00269970b2f36a59c6b556a12ab76bc3"></a>
-<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108f">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a00269970b2f36a59c6b556a12ab76bc3">currentStatus</a></td></tr>
-<tr class="memdesc:a00269970b2f36a59c6b556a12ab76bc3 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides information about the current model and solution. <br /></td></tr>
-<tr class="separator:a00269970b2f36a59c6b556a12ab76bc3 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-attribs"></a>
-Static Protected Attributes</h2></td></tr>
-<tr class="memitem:ad67fb8a20a7f5988d3f4a2b90e00d68c"><td class="memItemLeft" align="right" valign="top"><a id="ad67fb8a20a7f5988d3f4a2b90e00d68c"></a>
-static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ad67fb8a20a7f5988d3f4a2b90e00d68c">count</a> = 0</td></tr>
-<tr class="memdesc:ad67fb8a20a7f5988d3f4a2b90e00d68c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counts how many times the solver is called. <br /></td></tr>
-<tr class="separator:ad67fb8a20a7f5988d3f4a2b90e00d68c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_types_classRSA"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classRSA')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classRSA.html">RSA</a></td></tr>
-<tr class="memitem:a031c6f3d4ddc838dbc015b1f3fbb108f inherit pub_types_classRSA"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108f">Status</a> { <br />
-&#160;&#160;<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa90128e37e9757620ac8d6b93823fffff">STATUS_UNKNOWN</a> = 0, 
-<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa5ee863abb9eae3944c16391ddc08f7c2">STATUS_FEASIBLE</a> = 1, 
-<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa1ba2b01d9b94da69329f88cb5ebd3d4b">STATUS_OPTIMAL</a> = 2, 
-<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa3f634e24553c56c52752dcb79e7ad8b0">STATUS_INFEASIBLE</a> = 3, 
-<br />
-&#160;&#160;<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fae7be6a7e3e3d37e13f1417476ec5ace7">STATUS_UNBOUNDED</a> = 4, 
-<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa3e3d95f823aaa283b9fbb41a1aa0351d">STATUS_INFEASIBLE_OR_UNBOUNDED</a> = 5, 
-<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa83793da9cc3eb7713027553f609ac4aa">STATUS_ERROR</a> = 6
-<br />
- }</td></tr>
-<tr class="memdesc:a031c6f3d4ddc838dbc015b1f3fbb108f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates the possible algorithm status according to the current model and solution in hand.  <a href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108f">More...</a><br /></td></tr>
-<tr class="separator:a031c6f3d4ddc838dbc015b1f3fbb108f inherit pub_types_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd1088eee4d4f827db32ff3a4c998d6d"><td class="memItemLeft" align="right" valign="top"><a id="afd1088eee4d4f827db32ff3a4c998d6d"></a>
+<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><b>currentStatus</b></td></tr>
+<tr class="separator:afd1088eee4d4f827db32ff3a4c998d6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class specifies which MIP solver to be used The methods needed for solving the Routing and Spectrum Allocation problem via CPLEX. </p>
 <dl class="section note"><dt>Note</dt><dd>It uses the LEMON library to build the arc maps and CPLEX concert library to build expressions and constraints. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="solver_8h_source.html#l00017">17</a> of file <a class="el" href="solver_8h_source.html">solver.h</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a8271976cef5a884cb8b4deb295311466"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8271976cef5a884cb8b4deb295311466">&#9670;&nbsp;</a></span>Solver()</h2>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="ac05d31305623304f32119b5eb0385bf8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac05d31305623304f32119b5eb0385bf8">&#9670;&nbsp;</a></span>Status</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8">Solver::Status</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enumerates the possible algorithm status according to the current model and solution in hand. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac05d31305623304f32119b5eb0385bf8af697d79f09119a1a8ff1455f2d863eba"></a>STATUS_UNKNOWN&#160;</td><td class="fielddoc"><p>The algorithm has no information about the solution of the model. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac05d31305623304f32119b5eb0385bf8a9d8d381616673ec54d036f82d84cee20"></a>STATUS_FEASIBLE&#160;</td><td class="fielddoc"><p>The algorithm found a feasible solution that may not necessarily be optimal. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac05d31305623304f32119b5eb0385bf8a7727904dfba8b4c9330522cf5d66e058"></a>STATUS_OPTIMAL&#160;</td><td class="fielddoc"><p>The algorithm found an optimal solution. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac05d31305623304f32119b5eb0385bf8a54afb38b991bd3afb2569aa0f67a19f5"></a>STATUS_INFEASIBLE&#160;</td><td class="fielddoc"><p>The algorithm proved the model infeasible; that is, it is not possible to find a feasible solution. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac05d31305623304f32119b5eb0385bf8a2abddbcee3f77350ed295525f423bcac"></a>STATUS_UNBOUNDED&#160;</td><td class="fielddoc"><p>The algorithm proved the model unbounded. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac05d31305623304f32119b5eb0385bf8a9d746d1a156ae626cda4d051fa520a7d"></a>STATUS_INFEASIBLE_OR_UNBOUNDED&#160;</td><td class="fielddoc"><p>The model is infeasible or unbounded. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac05d31305623304f32119b5eb0385bf8aff14b4aaeaf852929f18345f1173e873"></a>STATUS_ERROR&#160;</td><td class="fielddoc"><p>An error occurred. </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="solver_8h_source.html#l00021">21</a> of file <a class="el" href="solver_8h_source.html">solver.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ab9a1ae6407e5ffc82aa6380674f6452d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9a1ae6407e5ffc82aa6380674f6452d">&#9670;&nbsp;</a></span>Solver()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -449,8 +175,8 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">Solver::Solver </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classInstance.html">Instance</a> &amp;&#160;</td>
-          <td class="paramname"><em>inst</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8">Status</a> &amp;&#160;</td>
+          <td class="paramname"><em>s</em> = <code><a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8af697d79f09119a1a8ff1455f2d863eba">STATUS_UNKNOWN</a></code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -464,29 +190,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00011">11</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
-
-</div>
-</div>
-<a id="aba52d3c92fafceb6fe39f937f2d73db3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba52d3c92fafceb6fe39f937f2d73db3">&#9670;&nbsp;</a></span>~Solver()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Solver::~Solver </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Destructor. </p>
-<p>Free solver memory. </p>
-
-<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00078">78</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="solver_8cpp_source.html#l00009">9</a> of file <a class="el" href="solver_8cpp_source.html">solver.cpp</a>.</p>
 
 </div>
 </div>

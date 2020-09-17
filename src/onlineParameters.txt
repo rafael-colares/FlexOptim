@@ -1,12 +1,14 @@
-linkFile=../Parameters/Instances/NSF/InitialMappingMet1Slice120/Link.csv
+linkFile=../Parameters/Instances/Spain_N5/InitialMappingMet1Slice30/Link.csv
 demandFile=
 assignmentFile=
-onlineDemandFolder=../Parameters/Instances/NSF/TestDemands_Offline
-nbDemandsAtOnce=2 
+onlineDemandFolder=../Parameters/Instances/Spain_N5/TestDemands_Offline
+nbDemandsAtOnce=1
 outputPath=../Output/OtherTests/
 outputLevel=1
 nbSlicesInOutputFile=320
 method=0
+formulation=0
+solver=0
 preprocessingLevel=2
 obj=1
 timeLimit=

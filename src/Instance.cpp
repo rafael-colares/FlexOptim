@@ -8,6 +8,7 @@
 /* Constructor initializes the object with the information of an Input. */
 Instance::Instance(const Input &i) : input(i){
 	this->setNbNodes(0);
+	this->setWasBlocked(false);
 	createInitialMapping();
 	this->setNextDemandToBeRoutedIndex(0);
 }
@@ -15,6 +16,7 @@ Instance::Instance(const Input &i) : input(i){
 /* Copy constructor. */
 Instance::Instance(const Instance &i) : input(i.getInput()){
 	this->setNbNodes(i.getNbNodes());
+	this->setWasBlocked(i.getWasBlocked());
 	this->setTabEdge(i.getTabEdge());
 	this->setTabDemand(i.getTabDemand());
 	this->setNextDemandToBeRoutedIndex(i.getNextDemandToBeRoutedIndex());

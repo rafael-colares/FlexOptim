@@ -15,8 +15,9 @@ ILOSTLBEGIN
 #include "ClockTime.h"
 
 #include "cplexForm.h"
-#include "YoussoufForm.h"
-#include "subgradient.h"
+//#include "YoussoufForm.h"
+//#include "subgradient.h"
+#include "solverCplex.h"
 
 
 using namespace lemon;
@@ -87,10 +88,29 @@ int main(int argc, char *argv[]) {
 				/********************************************************************/
 				/* 								Solve	 							*/
 				/********************************************************************/
-				switch (instance.getInput().getChosenMethod()){
-					case Input::METHOD_CPLEX:
+				/** @todo Review the main logic **/
+				switch (instance.getInput().getChosenMIPSolver()){
+					case Input::MIP_SOLVER_CPLEX:
 					{
-						FlowForm solver(instance);
+						SolverCplex solver(instance);
+						break;
+					}
+					case Input::MIP_SOLVER_GUROBI:
+					{
+						std::cout << "Gurobi has not been implemented yet." << std::endl;
+						break;
+					}
+					case Input::MIP_SOLVER_CBC:
+					{
+						std::cout << "CBC has not been implemented yet." << std::endl;
+						break;
+					}
+				}
+				/*
+				switch (instance.getInput().getChosenNodeMethod()){
+					case Input::NODE_METHOD_LINEAR_RELAX:
+					{
+						CplexForm solver(instance);
 						std::cout << "Status: " << solver.getCplex().getStatus() << std::endl;
 						RSA::Status STATUS = solver.getStatus();
 					
@@ -211,6 +231,7 @@ int main(int argc, char *argv[]) {
 				std::cout << "Time taken by iteration is : ";
 				std::cout << std::fixed  << ITERATION_TIME.getTimeInSecFromStart() << std::setprecision(9); 
 				std::cout << " sec" << std::endl; 
+				*/
 			}
 			if (instance.getInput().getChosenOutputLvl() >= Input::OUTPUT_LVL_NORMAL){
 				outputCode = getInBetweenString(nextFile, "/", ".");

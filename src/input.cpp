@@ -42,8 +42,14 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     std::cout << "Getting hop penalty." << std::endl;
     hopPenalty = std::stoi(getParameterValue("hopPenalty="));
 
-    std::cout << "Getting method." << std::endl;
-    chosenMethod = (Method) std::stoi(getParameterValue("method="));
+    std::cout << "Getting node method." << std::endl;
+    chosenNodeMethod = to_NodeMethod(getParameterValue("method="));
+    
+    std::cout << "Getting formulation." << std::endl;
+    chosenFormulation = to_Formulation(getParameterValue("formulation="));
+
+    std::cout << "Getting mip solver." << std::endl;
+    chosenMipSolver = to_MIP_Solver(getParameterValue("solver="));
 
     std::cout << "Getting preprocessing level." << std::endl;
     chosenPreprLvl = (PreprocessingLevel) std::stoi(getParameterValue("preprocessingLevel="));
@@ -74,8 +80,9 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     std::cout << "Populating online demand files." << std::endl;
     populateOnlineDemandFiles();
     
-    std::cout << "Finish input." << std::endl;
+    std::cout << "Finish reading input." << std::endl;
     displayMainParameters();
+    checkConsistency();
 }
 
 /* Copy constructor. */
@@ -96,7 +103,9 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     allowBlocking = i.isBlockingAllowed();
     hopPenalty = i.getHopPenalty();
 
-    chosenMethod = i.getChosenMethod();
+    chosenNodeMethod = i.getChosenNodeMethod();
+    chosenMipSolver = i.getChosenMIPSolver();
+    chosenFormulation = i.getChosenFormulation();
     chosenPreprLvl = i.getChosenPreprLvl();
     chosenObj = i.getChosenObj();
     chosenOutputLvl = i.getChosenOutputLvl();
@@ -198,7 +207,6 @@ Input::PartitionPolicy Input::to_PartitionPolicy(std::string data){
     Input::PartitionPolicy policy;
     if (!data.empty()){
         int policyId = std::stoi(data);
-        Input::PartitionPolicy policy;
         if (policyId == 1){
             policy = PARTITION_POLICY_SOFT;
             return policy;
@@ -212,7 +220,110 @@ Input::PartitionPolicy Input::to_PartitionPolicy(std::string data){
     return policy;
 }
 
-/* Converts a string into a PartitionPolicy. */
+
+/* Converts a string into a NodeMethod. */
+Input::NodeMethod Input::to_NodeMethod(std::string data){
+    Input::NodeMethod policy;
+    if (!data.empty()){
+        int policyId = std::stoi(data);
+        if (policyId == 0){
+            policy = NODE_METHOD_LINEAR_RELAX;
+            return policy;
+        }
+        if (policyId == 1){
+            policy = NODE_METHOD_SUBGRADIENT;
+            return policy;
+        }
+        if (policyId == 2){
+            policy = NODE_METHOD_VOLUME;
+            return policy;
+        }
+    }
+    else{
+        std::cout << "ERROR: A node method must be specified." << std::endl;
+        exit(0);
+    }
+}
+
+/* Converts a string into a Formulation. */
+Input::Formulation Input::to_Formulation(std::string data){
+    Input::Formulation policy;
+    if (!data.empty()){
+        int policyId = std::stoi(data);
+        if (policyId == 0){
+            policy = FORMULATION_FLOW;
+            return policy;
+        }
+        if (policyId == 1){
+            policy = FORMULATION_EDGE_NODE;
+            return policy;
+        }
+    }
+    else{
+        std::cout << "ERROR: A formulation must be specified." << std::endl;
+        exit(0);
+    }
+}
+
+/* Converts a string into a Formulation. */
+Input::MIP_Solver Input::to_MIP_Solver(std::string data){
+    Input::MIP_Solver policy;
+    if (!data.empty()){
+        int policyId = std::stoi(data);
+        switch (policyId)
+        {
+        case 0: {
+            policy = MIP_SOLVER_CPLEX;
+            return policy;
+            break;
+        }
+        case 1: {
+            policy = MIP_SOLVER_CBC;
+            std::cout << "ERROR: MIP_Solve=1 but CBC still needs to be implemented." << std::endl;
+            exit(0);
+            return policy;
+            break;
+        }
+        case 2: {
+            policy = MIP_SOLVER_GUROBI;
+            std::cout << "ERROR: MIP_Solve=2 but Gurobi still needs to be implemented." << std::endl;
+            exit(0);
+            return policy;
+            break;
+        }
+
+        default:
+            std::cout << "ERROR: Invalid MIP_SOLVER." << std::endl;
+            exit(0);
+            break;
+        }
+    }
+    else{
+        std::cout << "ERROR: A solver must be specified." << std::endl;
+        exit(0);
+    }
+}
+
+void Input::checkConsistency(){
+    if (getChosenMIPSolver() == MIP_SOLVER_GUROBI){
+        std::cout << "ERROR: MIP_Solver Gurobi has been chosen but still needs to be implemented." << std::endl;
+        exit(0);
+    }
+    if (getChosenMIPSolver() == MIP_SOLVER_CBC){
+        std::cout << "ERROR: MIP_Solver CBC has been chosen but still needs to be implemented." << std::endl;
+        exit(0);
+    }
+    if (getChosenNodeMethod() != NODE_METHOD_LINEAR_RELAX && getChosenMIPSolver() != MIP_SOLVER_CBC){
+        std::cout << "ERROR: Subgradient methods should only be called with CBC." << std::endl;
+        exit(0);
+    }
+    if (getChosenNodeMethod() != NODE_METHOD_LINEAR_RELAX){
+        std::cout << "ERROR: Subgradient methods chosen but still needs to be implemented." << std::endl;
+        exit(0);
+    }
+    std::cout << "All information from input is consistent." << std::endl;
+}
+/* Converts a string into a time limit. */
 int Input::to_timeLimit(std::string data){
     if (data.empty()){
         return INT_MAX;

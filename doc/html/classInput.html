@@ -80,12 +80,21 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:ae19efd3d8de2230a5bb94677518a8031"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031">Method</a> { <a class="el" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031a9bcff65f9fe67d63b9093e1703f1226b">METHOD_CPLEX</a> = 0, 
-<a class="el" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031a1e214c54a52e9881ad79ecb513eeb24d">METHOD_SUBGRADIENT</a> = 1, 
-<a class="el" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031a74f6bb7ea7d8e371bc25ab2a79ec79f4">METHOD_YOUSSOUF</a> = 2
+<tr class="memitem:a2a7a490d1f166fc7e3e17aab57a420e2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a2a7a490d1f166fc7e3e17aab57a420e2">MIP_Solver</a> { <a class="el" href="classInput.html#a2a7a490d1f166fc7e3e17aab57a420e2ae76652e555276c30e04bb4592c032703">MIP_SOLVER_CPLEX</a> = 0, 
+<a class="el" href="classInput.html#a2a7a490d1f166fc7e3e17aab57a420e2adffb5e75e3800be9b438f7083d3023a4">MIP_SOLVER_CBC</a> = 1, 
+<a class="el" href="classInput.html#a2a7a490d1f166fc7e3e17aab57a420e2ae19453d7bb2fc41324d124a98a8b45dd">MIP_SOLVER_GUROBI</a> = 2
  }</td></tr>
-<tr class="memdesc:ae19efd3d8de2230a5bb94677518a8031"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates the possible methods to be applied for solving the Online Routing and Spectrum Allocation problem.  <a href="classInput.html#ae19efd3d8de2230a5bb94677518a8031">More...</a><br /></td></tr>
-<tr class="separator:ae19efd3d8de2230a5bb94677518a8031"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:a2a7a490d1f166fc7e3e17aab57a420e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates the possible solvers to be used for solving the Online Routing and Spectrum Allocation problem.  <a href="classInput.html#a2a7a490d1f166fc7e3e17aab57a420e2">More...</a><br /></td></tr>
+<tr class="separator:a2a7a490d1f166fc7e3e17aab57a420e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1616d42de40a51ca0703ab60849717f2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a1616d42de40a51ca0703ab60849717f2">Formulation</a> { <a class="el" href="classInput.html#a1616d42de40a51ca0703ab60849717f2a71087c3cfebd9fc3c8e509392aa95f86">FORMULATION_FLOW</a> = 0, 
+<a class="el" href="classInput.html#a1616d42de40a51ca0703ab60849717f2a9c28b0ae424718895889ed585a13d4de">FORMULATION_EDGE_NODE</a> = 1
+ }</td></tr>
+<tr class="separator:a1616d42de40a51ca0703ab60849717f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8dbb510f7413a631475e650087bbd55c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a8dbb510f7413a631475e650087bbd55c">NodeMethod</a> { <a class="el" href="classInput.html#a8dbb510f7413a631475e650087bbd55ca2296fa6f6474b12b00ee26430213db76">NODE_METHOD_LINEAR_RELAX</a> = 0, 
+<a class="el" href="classInput.html#a8dbb510f7413a631475e650087bbd55ca26bb0dae920d18428d217c02ab2c830b">NODE_METHOD_SUBGRADIENT</a> = 1, 
+<a class="el" href="classInput.html#a8dbb510f7413a631475e650087bbd55ca8e4b33ba6250b025946b9173719b2560">NODE_METHOD_VOLUME</a> = 2
+ }</td></tr>
+<tr class="separator:a8dbb510f7413a631475e650087bbd55c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38a43d751872865a7d1b4e84ff5f9d42"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a38a43d751872865a7d1b4e84ff5f9d42">PreprocessingLevel</a> { <a class="el" href="classInput.html#a38a43d751872865a7d1b4e84ff5f9d42ad5caac8d2e1aa553622c2b26619fef39">PREPROCESSING_LVL_NO</a> = 0, 
 <a class="el" href="classInput.html#a38a43d751872865a7d1b4e84ff5f9d42a578d2ebb1f6e01416c7564eb3109d2a8">PREPROCESSING_LVL_PARTIAL</a> = 1, 
 <a class="el" href="classInput.html#a38a43d751872865a7d1b4e84ff5f9d42a6e71d561dd4af6d3220699285c3e5fd0">PREPROCESSING_LVL_FULL</a> = 2
@@ -193,13 +202,21 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a367b5681480a9185a494f8095b29ccf0">getHopPenalty</a> () const</td></tr>
 <tr class="memdesc:a367b5681480a9185a494f8095b29ccf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the hop penality. <br /></td></tr>
 <tr class="separator:a367b5681480a9185a494f8095b29ccf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff4fc7846b4a72901d62f25728be0fb7"><td class="memItemLeft" align="right" valign="top"><a id="aff4fc7846b4a72901d62f25728be0fb7"></a>
-<a class="el" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031">Method</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#aff4fc7846b4a72901d62f25728be0fb7">getChosenMethod</a> () const</td></tr>
-<tr class="memdesc:aff4fc7846b4a72901d62f25728be0fb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the identifier of the method chosen for optimization. <br /></td></tr>
-<tr class="separator:aff4fc7846b4a72901d62f25728be0fb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9824775631ac7f43740f8bebab3cd348"><td class="memItemLeft" align="right" valign="top"><a id="a9824775631ac7f43740f8bebab3cd348"></a>
+<a class="el" href="classInput.html#a8dbb510f7413a631475e650087bbd55c">NodeMethod</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a9824775631ac7f43740f8bebab3cd348">getChosenNodeMethod</a> () const</td></tr>
+<tr class="memdesc:a9824775631ac7f43740f8bebab3cd348"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the identifier of the method chosen for solving each node. <br /></td></tr>
+<tr class="separator:a9824775631ac7f43740f8bebab3cd348"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6e01b6ee3cd1e94c9e3837cc1d6ce3c"><td class="memItemLeft" align="right" valign="top"><a id="ac6e01b6ee3cd1e94c9e3837cc1d6ce3c"></a>
+<a class="el" href="classInput.html#a1616d42de40a51ca0703ab60849717f2">Formulation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#ac6e01b6ee3cd1e94c9e3837cc1d6ce3c">getChosenFormulation</a> () const</td></tr>
+<tr class="memdesc:ac6e01b6ee3cd1e94c9e3837cc1d6ce3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the identifier of the formulation chosen for solving the problem. <br /></td></tr>
+<tr class="separator:ac6e01b6ee3cd1e94c9e3837cc1d6ce3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b98741a8467aa5251c9bec13a0ba798"><td class="memItemLeft" align="right" valign="top"><a id="a6b98741a8467aa5251c9bec13a0ba798"></a>
+<a class="el" href="classInput.html#a2a7a490d1f166fc7e3e17aab57a420e2">MIP_Solver</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a6b98741a8467aa5251c9bec13a0ba798">getChosenMIPSolver</a> () const</td></tr>
+<tr class="memdesc:a6b98741a8467aa5251c9bec13a0ba798"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the identifier of the MIP solver chosen for solving the formulation. <br /></td></tr>
+<tr class="separator:a6b98741a8467aa5251c9bec13a0ba798"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6f22e8a72446a1279ddbde821a294b4"><td class="memItemLeft" align="right" valign="top"><a id="ad6f22e8a72446a1279ddbde821a294b4"></a>
 <a class="el" href="classInput.html#a38a43d751872865a7d1b4e84ff5f9d42">PreprocessingLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#ad6f22e8a72446a1279ddbde821a294b4">getChosenPreprLvl</a> () const</td></tr>
-<tr class="memdesc:ad6f22e8a72446a1279ddbde821a294b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the identifier of the method chosen for optimization. <br /></td></tr>
+<tr class="memdesc:ad6f22e8a72446a1279ddbde821a294b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the identifier of the chosen preprocessing level. <br /></td></tr>
 <tr class="separator:ad6f22e8a72446a1279ddbde821a294b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a764b29624539e52a043e414136ee78f7"><td class="memItemLeft" align="right" valign="top"><a id="a764b29624539e52a043e414136ee78f7"></a>
 <a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">ObjectiveMetric</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a764b29624539e52a043e414136ee78f7">getChosenObj_k</a> (int i) const</td></tr>
@@ -257,6 +274,18 @@ std::vector&lt; <a class="el" href="classInput.html#aa47e0a4922a05e2d387b8728134
 <a class="el" href="classInput.html#a996a9f36dc32b41c9c7291ad49deb7ed">PartitionPolicy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#aa585d1d79c85954e05ee2a4fa63f9d4b">to_PartitionPolicy</a> (std::string data)</td></tr>
 <tr class="memdesc:aa585d1d79c85954e05ee2a4fa63f9d4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a string into a PartitionPolicy. <br /></td></tr>
 <tr class="separator:aa585d1d79c85954e05ee2a4fa63f9d4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06931c7be31d2937f9fdc23f13188d24"><td class="memItemLeft" align="right" valign="top"><a id="a06931c7be31d2937f9fdc23f13188d24"></a>
+<a class="el" href="classInput.html#a8dbb510f7413a631475e650087bbd55c">NodeMethod</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a06931c7be31d2937f9fdc23f13188d24">to_NodeMethod</a> (std::string data)</td></tr>
+<tr class="memdesc:a06931c7be31d2937f9fdc23f13188d24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a string into a NodeMethod. <br /></td></tr>
+<tr class="separator:a06931c7be31d2937f9fdc23f13188d24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e0afed97c8ebae62805f7fa0ee5ddf1"><td class="memItemLeft" align="right" valign="top"><a id="a4e0afed97c8ebae62805f7fa0ee5ddf1"></a>
+<a class="el" href="classInput.html#a1616d42de40a51ca0703ab60849717f2">Formulation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a4e0afed97c8ebae62805f7fa0ee5ddf1">to_Formulation</a> (std::string data)</td></tr>
+<tr class="memdesc:a4e0afed97c8ebae62805f7fa0ee5ddf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a string into a Formulation. <br /></td></tr>
+<tr class="separator:a4e0afed97c8ebae62805f7fa0ee5ddf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa6e8f2f93ea5d9a529ba3e0584e5c14"><td class="memItemLeft" align="right" valign="top"><a id="afa6e8f2f93ea5d9a529ba3e0584e5c14"></a>
+<a class="el" href="classInput.html#a2a7a490d1f166fc7e3e17aab57a420e2">MIP_Solver</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#afa6e8f2f93ea5d9a529ba3e0584e5c14">to_MIP_Solver</a> (std::string data)</td></tr>
+<tr class="memdesc:afa6e8f2f93ea5d9a529ba3e0584e5c14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a string into a MIP_Solver. <br /></td></tr>
+<tr class="separator:afa6e8f2f93ea5d9a529ba3e0584e5c14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2dbb36732c20299063c992c6c26b3ccb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a2dbb36732c20299063c992c6c26b3ccb">to_timeLimit</a> (std::string data)</td></tr>
 <tr class="memdesc:a2dbb36732c20299063c992c6c26b3ccb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a string into time limit.  <a href="classInput.html#a2dbb36732c20299063c992c6c26b3ccb">More...</a><br /></td></tr>
 <tr class="separator:a2dbb36732c20299063c992c6c26b3ccb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -264,6 +293,10 @@ std::vector&lt; <a class="el" href="classInput.html#aa47e0a4922a05e2d387b8728134
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a5fdd308273d27628c515f6ba722301d9">displayMainParameters</a> ()</td></tr>
 <tr class="memdesc:a5fdd308273d27628c515f6ba722301d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the main input file paths: link, demand and assignement. <br /></td></tr>
 <tr class="separator:a5fdd308273d27628c515f6ba722301d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac874a9bc6f2d4b5814ec06209eca79cc"><td class="memItemLeft" align="right" valign="top"><a id="ac874a9bc6f2d4b5814ec06209eca79cc"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#ac874a9bc6f2d4b5814ec06209eca79cc">checkConsistency</a> ()</td></tr>
+<tr class="memdesc:ac874a9bc6f2d4b5814ec06209eca79cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the gathered information is consistent with what is implemented. <br /></td></tr>
+<tr class="separator:ac874a9bc6f2d4b5814ec06209eca79cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2db35ba67c8a8ccd23bef6a482fc291"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#af2db35ba67c8a8ccd23bef6a482fc291">~Input</a> ()</td></tr>
 <tr class="memdesc:af2db35ba67c8a8ccd23bef6a482fc291"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="classInput.html#af2db35ba67c8a8ccd23bef6a482fc291">More...</a><br /></td></tr>
 <tr class="separator:af2db35ba67c8a8ccd23bef6a482fc291"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -329,10 +362,18 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#ac27b154fff816d5f7cd6b4ed482f47aa">hopPenalty</a></td></tr>
 <tr class="memdesc:ac27b154fff816d5f7cd6b4ed482f47aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to the penalty of reach applied on each hop. <br /></td></tr>
 <tr class="separator:ac27b154fff816d5f7cd6b4ed482f47aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e4b66817ca693839ff6dc53243d7a77"><td class="memItemLeft" align="right" valign="top"><a id="a9e4b66817ca693839ff6dc53243d7a77"></a>
-<a class="el" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031">Method</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a9e4b66817ca693839ff6dc53243d7a77">chosenMethod</a></td></tr>
-<tr class="memdesc:a9e4b66817ca693839ff6dc53243d7a77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to which method is applied for solving the problem. <br /></td></tr>
-<tr class="separator:a9e4b66817ca693839ff6dc53243d7a77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22b93ca0501a9e6759f42e625ff2a302"><td class="memItemLeft" align="right" valign="top"><a id="a22b93ca0501a9e6759f42e625ff2a302"></a>
+<a class="el" href="classInput.html#a8dbb510f7413a631475e650087bbd55c">NodeMethod</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a22b93ca0501a9e6759f42e625ff2a302">chosenNodeMethod</a></td></tr>
+<tr class="memdesc:a22b93ca0501a9e6759f42e625ff2a302"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to which method is applied for solving each node. <br /></td></tr>
+<tr class="separator:a22b93ca0501a9e6759f42e625ff2a302"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78e0fca5b5e783bc49f993f1d83ca383"><td class="memItemLeft" align="right" valign="top"><a id="a78e0fca5b5e783bc49f993f1d83ca383"></a>
+<a class="el" href="classInput.html#a1616d42de40a51ca0703ab60849717f2">Formulation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a78e0fca5b5e783bc49f993f1d83ca383">chosenFormulation</a></td></tr>
+<tr class="memdesc:a78e0fca5b5e783bc49f993f1d83ca383"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to the formulation used to solve the problem. <br /></td></tr>
+<tr class="separator:a78e0fca5b5e783bc49f993f1d83ca383"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3397990dab2d8125881f125c537c7b6"><td class="memItemLeft" align="right" valign="top"><a id="af3397990dab2d8125881f125c537c7b6"></a>
+<a class="el" href="classInput.html#a2a7a490d1f166fc7e3e17aab57a420e2">MIP_Solver</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#af3397990dab2d8125881f125c537c7b6">chosenMipSolver</a></td></tr>
+<tr class="memdesc:af3397990dab2d8125881f125c537c7b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to the MIP solver chosen to applied. <br /></td></tr>
+<tr class="separator:af3397990dab2d8125881f125c537c7b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c583193d46cd61dc630f12f2671b45e"><td class="memItemLeft" align="right" valign="top"><a id="a8c583193d46cd61dc630f12f2671b45e"></a>
 <a class="el" href="classInput.html#a38a43d751872865a7d1b4e84ff5f9d42">PreprocessingLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a8c583193d46cd61dc630f12f2671b45e">chosenPreprLvl</a></td></tr>
 <tr class="memdesc:a8c583193d46cd61dc630f12f2671b45e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refers to which level of preprocessing is applied before solving the problem. <br /></td></tr>
@@ -373,29 +414,77 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 <p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00017">17</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="ae19efd3d8de2230a5bb94677518a8031"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae19efd3d8de2230a5bb94677518a8031">&#9670;&nbsp;</a></span>Method</h2>
+<a id="a1616d42de40a51ca0703ab60849717f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1616d42de40a51ca0703ab60849717f2">&#9670;&nbsp;</a></span>Formulation</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="classInput.html#ae19efd3d8de2230a5bb94677518a8031">Input::Method</a></td>
+          <td class="memname">enum <a class="el" href="classInput.html#a1616d42de40a51ca0703ab60849717f2">Input::Formulation</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a1616d42de40a51ca0703ab60849717f2a71087c3cfebd9fc3c8e509392aa95f86"></a>FORMULATION_FLOW&#160;</td><td class="fielddoc"><p>Solve it using the flow based formulation. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a1616d42de40a51ca0703ab60849717f2a9c28b0ae424718895889ed585a13d4de"></a>FORMULATION_EDGE_NODE&#160;</td><td class="fielddoc"><p>Solve it using the edge-node formulation. </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00027">27</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+
+</div>
+</div>
+<a id="a2a7a490d1f166fc7e3e17aab57a420e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a7a490d1f166fc7e3e17aab57a420e2">&#9670;&nbsp;</a></span>MIP_Solver</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classInput.html#a2a7a490d1f166fc7e3e17aab57a420e2">Input::MIP_Solver</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Enumerates the possible methods to be applied for solving the Online Routing and Spectrum Allocation problem. </p>
+<p>Enumerates the possible solvers to be used for solving the Online Routing and Spectrum Allocation problem. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae19efd3d8de2230a5bb94677518a8031a9bcff65f9fe67d63b9093e1703f1226b"></a>METHOD_CPLEX&#160;</td><td class="fielddoc"><p>Solve it through a MIP using CPLEX. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a2a7a490d1f166fc7e3e17aab57a420e2ae76652e555276c30e04bb4592c032703"></a>MIP_SOLVER_CPLEX&#160;</td><td class="fielddoc"><p>Solve it through a MIP using CPLEX. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae19efd3d8de2230a5bb94677518a8031a1e214c54a52e9881ad79ecb513eeb24d"></a>METHOD_SUBGRADIENT&#160;</td><td class="fielddoc"><p>Solve it using the subgradient method. </p>
+<tr><td class="fieldname"><a id="a2a7a490d1f166fc7e3e17aab57a420e2adffb5e75e3800be9b438f7083d3023a4"></a>MIP_SOLVER_CBC&#160;</td><td class="fielddoc"><p>Solve it through a MIP using CBC. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae19efd3d8de2230a5bb94677518a8031a74f6bb7ea7d8e371bc25ab2a79ec79f4"></a>METHOD_YOUSSOUF&#160;</td><td class="fielddoc"><p>Solve it through a MIP using CPLEX. </p>
+<tr><td class="fieldname"><a id="a2a7a490d1f166fc7e3e17aab57a420e2ae19453d7bb2fc41324d124a98a8b45dd"></a>MIP_SOLVER_GUROBI&#160;</td><td class="fielddoc"><p>Solve it through a MIP using Gurobi. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Implement CBC.</dd></dl>
 </td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00021">21</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+
+</div>
+</div>
+<a id="a8dbb510f7413a631475e650087bbd55c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8dbb510f7413a631475e650087bbd55c">&#9670;&nbsp;</a></span>NodeMethod</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classInput.html#a8dbb510f7413a631475e650087bbd55c">Input::NodeMethod</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8dbb510f7413a631475e650087bbd55ca2296fa6f6474b12b00ee26430213db76"></a>NODE_METHOD_LINEAR_RELAX&#160;</td><td class="fielddoc"><p>Solve each node by applying linear relaxation. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8dbb510f7413a631475e650087bbd55ca26bb0dae920d18428d217c02ab2c830b"></a>NODE_METHOD_SUBGRADIENT&#160;</td><td class="fielddoc"><p>Solve each node by applying subgradient algorithm. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8dbb510f7413a631475e650087bbd55ca8e4b33ba6250b025946b9173719b2560"></a>NODE_METHOD_VOLUME&#160;</td><td class="fielddoc"><p>Solve each node by applying volume algorithm. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>Implement subgradient inside nodes.</dd></dl>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00032">32</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -429,7 +518,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00042">42</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00053">53</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -455,7 +544,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00035">35</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00046">46</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -481,7 +570,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00053">53</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00064">64</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -507,7 +596,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00028">28</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00039">39</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -564,7 +653,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00082">82</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00089">89</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -586,7 +675,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Destructor. </p>
 <p>Clears the vector of strings. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00235">235</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00346">346</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -623,7 +712,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00122">122</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00135">135</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -652,7 +741,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </dl>
 <dl class="section note"><dt>Note</dt><dd>It is surely not the most performant method but the parameter file has a reasonable size and the code becomes much clearer. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00112">112</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00121">121</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -688,7 +777,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00192">192</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00211">211</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -724,7 +813,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00186">186</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00205">205</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -760,7 +849,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00189">189</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00208">208</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -783,7 +872,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Converts a string into time limit. </p>
 <dl class="section note"><dt>Note</dt><dd>By default, time limit is unlimited. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00216">216</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00327">327</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -811,7 +900,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>If this option is inactive, optimization stops within first blocking. </p>
 <p>Otherwise, blocking is accepted (this only works in online case). </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00074">74</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00085">85</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>

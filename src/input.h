@@ -17,11 +17,22 @@
 class Input {
 
 public: 
-	/** Enumerates the possible methods to be applied for solving the Online Routing and Spectrum Allocation problem.**/
-	enum Method {						
-		METHOD_CPLEX = 0,  /**< Solve it through a MIP using CPLEX. **/
-		METHOD_SUBGRADIENT = 1, /**<  Solve it using the subgradient method.**/
-		METHOD_YOUSSOUF = 2  /**< Solve it through a MIP using CPLEX. **/
+	/** Enumerates the possible solvers to be used for solving the Online Routing and Spectrum Allocation problem.**/
+	enum MIP_Solver {						
+		MIP_SOLVER_CPLEX = 0,  /**< Solve it through a MIP using CPLEX. **/
+		MIP_SOLVER_CBC = 1, /**<  Solve it through a MIP using CBC. **/ /** @todo Implement CBC.**/
+		MIP_SOLVER_GUROBI = 2  /**< Solve it through a MIP using Gurobi. **/ /** @todo Implement gurobi.**/
+	};
+
+	enum Formulation {
+		FORMULATION_FLOW = 0,  		/**< Solve it using the flow based formulation. **/
+		FORMULATION_EDGE_NODE = 1 	/**<  Solve it using the edge-node formulation. **/
+	};
+
+	enum NodeMethod {
+		NODE_METHOD_LINEAR_RELAX = 0,  		/**< Solve each node by applying linear relaxation. **/
+		NODE_METHOD_SUBGRADIENT = 1, 		/**< Solve each node by applying subgradient algorithm. **/ /** @todo Implement subgradient inside nodes. **/
+		NODE_METHOD_VOLUME = 2 				/**< Solve each node by applying volume algorithm. **/	/** @todo Implement volume. **/
 	};
 
 	/** Enumerates the possible levels of applying a preprocessing step fo reducing the graphs before optimization is called. **/
@@ -74,10 +85,12 @@ private:
 	bool allowBlocking;					/**< If this option is inactive, optimization stops within first blocking. Otherwise, blocking is accepted (this only works in online case). **/
 	int hopPenalty;						/**< Refers to the penalty of reach applied on each hop. **/
 
-	Method chosenMethod;				/**< Refers to which method is applied for solving the problem.**/
-	PreprocessingLevel chosenPreprLvl;	/**< Refers to which level of preprocessing is applied before solving the problem.**/
-	std::vector<ObjectiveMetric> chosenObj;			/**< Refers to which objective is optimized.**/
-	OutputLevel chosenOutputLvl;		/**< Refers to which output policy is adopted.**/
+	NodeMethod chosenNodeMethod;			/**< Refers to which method is applied for solving each node.**/
+	Formulation chosenFormulation;			/**< Refers to the formulation used to solve the problem. **/
+	MIP_Solver chosenMipSolver;				/**< Refers to the MIP solver chosen to applied. **/
+	PreprocessingLevel chosenPreprLvl;		/**< Refers to which level of preprocessing is applied before solving the problem.**/
+	std::vector<ObjectiveMetric> chosenObj;	/**< Refers to which objective is optimized.**/
+	OutputLevel chosenOutputLvl;			/**< Refers to which output policy is adopted.**/
 	PartitionPolicy chosenPartitionPolicy;	/**< Refers to which partition policy is adopted.**/
 
 	double lagrangianMultiplier_zero;	/**< The initial value of the lagrangian multiplier used if subgradient method is chosen. **/
@@ -148,10 +161,16 @@ public:
 	/** Returns the hop penality. **/
     int getHopPenalty() const { return hopPenalty; }
 
-	/** Returns the identifier of the method chosen for optimization. **/
-    Method getChosenMethod() const { return chosenMethod; }
+	/** Returns the identifier of the method chosen for solving each node. **/
+    NodeMethod getChosenNodeMethod() const { return chosenNodeMethod; }
 
-	/** Returns the identifier of the method chosen for optimization. **/
+	/** Returns the identifier of the formulation chosen for solving the problem. **/
+    Formulation getChosenFormulation() const { return chosenFormulation; }
+
+	/** Returns the identifier of the MIP solver chosen for solving the formulation. **/
+    MIP_Solver getChosenMIPSolver() const { return chosenMipSolver; }
+
+	/** Returns the identifier of the chosen preprocessing level. **/
     PreprocessingLevel getChosenPreprLvl() const { return chosenPreprLvl; }
 
 	/** Returns the identifier of the objective chosen to be optimized. **/
@@ -206,12 +225,23 @@ public:
 	/** Converts a string into a PartitionPolicy. **/
 	PartitionPolicy to_PartitionPolicy(std::string data);
 
+	/** Converts a string into a NodeMethod. **/
+	NodeMethod to_NodeMethod(std::string data);
+
+	/** Converts a string into a Formulation. **/
+	Formulation to_Formulation(std::string data);
+
+	/** Converts a string into a MIP_Solver. **/
+	MIP_Solver to_MIP_Solver(std::string data);
+
 	/** Converts a string into time limit. \note By default, time limit is unlimited. **/
 	int to_timeLimit(std::string data);
 
 	/** Displays the main input file paths: link, demand and assignement. **/
     void displayMainParameters();
 	
+	/** Checks if the gathered information is consistent with what is implemented. **/
+	void checkConsistency();
 	/****************************************************************************************/
 	/*										Destructor										*/
 	/****************************************************************************************/

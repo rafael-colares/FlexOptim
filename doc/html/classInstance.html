@@ -100,6 +100,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4c7b731b5678a62d108c48a3525f63fa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a4c7b731b5678a62d108c48a3525f63fa">Instance</a> (const <a class="el" href="classInstance.html">Instance</a> &amp;i)</td></tr>
 <tr class="memdesc:a4c7b731b5678a62d108c48a3525f63fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <a href="classInstance.html#a4c7b731b5678a62d108c48a3525f63fa">More...</a><br /></td></tr>
 <tr class="separator:a4c7b731b5678a62d108c48a3525f63fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4dbe5e3f8d9716c96ebec3c5ee3c3b8"><td class="memItemLeft" align="right" valign="top"><a id="aa4dbe5e3f8d9716c96ebec3c5ee3c3b8"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>getWasBlocked</b> () const</td></tr>
+<tr class="separator:aa4dbe5e3f8d9716c96ebec3c5ee3c3b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a278c270fb8f0e1f6e8ee5b89614d3781"><td class="memItemLeft" align="right" valign="top"><a id="a278c270fb8f0e1f6e8ee5b89614d3781"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a278c270fb8f0e1f6e8ee5b89614d3781">getNbDemands</a> () const</td></tr>
 <tr class="memdesc:a278c270fb8f0e1f6e8ee5b89614d3781"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total number of demands. <br /></td></tr>
@@ -167,6 +170,9 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>getMetricValue</b> 
 <tr class="memitem:a26ecbbebe533b84303871e814d22a37d"><td class="memItemLeft" align="right" valign="top"><a id="a26ecbbebe533b84303871e814d22a37d"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>getNumberOfOccupiedSlices</b> () const</td></tr>
 <tr class="separator:a26ecbbebe533b84303871e814d22a37d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e4c573cdea7d7e80ce25085cc717aeb"><td class="memItemLeft" align="right" valign="top"><a id="a0e4c573cdea7d7e80ce25085cc717aeb"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setWasBlocked</b> (bool flag)</td></tr>
+<tr class="separator:a0e4c573cdea7d7e80ce25085cc717aeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26032b536301b1c7e42d553077cb9df2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a26032b536301b1c7e42d553077cb9df2">setNbDemands</a> (int nb)</td></tr>
 <tr class="memdesc:a26032b536301b1c7e42d553077cb9df2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the total number of demands.  <a href="classInstance.html#a26032b536301b1c7e42d553077cb9df2">More...</a><br /></td></tr>
 <tr class="separator:a26032b536301b1c7e42d553077cb9df2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -305,6 +311,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstance.html#a23da3e0e9fc713d8e6b9b19e540dd581">nextDemandToBeRoutedIndex</a></td></tr>
 <tr class="memdesc:a23da3e0e9fc713d8e6b9b19e540dd581"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the index of the next demand to be analyzed in tabDemand. <br /></td></tr>
 <tr class="separator:a23da3e0e9fc713d8e6b9b19e540dd581"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6219ab7e8fe2343a7b9e2d4c5e098ac9"><td class="memItemLeft" align="right" valign="top"><a id="a6219ab7e8fe2343a7b9e2d4c5e098ac9"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>wasBlocked</b></td></tr>
+<tr class="separator:a6219ab7e8fe2343a7b9e2d4c5e098ac9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class stores the initial mapping that serves as input for the Online Routing and Spectrum Allocation problem. </p>
@@ -396,7 +405,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00016">16</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00017">17</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -418,7 +427,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Destructor. </p>
 <p>Clears the vectors of demands and links. </p>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00028">28</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00030">30</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -465,7 +474,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00341">341</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00343">343</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -493,7 +502,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00285">285</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00287">287</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -521,7 +530,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00307">307</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00309">309</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -557,7 +566,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00083">83</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00085">85</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -597,7 +606,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00621">621</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00623">623</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -633,7 +642,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00074">74</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00076">76</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -679,7 +688,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00324">324</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00326">326</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -718,7 +727,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00608">608</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00610">610</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -746,7 +755,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00378">378</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00380">380</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -774,7 +783,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00387">387</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00389">389</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -802,7 +811,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00429">429</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00431">431</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -830,7 +839,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00556">556</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00558">558</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -858,7 +867,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00591">591</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00593">593</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -886,7 +895,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00536">536</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00538">538</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -908,7 +917,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Reads the assignment information from input's assignmentFile. </p>
 <p>Sets the demands to routed and update the slices of the edges. </p><dl class="section warning"><dt>Warning</dt><dd>File should be structured as in Demand_edges_slices.csv. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00181">181</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00183">183</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -930,7 +939,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Reads the routed demand information from input's demandFile. </p>
 <p>Builds the set of demands. </p><dl class="section warning"><dt>Warning</dt><dd>File should be structured as in Demand.csv. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00161">161</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00163">163</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -952,7 +961,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Reads the topology information from input's linkFile. </p>
 <p>Builds the set of links. </p><dl class="section warning"><dt>Warning</dt><dd>File should be structured as in Link.csv. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00127">127</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00129">129</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -991,7 +1000,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00097">97</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00099">99</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -1030,7 +1039,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00092">92</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8cpp_source.html#l00094">94</a> of file <a class="el" href="Instance_8cpp_source.html">Instance.cpp</a>.</p>
 
 </div>
 </div>
@@ -1067,7 +1076,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>This function resizes vector tabDemand, creating default demands if nb is greater than the previous size. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00109">109</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00113">113</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -1103,7 +1112,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00139">139</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00143">143</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -1139,7 +1148,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00112">112</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00116">116</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -1175,7 +1184,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00115">115</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00119">119</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -1211,7 +1220,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00136">136</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00140">140</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -1247,7 +1256,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00121">121</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00125">125</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -1283,7 +1292,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00118">118</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00122">122</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>
@@ -1319,7 +1328,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00133">133</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Instance_8h_source.html#l00137">137</a> of file <a class="el" href="Instance_8h_source.html">Instance.h</a>.</p>
 
 </div>
 </div>

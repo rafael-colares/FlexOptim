@@ -66,14 +66,13 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
-<a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="classCplexForm-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">CplexForm Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This class implements and solve the Online Routing and Spectrum Allocation MIP using CPLEX.  
+<p>This class implements the Online Routing and Spectrum Allocation through a Flow MIP formulation using CPLEX.  
  <a href="classCplexForm.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="cplexForm_8h_source.html">cplexForm.h</a>&gt;</code></p>
@@ -83,28 +82,94 @@ Inheritance diagram for CplexForm:</div>
  <div class="center">
   <img src="classCplexForm.png" usemap="#CplexForm_map" alt=""/>
   <map id="CplexForm_map" name="CplexForm_map">
-<area href="classSolver.html" title="This class specifies which MIP solver to be used and stores the new arc maps used for identifying arc..." alt="Solver" shape="rect" coords="0,56,73,80"/>
-<area href="classRSA.html" title="This class stores the input needed for solving the Routing and Spectrum Allocation problem." alt="RSA" shape="rect" coords="0,0,73,24"/>
+<area href="classSolver.html" title="This class specifies which MIP solver to be used The methods needed for solving the Routing and Spect..." alt="Solver" shape="rect" coords="0,0,73,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab2dd3825ee030ef49008c5f9cd8cf5c7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#ab2dd3825ee030ef49008c5f9cd8cf5c7">CplexForm</a> (const <a class="el" href="classInstance.html">Instance</a> &amp;<a class="el" href="classRSA.html#ad81287af708fcfcd98c963cfafc1f4db">instance</a>)</td></tr>
+<tr class="memitem:ab2dd3825ee030ef49008c5f9cd8cf5c7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#ab2dd3825ee030ef49008c5f9cd8cf5c7">CplexForm</a> (const <a class="el" href="classInstance.html">Instance</a> &amp;instance)</td></tr>
 <tr class="memdesc:ab2dd3825ee030ef49008c5f9cd8cf5c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classCplexForm.html#ab2dd3825ee030ef49008c5f9cd8cf5c7">More...</a><br /></td></tr>
 <tr class="separator:ab2dd3825ee030ef49008c5f9cd8cf5c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10fafee04a0ea1934dbd0f85dacd1155"><td class="memItemLeft" align="right" valign="top"><a id="a10fafee04a0ea1934dbd0f85dacd1155"></a>
-IloCplex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a10fafee04a0ea1934dbd0f85dacd1155">getCplex</a> ()</td></tr>
-<tr class="memdesc:a10fafee04a0ea1934dbd0f85dacd1155"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the cplex engine in use. <br /></td></tr>
-<tr class="separator:a10fafee04a0ea1934dbd0f85dacd1155"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b14472b28900b261e58d636d80b6e36"><td class="memItemLeft" align="right" valign="top"><a id="a1b14472b28900b261e58d636d80b6e36"></a>
-IloInt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a1b14472b28900b261e58d636d80b6e36">getNbCutsFromCplex</a> ()</td></tr>
-<tr class="memdesc:a1b14472b28900b261e58d636d80b6e36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total number of CPLEX default cuts applied during optimization. <br /></td></tr>
-<tr class="separator:a1b14472b28900b261e58d636d80b6e36"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68a11c95447108b26622b8e4305dc40f"><td class="memItemLeft" align="right" valign="top"><a id="a68a11c95447108b26622b8e4305dc40f"></a>
-<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108f">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a68a11c95447108b26622b8e4305dc40f">getStatus</a> ()</td></tr>
-<tr class="memdesc:a68a11c95447108b26622b8e4305dc40f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the cplex status. <br /></td></tr>
-<tr class="separator:a68a11c95447108b26622b8e4305dc40f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2554d41de41ca1e022c924d976f71984"><td class="memItemLeft" align="right" valign="top"><a id="a2554d41de41ca1e022c924d976f71984"></a>
+IloExpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a2554d41de41ca1e022c924d976f71984">getObjFunction</a> (<a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">Input::ObjectiveMetric</a> chosenObjective)</td></tr>
+<tr class="memdesc:a2554d41de41ca1e022c924d976f71984"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the objective function expression. <br /></td></tr>
+<tr class="separator:a2554d41de41ca1e022c924d976f71984"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a926abe4216db8f4c85e1cb55bc933d96"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a926abe4216db8f4c85e1cb55bc933d96">getSourceConstraint_d_n</a> (const <a class="el" href="classDemand.html">Demand</a> &amp;demand, int d, int nodeLabel)</td></tr>
+<tr class="memdesc:a926abe4216db8f4c85e1cb55bc933d96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the source constraint associated with a demand and a node.  <a href="classCplexForm.html#a926abe4216db8f4c85e1cb55bc933d96">More...</a><br /></td></tr>
+<tr class="separator:a926abe4216db8f4c85e1cb55bc933d96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e7be3b1b6e5809028407caf05368d0b"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a8e7be3b1b6e5809028407caf05368d0b">getFlowConservationConstraint_i_d</a> (ListDigraph::Node &amp;v, const <a class="el" href="classDemand.html">Demand</a> &amp;demand, int d)</td></tr>
+<tr class="memdesc:a8e7be3b1b6e5809028407caf05368d0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the flow conservation constraint associated with a demand and a node.  <a href="classCplexForm.html#a8e7be3b1b6e5809028407caf05368d0b">More...</a><br /></td></tr>
+<tr class="separator:a8e7be3b1b6e5809028407caf05368d0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18fa01cb74747d6638c72882ac1f1f96"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a18fa01cb74747d6638c72882ac1f1f96">getTargetConstraint_d</a> (const <a class="el" href="classDemand.html">Demand</a> &amp;demand, int d)</td></tr>
+<tr class="memdesc:a18fa01cb74747d6638c72882ac1f1f96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the target constraint associated with a demand.  <a href="classCplexForm.html#a18fa01cb74747d6638c72882ac1f1f96">More...</a><br /></td></tr>
+<tr class="separator:a18fa01cb74747d6638c72882ac1f1f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3aa0b686daee24e8eefb51cadccf45d"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#af3aa0b686daee24e8eefb51cadccf45d">getLengthConstraint</a> (const <a class="el" href="classDemand.html">Demand</a> &amp;demand, int d)</td></tr>
+<tr class="memdesc:af3aa0b686daee24e8eefb51cadccf45d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the length constraint associated with a demand.  <a href="classCplexForm.html#af3aa0b686daee24e8eefb51cadccf45d">More...</a><br /></td></tr>
+<tr class="separator:af3aa0b686daee24e8eefb51cadccf45d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ff41914e2a5a9d83e5d1f5b38e90c05"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a2ff41914e2a5a9d83e5d1f5b38e90c05">getNonOverlappingConstraint</a> (int linkLabel, int slice, const <a class="el" href="classDemand.html">Demand</a> &amp;demand1, int d1, const <a class="el" href="classDemand.html">Demand</a> &amp;demand2, int d2)</td></tr>
+<tr class="memdesc:a2ff41914e2a5a9d83e5d1f5b38e90c05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the non-overlapping constraint associated with an arc and a pair of demands.  <a href="classCplexForm.html#a2ff41914e2a5a9d83e5d1f5b38e90c05">More...</a><br /></td></tr>
+<tr class="separator:a2ff41914e2a5a9d83e5d1f5b38e90c05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d9aa44bad9d073539fb06941b4de978"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a4d9aa44bad9d073539fb06941b4de978">getMaxUsedSlicePerLinkConstraints</a> (int linkIndex, int d)</td></tr>
+<tr class="memdesc:a4d9aa44bad9d073539fb06941b4de978"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Link's Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraint associated with a link and a demand.  <a href="classCplexForm.html#a4d9aa44bad9d073539fb06941b4de978">More...</a><br /></td></tr>
+<tr class="separator:a4d9aa44bad9d073539fb06941b4de978"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53ef27dc7fa1c1063dda14936ac05f05"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a53ef27dc7fa1c1063dda14936ac05f05">getMaxUsedSliceOverallConstraints</a> (int d)</td></tr>
+<tr class="memdesc:a53ef27dc7fa1c1063dda14936ac05f05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints associated with a link and a demand.  <a href="classCplexForm.html#a53ef27dc7fa1c1063dda14936ac05f05">More...</a><br /></td></tr>
+<tr class="separator:a53ef27dc7fa1c1063dda14936ac05f05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade98dac662309632d7f20378cc99ea58"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#ade98dac662309632d7f20378cc99ea58">getMaxUsedSliceOverallConstraints2</a> (int linkIndex, int s)</td></tr>
+<tr class="memdesc:ade98dac662309632d7f20378cc99ea58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints associated with a link and a demand.  <a href="classCplexForm.html#ade98dac662309632d7f20378cc99ea58">More...</a><br /></td></tr>
+<tr class="separator:ade98dac662309632d7f20378cc99ea58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e57399c6b4ea8476ca8c5bd0098acaf"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a0e57399c6b4ea8476ca8c5bd0098acaf">getMaxUsedSliceOverallConstraints3</a> (int linkIndex, int s)</td></tr>
+<tr class="memdesc:a0e57399c6b4ea8476ca8c5bd0098acaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints associated with a link and a demand.  <a href="classCplexForm.html#a0e57399c6b4ea8476ca8c5bd0098acaf">More...</a><br /></td></tr>
+<tr class="separator:a0e57399c6b4ea8476ca8c5bd0098acaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa51956d14ebffcc259ff4b7d976a12cf"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#aa51956d14ebffcc259ff4b7d976a12cf">getImprovedNonOverlappingConstraint_1</a> (int linkLabel, int slice, int min_load, const <a class="el" href="classDemand.html">Demand</a> &amp;demand2, int d2)</td></tr>
+<tr class="memdesc:aa51956d14ebffcc259ff4b7d976a12cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the constraint from the first set of improved non-overlapping associated with an arc, a demand and a load.  <a href="classCplexForm.html#aa51956d14ebffcc259ff4b7d976a12cf">More...</a><br /></td></tr>
+<tr class="separator:aa51956d14ebffcc259ff4b7d976a12cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9edfa2a482acb5e7f3522eac358e6cfd"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a9edfa2a482acb5e7f3522eac358e6cfd">getImprovedNonOverlappingConstraint_2</a> (int linkLabel, int slice)</td></tr>
+<tr class="memdesc:a9edfa2a482acb5e7f3522eac358e6cfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the constraint from the second set of improved non-overlapping associated with an arc and a pair of loads.  <a href="classCplexForm.html#a9edfa2a482acb5e7f3522eac358e6cfd">More...</a><br /></td></tr>
+<tr class="separator:a9edfa2a482acb5e7f3522eac358e6cfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfd3f444710416254159340ab119a390"><td class="memItemLeft" align="right" valign="top"><a id="acfd3f444710416254159340ab119a390"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#acfd3f444710416254159340ab119a390">setVariables</a> ()</td></tr>
+<tr class="memdesc:acfd3f444710416254159340ab119a390"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the decision variables need in the MIP formulation. <br /></td></tr>
+<tr class="separator:acfd3f444710416254159340ab119a390"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a013b08efa60965e8ed712dd0836be27e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a013b08efa60965e8ed712dd0836be27e">setObjective</a> (<a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">Input::ObjectiveMetric</a> chosenObjective)</td></tr>
+<tr class="memdesc:a013b08efa60965e8ed712dd0836be27e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the objective function.  <a href="classCplexForm.html#a013b08efa60965e8ed712dd0836be27e">More...</a><br /></td></tr>
+<tr class="separator:a013b08efa60965e8ed712dd0836be27e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a473c8b19f9738688f44f1cc80b3149eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a473c8b19f9738688f44f1cc80b3149eb">setSourceConstraints</a> ()</td></tr>
+<tr class="memdesc:a473c8b19f9738688f44f1cc80b3149eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines Source constraints.  <a href="classCplexForm.html#a473c8b19f9738688f44f1cc80b3149eb">More...</a><br /></td></tr>
+<tr class="separator:a473c8b19f9738688f44f1cc80b3149eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d713eca5d4bceefaa3ece342d8648cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a2d713eca5d4bceefaa3ece342d8648cc">setFlowConservationConstraints</a> ()</td></tr>
+<tr class="memdesc:a2d713eca5d4bceefaa3ece342d8648cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines Flow Conservation constraints.  <a href="classCplexForm.html#a2d713eca5d4bceefaa3ece342d8648cc">More...</a><br /></td></tr>
+<tr class="separator:a2d713eca5d4bceefaa3ece342d8648cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2588ab6bbb99269728c724d2ca38bdd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#ae2588ab6bbb99269728c724d2ca38bdd">setTargetConstraints</a> ()</td></tr>
+<tr class="memdesc:ae2588ab6bbb99269728c724d2ca38bdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines Target constraints.  <a href="classCplexForm.html#ae2588ab6bbb99269728c724d2ca38bdd">More...</a><br /></td></tr>
+<tr class="separator:ae2588ab6bbb99269728c724d2ca38bdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee76ba94ec94bb0cfd794e1b55126a79"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#aee76ba94ec94bb0cfd794e1b55126a79">setLengthConstraints</a> ()</td></tr>
+<tr class="memdesc:aee76ba94ec94bb0cfd794e1b55126a79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines Length constraints.  <a href="classCplexForm.html#aee76ba94ec94bb0cfd794e1b55126a79">More...</a><br /></td></tr>
+<tr class="separator:aee76ba94ec94bb0cfd794e1b55126a79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff981ca64af42e82432f3fc1d07c7832"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#aff981ca64af42e82432f3fc1d07c7832">setNonOverlappingConstraints</a> ()</td></tr>
+<tr class="memdesc:aff981ca64af42e82432f3fc1d07c7832"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines Non-Overlapping constraints.  <a href="classCplexForm.html#aff981ca64af42e82432f3fc1d07c7832">More...</a><br /></td></tr>
+<tr class="separator:aff981ca64af42e82432f3fc1d07c7832"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a897236eead3cdc319c0a69e7303805"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a4a897236eead3cdc319c0a69e7303805">setMaxUsedSlicePerLinkConstraints</a> ()</td></tr>
+<tr class="memdesc:a4a897236eead3cdc319c0a69e7303805"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the Link's Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints.  <a href="classCplexForm.html#a4a897236eead3cdc319c0a69e7303805">More...</a><br /></td></tr>
+<tr class="separator:a4a897236eead3cdc319c0a69e7303805"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a842befacc24d2a483cc48e9f653bc9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a8a842befacc24d2a483cc48e9f653bc9">setMaxUsedSliceOverallConstraints</a> ()</td></tr>
+<tr class="memdesc:a8a842befacc24d2a483cc48e9f653bc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints.  <a href="classCplexForm.html#a8a842befacc24d2a483cc48e9f653bc9">More...</a><br /></td></tr>
+<tr class="separator:a8a842befacc24d2a483cc48e9f653bc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad93bb1aeacd8b525273befa04a7105da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#ad93bb1aeacd8b525273befa04a7105da">setMaxUsedSliceOverallConstraints2</a> ()</td></tr>
+<tr class="memdesc:ad93bb1aeacd8b525273befa04a7105da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints.  <a href="classCplexForm.html#ad93bb1aeacd8b525273befa04a7105da">More...</a><br /></td></tr>
+<tr class="separator:ad93bb1aeacd8b525273befa04a7105da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbed24d8901cdb042b4cd839471211ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#acbed24d8901cdb042b4cd839471211ef">setMaxUsedSliceOverallConstraints3</a> ()</td></tr>
+<tr class="memdesc:acbed24d8901cdb042b4cd839471211ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints.  <a href="classCplexForm.html#acbed24d8901cdb042b4cd839471211ef">More...</a><br /></td></tr>
+<tr class="separator:acbed24d8901cdb042b4cd839471211ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae81ea40d3125f71c0a4c78938685d33c"><td class="memItemLeft" align="right" valign="top"><a id="ae81ea40d3125f71c0a4c78938685d33c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#ae81ea40d3125f71c0a4c78938685d33c">setImprovedNonOverlappingConstraints_1</a> ()</td></tr>
+<tr class="memdesc:ae81ea40d3125f71c0a4c78938685d33c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the first set of Improved Non-Overlapping constraints. <br /></td></tr>
+<tr class="separator:ae81ea40d3125f71c0a4c78938685d33c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c85cb3622c593fd491c384212b11cf9"><td class="memItemLeft" align="right" valign="top"><a id="a3c85cb3622c593fd491c384212b11cf9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a3c85cb3622c593fd491c384212b11cf9">setImprovedNonOverlappingConstraints_2</a> ()</td></tr>
+<tr class="memdesc:a3c85cb3622c593fd491c384212b11cf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the second set of Improved Non-Overlapping constraints. <br /></td></tr>
+<tr class="separator:a3c85cb3622c593fd491c384212b11cf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9c6a67efafde78d153d7f01c41422263"><td class="memItemLeft" align="right" valign="top"><a id="a9c6a67efafde78d153d7f01c41422263"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a9c6a67efafde78d153d7f01c41422263">updatePath</a> ()</td></tr>
 <tr class="memdesc:a9c6a67efafde78d153d7f01c41422263"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recovers the obtained MIP solution and builds a path for each demand on its associated graph from <a class="el" href="classRSA.html" title="This class stores the input needed for solving the Routing and Spectrum Allocation problem.">RSA</a>. <br /></td></tr>
@@ -121,262 +186,20 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:a310c137c719c51244343eea8d41bf301"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="classCplexForm.html#a310c137c719c51244343eea8d41bf301">More...</a><br /></td></tr>
 <tr class="separator:a310c137c719c51244343eea8d41bf301"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classSolver"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classSolver')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classSolver.html">Solver</a></td></tr>
-<tr class="memitem:a8271976cef5a884cb8b4deb295311466 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a8271976cef5a884cb8b4deb295311466">Solver</a> (const <a class="el" href="classInstance.html">Instance</a> &amp;inst)</td></tr>
-<tr class="memdesc:a8271976cef5a884cb8b4deb295311466 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classSolver.html#a8271976cef5a884cb8b4deb295311466">More...</a><br /></td></tr>
-<tr class="separator:a8271976cef5a884cb8b4deb295311466 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c3aec7d02f44707076e3f3dc115124f inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">IloExpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a7c3aec7d02f44707076e3f3dc115124f">getObjFunction</a> (IloBoolVarMatrix &amp;var, IloIntVarArray &amp;maxSliceFromLink, IloIntVar &amp;maxSlice, IloModel &amp;mod)</td></tr>
-<tr class="memdesc:a7c3aec7d02f44707076e3f3dc115124f inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the objective function expression.  <a href="classSolver.html#a7c3aec7d02f44707076e3f3dc115124f">More...</a><br /></td></tr>
-<tr class="separator:a7c3aec7d02f44707076e3f3dc115124f inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51aac554aa3e61b56661bb32b7aaee10 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a51aac554aa3e61b56661bb32b7aaee10">getSourceConstraint_d_n</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod, const <a class="el" href="classDemand.html">Demand</a> &amp;demand, int d, int label)</td></tr>
-<tr class="memdesc:a51aac554aa3e61b56661bb32b7aaee10 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the source constraint associated with a demand and a node.  <a href="classSolver.html#a51aac554aa3e61b56661bb32b7aaee10">More...</a><br /></td></tr>
-<tr class="separator:a51aac554aa3e61b56661bb32b7aaee10 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2dffcea651c323f683bea675f7487338 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a2dffcea651c323f683bea675f7487338">getFlowConservationConstraint_i_d</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod, ListDigraph::Node &amp;v, const <a class="el" href="classDemand.html">Demand</a> &amp;demand, int d)</td></tr>
-<tr class="memdesc:a2dffcea651c323f683bea675f7487338 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the flow conservation constraint associated with a demand and a node.  <a href="classSolver.html#a2dffcea651c323f683bea675f7487338">More...</a><br /></td></tr>
-<tr class="separator:a2dffcea651c323f683bea675f7487338 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab335a02584618f4ce4b089dd81e5600c inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ab335a02584618f4ce4b089dd81e5600c">getTargetConstraint_d</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod, const <a class="el" href="classDemand.html">Demand</a> &amp;demand, int d)</td></tr>
-<tr class="memdesc:ab335a02584618f4ce4b089dd81e5600c inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the target constraint associated with a demand.  <a href="classSolver.html#ab335a02584618f4ce4b089dd81e5600c">More...</a><br /></td></tr>
-<tr class="separator:ab335a02584618f4ce4b089dd81e5600c inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cafc8f6a44ad521c2dfa9c2f30980e3 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a9cafc8f6a44ad521c2dfa9c2f30980e3">getLengthConstraint</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod, const <a class="el" href="classDemand.html">Demand</a> &amp;demand, int d)</td></tr>
-<tr class="memdesc:a9cafc8f6a44ad521c2dfa9c2f30980e3 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the length constraint associated with a demand.  <a href="classSolver.html#a9cafc8f6a44ad521c2dfa9c2f30980e3">More...</a><br /></td></tr>
-<tr class="separator:a9cafc8f6a44ad521c2dfa9c2f30980e3 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2dad5f77e88a1211d5cb57514a930a11 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a2dad5f77e88a1211d5cb57514a930a11">getNonOverlappingConstraint</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod, int linkLabel, int slice, const <a class="el" href="classDemand.html">Demand</a> &amp;demand1, int d1, const <a class="el" href="classDemand.html">Demand</a> &amp;demand2, int d2)</td></tr>
-<tr class="memdesc:a2dad5f77e88a1211d5cb57514a930a11 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the non-overlapping constraint associated with an arc and a pair of demands.  <a href="classSolver.html#a2dad5f77e88a1211d5cb57514a930a11">More...</a><br /></td></tr>
-<tr class="separator:a2dad5f77e88a1211d5cb57514a930a11 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a797160b17dd911487a1b23ff3919a046 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a797160b17dd911487a1b23ff3919a046">getMaxUsedSlicePerLinkConstraints</a> (IloBoolVarMatrix &amp;var, IloIntVarArray &amp;maxSlicePerLink, int linkIndex, int d, IloModel &amp;mod)</td></tr>
-<tr class="memdesc:a797160b17dd911487a1b23ff3919a046 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Link's Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraint associated with a link and a demand.  <a href="classSolver.html#a797160b17dd911487a1b23ff3919a046">More...</a><br /></td></tr>
-<tr class="separator:a797160b17dd911487a1b23ff3919a046 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef096a12846ebc0fcd518e2762c95aa2 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#aef096a12846ebc0fcd518e2762c95aa2">getMaxUsedSliceOverallConstraints</a> (IloBoolVarMatrix &amp;var, IloIntVar &amp;maxSliceOverall, int linkIndex, int d, IloModel &amp;mod)</td></tr>
-<tr class="memdesc:aef096a12846ebc0fcd518e2762c95aa2 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints associated with a link and a demand.  <a href="classSolver.html#aef096a12846ebc0fcd518e2762c95aa2">More...</a><br /></td></tr>
-<tr class="separator:aef096a12846ebc0fcd518e2762c95aa2 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92921538be1a20be58c3d8085a1050d3 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a92921538be1a20be58c3d8085a1050d3">getImprovedNonOverlappingConstraint_1</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod, int linkLabel, int slice, int min_load, const <a class="el" href="classDemand.html">Demand</a> &amp;demand2, int d2)</td></tr>
-<tr class="memdesc:a92921538be1a20be58c3d8085a1050d3 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the constraint from the first set of improved non-overlapping associated with an arc, a demand and a load.  <a href="classSolver.html#a92921538be1a20be58c3d8085a1050d3">More...</a><br /></td></tr>
-<tr class="separator:a92921538be1a20be58c3d8085a1050d3 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37f5e470f788b5fdbd25f5cc54930022 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">IloRange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a37f5e470f788b5fdbd25f5cc54930022">getImprovedNonOverlappingConstraint_2</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod, int linkLabel, int slice, int min_load1, int min_load2)</td></tr>
-<tr class="memdesc:a37f5e470f788b5fdbd25f5cc54930022 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the constraint from the second set of improved non-overlapping associated with an arc and a pair of loads.  <a href="classSolver.html#a37f5e470f788b5fdbd25f5cc54930022">More...</a><br /></td></tr>
-<tr class="separator:a37f5e470f788b5fdbd25f5cc54930022 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75f3f16c75cc621bc0717dfd35cbfe36 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a75f3f16c75cc621bc0717dfd35cbfe36">setVariables</a> (IloBoolVarMatrix &amp;var, IloIntVarArray &amp;maxSliceFromLink, IloIntVar &amp;maxSlice, IloModel &amp;mod)</td></tr>
-<tr class="memdesc:a75f3f16c75cc621bc0717dfd35cbfe36 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the decision variables need in the MIP formulation.  <a href="classSolver.html#a75f3f16c75cc621bc0717dfd35cbfe36">More...</a><br /></td></tr>
-<tr class="separator:a75f3f16c75cc621bc0717dfd35cbfe36 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6bcfd57e217b2f82d70d206bd01e955 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ae6bcfd57e217b2f82d70d206bd01e955">setObjective</a> (IloBoolVarMatrix &amp;var, IloIntVarArray &amp;maxSliceFromLink, IloIntVar &amp;maxSlice, IloModel &amp;mod)</td></tr>
-<tr class="memdesc:ae6bcfd57e217b2f82d70d206bd01e955 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the objective function.  <a href="classSolver.html#ae6bcfd57e217b2f82d70d206bd01e955">More...</a><br /></td></tr>
-<tr class="separator:ae6bcfd57e217b2f82d70d206bd01e955 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1abe3bffa57d7a2b48a05fd5ebb14ce3 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a1abe3bffa57d7a2b48a05fd5ebb14ce3">setSourceConstraints</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
-<tr class="memdesc:a1abe3bffa57d7a2b48a05fd5ebb14ce3 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines Source constraints.  <a href="classSolver.html#a1abe3bffa57d7a2b48a05fd5ebb14ce3">More...</a><br /></td></tr>
-<tr class="separator:a1abe3bffa57d7a2b48a05fd5ebb14ce3 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b7841441d4ca0d49ec93e341d66a7a6 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a0b7841441d4ca0d49ec93e341d66a7a6">setFlowConservationConstraints</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
-<tr class="memdesc:a0b7841441d4ca0d49ec93e341d66a7a6 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines Flow Conservation constraints.  <a href="classSolver.html#a0b7841441d4ca0d49ec93e341d66a7a6">More...</a><br /></td></tr>
-<tr class="separator:a0b7841441d4ca0d49ec93e341d66a7a6 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0b828554990d2cac7460c2740c5b92b inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ad0b828554990d2cac7460c2740c5b92b">setTargetConstraints</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
-<tr class="memdesc:ad0b828554990d2cac7460c2740c5b92b inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines Target constraints.  <a href="classSolver.html#ad0b828554990d2cac7460c2740c5b92b">More...</a><br /></td></tr>
-<tr class="separator:ad0b828554990d2cac7460c2740c5b92b inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac587773213af079a5cafeb5300edce11 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ac587773213af079a5cafeb5300edce11">setLengthConstraints</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
-<tr class="memdesc:ac587773213af079a5cafeb5300edce11 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines Length constraints.  <a href="classSolver.html#ac587773213af079a5cafeb5300edce11">More...</a><br /></td></tr>
-<tr class="separator:ac587773213af079a5cafeb5300edce11 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8961e551f9ffd18f6d771420c120236c inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a8961e551f9ffd18f6d771420c120236c">setNonOverlappingConstraints</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
-<tr class="memdesc:a8961e551f9ffd18f6d771420c120236c inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines Non-Overlapping constraints.  <a href="classSolver.html#a8961e551f9ffd18f6d771420c120236c">More...</a><br /></td></tr>
-<tr class="separator:a8961e551f9ffd18f6d771420c120236c inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f4deec8e6acb54e0da8c71576e6840d inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a6f4deec8e6acb54e0da8c71576e6840d">setMaxUsedSlicePerLinkConstraints</a> (IloBoolVarMatrix &amp;var, IloIntVarArray &amp;maxSlicePerLink, IloModel &amp;mod)</td></tr>
-<tr class="memdesc:a6f4deec8e6acb54e0da8c71576e6840d inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the Link's Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints.  <a href="classSolver.html#a6f4deec8e6acb54e0da8c71576e6840d">More...</a><br /></td></tr>
-<tr class="separator:a6f4deec8e6acb54e0da8c71576e6840d inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:addf7bd31e36425e8cf6b6a999c4698a9 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#addf7bd31e36425e8cf6b6a999c4698a9">setMaxUsedSliceOverallConstraints</a> (IloBoolVarMatrix &amp;var, IloIntVar maxSliceOverall, IloModel &amp;mod)</td></tr>
-<tr class="memdesc:addf7bd31e36425e8cf6b6a999c4698a9 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints.  <a href="classSolver.html#addf7bd31e36425e8cf6b6a999c4698a9">More...</a><br /></td></tr>
-<tr class="separator:addf7bd31e36425e8cf6b6a999c4698a9 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a538ea8972171092a39eea6267da82694 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a538ea8972171092a39eea6267da82694">setImprovedNonOverlappingConstraints_1</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
-<tr class="memdesc:a538ea8972171092a39eea6267da82694 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the first set of Improved Non-Overlapping constraints.  <a href="classSolver.html#a538ea8972171092a39eea6267da82694">More...</a><br /></td></tr>
-<tr class="separator:a538ea8972171092a39eea6267da82694 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac043527fbb83016a329280f22da64db0 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ac043527fbb83016a329280f22da64db0">setImprovedNonOverlappingConstraints_2</a> (IloBoolVarMatrix &amp;var, IloModel &amp;mod)</td></tr>
-<tr class="memdesc:ac043527fbb83016a329280f22da64db0 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the second set of Improved Non-Overlapping constraints.  <a href="classSolver.html#ac043527fbb83016a329280f22da64db0">More...</a><br /></td></tr>
-<tr class="separator:ac043527fbb83016a329280f22da64db0 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classRSA"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classRSA')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classRSA.html">RSA</a></td></tr>
-<tr class="memitem:a3721e8ddbb15b0bbe5d4d0655c31ae6a inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a3721e8ddbb15b0bbe5d4d0655c31ae6a">RSA</a> (const <a class="el" href="classInstance.html">Instance</a> &amp;<a class="el" href="classRSA.html#ad81287af708fcfcd98c963cfafc1f4db">instance</a>)</td></tr>
-<tr class="memdesc:a3721e8ddbb15b0bbe5d4d0655c31ae6a inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classRSA.html#a3721e8ddbb15b0bbe5d4d0655c31ae6a">More...</a><br /></td></tr>
-<tr class="separator:a3721e8ddbb15b0bbe5d4d0655c31ae6a inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a095f1de05dce4eb6d8ccdceae1cbc33f inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a095f1de05dce4eb6d8ccdceae1cbc33f"></a>
-<a class="el" href="classInstance.html">Instance</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a095f1de05dce4eb6d8ccdceae1cbc33f">getInstance</a> () const</td></tr>
-<tr class="memdesc:a095f1de05dce4eb6d8ccdceae1cbc33f inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the input instance. <br /></td></tr>
-<tr class="separator:a095f1de05dce4eb6d8ccdceae1cbc33f inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06e9f1e6bbfcb2c928fdd6f5b7c50ed9 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a06e9f1e6bbfcb2c928fdd6f5b7c50ed9"></a>
-std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a06e9f1e6bbfcb2c928fdd6f5b7c50ed9">getToBeRouted</a> ()</td></tr>
-<tr class="memdesc:a06e9f1e6bbfcb2c928fdd6f5b7c50ed9 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the vector of demands to be routed. <br /></td></tr>
-<tr class="separator:a06e9f1e6bbfcb2c928fdd6f5b7c50ed9 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7b9af4d55abf64fb98b242142535a75 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="af7b9af4d55abf64fb98b242142535a75"></a>
-std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#af7b9af4d55abf64fb98b242142535a75">getLoadsToBeRouted</a> ()</td></tr>
-<tr class="memdesc:af7b9af4d55abf64fb98b242142535a75 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the vector of loads to be routed. <br /></td></tr>
-<tr class="separator:af7b9af4d55abf64fb98b242142535a75 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a3b848644b3d5b503c3b84df689570c inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDemand.html">Demand</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a2a3b848644b3d5b503c3b84df689570c">getToBeRouted_k</a> (int k)</td></tr>
-<tr class="memdesc:a2a3b848644b3d5b503c3b84df689570c inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the i-th demand to be routed.  <a href="classRSA.html#a2a3b848644b3d5b503c3b84df689570c">More...</a><br /></td></tr>
-<tr class="separator:a2a3b848644b3d5b503c3b84df689570c inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a438ccfae6e281c7916502358bd1ee25d inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a438ccfae6e281c7916502358bd1ee25d">getLoadsToBeRouted_k</a> (int k)</td></tr>
-<tr class="memdesc:a438ccfae6e281c7916502358bd1ee25d inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the i-th load to be routed.  <a href="classRSA.html#a438ccfae6e281c7916502358bd1ee25d">More...</a><br /></td></tr>
-<tr class="separator:a438ccfae6e281c7916502358bd1ee25d inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a574b85eda76013c54bd4d88e123f8fa1 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a574b85eda76013c54bd4d88e123f8fa1"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a574b85eda76013c54bd4d88e123f8fa1">getNbDemandsToBeRouted</a> () const</td></tr>
-<tr class="memdesc:a574b85eda76013c54bd4d88e123f8fa1 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of demands to be routed. <br /></td></tr>
-<tr class="separator:a574b85eda76013c54bd4d88e123f8fa1 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1bd29ff23f9bdaf0a427ba3fb00284d inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="ab1bd29ff23f9bdaf0a427ba3fb00284d"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ab1bd29ff23f9bdaf0a427ba3fb00284d">getNbLoadsToBeRouted</a> () const</td></tr>
-<tr class="memdesc:ab1bd29ff23f9bdaf0a427ba3fb00284d inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of loads to be routed. <br /></td></tr>
-<tr class="separator:ab1bd29ff23f9bdaf0a427ba3fb00284d inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade475be1f126a7bdd1fb730158028cc3 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ade475be1f126a7bdd1fb730158028cc3">getNodeId</a> (const ListDigraph::Node &amp;n, int d) const</td></tr>
-<tr class="memdesc:ade475be1f126a7bdd1fb730158028cc3 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the LEMON id of a node in a graph.  <a href="classRSA.html#ade475be1f126a7bdd1fb730158028cc3">More...</a><br /></td></tr>
-<tr class="separator:ade475be1f126a7bdd1fb730158028cc3 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16727945d70e67ecd314577054ea25fd inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a16727945d70e67ecd314577054ea25fd">getNodeLabel</a> (const ListDigraph::Node &amp;n, int d) const</td></tr>
-<tr class="memdesc:a16727945d70e67ecd314577054ea25fd inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the label of a node in a graph.  <a href="classRSA.html#a16727945d70e67ecd314577054ea25fd">More...</a><br /></td></tr>
-<tr class="separator:a16727945d70e67ecd314577054ea25fd inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac5b2380b7179493011a9e476555899a inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aac5b2380b7179493011a9e476555899a">getNodeSlice</a> (const ListDigraph::Node &amp;n, int d) const</td></tr>
-<tr class="memdesc:aac5b2380b7179493011a9e476555899a inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the slice of a node in a graph.  <a href="classRSA.html#aac5b2380b7179493011a9e476555899a">More...</a><br /></td></tr>
-<tr class="separator:aac5b2380b7179493011a9e476555899a inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adfe120a9e708ced2108c1c493af0bf0c inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#adfe120a9e708ced2108c1c493af0bf0c">getArcId</a> (const ListDigraph::Arc &amp;a, int d) const</td></tr>
-<tr class="memdesc:adfe120a9e708ced2108c1c493af0bf0c inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the LEMON id of an arc in a graph.  <a href="classRSA.html#adfe120a9e708ced2108c1c493af0bf0c">More...</a><br /></td></tr>
-<tr class="separator:adfe120a9e708ced2108c1c493af0bf0c inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abdacea888dece000f90ec92cb4c2e068 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#abdacea888dece000f90ec92cb4c2e068">getArcIndex</a> (const ListDigraph::Arc &amp;a, int d) const</td></tr>
-<tr class="memdesc:abdacea888dece000f90ec92cb4c2e068 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the index of an arc in a preprocessed graph.  <a href="classRSA.html#abdacea888dece000f90ec92cb4c2e068">More...</a><br /></td></tr>
-<tr class="separator:abdacea888dece000f90ec92cb4c2e068 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2256e2f93c22fe30c1a0686ebc7bd45 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ac2256e2f93c22fe30c1a0686ebc7bd45">getArcLabel</a> (const ListDigraph::Arc &amp;a, int d) const</td></tr>
-<tr class="memdesc:ac2256e2f93c22fe30c1a0686ebc7bd45 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the label of an arc in a graph.  <a href="classRSA.html#ac2256e2f93c22fe30c1a0686ebc7bd45">More...</a><br /></td></tr>
-<tr class="separator:ac2256e2f93c22fe30c1a0686ebc7bd45 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59ef7dc281ee8d1181c59a14c6f25149 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a59ef7dc281ee8d1181c59a14c6f25149">getArcSlice</a> (const ListDigraph::Arc &amp;a, int d) const</td></tr>
-<tr class="memdesc:a59ef7dc281ee8d1181c59a14c6f25149 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the slice of an arc in a graph.  <a href="classRSA.html#a59ef7dc281ee8d1181c59a14c6f25149">More...</a><br /></td></tr>
-<tr class="separator:a59ef7dc281ee8d1181c59a14c6f25149 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40b7809f4e2b716d83c8d57b157bb291 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a40b7809f4e2b716d83c8d57b157bb291">getArcLength</a> (const ListDigraph::Arc &amp;a, int d) const</td></tr>
-<tr class="memdesc:a40b7809f4e2b716d83c8d57b157bb291 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the length of an arc in a graph.  <a href="classRSA.html#a40b7809f4e2b716d83c8d57b157bb291">More...</a><br /></td></tr>
-<tr class="separator:a40b7809f4e2b716d83c8d57b157bb291 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5c7406517a7456c642c4c6ae25e234b inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">ListDigraph::Node&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aa5c7406517a7456c642c4c6ae25e234b">getNode</a> (int d, int label, int slice)</td></tr>
-<tr class="memdesc:aa5c7406517a7456c642c4c6ae25e234b inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first node identified by (label, slice) on a graph.  <a href="classRSA.html#aa5c7406517a7456c642c4c6ae25e234b">More...</a><br /></td></tr>
-<tr class="separator:aa5c7406517a7456c642c4c6ae25e234b inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8e48645cf88f5b5b7c9a19b6feeaf51 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ad8e48645cf88f5b5b7c9a19b6feeaf51">getCompactLength</a> (const ListDigraph::Arc &amp;a)</td></tr>
-<tr class="memdesc:ad8e48645cf88f5b5b7c9a19b6feeaf51 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the length of an arc on the compact graph.  <a href="classRSA.html#ad8e48645cf88f5b5b7c9a19b6feeaf51">More...</a><br /></td></tr>
-<tr class="separator:ad8e48645cf88f5b5b7c9a19b6feeaf51 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b0a937d2de7e7aa0bf97d48ccf83771 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a6b0a937d2de7e7aa0bf97d48ccf83771">getCoeff</a> (const ListDigraph::Arc &amp;a, int d)</td></tr>
-<tr class="memdesc:a6b0a937d2de7e7aa0bf97d48ccf83771 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the coefficient of an arc (according to the chosen metric) on a graph.  <a href="classRSA.html#a6b0a937d2de7e7aa0bf97d48ccf83771">More...</a><br /></td></tr>
-<tr class="separator:a6b0a937d2de7e7aa0bf97d48ccf83771 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a905faac0c037a20ab5c0dee8754ad12f inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a905faac0c037a20ab5c0dee8754ad12f">getCoeffObj1</a> (const ListDigraph::Arc &amp;a, int d)</td></tr>
-<tr class="memdesc:a905faac0c037a20ab5c0dee8754ad12f inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the coefficient of an arc according to metric 1 on a graph.  <a href="classRSA.html#a905faac0c037a20ab5c0dee8754ad12f">More...</a><br /></td></tr>
-<tr class="separator:a905faac0c037a20ab5c0dee8754ad12f inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a477e23bb1659bc108853878a2c1a18d8 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a477e23bb1659bc108853878a2c1a18d8">getCoeffObj1p</a> (const ListDigraph::Arc &amp;a, int d)</td></tr>
-<tr class="memdesc:a477e23bb1659bc108853878a2c1a18d8 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the coefficient of an arc according to metric 1p on a graph.  <a href="classRSA.html#a477e23bb1659bc108853878a2c1a18d8">More...</a><br /></td></tr>
-<tr class="separator:a477e23bb1659bc108853878a2c1a18d8 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a810c7b50e414a8be7547d3f2413194a3 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a810c7b50e414a8be7547d3f2413194a3">getCoeffObj2</a> (const ListDigraph::Arc &amp;a, int d)</td></tr>
-<tr class="memdesc:a810c7b50e414a8be7547d3f2413194a3 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the coefficient of an arc according to metric 2 on a graph.  <a href="classRSA.html#a810c7b50e414a8be7547d3f2413194a3">More...</a><br /></td></tr>
-<tr class="separator:a810c7b50e414a8be7547d3f2413194a3 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfeaebdee95e33bf4852c4c5d9e527da inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#abfeaebdee95e33bf4852c4c5d9e527da">getCoeffObj4</a> (const ListDigraph::Arc &amp;a, int d)</td></tr>
-<tr class="memdesc:abfeaebdee95e33bf4852c4c5d9e527da inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the coefficient of an arc according to metric 4 on a graph.  <a href="classRSA.html#abfeaebdee95e33bf4852c4c5d9e527da">More...</a><br /></td></tr>
-<tr class="separator:abfeaebdee95e33bf4852c4c5d9e527da inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bc0e108344172c603752ff04887cd86 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a4bc0e108344172c603752ff04887cd86">getCoeffObj8</a> (const ListDigraph::Arc &amp;a, int d)</td></tr>
-<tr class="memdesc:a4bc0e108344172c603752ff04887cd86 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the coefficient of an arc according to metric 8 on a graph.  <a href="classRSA.html#a4bc0e108344172c603752ff04887cd86">More...</a><br /></td></tr>
-<tr class="separator:a4bc0e108344172c603752ff04887cd86 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab039b585ecf1d3b8e6733588496975a5 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="ab039b585ecf1d3b8e6733588496975a5"></a>
-<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108f">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ab039b585ecf1d3b8e6733588496975a5">getStatus</a> () const</td></tr>
-<tr class="memdesc:ab039b585ecf1d3b8e6733588496975a5 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the algorithm status. <br /></td></tr>
-<tr class="separator:ab039b585ecf1d3b8e6733588496975a5 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ee45b88cfa6455df1228005792f0d52 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a5ee45b88cfa6455df1228005792f0d52">setToBeRouted</a> (const std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt; &amp;vec)</td></tr>
-<tr class="memdesc:a5ee45b88cfa6455df1228005792f0d52 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the vector of demands to be routed.  <a href="classRSA.html#a5ee45b88cfa6455df1228005792f0d52">More...</a><br /></td></tr>
-<tr class="separator:a5ee45b88cfa6455df1228005792f0d52 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf8be457e5d6b65c3776f629f41aeecb inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#abf8be457e5d6b65c3776f629f41aeecb">setNodeId</a> (const ListDigraph::Node &amp;n, int d, int val)</td></tr>
-<tr class="memdesc:abf8be457e5d6b65c3776f629f41aeecb inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the id of a node in a graph.  <a href="classRSA.html#abf8be457e5d6b65c3776f629f41aeecb">More...</a><br /></td></tr>
-<tr class="separator:abf8be457e5d6b65c3776f629f41aeecb inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a455ad10ce9aded2a4a1c93d7344842d4 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a455ad10ce9aded2a4a1c93d7344842d4">setNodeLabel</a> (const ListDigraph::Node &amp;n, int d, int val)</td></tr>
-<tr class="memdesc:a455ad10ce9aded2a4a1c93d7344842d4 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the label of a node in a graph.  <a href="classRSA.html#a455ad10ce9aded2a4a1c93d7344842d4">More...</a><br /></td></tr>
-<tr class="separator:a455ad10ce9aded2a4a1c93d7344842d4 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07ece679f3c45008ca9f054db947409c inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a07ece679f3c45008ca9f054db947409c">setNodeSlice</a> (const ListDigraph::Node &amp;n, int d, int val)</td></tr>
-<tr class="memdesc:a07ece679f3c45008ca9f054db947409c inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the slice of a node in a graph.  <a href="classRSA.html#a07ece679f3c45008ca9f054db947409c">More...</a><br /></td></tr>
-<tr class="separator:a07ece679f3c45008ca9f054db947409c inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf8b0e6f4229caa95cdd9c62d15ab4de inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#acf8b0e6f4229caa95cdd9c62d15ab4de">setArcId</a> (const ListDigraph::Arc &amp;a, int d, int val)</td></tr>
-<tr class="memdesc:acf8b0e6f4229caa95cdd9c62d15ab4de inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the id of an arc in a graph.  <a href="classRSA.html#acf8b0e6f4229caa95cdd9c62d15ab4de">More...</a><br /></td></tr>
-<tr class="separator:acf8b0e6f4229caa95cdd9c62d15ab4de inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93848f7573b729e138342a525d26c9d7 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a93848f7573b729e138342a525d26c9d7">setArcIndex</a> (const ListDigraph::Arc &amp;a, int d, int val)</td></tr>
-<tr class="memdesc:a93848f7573b729e138342a525d26c9d7 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the index of an arc in a graph.  <a href="classRSA.html#a93848f7573b729e138342a525d26c9d7">More...</a><br /></td></tr>
-<tr class="separator:a93848f7573b729e138342a525d26c9d7 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af510d0b4de7c9dd10fc1e4978ac4f214 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#af510d0b4de7c9dd10fc1e4978ac4f214">setArcLabel</a> (const ListDigraph::Arc &amp;a, int d, int val)</td></tr>
-<tr class="memdesc:af510d0b4de7c9dd10fc1e4978ac4f214 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the label of an arc in a graph.  <a href="classRSA.html#af510d0b4de7c9dd10fc1e4978ac4f214">More...</a><br /></td></tr>
-<tr class="separator:af510d0b4de7c9dd10fc1e4978ac4f214 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c513e1ca16f26149dcf792656da1f16 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a3c513e1ca16f26149dcf792656da1f16">setArcSlice</a> (const ListDigraph::Arc &amp;a, int d, int val)</td></tr>
-<tr class="memdesc:a3c513e1ca16f26149dcf792656da1f16 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the slice of an arc in a graph.  <a href="classRSA.html#a3c513e1ca16f26149dcf792656da1f16">More...</a><br /></td></tr>
-<tr class="separator:a3c513e1ca16f26149dcf792656da1f16 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73a65831c954114e51f7c2887d7589da inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a73a65831c954114e51f7c2887d7589da">setArcLength</a> (const ListDigraph::Arc &amp;a, int d, double val)</td></tr>
-<tr class="memdesc:a73a65831c954114e51f7c2887d7589da inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the length of an arc in a graph.  <a href="classRSA.html#a73a65831c954114e51f7c2887d7589da">More...</a><br /></td></tr>
-<tr class="separator:a73a65831c954114e51f7c2887d7589da inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1b1f1775992c6ce234952a122767161 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="ac1b1f1775992c6ce234952a122767161"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ac1b1f1775992c6ce234952a122767161">setStatus</a> (<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108f">Status</a> val)</td></tr>
-<tr class="memdesc:ac1b1f1775992c6ce234952a122767161 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the algorithm status. <br /></td></tr>
-<tr class="separator:ac1b1f1775992c6ce234952a122767161 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abdb6663e19b3db20839902209e1f18a4 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="abdb6663e19b3db20839902209e1f18a4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#abdb6663e19b3db20839902209e1f18a4">buildCompactGraph</a> ()</td></tr>
-<tr class="memdesc:abdb6663e19b3db20839902209e1f18a4 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds the simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:abdb6663e19b3db20839902209e1f18a4 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a473aa2ee82f8cd9503b453266985ee18 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a473aa2ee82f8cd9503b453266985ee18">addArcs</a> (int d, int source, int target, int linkLabel, int slice, double l)</td></tr>
-<tr class="memdesc:a473aa2ee82f8cd9503b453266985ee18 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an arc &ndash; and its nodes if necessary &ndash; between nodes (source,slice) and (target,slice) on a graph.  <a href="classRSA.html#a473aa2ee82f8cd9503b453266985ee18">More...</a><br /></td></tr>
-<tr class="separator:a473aa2ee82f8cd9503b453266985ee18 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bb66a2d54c695bc10fa4e3697a01a37 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a4bb66a2d54c695bc10fa4e3697a01a37">updateInstance</a> (<a class="el" href="classInstance.html">Instance</a> &amp;i)</td></tr>
-<tr class="memdesc:a4bb66a2d54c695bc10fa4e3697a01a37 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the mapping stored in the given instance with the results obtained from <a class="el" href="classRSA.html" title="This class stores the input needed for solving the Routing and Spectrum Allocation problem.">RSA</a> solution (i.e., vecOnPath).  <a href="classRSA.html#a4bb66a2d54c695bc10fa4e3697a01a37">More...</a><br /></td></tr>
-<tr class="separator:a4bb66a2d54c695bc10fa4e3697a01a37 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a95beb27713e3f9a9a376fcad6abfa5 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">ListDigraph::Node&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a2a95beb27713e3f9a9a376fcad6abfa5">getFirstNodeFromLabel</a> (int d, int label)</td></tr>
-<tr class="memdesc:a2a95beb27713e3f9a9a376fcad6abfa5 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first node with a given label from the graph associated with the d-th demand to be routed.  <a href="classRSA.html#a2a95beb27713e3f9a9a376fcad6abfa5">More...</a><br /></td></tr>
-<tr class="separator:a2a95beb27713e3f9a9a376fcad6abfa5 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4cf1a9ea2c52634d999abecba219407b inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a4cf1a9ea2c52634d999abecba219407b">contractNodesFromLabel</a> (int d, int label)</td></tr>
-<tr class="memdesc:a4cf1a9ea2c52634d999abecba219407b inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contract nodes with the same given label from the graph associated with the d-th demand to be routed.  <a href="classRSA.html#a4cf1a9ea2c52634d999abecba219407b">More...</a><br /></td></tr>
-<tr class="separator:a4cf1a9ea2c52634d999abecba219407b inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae56358698d72241f2ca054f679017ccc inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ae56358698d72241f2ca054f679017ccc">eraseNonRoutableArcs</a> (int d)</td></tr>
-<tr class="memdesc:ae56358698d72241f2ca054f679017ccc inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete arcs that are known 'a priori' to be unable to route on a graph.  <a href="classRSA.html#ae56358698d72241f2ca054f679017ccc">More...</a><br /></td></tr>
-<tr class="separator:ae56358698d72241f2ca054f679017ccc inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afcb3bc74d438206130c9660648c5d1f0 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="afcb3bc74d438206130c9660648c5d1f0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#afcb3bc74d438206130c9660648c5d1f0">preprocessing</a> ()</td></tr>
-<tr class="memdesc:afcb3bc74d438206130c9660648c5d1f0 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs preprocessing on every extended graph. <br /></td></tr>
-<tr class="separator:afcb3bc74d438206130c9660648c5d1f0 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d42e0c236b5315a5ee25b135b9a5fb6 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a3d42e0c236b5315a5ee25b135b9a5fb6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a3d42e0c236b5315a5ee25b135b9a5fb6">pathExistencePreprocessing</a> ()</td></tr>
-<tr class="memdesc:a3d42e0c236b5315a5ee25b135b9a5fb6 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">If there exists no path from (source,s) to (target,s), erases every arc with slice s. <br /></td></tr>
-<tr class="separator:a3d42e0c236b5315a5ee25b135b9a5fb6 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a832589d9a90339daedf9ecbc0c1360cf inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a832589d9a90339daedf9ecbc0c1360cf">lengthPreprocessing</a> ()</td></tr>
-<tr class="memdesc:a832589d9a90339daedf9ecbc0c1360cf inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs preprocessing based on the arc lengths and returns true if at least one arc is erased.  <a href="classRSA.html#a832589d9a90339daedf9ecbc0c1360cf">More...</a><br /></td></tr>
-<tr class="separator:a832589d9a90339daedf9ecbc0c1360cf inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad108768263d27606a28c4aa5f9f3481e inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ad108768263d27606a28c4aa5f9f3481e">shortestDistance</a> (int d, ListDigraph::Node &amp;source, ListDigraph::Arc &amp;a, ListDigraph::Node &amp;target)</td></tr>
-<tr class="memdesc:ad108768263d27606a28c4aa5f9f3481e inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the distance of the shortest path from source to target passing through arc a.  <a href="classRSA.html#ad108768263d27606a28c4aa5f9f3481e">More...</a><br /></td></tr>
-<tr class="separator:ad108768263d27606a28c4aa5f9f3481e inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2582a929e10d28c5885482bb82c3ced inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aa2582a929e10d28c5885482bb82c3ced">displayNodesIncidentTo</a> (int d, int label, int slice)</td></tr>
-<tr class="memdesc:aa2582a929e10d28c5885482bb82c3ced inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the nodes of a graph that are incident to the node identified by (label,slice).  <a href="classRSA.html#aa2582a929e10d28c5885482bb82c3ced">More...</a><br /></td></tr>
-<tr class="separator:aa2582a929e10d28c5885482bb82c3ced inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7454e0a2dac0bbd5b9eddfe270013f53 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a7454e0a2dac0bbd5b9eddfe270013f53">displayNodesFromLabel</a> (int d, int label)</td></tr>
-<tr class="memdesc:a7454e0a2dac0bbd5b9eddfe270013f53 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the nodes of a graph that have a given label.  <a href="classRSA.html#a7454e0a2dac0bbd5b9eddfe270013f53">More...</a><br /></td></tr>
-<tr class="separator:a7454e0a2dac0bbd5b9eddfe270013f53 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa43c0a4c9fda303bd9583a36906d1496 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="aa43c0a4c9fda303bd9583a36906d1496"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aa43c0a4c9fda303bd9583a36906d1496">displayPaths</a> ()</td></tr>
-<tr class="memdesc:aa43c0a4c9fda303bd9583a36906d1496 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the paths found for each of the new routed demands. <br /></td></tr>
-<tr class="separator:aa43c0a4c9fda303bd9583a36906d1496 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e9fa3941b06c33a3f99e6fdb1ddc0d8 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a7e9fa3941b06c33a3f99e6fdb1ddc0d8">displayArc</a> (int d, const ListDigraph::Arc &amp;a)</td></tr>
-<tr class="memdesc:a7e9fa3941b06c33a3f99e6fdb1ddc0d8 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays an arc from a graph.  <a href="classRSA.html#a7e9fa3941b06c33a3f99e6fdb1ddc0d8">More...</a><br /></td></tr>
-<tr class="separator:a7e9fa3941b06c33a3f99e6fdb1ddc0d8 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef665d88560b42856e15298b67026cf1 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aef665d88560b42856e15298b67026cf1">displayNode</a> (int d, const ListDigraph::Node &amp;n)</td></tr>
-<tr class="memdesc:aef665d88560b42856e15298b67026cf1 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays a node from a graph.  <a href="classRSA.html#aef665d88560b42856e15298b67026cf1">More...</a><br /></td></tr>
-<tr class="separator:aef665d88560b42856e15298b67026cf1 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a316784ce80957e1116d9c8ea7addc678 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a316784ce80957e1116d9c8ea7addc678">displayGraph</a> (int d)</td></tr>
-<tr class="memdesc:a316784ce80957e1116d9c8ea7addc678 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display all arcs from a graph.  <a href="classRSA.html#a316784ce80957e1116d9c8ea7addc678">More...</a><br /></td></tr>
-<tr class="separator:a316784ce80957e1116d9c8ea7addc678 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d9a0d1d331dfbb684aff707479512d9 inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a6d9a0d1d331dfbb684aff707479512d9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a6d9a0d1d331dfbb684aff707479512d9">displayToBeRouted</a> ()</td></tr>
-<tr class="memdesc:a6d9a0d1d331dfbb684aff707479512d9 inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the demands to be routed in the next optimization. <br /></td></tr>
-<tr class="separator:a6d9a0d1d331dfbb684aff707479512d9 inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dc539b9ce3171ab66d479ba4f94ec0f inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a7dc539b9ce3171ab66d479ba4f94ec0f">displayLoadsToBeRouted</a> ()</td></tr>
-<tr class="memdesc:a7dc539b9ce3171ab66d479ba4f94ec0f inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the loads to be routed in the next optimization.  <a href="classRSA.html#a7dc539b9ce3171ab66d479ba4f94ec0f">More...</a><br /></td></tr>
-<tr class="separator:a7dc539b9ce3171ab66d479ba4f94ec0f inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29c927dcea18686cd95818d2cfd413cf inherit pub_methods_classRSA"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a29c927dcea18686cd95818d2cfd413cf">~RSA</a> ()</td></tr>
-<tr class="memdesc:a29c927dcea18686cd95818d2cfd413cf inherit pub_methods_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="classRSA.html#a29c927dcea18686cd95818d2cfd413cf">More...</a><br /></td></tr>
-<tr class="separator:a29c927dcea18686cd95818d2cfd413cf inherit pub_methods_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9a1ae6407e5ffc82aa6380674f6452d inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ab9a1ae6407e5ffc82aa6380674f6452d">Solver</a> (const <a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8">Status</a> &amp;s=<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8af697d79f09119a1a8ff1455f2d863eba">STATUS_UNKNOWN</a>)</td></tr>
+<tr class="memdesc:ab9a1ae6407e5ffc82aa6380674f6452d inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classSolver.html#ab9a1ae6407e5ffc82aa6380674f6452d">More...</a><br /></td></tr>
+<tr class="separator:ab9a1ae6407e5ffc82aa6380674f6452d inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a80406d46b817f539b68fff03c94952 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top"><a id="a5a80406d46b817f539b68fff03c94952"></a>
+virtual <a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#a5a80406d46b817f539b68fff03c94952">getStatus</a> ()=0</td></tr>
+<tr class="memdesc:a5a80406d46b817f539b68fff03c94952 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the status. <br /></td></tr>
+<tr class="separator:a5a80406d46b817f539b68fff03c94952 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae41e384ff05b15d12d7eb6dd045d9087 inherit pub_methods_classSolver"><td class="memItemLeft" align="right" valign="top"><a id="ae41e384ff05b15d12d7eb6dd045d9087"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ae41e384ff05b15d12d7eb6dd045d9087">setStatus</a> (const <a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8">Status</a> &amp;s)</td></tr>
+<tr class="memdesc:ae41e384ff05b15d12d7eb6dd045d9087 inherit pub_methods_classSolver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the status. <br /></td></tr>
+<tr class="separator:ae41e384ff05b15d12d7eb6dd045d9087 inherit pub_methods_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:abd6cec494832cea4e91a52f084a05f8c"><td class="memItemLeft" align="right" valign="top"><a id="abd6cec494832cea4e91a52f084a05f8c"></a>
-IloEnv&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#abd6cec494832cea4e91a52f084a05f8c">env</a></td></tr>
-<tr class="memdesc:abd6cec494832cea4e91a52f084a05f8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CPLEX environment. <br /></td></tr>
-<tr class="separator:abd6cec494832cea4e91a52f084a05f8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedc957cac0f7ee0c663e31e8fdf5f613"><td class="memItemLeft" align="right" valign="top"><a id="aedc957cac0f7ee0c663e31e8fdf5f613"></a>
-IloModel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#aedc957cac0f7ee0c663e31e8fdf5f613">model</a></td></tr>
-<tr class="memdesc:aedc957cac0f7ee0c663e31e8fdf5f613"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CPLEX model. <br /></td></tr>
-<tr class="separator:aedc957cac0f7ee0c663e31e8fdf5f613"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8c47815822458d3abc8836e8d4b9840"><td class="memItemLeft" align="right" valign="top"><a id="af8c47815822458d3abc8836e8d4b9840"></a>
-IloCplex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#af8c47815822458d3abc8836e8d4b9840">cplex</a></td></tr>
-<tr class="memdesc:af8c47815822458d3abc8836e8d4b9840"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CPLEX engine. <br /></td></tr>
-<tr class="separator:af8c47815822458d3abc8836e8d4b9840"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6680100e037e4ef5215de7ab20d1301"><td class="memItemLeft" align="right" valign="top">IloBoolVarMatrix&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#ad6680100e037e4ef5215de7ab20d1301">x</a></td></tr>
 <tr class="memdesc:ad6680100e037e4ef5215de7ab20d1301"><td class="mdescLeft">&#160;</td><td class="mdescRight">The matrix of assignement variables used in the MIP.  <a href="classCplexForm.html#ad6680100e037e4ef5215de7ab20d1301">More...</a><br /></td></tr>
 <tr class="separator:ad6680100e037e4ef5215de7ab20d1301"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -388,105 +211,33 @@ IloIntVar&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 <tr class="memdesc:afb4a0fec238f56a9bbab93b533ad662a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The max used slice position throughout all the network. <br /></td></tr>
 <tr class="separator:afb4a0fec238f56a9bbab93b533ad662a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
-Static Private Attributes</h2></td></tr>
-<tr class="memitem:a9752277d0b58366e43bb706bdfec5601"><td class="memItemLeft" align="right" valign="top"><a id="a9752277d0b58366e43bb706bdfec5601"></a>
-static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCplexForm.html#a9752277d0b58366e43bb706bdfec5601">count</a> = 0</td></tr>
-<tr class="memdesc:a9752277d0b58366e43bb706bdfec5601"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counts how many times CPLEX is called. <br /></td></tr>
-<tr class="separator:a9752277d0b58366e43bb706bdfec5601"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_types_classRSA"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classRSA')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classRSA.html">RSA</a></td></tr>
-<tr class="memitem:a031c6f3d4ddc838dbc015b1f3fbb108f inherit pub_types_classRSA"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108f">Status</a> { <br />
-&#160;&#160;<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa90128e37e9757620ac8d6b93823fffff">STATUS_UNKNOWN</a> = 0, 
-<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa5ee863abb9eae3944c16391ddc08f7c2">STATUS_FEASIBLE</a> = 1, 
-<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa1ba2b01d9b94da69329f88cb5ebd3d4b">STATUS_OPTIMAL</a> = 2, 
-<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa3f634e24553c56c52752dcb79e7ad8b0">STATUS_INFEASIBLE</a> = 3, 
+<tr class="inherit_header pub_types_classSolver"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classSolver')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classSolver.html">Solver</a></td></tr>
+<tr class="memitem:ac05d31305623304f32119b5eb0385bf8 inherit pub_types_classSolver"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8">Status</a> { <br />
+&#160;&#160;<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8af697d79f09119a1a8ff1455f2d863eba">STATUS_UNKNOWN</a> = 0, 
+<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8a9d8d381616673ec54d036f82d84cee20">STATUS_FEASIBLE</a> = 1, 
+<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8a7727904dfba8b4c9330522cf5d66e058">STATUS_OPTIMAL</a> = 2, 
+<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8a54afb38b991bd3afb2569aa0f67a19f5">STATUS_INFEASIBLE</a> = 3, 
 <br />
-&#160;&#160;<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fae7be6a7e3e3d37e13f1417476ec5ace7">STATUS_UNBOUNDED</a> = 4, 
-<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa3e3d95f823aaa283b9fbb41a1aa0351d">STATUS_INFEASIBLE_OR_UNBOUNDED</a> = 5, 
-<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa83793da9cc3eb7713027553f609ac4aa">STATUS_ERROR</a> = 6
+&#160;&#160;<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8a2abddbcee3f77350ed295525f423bcac">STATUS_UNBOUNDED</a> = 4, 
+<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8a9d746d1a156ae626cda4d051fa520a7d">STATUS_INFEASIBLE_OR_UNBOUNDED</a> = 5, 
+<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8aff14b4aaeaf852929f18345f1173e873">STATUS_ERROR</a> = 6
 <br />
  }</td></tr>
-<tr class="memdesc:a031c6f3d4ddc838dbc015b1f3fbb108f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates the possible algorithm status according to the current model and solution in hand.  <a href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108f">More...</a><br /></td></tr>
-<tr class="separator:a031c6f3d4ddc838dbc015b1f3fbb108f inherit pub_types_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_classRSA"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classRSA')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classRSA.html">RSA</a></td></tr>
-<tr class="memitem:ad81287af708fcfcd98c963cfafc1f4db inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="ad81287af708fcfcd98c963cfafc1f4db"></a>
-<a class="el" href="classInstance.html">Instance</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ad81287af708fcfcd98c963cfafc1f4db">instance</a></td></tr>
-<tr class="memdesc:ad81287af708fcfcd98c963cfafc1f4db inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">An instance describing the initial mapping. <br /></td></tr>
-<tr class="separator:ad81287af708fcfcd98c963cfafc1f4db inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a1ff13e3e35e50eb96a35c75c5f965e inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a7a1ff13e3e35e50eb96a35c75c5f965e"></a>
-std::vector&lt; <a class="el" href="classDemand.html">Demand</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a7a1ff13e3e35e50eb96a35c75c5f965e">toBeRouted</a></td></tr>
-<tr class="memdesc:a7a1ff13e3e35e50eb96a35c75c5f965e inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">The list of demands to be routed in the next optimization. <br /></td></tr>
-<tr class="separator:a7a1ff13e3e35e50eb96a35c75c5f965e inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e362f9fa2e5de15997695f618dd49e2 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a2e362f9fa2e5de15997695f618dd49e2"></a>
-std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a2e362f9fa2e5de15997695f618dd49e2">loadsToBeRouted</a></td></tr>
-<tr class="memdesc:a2e362f9fa2e5de15997695f618dd49e2 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">The set of different loads present in the set of demands to be routed. <br /></td></tr>
-<tr class="separator:a2e362f9fa2e5de15997695f618dd49e2 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77a9bbd4299569fbd6c7042563337418 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ListDigraph &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a77a9bbd4299569fbd6c7042563337418">vecGraph</a></td></tr>
-<tr class="memdesc:a77a9bbd4299569fbd6c7042563337418 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the extended graph associated with each demand to be routed.  <a href="classRSA.html#a77a9bbd4299569fbd6c7042563337418">More...</a><br /></td></tr>
-<tr class="separator:a77a9bbd4299569fbd6c7042563337418 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0562f78387fd03cf8610cfeac1104688 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a0562f78387fd03cf8610cfeac1104688">vecArcId</a></td></tr>
-<tr class="memdesc:a0562f78387fd03cf8610cfeac1104688 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the ArcMap storing the arc ids of the graph associated with each demand to be routed.  <a href="classRSA.html#a0562f78387fd03cf8610cfeac1104688">More...</a><br /></td></tr>
-<tr class="separator:a0562f78387fd03cf8610cfeac1104688 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97239559fa75ccab0437bbe57fafe963 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a97239559fa75ccab0437bbe57fafe963">vecArcLabel</a></td></tr>
-<tr class="memdesc:a97239559fa75ccab0437bbe57fafe963 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the ArcMap storing the arc labels of the graph associated with each demand to be routed.  <a href="classRSA.html#a97239559fa75ccab0437bbe57fafe963">More...</a><br /></td></tr>
-<tr class="separator:a97239559fa75ccab0437bbe57fafe963 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ea82cc012d2adddadf15ff7c5e33877 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a7ea82cc012d2adddadf15ff7c5e33877">vecArcSlice</a></td></tr>
-<tr class="memdesc:a7ea82cc012d2adddadf15ff7c5e33877 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the ArcMap storing the arc slices of the graph associated with each demand to be routed.  <a href="classRSA.html#a7ea82cc012d2adddadf15ff7c5e33877">More...</a><br /></td></tr>
-<tr class="separator:a7ea82cc012d2adddadf15ff7c5e33877 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad2c8f2506bb532975c662f8a60d616a inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcCost &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#aad2c8f2506bb532975c662f8a60d616a">vecArcLength</a></td></tr>
-<tr class="memdesc:aad2c8f2506bb532975c662f8a60d616a inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the map storing the arc lengths of the graph associated with each demand to be routed.  <a href="classRSA.html#aad2c8f2506bb532975c662f8a60d616a">More...</a><br /></td></tr>
-<tr class="separator:aad2c8f2506bb532975c662f8a60d616a inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5d768eb12c42e917b5e85f0b5cbed2f inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; NodeMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ac5d768eb12c42e917b5e85f0b5cbed2f">vecNodeId</a></td></tr>
-<tr class="memdesc:ac5d768eb12c42e917b5e85f0b5cbed2f inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the NodeMap storing the node ids of the graph associated with each demand to be routed.  <a href="classRSA.html#ac5d768eb12c42e917b5e85f0b5cbed2f">More...</a><br /></td></tr>
-<tr class="separator:ac5d768eb12c42e917b5e85f0b5cbed2f inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ee1651a2d68f485e4b10d8625d121dc inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; NodeMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a0ee1651a2d68f485e4b10d8625d121dc">vecNodeLabel</a></td></tr>
-<tr class="memdesc:a0ee1651a2d68f485e4b10d8625d121dc inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the NodeMap storing the node labels of the graph associated with each demand to be routed.  <a href="classRSA.html#a0ee1651a2d68f485e4b10d8625d121dc">More...</a><br /></td></tr>
-<tr class="separator:a0ee1651a2d68f485e4b10d8625d121dc inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a54bc3824b363fa221ef260cb36238c inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; NodeMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a2a54bc3824b363fa221ef260cb36238c">vecNodeSlice</a></td></tr>
-<tr class="memdesc:a2a54bc3824b363fa221ef260cb36238c inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the NodeMap storing the node slices of the graph associated with each demand to be routed.  <a href="classRSA.html#a2a54bc3824b363fa221ef260cb36238c">More...</a><br /></td></tr>
-<tr class="separator:a2a54bc3824b363fa221ef260cb36238c inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7f9f30da50b99c81bedc24ae5139804 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ae7f9f30da50b99c81bedc24ae5139804">vecOnPath</a></td></tr>
-<tr class="memdesc:ae7f9f30da50b99c81bedc24ae5139804 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the ArcMap storing the <a class="el" href="classRSA.html" title="This class stores the input needed for solving the Routing and Spectrum Allocation problem.">RSA</a> solution.  <a href="classRSA.html#ae7f9f30da50b99c81bedc24ae5139804">More...</a><br /></td></tr>
-<tr class="separator:ae7f9f30da50b99c81bedc24ae5139804 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e5e3c07e9cc04f012be9e28b1c32b6d inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; ArcMap &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a6e5e3c07e9cc04f012be9e28b1c32b6d">vecArcIndex</a></td></tr>
-<tr class="memdesc:a6e5e3c07e9cc04f012be9e28b1c32b6d inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of pointers to the ArcMap storing the arc index of the preprocessed graph associated with each demand to be routed.  <a href="classRSA.html#a6e5e3c07e9cc04f012be9e28b1c32b6d">More...</a><br /></td></tr>
-<tr class="separator:a6e5e3c07e9cc04f012be9e28b1c32b6d inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e25203c6373d6170031d75e93d77b4d inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a2e25203c6373d6170031d75e93d77b4d"></a>
-ListDigraph&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a2e25203c6373d6170031d75e93d77b4d">compactGraph</a></td></tr>
-<tr class="memdesc:a2e25203c6373d6170031d75e93d77b4d inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">The simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:a2e25203c6373d6170031d75e93d77b4d inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1caa8a5d7e45fbc8d594f36641b7e03f inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a1caa8a5d7e45fbc8d594f36641b7e03f"></a>
-ArcMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a1caa8a5d7e45fbc8d594f36641b7e03f">compactArcId</a></td></tr>
-<tr class="memdesc:a1caa8a5d7e45fbc8d594f36641b7e03f inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">ArcMap storing the arc ids of the simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:a1caa8a5d7e45fbc8d594f36641b7e03f inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0dd1e3fde0e2ac7c42434b95f747658 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="af0dd1e3fde0e2ac7c42434b95f747658"></a>
-ArcMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#af0dd1e3fde0e2ac7c42434b95f747658">compactArcLabel</a></td></tr>
-<tr class="memdesc:af0dd1e3fde0e2ac7c42434b95f747658 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">ArcMap storing the arc labels of the simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:af0dd1e3fde0e2ac7c42434b95f747658 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71f440afa2d14f6abc950b3fae5fa7ab inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a71f440afa2d14f6abc950b3fae5fa7ab"></a>
-ArcCost&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a71f440afa2d14f6abc950b3fae5fa7ab">compactArcLength</a></td></tr>
-<tr class="memdesc:a71f440afa2d14f6abc950b3fae5fa7ab inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">ArcMap storing the arc lengths of the simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:a71f440afa2d14f6abc950b3fae5fa7ab inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37a60a79edf9747fc7dbe8c78c54d675 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a37a60a79edf9747fc7dbe8c78c54d675"></a>
-NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a37a60a79edf9747fc7dbe8c78c54d675">compactNodeId</a></td></tr>
-<tr class="memdesc:a37a60a79edf9747fc7dbe8c78c54d675 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">NodeMap storing the LEMON node ids of the simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:a37a60a79edf9747fc7dbe8c78c54d675 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac18380da784d30516b8cc10e024814ec inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="ac18380da784d30516b8cc10e024814ec"></a>
-NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#ac18380da784d30516b8cc10e024814ec">compactNodeLabel</a></td></tr>
-<tr class="memdesc:ac18380da784d30516b8cc10e024814ec inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">NodeMap storing the node labels of the simple graph associated with the initial mapping. <br /></td></tr>
-<tr class="separator:ac18380da784d30516b8cc10e024814ec inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00269970b2f36a59c6b556a12ab76bc3 inherit pro_attribs_classRSA"><td class="memItemLeft" align="right" valign="top"><a id="a00269970b2f36a59c6b556a12ab76bc3"></a>
-<a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108f">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRSA.html#a00269970b2f36a59c6b556a12ab76bc3">currentStatus</a></td></tr>
-<tr class="memdesc:a00269970b2f36a59c6b556a12ab76bc3 inherit pro_attribs_classRSA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides information about the current model and solution. <br /></td></tr>
-<tr class="separator:a00269970b2f36a59c6b556a12ab76bc3 inherit pro_attribs_classRSA"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:ac05d31305623304f32119b5eb0385bf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerates the possible algorithm status according to the current model and solution in hand.  <a href="classSolver.html#ac05d31305623304f32119b5eb0385bf8">More...</a><br /></td></tr>
+<tr class="separator:ac05d31305623304f32119b5eb0385bf8 inherit pub_types_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classSolver"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classSolver')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classSolver.html">Solver</a></td></tr>
+<tr class="memitem:afd1088eee4d4f827db32ff3a4c998d6d inherit pro_attribs_classSolver"><td class="memItemLeft" align="right" valign="top"><a id="afd1088eee4d4f827db32ff3a4c998d6d"></a>
+<a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><b>currentStatus</b></td></tr>
+<tr class="separator:afd1088eee4d4f827db32ff3a4c998d6d inherit pro_attribs_classSolver"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class implements and solve the Online Routing and Spectrum Allocation MIP using CPLEX. </p>
+<div class="textblock"><p>This class implements the Online Routing and Spectrum Allocation through a Flow MIP formulation using CPLEX. </p>
+<p><br  />
+ </p>
 
-<p class="definition">Definition at line <a class="el" href="cplexForm_8h_source.html#l00012">12</a> of file <a class="el" href="cplexForm_8h_source.html">cplexForm.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cplexForm_8h_source.html#l00014">14</a> of file <a class="el" href="cplexForm_8h_source.html">cplexForm.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab2dd3825ee030ef49008c5f9cd8cf5c7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab2dd3825ee030ef49008c5f9cd8cf5c7">&#9670;&nbsp;</a></span>CplexForm()</h2>
@@ -512,7 +263,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00007">7</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00006">6</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
 
 </div>
 </div>
@@ -534,7 +285,714 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>Destructor. </p>
 <p>Clears the variable matrices, cplex model and environment. </p>
 
-<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00192">192</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00814">814</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a8e7be3b1b6e5809028407caf05368d0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e7be3b1b6e5809028407caf05368d0b">&#9670;&nbsp;</a></span>getFlowConservationConstraint_i_d()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange CplexForm::getFlowConservationConstraint_i_d </td>
+          <td>(</td>
+          <td class="paramtype">ListDigraph::Node &amp;&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classDemand.html">Demand</a> &amp;&#160;</td>
+          <td class="paramname"><em>demand</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the flow conservation constraint associated with a demand and a node. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>The node.</td></tr>
+    <tr><td class="paramname">demand</td><td>The demand.</td></tr>
+    <tr><td class="paramname">d</td><td>The demand index. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00393">393</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aa51956d14ebffcc259ff4b7d976a12cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa51956d14ebffcc259ff4b7d976a12cf">&#9670;&nbsp;</a></span>getImprovedNonOverlappingConstraint_1()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange CplexForm::getImprovedNonOverlappingConstraint_1 </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>linkLabel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>slice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>min_load</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classDemand.html">Demand</a> &amp;&#160;</td>
+          <td class="paramname"><em>demand2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the constraint from the first set of improved non-overlapping associated with an arc, a demand and a load. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">linkLabel</td><td>The arc label.</td></tr>
+    <tr><td class="paramname">slice</td><td>The arc slice.</td></tr>
+    <tr><td class="paramname">min_load</td><td>The minimum load required for a demand to be part of D[k].</td></tr>
+    <tr><td class="paramname">demand2</td><td>The second demand.</td></tr>
+    <tr><td class="paramname">d2</td><td>The second demand index. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00675">675</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a9edfa2a482acb5e7f3522eac358e6cfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9edfa2a482acb5e7f3522eac358e6cfd">&#9670;&nbsp;</a></span>getImprovedNonOverlappingConstraint_2()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange CplexForm::getImprovedNonOverlappingConstraint_2 </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>linkLabel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>slice</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the constraint from the second set of improved non-overlapping associated with an arc and a pair of loads. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">linkLabel</td><td>The arc label.</td></tr>
+    <tr><td class="paramname">slice</td><td>The arc slice. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00715">715</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="af3aa0b686daee24e8eefb51cadccf45d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3aa0b686daee24e8eefb51cadccf45d">&#9670;&nbsp;</a></span>getLengthConstraint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange CplexForm::getLengthConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classDemand.html">Demand</a> &amp;&#160;</td>
+          <td class="paramname"><em>demand</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the length constraint associated with a demand. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">demand</td><td>The demand.</td></tr>
+    <tr><td class="paramname">d</td><td>The demand index. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00450">450</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a53ef27dc7fa1c1063dda14936ac05f05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53ef27dc7fa1c1063dda14936ac05f05">&#9670;&nbsp;</a></span>getMaxUsedSliceOverallConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange CplexForm::getMaxUsedSliceOverallConstraints </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints associated with a link and a demand. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">linkIndex</td><td>The link's index.</td></tr>
+    <tr><td class="paramname">d</td><td>The demand's index. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00552">552</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ade98dac662309632d7f20378cc99ea58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade98dac662309632d7f20378cc99ea58">&#9670;&nbsp;</a></span>getMaxUsedSliceOverallConstraints2()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange CplexForm::getMaxUsedSliceOverallConstraints2 </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>linkIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints associated with a link and a demand. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">linkIndex</td><td>The link's index. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00583">583</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a0e57399c6b4ea8476ca8c5bd0098acaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e57399c6b4ea8476ca8c5bd0098acaf">&#9670;&nbsp;</a></span>getMaxUsedSliceOverallConstraints3()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange CplexForm::getMaxUsedSliceOverallConstraints3 </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>linkIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints associated with a link and a demand. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">linkIndex</td><td>The link's index. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00618">618</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a4d9aa44bad9d073539fb06941b4de978"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d9aa44bad9d073539fb06941b4de978">&#9670;&nbsp;</a></span>getMaxUsedSlicePerLinkConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange CplexForm::getMaxUsedSlicePerLinkConstraints </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>linkIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the Link's Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraint associated with a link and a demand. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">linkIndex</td><td>The link's index.</td></tr>
+    <tr><td class="paramname">d</td><td>The demand's index. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00524">524</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a2ff41914e2a5a9d83e5d1f5b38e90c05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ff41914e2a5a9d83e5d1f5b38e90c05">&#9670;&nbsp;</a></span>getNonOverlappingConstraint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange CplexForm::getNonOverlappingConstraint </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>linkLabel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>slice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classDemand.html">Demand</a> &amp;&#160;</td>
+          <td class="paramname"><em>demand1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classDemand.html">Demand</a> &amp;&#160;</td>
+          <td class="paramname"><em>demand2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the non-overlapping constraint associated with an arc and a pair of demands. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">linkLabel</td><td>The arc label.</td></tr>
+    <tr><td class="paramname">slice</td><td>The arc slice.</td></tr>
+    <tr><td class="paramname">demand1</td><td>The first demand.</td></tr>
+    <tr><td class="paramname">d1</td><td>The first demand index.</td></tr>
+    <tr><td class="paramname">demand2</td><td>The second demand.</td></tr>
+    <tr><td class="paramname">d2</td><td>The second demand index. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00488">488</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a926abe4216db8f4c85e1cb55bc933d96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a926abe4216db8f4c85e1cb55bc933d96">&#9670;&nbsp;</a></span>getSourceConstraint_d_n()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange CplexForm::getSourceConstraint_d_n </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classDemand.html">Demand</a> &amp;&#160;</td>
+          <td class="paramname"><em>demand</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nodeLabel</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the source constraint associated with a demand and a node. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">demand</td><td>The demand.</td></tr>
+    <tr><td class="paramname">d</td><td>The demand index.</td></tr>
+    <tr><td class="paramname">nodeLabel</td><td>The node label. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00354">354</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a18fa01cb74747d6638c72882ac1f1f96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18fa01cb74747d6638c72882ac1f1f96">&#9670;&nbsp;</a></span>getTargetConstraint_d()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IloRange CplexForm::getTargetConstraint_d </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classDemand.html">Demand</a> &amp;&#160;</td>
+          <td class="paramname"><em>demand</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>d</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the target constraint associated with a demand. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">demand</td><td>The demand.</td></tr>
+    <tr><td class="paramname">d</td><td>The demand index. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00422">422</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a2d713eca5d4bceefaa3ece342d8648cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d713eca5d4bceefaa3ece342d8648cc">&#9670;&nbsp;</a></span>setFlowConservationConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CplexForm::setFlowConservationConstraints </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines Flow Conservation constraints. </p>
+<p>If an arc enters a node, then an arc must leave it. </p>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00380">380</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aee76ba94ec94bb0cfd794e1b55126a79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee76ba94ec94bb0cfd794e1b55126a79">&#9670;&nbsp;</a></span>setLengthConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CplexForm::setLengthConstraints </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines Length constraints. </p>
+<p>Demands must be routed within a length limit. </p>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00442">442</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a8a842befacc24d2a483cc48e9f653bc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a842befacc24d2a483cc48e9f653bc9">&#9670;&nbsp;</a></span>setMaxUsedSliceOverallConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CplexForm::setMaxUsedSliceOverallConstraints </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints. </p>
+<p>The max used slice position overall must be greater than every other slice position used in the network. </p>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00545">545</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ad93bb1aeacd8b525273befa04a7105da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad93bb1aeacd8b525273befa04a7105da">&#9670;&nbsp;</a></span>setMaxUsedSliceOverallConstraints2()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CplexForm::setMaxUsedSliceOverallConstraints2 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints. </p>
+<p>The max used slice position overall must be greater than every other slice position used in the network. </p>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00572">572</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="acbed24d8901cdb042b4cd839471211ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbed24d8901cdb042b4cd839471211ef">&#9670;&nbsp;</a></span>setMaxUsedSliceOverallConstraints3()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CplexForm::setMaxUsedSliceOverallConstraints3 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines the Overall Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints. </p>
+<p>The max used slice position overall must be greater than every other slice position used in the network. </p>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00607">607</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a4a897236eead3cdc319c0a69e7303805"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a897236eead3cdc319c0a69e7303805">&#9670;&nbsp;</a></span>setMaxUsedSlicePerLinkConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CplexForm::setMaxUsedSlicePerLinkConstraints </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines the Link's Max Used <a class="el" href="classSlice.html" title="This class identifies an specific slice in the frequency spectrum of a PhysicalLink.">Slice</a> Position constraints. </p>
+<p>The max used slice position on each link must be greater than every slice position used in the link. </p>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00515">515</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aff981ca64af42e82432f3fc1d07c7832"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff981ca64af42e82432f3fc1d07c7832">&#9670;&nbsp;</a></span>setNonOverlappingConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CplexForm::setNonOverlappingConstraints </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines Non-Overlapping constraints. </p>
+<p>Demands must not overlap eachother's slices. </p>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00472">472</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a013b08efa60965e8ed712dd0836be27e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a013b08efa60965e8ed712dd0836be27e">&#9670;&nbsp;</a></span>setObjective()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CplexForm::setObjective </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">Input::ObjectiveMetric</a>&#160;</td>
+          <td class="paramname"><em>chosenObjective</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines the objective function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">chosenObjective</td><td>The chosen objective metric. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00255">255</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a473c8b19f9738688f44f1cc80b3149eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a473c8b19f9738688f44f1cc80b3149eb">&#9670;&nbsp;</a></span>setSourceConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CplexForm::setSourceConstraints </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines Source constraints. </p>
+<p>At most one arc leaves each node and exactly one arc leaves the source. </p>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00343">343</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ae2588ab6bbb99269728c724d2ca38bdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2588ab6bbb99269728c724d2ca38bdd">&#9670;&nbsp;</a></span>setTargetConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CplexForm::setTargetConstraints </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines Target constraints. </p>
+<p>Exactly one arc enters the demand's target. </p>
+
+<p class="definition">Definition at line <a class="el" href="cplexForm_8cpp_source.html#l00414">414</a> of file <a class="el" href="cplexForm_8cpp_source.html">cplexForm.cpp</a>.</p>
 
 </div>
 </div>
@@ -562,7 +1020,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>The array of variables used in the MIP for verifying the max used slice position for each link in the topology network. </p>
 <p>maxSlicePerLink[i]=p if p is the max used slice position from the link with id i. </p>
 
-<p class="definition">Definition at line <a class="el" href="cplexForm_8h_source.html#l00019">19</a> of file <a class="el" href="cplexForm_8h_source.html">cplexForm.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cplexForm_8h_source.html#l00018">18</a> of file <a class="el" href="cplexForm_8h_source.html">cplexForm.h</a>.</p>
 
 </div>
 </div>
@@ -589,7 +1047,7 @@ NodeMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>The matrix of assignement variables used in the MIP. </p>
 <p>x[d][a]=1 if the d-th demand is routed through the arc from index a. </p>
 
-<p class="definition">Definition at line <a class="el" href="cplexForm_8h_source.html#l00018">18</a> of file <a class="el" href="cplexForm_8h_source.html">cplexForm.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cplexForm_8h_source.html#l00017">17</a> of file <a class="el" href="cplexForm_8h_source.html">cplexForm.h</a>.</p>
 
 </div>
 </div>

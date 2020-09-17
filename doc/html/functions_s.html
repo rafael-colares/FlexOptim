@@ -111,8 +111,14 @@ $(function() {
 <li>setCompactNodeLabel()
 : <a class="el" href="classRSA.html#a5bad3cc54601782e1b20f39bdbe6fd54">RSA</a>
 </li>
+<li>setConstraints()
+: <a class="el" href="classSolverCplex.html#ad40ec72738eed10ac88f03e9b0cec354">SolverCplex</a>
+</li>
 <li>setCost()
 : <a class="el" href="classPhysicalLink.html#af431e5e93f398f1fd79a867e37e167b6">PhysicalLink</a>
+</li>
+<li>setCplexParams()
+: <a class="el" href="classSolverCplex.html#a769b466cd377ec3567916a6ea23dfa7b">SolverCplex</a>
 </li>
 <li>setDegreeConstraints()
 : <a class="el" href="classYoussoufForm.html#a5b71b46f6c52499d175a5c76c4592667">YoussoufForm</a>
@@ -126,6 +132,9 @@ $(function() {
 <li>setDestinationConstraints()
 : <a class="el" href="classYoussoufForm.html#a538d589a23adf10b09a77d953257d6fc">YoussoufForm</a>
 </li>
+<li>setDirection()
+: <a class="el" href="classObjectiveFunction.html#a50bcb7cef0645a542ab0c50d583b8b84">ObjectiveFunction</a>
+</li>
 <li>setEdgeFromId()
 : <a class="el" href="classInstance.html#a37959cebcf49674c3727e92c957ddade">Instance</a>
 </li>
@@ -134,9 +143,12 @@ $(function() {
 </li>
 <li>setExpression()
 : <a class="el" href="classConstraint.html#abd3bde153ed2cd93abf04974d7409800">Constraint</a>
+, <a class="el" href="classObjectiveFunction.html#a22a203b3cb79140b73476e80517e6d15">ObjectiveFunction</a>
 </li>
 <li>setFlowConservationConstraints()
-: <a class="el" href="classFlowForm.html#add2f7ac23a642dcbed4976786dadb7a7">FlowForm</a>
+: <a class="el" href="classCplexForm.html#a2d713eca5d4bceefaa3ece342d8648cc">CplexForm</a>
+, <a class="el" href="classFlowForm.html#add2f7ac23a642dcbed4976786dadb7a7">FlowForm</a>
+, <a class="el" href="classSolverCplex.html#a5d583649738242142dbc90e66357545b">SolverCplex</a>
 </li>
 <li>setForbiddenSlotConstraints()
 : <a class="el" href="classYoussoufForm.html#a2d1b4e1d1e56d4253e865f0fe7e35575">YoussoufForm</a>
@@ -147,12 +159,15 @@ $(function() {
 <li>setId()
 : <a class="el" href="classDemand.html#ab30017268cbc5e3047f64850f40051fe">Demand</a>
 , <a class="el" href="classPhysicalLink.html#aeb52fcca894d2ad411b472a8d5144080">PhysicalLink</a>
+, <a class="el" href="classVariable.html#a136d996baa6b0281f1cda540485ad8a8">Variable</a>
 </li>
 <li>setImprovedNonOverlappingConstraints_1()
-: <a class="el" href="classFlowForm.html#a3b6cdff92f1ba1378e7a7ed11657b3fd">FlowForm</a>
+: <a class="el" href="classCplexForm.html#ae81ea40d3125f71c0a4c78938685d33c">CplexForm</a>
+, <a class="el" href="classSolverCplex.html#a4a7f332f6b7db77f2d428c5ec9350742">SolverCplex</a>
 </li>
 <li>setImprovedNonOverlappingConstraints_2()
-: <a class="el" href="classFlowForm.html#aeda7e34d8fec3287bc4a668aca1bbecb">FlowForm</a>
+: <a class="el" href="classCplexForm.html#a3c85cb3622c593fd491c384212b11cf9">CplexForm</a>
+, <a class="el" href="classSolverCplex.html#aa9bbeee4568df24b5c8a345bafe7e363">SolverCplex</a>
 </li>
 <li>setIndex()
 : <a class="el" href="classPhysicalLink.html#a4a246edc6a1d8e4762bfbfc3d9eb46fd">PhysicalLink</a>
@@ -168,7 +183,9 @@ $(function() {
 : <a class="el" href="classPhysicalLink.html#a4a090057b58cc37809dbde4110260e50">PhysicalLink</a>
 </li>
 <li>setLengthConstraints()
-: <a class="el" href="classFlowForm.html#a52dbe8a5b4a8b8e574702f9addb2ad6c">FlowForm</a>
+: <a class="el" href="classCplexForm.html#aee76ba94ec94bb0cfd794e1b55126a79">CplexForm</a>
+, <a class="el" href="classFlowForm.html#a52dbe8a5b4a8b8e574702f9addb2ad6c">FlowForm</a>
+, <a class="el" href="classSolverCplex.html#a7a5a9969819df80f5d5a164a7598cb20">SolverCplex</a>
 </li>
 <li>setLengthSlack_k()
 : <a class="el" href="classSubgradient.html#aa6b4f37c790daef186254ef60ef3a6fd">Subgradient</a>
@@ -180,16 +197,27 @@ $(function() {
 : <a class="el" href="classDemand.html#a3029b964a52da97892e0e78521c011e3">Demand</a>
 </li>
 <li>setMaxUsedSliceOverallConstraints()
-: <a class="el" href="classFlowForm.html#ac4333d4e0b17b942ad382c095dcea63e">FlowForm</a>
+: <a class="el" href="classCplexForm.html#a8a842befacc24d2a483cc48e9f653bc9">CplexForm</a>
+, <a class="el" href="classFlowForm.html#ac4333d4e0b17b942ad382c095dcea63e">FlowForm</a>
+, <a class="el" href="classSolverCplex.html#a1cb50a7cc6b431afd13fc72dec6ead19">SolverCplex</a>
 </li>
 <li>setMaxUsedSliceOverallConstraints2()
-: <a class="el" href="classFlowForm.html#ae46bed91bda385a03282bc2530be7733">FlowForm</a>
+: <a class="el" href="classCplexForm.html#ad93bb1aeacd8b525273befa04a7105da">CplexForm</a>
+, <a class="el" href="classFlowForm.html#ae46bed91bda385a03282bc2530be7733">FlowForm</a>
+, <a class="el" href="classSolverCplex.html#ac50fa77ef6623f3a6196081f5493a641">SolverCplex</a>
 </li>
 <li>setMaxUsedSliceOverallConstraints3()
-: <a class="el" href="classFlowForm.html#a5117e079aecf6ac38bb4f7cbd88b8f7c">FlowForm</a>
+: <a class="el" href="classCplexForm.html#acbed24d8901cdb042b4cd839471211ef">CplexForm</a>
+, <a class="el" href="classFlowForm.html#a5117e079aecf6ac38bb4f7cbd88b8f7c">FlowForm</a>
+, <a class="el" href="classSolverCplex.html#a5ae825529f76e411c0cd1ccbc2792c64">SolverCplex</a>
 </li>
 <li>setMaxUsedSlicePerLinkConstraints()
-: <a class="el" href="classFlowForm.html#a4403b9440a09dba89a6b168e9ba94d53">FlowForm</a>
+: <a class="el" href="classCplexForm.html#a4a897236eead3cdc319c0a69e7303805">CplexForm</a>
+, <a class="el" href="classFlowForm.html#a4403b9440a09dba89a6b168e9ba94d53">FlowForm</a>
+, <a class="el" href="classSolverCplex.html#a8151444a1a2a2e9b1584a0597c7783f8">SolverCplex</a>
+</li>
+<li>setName()
+: <a class="el" href="classObjectiveFunction.html#a6e552e30e22a307ff6480e5bd2976eea">ObjectiveFunction</a>
 </li>
 <li>setNbDemands()
 : <a class="el" href="classInstance.html#a26032b536301b1c7e42d553077cb9df2">Instance</a>
@@ -223,11 +251,15 @@ $(function() {
 : <a class="el" href="classRSA.html#a07ece679f3c45008ca9f054db947409c">RSA</a>
 </li>
 <li>setNonOverlappingConstraints()
-: <a class="el" href="classFlowForm.html#aee56cfa3360cdb778be331ea86e82dfa">FlowForm</a>
+: <a class="el" href="classCplexForm.html#aff981ca64af42e82432f3fc1d07c7832">CplexForm</a>
+, <a class="el" href="classFlowForm.html#aee56cfa3360cdb778be331ea86e82dfa">FlowForm</a>
+, <a class="el" href="classSolverCplex.html#ac4c0d4a459c479a0d437e9896b9038a9">SolverCplex</a>
 , <a class="el" href="classYoussoufForm.html#aeb33bc2a2d4c588b76d4088cdbfc79bc">YoussoufForm</a>
 </li>
 <li>setObjective()
-: <a class="el" href="classFlowForm.html#a93e93235c6789771af463733b0e8ca4c">FlowForm</a>
+: <a class="el" href="classCplexForm.html#a013b08efa60965e8ed712dd0836be27e">CplexForm</a>
+, <a class="el" href="classFlowForm.html#adb4b5e137203e41889b8e9117a6b1a48">FlowForm</a>
+, <a class="el" href="classSolverCplex.html#a5c1ddf5cc1f7260b3d30f8c4a3ca6655">SolverCplex</a>
 , <a class="el" href="classYoussoufForm.html#a39e024c0b3b44cc0d2b9b5996732ef7c">YoussoufForm</a>
 </li>
 <li>setOriginConstraints()
@@ -247,10 +279,13 @@ $(function() {
 , <a class="el" href="classPhysicalLink.html#a1d481af217642e1505f75af120fa15d6">PhysicalLink</a>
 </li>
 <li>setSourceConstraints()
-: <a class="el" href="classFlowForm.html#a1c77fca5fc6a68c81496f8f8a7b64866">FlowForm</a>
+: <a class="el" href="classCplexForm.html#a473c8b19f9738688f44f1cc80b3149eb">CplexForm</a>
+, <a class="el" href="classFlowForm.html#a1c77fca5fc6a68c81496f8f8a7b64866">FlowForm</a>
+, <a class="el" href="classSolverCplex.html#a8951ae56fcda1507205d168c7e412444">SolverCplex</a>
 </li>
 <li>setStatus()
 : <a class="el" href="classRSA.html#ac1b1f1775992c6ce234952a122767161">RSA</a>
+, <a class="el" href="classSolver.html#ae41e384ff05b15d12d7eb6dd045d9087">Solver</a>
 </li>
 <li>setTabDemand()
 : <a class="el" href="classInstance.html#a31bceb4f0d9bd558ec5451a9d9a46c74">Instance</a>
@@ -263,7 +298,9 @@ $(function() {
 , <a class="el" href="classPhysicalLink.html#a3123b879addd3ed6acf5fd99998ff86d">PhysicalLink</a>
 </li>
 <li>setTargetConstraints()
-: <a class="el" href="classFlowForm.html#a5f885fc9678bdbbc42c89818ff9b803a">FlowForm</a>
+: <a class="el" href="classCplexForm.html#ae2588ab6bbb99269728c724d2ca38bdd">CplexForm</a>
+, <a class="el" href="classFlowForm.html#a5f885fc9678bdbbc42c89818ff9b803a">FlowForm</a>
+, <a class="el" href="classSolverCplex.html#ab7f2791bf212706a5d6a40335ca95aa7">SolverCplex</a>
 </li>
 <li>setTerm_i()
 : <a class="el" href="classExpression.html#a4cb02f013f5e0d94b758c782d6c51336">Expression</a>
@@ -288,11 +325,16 @@ $(function() {
 : <a class="el" href="classConstraint.html#a569c1a6841cb75c494aa75996cc580dd">Constraint</a>
 , <a class="el" href="classVariable.html#ae68e5bbe9f4a9a570f39b9402d6737b3">Variable</a>
 </li>
+<li>setVal()
+: <a class="el" href="classVariable.html#a0b0443cb8f0d8780b446271dd2123cad">Variable</a>
+</li>
 <li>setVar()
 : <a class="el" href="classTerm.html#aa75de5f2328eb1c3d53388e2d75ba83e">Term</a>
 </li>
 <li>setVariables()
-: <a class="el" href="classFlowForm.html#ab988e6c464208ba10429f3909c08a833">FlowForm</a>
+: <a class="el" href="classCplexForm.html#acfd3f444710416254159340ab119a390">CplexForm</a>
+, <a class="el" href="classFlowForm.html#ab988e6c464208ba10429f3909c08a833">FlowForm</a>
+, <a class="el" href="classSolverCplex.html#a888775da9dcf4a89b553d60c15675e3c">SolverCplex</a>
 , <a class="el" href="classYoussoufForm.html#a9ef2f802c5198b9ae646557a667e302c">YoussoufForm</a>
 </li>
 <li>shortestDistance()
@@ -305,7 +347,10 @@ $(function() {
 : <a class="el" href="classDemand.html#a7f22780dd6801abfaa70808d5367cdf3">Demand</a>
 </li>
 <li>Solver()
-: <a class="el" href="classSolver.html#a8271976cef5a884cb8b4deb295311466">Solver</a>
+: <a class="el" href="classSolver.html#ab9a1ae6407e5ffc82aa6380674f6452d">Solver</a>
+</li>
+<li>SolverCplex()
+: <a class="el" href="classSolverCplex.html#a4b3cff462b12c98762cdb76957149a07">SolverCplex</a>
 </li>
 <li>source
 : <a class="el" href="classDemand.html#aba0b2f49b117edde4743e4ba0575bd97">Demand</a>
@@ -315,27 +360,35 @@ $(function() {
 </li>
 <li>Status
 : <a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108f">RSA</a>
+, <a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8">Solver</a>
 </li>
 <li>STATUS_ERROR
 : <a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa83793da9cc3eb7713027553f609ac4aa">RSA</a>
+, <a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8aff14b4aaeaf852929f18345f1173e873">Solver</a>
 </li>
 <li>STATUS_FEASIBLE
 : <a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa5ee863abb9eae3944c16391ddc08f7c2">RSA</a>
+, <a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8a9d8d381616673ec54d036f82d84cee20">Solver</a>
 </li>
 <li>STATUS_INFEASIBLE
 : <a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa3f634e24553c56c52752dcb79e7ad8b0">RSA</a>
+, <a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8a54afb38b991bd3afb2569aa0f67a19f5">Solver</a>
 </li>
 <li>STATUS_INFEASIBLE_OR_UNBOUNDED
 : <a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa3e3d95f823aaa283b9fbb41a1aa0351d">RSA</a>
+, <a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8a9d746d1a156ae626cda4d051fa520a7d">Solver</a>
 </li>
 <li>STATUS_OPTIMAL
 : <a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa1ba2b01d9b94da69329f88cb5ebd3d4b">RSA</a>
+, <a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8a7727904dfba8b4c9330522cf5d66e058">Solver</a>
 </li>
 <li>STATUS_UNBOUNDED
 : <a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fae7be6a7e3e3d37e13f1417476ec5ace7">RSA</a>
+, <a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8a2abddbcee3f77350ed295525f423bcac">Solver</a>
 </li>
 <li>STATUS_UNKNOWN
 : <a class="el" href="classRSA.html#a031c6f3d4ddc838dbc015b1f3fbb108fa90128e37e9757620ac8d6b93823fffff">RSA</a>
+, <a class="el" href="classSolver.html#ac05d31305623304f32119b5eb0385bf8af697d79f09119a1a8ff1455f2d863eba">Solver</a>
 </li>
 <li>stepSize
 : <a class="el" href="classSubgradient.html#a390457d4bab339f347f39bfbb68d3552">Subgradient</a>

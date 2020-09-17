@@ -173,6 +173,22 @@ void RSA::updateInstance(Instance &i){
         }
     }
     i.displaySlices();
+
+    int nextDemandToBeRouted = instance.getNextDemandToBeRoutedIndex() + getNbDemandsToBeRouted();
+	if (instance.getInput().isBlockingAllowed()){
+		if (instance.getWasBlocked() == true){
+			nextDemandToBeRouted++;
+		}
+		i.setNbDemandsAtOnce(instance.getInput().getNbDemandsAtOnce());
+	}
+	else{
+		if (instance.getWasBlocked() == true){
+			i.setNbDemandsAtOnce(0);
+		}
+	}
+    i.setNextDemandToBeRoutedIndex(nextDemandToBeRouted);
+    i.setWasBlocked(false);
+    
 }
 
 /* Returns the first node with a given label from the graph associated with the d-th demand to be routed. If such node does not exist, return INVALID. */

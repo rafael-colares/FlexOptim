@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['partitionpolicy_855',['PartitionPolicy',['../classInput.html#a996a9f36dc32b41c9c7291ad49deb7ed',1,'Input']]],
-  ['preprocessinglevel_856',['PreprocessingLevel',['../classInput.html#a38a43d751872865a7d1b4e84ff5f9d42',1,'Input']]]
+  ['metric_924',['Metric',['../classInstance.html#a7e02dd7da0fb55a843088ec54d590026',1,'Instance']]],
+  ['mip_5fsolver_925',['MIP_Solver',['../classInput.html#a2a7a490d1f166fc7e3e17aab57a420e2',1,'Input']]]
 ];

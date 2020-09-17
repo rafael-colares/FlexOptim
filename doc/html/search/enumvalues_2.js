@@ -1,9 +1,11 @@
 var searchData=
 [
-  ['partition_5fpolicy_5fhard_877',['PARTITION_POLICY_HARD',['../classInput.html#a996a9f36dc32b41c9c7291ad49deb7eda3079fb016304acb2ffd24d2e868620d6',1,'Input']]],
-  ['partition_5fpolicy_5fno_878',['PARTITION_POLICY_NO',['../classInput.html#a996a9f36dc32b41c9c7291ad49deb7eda7ee9e469d275c446e56dd4c14ee6e080',1,'Input']]],
-  ['partition_5fpolicy_5fsoft_879',['PARTITION_POLICY_SOFT',['../classInput.html#a996a9f36dc32b41c9c7291ad49deb7edad393c4fb45c7b7e880e77a94eaef4772',1,'Input']]],
-  ['preprocessing_5flvl_5ffull_880',['PREPROCESSING_LVL_FULL',['../classInput.html#a38a43d751872865a7d1b4e84ff5f9d42a6e71d561dd4af6d3220699285c3e5fd0',1,'Input']]],
-  ['preprocessing_5flvl_5fno_881',['PREPROCESSING_LVL_NO',['../classInput.html#a38a43d751872865a7d1b4e84ff5f9d42ad5caac8d2e1aa553622c2b26619fef39',1,'Input']]],
-  ['preprocessing_5flvl_5fpartial_882',['PREPROCESSING_LVL_PARTIAL',['../classInput.html#a38a43d751872865a7d1b4e84ff5f9d42a578d2ebb1f6e01416c7564eb3109d2a8',1,'Input']]]
+  ['metric_5feight_937',['METRIC_EIGHT',['../classInstance.html#a7e02dd7da0fb55a843088ec54d590026af202dd1fa4a3fd443075331901dfa8ad',1,'Instance']]],
+  ['metric_5ffour_938',['METRIC_FOUR',['../classInstance.html#a7e02dd7da0fb55a843088ec54d590026a375631aad553117d52c657ba92c5fe85',1,'Instance']]],
+  ['metric_5fone_939',['METRIC_ONE',['../classInstance.html#a7e02dd7da0fb55a843088ec54d590026a204d628392690fc66007bc9c6ca979d8',1,'Instance']]],
+  ['metric_5fone_5fp_940',['METRIC_ONE_P',['../classInstance.html#a7e02dd7da0fb55a843088ec54d590026a55affd1be6cda07727f1c16111abdcb2',1,'Instance']]],
+  ['metric_5ftwo_941',['METRIC_TWO',['../classInstance.html#a7e02dd7da0fb55a843088ec54d590026a1bce9ef03c455de320f7292cb994973d',1,'Instance']]],
+  ['mip_5fsolver_5fcbc_942',['MIP_SOLVER_CBC',['../classInput.html#a2a7a490d1f166fc7e3e17aab57a420e2adffb5e75e3800be9b438f7083d3023a4',1,'Input']]],
+  ['mip_5fsolver_5fcplex_943',['MIP_SOLVER_CPLEX',['../classInput.html#a2a7a490d1f166fc7e3e17aab57a420e2ae76652e555276c30e04bb4592c032703',1,'Input']]],
+  ['mip_5fsolver_5fgurobi_944',['MIP_SOLVER_GUROBI',['../classInput.html#a2a7a490d1f166fc7e3e17aab57a420e2ae19453d7bb2fc41324d124a98a8b45dd',1,'Input']]]
 ];

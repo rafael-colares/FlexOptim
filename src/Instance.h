@@ -32,7 +32,7 @@ private:
 	std::vector<Demand> tabDemand;		/**< A set of Demand (already routed or not). **/
 	int nbInitialDemands;				/**< The number of demands routed in the first initial mapping. **/
 	int nextDemandToBeRoutedIndex;		/**< Stores the index of the next demand to be analyzed in tabDemand. **/
-
+	bool wasBlocked;
 public:
 
 	/****************************************************************************************/
@@ -48,6 +48,8 @@ public:
 	/****************************************************************************************/
 	/*										Getters											*/
 	/****************************************************************************************/
+	
+	bool getWasBlocked() const { return wasBlocked; }
 
 	/** Returns the total number of demands. **/
 	int getNbDemands() const { return (int)this->tabDemand.size(); }
@@ -104,6 +106,8 @@ public:
 	/****************************************************************************************/
 	/*										Setters											*/
 	/****************************************************************************************/
+
+	void setWasBlocked(bool flag) { this->wasBlocked = flag; }
 
 	/** Change the total number of demands. @param nb New total number of demands. @warning This function resizes vector tabDemand, creating default demands if nb is greater than the previous size.**/
 	void setNbDemands(int nb) { this->tabDemand.resize(nb); }
