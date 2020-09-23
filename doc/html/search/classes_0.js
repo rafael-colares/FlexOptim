@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['clocktime_477',['ClockTime',['../classClockTime.html',1,'']]],
-  ['constraint_478',['Constraint',['../classConstraint.html',1,'']]],
-  ['cplexform_479',['CplexForm',['../classCplexForm.html',1,'']]],
-  ['csvreader_480',['CSVReader',['../classCSVReader.html',1,'']]]
+  ['abstractformulation_489',['AbstractFormulation',['../classAbstractFormulation.html',1,'']]],
+  ['abstractsolver_490',['AbstractSolver',['../classAbstractSolver.html',1,'']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.19"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>RSA: Exact Online Algorithm: Slice.cpp Source File</title>
+<title>RSA: Exact Online Algorithm: topology/slice.cpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -47,7 +47,6 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
-</div><!-- top -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -62,12 +61,17 @@ $(function() {
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_84497794bb37d283dbd68163bed8ef05.html">topology</a></li>  </ul>
+</div>
+</div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">Slice.cpp</div>  </div>
+<div class="title">slice.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Slice.h&quot;</span></div>
+<a href="slice_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="slice_8h.html">slice.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">/* Constructor, by default d = -1. That is, no demand is assigned to the slice. */</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="classSlice.html#a960e99060779c9a908092132d5c69320">    4</a></span>&#160;<a class="code" href="classSlice.html#a960e99060779c9a908092132d5c69320">Slice::Slice</a>(<span class="keywordtype">int</span> d){</div>
@@ -84,10 +88,11 @@ $(function() {
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    }</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclassSlice_html_a960e99060779c9a908092132d5c69320"><div class="ttname"><a href="classSlice.html#a960e99060779c9a908092132d5c69320">Slice::Slice</a></div><div class="ttdeci">Slice(int id=-1)</div><div class="ttdoc">Default constructor.</div><div class="ttdef"><b>Definition:</b> <a href="Slice_8cpp_source.html#l00004">Slice.cpp:4</a></div></div>
-<div class="ttc" id="aclassSlice_html_aa1626f7db77c039890ec9c5c044ff81c"><div class="ttname"><a href="classSlice.html#aa1626f7db77c039890ec9c5c044ff81c">Slice::setAssignment</a></div><div class="ttdeci">void setAssignment(int d)</div><div class="ttdoc">Specifies the id of the assigned demand.</div><div class="ttdef"><b>Definition:</b> <a href="Slice_8h_source.html#l00024">Slice.h:24</a></div></div>
-<div class="ttc" id="aclassSlice_html_aaef8f8886b7cef47db3220a947594716"><div class="ttname"><a href="classSlice.html#aaef8f8886b7cef47db3220a947594716">Slice::isUsed</a></div><div class="ttdeci">bool isUsed()</div><div class="ttdoc">Verifies if the slice is occupied by some demand.</div><div class="ttdef"><b>Definition:</b> <a href="Slice_8cpp_source.html#l00009">Slice.cpp:9</a></div></div>
-<div class="ttc" id="aclassSlice_html_a029b4ae9a9cc083f83012b1cba475d2a"><div class="ttname"><a href="classSlice.html#a029b4ae9a9cc083f83012b1cba475d2a">Slice::assignedDemand</a></div><div class="ttdeci">int assignedDemand</div><div class="ttdoc">Refers to the id of the assigned demand; If no demand is assigned, it equals -1.</div><div class="ttdef"><b>Definition:</b> <a href="Slice_8h_source.html#l00014">Slice.h:14</a></div></div>
+<div class="ttc" id="aclassSlice_html_a960e99060779c9a908092132d5c69320"><div class="ttname"><a href="classSlice.html#a960e99060779c9a908092132d5c69320">Slice::Slice</a></div><div class="ttdeci">Slice(int id=-1)</div><div class="ttdoc">Default constructor.</div><div class="ttdef"><b>Definition:</b> <a href="slice_8cpp_source.html#l00004">slice.cpp:4</a></div></div>
+<div class="ttc" id="aclassSlice_html_aa1626f7db77c039890ec9c5c044ff81c"><div class="ttname"><a href="classSlice.html#aa1626f7db77c039890ec9c5c044ff81c">Slice::setAssignment</a></div><div class="ttdeci">void setAssignment(int d)</div><div class="ttdoc">Specifies the id of the assigned demand.</div><div class="ttdef"><b>Definition:</b> <a href="slice_8h_source.html#l00024">slice.h:24</a></div></div>
+<div class="ttc" id="aclassSlice_html_aaef8f8886b7cef47db3220a947594716"><div class="ttname"><a href="classSlice.html#aaef8f8886b7cef47db3220a947594716">Slice::isUsed</a></div><div class="ttdeci">bool isUsed()</div><div class="ttdoc">Verifies if the slice is occupied by some demand.</div><div class="ttdef"><b>Definition:</b> <a href="slice_8cpp_source.html#l00009">slice.cpp:9</a></div></div>
+<div class="ttc" id="aslice_8h_html"><div class="ttname"><a href="slice_8h.html">slice.h</a></div></div>
+<div class="ttc" id="aclassSlice_html_a029b4ae9a9cc083f83012b1cba475d2a"><div class="ttname"><a href="classSlice.html#a029b4ae9a9cc083f83012b1cba475d2a">Slice::assignedDemand</a></div><div class="ttdeci">int assignedDemand</div><div class="ttdoc">Refers to the id of the assigned demand; If no demand is assigned, it equals -1.</div><div class="ttdef"><b>Definition:</b> <a href="slice_8h_source.html#l00014">slice.h:14</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

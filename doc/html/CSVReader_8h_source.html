@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.19"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>RSA: Exact Online Algorithm: CSVReader.h Source File</title>
+<title>RSA: Exact Online Algorithm: tools/CSVReader.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -47,7 +47,6 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
-</div><!-- top -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -62,12 +61,17 @@ $(function() {
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_4eeb864c4eec08c7d6b9d3b0352cfdde.html">tools</a></li>  </ul>
+</div>
+</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">CSVReader.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef __CSVReader__h</span></div>
+<a href="CSVReader_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef __CSVReader__h</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define __CSVReader__h</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
@@ -77,35 +81,36 @@ $(function() {
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;boost/algorithm/string.hpp&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;Instance.h&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classCSVReader.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="classCSVReader.html">CSVReader</a>{</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classCSVReader.html#aad272ffbafdbe83fe50091a18d658b59">   19</a></span>&#160;    std::string <a class="code" href="classCSVReader.html#aad272ffbafdbe83fe50091a18d658b59">fileName</a>;   </div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classCSVReader.html#ac5e0e6866e56cfb8c0337940fa848fde">   20</a></span>&#160;    std::string <a class="code" href="classCSVReader.html#ac5e0e6866e56cfb8c0337940fa848fde">delimeter</a>;  </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="classCSVReader.html#a2096bc9b761667afa8126752f5eb4411">   23</a></span>&#160;    <a class="code" href="classCSVReader.html#a2096bc9b761667afa8126752f5eb4411">CSVReader</a>(std::string filename, std::string delm = <span class="stringliteral">&quot;;&quot;</span>) :</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="classCSVReader.html#aad272ffbafdbe83fe50091a18d658b59">fileName</a>(filename), <a class="code" href="classCSVReader.html#ac5e0e6866e56cfb8c0337940fa848fde">delimeter</a>(delm)</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    { }</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classCSVReader.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="classCSVReader.html">CSVReader</a>{</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classCSVReader.html#aad272ffbafdbe83fe50091a18d658b59">   18</a></span>&#160;    std::string <a class="code" href="classCSVReader.html#aad272ffbafdbe83fe50091a18d658b59">fileName</a>;   </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classCSVReader.html#ac5e0e6866e56cfb8c0337940fa848fde">   19</a></span>&#160;    std::string <a class="code" href="classCSVReader.html#ac5e0e6866e56cfb8c0337940fa848fde">delimeter</a>;  </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classCSVReader.html#a2096bc9b761667afa8126752f5eb4411">   22</a></span>&#160;    <a class="code" href="classCSVReader.html#a2096bc9b761667afa8126752f5eb4411">CSVReader</a>(std::string filename, std::string delm = <span class="stringliteral">&quot;;&quot;</span>) :</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <a class="code" href="classCSVReader.html#aad272ffbafdbe83fe50091a18d658b59">fileName</a>(filename), <a class="code" href="classCSVReader.html#ac5e0e6866e56cfb8c0337940fa848fde">delimeter</a>(delm)</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    { }</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    std::vector&lt;std::vector&lt;std::string&gt; &gt; <a class="code" href="classCSVReader.html#a2dea725de823f6932ae29552aa05b97d">getData</a>();</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;};</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    std::vector&lt;std::vector&lt;std::string&gt; &gt; <a class="code" href="classCSVReader.html#a2dea725de823f6932ae29552aa05b97d">getData</a>();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;};</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;std::string getInBetweenString(std::string str, std::string firstDelimiter, std::string lastDelimiter);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;std::vector&lt;std::string&gt; splitBy(std::string str, std::string delimiter);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;std::string <a class="code" href="CSVReader_8h.html#ad54f3fce24cb58099df44c246267c9a1">getInBetweenString</a>(std::string str, std::string firstDelimiter, std::string lastDelimiter);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;std::vector&lt;std::string&gt; <a class="code" href="CSVReader_8h.html#a374159ed60aeb9707bfb284930895db4">splitBy</a>(std::string str, std::string delimiter);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclassCSVReader_html_aad272ffbafdbe83fe50091a18d658b59"><div class="ttname"><a href="classCSVReader.html#aad272ffbafdbe83fe50091a18d658b59">CSVReader::fileName</a></div><div class="ttdeci">std::string fileName</div><div class="ttdoc">The file to be read.</div><div class="ttdef"><b>Definition:</b> <a href="CSVReader_8h_source.html#l00019">CSVReader.h:19</a></div></div>
-<div class="ttc" id="aclassCSVReader_html"><div class="ttname"><a href="classCSVReader.html">CSVReader</a></div><div class="ttdoc">This class implements a reader of .csv files.</div><div class="ttdef"><b>Definition:</b> <a href="CSVReader_8h_source.html#l00017">CSVReader.h:17</a></div></div>
-<div class="ttc" id="aclassCSVReader_html_ac5e0e6866e56cfb8c0337940fa848fde"><div class="ttname"><a href="classCSVReader.html#ac5e0e6866e56cfb8c0337940fa848fde">CSVReader::delimeter</a></div><div class="ttdeci">std::string delimeter</div><div class="ttdoc">The delimiter used for separating data.</div><div class="ttdef"><b>Definition:</b> <a href="CSVReader_8h_source.html#l00020">CSVReader.h:20</a></div></div>
-<div class="ttc" id="aclassCSVReader_html_a2dea725de823f6932ae29552aa05b97d"><div class="ttname"><a href="classCSVReader.html#a2dea725de823f6932ae29552aa05b97d">CSVReader::getData</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; std::string &gt; &gt; getData()</div><div class="ttdoc">Function to fetch data from a CSV File.</div><div class="ttdef"><b>Definition:</b> <a href="CSVReader_8cpp_source.html#l00005">CSVReader.cpp:5</a></div></div>
-<div class="ttc" id="aclassCSVReader_html_a2096bc9b761667afa8126752f5eb4411"><div class="ttname"><a href="classCSVReader.html#a2096bc9b761667afa8126752f5eb4411">CSVReader::CSVReader</a></div><div class="ttdeci">CSVReader(std::string filename, std::string delm=&quot;;&quot;)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> <a href="CSVReader_8h_source.html#l00023">CSVReader.h:23</a></div></div>
+<div class="ttc" id="aclassCSVReader_html_aad272ffbafdbe83fe50091a18d658b59"><div class="ttname"><a href="classCSVReader.html#aad272ffbafdbe83fe50091a18d658b59">CSVReader::fileName</a></div><div class="ttdeci">std::string fileName</div><div class="ttdoc">The file to be read.</div><div class="ttdef"><b>Definition:</b> <a href="CSVReader_8h_source.html#l00018">CSVReader.h:18</a></div></div>
+<div class="ttc" id="aclassCSVReader_html"><div class="ttname"><a href="classCSVReader.html">CSVReader</a></div><div class="ttdoc">This class implements a reader of .csv files.</div><div class="ttdef"><b>Definition:</b> <a href="CSVReader_8h_source.html#l00016">CSVReader.h:16</a></div></div>
+<div class="ttc" id="aclassCSVReader_html_ac5e0e6866e56cfb8c0337940fa848fde"><div class="ttname"><a href="classCSVReader.html#ac5e0e6866e56cfb8c0337940fa848fde">CSVReader::delimeter</a></div><div class="ttdeci">std::string delimeter</div><div class="ttdoc">The delimiter used for separating data.</div><div class="ttdef"><b>Definition:</b> <a href="CSVReader_8h_source.html#l00019">CSVReader.h:19</a></div></div>
+<div class="ttc" id="aCSVReader_8h_html_ad54f3fce24cb58099df44c246267c9a1"><div class="ttname"><a href="CSVReader_8h.html#ad54f3fce24cb58099df44c246267c9a1">getInBetweenString</a></div><div class="ttdeci">std::string getInBetweenString(std::string str, std::string firstDelimiter, std::string lastDelimiter)</div><div class="ttdoc">Returns the substring between the first and last delimiters.</div><div class="ttdef"><b>Definition:</b> <a href="CSVReader_8cpp_source.html#l00028">CSVReader.cpp:28</a></div></div>
+<div class="ttc" id="aclassCSVReader_html_a2dea725de823f6932ae29552aa05b97d"><div class="ttname"><a href="classCSVReader.html#a2dea725de823f6932ae29552aa05b97d">CSVReader::getData</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; std::string &gt; &gt; getData()</div><div class="ttdoc">Function to fetch data from a CSV File.</div><div class="ttdef"><b>Definition:</b> <a href="CSVReader_8cpp_source.html#l00004">CSVReader.cpp:4</a></div></div>
+<div class="ttc" id="aclassCSVReader_html_a2096bc9b761667afa8126752f5eb4411"><div class="ttname"><a href="classCSVReader.html#a2096bc9b761667afa8126752f5eb4411">CSVReader::CSVReader</a></div><div class="ttdeci">CSVReader(std::string filename, std::string delm=&quot;;&quot;)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> <a href="CSVReader_8h_source.html#l00022">CSVReader.h:22</a></div></div>
+<div class="ttc" id="aCSVReader_8h_html_a374159ed60aeb9707bfb284930895db4"><div class="ttname"><a href="CSVReader_8h.html#a374159ed60aeb9707bfb284930895db4">splitBy</a></div><div class="ttdeci">std::vector&lt; std::string &gt; splitBy(std::string str, std::string delimiter)</div><div class="ttdoc">Splits a given string into a vector by a given delimiter.</div><div class="ttdef"><b>Definition:</b> <a href="CSVReader_8cpp_source.html#l00037">CSVReader.cpp:37</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

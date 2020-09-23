@@ -73,7 +73,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>This class specifies which MIP solver to be used The methods needed for solving the Routing and Spectrum Allocation problem via CPLEX.  
+<p>This is an abstract class modelling a MIP solver.  
  <a href="classSolver.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="solver_8h_source.html">solver.h</a>&gt;</code></p>
@@ -83,9 +83,8 @@ Inheritance diagram for Solver:</div>
  <div class="center">
   <img src="classSolver.png" usemap="#Solver_map" alt=""/>
   <map id="Solver_map" name="Solver_map">
-<area href="classCplexForm.html" title="This class implements the Online Routing and Spectrum Allocation through a Flow MIP formulation using..." alt="CplexForm" shape="rect" coords="0,56,94,80"/>
-<area href="classSolverCplex.html" title="This class implements the Online Routing and Spectrum Allocation through a Flow MIP formulation using..." alt="SolverCplex" shape="rect" coords="104,56,198,80"/>
-<area href="classYoussoufForm.html" title="This class implements the Online Routing and Spectrum Allocation through the Youssouf&#39;s Edge-Node MIP..." alt="YoussoufForm" shape="rect" coords="208,56,302,80"/>
+<area href="classSolverCplex.html" title="This class implements the Online Routing and Spectrum Allocation through a Flow MIP formulation using..." alt="SolverCplex" shape="rect" coords="0,56,94,80"/>
+<area href="classYoussoufForm.html" title="This class implements the Online Routing and Spectrum Allocation through the Youssouf&#39;s Edge-Node MIP..." alt="YoussoufForm" shape="rect" coords="104,56,198,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -126,8 +125,8 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:afd1088eee4d4f827db32ff3a4c998d6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class specifies which MIP solver to be used The methods needed for solving the Routing and Spectrum Allocation problem via CPLEX. </p>
-<dl class="section note"><dt>Note</dt><dd>It uses the LEMON library to build the arc maps and CPLEX concert library to build expressions and constraints. </dd></dl>
+<div class="textblock"><p>This is an abstract class modelling a MIP solver. </p>
+<p>Derived classes need to specify how the <a class="el" href="classRSA.html" title="This class stores the input needed for solving the Routing and Spectrum Allocation problem.">RSA</a> formulation is solved, i.e., which MIP solved is used. </p><dl class="section note"><dt>Note</dt><dd>It uses the LEMON library to build the arc maps and CPLEX concert library to build expressions and constraints. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="solver_8h_source.html#l00017">17</a> of file <a class="el" href="solver_8h_source.html">solver.h</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['youssoufform_466',['YoussoufForm',['../classYoussoufForm.html',1,'YoussoufForm'],['../classYoussoufForm.html#aeade60ddf624b1980839e93d60df2f28',1,'YoussoufForm::YoussoufForm()']]]
+  ['x_480',['x',['../classFlowForm.html#a70dfd4edf066fac6d3b58bc00bcc5f82',1,'FlowForm']]]
 ];

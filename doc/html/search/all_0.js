@@ -1,10 +1,19 @@
 var searchData=
 [
-  ['addarcs_0',['addArcs',['../classRSA.html#a473aa2ee82f8cd9503b453266985ee18',1,'RSA']]],
-  ['addterm_1',['addTerm',['../classExpression.html#a08211e9ed85b91b8e8eb141420553005',1,'Expression']]],
-  ['allowblocking_2',['allowBlocking',['../classInput.html#a25f81d22463d6bf1c7397480bccbd82a',1,'Input']]],
-  ['assigneddemand_3',['assignedDemand',['../classSlice.html#a029b4ae9a9cc083f83012b1cba475d2a',1,'Slice']]],
-  ['assignmentfile_4',['assignmentFile',['../classInput.html#a78d9e3faffc05cda5c70ccf6fcd2dbb0',1,'Input']]],
-  ['assignslices_5',['assignSlices',['../classPhysicalLink.html#a91799eba89b14a15caca21dae3d6d97e',1,'PhysicalLink']]],
-  ['assignslicesoflink_6',['assignSlicesOfLink',['../classInstance.html#aecc5e2418d78011dbe2be9f9fd80ff07',1,'Instance']]]
+  ['abstractformulation_0',['AbstractFormulation',['../classAbstractFormulation.html',1,'AbstractFormulation'],['../classAbstractFormulation.html#a7991cbd2ddddc78abe358dc731945385',1,'AbstractFormulation::AbstractFormulation()']]],
+  ['abstractformulation_2eh_1',['abstractFormulation.h',['../abstractFormulation_8h.html',1,'']]],
+  ['abstractsolver_2',['AbstractSolver',['../classAbstractSolver.html',1,'AbstractSolver'],['../classAbstractSolver.html#aa5c56518b91bf92c1e9f2960f26600ec',1,'AbstractSolver::AbstractSolver()']]],
+  ['abstractsolver_2ecpp_3',['abstractSolver.cpp',['../abstractSolver_8cpp.html',1,'']]],
+  ['abstractsolver_2eh_4',['abstractSolver.h',['../abstractSolver_8h.html',1,'']]],
+  ['addarcs_5',['addArcs',['../classRSA.html#a473aa2ee82f8cd9503b453266985ee18',1,'RSA']]],
+  ['addlazyconstraints_6',['addLazyConstraints',['../classCallback.html#abed71b2321403d2dc5af2df8c182633b',1,'Callback']]],
+  ['addterm_7',['addTerm',['../classExpression.html#a08211e9ed85b91b8e8eb141420553005',1,'Expression']]],
+  ['addusercuts_8',['addUserCuts',['../classCallback.html#a6aeb67b8a9290782eae4e203d6800514',1,'Callback']]],
+  ['allowblocking_9',['allowBlocking',['../classInput.html#a25f81d22463d6bf1c7397480bccbd82a',1,'Input']]],
+  ['arccost_10',['ArcCost',['../rsa_8h.html#afaca90639bffeefd2f17accaa58e1e54',1,'rsa.h']]],
+  ['arcmap_11',['ArcMap',['../rsa_8h.html#ad4e5a32a0dcbb8f2aabc6989dc110b87',1,'rsa.h']]],
+  ['assigneddemand_12',['assignedDemand',['../classSlice.html#a029b4ae9a9cc083f83012b1cba475d2a',1,'Slice']]],
+  ['assignmentfile_13',['assignmentFile',['../classInput.html#a78d9e3faffc05cda5c70ccf6fcd2dbb0',1,'Input']]],
+  ['assignslices_14',['assignSlices',['../classPhysicalLink.html#a91799eba89b14a15caca21dae3d6d97e',1,'PhysicalLink']]],
+  ['assignslicesoflink_15',['assignSlicesOfLink',['../classInstance.html#aecc5e2418d78011dbe2be9f9fd80ff07',1,'Instance']]]
 ];

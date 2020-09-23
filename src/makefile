@@ -39,8 +39,7 @@ CCFLAGS = $(CCOPT) -I$(CPLEXINCDIR) -I$(CONCERTINCDIR)
 #---------------------------------------------------------
 # .cpp Files
 #---------------------------------------------------------
-CPPFILES = main.cpp RSA.cpp solver.cpp solverCplex.cpp FormulationComponents.cpp FlowForm.cpp Slice.cpp Demand.cpp PhysicalLink.cpp Instance.cpp CSVReader.cpp input.cpp
-
+CPPFILES = main.cpp formulation/*.cpp solver/*.cpp tools/*.cpp topology/*.cpp
 # ---------------------------------------------------------------------
 # Comands
 # ---------------------------------------------------------------------
