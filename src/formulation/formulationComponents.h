@@ -101,7 +101,7 @@ public:
     void setCoeff(double coefficient) { this->coeff = coefficient; }
 
 	/** Changes the term's variable. @param v The new variable. **/
-    void setVar(Variable v) { this->var = v; }
+    void setVar(const Variable &v) { this->var = v; }
 };
 
 
@@ -146,7 +146,7 @@ public:
 	/*										Methods											*/
 	/****************************************************************************************/
 	/** Adds a new term to the expression. @param term The term to be added. **/
-    void addTerm(Term &term);
+    void addTerm(const Term &term);
 
     /** Clears the array of terms. **/
     void clear() { termsArray.clear(); }

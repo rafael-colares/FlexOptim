@@ -59,5 +59,7 @@ public:
 
 	virtual void updateRSA(Instance &instance) = 0;
 
+	virtual ~AbstractSolver(){}
+
 };    
 #endif

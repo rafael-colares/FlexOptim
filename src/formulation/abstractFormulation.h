@@ -57,9 +57,20 @@ public:
 	/** Defines the set of constraints. **/
     virtual void setConstraints() = 0;
 
-    virtual Expression solveSeparationProblem(const std::vector<double> &solution){ 
+	/** Solves the separation problem for fractional points. If the solution is violated, return the constraint that cuts it, otherwise the constraint returned has an empty expression. **/
+    virtual Constraint solveSeparationProblemFract(const std::vector<double> &solution){ 
+		std::cout << "WARNING: Unimplemented fractional separation problem!" << std::endl;
         Expression exp; 
-        return exp;
+		Constraint cut(0, exp, 0);
+        return cut;
+    }
+	
+	/** Solves the separation problem for integer points. If the solution is violated, return the constraint that cuts it, otherwise the constraint returned has an empty expression. **/
+    virtual Constraint solveSeparationProblemInt(const std::vector<double> &solution){ 
+		std::cout << "WARNING: Unimplemented integer separation problem!" << std::endl;
+        Expression exp; 
+		Constraint cut(0, exp, 0);
+        return cut;
     }
 
 	/****************************************************************************************/

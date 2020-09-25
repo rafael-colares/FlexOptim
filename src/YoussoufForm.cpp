@@ -14,7 +14,7 @@ YoussoufForm::YoussoufForm(const Instance &inst) :
 	/*				    SET VARIABLES				*/
 	/************************************************/
     this->setVariables();
-    /** @todo implement vector of objectives. **/
+    /** #TODO implement vector of objectives. **/
     std::cout << "Variables have been defined..." << std::endl;
 
 	/************************************************/

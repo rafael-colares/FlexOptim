@@ -118,6 +118,7 @@ void FlowForm::setObjectives(){
         Expression myObjective = this->getObjFunctionFromMetric(chosenObjectives[i]);
         objectiveSet[i].setExpression(myObjective);
         objectiveSet[i].setDirection(ObjectiveFunction::DIRECTION_MIN);
+        objectiveSet[i].setName(instance.getInput().getObjName(chosenObjectives[i]));
         std::cout << "Objective " << chosenObjectives[i] << " has been defined." << std::endl;
     }
 }
@@ -224,8 +225,7 @@ void FlowForm::setConstraints(){
 
 void FlowForm::setSourceConstraints(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){  
-        for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
-            int label = getNodeLabel(v, d);
+        for (int label = 0; label < instance.getNbNodes(); label++){
             Constraint sourceConstraint = getSourceConstraint_d_n(getToBeRouted_k(d), d, label);
             constraintSet.push_back(sourceConstraint);
         }
@@ -250,7 +250,7 @@ Constraint FlowForm::getSourceConstraint_d_n(const Demand & demand, int d, int n
         }
     }
     std::ostringstream constraintName;
-    constraintName << "Source(" << nodeLabel+1 << "," << demand.getId()+1 << ")";
+    constraintName << "Source(" << nodeLabel+1 << "," << demand.getId()+1 << "):" << constraintSet.size();
     if (nodeLabel == demand.getSource()){
         lowerBound = 1;
     }
@@ -610,21 +610,30 @@ void FlowForm::displayVariableValues(){
     }
 }
 
-Expression FlowForm::solveSeparationProblem(const std::vector<double> &solution){
+Constraint FlowForm::solveSeparationProblemInt(const std::vector<double> &solution){
+    std::cout << "Entering separation problem of an integer point for Flow Form." << std::endl;
     Expression exp = separationGNPY(solution);
-    return exp;
+    int rhs = exp.getNbTerms();
+    Constraint cut(0, exp, rhs-1);
+    return cut;
+}
+
+Constraint FlowForm::solveSeparationProblemFract(const std::vector<double> &solution){
+    std::cout << "Entering separation problem of a fractional point for Flow Form." << std::endl;
+    Expression exp;
+    Constraint cut(0, exp, 0);
+    return cut;
 }
 
 Expression FlowForm::separationGNPY(const std::vector<double> &solution){
     setVariableValues(solution);
     Expression cut;
-
+    
     if (cut.getNbTerms() > 0){
         std::cout << "A separating cut was found." << std::endl;
     }
     else{
         std::cout << "The solution is valid." << std::endl;
-        getchar();
     }
     return cut;
 }

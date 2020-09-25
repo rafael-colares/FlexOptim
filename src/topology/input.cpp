@@ -160,6 +160,42 @@ void Input::populateOnlineDemandFiles(){
         std::cout << "WARNING: The folder '" << onlineDemandFolder << "' of online demands is empty!" << std::endl;
     }
 }
+
+
+/* Returns the name of the objective. */
+std::string Input::getObjName(ObjectiveMetric obj) const{
+    std::string name = "";
+    switch (obj)
+    {
+    case OBJECTIVE_METRIC_0:
+        name = "obj_0";
+        break;
+    case OBJECTIVE_METRIC_1:
+        name = "obj_1";
+        break;
+    case OBJECTIVE_METRIC_1p:
+        name = "obj_1p";
+        break;
+    case OBJECTIVE_METRIC_2:
+        name = "obj_2";
+        break;
+    case OBJECTIVE_METRIC_2p:
+        name = "obj_2p";
+        break;
+    case OBJECTIVE_METRIC_4:
+        name = "obj_4";
+        break;
+    case OBJECTIVE_METRIC_8:
+        name = "obj_8";
+        break;
+    default:
+        std::cout << "ERROR: Unknown objective." << std::endl;
+        exit(0);
+        break;
+    }
+    return name;
+}
+
 /* Converts a string into an ObjectiveMetric. */
 std::vector<Input::ObjectiveMetric> Input::to_ObjectiveMetric(std::string data){
     std::string delimeter = ",";

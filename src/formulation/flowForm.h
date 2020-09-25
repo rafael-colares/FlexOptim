@@ -97,7 +97,9 @@ public:
 	/** Returns the Overall Max Used Slice Position constraints associated with a link and a demand. @param linkIndex The link's index. **/
 	Constraint getMaxUsedSliceOverallConstraints3(int linkIndex, int s);
 	
-    Expression solveSeparationProblem(const std::vector<double> &solution) override;
+    Constraint solveSeparationProblemFract(const std::vector<double> &solution) override;
+	
+	Constraint solveSeparationProblemInt(const std::vector<double> &solution) override;
 
 	Expression separationGNPY(const std::vector<double> &value);
 	/****************************************************************************************/

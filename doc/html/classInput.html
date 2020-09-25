@@ -82,7 +82,7 @@ Collaboration diagram for Input:</div>
 <div class="dyncontent">
 <div class="center"><img src="classInput__coll__graph.png" border="0" usemap="#Input_coll__map" alt="Collaboration graph"/></div>
 <map name="Input_coll__map" id="Input_coll__map">
-<area shape="rect" title="This class contains all the information needed for the creation of an instance." alt="" coords="911,263,1198,1000"/>
+<area shape="rect" title="This class contains all the information needed for the creation of an instance." alt="" coords="911,263,1198,1015"/>
 <area shape="rect" title=" " alt="" coords="5,5,72,83"/>
 <area shape="rect" title=" " alt="" coords="190,5,290,83"/>
 <area shape="rect" title=" " alt="" coords="352,5,456,83"/>
@@ -221,6 +221,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a764b29624539e52a043e414136ee78f7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">ObjectiveMetric</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a764b29624539e52a043e414136ee78f7">getChosenObj_k</a> (int i) const</td></tr>
 <tr class="memdesc:a764b29624539e52a043e414136ee78f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the identifier of the objective chosen to be optimized.  <a href="classInput.html#a764b29624539e52a043e414136ee78f7">More...</a><br /></td></tr>
 <tr class="separator:a764b29624539e52a043e414136ee78f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0eade9c83156925ac3ae01e2cd6fdf9e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#a0eade9c83156925ac3ae01e2cd6fdf9e">getObjName</a> (<a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">ObjectiveMetric</a> obj) const</td></tr>
+<tr class="memdesc:a0eade9c83156925ac3ae01e2cd6fdf9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name of the objective.  <a href="classInput.html#a0eade9c83156925ac3ae01e2cd6fdf9e">More...</a><br /></td></tr>
+<tr class="separator:a0eade9c83156925ac3ae01e2cd6fdf9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af694c678bb222a75aac2b8e0eb9f06bd"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">ObjectiveMetric</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInput.html#af694c678bb222a75aac2b8e0eb9f06bd">getChosenObj</a> () const</td></tr>
 <tr class="memdesc:af694c678bb222a75aac2b8e0eb9f06bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the vector of objectives chosen to be optimized.  <a href="classInput.html#af694c678bb222a75aac2b8e0eb9f06bd">More...</a><br /></td></tr>
 <tr class="separator:af694c678bb222a75aac2b8e0eb9f06bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -413,8 +416,8 @@ Private Attributes</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a2a7a490d1f166fc7e3e17aab57a420e2adffb5e75e3800be9b438f7083d3023a4"></a>MIP_SOLVER_CBC&#160;</td><td class="fielddoc"><p>Solve it through a MIP using CBC. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a2a7a490d1f166fc7e3e17aab57a420e2ae19453d7bb2fc41324d124a98a8b45dd"></a>MIP_SOLVER_GUROBI&#160;</td><td class="fielddoc"><p>Solve it through a MIP using Gurobi. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Implement CBC.</dd></dl>
+<tr><td class="fieldname"><a id="a2a7a490d1f166fc7e3e17aab57a420e2ae19453d7bb2fc41324d124a98a8b45dd"></a>MIP_SOLVER_GUROBI&#160;</td><td class="fielddoc"><p>#TODO Implement CBC. </p>
+<p>Solve it through a MIP using Gurobi. </p>
 </td></tr>
 </table>
 
@@ -438,8 +441,8 @@ Private Attributes</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a8dbb510f7413a631475e650087bbd55ca26bb0dae920d18428d217c02ab2c830b"></a>NODE_METHOD_SUBGRADIENT&#160;</td><td class="fielddoc"><p>Solve each node by applying subgradient algorithm. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a8dbb510f7413a631475e650087bbd55ca8e4b33ba6250b025946b9173719b2560"></a>NODE_METHOD_VOLUME&#160;</td><td class="fielddoc"><p>Solve each node by applying volume algorithm. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>Implement subgradient inside nodes.</dd></dl>
+<tr><td class="fieldname"><a id="a8dbb510f7413a631475e650087bbd55ca8e4b33ba6250b025946b9173719b2560"></a>NODE_METHOD_VOLUME&#160;</td><td class="fielddoc"><p>#TODO Implement subgradient inside nodes. </p>
+<p>Solve each node by applying volume algorithm. </p>
 </td></tr>
 </table>
 
@@ -634,7 +637,7 @@ Private Attributes</h2></td></tr>
 <p>Destructor. </p>
 <p>Clears the vector of strings. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00351">351</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00387">387</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -656,7 +659,7 @@ Private Attributes</h2></td></tr>
 
 <p>Checks if the gathered information is consistent with what is implemented. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00311">311</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00347">347</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -677,7 +680,7 @@ Private Attributes</h2></td></tr>
 
 <p>Displays the main input file paths: link, demand and assignement. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00340">340</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00376">376</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -822,7 +825,7 @@ Private Attributes</h2></td></tr>
 
 <p>Returns the vector of objectives chosen to be optimized. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00181">181</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00184">184</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -881,7 +884,7 @@ Private Attributes</h2></td></tr>
 
 <p>Returns the identifier of the output policy adopted. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00184">184</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00187">187</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -910,7 +913,7 @@ Private Attributes</h2></td></tr>
 
 <p>Returns the identifier of the partition policy adopted. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00187">187</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00190">190</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -1026,7 +1029,7 @@ Private Attributes</h2></td></tr>
 
 <p>Returns the initial value of the lambda used for computing the step size if subgradient method is chosen. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00193">193</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00196">196</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -1055,7 +1058,7 @@ Private Attributes</h2></td></tr>
 
 <p>Returns the initial value of the lagrangian multiplier used if subgradient method is chosen. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00190">190</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00193">193</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -1142,7 +1145,7 @@ Private Attributes</h2></td></tr>
 
 <p>Returns the maximal number of iterations allowed without improving the lower bound in the subgradient method. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00199">199</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00202">202</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -1200,7 +1203,7 @@ Private Attributes</h2></td></tr>
 
 <p>Returns the maximal number of iterations allowed in the subgradient method. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00196">196</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00199">199</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -1259,6 +1262,34 @@ Private Attributes</h2></td></tr>
 <p>Returns the number of slices to be displayed in the output file. </p>
 
 <p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00145">145</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+
+</div>
+</div>
+<a id="a0eade9c83156925ac3ae01e2cd6fdf9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0eade9c83156925ac3ae01e2cd6fdf9e">&#9670;&nbsp;</a></span>getObjName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Input::getObjName </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classInput.html#aa47e0a4922a05e2d387b872813419ea0">ObjectiveMetric</a>&#160;</td>
+          <td class="paramname"><em>obj</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the name of the objective. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">obj</td><td>The chosen objective. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00166">166</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -1612,7 +1643,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00212">212</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00215">215</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -1648,7 +1679,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00206">206</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00209">209</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -1684,7 +1715,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00209">209</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8h_source.html#l00212">212</a> of file <a class="el" href="input_8h_source.html">input.h</a>.</p>
 
 </div>
 </div>
@@ -1706,7 +1737,7 @@ Private Attributes</h2></td></tr>
 
 <p>Converts a string into a Formulation. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00248">248</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00284">284</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -1728,7 +1759,7 @@ Private Attributes</h2></td></tr>
 
 <p>Converts a string into a MIP_Solver. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00273">273</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00309">309</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -1750,7 +1781,7 @@ Private Attributes</h2></td></tr>
 
 <p>Converts a string into a NodeMethod. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00219">219</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00255">255</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -1772,7 +1803,7 @@ Private Attributes</h2></td></tr>
 
 <p>Converts a string into an ObjectiveMetric vector. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00164">164</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00200">200</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -1794,7 +1825,7 @@ Private Attributes</h2></td></tr>
 
 <p>Converts a string into a PartitionPolicy. </p>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00200">200</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00236">236</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>
@@ -1817,7 +1848,7 @@ Private Attributes</h2></td></tr>
 <p>Converts a string into time limit. </p>
 <dl class="section note"><dt>Note</dt><dd>By default, time limit is unlimited. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00332">332</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="input_8cpp_source.html#l00368">368</a> of file <a class="el" href="input_8cpp_source.html">input.cpp</a>.</p>
 
 </div>
 </div>

@@ -29,5 +29,5 @@ var searchData=
   ['displayslices_81',['displaySlices',['../classInstance.html#a0125bb839c842cc3ff5db82aa1e7554d',1,'Instance::displaySlices()'],['../classPhysicalLink.html#aa91c8178da9327afaba9256ccde2cec4',1,'PhysicalLink::displaySlices()']]],
   ['displaytoberouted_82',['displayToBeRouted',['../classRSA.html#a6d9a0d1d331dfbb684aff707479512d9',1,'RSA']]],
   ['displaytopology_83',['displayTopology',['../classInstance.html#a46b194dccfac5637566cb0ef5c73ffe2',1,'Instance']]],
-  ['displayvariablevalues_84',['displayVariableValues',['../classSolverCplex.html#a64e1d144801c8a30372a69f8419f0100',1,'SolverCplex::displayVariableValues()'],['../classAbstractFormulation.html#a6f88234ba1126fca341f213dd2585cd4',1,'AbstractFormulation::displayVariableValues()'],['../classFlowForm.html#a000d6d515c074be82ffc01a3dc77d2ab',1,'FlowForm::displayVariableValues()']]]
+  ['displayvariablevalues_84',['displayVariableValues',['../classSolverCplex.html#a64e1d144801c8a30372a69f8419f0100',1,'SolverCplex::displayVariableValues()'],['../classAbstractFormulation.html#a6f88234ba1126fca341f213dd2585cd4',1,'AbstractFormulation::displayVariableValues()'],['../classEdgeNodeForm.html#ace6183ad6f60398d455860359842047c',1,'EdgeNodeForm::displayVariableValues()'],['../classFlowForm.html#a000d6d515c074be82ffc01a3dc77d2ab',1,'FlowForm::displayVariableValues()']]]
 ];

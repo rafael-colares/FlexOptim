@@ -3,6 +3,7 @@
 
 // include all concrete formulations
 #include "flowForm.h"
+#include "edgeNodeForm.h"
 
 /*********************************************************************************************
 * This class implements a factory for Formulations. It provides a concrete formulation.
@@ -19,8 +20,7 @@ public:
                 break;
             }
             case Input::FORMULATION_EDGE_NODE:{
-                std::cout << "Not implemented yet. Should create YoussoufForm." << std::endl;
-                exit(0);
+                return new EdgeNodeForm(instance);
                 break;
             }
             default:{

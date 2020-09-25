@@ -3,7 +3,7 @@ demandFile=
 assignmentFile=
 onlineDemandFolder=../Parameters/Instances/NSF/TestDemands_Offline
 nbDemandsAtOnce=59
-outputPath=../Output/OtherTests/
+outputPath=../Output/OtherTests/SimpleTest/
 outputLevel=1
 nbSlicesInOutputFile=320
 method=0
@@ -13,7 +13,7 @@ preprocessingLevel=2
 obj=1
 timeLimit=
 globalTimeLimit=70000 
-allowBlocking=1
+allowBlocking=0
 hopPenalty=0
 
 ******* Partition Parameters *******

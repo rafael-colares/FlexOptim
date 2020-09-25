@@ -21,8 +21,8 @@ public:
 	/** Enumerates the possible solvers to be used for solving the Online Routing and Spectrum Allocation problem.**/
 	enum MIP_Solver {						
 		MIP_SOLVER_CPLEX = 0,  /**< Solve it through a MIP using CPLEX. **/
-		MIP_SOLVER_CBC = 1, /**<  Solve it through a MIP using CBC. **/ /** @todo Implement CBC.**/
-		MIP_SOLVER_GUROBI = 2  /**< Solve it through a MIP using Gurobi. **/ /** @todo Implement gurobi.**/
+		MIP_SOLVER_CBC = 1, /**<  Solve it through a MIP using CBC. **/ /** #TODO Implement CBC.**/
+		MIP_SOLVER_GUROBI = 2  /**< Solve it through a MIP using Gurobi. **/ /** #TODO Implement gurobi.**/
 	};
 
 	enum Formulation {
@@ -32,8 +32,8 @@ public:
 
 	enum NodeMethod {
 		NODE_METHOD_LINEAR_RELAX = 0,  		/**< Solve each node by applying linear relaxation. **/
-		NODE_METHOD_SUBGRADIENT = 1, 		/**< Solve each node by applying subgradient algorithm. **/ /** @todo Implement subgradient inside nodes. **/
-		NODE_METHOD_VOLUME = 2 				/**< Solve each node by applying volume algorithm. **/	/** @todo Implement volume. **/
+		NODE_METHOD_SUBGRADIENT = 1, 		/**< Solve each node by applying subgradient algorithm. **/ /** #TODO Implement subgradient inside nodes. **/
+		NODE_METHOD_VOLUME = 2 				/**< Solve each node by applying volume algorithm. **/	/** #TODO Implement volume. **/
 	};
 
 	/** Enumerates the possible levels of applying a preprocessing step fo reducing the graphs before optimization is called. **/
@@ -176,6 +176,9 @@ public:
 
 	/** Returns the identifier of the objective chosen to be optimized. **/
     ObjectiveMetric getChosenObj_k(int i) const { return chosenObj[i]; }
+
+	/** Returns the name of the objective. @param obj The chosen objective. **/
+	std::string getObjName(ObjectiveMetric obj) const;
 
 	/** Returns the vector of objectives chosen to be optimized. **/
     std::vector<ObjectiveMetric> getChosenObj() const { return chosenObj; }

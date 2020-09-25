@@ -6,11 +6,11 @@ Term::Term(Variable variable, double coefficient): coeff(coefficient), var(varia
 
 Expression::Expression(const Expression &e): termsArray(e.getTerms()){}
 
-Constraint::Constraint(double lowerBound, Expression &e, double upperBound, std::string constName): lb(lowerBound), expr(e), ub(upperBound){}
+Constraint::Constraint(double lowerBound, Expression &e, double upperBound, std::string constName): lb(lowerBound), expr(e), ub(upperBound), name(constName){}
 
 ObjectiveFunction::ObjectiveFunction(Expression &e, Direction d): expr(e), direction(d){}
 
-void Expression::addTerm(Term &term) {
+void Expression::addTerm(const Term &term) {
     for (unsigned int i = 0; i < termsArray.size(); i++){
         if (termsArray[i].getVar().getId() == term.getVar().getId()){
             double oldCoeff = termsArray[i].getCoeff();

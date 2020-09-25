@@ -40,7 +40,7 @@ public:
 	/** Returns the source constraint associated with a demand and a node. @param k The demand index. **/
     IloRange getOriginConstraint_k(int k);
 	
-	/** Returns the flow conservation constraint associated with a demand and a node. @param var The variable matrix x[d][a]. @param mod The CPLEX model. @param v The node. @param demand The demand. @param d The demand index. **
+	/** Returns the flow conservation constraint associated with a demand and a node. @param var The variable matrix x[d][a]. @param mod The CPLEX model. @param v The node. @param demand The demand. @param d The demand index. **/
     IloRange getFlowConservationConstraint_i_d(IloBoolVarMatrix &var, IloModel &mod, ListDigraph::Node &v, const Demand & demand, int d);
 
 	/** Returns the target constraint associated with a demand. @param k The demand index. **/
@@ -86,7 +86,7 @@ public:
 	/** Defines Origin constraints. At most one arc leaves each node and exactly one arc leaves the source. @param var The variable matrix. @param mod The CPLEX model. **/
     void setOriginConstraints();
 
-	/** Defines Flow Conservation constraints. If an arc enters a node, then an arc must leave it. @param var The variable matrix. @param mod The CPLEX model. **
+	/** Defines Flow Conservation constraints. If an arc enters a node, then an arc must leave it. @param var The variable matrix. @param mod The CPLEX model. **/
     void setFlowConservationConstraints(IloBoolVarMatrix &var, IloModel &mod);
 	
 	/** Defines Destination constraints. **/

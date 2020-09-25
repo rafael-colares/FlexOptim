@@ -4,6 +4,31 @@
 #include <ilcplex/ilocplex.h>
 #include "abstractSolver.h"
 
+/************************************************************************************
+ * This is the class implementing the generic callback interface. It has two main 
+ * functions: addUserCuts and addLazyConstraints.												
+ ************************************************************************************/
+class CplexCallback: public IloCplex::Callback::Function {
+private:
+	IloNumVarArray var;
+	AbstractFormulation *formulation;
+
+public:
+	// Constructor with data.
+	CplexCallback(const IloNumVarArray _var, AbstractFormulation* &_formulation);
+
+	void addUserCuts (const IloCplex::Callback::Context &context) const; 
+    
+    void addLazyConstraints(const IloCplex::Callback::Context &context) const;
+    
+	virtual void invoke (const IloCplex::Callback::Context &context);
+
+	std::vector<double> getIntegerSolution(const IloCplex::Callback::Context &context) const;
+	std::vector<double> getFractionalSolution(const IloCplex::Callback::Context &context) const;
+	IloExpr to_IloExpr(const IloCplex::Callback::Context &context, const Expression &e) const;
+    // Destructor
+    virtual ~CplexCallback();
+};
 
 /*********************************************************************************************
 * This class implements the Online Routing and Spectrum Allocation through a Flow MIP 
@@ -88,28 +113,6 @@ public:
 	/** Destructor. Clears the variable matrices, cplex model and environment. **/
 	~SolverCplex();
 
-};
-/************************************************************************************
- * This is the class implementing the generic callback interface. It has two main 
- * functions: addUserCuts and addLazyConstraints.												
- ************************************************************************************/
-class Callback: public IloCplex::Callback::Function {
-private:
-	IloNumVarArray var;
-	AbstractFormulation *formulation;
-
-public:
-	// Constructor with data.
-	Callback(const IloNumVarArray &_var, AbstractFormulation &_formulation);
-
-	void addUserCuts (const IloCplex::Callback::Context &context) const; 
-    
-    void addLazyConstraints(const IloCplex::Callback::Context &context) const;
-    
-	virtual void invoke (const IloCplex::Callback::Context &context);
-
-    // Destructor
-    virtual ~Callback();
 };
 
 #endif

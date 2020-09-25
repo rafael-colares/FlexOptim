@@ -12,16 +12,7 @@ SolverCplex::SolverCplex(const Instance &inst) : AbstractSolver(inst, STATUS_UNK
     std::cout << "--- CPLEX has been initalized ---" << std::endl;
     setCplexParams(inst.getInput());
     implementFormulation();
-    /*
-    Callback myGenericCallback(var, myFormulation);
-    // The generic callback will be used in relaxation and candidate contexts.
-    CPXLONG contextMask = 0;
-    contextMask |= IloCplex::Callback::Context::Id::Relaxation;
-    contextMask |= IloCplex::Callback::Context::Id::Candidate;
-    cplex.use(&myGenericCallback, contextMask);
-    */
-    
-    //exportFormulation(inst);
+    exportFormulation(inst);
     count++;
 }
 
@@ -49,6 +40,12 @@ std::vector<double> SolverCplex::getSolution(){
 }
 
 void SolverCplex::solve(){
+    CplexCallback myGenericCallback(var, formulation);
+    CPXLONG contextMask = 0;
+    contextMask |= IloCplex::Callback::Context::Id::Candidate;
+    contextMask |= IloCplex::Callback::Context::Id::Relaxation;
+    cplex.use(&myGenericCallback, contextMask);
+    
     IloNum timeStart = cplex.getCplexTime();
     std::cout << "Solving..." << std::endl;
     std::vector<ObjectiveFunction> myObjectives = formulation->getObjectiveSet();
@@ -155,6 +152,7 @@ void SolverCplex::exportFormulation(const Instance &instance){
 void SolverCplex::setCplexParams(const Input &input){
     cplex.setParam(IloCplex::Param::MIP::Display, 4);
     cplex.setParam(IloCplex::Param::TimeLimit, input.getIterationTimeLimit());
+    
     std::cout << "CPLEX parameters have been defined..." << std::endl;
 }
 
@@ -183,10 +181,10 @@ void SolverCplex::setObjective(const ObjectiveFunction &myObjective){
     switch (myObjective.getDirection())
     {
     case ObjectiveFunction::DIRECTION_MIN:
-        obj = IloMinimize(model.getEnv(), exp);
+        obj = IloMinimize(model.getEnv(), exp, myObjective.getName().c_str());
         break;
     case ObjectiveFunction::DIRECTION_MAX:
-        obj = IloMaximize(model.getEnv(), exp);
+        obj = IloMaximize(model.getEnv(), exp, myObjective.getName().c_str());
         break;
     default:
         std::cout << "ERROR: Invalid direction of objective function." << std::endl;
@@ -256,35 +254,75 @@ SolverCplex::~SolverCplex(){
     env.end();
 }
 
-Callback::Callback(const IloNumVarArray &_var, AbstractFormulation &_formulation): var(_var){ 
-    formulation = &_formulation;
+CplexCallback::CplexCallback(const IloNumVarArray _var, AbstractFormulation* &_formulation): var(_var){ 
+    formulation = _formulation;
 }
 
-void Callback::invoke (const IloCplex::Callback::Context &context){
+void CplexCallback::invoke (const IloCplex::Callback::Context &context){
     if ( context.inRelaxation() ) {
         addUserCuts(context);
     }
-
     if ( context.inCandidate() ){
         addLazyConstraints(context);
     }
 }
 
-void Callback::addUserCuts(const IloCplex::Callback::Context &context) const{
+void CplexCallback::addUserCuts(const IloCplex::Callback::Context &context) const{
+    std::cout << "... adding user cuts." << std::endl;
     
 }
 
-void Callback::addLazyConstraints(const IloCplex::Callback::Context &context) const{
+void CplexCallback::addLazyConstraints(const IloCplex::Callback::Context &context) const{
     if ( !context.isCandidatePoint() ){
         throw IloCplex::Exception(-1, "Unbounded solution");
     }
-    std::vector<double> solution;
-    solution.resize(var.getSize());
-    for (unsigned int i = 0; i < solution.size(); i++){
+    try {
+        std::vector<double> solution = getIntegerSolution(context);
+        Constraint constraint = formulation->solveSeparationProblemInt(solution);
+        if (constraint.getExpression().getNbTerms() > 0){
+            std::cout << "A violated cut was found." << std::endl;
+            IloRange cut(context.getEnv(), constraint.getLb(), to_IloExpr(context, constraint.getExpression()), constraint.getUb());
+            context.rejectCandidate(cut);
+            cut.end();
+        }
+        else{
+            std::cout << "The solution is valid." << std::endl;
+        }
+
+    }
+    catch (...) {
+        throw;
+    }
+}
+
+std::vector<double> CplexCallback::getIntegerSolution(const IloCplex::Callback::Context &context) const{
+    const int NB_VAR = var.getSize();
+    std::vector<double> solution(NB_VAR);
+    for (int i = 0; i < NB_VAR; i++){
         solution[i] = context.getCandidatePoint(var[i]);
     }
-    Expression exp = formulation->solveSeparationProblem(solution);
+    return solution;
+}
+
+std::vector<double> CplexCallback::getFractionalSolution(const IloCplex::Callback::Context &context) const{
+    const int NB_VAR = var.getSize();
+    std::vector<double> solution(NB_VAR);
+    for (int i = 0; i < NB_VAR; i++){
+        solution[i] = context.getRelaxationPoint(var[i]);
+    }
+    return solution;
+}
+
+
+IloExpr CplexCallback::to_IloExpr(const IloCplex::Callback::Context &context, const Expression &e) const{
+    IloExpr exp(context.getEnv());
+    for (int i = 0; i < e.getNbTerms(); i++){
+        int index = e.getTerm_i(i).getVar().getId();
+        double coefficient = e.getTerm_i(i).getCoeff();
+        exp += coefficient*var[index];
+    }
+    return exp;
 }
 
 // Destructor
-Callback::~Callback(){}
+CplexCallback::~CplexCallback(){}
