@@ -535,6 +535,16 @@ double RSA::getCoeff(const ListDigraph::Arc &a, int d){
     return coeff;
 }
 
+
+ListGraph::Node RSA::getCompactNodeFromLabel(int label) const {
+    for (ListGraph::NodeIt v(compactGraph); v != INVALID; ++v){
+        if (getCompactNodeLabel(v) == label){
+            return v;
+        }
+    }
+    return INVALID;
+}
+
 /* Displays the demands to be routed in the next optimization. */
 void RSA::displayToBeRouted(){
     std::cout << "--- ROUTING DEMANDS --- " << std::endl;

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['metric_1006',['Metric',['../classInstance.html#a7e02dd7da0fb55a843088ec54d590026',1,'Instance']]],
-  ['mip_5fsolver_1007',['MIP_Solver',['../classInput.html#a2a7a490d1f166fc7e3e17aab57a420e2',1,'Input']]]
+  ['metric_1016',['Metric',['../classInstance.html#a7e02dd7da0fb55a843088ec54d590026',1,'Instance']]],
+  ['mip_5fsolver_1017',['MIP_Solver',['../classInput.html#a2a7a490d1f166fc7e3e17aab57a420e2',1,'Input']]]
 ];

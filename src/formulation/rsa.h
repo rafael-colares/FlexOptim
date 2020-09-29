@@ -201,6 +201,8 @@ public:
     /** Returns the length of an edge on the compact graph. @param e The edge. */
     double getCompactLength(const ListGraph::Edge &e) { return compactEdgeLength[e]; }
 
+    ListGraph::Node getCompactNodeFromLabel(int label) const;
+    
 	/****************************************************************************************/
 	/*										Setters											*/
 	/****************************************************************************************/

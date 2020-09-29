@@ -6,7 +6,7 @@
 #include <lemon/preflow.h>
 #include "RSA.h"
 
-#define EPS 1e-6 /**< Epsilon used for violation of cuts. **/
+#define EPS 1e-4 /**< Epsilon used for violation of cuts. **/
 
 
 typedef IloArray<IloBoolVarArray> IloBoolVarMatrix;

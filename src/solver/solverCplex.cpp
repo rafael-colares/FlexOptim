@@ -21,6 +21,8 @@ void SolverCplex::updateRSA(Instance &instance){
         formulation->updatePath(getSolution());
         formulation->updateInstance(instance);
         instance.setWasBlocked(false);
+        formulation->displayPaths();
+
     }
     else{
         std::cout << "Decrease the number of demands to be treated." << std::endl;
@@ -80,7 +82,7 @@ void SolverCplex::solve(){
     if ((cplex.getStatus() == IloAlgorithm::Optimal) || (cplex.getStatus() == IloAlgorithm::Feasible)){    
         std::cout << "Status: " << cplex.getStatus() << std::endl;
         std::cout << "Objective Function Value: " << cplex.getObjValue() << std::endl;
-        formulation->displayPaths();
+        displaySolution();
     }
     else{
         std::cout << "Could not find a feasible solution..." << std::endl;
@@ -242,6 +244,15 @@ void SolverCplex::setVariables(const std::vector<Variable> &myVars){
 
 
 
+/** Displays the value of each variable in the obtained solution. **/
+void SolverCplex::displaySolution(){
+    for (IloInt i = 0; i < var.getSize(); i++){
+        if (cplex.getValue(var[i]) >= 1 - EPS){
+            std::cout << var[i].getName() << " = " << cplex.getValue(var[i]) << std::endl;
+        }
+    }
+}
+
 /****************************************************************************************/
 /*										Destructor										*/
 /****************************************************************************************/
@@ -268,31 +279,49 @@ void CplexCallback::invoke (const IloCplex::Callback::Context &context){
 }
 
 void CplexCallback::addUserCuts(const IloCplex::Callback::Context &context) const{
-    std::cout << "... adding user cuts." << std::endl;
     
+    try {
+        Constraint constraint = formulation->solveSeparationProblemFract(getFractionalSolution(context));
+        if (constraint.getSize() > 0){
+            //std::cout << "A violated cut was found: ";
+            if (constraint.getLb() != -INFTY){
+                //std::cout << "A >= violated cut was found: ";
+                context.addUserCut(to_IloExpr(context, constraint.getExpression()) >= constraint.getLb(), IloCplex::UseCutPurge, IloFalse);
+            }
+            if (constraint.getUb() != INFTY){
+                //std::cout << "A <= violated cut was found: ";
+                context.addUserCut(to_IloExpr(context, constraint.getExpression()) <= constraint.getUb(), IloCplex::UseCutPurge, IloFalse);
+            }
+        }
+    }
+    catch (...) {
+        throw;
+    }
 }
 
 void CplexCallback::addLazyConstraints(const IloCplex::Callback::Context &context) const{
+    
     if ( !context.isCandidatePoint() ){
         throw IloCplex::Exception(-1, "Unbounded solution");
     }
     try {
-        std::vector<double> solution = getIntegerSolution(context);
-        Constraint constraint = formulation->solveSeparationProblemInt(solution);
-        if (constraint.getExpression().getNbTerms() > 0){
-            std::cout << "A violated cut was found." << std::endl;
+        Constraint constraint = formulation->solveSeparationProblemInt(getIntegerSolution(context));
+        if (constraint.getSize() > 0){
+            //std::cout << "A lazy constraint was found:";
+            //constraint.display();
             IloRange cut(context.getEnv(), constraint.getLb(), to_IloExpr(context, constraint.getExpression()), constraint.getUb());
+            //std::cout << cut << std::endl;
             context.rejectCandidate(cut);
-            cut.end();
         }
         else{
-            std::cout << "The solution is valid." << std::endl;
+            //std::cout << "The solution is valid." << std::endl;
         }
 
     }
     catch (...) {
         throw;
     }
+    
 }
 
 std::vector<double> CplexCallback::getIntegerSolution(const IloCplex::Callback::Context &context) const{

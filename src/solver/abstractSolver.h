@@ -3,6 +3,7 @@
 
 #include "../formulation/formulationFactory.h"
 
+#define EPS 1e-4
 
 //typedef IloArray<IloNumVarArray> IloNumVarMatrix;
 typedef IloArray<IloBoolVarArray> IloBoolVarMatrix;

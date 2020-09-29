@@ -104,7 +104,7 @@ public:
     void displayOnPath();
 
 	/** Displays the value of each variable in the obtained solution. **/
-    void displayVariableValues();
+    void displaySolution();
 
 	/****************************************************************************************/
 	/*										Destructor										*/

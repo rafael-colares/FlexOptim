@@ -611,7 +611,7 @@ void FlowForm::displayVariableValues(){
 }
 
 Constraint FlowForm::solveSeparationProblemInt(const std::vector<double> &solution){
-    std::cout << "Entering separation problem of an integer point for Flow Form." << std::endl;
+    //std::cout << "Entering separation problem of an integer point for Flow Form." << std::endl;
     Expression exp = separationGNPY(solution);
     int rhs = exp.getNbTerms();
     Constraint cut(0, exp, rhs-1);
@@ -633,7 +633,7 @@ Expression FlowForm::separationGNPY(const std::vector<double> &solution){
         std::cout << "A separating cut was found." << std::endl;
     }
     else{
-        std::cout << "The solution is valid." << std::endl;
+        //std::cout << "The solution is valid." << std::endl;
     }
     return cut;
 }

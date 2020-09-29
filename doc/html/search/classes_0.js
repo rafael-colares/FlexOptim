@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['abstractformulation_517',['AbstractFormulation',['../classAbstractFormulation.html',1,'']]],
-  ['abstractsolver_518',['AbstractSolver',['../classAbstractSolver.html',1,'']]]
+  ['abstractformulation_522',['AbstractFormulation',['../classAbstractFormulation.html',1,'']]],
+  ['abstractsolver_523',['AbstractSolver',['../classAbstractSolver.html',1,'']]]
 ];

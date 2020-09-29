@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 /********************************************************************************************
  * This class identifies a Variable in a MIP formulation. A demand is defined by its id, its 
  * lower and upper bounds, and its type. 
@@ -148,6 +149,8 @@ public:
 	/** Adds a new term to the expression. @param term The term to be added. **/
     void addTerm(const Term &term);
 
+	double getExpressionValue();
+
     /** Clears the array of terms. **/
     void clear() { termsArray.clear(); }
 };
@@ -239,6 +242,10 @@ public:
 	/** Returns the constraint's name. **/
     std::string getName() const { return name; }
 
+	/** Returns the number of terms in the constraint expression. **/
+    int getSize() const { return this->expr.getNbTerms(); }
+	
+
 	/****************************************************************************************/
 	/*										Setters											*/
 	/****************************************************************************************/
@@ -253,6 +260,8 @@ public:
     
     /** Clear the constraint's expression. **/
     void clear() { this->expr.clear(); }
+
+	void display();
 };
 
 #endif

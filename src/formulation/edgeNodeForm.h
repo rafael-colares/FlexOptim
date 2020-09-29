@@ -3,11 +3,13 @@
 
 #include "abstractFormulation.h"
 
+#include <lemon/preflow.h>
+
 typedef std::vector<Variable> VarArray;
 typedef std::vector<VarArray> VarMatrix;
 typedef std::vector<VarMatrix> VarMatrix3D;
 
-#define EPS 1e-6
+#define EPS 1e-4
 #define INFTY std::numeric_limits<double>::max()
 /*********************************************************************************************
 * This class implements the Online Routing and Spectrum Allocation through a flow based MIP 

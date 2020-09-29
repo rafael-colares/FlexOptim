@@ -22,12 +22,15 @@ void EdgeNodeForm::setVariables(){
     x.resize(nbEdges);
     for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
         int edge = getCompactEdgeLabel(e);
+        int uId = getCompactNodeLabel(compactGraph.u(e)) + 1;
+        int vId = getCompactNodeLabel(compactGraph.v(e)) + 1;
         x[edge].resize(getNbDemandsToBeRouted());  
         for (int k = 0; k < getNbDemandsToBeRouted(); k++){
             std::ostringstream varName;
             varName << "x";
-            varName << "(" + std::to_string(edge + 1) + "," ;
-            varName <<  std::to_string(getToBeRouted_k(k).getId() + 1) + ")";
+            varName << "(" + std::to_string(uId) + "," ;
+            varName << std::to_string(vId) + "," ;
+            varName << std::to_string(getToBeRouted_k(k).getId() + 1) + ")";
             int upperBound = 1;
             int varId = getNbVar();
             x[edge][k] = Variable(varId, 0, upperBound, Variable::TYPE_BOOLEAN, 0, varName.str());
@@ -657,11 +660,116 @@ void EdgeNodeForm::displayVariableValues(){
 }
 
 Constraint EdgeNodeForm::solveSeparationProblemFract(const std::vector<double> &solution){
-    Expression exp;
-    Constraint cut(0, exp, 0);
-    return cut;
+    setVariableValues(solution);
+    
+    for(unsigned int d = 0; d < getNbDemandsToBeRouted(); d++){
+        int origin = getToBeRouted_k(d).getSource();
+        int destination = getToBeRouted_k(d).getTarget();
+        ListGraph::Node SOURCE = getCompactNodeFromLabel(origin);
+        ListGraph::Node TARGET = getCompactNodeFromLabel(destination);
+        
+        //std::cout << "Checking path of demand " << d << ". From " << origin+1 << " to " << destination+1 << std::endl;
+        //displaySolution_d(context, d);
+        ListGraph::EdgeMap<double> capacityMap(compactGraph, 0.0);
+        for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
+            int edge = getCompactEdgeLabel(e);
+            capacityMap[e] = x[edge][d].getVal();
+        }
+        Preflow< ListGraph, ListGraph::EdgeMap<double> > maxFlow(compactGraph, capacityMap, SOURCE, TARGET);
+        maxFlow.runMinCut();
+
+        Expression expr;
+        double exprValue = 0.0;
+        for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
+            if (maxFlow.minCut(compactGraph.u(e)) != maxFlow.minCut(compactGraph.v(e))){
+                int edge = getCompactEdgeLabel(e);
+                expr.addTerm(Term(x[edge][d], 1));
+                exprValue += x[edge][d].getVal();
+            }
+        }
+
+        if (exprValue <= (1 - EPS)){
+            return Constraint(1, expr, INFTY);
+        }
+    }
+    
+    Expression empty;
+    Constraint noCut(0, empty, 0);
+    return noCut;
 }
 Constraint EdgeNodeForm::solveSeparationProblemInt(const std::vector<double> &solution){
+    setVariableValues(solution);
+    for (unsigned int d = 0; d < getNbDemandsToBeRouted(); d++){
+        int origin = getToBeRouted_k(d).getSource();
+        int destination = getToBeRouted_k(d).getTarget();
+        ListGraph::Node SOURCE = getCompactNodeFromLabel(origin);
+        ListGraph::Node TARGET = getCompactNodeFromLabel(destination);
+        //std::cout << "Checking path of demand " << d << ". From " << origin+1 << " to " << destination+1 << std::endl;
+        
+        //displaySolution_d(context, d);
+        if (TARGET == INVALID || SOURCE == INVALID){
+            std::cout << "ERROR: Could not find source or target from demand inside lazy constraints callback." << std::endl;
+            exit(0);
+        }
+        
+        ListGraph::Node currentNode = SOURCE;
+        std::vector<int> setOfNodes;
+        //setOfNodes.push_back(origin);
+        bool cutFound = false;
+        int previousNodeLabel = -1;
+        while (currentNode != TARGET && !cutFound){
+            //std::cout << "Add Node: " << (*nodeLabel)[currentNode]+1 << std::endl;
+            setOfNodes.push_back(getCompactNodeLabel(currentNode));
+            ListGraph::Edge nextEdge = INVALID;
+            for (ListGraph::IncEdgeIt e(compactGraph, currentNode); e != INVALID; ++e){
+                int edge = getCompactEdgeLabel(e);
+                if (getCompactNodeLabel(compactGraph.u(e)) != previousNodeLabel && getCompactNodeLabel(compactGraph.v(e)) != previousNodeLabel){
+                    if (x[edge][d].getVal() >= 1 - EPS){
+                        nextEdge = e;
+                    }
+                }
+            }
+            
+            if (nextEdge == INVALID){
+                // create cut
+                //displaySet(setOfNodes);
+                Expression exp;
+                for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
+                    int u = getCompactNodeLabel(compactGraph.u(e));
+                    int v = getCompactNodeLabel(compactGraph.v(e));
+                    if (std::find(setOfNodes.begin(), setOfNodes.end(), u) != setOfNodes.end()){
+                        if (std::find(setOfNodes.begin(), setOfNodes.end(), v) == setOfNodes.end()){
+                            // add edge to cut
+                            int edge = getCompactEdgeLabel(e);
+                            exp.addTerm(Term(x[edge][d], 1));
+                        }
+                    }
+                    else{
+                        if (std::find(setOfNodes.begin(), setOfNodes.end(), v) != setOfNodes.end()){
+                            // add edge to cut
+                            int edge = getCompactEdgeLabel(e);
+                            exp.addTerm(Term(x[edge][d], 1));
+                        }
+                    }
+                }
+                
+                //std::cout << "Adding lazy constraint: " << exp << " >= 1" << std::endl;
+                //std::cout << "Candidate has: " << context.getCandidateValue(exp) << " > 1" << std::endl;
+                return Constraint(1, exp, INFTY);
+                cutFound = true;
+            }
+            else{
+                //displayEdge(nextEdge);
+                previousNodeLabel = getCompactNodeLabel(currentNode);
+                if(getCompactNodeLabel(currentNode) == getCompactNodeLabel(compactGraph.u(nextEdge))){
+                    currentNode = compactGraph.v(nextEdge);
+                }
+                else{
+                    currentNode = compactGraph.u(nextEdge);
+                }
+            }
+        }
+    }
     Expression exp;
     Constraint cut(0, exp, 0);
     return cut;

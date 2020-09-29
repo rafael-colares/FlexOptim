@@ -21,3 +21,31 @@ void Expression::addTerm(const Term &term) {
     }
     termsArray.push_back(term); 
 }
+
+double Expression::getExpressionValue(){
+    double val = 0.0;
+    for (unsigned int i = 0; i < termsArray.size(); i++){
+        val += (termsArray[i].getCoeff()*termsArray[i].getVar().getVal());
+    }
+    return val;
+}
+
+void Constraint::display(){
+    int size = this->getExpression().getNbTerms();
+    std::cout << this->getLb() << " <= " << std::endl;
+    for (int i = 0; i < size; i++){
+        std::string coefficient = "";
+        double c = this->getExpression().getTerm_i(i).getCoeff();
+        if (c < 0){
+            coefficient = "(" + std::to_string(c) + ")";
+        }
+        else{
+            coefficient = std::to_string(c);
+        }
+        if (i > 0){
+            std::cout << " + ";
+        }
+        std::cout << coefficient << "*" << this->getExpression().getTerm_i(i).getVar().getName();
+    }
+    std::cout << " <= " << this->getUb() << std::endl;
+}
