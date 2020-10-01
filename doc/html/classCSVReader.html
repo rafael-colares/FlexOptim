@@ -88,9 +88,9 @@ Collaboration diagram for CSVReader:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2096bc9b761667afa8126752f5eb4411"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCSVReader.html#a2096bc9b761667afa8126752f5eb4411">CSVReader</a> (std::string filename, std::string delm=&quot;;&quot;)</td></tr>
-<tr class="memdesc:a2096bc9b761667afa8126752f5eb4411"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classCSVReader.html#a2096bc9b761667afa8126752f5eb4411">More...</a><br /></td></tr>
-<tr class="separator:a2096bc9b761667afa8126752f5eb4411"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace795c98aa0f798cbc43436f5f762719"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCSVReader.html#ace795c98aa0f798cbc43436f5f762719">CSVReader</a> (std::string filepath, std::string delm=&quot;;&quot;)</td></tr>
+<tr class="memdesc:ace795c98aa0f798cbc43436f5f762719"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classCSVReader.html#ace795c98aa0f798cbc43436f5f762719">More...</a><br /></td></tr>
+<tr class="separator:ace795c98aa0f798cbc43436f5f762719"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2dea725de823f6932ae29552aa05b97d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCSVReader.html#a2dea725de823f6932ae29552aa05b97d">getData</a> ()</td></tr>
 <tr class="memdesc:a2dea725de823f6932ae29552aa05b97d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to fetch data from a CSV File.  <a href="classCSVReader.html#a2dea725de823f6932ae29552aa05b97d">More...</a><br /></td></tr>
 <tr class="separator:a2dea725de823f6932ae29552aa05b97d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -110,8 +110,8 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="CSVReader_8h_source.html#l00016">16</a> of file <a class="el" href="CSVReader_8h_source.html">CSVReader.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a2096bc9b761667afa8126752f5eb4411"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2096bc9b761667afa8126752f5eb4411">&#9670;&nbsp;</a></span>CSVReader()</h2>
+<a id="ace795c98aa0f798cbc43436f5f762719"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace795c98aa0f798cbc43436f5f762719">&#9670;&nbsp;</a></span>CSVReader()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -123,7 +123,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">CSVReader::CSVReader </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>filename</em>, </td>
+          <td class="paramname"><em>filepath</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -145,6 +145,13 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filepath</td><td>The path of the file to be read.</td></tr>
+    <tr><td class="paramname">delm</td><td>The delimiter to be used. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="CSVReader_8h_source.html#l00022">22</a> of file <a class="el" href="CSVReader_8h_source.html">CSVReader.h</a>.</p>
 
@@ -167,7 +174,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Function to fetch data from a CSV File. </p>
-<p>It goes through .csv file line by line and returns the data in a vector of vector of strings. </p>
+<p>It goes through the .csv file, line by line, and returns the data in a vector of vector of strings. </p>
 
 <p class="definition">Definition at line <a class="el" href="CSVReader_8cpp_source.html#l00004">4</a> of file <a class="el" href="CSVReader_8cpp_source.html">CSVReader.cpp</a>.</p>
 

@@ -8,7 +8,7 @@ var searchData=
   ['incnbvar_268',['incNbVar',['../classAbstractFormulation.html#a51986912c0ca84ab552a6f9662b95106',1,'AbstractFormulation']]],
   ['index_269',['index',['../classFiber.html#a7cba8f467ae8e6e1e9301208b6b31072',1,'Fiber']]],
   ['infty_270',['INFTY',['../edgeNodeForm_8h.html#a84d177cf462436476c9bca8ef9e22c43',1,'INFTY():&#160;edgeNodeForm.h'],['../flowForm_8h.html#a84d177cf462436476c9bca8ef9e22c43',1,'INFTY():&#160;flowForm.h']]],
-  ['input_271',['Input',['../classInput.html',1,'Input'],['../classInput.html#a10341c124becd2f3e0f98bdcc487bb00',1,'Input::Input(std::string file)'],['../classInput.html#aba6413de9219b69da552da9d7fe2d273',1,'Input::Input(const Input &amp;i)'],['../classInstance.html#af55de567289895240a4761a61af41319',1,'Instance::input()']]],
+  ['input_271',['Input',['../classInput.html',1,'Input'],['../classInstance.html#af55de567289895240a4761a61af41319',1,'Instance::input()'],['../classInput.html#a10341c124becd2f3e0f98bdcc487bb00',1,'Input::Input(std::string file)'],['../classInput.html#aba6413de9219b69da552da9d7fe2d273',1,'Input::Input(const Input &amp;i)']]],
   ['input_2ecpp_272',['input.cpp',['../input_8cpp.html',1,'']]],
   ['input_2eh_273',['input.h',['../input_8h.html',1,'']]],
   ['instance_274',['Instance',['../classInstance.html',1,'Instance'],['../classInstance.html#a5efe3ecbf10afdb2b8fd5331cc88bdd2',1,'Instance::Instance(const Input &amp;i)'],['../classInstance.html#a4c7b731b5678a62d108c48a3525f63fa',1,'Instance::Instance(const Instance &amp;i)'],['../classRSA.html#ad81287af708fcfcd98c963cfafc1f4db',1,'RSA::instance()']]],

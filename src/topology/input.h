@@ -12,8 +12,7 @@
 
 /*****************************************************************************************
  * This class contains all the information needed for the creation of an instance.
- * It stores input/output file paths, execution parameters (such as the chosen method 
- * used to solve the problem), and control parameters (such as max number of iterations).						
+ * It stores input/output file paths, execution and control parameters.						
 *****************************************************************************************/
 class Input {
 

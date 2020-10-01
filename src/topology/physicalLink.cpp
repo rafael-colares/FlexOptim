@@ -32,20 +32,20 @@ Fiber::~Fiber() {
 /*										Methods											*/
 /****************************************************************************************/
 
-/* Copies all information from a given link. */
-void Fiber::copyPhysicalLink(Fiber & edge){
+/* Copies all information from a given fiber. */
+void Fiber::copyFiber(Fiber & edge){
 	this->setSource(edge.getSource());
 	this->setTarget(edge.getTarget());
 	this->setNbSlices(edge.getNbSlices());
 	this->spectrum.resize(this->getNbSlices());
 	for (int i = 0; i < this->getNbSlices(); i++){
-		this->spectrum[i].setAssignment(edge.spectrum[i].getAssignment());
-	}
+		this->spectrum[i].setAssignment(edge.getSlice_i(i).getAssignment());
+	}	
 	this->setLength(edge.getLength());
 	this->setCost(edge.getCost());
 }
 
-/* Verifies if the current Fiber routes the a demand. */
+/* Verifies if the fiber is routing a demand. */
 bool Fiber::contains(const Demand &d) const{
 	for (int i = 0; i < this->getNbSlices(); i++){
 		if (getSlice_i(i).getAssignment() == d.getId()){
@@ -78,7 +78,7 @@ int Fiber::getMaxUsedSlicePosition() const {
 	return max;
 }
 
-/* Returns the maximal slice position used in the frequency spectrum. */
+/* Returns the number of slices ocupied in the fiber's frequency spectrum. */
 int Fiber::getNbUsedSlices() const {
 	int value = 0;
 	for (int i = 0; i < this->getNbSlices(); i++){
@@ -93,14 +93,14 @@ int Fiber::getNbUsedSlices() const {
 /*										Display											*/
 /****************************************************************************************/
 
-/* Displays summarized information about the link. */
-void Fiber::displayPhysicalLink(){
+/* Displays summarized information about the fiber. */
+void Fiber::displayFiber(){
 	std::cout << "#" << this->getId()+1 << ". " << this->getSource()+1 << " -- " << this->getTarget()+1;
 	std::cout << ". lenght: " << this->getLength() << ", cost: " << this->getCost() << std::endl;
 }
 
-/* Displays detailed information about state of the link. */
-void Fiber::displayDetailedPhysicalLink(){
+/* Displays detailed information about state of the fiber. */
+void Fiber::displayDetailedFiber(){
 	std::cout << "#" << this->getId()+1 << ". " << this->getSource()+1 << " -- " << this->getTarget()+1;
 	std::cout << ". lenght: " << this->getLength() << ", cost: " << this->getCost() << std::endl;
 	for (int i = 0; i < this->getNbSlices(); i++){

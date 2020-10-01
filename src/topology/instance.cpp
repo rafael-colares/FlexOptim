@@ -92,7 +92,7 @@ int Instance::getMaxSlice() const{
 
 /* Changes the attributes of the Fiber from the given index according to the attributes of the given link. */
 void Instance::setEdgeFromId(int id, Fiber & edge){
-	this->tabEdge[id].copyPhysicalLink(edge);
+	this->tabEdge[id].copyFiber(edge);
 }
 
 /* Changes the attributes of the Demand from the given index according to the attributes of the given demand. */
@@ -154,7 +154,7 @@ void Instance::readTopology(){
 			maxNode = edgeTarget;
 		}
 		std::cout << "Creating edge ";
-		edge.displayPhysicalLink();
+		edge.displayFiber();
 	}
 	this->setNbNodes(maxNode+1);
 }
@@ -246,7 +246,7 @@ void Instance::displayInstance() {
 void Instance::displayTopology(){
 	std::cout << std::endl << "--- The Physical Topology ---" << std::endl;
 	for (int i = 0; i < this->getNbEdges(); i++) {
-		tabEdge[i].displayPhysicalLink();
+		tabEdge[i].displayFiber();
 	}
 	std::cout << std::endl;
 }
@@ -256,7 +256,7 @@ void Instance::displayTopology(){
 void Instance::displayDetailedTopology(){
 	std::cout << std::endl << "--- The Detailed Physical Topology ---" << std::endl;
 	for (int i = 0; i < this->getNbEdges(); i++) {
-		tabEdge[i].displayDetailedPhysicalLink();
+		tabEdge[i].displayDetailedFiber();
 	}
 	std::cout << std::endl;
 

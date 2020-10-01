@@ -4,22 +4,33 @@
 #include <bits/stdc++.h> 
 #include <chrono> 
 
+using namespace std::chrono::_V2;
 /************************************************************
- * This class is used to control time spent by the program.						
+ * This class is used to control time spent by the program. 						
 ************************************************************/
 class ClockTime {
     
 private:
-    std::chrono::_V2::system_clock::time_point START;
+    system_clock::time_point START; /**< Records a specific time point in history. **/
 
 public:
-    static std::chrono::_V2::system_clock::time_point getTimeNow() { return std::chrono::high_resolution_clock::now(); }
-    
-    ClockTime(std::chrono::_V2::system_clock::time_point t) : START(t) {};
-    std::chrono::_V2::system_clock::time_point getStart() const { return START; }
-    double getTimeInSecFromStart() const { return 1e-9*(std::chrono::duration_cast<std::chrono::nanoseconds>(getTimeNow() - getStart()).count()); }
+    /** Constructor. @param t A time point in history. **/
+    ClockTime(const system_clock::time_point &t) : START(t) {};
 
+    /** Returns the time point stored in START attribute. **/
+    system_clock::time_point getStart() const { return START; }
+    
+    /** Changes the time point stored in START attribute. **/
     void setStart(const std::chrono::_V2::system_clock::time_point &t){ START = t; }
+
+    /** Returns the current time point. **/
+    static system_clock::time_point getTimeNow() { return std::chrono::high_resolution_clock::now(); }
+    
+    /** Returns the time in seconds spent from START until now. **/
+    double getTimeInSecFromStart() const { 
+        return 1e-9*(std::chrono::duration_cast<std::chrono::nanoseconds>(getTimeNow() - getStart()).count()); 
+    }
+    
 };
 
 #endif
