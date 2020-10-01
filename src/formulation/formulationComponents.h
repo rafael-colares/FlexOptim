@@ -224,6 +224,7 @@ private:
     std::string name;   /**< The constraint's name. **/
 
 public:
+	Constraint(){}
     /** Constructor. @param lowerBound The constraint's lower bound. @param e The constraint's expression. @param upperBound The constraint's upper bound. @param constName The constraint's name. **/
     Constraint(double lowerBound, Expression &e, double upperBound, std::string constName="");
 

@@ -281,16 +281,18 @@ void CplexCallback::invoke (const IloCplex::Callback::Context &context){
 void CplexCallback::addUserCuts(const IloCplex::Callback::Context &context) const{
     
     try {
-        Constraint constraint = formulation->solveSeparationProblemFract(getFractionalSolution(context));
-        if (constraint.getSize() > 0){
+        std::vector<Constraint> constraint = formulation->solveSeparationProblemFract(getFractionalSolution(context));
+        if (!constraint.empty()){
             //std::cout << "A violated cut was found: ";
-            if (constraint.getLb() != -INFTY){
-                //std::cout << "A >= violated cut was found: ";
-                context.addUserCut(to_IloExpr(context, constraint.getExpression()) >= constraint.getLb(), IloCplex::UseCutPurge, IloFalse);
-            }
-            if (constraint.getUb() != INFTY){
-                //std::cout << "A <= violated cut was found: ";
-                context.addUserCut(to_IloExpr(context, constraint.getExpression()) <= constraint.getUb(), IloCplex::UseCutPurge, IloFalse);
+            for (unsigned int i = 0; i < constraint.size(); i++){
+                if (constraint[i].getLb() != -INFTY){
+                    //std::cout << "A >= violated cut was found: ";
+                    context.addUserCut(to_IloExpr(context, constraint[i].getExpression()) >= constraint[i].getLb(), IloCplex::UseCutPurge, IloFalse);
+                }
+                if (constraint[i].getUb() != INFTY){
+                    //std::cout << "A <= violated cut was found: ";
+                    context.addUserCut(to_IloExpr(context, constraint[i].getExpression()) <= constraint[i].getUb(), IloCplex::UseCutPurge, IloFalse);
+                }
             }
         }
     }
@@ -305,18 +307,19 @@ void CplexCallback::addLazyConstraints(const IloCplex::Callback::Context &contex
         throw IloCplex::Exception(-1, "Unbounded solution");
     }
     try {
-        Constraint constraint = formulation->solveSeparationProblemInt(getIntegerSolution(context));
-        if (constraint.getSize() > 0){
+        std::vector<Constraint> constraint = formulation->solveSeparationProblemInt(getIntegerSolution(context));
+        if (!constraint.empty()){
             //std::cout << "A lazy constraint was found:";
-            //constraint.display();
-            IloRange cut(context.getEnv(), constraint.getLb(), to_IloExpr(context, constraint.getExpression()), constraint.getUb());
-            //std::cout << cut << std::endl;
-            context.rejectCandidate(cut);
+            for (unsigned int i = 0; i < constraint.size(); i++){
+                //constraint.display();
+                IloRange cut(context.getEnv(), constraint[i].getLb(), to_IloExpr(context, constraint[i].getExpression()), constraint[i].getUb());
+                //std::cout << cut << std::endl;
+                context.rejectCandidate(cut);
+            }
         }
         else{
             //std::cout << "The solution is valid." << std::endl;
         }
-
     }
     catch (...) {
         throw;

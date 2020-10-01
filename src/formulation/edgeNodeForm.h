@@ -115,9 +115,9 @@ public:
 
 	Constraint getMaxUsedSliceOverallConstraints(int k);
 
-    Constraint solveSeparationProblemFract(const std::vector<double> &solution) override; // #TODO Implement separation problem for fractional points!
+    std::vector<Constraint> solveSeparationProblemFract(const std::vector<double> &solution) override; // #TODO Implement separation problem for fractional points!
 
-    Constraint solveSeparationProblemInt(const std::vector<double> &solution) override; // #TODO Implement separation problem for integer points!
+    std::vector<Constraint> solveSeparationProblemInt(const std::vector<double> &solution) override; // #TODO Implement separation problem for integer points!
 
 	Expression separationGNPY(const std::vector<double> &value);
 	/****************************************************************************************/

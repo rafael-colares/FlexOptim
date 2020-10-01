@@ -4,6 +4,8 @@
 #include "rsa.h"
 #include "formulationComponents.h"
 
+
+
 typedef std::vector<Variable> VarArray;
 
 /*********************************************************************************************
@@ -58,19 +60,17 @@ public:
     virtual void setConstraints() = 0;
 
 	/** Solves the separation problem for fractional points. If the solution is violated, return the constraint that cuts it, otherwise the constraint returned has an empty expression. **/
-    virtual Constraint solveSeparationProblemFract(const std::vector<double> &solution){ 
+    virtual std::vector<Constraint> solveSeparationProblemFract(const std::vector<double> &solution){ 
 		std::cout << "WARNING: Unimplemented fractional separation problem!" << std::endl;
-        Expression exp; 
-		Constraint cut(0, exp, 0);
-        return cut;
+    	std::vector<Constraint> cuts;
+    	return cuts;
     }
 	
 	/** Solves the separation problem for integer points. If the solution is violated, return the constraint that cuts it, otherwise the constraint returned has an empty expression. **/
-    virtual Constraint solveSeparationProblemInt(const std::vector<double> &solution){ 
-		std::cout << "WARNING: Unimplemented integer separation problem!" << std::endl;
-        Expression exp; 
-		Constraint cut(0, exp, 0);
-        return cut;
+    virtual std::vector<Constraint> solveSeparationProblemInt(const std::vector<double> &solution){ 
+		std::cout << "WARNING: Unimplemented integer separation problem!" << std::endl;Expression exp;
+		std::vector<Constraint> cuts;
+		return cuts;
     }
 
 	/****************************************************************************************/

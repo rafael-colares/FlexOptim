@@ -88,7 +88,7 @@ void RSA::buildCompactGraph(){
         compactNodeId[n] = compactGraph.id(n);
     }
     for (int i = 0; i < instance.getNbEdges(); i++){
-        PhysicalLink edge = instance.getPhysicalLinkFromIndex(i);
+        Fiber edge = instance.getPhysicalLinkFromIndex(i);
         int sourceLabel = edge.getSource();
         int targetLabel = edge.getTarget();
         ListGraph::Node sourceNode = INVALID;

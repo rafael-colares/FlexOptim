@@ -659,10 +659,11 @@ void EdgeNodeForm::displayVariableValues(){
     std::cout << maxSliceOverall.getName() << " = " << maxSliceOverall.getVal() << std::endl;
 }
 
-Constraint EdgeNodeForm::solveSeparationProblemFract(const std::vector<double> &solution){
+std::vector<Constraint> EdgeNodeForm::solveSeparationProblemFract(const std::vector<double> &solution){
     setVariableValues(solution);
-    
-    for(unsigned int d = 0; d < getNbDemandsToBeRouted(); d++){
+    std::vector<Constraint> cuts;
+    //separating path continuity constraints
+    for(int d = 0; d < getNbDemandsToBeRouted(); d++){
         int origin = getToBeRouted_k(d).getSource();
         int destination = getToBeRouted_k(d).getTarget();
         ListGraph::Node SOURCE = getCompactNodeFromLabel(origin);
@@ -689,17 +690,18 @@ Constraint EdgeNodeForm::solveSeparationProblemFract(const std::vector<double> &
         }
 
         if (exprValue <= (1 - EPS)){
-            return Constraint(1, expr, INFTY);
+            cuts.push_back(Constraint(1, expr, INFTY));
         }
     }
-    
-    Expression empty;
-    Constraint noCut(0, empty, 0);
-    return noCut;
+    return cuts;
 }
-Constraint EdgeNodeForm::solveSeparationProblemInt(const std::vector<double> &solution){
+
+
+std::vector<Constraint> EdgeNodeForm::solveSeparationProblemInt(const std::vector<double> &solution){
     setVariableValues(solution);
-    for (unsigned int d = 0; d < getNbDemandsToBeRouted(); d++){
+    std::vector<Constraint> cuts;
+    //separating path-continuity constraints.
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         int origin = getToBeRouted_k(d).getSource();
         int destination = getToBeRouted_k(d).getTarget();
         ListGraph::Node SOURCE = getCompactNodeFromLabel(origin);
@@ -755,7 +757,7 @@ Constraint EdgeNodeForm::solveSeparationProblemInt(const std::vector<double> &so
                 
                 //std::cout << "Adding lazy constraint: " << exp << " >= 1" << std::endl;
                 //std::cout << "Candidate has: " << context.getCandidateValue(exp) << " > 1" << std::endl;
-                return Constraint(1, exp, INFTY);
+                cuts.push_back(Constraint(1, exp, INFTY));
                 cutFound = true;
             }
             else{
@@ -770,9 +772,7 @@ Constraint EdgeNodeForm::solveSeparationProblemInt(const std::vector<double> &so
             }
         }
     }
-    Expression exp;
-    Constraint cut(0, exp, 0);
-    return cut;
+    return cuts;
 }
 
 Expression EdgeNodeForm::separationGNPY(const std::vector<double> &solution){

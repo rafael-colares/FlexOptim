@@ -90,8 +90,8 @@ int Instance::getMaxSlice() const{
 	return maxSlice;
 }
 
-/* Changes the attributes of the PhysicalLink from the given index according to the attributes of the given link. */
-void Instance::setEdgeFromId(int id, PhysicalLink & edge){
+/* Changes the attributes of the Fiber from the given index according to the attributes of the given link. */
+void Instance::setEdgeFromId(int id, Fiber & edge){
 	this->tabEdge[id].copyPhysicalLink(edge);
 }
 
@@ -145,7 +145,7 @@ void Instance::readTopology(){
 		double edgeLength = std::stod(dataList[i][3]);
 		int edgeNbSlices = std::stoi(dataList[i][4]);
 		double edgeCost = std::stod(dataList[i][5]);
-		PhysicalLink edge(idEdge, edgeIndex, edgeSource, edgeTarget, edgeLength, edgeNbSlices, edgeCost);
+		Fiber edge(idEdge, edgeIndex, edgeSource, edgeTarget, edgeLength, edgeNbSlices, edgeCost);
 		this->tabEdge.push_back(edge);
 		if (edgeSource > maxNode) {
 			maxNode = edgeSource;
@@ -262,7 +262,7 @@ void Instance::displayDetailedTopology(){
 
 }
 
-/* Displays summarized information about slice occupation of each PhysicalLink. */
+/* Displays summarized information about slice occupation of each Fiber. */
 void Instance::displaySlices() {
 	std::cout << std::endl << "--- Slice occupation ---" << std::endl;
 	for (int i = 0; i < this->getNbEdges(); i++) {
@@ -619,8 +619,8 @@ bool Instance::hasLink(int u, int v){
 	return false;
 }
 
-/* Returns the first PhysicalLink with source s and target t. */
-PhysicalLink Instance::getPhysicalLinkBetween(int u, int v){
+/* Returns the first Fiber with source s and target t. */
+Fiber Instance::getPhysicalLinkBetween(int u, int v){
 	for (unsigned int e = 0; e < tabEdge.size(); e++){
 		if ((tabEdge[e].getSource() == u) && (tabEdge[e].getTarget() == v)){
 			return tabEdge[e];
@@ -631,6 +631,6 @@ PhysicalLink Instance::getPhysicalLinkBetween(int u, int v){
 	}
 	std::cerr << "Did not found a link between " << u << " and " << v << "!!\n";
 	exit(0);
-	PhysicalLink link(-1,-1,-1,-1);
+	Fiber link(-1,-1,-1,-1);
 	return link;
 }

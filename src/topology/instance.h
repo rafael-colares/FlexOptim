@@ -27,7 +27,7 @@ public:
 private:
 	Input input;						/**< An instance needs an input. **/
 	int nbNodes;						/**< Number of nodes in the physical network. **/
-	std::vector<PhysicalLink> tabEdge;	/**< A set of PhysicalLink. **/
+	std::vector<Fiber> tabEdge;	/**< A set of Fiber. **/
 	std::vector<Demand> tabDemand;		/**< A set of Demand (already routed or not). **/
 	int nbInitialDemands;				/**< The number of demands routed in the first initial mapping. **/
 	int nextDemandToBeRoutedIndex;		/**< Stores the index of the next demand to be analyzed in tabDemand. **/
@@ -71,14 +71,14 @@ public:
 	/** Returns the instance's input. **/
 	Input getInput() const { return this->input; }
 
-	/** Returns the PhysicalLink with given index. @param index The index of PhysicalLink required in tabEdge. **/
-	PhysicalLink getPhysicalLinkFromIndex(int index) const { return this->tabEdge[index]; }	
+	/** Returns the Fiber with given index. @param index The index of Fiber required in tabEdge. **/
+	Fiber getPhysicalLinkFromIndex(int index) const { return this->tabEdge[index]; }	
 
-	/** Returns the first PhysicalLink with the given source and target.  @warning Should only be called if method hasLink returns true. If there is no such link, the program is aborted! @param s Source node id. @param t Target node id. **/
-	PhysicalLink getPhysicalLinkBetween(int s, int t);	
+	/** Returns the first Fiber with the given source and target.  @warning Should only be called if method hasLink returns true. If there is no such link, the program is aborted! @param s Source node id. @param t Target node id. **/
+	Fiber getPhysicalLinkBetween(int s, int t);	
 
-	/** Returns the vector of PhysicalLink. **/
-	std::vector<PhysicalLink> getTabEdge() const { return this->tabEdge; }
+	/** Returns the vector of Fiber. **/
+	std::vector<Fiber> getTabEdge() const { return this->tabEdge; }
 
 	/** Returns the demand with given index. @param index The index of Demand required in tabDemand.**/
 	Demand getDemandFromIndex(int index) const { return this->tabDemand[index]; }
@@ -118,13 +118,13 @@ public:
 	void setNbNodes(int nb) { this->nbNodes = nb; }	
 
 	/** Change the set of links in the physical network. @param tab New vector of PhysicalLinks. **/
-	void setTabEdge(std::vector<PhysicalLink> tab) { this->tabEdge = tab; }
+	void setTabEdge(std::vector<Fiber> tab) { this->tabEdge = tab; }
 
 	/** Change the set of demands. @param tab New vector of Demands. **/
 	void setTabDemand(std::vector<Demand> tab) { this->tabDemand = tab; }
 
-	/** Changes the attributes of the PhysicalLink from the given index according to the attributes of the given link. @param i The index of the PhysicalLink to be changed. @param link the PhysicalLink to be copied. **/
-	void setEdgeFromId(int i, PhysicalLink &link);
+	/** Changes the attributes of the Fiber from the given index according to the attributes of the given link. @param i The index of the Fiber to be changed. @param link the Fiber to be copied. **/
+	void setEdgeFromId(int i, Fiber &link);
 
 	/** Changes the attributes of the Demand from the given index according to the attributes of the given demand. @param i The index of the Demand to be changed. @param demand the Demand to be copied. **/
 	void setDemandFromId(int i, const Demand &demand);
@@ -163,10 +163,10 @@ public:
 	/** Adds non-routed demands to the pool by generating random demands. @param N The number of random demands to be generated. **/
 	void generateRandomDemands(const int N);
 
-	/** Assigns a demand to a slice of a link. @param index The index of the PhysicalLink to be modified. @param pos The last slice position. @param demand The demand to be assigned. **/
+	/** Assigns a demand to a slice of a link. @param index The index of the Fiber to be modified. @param pos The last slice position. @param demand The demand to be assigned. **/
 	void assignSlicesOfLink(int index, int pos, const Demand &demand);
 
-	/** Verifies if there is enough place for a given demand to be routed through a link on a last slice position. @param index The index of the PhysicalLink to be inspected. @param pos The last slice positon. @param demand The candidate demand to be assigned. **/
+	/** Verifies if there is enough place for a given demand to be routed through a link on a last slice position. @param index The index of the Fiber to be inspected. @param pos The last slice positon. @param demand The candidate demand to be assigned. **/
 	bool hasEnoughSpace(const int index, const int pos, const Demand &demand);
 
 	/** Verifies if there exists a link between two nodes. @param u Source node id. @param v Target node id. **/
@@ -202,7 +202,7 @@ public:
 	/** Displays detailed information about state of the physical topology. **/
 	void displayDetailedTopology();
 	
-	/** Displays summarized information about slice occupation of each PhysicalLink. **/
+	/** Displays summarized information about slice occupation of each Fiber. **/
 	void displaySlices();
 	
 	/** Displays information about the routed demands. **/

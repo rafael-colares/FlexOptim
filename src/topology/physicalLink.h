@@ -11,9 +11,9 @@
  * edge in the topology graph and is defined by its id, a source and a target node, 
  * its length in the physical network, and a cost. A edge also has a frequency 
  * spectrum that is splitted into a given number of slices. \note The id of each 
- * PhysicalLink is considered to be in the range [0, ..., n-1].												
+ * Fiber is considered to be in the range [0, ..., n-1].												
  ************************************************************************************/
-class PhysicalLink{
+class Fiber{
 private:
 	int id;							/**< Link identifier. **/
 	int index;						/**< Edge index position in the vector. **/
@@ -30,7 +30,7 @@ public:
 	/****************************************************************************************/
 
 	/** Constructor. @param i Id. @param ind Index. @param s Source node's id. @param t Target node's id. @param len Link's length n the physical network. @param nb Number of slices its frequency spectrum is divided into. @param c Cost of routing a demand through the link. **/
-	PhysicalLink(int i, int ind, int s, int t, double len = 0.0, int nb = 1, double c = 0.0);
+	Fiber(int i, int ind, int s, int t, double len = 0.0, int nb = 1, double c = 0.0);
 
 	/****************************************************************************************/
 	/*										Getters											*/
@@ -95,10 +95,10 @@ public:
 	/*										Methods											*/
 	/****************************************************************************************/
 
-	/** Copies all information from a given link. @param link The PhysicalLink to be copied. **/
-	void copyPhysicalLink(PhysicalLink &link);
+	/** Copies all information from a given link. @param link The Fiber to be copied. **/
+	void copyPhysicalLink(Fiber &link);
 
-	/** Verifies if the current PhysicalLink routes the a demand. @param dem The demand to be checked. **/
+	/** Verifies if the current Fiber routes the a demand. @param dem The demand to be checked. **/
 	bool contains(const Demand &dem) const;
 
 	/** Assigns a demand to a given position in the spectrum. @param dem The demand to be assigned. @param p The position of the last slice to be assigned. **/
@@ -127,7 +127,7 @@ public:
 	/****************************************************************************************/
 
 	/** Destructor. Clears the spectrum. **/
-	~PhysicalLink();
+	~Fiber();
 };
 
 #endif

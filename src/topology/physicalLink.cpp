@@ -6,7 +6,7 @@
 /****************************************************************************************/
 
 /** Constructor. **/
-PhysicalLink::PhysicalLink(int i, int ind, int s, int t, double l, int nb, double c) {
+Fiber::Fiber(int i, int ind, int s, int t, double l, int nb, double c) {
 	this->setId(i);
 	this->setIndex(ind);
 	this->setSource(s);
@@ -24,7 +24,7 @@ PhysicalLink::PhysicalLink(int i, int ind, int s, int t, double l, int nb, doubl
 /****************************************************************************************/
 
 /* Destructor. Clears the vector of slices. */
-PhysicalLink::~PhysicalLink() {
+Fiber::~Fiber() {
 	spectrum.clear();
 }
 
@@ -33,7 +33,7 @@ PhysicalLink::~PhysicalLink() {
 /****************************************************************************************/
 
 /* Copies all information from a given link. */
-void PhysicalLink::copyPhysicalLink(PhysicalLink & edge){
+void Fiber::copyPhysicalLink(Fiber & edge){
 	this->setSource(edge.getSource());
 	this->setTarget(edge.getTarget());
 	this->setNbSlices(edge.getNbSlices());
@@ -45,8 +45,8 @@ void PhysicalLink::copyPhysicalLink(PhysicalLink & edge){
 	this->setCost(edge.getCost());
 }
 
-/* Verifies if the current PhysicalLink routes the a demand. */
-bool PhysicalLink::contains(const Demand &d) const{
+/* Verifies if the current Fiber routes the a demand. */
+bool Fiber::contains(const Demand &d) const{
 	for (int i = 0; i < this->getNbSlices(); i++){
 		if (getSlice_i(i).getAssignment() == d.getId()){
 			return true;
@@ -56,7 +56,7 @@ bool PhysicalLink::contains(const Demand &d) const{
 }
 
 /* Assigns a demand to a given position in the spectrum. */
-void PhysicalLink::assignSlices(const Demand &d, int p){
+void Fiber::assignSlices(const Demand &d, int p){
 	int demandLoad = d.getLoad();
 	// assign demand d to this edge from position p - demandLoad + 1 to position p
 	int first = p - demandLoad + 1;
@@ -66,7 +66,7 @@ void PhysicalLink::assignSlices(const Demand &d, int p){
 }
 
 /* Returns the maximal slice position used in the frequency spectrum. */
-int PhysicalLink::getMaxUsedSlicePosition() const {
+int Fiber::getMaxUsedSlicePosition() const {
 	int max = 0;
 	for (int i = 0; i < this->getNbSlices(); i++){
 		if (getSlice_i(i).isUsed()){
@@ -79,7 +79,7 @@ int PhysicalLink::getMaxUsedSlicePosition() const {
 }
 
 /* Returns the maximal slice position used in the frequency spectrum. */
-int PhysicalLink::getNbUsedSlices() const {
+int Fiber::getNbUsedSlices() const {
 	int value = 0;
 	for (int i = 0; i < this->getNbSlices(); i++){
 		if (getSlice_i(i).isUsed()){
@@ -94,13 +94,13 @@ int PhysicalLink::getNbUsedSlices() const {
 /****************************************************************************************/
 
 /* Displays summarized information about the link. */
-void PhysicalLink::displayPhysicalLink(){
+void Fiber::displayPhysicalLink(){
 	std::cout << "#" << this->getId()+1 << ". " << this->getSource()+1 << " -- " << this->getTarget()+1;
 	std::cout << ". lenght: " << this->getLength() << ", cost: " << this->getCost() << std::endl;
 }
 
 /* Displays detailed information about state of the link. */
-void PhysicalLink::displayDetailedPhysicalLink(){
+void Fiber::displayDetailedPhysicalLink(){
 	std::cout << "#" << this->getId()+1 << ". " << this->getSource()+1 << " -- " << this->getTarget()+1;
 	std::cout << ". lenght: " << this->getLength() << ", cost: " << this->getCost() << std::endl;
 	for (int i = 0; i < this->getNbSlices(); i++){
@@ -115,7 +115,7 @@ void PhysicalLink::displayDetailedPhysicalLink(){
 }
 
 /* Displays summarized information about slice occupation. */
-void PhysicalLink::displaySlices(){
+void Fiber::displaySlices(){
 	for (int i = 0; i < this->getNbSlices(); i++){
 		if (this->spectrum[i].isUsed()) {
 			std::cout << "*";

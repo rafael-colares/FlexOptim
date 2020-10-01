@@ -97,11 +97,11 @@ public:
 	/** Returns the Overall Max Used Slice Position constraints associated with a link and a demand. @param linkIndex The link's index. **/
 	Constraint getMaxUsedSliceOverallConstraints3(int linkIndex, int s);
 	
-    Constraint solveSeparationProblemFract(const std::vector<double> &solution) override;
+    std::vector<Constraint> solveSeparationProblemFract(const std::vector<double> &solution) override;
 	
-	Constraint solveSeparationProblemInt(const std::vector<double> &solution) override;
+	std::vector<Constraint> solveSeparationProblemInt(const std::vector<double> &solution) override;
 
-	Expression separationGNPY(const std::vector<double> &value);
+	std::vector<Constraint> separationGNPY(const std::vector<double> &value);
 	/****************************************************************************************/
 	/*									Objective Functions									*/
 	/****************************************************************************************/
@@ -117,6 +117,13 @@ public:
 
 	/** Recovers the obtained MIP solution and builds a path for each demand on its associated graph from RSA. **/
     void updatePath(const std::vector<double> &vals) override;
+
+	void writeServiceFile();
+
+	void writePathRequest(std::ofstream &serviceFile, int d);
+
+	/** Returns a vector of node id's corresponding to the sequence of nodes that the d-th demand passes through. **/
+	std::vector<int> getPathNodeSequence(int d);
 
 	/****************************************************************************************/
 	/*										Display											*/

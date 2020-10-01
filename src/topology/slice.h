@@ -2,8 +2,8 @@
 #define __Slice__h
 
 /***********************************************************************************************
- * This class identifies an specific slice in the frequency spectrum of a PhysicalLink. A Demand 
- * that is routed through a PhysicalLink must be assigned to n continuous slices, where n is the
+ * This class identifies an specific slice in the frequency spectrum of a Fiber. A Demand 
+ * that is routed through a Fiber must be assigned to n continuous slices, where n is the
  * demand's load. This class allows to identify, specify and verify which Demand is assigned (or 
  * not) through a slice.
  **********************************************************************************************/

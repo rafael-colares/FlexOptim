@@ -546,6 +546,37 @@ Constraint FlowForm::getMaxUsedSliceOverallConstraints3(int nodeLabel, int s){
     return constraint;
 }
 
+/** Returns a vector of node id's corresponding to the sequence of nodes that the d-th demand passes through. **/
+std::vector<int> FlowForm::getPathNodeSequence(int d){
+    std::vector<int> path;
+    int origin = getToBeRouted_k(d).getSource();
+    int destination = getToBeRouted_k(d).getTarget();
+    ListDigraph::Node SOURCE = getFirstNodeFromLabel(d, origin);
+    ListDigraph::Node TARGET = getFirstNodeFromLabel(d, destination);
+    if (TARGET == INVALID || SOURCE == INVALID){
+        std::cout << "ERROR: Could not find source or target from demand " << getToBeRouted_k(d).getId() + 1 << "." << std::endl;
+        exit(0);
+    }
+    path.push_back(getNodeLabel(SOURCE, d));
+    //std::cout << "Search the path from origin to destination." << std::endl;
+    ListDigraph::Node currentNode = SOURCE;
+    while (currentNode != TARGET){
+        ListDigraph::Arc nextArc = INVALID;
+        for (ListDigraph::OutArcIt a(*vecGraph[d], currentNode); a != INVALID; ++a){
+            int arc = getArcIndex(a, d);
+            if (x[d][arc].getVal() >= 1 - EPS){
+                nextArc = a;
+            }
+        }
+        if (nextArc == INVALID){
+            std::cout << "ERROR: Could not find path continuity.." << std::endl;
+            exit(0);
+        }
+        currentNode = (*vecGraph[d]).target(nextArc);
+        path.push_back(getNodeLabel(currentNode, d));
+    }
+    return path;
+}
 
 /* Recovers the obtained MIP solution and builds a path for each demand on its associated graph from RSA. */
 void FlowForm::updatePath(const std::vector<double> &vals){
@@ -610,32 +641,107 @@ void FlowForm::displayVariableValues(){
     }
 }
 
-Constraint FlowForm::solveSeparationProblemInt(const std::vector<double> &solution){
+std::vector<Constraint> FlowForm::solveSeparationProblemInt(const std::vector<double> &solution){
     //std::cout << "Entering separation problem of an integer point for Flow Form." << std::endl;
-    Expression exp = separationGNPY(solution);
-    int rhs = exp.getNbTerms();
-    Constraint cut(0, exp, rhs-1);
-    return cut;
+    //Gnpy is disabled.
+    std::vector<Constraint> cuts;
+    //cuts = separationGNPY(solution);
+    return cuts;
 }
 
-Constraint FlowForm::solveSeparationProblemFract(const std::vector<double> &solution){
-    std::cout << "Entering separation problem of a fractional point for Flow Form." << std::endl;
-    Expression exp;
-    Constraint cut(0, exp, 0);
-    return cut;
+std::vector<Constraint> FlowForm::solveSeparationProblemFract(const std::vector<double> &solution){
+    //std::cout << "Entering separation problem of a fractional point for Flow Form." << std::endl;
+    return std::vector<Constraint>();
 }
 
-Expression FlowForm::separationGNPY(const std::vector<double> &solution){
+std::vector<Constraint> FlowForm::separationGNPY(const std::vector<double> &solution){
+    std::vector<Constraint> cuts;
     setVariableValues(solution);
-    Expression cut;
+    writeServiceFile();
+
+    system("gnpy-path-request ../oopt-gnpy/gnpy/example-data/topo_spain.json ../oopt-gnpy/gnpy/example-data/service_test.json -e ../oopt-gnpy/gnpy/example-data/eqpt_config_spain.json -o result.json");
+    std::ifstream ifs("result.json");
+    std::string fileContent((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        
+    }
     
-    if (cut.getNbTerms() > 0){
-        std::cout << "A separating cut was found." << std::endl;
+    return cuts;
+}
+
+void FlowForm::writeServiceFile(){
+    std::ofstream serviceFile;
+    serviceFile.open ("../oopt-gnpy/gnpy/example-data/service_test.json");
+    serviceFile << "{\n";
+    
+    serviceFile << "\t\"path-request\": [\n";
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        writePathRequest(serviceFile, d);
+    }
+    
+    serviceFile << "\t],\n";
+    serviceFile << "\t\"synchronization\": [\n";
+    serviceFile << "\t]\n";
+    serviceFile << "}\n";
+}
+
+
+void FlowForm::writePathRequest(std::ofstream &serviceFile, int d){
+    std::string source = std::to_string(getToBeRouted_k(d).getSource()+1) + ".1";
+    std::string destination = std::to_string(getToBeRouted_k(d).getTarget()+1) + ".1";
+    int load = getToBeRouted_k(d).getLoad();
+    std::string mode = "mode_" + std::to_string(load);
+    std::vector<int> path = getPathNodeSequence(d);
+    serviceFile << "\t{\n";
+    serviceFile << "\t\t" << "\"request-id\": \"" << std::to_string(getToBeRouted_k(d).getId()+1) << "\",\n";
+    serviceFile << "\t\t" << "\"source\": \"" << source << "\",\n";
+    serviceFile << "\t\t" << "\"destination\": \"" << destination << "\",\n";
+    serviceFile << "\t\t" << "\"src-tp-id\": \"" << source << "\",\n";
+    serviceFile << "\t\t" << "\"dst-tp-id\": \"" << destination << "\",\n";
+    serviceFile << "\t\t" << "\"bidirectional\": false,\n";
+    serviceFile << "\t\t" << "\"path-constraints\": {\n";
+    serviceFile << "\t\t\t" << "\"te-bandwidth\": {\n";
+    serviceFile << "\t\t\t\t" << "\"technology\": \"flexi-grid\",\n";
+    serviceFile << "\t\t\t\t" << "\"trx_type\": \"Voyager\",\n";
+    serviceFile << "\t\t\t\t" << "\"trx_mode\": \"" << mode << "\",\n";
+    serviceFile << "\t\t\t\t" << "\"effective-freq-slot\": [\n";
+    serviceFile << "\t\t\t\t\t" << "{\n";
+    serviceFile << "\t\t\t\t\t\t" << "\"N\": \"null\",\n";
+    serviceFile << "\t\t\t\t\t\t" << "\"M\": \"null\"\n";
+    serviceFile << "\t\t\t\t\t" << "}\n";
+    serviceFile << "\t\t\t\t" << "],\n";
+    serviceFile << "\t\t\t\t" << "\"spacing\":" << std::to_string(12.5*load) << "e9,\n";
+    serviceFile << "\t\t\t\t" << "\"max-nb-of-channel\": null,\n";
+    serviceFile << "\t\t\t\t" << "\"output-power\": null,\n";
+    serviceFile << "\t\t\t\t" << "\"path_bandwidth\": 400e9\n";
+    serviceFile << "\t\t\t" << "}\n";
+    serviceFile << "\t\t" << "},\n";
+    serviceFile << "\t\t" << "\"explicit-route-objects\": {\n";
+    serviceFile << "\t\t\t" << "\"route-object-include-exclude\": [\n";
+    for (unsigned int i = 0; i < path.size(); i++){
+        serviceFile << "\t\t\t\t" << "{\n";
+        serviceFile << "\t\t\t\t\t" << "\"explicit-route-usage\": \"route-include-ero\",\n";
+        serviceFile << "\t\t\t\t\t" << "\"index\": " << std::to_string(i) << ",\n";
+        serviceFile << "\t\t\t\t\t" << "\"num-unnum-hop\": {\n";
+        serviceFile << "\t\t\t\t\t\t" << "\"node-id\": \"" << std::to_string(path[i]+1) << "\",\n";
+        serviceFile << "\t\t\t\t\t\t" << "\"link-tp-id\": \"link-tp-id is not used\",\n";
+        serviceFile << "\t\t\t\t\t\t" << "\"hop-type\": \"STRICT\"\n";
+        serviceFile << "\t\t\t\t\t" << "}\n";
+        if (i < path.size()-1){
+            serviceFile << "\t\t\t\t" << "},\n";
+        }
+        else{
+            serviceFile << "\t\t\t\t" << "}\n";
+        }
+    }
+    serviceFile << "\t\t\t" << "]\n";
+    serviceFile << "\t\t" << "}\n";
+    if (d < getNbDemandsToBeRouted()-1){
+        serviceFile << "\t" << "},\n";
     }
     else{
-        //std::cout << "The solution is valid." << std::endl;
+        serviceFile << "\t" << "}\n";
     }
-    return cut;
 }
 /****************************************************************************************/
 /*										Destructor										*/
