@@ -28,11 +28,6 @@ LEMONCLNFLAGS = -L$(LEMONLIBDIR) -lemon
 BOOSTINCDIR = /mnt/c/soft/boost_1_71_0/
 BOOSTCFLAGS = -I$(BOOSTINCDIR)
 
-PYTHONINCDIR = /home/colares/anaconda3/include/python3.8/
-PYTHONLIBDIR = /home/colares/anaconda3/lib/python3.8/
-PYTHONCFLAGS = -I$(PYTHONINCDIR)
-PYTHONCLNFLAGS = -L$(LEMONLIBDIR)
-
 
 # ---------------------------------------------------------------------
 # Flags
@@ -58,8 +53,8 @@ all: main
 
 main:
 	doxygen ../dconfig
-	$(CCC) -c -Wall -g $(CCFLAGS) $(LEMONCFLAGS) $(BOOSTCFLAGS) $(PYTHONCFLAGS) $(CPPFILES)
-	$(CCC) $(CCFLAGS) *.o -g -o exec $(CCLNFLAGS) $(LEMONCLNFLAGS) $(PYTHONCLNFLAGS)
+	$(CCC) -c -Wall -g $(CCFLAGS) $(LEMONCFLAGS) $(BOOSTCFLAGS) $(CPPFILES)
+	$(CCC) $(CCFLAGS) *.o -g -o exec $(CCLNFLAGS) $(LEMONCLNFLAGS)
 	rm -rf *.o *~ ^
 
 clean:

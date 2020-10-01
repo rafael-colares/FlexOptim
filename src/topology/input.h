@@ -11,41 +11,44 @@
 #include <boost/algorithm/string.hpp>
 
 /*****************************************************************************************
- * This class contains all the information needed for the creation of an instance.
- * It stores input/output file paths, execution and control parameters.						
+ * This class contains all the information needed for the creation of an Instance and the 
+ * proper resolution of the RSA problem. It stores input/output file paths, execution and 
+ * control parameters.						
 *****************************************************************************************/
 class Input {
 
 public: 
-	/** Enumerates the possible solvers to be used for solving the Online Routing and Spectrum Allocation problem.**/
+	/** Enumerates the possible solvers to be used for solving the RSA formulation.**/
 	enum MIP_Solver {						
-		MIP_SOLVER_CPLEX = 0,  /**< Solve it through a MIP using CPLEX. **/
-		MIP_SOLVER_CBC = 1, /**<  Solve it through a MIP using CBC. **/ /** #TODO Implement CBC.**/
-		MIP_SOLVER_GUROBI = 2  /**< Solve it through a MIP using Gurobi. **/ /** #TODO Implement gurobi.**/
+		MIP_SOLVER_CPLEX = 0,  	/**< The MIP is solved using CPLEX. **/
+		MIP_SOLVER_CBC = 1, 	/**< The MIP is solved using CBC. #TODO Implement CBC.**/
+		MIP_SOLVER_GUROBI = 2  	/**< The MIP is solved using Gurobi. #TODO Implement gurobi.**/
 	};
 
+	/** Enumerates the possible MIP formulations for modelling the RSA problem.**/
 	enum Formulation {
-		FORMULATION_FLOW = 0,  		/**< Solve it using the flow based formulation. **/
-		FORMULATION_EDGE_NODE = 1 	/**<  Solve it using the edge-node formulation. **/
+		FORMULATION_FLOW = 0,  		/**< The RSA problem is solved using the Flow based formulation. **/
+		FORMULATION_EDGE_NODE = 1 	/**< The RSA problem is solved using the Edge-Node formulation. **/
 	};
 
+	/** Enumerates the possible methods to be applied at each node of the enumeration tree (from Branch-and-Bound or Branch-and-Cut).**/
 	enum NodeMethod {
-		NODE_METHOD_LINEAR_RELAX = 0,  		/**< Solve each node by applying linear relaxation. **/
-		NODE_METHOD_SUBGRADIENT = 1, 		/**< Solve each node by applying subgradient algorithm. **/ /** #TODO Implement subgradient inside nodes. **/
-		NODE_METHOD_VOLUME = 2 				/**< Solve each node by applying volume algorithm. **/	/** #TODO Implement volume. **/
+		NODE_METHOD_LINEAR_RELAX = 0,  		/**< At each node of the enumeration tree, Linear Relaxation is applied. **/
+		NODE_METHOD_SUBGRADIENT = 1, 		/**< At each node of the enumeration tree, the Subgradient algorithm is applied. #TODO Implement subgradient inside nodes. **/
+		NODE_METHOD_VOLUME = 2 				/**< At each node of the enumeration tree, the Volume algorithm is applied. #TODO Implement volume. **/
 	};
 
-	/** Enumerates the possible levels of applying a preprocessing step fo reducing the graphs before optimization is called. **/
+	/** Enumerates the possible levels of preprocessing to be applied for eliminating variables before optimization is called. **/
 	enum PreprocessingLevel {
 		PREPROCESSING_LVL_NO = 0,		/**< Only remove arcs that do not fit the demand load. **/
-		PREPROCESSING_LVL_PARTIAL = 1,	/**< Previous steps + look for arcs that would induce length violation and arcs whose neighboors cannot forward the demand. **/
-		PREPROCESSING_LVL_FULL = 2		/**< Previous steps recursively until no additional arc can be removed. **/
+		PREPROCESSING_LVL_PARTIAL = 1,	/**< Previous levels + look for arcs that would induce length violation and arcs whose neighboors cannot forward the demand. **/
+		PREPROCESSING_LVL_FULL = 2		/**< Previous levels recursively until no additional arc can be removed. **/
 	};
 
 	/** Enumerates the possible output policies to be used. **/
 	enum OutputLevel {
 		OUTPUT_LVL_NO = 0,			/**< Do not create any output file. **/
-		OUTPUT_LVL_NORMAL = 1,		/**< Generate output files corresponding to the last mapping before blocking. **/
+		OUTPUT_LVL_NORMAL = 1,		/**< Generate output files corresponding to the last mapping. **/
 		OUTPUT_LVL_DETAILED = 2		/**< Generate output files after every optimization procedure. **/
 	};
 
@@ -63,8 +66,8 @@ public:
 	/** Enumerates the possible spectrum partitioning policies to be applied. **/
 	enum PartitionPolicy {
 		PARTITION_POLICY_NO = 0,	/**< No spectrum partition. **/
-		PARTITION_POLICY_SOFT = 1,	/**< A subset of demands is pushed to the Right region of the spectrum. **/
-		PARTITION_POLICY_HARD = 2	/**< Divide the spectrum into two fixed regions (Left and Right). **/
+		PARTITION_POLICY_SOFT = 1,	/**< A subset of demands is pushed to the Right region of the spectrum while the rest of it is pushed to the Left region. **/
+		PARTITION_POLICY_HARD = 2	/**< The spectrum is divided into two fixed regions (Left and Right). **/
 	};
 	
 private:
