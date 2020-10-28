@@ -11,7 +11,7 @@ FlowForm::FlowForm(const Instance &inst) : AbstractFormulation(inst){
 }
 
 
-
+ 
 /****************************************************************************************/
 /*										Variables    									*/
 /****************************************************************************************/
@@ -38,7 +38,12 @@ void FlowForm::setVariables(){
                 std::cout << "STILL REMOVING VARIABLES IN FORMULATION. \n" ;
             }
             int varId = getNbVar();
-            x[d][arc] = Variable(varId, 0, upperBound, Variable::TYPE_BOOLEAN, 0, varName.str());
+            if(instance.getInput().isRelaxed()){
+                x[d][arc] = Variable(varId, 0, upperBound, Variable::TYPE_REAL, 0, varName.str());
+            }
+            else{
+                x[d][arc] = Variable(varId, 0, upperBound, Variable::TYPE_BOOLEAN, 0, varName.str());
+            }
             incNbVar();
             // std::cout << "Created variable: " << var[d][arc].getName() << std::endl;
         }
@@ -429,6 +434,42 @@ Constraint FlowForm::getMaxUsedSlicePerLinkConstraints(int linkIndex, int d){
     return constraint;
 }
 
+
+/* Defines the Link's Max Used Slice Position constraints. The max used slice position on each link must be greater than every slice position used in the link. */
+void FlowForm::setMaxUsedSlicePerLinkConstraints2(){
+    for (int i = 0; i < instance.getNbEdges(); i++){
+        for (int s = 0; s < instance.getPhysicalLinkFromIndex(i).getNbSlices(); s++){
+            Constraint maxUsedSlicePerLinkConst = getMaxUsedSlicePerLinkConstraints2(i, s);
+            constraintSet.push_back(maxUsedSlicePerLinkConst);
+        }
+    }
+    std::cout << "Max Used Slice Per Link constraints 2 have been defined..." << std::endl;
+}
+
+Constraint FlowForm::getMaxUsedSlicePerLinkConstraints2(int linkIndex, int s){
+    Expression exp;
+    int rhs = 0;
+    int linkLabel = instance.getPhysicalLinkFromIndex(linkIndex).getId();
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        int demandLoad = getToBeRouted_k(d).getLoad();
+        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+            if ((getArcLabel(a, d) == linkLabel) && (getArcSlice(a, d) >= s) && (getArcSlice(a, d) <= s + demandLoad - 1)){
+                int index = getArcIndex(a, d);
+                int slice = getArcSlice(a, d);
+                Term term(x[d][index], slice);
+                exp.addTerm(term);
+            }
+        }
+    }
+    Term term(maxSlicePerLink[linkIndex], -1);
+    exp.addTerm(term);
+    
+    std::ostringstream constraintName;
+    constraintName << "MaxUsedSlicePerLink2(" << linkLabel+1 << "," << s+1 << ")";
+    Constraint constraint(-INFTY, exp, rhs, constraintName.str());
+    return constraint;
+}
+
 /* Defines the Overall Max Used Slice Position constraints. */
 void FlowForm::setMaxUsedSliceOverallConstraints(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
@@ -529,19 +570,41 @@ Constraint FlowForm::getMaxUsedSliceOverallConstraints3(int nodeLabel, int s){
 
                         int index = getArcIndex(a, d);
                         int slice = getArcSlice(a, d);
-                        int coeff = ceil(((double)slice)/((double)degree-1));
-                        Term term(x[d][index], coeff);
+                        Term term(x[d][index], slice);
                         exp.addTerm(term);
                     }
                 }
             }
         }
     }
-    Term term(maxSliceOverall, -1);
+    Term term(maxSliceOverall, -degree);
     exp.addTerm(term);
     
     std::ostringstream constraintName;
-    constraintName << "MaxUsedSliceOverall2(" << nodeLabel+1 << "," << s+1 << ")";
+    constraintName << "MaxUsedSliceOverall3(" << nodeLabel+1 << "," << s+1 << ")";
+    Constraint constraint(-INFTY, exp, rhs, constraintName.str());
+    return constraint;
+}
+
+/* Defines the Overall Max Used Slice Position constraints 3. */
+void FlowForm::setMaxUsedSliceOverallConstraints4(){
+    for (int i = 0; i < instance.getNbNodes(); i++){
+        Constraint maxUsedSliceOverallConst = getMaxUsedSliceOverallConstraints4(i);
+        constraintSet.push_back(maxUsedSliceOverallConst);
+    }
+    std::cout << "Max Used Slice Overall4 constraints have been defined..." << std::endl;
+}
+
+
+
+Constraint FlowForm::getMaxUsedSliceOverallConstraints4(int nodeLabel){
+    Expression exp;
+    int rhs = 0;
+    exp.addTerm(Term(maxSlicePerLink[nodeLabel], 1));
+    exp.addTerm(Term(maxSliceOverall, -1));
+    
+    std::ostringstream constraintName;
+    constraintName << "MaxUsedSliceOverall3(" << nodeLabel+1 << ")";
     Constraint constraint(-INFTY, exp, rhs, constraintName.str());
     return constraint;
 }
@@ -641,11 +704,12 @@ void FlowForm::displayVariableValues(){
     }
 }
 
-std::vector<Constraint> FlowForm::solveSeparationProblemInt(const std::vector<double> &solution){
+std::vector<Constraint> FlowForm::solveSeparationProblemInt(const std::vector<double> &solution, const int threadNo){
     //std::cout << "Entering separation problem of an integer point for Flow Form." << std::endl;
-    //Gnpy is disabled.
     std::vector<Constraint> cuts;
-    //cuts = separationGNPY(solution);
+    if (instance.getInput().isGNPYEnabled()){
+        cuts = separationGNPY(solution, threadNo);
+    }
     return cuts;
 }
 
@@ -654,24 +718,74 @@ std::vector<Constraint> FlowForm::solveSeparationProblemFract(const std::vector<
     return std::vector<Constraint>();
 }
 
-std::vector<Constraint> FlowForm::separationGNPY(const std::vector<double> &solution){
+std::vector<Constraint> FlowForm::separationGNPY(const std::vector<double> &solution, const int threadNo){
     std::vector<Constraint> cuts;
     setVariableValues(solution);
-    writeServiceFile();
+    
+    // write service.json file
+    std::string serviceFile = instance.getInput().getOutputPath() + "service_" + std::to_string(threadNo) + ".json";
+    writeServiceFile(serviceFile);
 
-    system("gnpy-path-request ../oopt-gnpy/gnpy/example-data/topo_spain.json ../oopt-gnpy/gnpy/example-data/service_test.json -e ../oopt-gnpy/gnpy/example-data/eqpt_config_spain.json -o result.json");
-    std::ifstream ifs("result.json");
+    // launch GNPY
+    std::string resultFile = instance.getInput().getOutputPath() + "result_" + std::to_string(threadNo) + ".json";
+    std::string arguments = instance.getInput().getGNPYTopologyFile() + " " + serviceFile;
+    std::string options = "-e " + instance.getInput().getGNPYEquipmentFile() + " -o " + resultFile;
+    std::string command = "gnpy-path-request " + arguments + " " + options;
+    system(command.c_str());
+
+    // read result.json file
+    std::ifstream ifs(resultFile.c_str());
     std::string fileContent((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        
+        std::string requestContent;
+        std::string firstDelimiter = "Demand " + std::to_string(getToBeRouted_k(d).getId()+1);
+        std::size_t first = fileContent.find(firstDelimiter);
+        if (d < getNbDemandsToBeRouted() - 1){
+            std::string lastDelimiter = "Demand " + std::to_string(getToBeRouted_k(d).getId()+2);
+            std::size_t last = fileContent.find(lastDelimiter);
+            requestContent = fileContent.substr(first, last-first);
+        }
+        else{
+            requestContent = fileContent.substr(first);
+        }
+
+        std::size_t found = requestContent.find("no-path");
+        if (found != std::string::npos){
+            std::cout << "Demand " << std::to_string(getToBeRouted_k(d).getId()+1) << ": Unfeasible." << std::endl;
+            cuts.push_back(getPathEliminationConstraint(d));
+        }
+        else{
+            std::cout << "Demand " << std::to_string(getToBeRouted_k(d).getId()+1) << ": OK." << std::endl;
+        }
     }
     
     return cuts;
 }
+Constraint FlowForm::getPathEliminationConstraint(int d){
+    int nbHops = 0;
+    Expression exp;
+    for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+        int arc = getArcIndex(a, d);
+        if (x[d][arc].getVal() >= 1 - EPS){
+            int label = getArcLabel(a, d);
+            nbHops++;
+            for (ListDigraph::ArcIt it(*vecGraph[d]); it != INVALID; ++it){
+                if (getArcLabel(it, d) == label){
+                    int arcIndex = getArcIndex(it, d);
+                    exp.addTerm(Term(x[d][arcIndex], 1));
+                }
+            }
+        }
+    }
+    int rhs = nbHops-1;
+    std::ostringstream constraintName;
+    constraintName << "PathElimination(" << std::to_string(getToBeRouted_k(d).getId()+1) << ")";
+    return Constraint(-INFTY, exp, rhs, constraintName.str());
+}
 
-void FlowForm::writeServiceFile(){
+void FlowForm::writeServiceFile(const std::string &file){
     std::ofstream serviceFile;
-    serviceFile.open ("../oopt-gnpy/gnpy/example-data/service_test.json");
+    serviceFile.open (file.c_str());
     serviceFile << "{\n";
     
     serviceFile << "\t\"path-request\": [\n";
@@ -689,11 +803,9 @@ void FlowForm::writeServiceFile(){
 void FlowForm::writePathRequest(std::ofstream &serviceFile, int d){
     std::string source = std::to_string(getToBeRouted_k(d).getSource()+1) + ".1";
     std::string destination = std::to_string(getToBeRouted_k(d).getTarget()+1) + ".1";
-    int load = getToBeRouted_k(d).getLoad();
-    std::string mode = "mode_" + std::to_string(load);
     std::vector<int> path = getPathNodeSequence(d);
     serviceFile << "\t{\n";
-    serviceFile << "\t\t" << "\"request-id\": \"" << std::to_string(getToBeRouted_k(d).getId()+1) << "\",\n";
+    serviceFile << "\t\t" << "\"request-id\": \"Demand " << std::to_string(getToBeRouted_k(d).getId()+1) << "\",\n";
     serviceFile << "\t\t" << "\"source\": \"" << source << "\",\n";
     serviceFile << "\t\t" << "\"destination\": \"" << destination << "\",\n";
     serviceFile << "\t\t" << "\"src-tp-id\": \"" << source << "\",\n";
@@ -703,17 +815,17 @@ void FlowForm::writePathRequest(std::ofstream &serviceFile, int d){
     serviceFile << "\t\t\t" << "\"te-bandwidth\": {\n";
     serviceFile << "\t\t\t\t" << "\"technology\": \"flexi-grid\",\n";
     serviceFile << "\t\t\t\t" << "\"trx_type\": \"Voyager\",\n";
-    serviceFile << "\t\t\t\t" << "\"trx_mode\": \"" << mode << "\",\n";
+    serviceFile << "\t\t\t\t" << "\"trx_mode\": \"" << getToBeRouted_k(d).getMode() << "\",\n";
     serviceFile << "\t\t\t\t" << "\"effective-freq-slot\": [\n";
     serviceFile << "\t\t\t\t\t" << "{\n";
     serviceFile << "\t\t\t\t\t\t" << "\"N\": \"null\",\n";
     serviceFile << "\t\t\t\t\t\t" << "\"M\": \"null\"\n";
     serviceFile << "\t\t\t\t\t" << "}\n";
     serviceFile << "\t\t\t\t" << "],\n";
-    serviceFile << "\t\t\t\t" << "\"spacing\":" << std::to_string(12.5*load) << "e9,\n";
+    serviceFile << "\t\t\t\t" << "\"spacing\":" << getToBeRouted_k(d).getSpacing() << ",\n";
     serviceFile << "\t\t\t\t" << "\"max-nb-of-channel\": null,\n";
     serviceFile << "\t\t\t\t" << "\"output-power\": null,\n";
-    serviceFile << "\t\t\t\t" << "\"path_bandwidth\": 400e9\n";
+    serviceFile << "\t\t\t\t" << "\"path_bandwidth\": " << getToBeRouted_k(d).getPathBandwidth() << "\n";
     serviceFile << "\t\t\t" << "}\n";
     serviceFile << "\t\t" << "},\n";
     serviceFile << "\t\t" << "\"explicit-route-objects\": {\n";

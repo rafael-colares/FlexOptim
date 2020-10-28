@@ -1,7 +1,7 @@
 #include "demand.h"
 
 /* Constructor. */
-Demand::Demand(int i, int s, int t, int l, double max, bool a, int slice, double pathLen, int hops){
+Demand::Demand(int i, int s, int t, int l, double max, bool a, int slice, double pathLen, int hops, std::string m, std::string space, std::string b){
 	this->setId(i);
 	this->setSource(s);
 	this->setTarget(t);
@@ -11,6 +11,9 @@ Demand::Demand(int i, int s, int t, int l, double max, bool a, int slice, double
 	this->setSliceAllocation(slice);
 	this->setPathLength(pathLen);
 	this->setNbHops(hops);
+	this->setMode(m);
+	this->setSpacing(space);
+	this->setPathBandwidth(b);
 }
 
 
@@ -25,6 +28,9 @@ void Demand::copyDemand(const Demand & demand){
 	this->setSliceAllocation(demand.getSliceAllocation());
 	this->setPathLength(demand.getPathLength());
 	this->setNbHops(demand.getNbHops());
+	this->setMode(demand.getMode());
+	this->setSpacing(demand.getSpacing());
+	this->setPathBandwidth(demand.getPathBandwidth());
 }
 
 /* Displays demand information. */

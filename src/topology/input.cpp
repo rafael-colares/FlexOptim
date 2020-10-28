@@ -2,73 +2,59 @@
 
 /* Default constructor initializes the object with the information contained in the parameterFile. */
 Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
-    std::cout << "Getting linkFile." << std::endl;
-    linkFile = getParameterValue("linkFile=");
+    std::cout << "Getting input file paths..." << std::endl;
 
-    std::cout << "Getting demandFile." << std::endl;
-    demandFile = getParameterValue("demandFile=");
+    topologyFile = getParameterValue("topologyFile=");
+    initialMappingDemandFile = getParameterValue("initialMappingDemandFile=");
+    initialMappingAssignmentFile = getParameterValue("initialMappingAssignmentFile=");
+    demandToBeRoutedFolder = getParameterValue("demandToBeRoutedFolder=");
 
-    std::cout << "Getting assignementFile." << std::endl;
-    assignmentFile = getParameterValue("assignmentFile=");
 
-    std::cout << "Getting onlineDemandFolder." << std::endl;
-    onlineDemandFolder = getParameterValue("onlineDemandFolder=");
+    std::cout << "Getting GNPY parameters..." << std::endl;
 
-    std::cout << "Getting output path." << std::endl;
-    outputPath = getParameterValue("outputPath=");
+    GNPY_activation = std::stoi(getParameterValue("GNPY_activation="));
+    if (isGNPYEnabled()){
+        GNPY_topologyFile = getParameterValue("GNPY_topologyFile=");
+        GNPY_equipmentFile = getParameterValue("GNPY_equipmentFile=");
+    }
 
-    std::cout << "Getting number of demands to be treated at once." << std::endl;
+
+    std::cout << "Getting formulation parameters..." << std::endl;
+
     nbDemandsAtOnce = std::stoi(getParameterValue("nbDemandsAtOnce="));
-
-    std::cout << "Getting number of slices in output." << std::endl;
-    nbSlicesInOutputFile = std::stoi(getParameterValue("nbSlicesInOutputFile="));
-    
-    std::cout << "Getting time limits." << std::endl;
-    timeLimit = to_timeLimit(getParameterValue("timeLimit="));
-    globalTimeLimit = to_timeLimit(getParameterValue("globalTimeLimit="));
-
-    std::cout << "Getting allow blocking property." << std::endl;
-    allowBlocking = std::stoi(getParameterValue("allowBlocking="));
-
-    std::cout << "Getting hop penalty." << std::endl;
-    hopPenalty = std::stoi(getParameterValue("hopPenalty="));
-
-    std::cout << "Getting node method." << std::endl;
-    chosenNodeMethod = to_NodeMethod(getParameterValue("method="));
-    
-    std::cout << "Getting formulation." << std::endl;
-    chosenFormulation = to_Formulation(getParameterValue("formulation="));
-
-    std::cout << "Getting mip solver." << std::endl;
-    chosenMipSolver = to_MIP_Solver(getParameterValue("solver="));
-
-    std::cout << "Getting preprocessing level." << std::endl;
-    chosenPreprLvl = (PreprocessingLevel) std::stoi(getParameterValue("preprocessingLevel="));
-
-    std::cout << "Getting objective." << std::endl;
     chosenObj = to_ObjectiveMetric(getParameterValue("obj="));
-
-    std::cout << "Getting output level." << std::endl;
-    chosenOutputLvl = (OutputLevel) std::stoi(getParameterValue("outputLevel="));
-
-    std::cout << "Getting partitioning policy parameters." << std::endl;
+    allowBlocking = std::stoi(getParameterValue("allowBlocking="));
+    linearRelaxation = std::stoi(getParameterValue("linearRelaxation="));
+    hopPenalty = std::stoi(getParameterValue("hopPenalty="));
+    chosenFormulation = to_Formulation(getParameterValue("formulation="));
     chosenPartitionPolicy = to_PartitionPolicy(getParameterValue("partitionPolicy="));
     partitionLoad = std::stoi(getParameterValue("partitionLoad="));
     partitionSlice = std::stoi(getParameterValue("partitionSlice="));
 
 
-    
-    std::cout << "Getting number of slices in Left region." << std::endl;
-    partitionSlice = std::stoi(getParameterValue("partitionSlice="));
+    std::cout << "Getting optimization parameters..." << std::endl;
+
+    chosenMipSolver = to_MIP_Solver(getParameterValue("solver="));
+    chosenNodeMethod = to_NodeMethod(getParameterValue("method="));
+    chosenPreprLvl = (PreprocessingLevel) std::stoi(getParameterValue("preprocessingLevel="));
+
+
+    std::cout << "Getting execution parameters..." << std::endl;
+
+    outputPath = getParameterValue("outputPath=");
+    chosenOutputLvl = (OutputLevel) std::stoi(getParameterValue("outputLevel="));
+    nbSlicesInOutputFile = std::stoi(getParameterValue("nbSlicesInOutputFile="));
+    timeLimit = to_timeLimit(getParameterValue("timeLimit="));
+    globalTimeLimit = to_timeLimit(getParameterValue("globalTimeLimit="));
     
 
-    std::cout << "Getting subgradient parameters." << std::endl;
+    std::cout << "Getting subgradient parameters..." << std::endl;
     lagrangianMultiplier_zero = std::stod(getParameterValue("lagrangianMultiplier_zero="));
     lagrangianLambda_zero = std::stod(getParameterValue("lagrangianLambda_zero="));
     nbIterationsWithoutImprovement = std::stoi(getParameterValue("nbIterationsWithoutImprovement="));
     maxNbIterations = std::stoi(getParameterValue("maxNbIterations="));
 
-    std::cout << "Populating online demand files." << std::endl;
+    std::cout << "Populating online demand files..." << std::endl;
     populateOnlineDemandFiles();
     
     std::cout << "Finish reading input." << std::endl;
@@ -78,29 +64,37 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
 
 /* Copy constructor. */
 Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
-    linkFile = i.getLinkFile();
-    demandFile = i.getDemandFile();
-    assignmentFile = i.getAssignmentFile();
-    onlineDemandFolder = i.getOnlineDemandFolder();
-    vecOnlineDemandFile = i.getOnlineDemandFiles();
-    outputPath = i.getOutputPath();
+    topologyFile = i.getTopologyFile();
+    initialMappingDemandFile = i.getInitialMappingDemandFile();
+    initialMappingAssignmentFile = i.getInitialMappingAssignmentFile();
+    demandToBeRoutedFolder = i.getDemandToBeRoutedFolder();
+    demandToBeRoutedFile = i.getDemandToBeRoutedFiles();
+
+    GNPY_activation = i.isGNPYEnabled();
+    if (isGNPYEnabled()){
+        GNPY_topologyFile = i.getGNPYTopologyFile();
+        GNPY_equipmentFile = i.getGNPYEquipmentFile();
+    }
 
     nbDemandsAtOnce = i.getNbDemandsAtOnce();
-    nbSlicesInOutputFile = i.getnbSlicesInOutputFile();
+    chosenObj = i.getChosenObj();
+    allowBlocking = i.isBlockingAllowed();
+    linearRelaxation = i.isRelaxed();
+    hopPenalty = i.getHopPenalty();
+    chosenFormulation = i.getChosenFormulation();
+    chosenPartitionPolicy = i.getChosenPartitionPolicy();
     partitionSlice = i.getPartitionSlice();
     partitionLoad = i.getPartitionLoad();
+
+    chosenMipSolver = i.getChosenMIPSolver();
+    chosenNodeMethod = i.getChosenNodeMethod();
+    chosenPreprLvl = i.getChosenPreprLvl();
+
+    outputPath = i.getOutputPath();
+    chosenOutputLvl = i.getChosenOutputLvl();
+    nbSlicesInOutputFile = i.getnbSlicesInOutputFile();
     timeLimit = i.getIterationTimeLimit();
     globalTimeLimit = i.getOptimizationTimeLimit();
-    allowBlocking = i.isBlockingAllowed();
-    hopPenalty = i.getHopPenalty();
-
-    chosenNodeMethod = i.getChosenNodeMethod();
-    chosenMipSolver = i.getChosenMIPSolver();
-    chosenFormulation = i.getChosenFormulation();
-    chosenPreprLvl = i.getChosenPreprLvl();
-    chosenObj = i.getChosenObj();
-    chosenOutputLvl = i.getChosenOutputLvl();
-    chosenPartitionPolicy = i.getChosenPartitionPolicy();
 
     lagrangianMultiplier_zero = i.getInitialLagrangianMultiplier();
     lagrangianLambda_zero = i.getInitialLagrangianLambda();
@@ -137,27 +131,27 @@ std::string Input::getParameterValue(std::string pattern){
 
 void Input::populateOnlineDemandFiles(){
     
-    if (onlineDemandFolder.empty()) {
+    if (demandToBeRoutedFolder.empty()) {
         std::cout << "ERROR: No online demand folder was provided." << std::endl;
         exit(0);
     }
     DIR *dir;
     dirent *pdir;
     int numberOfFiles = 0;
-    if((dir = opendir(onlineDemandFolder.c_str())) == NULL) {
-        std::cout << "ERROR: Could not open folder '" << onlineDemandFolder << "'." << std::endl;
+    if((dir = opendir(demandToBeRoutedFolder.c_str())) == NULL) {
+        std::cout << "ERROR: Could not open folder '" << demandToBeRoutedFolder << "'." << std::endl;
         exit(0);
     }
     while ( (pdir = readdir(dir)) != NULL) {
-        std::string file = onlineDemandFolder + "/" + pdir->d_name;    
+        std::string file = demandToBeRoutedFolder + "/" + pdir->d_name;    
         if (file.back() != '.'){
-            vecOnlineDemandFile.push_back(file);
+            demandToBeRoutedFile.push_back(file);
             numberOfFiles++;
         }
     }
     closedir(dir);
     if (numberOfFiles == 0){
-        std::cout << "WARNING: The folder '" << onlineDemandFolder << "' of online demands is empty!" << std::endl;
+        std::cout << "WARNING: The folder '" << demandToBeRoutedFolder << "' of online demands is empty!" << std::endl;
     }
 }
 
@@ -374,9 +368,9 @@ int Input::to_timeLimit(std::string data){
 
 /* Displays the main input file paths: link, demand and assignement. */
 void Input::displayMainParameters(){
-    std::cout << "LINK FILE: " << linkFile << std::endl;
-    std::cout << "DEMAND FILE: " << demandFile << std::endl;
-    std::cout << "ASSIGNMENT FILE: " << assignmentFile << std::endl;
+    std::cout << "TOPOLOGY FILE: " << topologyFile << std::endl;
+    std::cout << "ROUTED DEMANDS FILE: " << initialMappingDemandFile << std::endl;
+    std::cout << "INITIAL ASSIGNMENT FILE: " << initialMappingAssignmentFile << std::endl;
 }
 
 /****************************************************************************************/
@@ -385,5 +379,5 @@ void Input::displayMainParameters(){
 
 /* Destructor. Clears the vector of strings. */
 Input::~Input(){
-    vecOnlineDemandFile.clear();
+    demandToBeRoutedFile.clear();
 }

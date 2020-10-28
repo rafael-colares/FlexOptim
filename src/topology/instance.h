@@ -148,13 +148,13 @@ public:
 	/** Builds the initial mapping based on the information retrived from the Input. **/
 	void createInitialMapping();
 	
-	/** Reads the topology information from input's linkFile. Builds the set of links. @warning File should be structured as in Link.csv. **/
+	/** Reads the topology information from input's topologyFile. Builds the set of links. @warning File should be structured as in Link.csv. **/
 	void readTopology();
 	
 	/** Reads the routed demand information from input's demandFile. Builds the set of demands. @warning File should be structured as in Demand.csv. **/
 	void readDemands();
 
-	/** Reads the assignment information from input's assignmentFile. Sets the demands to routed and update the slices of the edges. @warning File should be structured as in Demand_edges_slices.csv. **/
+	/** Reads the assignment information from input's initialMappingAssignmentFile. Sets the demands to routed and update the slices of the edges. @warning File should be structured as in Demand_edges_slices.csv. **/
 	void readDemandAssignment();
 
 	/** Adds non-routed demands to the pool by reading the information from file. @param filePath The path of the file to be read. **/
@@ -188,7 +188,7 @@ public:
 	void outputDemandEdgeSlices(std::string i);
 
 	/** Builds file results.csv containing information about the main obtained results. @param fileName The name of demand file being optimized. **/
-	void outputLogResults(std::string fileName);
+	void outputLogResults(std::string fileName, double time);
 	
 	/****************************************************************************************/
 	/*										Display											*/

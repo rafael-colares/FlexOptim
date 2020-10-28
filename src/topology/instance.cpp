@@ -103,16 +103,16 @@ void Instance::setDemandFromId(int id, const Demand & demand){
 /* Builds the initial mapping based on the information retrived from the Input. */
 void Instance::createInitialMapping(){
 	std::cout << "--- CREATING INITIAL MAPPING... --- " << std::endl;
-	if (!input.getLinkFile().empty()){
+	if (!input.getTopologyFile().empty()){
 		readTopology();
 	}
 	else{
 		std::cerr << "A topology file MUST be declared in the input file.\n";
 		exit(0);
 	}
-	if (!input.getDemandFile().empty()){
+	if (!input.getInitialMappingDemandFile().empty()){
 		readDemands();
-		if (!input.getAssignmentFile().empty()){
+		if (!input.getInitialMappingAssignmentFile().empty()){
 			readDemandAssignment();
 		}
 		else{
@@ -127,8 +127,8 @@ void Instance::createInitialMapping(){
 
 /* Reads the topology information from file. */
 void Instance::readTopology(){
-	std::cout << "Reading " << input.getLinkFile() << "."  << std::endl;
-	CSVReader reader(input.getLinkFile());
+	std::cout << "Reading " << input.getTopologyFile() << "."  << std::endl;
+	CSVReader reader(input.getTopologyFile());
 	/* dataList is a vector of vectors of strings. */
 	/* dataList[0] corresponds to the first line of the document and dataList[0][i] to the i-th word.*/
 	std::vector<std::vector<std::string> > dataList = reader.getData();
@@ -161,8 +161,8 @@ void Instance::readTopology(){
 
 /* Reads the routed demand information from file. */
 void Instance::readDemands(){
-	std::cout << "Reading " << input.getDemandFile() << "." << std::endl;
-	CSVReader reader(input.getDemandFile());
+	std::cout << "Reading " << input.getInitialMappingDemandFile() << "." << std::endl;
+	CSVReader reader(input.getInitialMappingDemandFile());
 	/* dataList is a vector of vectors of strings. */
 	/* dataList[0] corresponds to the first line of the document and dataList[0][i] to the i-th word.*/
 	std::vector<std::vector<std::string> > dataList = reader.getData();
@@ -173,16 +173,16 @@ void Instance::readDemands(){
 		int demandSource = std::stoi(dataList[i][1]) - 1;
 		int demandTarget = std::stoi(dataList[i][2]) - 1;
 		int demandLoad = std::stoi(dataList[i][3]);
-		double DemandMaxLength = std::stod(dataList[i][4]);
-		Demand demand(idDemand, demandSource, demandTarget, demandLoad, DemandMaxLength, false);
+		double demandMaxLength = std::stod(dataList[i][4]);
+		Demand demand(idDemand, demandSource, demandTarget, demandLoad, demandMaxLength, false);
 		this->tabDemand.push_back(demand);
 	}
 }
 
 /* Reads the assignment information from file. */
 void Instance::readDemandAssignment(){
-	CSVReader reader(input.getAssignmentFile());
-	std::cout << "Reading " << input.getAssignmentFile() << "." << std::endl;
+	CSVReader reader(input.getInitialMappingAssignmentFile());
+	std::cout << "Reading " << input.getInitialMappingAssignmentFile() << "." << std::endl;
 
 	/* dataList is a vector of vectors of strings. */
 	/* dataList[0] corresponds to the first line of the document and dataList[0][0] to the first word.*/
@@ -300,7 +300,15 @@ void Instance::generateDemandsFromFile(std::string filePath){
 		int demandTarget = std::stoi(dataList[i][2]) - 1;
 		int demandLoad = std::stoi(dataList[i][3]);
 		double DemandMaxLength = std::stod(dataList[i][4]);
-		Demand demand(idDemand, demandSource, demandTarget, demandLoad, DemandMaxLength, false);
+		std::string demandMode = "";
+		std::string demandSpacing = "";
+		std::string demandPathBandwidth = "";
+		if (input.isGNPYEnabled()){
+			demandMode = "mode_" + dataList[i][5];
+			demandSpacing = dataList[i][6];
+			demandPathBandwidth = dataList[i][7];
+		}
+		Demand demand(idDemand, demandSource, demandTarget, demandLoad, DemandMaxLength, false, -1, 0, 0, demandMode, demandSpacing, demandPathBandwidth);
 		this->tabDemand.push_back(demand);
 	}
 }
@@ -590,7 +598,7 @@ void Instance::outputEdgeSliceHols(std::string counter){
 
 
 /* Builds file results.csv containing information about the main obtained results. */
-void Instance::outputLogResults(std::string fileName){
+void Instance::outputLogResults(std::string fileName, double time){
 	std::string delimiter = ";";
 	std::string filePath = this->input.getOutputPath() + "results.csv";
 	std::ofstream myfile(filePath.c_str(), std::ios_base::app);

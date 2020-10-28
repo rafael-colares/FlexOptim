@@ -38,8 +38,8 @@ int main(int argc, char *argv[]) {
 	/********************************************************************/
 	/* 				For each file of demands, optimize it 				*/
 	/********************************************************************/
-	std::cout << "> Number of online demand files: " << input.getNbOnlineDemandFiles() << std::endl;
-	for (int i = 0; i < input.getNbOnlineDemandFiles(); i++) {
+	std::cout << "> Number of online demand files: " << input.getNbDemandToBeRoutedFiles() << std::endl;
+	for (int i = 0; i < input.getNbDemandToBeRoutedFiles(); i++) {
 		ClockTime OPTIMIZATION_TIME(ClockTime::getTimeNow());
 		/********************************************************************/
 		/* 						Create initial mapping 						*/
@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
 		/********************************************************************/
 		//instance.displayDetailedTopology();
 		std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
-		std::string nextFile = instance.getInput().getOnlineDemandFilesFromIndex(i);
+		std::string nextFile = instance.getInput().getDemandToBeRoutedFilesFromIndex(i);
 		instance.generateDemandsFromFile(nextFile);
 		//instance.generateRandomDemands(1);
 		instance.displayNonRoutedDemands();
@@ -88,12 +88,16 @@ int main(int argc, char *argv[]) {
 			AbstractSolver *solver = factory.createSolver(instance);
 			solver->solve();
 			solver->updateRSA(instance);
-
+			
 			/********************************************************************/
 			/* 							Finalization							*/
 			/********************************************************************/
 			if (instance.getInput().getChosenOutputLvl() == Input::OUTPUT_LVL_DETAILED){
 				instance.output(outputCode);
+				solver->outputLogResults(outputCode);
+			}
+			if (instance.getInput().isBlockingAllowed() == false && instance.getWasBlocked() == true){
+				feasibility = false;
 			}
 			std::cout << "Time taken by iteration is : ";
 			std::cout << std::fixed  << ITERATION_TIME.getTimeInSecFromStart() << std::setprecision(9); 
@@ -107,7 +111,7 @@ int main(int argc, char *argv[]) {
 		if (instance.getInput().getChosenOutputLvl() >= Input::OUTPUT_LVL_NORMAL){
 			outputCode = getInBetweenString(nextFile, "/", ".");
 			instance.output(outputCode + "_FINAL");
-			instance.outputLogResults(outputCode);
+			instance.outputLogResults(outputCode, OPTIMIZATION_TIME.getTimeInSecFromStart());
 		}
 		instance.displayAllDemands();
 		std::cout << "Time taken by optimization is : ";

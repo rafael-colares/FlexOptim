@@ -13,7 +13,6 @@ var searchData=
   ['arccost_10',['ArcCost',['../rsa_8h.html#afaca90639bffeefd2f17accaa58e1e54',1,'rsa.h']]],
   ['arcmap_11',['ArcMap',['../rsa_8h.html#ad4e5a32a0dcbb8f2aabc6989dc110b87',1,'rsa.h']]],
   ['assigneddemand_12',['assignedDemand',['../classSlice.html#a029b4ae9a9cc083f83012b1cba475d2a',1,'Slice']]],
-  ['assignmentfile_13',['assignmentFile',['../classInput.html#a78d9e3faffc05cda5c70ccf6fcd2dbb0',1,'Input']]],
-  ['assignslices_14',['assignSlices',['../classFiber.html#a1594e8c84bec53ac3ab4a90dcc3cee85',1,'Fiber']]],
-  ['assignslicesoflink_15',['assignSlicesOfLink',['../classInstance.html#aecc5e2418d78011dbe2be9f9fd80ff07',1,'Instance']]]
+  ['assignslices_13',['assignSlices',['../classFiber.html#a1594e8c84bec53ac3ab4a90dcc3cee85',1,'Fiber']]],
+  ['assignslicesoflink_14',['assignSlicesOfLink',['../classInstance.html#aecc5e2418d78011dbe2be9f9fd80ff07',1,'Instance']]]
 ];

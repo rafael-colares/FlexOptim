@@ -60,6 +60,8 @@ public:
 	
 	/** Defines the Link's Max Used Slice Position constraints. The max used slice position on each link must be greater than every slice position used in the link. **/
 	void setMaxUsedSlicePerLinkConstraints();
+	/** Defines the Link's Max Used Slice Position constraints. The max used slice position on each link must be greater than every slice position used in the link. **/
+	void setMaxUsedSlicePerLinkConstraints2();
 
 	/** Defines the Overall Max Used Slice Position constraints. The max used slice position overall must be greater than every other slice position used in the network. **/
 	void setMaxUsedSliceOverallConstraints();
@@ -69,6 +71,8 @@ public:
 
 	/** Defines the Overall Max Used Slice Position constraints. The max used slice position overall must be greater than every other slice position used in the network. **/
 	void setMaxUsedSliceOverallConstraints3();
+	/** Defines the Overall Max Used Slice Position constraints. The max used slice position overall must be greater than every other slice position used in the network. **/
+	void setMaxUsedSliceOverallConstraints4();
 
 	/** Returns the source constraint associated with a demand and a node. @param demand The demand. @param d The demand index. @param nodeLabel The node label. **/
     Constraint getSourceConstraint_d_n(const Demand & demand, int d, int nodeLabel);
@@ -87,6 +91,8 @@ public:
 	
 	/** Returns the Link's Max Used Slice Position constraint associated with a link and a demand. @param linkIndex The link's index. @param d The demand's index. **/
 	Constraint getMaxUsedSlicePerLinkConstraints(int linkIndex, int d);
+	/** Returns the Link's Max Used Slice Position constraint associated with a link and a demand. @param linkIndex The link's index. @param d The demand's index. **/
+	Constraint getMaxUsedSlicePerLinkConstraints2(int linkIndex, int s);
 
 	/** Returns the Overall Max Used Slice Position constraints associated with a link and a demand. @param linkIndex The link's index. @param d The demand's index. **/
 	Constraint getMaxUsedSliceOverallConstraints(int d);
@@ -96,12 +102,17 @@ public:
 
 	/** Returns the Overall Max Used Slice Position constraints associated with a link and a demand. @param linkIndex The link's index. **/
 	Constraint getMaxUsedSliceOverallConstraints3(int linkIndex, int s);
-	
+	/** Returns the Overall Max Used Slice Position constraints associated with a link and a demand. @param linkIndex The link's index. **/
+	Constraint getMaxUsedSliceOverallConstraints4(int linkIndex);
+
+	/** Returns the constraint rejecting the path stored for the d-th demand. @param d The d-th demand. **/	
+	Constraint getPathEliminationConstraint(int d);
+
     std::vector<Constraint> solveSeparationProblemFract(const std::vector<double> &solution) override;
 	
-	std::vector<Constraint> solveSeparationProblemInt(const std::vector<double> &solution) override;
+	std::vector<Constraint> solveSeparationProblemInt(const std::vector<double> &solution, const int threadNo) override;
 
-	std::vector<Constraint> separationGNPY(const std::vector<double> &value);
+	std::vector<Constraint> separationGNPY(const std::vector<double> &value, const int threadNo);
 	/****************************************************************************************/
 	/*									Objective Functions									*/
 	/****************************************************************************************/
@@ -118,7 +129,7 @@ public:
 	/** Recovers the obtained MIP solution and builds a path for each demand on its associated graph from RSA. **/
     void updatePath(const std::vector<double> &vals) override;
 
-	void writeServiceFile();
+	void writeServiceFile(const std::string &file);
 
 	void writePathRequest(std::ofstream &serviceFile, int d);
 

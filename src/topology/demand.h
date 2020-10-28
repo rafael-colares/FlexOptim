@@ -23,12 +23,16 @@ private:
 	double pathLength;	/**< The length of the path on which demand is routed. @warning Equals -1 if not routed yet. **/
 	int nbHops;			/**< The number of hops of the path on which demand is routed. @warning Equals -1 if not routed yet. **/
 
+	std::string mode;	/**< The GNPY mode of transmission. **/
+	std::string spacing;/**< The GNPY spacing. **/
+	std::string band;	/**< The GNPY path_bandwidth. **/
+
 public:
 	/****************************************************************************************/
 	/*									Constructors										*/
 	/****************************************************************************************/
-	/** Constructor. @param i Id. @param s Source node id. @param t Target node id. @param l Load. @param maxL Maximum length. @param route Whether the demand is already routed. @param pos The last slice position assigned to the demand. @param len The length of the path assigned to the demand. @param hop The number of hops in the path assigned to the demand. **/
-	Demand(int i = -1, int s = -1, int t = -1, int l = 0, double maxL = 0, bool route=false, int pos=-1, double len = 0, int hop = 0);
+	/** Constructor. @param i Id. @param s Source node id. @param t Target node id. @param l Load. @param maxL Maximum length. @param route Whether the demand is already routed. @param pos The last slice position assigned to the demand. @param len The length of the path assigned to the demand. @param hop The number of hops in the path assigned to the demand. @param m The GNPY mode @param space The GNPY spacing @param pathBand The GNPY path_bandwidth. **/
+	Demand(int i = -1, int s = -1, int t = -1, int l = 0, double maxL = 0, bool route=false, int pos=-1, double len = 0, int hop = 0, std::string m="", std::string space="",std::string pathBand="");
 
 	/****************************************************************************************/
 	/*										Getters											*/
@@ -59,6 +63,15 @@ public:
 
 	/** Returns true if the demand has already been routed. **/
 	bool isRouted() const { return routed; }
+
+	/** Returns the GNPY mode. **/
+	std::string getMode() const { return mode; }
+
+	/** Returns the GNPY spacing. **/
+	std::string getSpacing() const { return spacing; };
+
+	/** Returns the GNPY path_bandwidth. **/
+	std::string getPathBandwidth() const { return band; };
 
 	/** Returns a compact description of the demand in the form (source, target, load). **/
 	std::string getString() const;
@@ -92,6 +105,16 @@ public:
 
 	/** Changes the number of hops of the path on which demand is routed. @param n The new number of hops**/
 	void setNbHops(int n) { this->nbHops = n; }
+
+	/** Changes the GNPY mode. @param m The new mode**/
+	void setMode(std::string m) { this->mode = m; }
+
+	/** Changes the GNPY spacing. @param s The new spacing. **/
+	void setSpacing(std::string s) { this->spacing = s; }
+
+	/** Changes the GNPY path bandwidth. @param b The new path bandwidth. **/
+	void setPathBandwidth(std::string b) { this->band = b; }
+
 
 	/****************************************************************************************/
 	/*										Methods											*/

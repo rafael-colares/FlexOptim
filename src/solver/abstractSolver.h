@@ -29,6 +29,12 @@ public:
 protected:
 	AbstractFormulation *formulation;
 	Status currentStatus;
+	double time;
+	double upperBound;
+	double lowerBound;
+	double gap;
+	int treeSize;
+	double rootValue;
 
 public:
 	/****************************************************************************************/
@@ -43,6 +49,13 @@ public:
 	/****************************************************************************************/
 	/** Returns the status. **/
     virtual Status getStatus() = 0;
+	
+	double getDurationTime() const { return time; }
+	double getMipGap() const { return gap; }
+	double getUpperBound() const { return upperBound; }
+	double getLowerBound() const { return lowerBound; }
+	int getTreeSize() const { return treeSize; }
+	double getRootValue() const { return rootValue; }
 
 	/****************************************************************************************/
 	/*											Setters										*/
@@ -50,6 +63,12 @@ public:
 	/** Changes the status. **/
     void setStatus(const Status &s){ currentStatus = s; }
 
+	void setDurationTime(const double t) { time = t; }
+	void setMipGap(const double g) { gap = g; }
+	void setUpperBound(const double ub) { upperBound = ub; }
+	void setLowerBound(const double lb) { lowerBound = lb; }
+	void setTreeSize(const int t) { treeSize = t; }
+	void setRootValue(const double v) { rootValue = v; }
 	
 	/****************************************************************************************/
 	/*											Methods										*/
@@ -59,6 +78,10 @@ public:
 	virtual void implementFormulation() = 0;
 
 	virtual void updateRSA(Instance &instance) = 0;
+
+	
+	/* Builds file results.csv containing information about the main obtained results. */
+	virtual void outputLogResults(std::string fileName){}
 
 	virtual ~AbstractSolver(){}
 

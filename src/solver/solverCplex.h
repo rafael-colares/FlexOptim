@@ -57,6 +57,8 @@ public:
 	/****************************************************************************************/
 	IloCplex getCplex(){ return cplex; }
 
+	
+
 	AbstractSolver::Status getStatus() override;
 
 	std::vector<double> getSolution();
@@ -75,8 +77,6 @@ public:
 
 	/** Defines the cplex optimization parameters. **/
 	void setCplexParams(const Input &input);
-
-
 	/****************************************************************************************/
 	/*										Methods											*/
 	/****************************************************************************************/
@@ -96,6 +96,9 @@ public:
 	
 	/** Returns the total number of CPLEX default cuts applied during optimization. **/
 	IloInt getNbCutsFromCplex();
+	
+	/* Builds file results.csv containing information about the main obtained results. */
+	void outputLogResults(std::string fileName) override;
 	/****************************************************************************************/
 	/*										Display											*/
 	/****************************************************************************************/

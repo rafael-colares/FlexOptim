@@ -81,18 +81,19 @@ Collaboration diagram for Demand:</div>
 <div class="dyncontent">
 <div class="center"><img src="classDemand__coll__graph.png" border="0" usemap="#Demand_coll__map" alt="Collaboration graph"/></div>
 <map name="Demand_coll__map" id="Demand_coll__map">
-<area shape="rect" title="This class identifies a demand." alt="" coords="70,219,234,619"/>
+<area shape="rect" title="This class identifies a demand." alt="" coords="135,219,300,707"/>
 <area shape="rect" title=" " alt="" coords="5,5,72,83"/>
 <area shape="rect" title=" " alt="" coords="133,5,171,83"/>
-<area shape="rect" title=" " alt="" coords="259,5,309,83"/>
+<area shape="rect" title=" " alt="" coords="255,5,313,83"/>
+<area shape="rect" title=" " alt="" coords="345,5,396,83"/>
 </map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6cc7746958576450518958a97e5789fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a6cc7746958576450518958a97e5789fe">Demand</a> (int i=-1, int s=-1, int t=-1, int l=0, double maxL=0, bool route=false, int pos=-1, double len=0, int hop=0)</td></tr>
-<tr class="memdesc:a6cc7746958576450518958a97e5789fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classDemand.html#a6cc7746958576450518958a97e5789fe">More...</a><br /></td></tr>
-<tr class="separator:a6cc7746958576450518958a97e5789fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89f4aebaa3952b87e292118fcfbb9a82"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a89f4aebaa3952b87e292118fcfbb9a82">Demand</a> (int i=-1, int s=-1, int t=-1, int l=0, double maxL=0, bool route=false, int pos=-1, double len=0, int hop=0, std::string m=&quot;&quot;, std::string space=&quot;&quot;, std::string pathBand=&quot;&quot;)</td></tr>
+<tr class="memdesc:a89f4aebaa3952b87e292118fcfbb9a82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classDemand.html#a89f4aebaa3952b87e292118fcfbb9a82">More...</a><br /></td></tr>
+<tr class="separator:a89f4aebaa3952b87e292118fcfbb9a82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06cc49c08a34834499b3af46b2f2d34d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a06cc49c08a34834499b3af46b2f2d34d">getId</a> () const</td></tr>
 <tr class="memdesc:a06cc49c08a34834499b3af46b2f2d34d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the demand's id.  <a href="classDemand.html#a06cc49c08a34834499b3af46b2f2d34d">More...</a><br /></td></tr>
 <tr class="separator:a06cc49c08a34834499b3af46b2f2d34d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -120,6 +121,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0c6de7ed38ef9dc96dd8428f0da363d3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a0c6de7ed38ef9dc96dd8428f0da363d3">isRouted</a> () const</td></tr>
 <tr class="memdesc:a0c6de7ed38ef9dc96dd8428f0da363d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the demand has already been routed.  <a href="classDemand.html#a0c6de7ed38ef9dc96dd8428f0da363d3">More...</a><br /></td></tr>
 <tr class="separator:a0c6de7ed38ef9dc96dd8428f0da363d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08dec8a3ac103f47a0788dd04f859531"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a08dec8a3ac103f47a0788dd04f859531">getMode</a> () const</td></tr>
+<tr class="memdesc:a08dec8a3ac103f47a0788dd04f859531"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the GNPY mode.  <a href="classDemand.html#a08dec8a3ac103f47a0788dd04f859531">More...</a><br /></td></tr>
+<tr class="separator:a08dec8a3ac103f47a0788dd04f859531"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab71290a6f848149ed05e23fd1a0e0ece"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#ab71290a6f848149ed05e23fd1a0e0ece">getSpacing</a> () const</td></tr>
+<tr class="memdesc:ab71290a6f848149ed05e23fd1a0e0ece"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the GNPY spacing.  <a href="classDemand.html#ab71290a6f848149ed05e23fd1a0e0ece">More...</a><br /></td></tr>
+<tr class="separator:ab71290a6f848149ed05e23fd1a0e0ece"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae468c01e86be92ec20e9f8deb72719a9"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#ae468c01e86be92ec20e9f8deb72719a9">getPathBandwidth</a> () const</td></tr>
+<tr class="memdesc:ae468c01e86be92ec20e9f8deb72719a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the GNPY path_bandwidth.  <a href="classDemand.html#ae468c01e86be92ec20e9f8deb72719a9">More...</a><br /></td></tr>
+<tr class="separator:ae468c01e86be92ec20e9f8deb72719a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a717d65b79bc41cfed5bb75c1fc0469b2"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a717d65b79bc41cfed5bb75c1fc0469b2">getString</a> () const</td></tr>
 <tr class="memdesc:a717d65b79bc41cfed5bb75c1fc0469b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a compact description of the demand in the form (source, target, load).  <a href="classDemand.html#a717d65b79bc41cfed5bb75c1fc0469b2">More...</a><br /></td></tr>
 <tr class="separator:a717d65b79bc41cfed5bb75c1fc0469b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,6 +160,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9bca519087545b0b770d28541b6c8de2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a9bca519087545b0b770d28541b6c8de2">setNbHops</a> (int n)</td></tr>
 <tr class="memdesc:a9bca519087545b0b770d28541b6c8de2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the number of hops of the path on which demand is routed.  <a href="classDemand.html#a9bca519087545b0b770d28541b6c8de2">More...</a><br /></td></tr>
 <tr class="separator:a9bca519087545b0b770d28541b6c8de2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae55c07f85d56673daf92dd50068f097d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#ae55c07f85d56673daf92dd50068f097d">setMode</a> (std::string m)</td></tr>
+<tr class="memdesc:ae55c07f85d56673daf92dd50068f097d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the GNPY mode.  <a href="classDemand.html#ae55c07f85d56673daf92dd50068f097d">More...</a><br /></td></tr>
+<tr class="separator:ae55c07f85d56673daf92dd50068f097d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3107bbdae9c5c556391347d881a34b3f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a3107bbdae9c5c556391347d881a34b3f">setSpacing</a> (std::string s)</td></tr>
+<tr class="memdesc:a3107bbdae9c5c556391347d881a34b3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the GNPY spacing.  <a href="classDemand.html#a3107bbdae9c5c556391347d881a34b3f">More...</a><br /></td></tr>
+<tr class="separator:a3107bbdae9c5c556391347d881a34b3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cc5575b8cae0ffcd58e127e4f0773eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a2cc5575b8cae0ffcd58e127e4f0773eb">setPathBandwidth</a> (std::string b)</td></tr>
+<tr class="memdesc:a2cc5575b8cae0ffcd58e127e4f0773eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the GNPY path bandwidth.  <a href="classDemand.html#a2cc5575b8cae0ffcd58e127e4f0773eb">More...</a><br /></td></tr>
+<tr class="separator:a2cc5575b8cae0ffcd58e127e4f0773eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af37847de8be74cc4870b1bc92dd48907"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#af37847de8be74cc4870b1bc92dd48907">copyDemand</a> (const <a class="el" href="classDemand.html">Demand</a> &amp;demand)</td></tr>
 <tr class="memdesc:af37847de8be74cc4870b1bc92dd48907"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies all information from a given demand.  <a href="classDemand.html#af37847de8be74cc4870b1bc92dd48907">More...</a><br /></td></tr>
 <tr class="separator:af37847de8be74cc4870b1bc92dd48907"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -189,6 +208,15 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a21e29d05a8bdb2eb368d1b56bb86085c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a21e29d05a8bdb2eb368d1b56bb86085c">nbHops</a></td></tr>
 <tr class="memdesc:a21e29d05a8bdb2eb368d1b56bb86085c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of hops of the path on which demand is routed.  <a href="classDemand.html#a21e29d05a8bdb2eb368d1b56bb86085c">More...</a><br /></td></tr>
 <tr class="separator:a21e29d05a8bdb2eb368d1b56bb86085c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf5762ce48c97d8187ee2076f44ca45f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#adf5762ce48c97d8187ee2076f44ca45f">mode</a></td></tr>
+<tr class="memdesc:adf5762ce48c97d8187ee2076f44ca45f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The GNPY mode of transmission.  <a href="classDemand.html#adf5762ce48c97d8187ee2076f44ca45f">More...</a><br /></td></tr>
+<tr class="separator:adf5762ce48c97d8187ee2076f44ca45f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5706624a5e694c38b8faa5968a79ee96"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a5706624a5e694c38b8faa5968a79ee96">spacing</a></td></tr>
+<tr class="memdesc:a5706624a5e694c38b8faa5968a79ee96"><td class="mdescLeft">&#160;</td><td class="mdescRight">The GNPY spacing.  <a href="classDemand.html#a5706624a5e694c38b8faa5968a79ee96">More...</a><br /></td></tr>
+<tr class="separator:a5706624a5e694c38b8faa5968a79ee96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0575af53c159c3b60db219e36de0adba"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDemand.html#a0575af53c159c3b60db219e36de0adba">band</a></td></tr>
+<tr class="memdesc:a0575af53c159c3b60db219e36de0adba"><td class="mdescLeft">&#160;</td><td class="mdescRight">The GNPY path_bandwidth.  <a href="classDemand.html#a0575af53c159c3b60db219e36de0adba">More...</a><br /></td></tr>
+<tr class="separator:a0575af53c159c3b60db219e36de0adba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class identifies a demand. </p>
@@ -196,8 +224,8 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00013">13</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a6cc7746958576450518958a97e5789fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6cc7746958576450518958a97e5789fe">&#9670;&nbsp;</a></span>Demand()</h2>
+<a id="a89f4aebaa3952b87e292118fcfbb9a82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89f4aebaa3952b87e292118fcfbb9a82">&#9670;&nbsp;</a></span>Demand()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -254,7 +282,25 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>hop</em> = <code>0</code>&#160;</td>
+          <td class="paramname"><em>hop</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>m</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>space</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>pathBand</em> = <code>&quot;&quot;</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -275,7 +321,10 @@ Private Attributes</h2></td></tr>
     <tr><td class="paramname">route</td><td>Whether the demand is already routed.</td></tr>
     <tr><td class="paramname">pos</td><td>The last slice position assigned to the demand.</td></tr>
     <tr><td class="paramname">len</td><td>The length of the path assigned to the demand.</td></tr>
-    <tr><td class="paramname">hop</td><td>The number of hops in the path assigned to the demand. </td></tr>
+    <tr><td class="paramname">hop</td><td>The number of hops in the path assigned to the demand.</td></tr>
+    <tr><td class="paramname">m</td><td>The GNPY mode</td></tr>
+    <tr><td class="paramname">space</td><td>The GNPY spacing</td></tr>
+    <tr><td class="paramname">pathBand</td><td>The GNPY path_bandwidth. </td></tr>
   </table>
   </dd>
 </dl>
@@ -334,7 +383,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="demand_8cpp_source.html#l00045">45</a> of file <a class="el" href="demand_8cpp_source.html">demand.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8cpp_source.html#l00051">51</a> of file <a class="el" href="demand_8cpp_source.html">demand.cpp</a>.</p>
 
 </div>
 </div>
@@ -362,7 +411,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="demand_8cpp_source.html#l00018">18</a> of file <a class="el" href="demand_8cpp_source.html">demand.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8cpp_source.html#l00021">21</a> of file <a class="el" href="demand_8cpp_source.html">demand.cpp</a>.</p>
 
 </div>
 </div>
@@ -383,7 +432,7 @@ Private Attributes</h2></td></tr>
 
 <p>Displays demand information. </p>
 
-<p class="definition">Definition at line <a class="el" href="demand_8cpp_source.html#l00031">31</a> of file <a class="el" href="demand_8cpp_source.html">demand.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8cpp_source.html#l00037">37</a> of file <a class="el" href="demand_8cpp_source.html">demand.cpp</a>.</p>
 
 </div>
 </div>
@@ -412,7 +461,7 @@ Private Attributes</h2></td></tr>
 
 <p>Returns the demand's id. </p>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00037">37</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00041">41</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -441,7 +490,7 @@ Private Attributes</h2></td></tr>
 
 <p>Returns the number of slices requested by the demand. </p>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00046">46</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00050">50</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -470,7 +519,36 @@ Private Attributes</h2></td></tr>
 
 <p>Returns the maximum length of the path on which the demand can be routed. </p>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00058">58</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00062">62</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+
+</div>
+</div>
+<a id="a08dec8a3ac103f47a0788dd04f859531"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08dec8a3ac103f47a0788dd04f859531">&#9670;&nbsp;</a></span>getMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Demand::getMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the GNPY mode. </p>
+
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00068">68</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -499,7 +577,36 @@ Private Attributes</h2></td></tr>
 
 <p>Returns the number of hops of the path on which demand is routed. </p>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00055">55</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00059">59</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+
+</div>
+</div>
+<a id="ae468c01e86be92ec20e9f8deb72719a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae468c01e86be92ec20e9f8deb72719a9">&#9670;&nbsp;</a></span>getPathBandwidth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Demand::getPathBandwidth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the GNPY path_bandwidth. </p>
+
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00074">74</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -528,7 +635,7 @@ Private Attributes</h2></td></tr>
 
 <p>Returns the length of the path on which demand is routed. </p>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00052">52</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00056">56</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -557,7 +664,7 @@ Private Attributes</h2></td></tr>
 
 <p>Returns the id of the last slice assigned to the demand. </p>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00049">49</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00053">53</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -586,7 +693,36 @@ Private Attributes</h2></td></tr>
 
 <p>Returns the demand's source node id. </p>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00040">40</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00044">44</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+
+</div>
+</div>
+<a id="ab71290a6f848149ed05e23fd1a0e0ece"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab71290a6f848149ed05e23fd1a0e0ece">&#9670;&nbsp;</a></span>getSpacing()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Demand::getSpacing </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the GNPY spacing. </p>
+
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00071">71</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -607,7 +743,7 @@ Private Attributes</h2></td></tr>
 
 <p>Returns a compact description of the demand in the form (source, target, load). </p>
 
-<p class="definition">Definition at line <a class="el" href="demand_8cpp_source.html#l00057">57</a> of file <a class="el" href="demand_8cpp_source.html">demand.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8cpp_source.html#l00063">63</a> of file <a class="el" href="demand_8cpp_source.html">demand.cpp</a>.</p>
 
 </div>
 </div>
@@ -636,7 +772,7 @@ Private Attributes</h2></td></tr>
 
 <p>Returns the demand's target node id. </p>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00043">43</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00047">47</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -665,7 +801,7 @@ Private Attributes</h2></td></tr>
 
 <p>Returns true if the demand has already been routed. </p>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00061">61</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00065">65</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -701,7 +837,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00070">70</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00083">83</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -737,7 +873,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00079">79</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00092">92</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -773,7 +909,43 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00085">85</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00098">98</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+
+</div>
+</div>
+<a id="ae55c07f85d56673daf92dd50068f097d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae55c07f85d56673daf92dd50068f097d">&#9670;&nbsp;</a></span>setMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Demand::setMode </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>m</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the GNPY mode. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>The new mode </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00110">110</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -809,7 +981,43 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00094">94</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00107">107</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+
+</div>
+</div>
+<a id="a2cc5575b8cae0ffcd58e127e4f0773eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2cc5575b8cae0ffcd58e127e4f0773eb">&#9670;&nbsp;</a></span>setPathBandwidth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Demand::setPathBandwidth </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>b</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the GNPY path bandwidth. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>The new path bandwidth. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00116">116</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -845,7 +1053,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00091">91</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00104">104</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -881,7 +1089,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00088">88</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00101">101</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -917,7 +1125,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00082">82</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00095">95</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -953,7 +1161,43 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00073">73</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00086">86</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+
+</div>
+</div>
+<a id="a3107bbdae9c5c556391347d881a34b3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3107bbdae9c5c556391347d881a34b3f">&#9670;&nbsp;</a></span>setSpacing()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Demand::setSpacing </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Changes the GNPY spacing. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>The new spacing. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00113">113</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -989,11 +1233,37 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00076">76</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00089">89</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a0575af53c159c3b60db219e36de0adba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0575af53c159c3b60db219e36de0adba">&#9670;&nbsp;</a></span>band</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Demand::band</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The GNPY path_bandwidth. </p>
+
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00028">28</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+
+</div>
+</div>
 <a id="a729433cc8ea88ac9afa328431bf09c42"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a729433cc8ea88ac9afa328431bf09c42">&#9670;&nbsp;</a></span>id</h2>
 
@@ -1069,6 +1339,32 @@ Private Attributes</h2></td></tr>
 <p>Refers to the maximum length of the path on which the demand can be routed. </p>
 
 <p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00020">20</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+
+</div>
+</div>
+<a id="adf5762ce48c97d8187ee2076f44ca45f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf5762ce48c97d8187ee2076f44ca45f">&#9670;&nbsp;</a></span>mode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Demand::mode</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The GNPY mode of transmission. </p>
+
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00026">26</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>
@@ -1202,6 +1498,32 @@ Private Attributes</h2></td></tr>
 <p>The demand's source node id. </p>
 
 <p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00017">17</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
+
+</div>
+</div>
+<a id="a5706624a5e694c38b8faa5968a79ee96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5706624a5e694c38b8faa5968a79ee96">&#9670;&nbsp;</a></span>spacing</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Demand::spacing</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The GNPY spacing. </p>
+
+<p class="definition">Definition at line <a class="el" href="demand_8h_source.html#l00027">27</a> of file <a class="el" href="demand_8h_source.html">demand.h</a>.</p>
 
 </div>
 </div>

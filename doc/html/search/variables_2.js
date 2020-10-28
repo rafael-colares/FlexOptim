@@ -1,6 +1,22 @@
 var searchData=
 [
-  ['delimeter_934',['delimeter',['../classCSVReader.html#ac5e0e6866e56cfb8c0337940fa848fde',1,'CSVReader']]],
-  ['demandfile_935',['demandFile',['../classInput.html#aec5a10f07d26112fd99ba84b7258f8dc',1,'Input']]],
-  ['direction_936',['direction',['../classObjectiveFunction.html#a0a45e82bd971d38e903890249fcfcee6',1,'ObjectiveFunction']]]
+  ['chosenformulation_982',['chosenFormulation',['../classInput.html#a78e0fca5b5e783bc49f993f1d83ca383',1,'Input']]],
+  ['chosenmipsolver_983',['chosenMipSolver',['../classInput.html#af3397990dab2d8125881f125c537c7b6',1,'Input']]],
+  ['chosennodemethod_984',['chosenNodeMethod',['../classInput.html#a22b93ca0501a9e6759f42e625ff2a302',1,'Input']]],
+  ['chosenobj_985',['chosenObj',['../classInput.html#a7d331c2b618c8d261f612c47aa2e095b',1,'Input']]],
+  ['chosenoutputlvl_986',['chosenOutputLvl',['../classInput.html#ad126d97d00d3fa565dd34e8477b9a769',1,'Input']]],
+  ['chosenpartitionpolicy_987',['chosenPartitionPolicy',['../classInput.html#a9fa7de7b9e9adb5c516cf5a96baa4513',1,'Input']]],
+  ['chosenpreprlvl_988',['chosenPreprLvl',['../classInput.html#a8c583193d46cd61dc630f12f2671b45e',1,'Input']]],
+  ['coeff_989',['coeff',['../classTerm.html#aef04f6b97cf89ac56d287ab51f02965a',1,'Term']]],
+  ['compactedgeid_990',['compactEdgeId',['../classRSA.html#ab4a0934a94741007b2c048f92b3c0d0d',1,'RSA']]],
+  ['compactedgelabel_991',['compactEdgeLabel',['../classRSA.html#a4195c0316e5800f639645df2270b99d9',1,'RSA']]],
+  ['compactedgelength_992',['compactEdgeLength',['../classRSA.html#aba8529480dd7bada2c1e085ca00713a3',1,'RSA']]],
+  ['compactgraph_993',['compactGraph',['../classRSA.html#acb490cd3aca155c1b2ba5c8e37e13377',1,'RSA']]],
+  ['compactnodeid_994',['compactNodeId',['../classRSA.html#aa229e85cc3046d42029ac3817d2ff77f',1,'RSA']]],
+  ['compactnodelabel_995',['compactNodeLabel',['../classRSA.html#a563506a023a036ab2480b553f92c4cf5',1,'RSA']]],
+  ['constraintset_996',['constraintSet',['../classAbstractFormulation.html#ae0710a6892772c4d2aa845bd132f7cdd',1,'AbstractFormulation']]],
+  ['cost_997',['cost',['../classFiber.html#ac91cbe8b905f7bb37502267b6e6a9ece',1,'Fiber']]],
+  ['count_998',['count',['../classSolverCplex.html#a9d57d34b76870d499ae8f433d44f2162',1,'SolverCplex']]],
+  ['cplex_999',['cplex',['../classSolverCplex.html#a1fd4930f455f761359ac5168e6c80248',1,'SolverCplex']]],
+  ['currentstatus_1000',['currentStatus',['../classAbstractSolver.html#a437a7a18377f8a95cda2ab5de147d09e',1,'AbstractSolver::currentStatus()'],['../classRSA.html#a00269970b2f36a59c6b556a12ab76bc3',1,'RSA::currentStatus()']]]
 ];

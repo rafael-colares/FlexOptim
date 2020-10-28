@@ -1,13 +1,9 @@
 var searchData=
 [
-  ['name_961',['name',['../classVariable.html#aaf7205662069a5f8f673c158cb31f418',1,'Variable::name()'],['../classObjectiveFunction.html#aaff0e41b2d6e0cb314046909f1fd33c2',1,'ObjectiveFunction::name()'],['../classConstraint.html#aff3496f457c648ff9bf6ec911c1ef73d',1,'Constraint::name()']]],
-  ['nbdemandsatonce_962',['nbDemandsAtOnce',['../classInput.html#acb7eb7db33b7e232e64db4d70ce4fd47',1,'Input']]],
-  ['nbhops_963',['nbHops',['../classDemand.html#a21e29d05a8bdb2eb368d1b56bb86085c',1,'Demand']]],
-  ['nbinitialdemands_964',['nbInitialDemands',['../classInstance.html#a7446da39eed844ca96a11cc93aec3a45',1,'Instance']]],
-  ['nbiterationswithoutimprovement_965',['nbIterationsWithoutImprovement',['../classInput.html#aa1ac392cf74560f7d4ac8420dd817a4c',1,'Input']]],
-  ['nbnodes_966',['nbNodes',['../classInstance.html#ad62f032a3dca06ba592902dc18f070e2',1,'Instance']]],
-  ['nbslices_967',['nbSlices',['../classFiber.html#a621d796249081100507ebc66d72a47d8',1,'Fiber']]],
-  ['nbslicesinoutputfile_968',['nbSlicesInOutputFile',['../classInput.html#ae0fff1fed72489ac812f7fbc25490d4b',1,'Input']]],
-  ['nbvar_969',['nbVar',['../classAbstractFormulation.html#a7b3415f76f999e531cfc4662154b7940',1,'AbstractFormulation']]],
-  ['nextdemandtoberoutedindex_970',['nextDemandToBeRoutedIndex',['../classInstance.html#a23da3e0e9fc713d8e6b9b19e540dd581',1,'Instance']]]
+  ['maxlength_1031',['maxLength',['../classDemand.html#ab7127eeb4c27bec1427ba04b89f3e4be',1,'Demand']]],
+  ['maxnbiterations_1032',['maxNbIterations',['../classInput.html#a8815f4f616dd76c5ca29d3573d90f0a6',1,'Input']]],
+  ['maxsliceoverall_1033',['maxSliceOverall',['../classEdgeNodeForm.html#a680fe452f55c10a9187af9a50a75c58e',1,'EdgeNodeForm::maxSliceOverall()'],['../classFlowForm.html#a2d10a7a6ea8151041c81f64bcc83cc8c',1,'FlowForm::maxSliceOverall()']]],
+  ['maxsliceperlink_1034',['maxSlicePerLink',['../classEdgeNodeForm.html#a579964b0045965006f73ef0ceddc8b8e',1,'EdgeNodeForm::maxSlicePerLink()'],['../classFlowForm.html#a3d4d97342f4b4b2754fe75fcc25a5611',1,'FlowForm::maxSlicePerLink()']]],
+  ['mode_1035',['mode',['../classDemand.html#adf5762ce48c97d8187ee2076f44ca45f',1,'Demand']]],
+  ['model_1036',['model',['../classSolverCplex.html#af51ebd7e3c8e158fcbcc8c8afa1769ab',1,'SolverCplex']]]
 ];

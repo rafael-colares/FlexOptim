@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['filename_939',['fileName',['../classCSVReader.html#aad272ffbafdbe83fe50091a18d658b59',1,'CSVReader']]],
-  ['formulation_940',['formulation',['../classAbstractSolver.html#a46a993f7d78406087cee7f5cfc6fbd70',1,'AbstractSolver::formulation()'],['../classCplexCallback.html#a023c82fe20fd195632fc6170ace9064d',1,'CplexCallback::formulation()']]]
+  ['env_1005',['env',['../classSolverCplex.html#a77f361c8e62861f08240a87cd40d3879',1,'SolverCplex']]],
+  ['expr_1006',['expr',['../classObjectiveFunction.html#a3a6ba0bd670037ca4c5123fa8cdd023b',1,'ObjectiveFunction::expr()'],['../classConstraint.html#a9535c9937e0d45fabb3b148dd5fdc8d2',1,'Constraint::expr()']]]
 ];

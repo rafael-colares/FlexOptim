@@ -12,7 +12,7 @@ SolverCplex::SolverCplex(const Instance &inst) : AbstractSolver(inst, STATUS_UNK
     std::cout << "--- CPLEX has been initalized ---" << std::endl;
     setCplexParams(inst.getInput());
     implementFormulation();
-    exportFormulation(inst);
+    //exportFormulation(inst);
     count++;
 }
 
@@ -46,8 +46,10 @@ void SolverCplex::solve(){
     CPXLONG contextMask = 0;
     contextMask |= IloCplex::Callback::Context::Id::Candidate;
     contextMask |= IloCplex::Callback::Context::Id::Relaxation;
-    cplex.use(&myGenericCallback, contextMask);
-    
+    if(formulation->getInstance().getInput().getChosenFormulation() == Input::FORMULATION_EDGE_NODE){
+        cplex.use(&myGenericCallback, contextMask);
+    }
+
     IloNum timeStart = cplex.getCplexTime();
     std::cout << "Solving..." << std::endl;
     std::vector<ObjectiveFunction> myObjectives = formulation->getObjectiveSet();
@@ -66,7 +68,7 @@ void SolverCplex::solve(){
             if (i < myObjectives.size() - 1){
                 IloExpr objectiveExpression = to_IloExpr(myObjectives[i].getExpression());
                 IloRange constraint(model.getEnv(), objValue, objectiveExpression, objValue);
-                std::cout << "Add constraint: " << objectiveExpression << " = " << objValue << std::endl;
+                //std::cout << "Add constraint: " << objectiveExpression << " = " << objValue << std::endl;
                 model.add(constraint);
                 objectiveExpression.end();
             }
@@ -78,6 +80,11 @@ void SolverCplex::solve(){
         }
     }
     IloNum timeFinish = cplex.getCplexTime();
+    setDurationTime(timeFinish - timeStart);
+    setUpperBound(cplex.getObjValue());
+    setLowerBound(cplex.getBestObjValue());
+    setMipGap(cplex.getMIPRelativeGap()*100);
+	setTreeSize(cplex.getNnodes());
     std::cout << "Optimization done in " << timeFinish - timeStart << " secs." << std::endl;
     if ((cplex.getStatus() == IloAlgorithm::Optimal) || (cplex.getStatus() == IloAlgorithm::Feasible)){    
         std::cout << "Status: " << cplex.getStatus() << std::endl;
@@ -152,8 +159,9 @@ void SolverCplex::exportFormulation(const Instance &instance){
 }
 
 void SolverCplex::setCplexParams(const Input &input){
-    cplex.setParam(IloCplex::Param::MIP::Display, 4);
+    cplex.setParam(IloCplex::Param::MIP::Display, 5);
     cplex.setParam(IloCplex::Param::TimeLimit, input.getIterationTimeLimit());
+    //cplex.setParam(IloCplex::Param::Threads, 1);
     
     std::cout << "CPLEX parameters have been defined..." << std::endl;
 }
@@ -196,6 +204,7 @@ void SolverCplex::setObjective(const ObjectiveFunction &myObjective){
     
     model.add(obj);
     exp.end();
+    std::cout << "CPLEX objective has been defined..." << std::endl;
 }
 
 /* Defines the constraints needed in the MIP formulation. */
@@ -211,6 +220,7 @@ void SolverCplex::setConstraints(const std::vector<Constraint> &myConstraints){
         model.add(constraint);
         exp.end();
     }
+    std::cout << "CPLEX constraints have been defined..." << std::endl;
 }
 
 void SolverCplex::setVariables(const std::vector<Variable> &myVars){
@@ -237,9 +247,9 @@ void SolverCplex::setVariables(const std::vector<Variable> &myVars){
             break;
         }
         model.add(var[pos]);
-            // std::cout << "Created variable: " << var[d][arc].getName() << std::endl;
+        // std::cout << "Created variable: " << var[d][arc].getName() << std::endl;
     }
-    std::cout << "CPLEX variables have been defined." << std::endl;
+    std::cout << "CPLEX variables have been defined..." << std::endl;
 }
 
 
@@ -247,11 +257,32 @@ void SolverCplex::setVariables(const std::vector<Variable> &myVars){
 /** Displays the value of each variable in the obtained solution. **/
 void SolverCplex::displaySolution(){
     for (IloInt i = 0; i < var.getSize(); i++){
-        if (cplex.getValue(var[i]) >= 1 - EPS){
+        if (cplex.getValue(var[i]) >= EPS){
             std::cout << var[i].getName() << " = " << cplex.getValue(var[i]) << std::endl;
         }
     }
 }
+
+
+/* Builds file results.csv containing information about the main obtained results. */
+void SolverCplex::outputLogResults(std::string fileName){
+	std::string delimiter = ";";
+	std::string filePath = formulation->getInstance().getInput().getOutputPath() + "log_results.csv";
+	std::ofstream myfile(filePath.c_str(), std::ios_base::app);
+	if (myfile.is_open()){
+		myfile << fileName << delimiter;
+		myfile << getDurationTime() << delimiter;
+		myfile << getLowerBound() << delimiter;
+		myfile << getUpperBound() << delimiter;
+		myfile << getMipGap() << delimiter;
+		myfile << getTreeSize() << "\n";
+		myfile.close();
+	}
+	else{
+		std::cerr << "Unable to open file " << filePath << "\n";
+	}
+}
+
 
 /****************************************************************************************/
 /*										Destructor										*/
@@ -287,11 +318,11 @@ void CplexCallback::addUserCuts(const IloCplex::Callback::Context &context) cons
             for (unsigned int i = 0; i < constraint.size(); i++){
                 if (constraint[i].getLb() != -INFTY){
                     //std::cout << "A >= violated cut was found: ";
-                    context.addUserCut(to_IloExpr(context, constraint[i].getExpression()) >= constraint[i].getLb(), IloCplex::UseCutPurge, IloFalse);
+                    context.addUserCut(to_IloExpr(context, constraint[i].getExpression()) >= constraint[i].getLb(), IloCplex::UseCutForce, IloFalse);
                 }
                 if (constraint[i].getUb() != INFTY){
                     //std::cout << "A <= violated cut was found: ";
-                    context.addUserCut(to_IloExpr(context, constraint[i].getExpression()) <= constraint[i].getUb(), IloCplex::UseCutPurge, IloFalse);
+                    context.addUserCut(to_IloExpr(context, constraint[i].getExpression()) <= constraint[i].getUb(), IloCplex::UseCutForce, IloFalse);
                 }
             }
         }
@@ -307,7 +338,9 @@ void CplexCallback::addLazyConstraints(const IloCplex::Callback::Context &contex
         throw IloCplex::Exception(-1, "Unbounded solution");
     }
     try {
-        std::vector<Constraint> constraint = formulation->solveSeparationProblemInt(getIntegerSolution(context));
+        
+        int const threadNo = context.getIntInfo(IloCplex::Callback::Context::Info::ThreadId);
+        std::vector<Constraint> constraint = formulation->solveSeparationProblemInt(getIntegerSolution(context), threadNo);
         if (!constraint.empty()){
             //std::cout << "A lazy constraint was found:";
             for (unsigned int i = 0; i < constraint.size(); i++){
@@ -324,7 +357,6 @@ void CplexCallback::addLazyConstraints(const IloCplex::Callback::Context &contex
     catch (...) {
         throw;
     }
-    
 }
 
 std::vector<double> CplexCallback::getIntegerSolution(const IloCplex::Callback::Context &context) const{

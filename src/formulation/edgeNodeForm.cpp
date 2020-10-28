@@ -33,7 +33,14 @@ void EdgeNodeForm::setVariables(){
             varName << std::to_string(getToBeRouted_k(k).getId() + 1) + ")";
             int upperBound = 1;
             int varId = getNbVar();
-            x[edge][k] = Variable(varId, 0, upperBound, Variable::TYPE_BOOLEAN, 0, varName.str());
+            
+            if(instance.getInput().isRelaxed()){
+                x[edge][k] = Variable(varId, 0, upperBound, Variable::TYPE_REAL, 0, varName.str());
+            }
+            else{
+                x[edge][k] = Variable(varId, 0, upperBound, Variable::TYPE_BOOLEAN, 0, varName.str());
+            }
+            
             incNbVar();
         }
     }
@@ -50,7 +57,13 @@ void EdgeNodeForm::setVariables(){
             varName <<  std::to_string(getToBeRouted_k(k).getId() + 1) + ")";
             int upperBound = 1;
             int varId = getNbVar();
-            z[s][k] = Variable(varId, 0, upperBound, Variable::TYPE_BOOLEAN, 0, varName.str());
+            if(instance.getInput().isRelaxed()){
+                z[s][k] = Variable(varId, 0, upperBound, Variable::TYPE_REAL, 0, varName.str());
+            }
+            else{
+                z[s][k] = Variable(varId, 0, upperBound, Variable::TYPE_BOOLEAN, 0, varName.str());
+            }
+            
             incNbVar();
         }
     }
@@ -70,7 +83,12 @@ void EdgeNodeForm::setVariables(){
                 varName <<  std::to_string(getToBeRouted_k(k).getId() + 1) + ")";
                 int upperBound = 1;
                 int varId = getNbVar();
-                t[edge][s][k] = Variable(varId, 0, upperBound, Variable::TYPE_BOOLEAN, 0, varName.str());
+                if(instance.getInput().isRelaxed()){
+                    t[edge][s][k] = Variable(varId, 0, upperBound, Variable::TYPE_REAL, 0, varName.str());
+                }
+                else{
+                    t[edge][s][k] = Variable(varId, 0, upperBound, Variable::TYPE_BOOLEAN, 0, varName.str());
+                }
                 incNbVar();
             }
         }
@@ -84,7 +102,12 @@ void EdgeNodeForm::setVariables(){
         int lowerBound = instance.getPhysicalLinkFromIndex(edge).getMaxUsedSlicePosition();
         int upperBound = instance.getPhysicalLinkFromIndex(edge).getNbSlices();
         int varId = getNbVar();
-        maxSlicePerLink[edge] = Variable(varId, lowerBound, upperBound, Variable::TYPE_INTEGER, 0, varName);
+        if (instance.getInput().isRelaxed()){
+            maxSlicePerLink[edge] = Variable(varId, lowerBound, upperBound, Variable::TYPE_REAL, 0, varName);
+        }
+        else{
+            maxSlicePerLink[edge] = Variable(varId, lowerBound, upperBound, Variable::TYPE_INTEGER, 0, varName);
+        }
         incNbVar();
     }
     std::cout << "MaxSlicePerLink variables were created." << std::endl;
@@ -93,7 +116,12 @@ void EdgeNodeForm::setVariables(){
     int lowerBound = instance.getMaxUsedSlicePosition();
     int upperBound = instance.getMaxSlice();
     int varId = getNbVar();
-    maxSliceOverall = Variable(varId, lowerBound, upperBound, Variable::TYPE_INTEGER, 0, varName);
+    if (instance.getInput().isRelaxed()){
+        maxSliceOverall = Variable(varId, lowerBound, upperBound, Variable::TYPE_REAL, 0, varName);
+    }
+    else{
+        maxSliceOverall = Variable(varId, lowerBound, upperBound, Variable::TYPE_INTEGER, 0, varName);
+    }
     incNbVar();
     std::cout << "MaxSliceOverall variable was created." << std::endl;
 }
@@ -559,7 +587,7 @@ void EdgeNodeForm::setMaxUsedSlicePerLinkConstraints(){
 Constraint EdgeNodeForm::getMaxUsedSlicePerLinkConstraints(int k, int e, int s){
     Expression exp;
     int upperBound = 0;
-    Term termT(t[e][s][k], s+1);
+    Term termT(t[e][s][k], s);
     exp.addTerm(termT);
     
     Term term(maxSlicePerLink[e], -1);
@@ -584,7 +612,7 @@ Constraint EdgeNodeForm::getMaxUsedSliceOverallConstraints(int k){
     Expression exp;
     int rhs = 0;
     for (int s = 0; s < instance.getPhysicalLinkFromIndex(0).getNbSlices(); s++){
-        Term term(z[s][k], s+1);
+        Term term(z[s][k], s);
         exp.addTerm(term);
     }
     Term term(maxSliceOverall, -1);
@@ -697,7 +725,7 @@ std::vector<Constraint> EdgeNodeForm::solveSeparationProblemFract(const std::vec
 }
 
 
-std::vector<Constraint> EdgeNodeForm::solveSeparationProblemInt(const std::vector<double> &solution){
+std::vector<Constraint> EdgeNodeForm::solveSeparationProblemInt(const std::vector<double> &solution, const int threadNo){
     setVariableValues(solution);
     std::vector<Constraint> cuts;
     //separating path-continuity constraints.
@@ -708,7 +736,6 @@ std::vector<Constraint> EdgeNodeForm::solveSeparationProblemInt(const std::vecto
         ListGraph::Node TARGET = getCompactNodeFromLabel(destination);
         //std::cout << "Checking path of demand " << d << ". From " << origin+1 << " to " << destination+1 << std::endl;
         
-        //displaySolution_d(context, d);
         if (TARGET == INVALID || SOURCE == INVALID){
             std::cout << "ERROR: Could not find source or target from demand inside lazy constraints callback." << std::endl;
             exit(0);
@@ -775,7 +802,7 @@ std::vector<Constraint> EdgeNodeForm::solveSeparationProblemInt(const std::vecto
     return cuts;
 }
 
-Expression EdgeNodeForm::separationGNPY(const std::vector<double> &solution){
+Expression EdgeNodeForm::separationGNPY(const std::vector<double> &solution, const int threadNo){
     setVariableValues(solution);
     Expression cut;
     

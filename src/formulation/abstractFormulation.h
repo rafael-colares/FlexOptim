@@ -67,7 +67,7 @@ public:
     }
 	
 	/** Solves the separation problem for integer points. If the solution is violated, return the constraint that cuts it, otherwise the constraint returned has an empty expression. **/
-    virtual std::vector<Constraint> solveSeparationProblemInt(const std::vector<double> &solution){ 
+    virtual std::vector<Constraint> solveSeparationProblemInt(const std::vector<double> &solution, const int threadNo){ 
 		std::cout << "WARNING: Unimplemented integer separation problem!" << std::endl;Expression exp;
 		std::vector<Constraint> cuts;
 		return cuts;

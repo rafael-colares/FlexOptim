@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['sliceallocation_980',['sliceAllocation',['../classDemand.html#a7f22780dd6801abfaa70808d5367cdf3',1,'Demand']]],
-  ['source_981',['source',['../classDemand.html#aba0b2f49b117edde4743e4ba0575bd97',1,'Demand']]],
-  ['spectrum_982',['spectrum',['../classFiber.html#a3fbe59989b8a75bd58914ce9e59795d8',1,'Fiber']]],
-  ['start_983',['START',['../classClockTime.html#af43088038f9ac1a61c04df92ac7991cb',1,'ClockTime']]]
+  ['rootvalue_1054',['rootValue',['../classAbstractSolver.html#a7b5db19a6133e46ed9252947df39080f',1,'AbstractSolver']]],
+  ['routed_1055',['routed',['../classDemand.html#a6b8ee130ad3239c4e38aa293f1a1ec4e',1,'Demand']]]
 ];

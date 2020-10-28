@@ -18,6 +18,12 @@
 class Input {
 
 public: 
+	/** Enumerates the possible MIP formulations for modelling the RSA problem.**/
+	enum Formulation {
+		FORMULATION_FLOW = 0,  		/**< The RSA problem is solved using the Flow based formulation. **/
+		FORMULATION_EDGE_NODE = 1 	/**< The RSA problem is solved using the Edge-Node formulation. **/
+	};
+
 	/** Enumerates the possible solvers to be used for solving the RSA formulation.**/
 	enum MIP_Solver {						
 		MIP_SOLVER_CPLEX = 0,  	/**< The MIP is solved using CPLEX. **/
@@ -25,31 +31,12 @@ public:
 		MIP_SOLVER_GUROBI = 2  	/**< The MIP is solved using Gurobi. #TODO Implement gurobi.**/
 	};
 
-	/** Enumerates the possible MIP formulations for modelling the RSA problem.**/
-	enum Formulation {
-		FORMULATION_FLOW = 0,  		/**< The RSA problem is solved using the Flow based formulation. **/
-		FORMULATION_EDGE_NODE = 1 	/**< The RSA problem is solved using the Edge-Node formulation. **/
-	};
 
 	/** Enumerates the possible methods to be applied at each node of the enumeration tree (from Branch-and-Bound or Branch-and-Cut).**/
 	enum NodeMethod {
 		NODE_METHOD_LINEAR_RELAX = 0,  		/**< At each node of the enumeration tree, Linear Relaxation is applied. **/
 		NODE_METHOD_SUBGRADIENT = 1, 		/**< At each node of the enumeration tree, the Subgradient algorithm is applied. #TODO Implement subgradient inside nodes. **/
 		NODE_METHOD_VOLUME = 2 				/**< At each node of the enumeration tree, the Volume algorithm is applied. #TODO Implement volume. **/
-	};
-
-	/** Enumerates the possible levels of preprocessing to be applied for eliminating variables before optimization is called. **/
-	enum PreprocessingLevel {
-		PREPROCESSING_LVL_NO = 0,		/**< Only remove arcs that do not fit the demand load. **/
-		PREPROCESSING_LVL_PARTIAL = 1,	/**< Previous levels + look for arcs that would induce length violation and arcs whose neighboors cannot forward the demand. **/
-		PREPROCESSING_LVL_FULL = 2		/**< Previous levels recursively until no additional arc can be removed. **/
-	};
-
-	/** Enumerates the possible output policies to be used. **/
-	enum OutputLevel {
-		OUTPUT_LVL_NO = 0,			/**< Do not create any output file. **/
-		OUTPUT_LVL_NORMAL = 1,		/**< Generate output files corresponding to the last mapping. **/
-		OUTPUT_LVL_DETAILED = 2		/**< Generate output files after every optimization procedure. **/
 	};
 
 	/** Enumerates the possible objectives to be optimized. **/
@@ -62,7 +49,14 @@ public:
 		OBJECTIVE_METRIC_4 = 4,		/**< Minimize the path lengths. **/
 		OBJECTIVE_METRIC_8 = 8		/**< Minimize the max used slice position overall. **/
 	};
-	
+
+	/** Enumerates the possible output policies to be used. **/
+	enum OutputLevel {
+		OUTPUT_LVL_NO = 0,			/**< Do not create any output file. **/
+		OUTPUT_LVL_NORMAL = 1,		/**< Generate output files corresponding to the last mapping. **/
+		OUTPUT_LVL_DETAILED = 2		/**< Generate output files after every optimization procedure. **/
+	};
+
 	/** Enumerates the possible spectrum partitioning policies to be applied. **/
 	enum PartitionPolicy {
 		PARTITION_POLICY_NO = 0,	/**< No spectrum partition. **/
@@ -70,23 +64,23 @@ public:
 		PARTITION_POLICY_HARD = 2	/**< The spectrum is divided into two fixed regions (Left and Right). **/
 	};
 	
-private:
-	const std::string PARAMETER_FILE;	/**< Path to the file containing all the parameters. **/
-	std::string linkFile;				/**< Path to the file containing information on the physical topology of the network.**/
-	std::string demandFile;				/**< Path to the file containing information on the already routed demands. **/
-	std::string assignmentFile;			/**< Path to the file containing information on the assignment of demands (i.e., on which edge/slice each demand is routed).**/
-	std::string onlineDemandFolder;		/**< Path to the folder containing the files on the non-routed demands. **/
-	std::vector< std::string > vecOnlineDemandFile;	/**< A vector storing the paths to the files containing information on the non-routed demands. **/
-	std::string outputPath;				/**< Path to the folder where the output files will be sent by the end of the optimization procedure.**/
+	/** Enumerates the possible levels of preprocessing to be applied for eliminating variables before optimization is called. **/
+	enum PreprocessingLevel {
+		PREPROCESSING_LVL_NO = 0,		/**< Only remove arcs that do not fit the demand load. **/
+		PREPROCESSING_LVL_PARTIAL = 1,	/**< Previous levels + look for arcs that would induce length violation and arcs whose neighboors cannot forward the demand. **/
+		PREPROCESSING_LVL_FULL = 2		/**< Previous levels recursively until no additional arc can be removed. **/
+	};
+
 	
-    int nbDemandsAtOnce;				/**< How many demands are treated in a single optimization.**/
-	int nbSlicesInOutputFile;			/**< How many slices will be displayed in the output file. **/
-	int partitionSlice;					/**< Refers to the max slice of Left spectrum region, if partitioning policy is set to Hard. **/
-	int partitionLoad;					/**< Refers to the max load that can be routed on the Left spectrum region, if some partioning policy is set. **/
-	int timeLimit;						/**< Refers to how much time (in seconds) can be spent during one optimization. **/
-	int globalTimeLimit;				/**< Refers to how much time (in seconds) can be spent during the whole optmization. **/
-	bool allowBlocking;					/**< If this option is inactive, optimization stops within first blocking. Otherwise, blocking is accepted (this only works in online case). **/
-	int hopPenalty;						/**< Refers to the penalty of reach applied on each hop. **/
+private:
+	const std::string PARAMETER_FILE;				/**< Path to the file containing all the parameters. **/
+	std::string topologyFile;						/**< Path to the file containing information on the physical topology of the network.**/
+	std::string initialMappingDemandFile;			/**< Path to the file containing information on the already routed demands. **/
+	std::string initialMappingAssignmentFile;		/**< Path to the file containing information on the assignment of demands (i.e., on which edge/slice each demand is routed).**/
+	std::string demandToBeRoutedFolder;				/**< Path to the folder containing the files on the non-routed demands. **/
+	std::vector<std::string> demandToBeRoutedFile;	/**< A vector storing the paths to the files containing information on the non-routed demands. **/
+	std::string outputPath;							/**< Path to the folder where the output files will be sent by the end of the optimization procedure.**/
+	
 
 	NodeMethod chosenNodeMethod;			/**< Refers to which method is applied for solving each node.**/
 	Formulation chosenFormulation;			/**< Refers to the formulation used to solve the problem. **/
@@ -96,10 +90,27 @@ private:
 	OutputLevel chosenOutputLvl;			/**< Refers to which output policy is adopted.**/
 	PartitionPolicy chosenPartitionPolicy;	/**< Refers to which partition policy is adopted.**/
 
+
+    int nbDemandsAtOnce;				/**< How many demands are treated in a single optimization.**/
+	int nbSlicesInOutputFile;			/**< How many slices will be displayed in the output file. **/
+	int partitionSlice;					/**< Refers to the max slice of Left spectrum region, if partitioning policy is set to Hard. **/
+	int partitionLoad;					/**< Refers to the max load that can be routed on the Left spectrum region, if some partioning policy is set. **/
+	int timeLimit;						/**< Refers to how much time (in seconds) can be spent during one optimization. **/
+	int globalTimeLimit;				/**< Refers to how much time (in seconds) can be spent during the whole optmization. **/
+	bool allowBlocking;					/**< If this option is inactive, optimization stops within first blocking. Otherwise, blocking is accepted (this only works in online case). **/
+	int hopPenalty;						/**< Refers to the penalty of reach applied on each hop. **/
+	bool linearRelaxation;				/**< If this option is active, all variables are real (i.e., runs linear relaxation). **/
+
+	bool GNPY_activation;				/**< If this option is active, the solution provided is guaranteed to satisfy GNPY constraints. Whenever a candidate solution is found, GNPY is called to validade or to reject such solution. **/
+	std::string GNPY_topologyFile;		/**< The .json file defining the topology that serves as input for GNPY. **/
+	std::string GNPY_equipmentFile;		/**< The .json file defining the equipment present in the topology that serves as input for GNPY. **/
+
 	double lagrangianMultiplier_zero;	/**< The initial value of the lagrangian multiplier used if subgradient method is chosen. **/
 	double lagrangianLambda_zero;		/**< The initial value of the lambda used for computing the step size if subgradient method is chosen. **/
 	int nbIterationsWithoutImprovement;	/**< The maximal number of iterations allowed in the subgradient method.**/
 	int maxNbIterations;				/**< The maximal number of iterations allowed without improving the lower bound in the subgradient method.**/
+
+
 public:
 	/****************************************************************************************/
 	/*									Constructors										*/
@@ -117,25 +128,25 @@ public:
     const std::string getParameterFile() const { return PARAMETER_FILE; }
 
 	/** Returns the path to the file containing information on the physical topology of the network.**/
-    std::string getLinkFile() const { return linkFile; }
+    std::string getTopologyFile() const { return topologyFile; }
 	
 	/** Returns the path to the file containing information on the already routed demands. **/
-    std::string getDemandFile() const { return demandFile; }
+    std::string getInitialMappingDemandFile() const { return initialMappingDemandFile; }
 
 	/** Returns the path to the file containing information on the assignment of demands (i.e., on which edge/slice each demand is routed).**/
-    std::string getAssignmentFile() const { return assignmentFile; }
+    std::string getInitialMappingAssignmentFile() const { return initialMappingAssignmentFile; }
 	
 	/** Returns the path to the folder containing the files on the non-routed demands. **/
-    std::string getOnlineDemandFolder() const { return onlineDemandFolder; }
+    std::string getDemandToBeRoutedFolder() const { return demandToBeRoutedFolder; }
 
 	/** Returns the number of online demand files to be treated. **/
-	int getNbOnlineDemandFiles(){ return vecOnlineDemandFile.size(); }
+	int getNbDemandToBeRoutedFiles(){ return demandToBeRoutedFile.size(); }
 	
 	/** Returns the vector storing the paths to the files containing information on the non-routed demands. **/
-    std::vector<std::string> getOnlineDemandFiles() const { return vecOnlineDemandFile; }
+    std::vector<std::string> getDemandToBeRoutedFiles() const { return demandToBeRoutedFile; }
 
 	/** Returns the path to the i-th file containing information on the non-routed demands. @param i The index of file. **/
-    std::string getOnlineDemandFilesFromIndex(int i) const { return vecOnlineDemandFile[i]; }
+    std::string getDemandToBeRoutedFilesFromIndex(int i) const { return demandToBeRoutedFile[i]; }
 
 	/** Returns the path to the folder where the output files will be sent by the end of the optimization procedure.**/
     std::string getOutputPath() const { return outputPath; }
@@ -161,8 +172,22 @@ public:
 	/** Returns true if blocking is accepted and false, otherwise. **/
     bool isBlockingAllowed() const { return allowBlocking; }
 
+	/** Returns true if linear relaxation is applied. **/
+    bool isRelaxed() const { return linearRelaxation; }
+
 	/** Returns the hop penality. **/
     int getHopPenalty() const { return hopPenalty; }
+
+	/** Returns true if GNPY should be used. **/
+    bool isGNPYEnabled() const { return GNPY_activation; }
+
+	/** Returns the path to the .json topology file that serves as input for the GNPY.**/
+    std::string getGNPYTopologyFile() const { return GNPY_topologyFile; }
+
+	/** Returns the path to the .json equipment file that serves as input for the GNPY.**/
+    std::string getGNPYEquipmentFile() const { return GNPY_equipmentFile; }
+	
+
 
 	/** Returns the identifier of the method chosen for solving each node. **/
     NodeMethod getChosenNodeMethod() const { return chosenNodeMethod; }
