@@ -2,7 +2,7 @@
 
 lagSubgradient::lagSubgradient(const Instance &inst):MAX_NB_IT_WITHOUT_IMPROVEMENT(inst.getInput().getNbIterationsWithoutImprovement()), 
         MAX_NB_IT(inst.getInput().getMaxNbIterations()), INITIAL_STEPSIZE(inst.getInput().getInitialLagrangianLambda()),
-        MIN_STEPSIZE(0.00000001), formulation(inst){}
+        MIN_STEPSIZE(0.000001), formulation(inst){}
 
 void lagSubgradient::run(){
     std::cout << "--- Subgradient was invoked ---" << std::endl;
@@ -23,7 +23,8 @@ void lagSubgradient::run(){
             formulation.updateMultiplier(getStepSize());
             formulation.updateCosts();
 
-            if (getLB() >= getUB() - DBL_EPSILON){
+            //if (getLB() >= getUB() - DBL_EPSILON){
+            if (getLB() >= getUB() - 0.0000001){   
                 formulation.setStatus(RSA::STATUS_OPTIMAL);
                 STOP = true;
                 std::cout << "optimal" << std::endl;
@@ -173,7 +174,7 @@ void lagSubgradient::updateLB(double bound){
     }
     else{
         incItWithoutImprovement();
-        std::cout << "> Nb iterations without improvement: " << getItWithoutImprovement() << std:: endl;
+        //std::cout << "> Nb iterations without improvement: " << getItWithoutImprovement() << std:: endl;
     } 
 }
 

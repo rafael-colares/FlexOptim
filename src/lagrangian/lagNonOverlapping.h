@@ -332,6 +332,8 @@ class lagNonOverlapping: public RSA{
         void displayENode(const ListDigraph::Node &, int);
         void displaySlack();
 
+        void displayMultiplier();
+
         /* *******************************************************************************
         *                             DESTRUCTOR
         ******************************************************************************* */
