@@ -2,7 +2,7 @@
 
 lagSubgradient::lagSubgradient(const Instance &inst):MAX_NB_IT_WITHOUT_IMPROVEMENT(inst.getInput().getNbIterationsWithoutImprovement()), 
         MAX_NB_IT(inst.getInput().getMaxNbIterations()), INITIAL_STEPSIZE(inst.getInput().getInitialLagrangianLambda()),
-        MIN_STEPSIZE(0.000001), formulation(inst){}
+        MIN_STEPSIZE(0.0000001), formulation(inst){}
 
 void lagSubgradient::run(){
     std::cout << "--- Subgradient was invoked ---" << std::endl;
@@ -19,9 +19,18 @@ void lagSubgradient::run(){
             displayMainParameters();
 
             updateLambda();
+            //if(getIteration()<=5){
+            //    setStepSize(0.05);
+            //}
+            //else{
+            //formulation.displaySlack();
             updateStepSize();
+            //}
             formulation.updateMultiplier(getStepSize());
             formulation.updateCosts();
+
+            //formulation.displaySlack();
+            //formulation.displayMultiplier();
 
             //if (getLB() >= getUB() - DBL_EPSILON){
             if (getLB() >= getUB() - 0.0000001){   
@@ -54,6 +63,7 @@ void lagSubgradient::initialization(){
     setLB(-__DBL_MAX__);
     //setUB(__DBL_MAX__/2);
     setUB(500000);
+    //setUB(50);
 
     formulation.setStatus(RSA::STATUS_UNKNOWN);
 
@@ -198,6 +208,8 @@ void lagSubgradient::updateLambda(){
 
 /* Updates the step size with the rule: lambda*(UB - Z[u])/|slack| */
 void lagSubgradient::updateStepSize(){
+    //double aux = std::max(0.0,formulation.getLagrCurrentCost());
+    //double numerator = getLambda()*(getUB() - aux);
     double numerator = getLambda()*(getUB() - formulation.getLagrCurrentCost());
     double denominator = formulation.getSlackModule();
     //std::cout << getUB() << std::endl;
