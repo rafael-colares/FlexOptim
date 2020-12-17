@@ -10,8 +10,6 @@ void lagNonOverlapping::init(){
     build_Graphs_e();
     initCosts();
     initAssignmentMatrix();
-
-    initHeuristic();
 }
 
 /********************************* MULTIPLIERS ***********************************/
@@ -41,11 +39,10 @@ void lagNonOverlapping::initializeSourceTargetMultipliers(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         lagrangianMultiplierSourceTarget[d].resize(instance.getNbNodes());
         for (int v = 0; v < instance.getNbNodes(); v++){
-            //if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()){
-            if((v == getToBeRouted_k(d).getSource())){
-                //lagrangianMultiplierSourceTarget[d][v]= 1;
+            if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()) {
+                //int load = getToBeRouted_k(d).getLoad();
+                //lagrangianMultiplierSourceTarget[d][v]= -load/2;
                 lagrangianMultiplierSourceTarget[d][v]= initialMultiplier;
-                //lagrangianMultiplierSourceTarget[d][v]= -1;
             }
             else{
                 lagrangianMultiplierSourceTarget[d][v]= initialMultiplier;
@@ -63,10 +60,9 @@ void lagNonOverlapping::initializeFlowMultipliers(){
         for (int v = 0; v < instance.getNbNodes(); v++){
             /* The multiplier is not defined for the source and the target */
             if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()) {
-                lagrangianMultiplierFlow[d][v]= 0;
+                lagrangianMultiplierFlow[d][v]= 0.0;
             }else{
                 lagrangianMultiplierFlow[d][v]= initialMultiplier;
-                //lagrangianMultiplierFlow[d][v]= 1;
             }
         }
     }
@@ -94,9 +90,9 @@ void lagNonOverlapping::initSlacks(){
 void lagNonOverlapping::initializeLengthSlacks(){
     lengthSlack.resize(getNbDemandsToBeRouted(), 0.0);
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        lengthSlack[d] = getToBeRouted_k(d).getMaxLength();
+        //lengthSlack[d] = getToBeRouted_k(d).getMaxLength();
         //lengthSlack[d] = getToBeRouted_k(d).getMaxLength()/100;
-        //lengthSlack[d] = 0;
+        lengthSlack[d] = 1;
     }
 }
 
@@ -121,7 +117,7 @@ void lagNonOverlapping::initializeFlowSlacks(){
             if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()) {
                 flowSlack[d][v] = 0;
             }else{
-                flowSlack[d][v] = 1;
+                flowSlack[d][v] = 0;
             } 
         }
     }
@@ -154,11 +150,9 @@ void lagNonOverlapping::build_Graphs_e(){
                 if((getArcLabel(a, d)  == linklabel)){
                     int slice = getArcSlice(a,d);
                     /** add a node - label(same as the arc), demand(analysed), slice(same as the arc), firstconstraint(slice-load[k]+1)**/
-                    //std::cout << "first: " <<  (slice-load+1 ) << " last: " << slice << " demand: " << d+1 << std::endl;
                     addENode(linklabel,d,slice,(slice-load+1),a); 
                 }
             }
-            //std::cout << load<< " ";
         }
 
         /** Adding two auxiliary nodes to do the routing: source and destination  **/
@@ -185,19 +179,11 @@ void lagNonOverlapping::build_Graphs_e(){
         int index=0;
         for (ListDigraph::NodeIt v(*vecEGraph[e]); v != INVALID; ++v){
             setNodeEIndex(v, e, index);
-            //std::cout << getNodeEIndex(v,e)<< std::endl;
             index++;
         }
-        //displayEGraph(label);
     }
     std::cout << "> Graphs per edge were defined. " << std::endl;
-    //for(int d = 0; d < getNbDemandsToBeRouted(); d++){
-    //for(int d = 1; d <= 1; d++){
-    //    std::cout << "> Graph " << (d+1) << std::endl;
-    //    displayGraph(d);
-    //}
-    //int label = 1;
-
+    //createGraphFile(label);
     //displayEGraph(label);
 }
 
@@ -249,6 +235,9 @@ void lagNonOverlapping::initAssignmentMatrix(){
 void lagNonOverlapping::run(){
     setCurrentLagrCost(0.0);
     setCurrentRealCost(0.0);
+    //if(getStatus() == STATUS_FEASIBLE){
+    //    setStatus(STATUS_UNKNOWN);
+    //}
     for (int e = 0; e < instance.getNbEdges(); e++){
         const ListDigraph::Node SOURCE = getNodeFromIndex(e, getIndexSource(e));
         //std::cout << "SOurce " << getNodeEDemand(SOURCE,e); //ok
@@ -271,10 +260,11 @@ void lagNonOverlapping::run(){
         incCurrentLagrCost(shortestPath.dist(TARGET));    
         incCurrentRealCost(getRealCostFromPath(e, shortestPath, SOURCE, TARGET));
     }
-    //std::cout << "edges" << instance.getNbEdges()<< std::endl; 
+    //displayEGraph(0);
+    //createGraphFile(0);
+
     int soma = 0;
     for (int ee = 0; ee < instance.getNbEdges(); ee++){
-        //std::cout << "Nodes" << countNodes(*vecEGraph[ee]) << std::endl;
         for(int vv = 0;vv < countNodes(*vecEGraph[ee]); vv++){
             soma += assignmentMatrix[ee][vv];
         }
@@ -284,7 +274,6 @@ void lagNonOverlapping::run(){
     updateLengthSlack();
     updateSourceTargetSlack();
     updateFlowSlack();
-    //displaySlack();
 
     subtractConstantValuesFromLagrCost();
 
@@ -351,7 +340,9 @@ bool lagNonOverlapping::checkFlowFeasibility(){
 
 void lagNonOverlapping::subtractConstantValuesFromLagrCost(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        double val = - getLengthMultiplier_k(d)*getToBeRouted_k(d).getMaxLength();
+        //double val = - getLengthMultiplier_k(d)*getToBeRouted_k(d).getMaxLength();
+        //double val = - getLengthMultiplier_k(d)*getToBeRouted_k(d).getMaxLength()/100;
+        double val = -getLengthMultiplier_k(d);
         incCurrentLagrCost(val);
     }
 
@@ -363,7 +354,7 @@ void lagNonOverlapping::subtractConstantValuesFromLagrCost(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (int v = 0; v < instance.getNbNodes(); v++){ 
             if((v != getToBeRouted_k(d).getSource()) &&  (v != getToBeRouted_k(d).getTarget())){
-                double val = - getSourceTargetMultiplier_k(d,v);
+                double val = -getSourceTargetMultiplier_k(d,v);
                 incCurrentLagrCost(val);
             }
 
@@ -403,23 +394,21 @@ double lagNonOverlapping::getRealCostFromPath(int e, BellmanFord< ListDigraph, L
 double lagNonOverlapping::getSlackModule(){
     double denominator = 0.0;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        if(!((-getLengthSlack_k(d) < - DBL_EPSILON) && (getLengthMultiplier_k(d) > -DBL_EPSILON && getLengthMultiplier_k(d) < DBL_EPSILON))){
+        //if(!((-getLengthSlack_k(d) < - DBL_EPSILON) && (getLengthMultiplier_k(d) > -DBL_EPSILON && getLengthMultiplier_k(d) < DBL_EPSILON))){
             denominator += std::pow(getLengthSlack_k(d), 2);
-        }
+        //}
     }
 
     for(int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (int v = 0; v < instance.getNbNodes(); v++){
             if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()){   
-                //std::cout << "ola"<<getSourceTargetSlack_k(d, v) << std::endl; 
-                if(!((getSourceTargetSlack_k(d,v) > - DBL_EPSILON && getSourceTargetSlack_k(d,v) < DBL_EPSILON ) && (getSourceTargetMultiplier_k(d,v) > -DBL_EPSILON  && getSourceTargetMultiplier_k(d,v) < DBL_EPSILON))){
-                    //std::cout << "oi" << getSourceTargetSlack_k(d, v) << std::endl;
+                //if(!((getSourceTargetSlack_k(d,v) > - DBL_EPSILON && getSourceTargetSlack_k(d,v) < DBL_EPSILON ) && (getSourceTargetMultiplier_k(d,v) > -DBL_EPSILON  && getSourceTargetMultiplier_k(d,v) < DBL_EPSILON))){
                     denominator += std::pow(getSourceTargetSlack_k(d, v), 2);
-                }
+                //}
             }else{
-                if(!((-getSourceTargetSlack_k(d,v) < - DBL_EPSILON ) &&  (getSourceTargetMultiplier_k(d,v) > -DBL_EPSILON && getSourceTargetMultiplier_k(d,v) < DBL_EPSILON))){
+                //if(!((-getSourceTargetSlack_k(d,v) < - DBL_EPSILON ) &&  (getSourceTargetMultiplier_k(d,v) > -DBL_EPSILON && getSourceTargetMultiplier_k(d,v) < DBL_EPSILON))){
                     denominator += std::pow(getSourceTargetSlack_k(d, v), 2);
-                }
+                //}
             } 
         }
     }
@@ -427,9 +416,9 @@ double lagNonOverlapping::getSlackModule(){
     for (int d= 0; d < getNbDemandsToBeRouted(); d++){
         for (int v = 0; v < instance.getNbNodes(); v++){
             if((v != getToBeRouted_k(d).getSource()) && v != getToBeRouted_k(d).getTarget()){   
-                if(!((getFlowSlack_k(d,v) > - DBL_EPSILON && getFlowSlack_k(d,v) < DBL_EPSILON ) &&  (getFlowMultiplier_k(d,v) > -DBL_EPSILON && getFlowMultiplier_k(d,v) < DBL_EPSILON))){   
+                //if(!((getFlowSlack_k(d,v) > - DBL_EPSILON && getFlowSlack_k(d,v) < DBL_EPSILON ) &&  (getFlowMultiplier_k(d,v) > -DBL_EPSILON && getFlowMultiplier_k(d,v) < DBL_EPSILON))){   
                     denominator += std::pow(getFlowSlack_k(d, v), 2);
-                }
+                //}
             }
         }
     }
@@ -455,15 +444,16 @@ void lagNonOverlapping::updateLengthSlack(){
                     const ListDigraph::Arc arc = getNodeEArc(n,e);
                     /* We do not consider the artificial source and destination */
                     if(arc != INVALID){
-                        exp += getArcLength(arc, d)*assignmentMatrix[e][index];
+                        //exp += getArcLength(arc, d)*assignmentMatrix[e][index];
                         //exp += getArcLength(arc, d)*assignmentMatrix[e][index]/100;
+                        exp += getArcLength(arc, d)*assignmentMatrix[e][index]/getToBeRouted_k(d).getMaxLength();
                     }
                 }
             }
         }
-        //std::cout << exp << std::endl;
-        lengthSlack[d] = getToBeRouted_k(d).getMaxLength() - exp;
+        //lengthSlack[d] = getToBeRouted_k(d).getMaxLength() - exp;
         //lengthSlack[d] = getToBeRouted_k(d).getMaxLength()/100 - exp;
+        lengthSlack[d] = 1 - exp;
         //lengthSlack[d] = 0;
     }
 
@@ -545,7 +535,6 @@ void lagNonOverlapping::updateCosts(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
             setArcCost(a, d, getCoeff(a, d));
-            //std::cout << getCoeff(a, d) << std::endl;
         }
     }
 
@@ -553,7 +542,9 @@ void lagNonOverlapping::updateCosts(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         double multiplier =  getLengthMultiplier_k(d);
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-            double incrementValue = multiplier*getArcLength(a, d);
+            //double incrementValue = multiplier*getArcLength(a, d);
+            //double incrementValue = multiplier*getArcLength(a, d)/100;
+            double incrementValue = multiplier*getArcLength(a, d)/getToBeRouted_k(d).getMaxLength();
             incArcCost(a, d, incrementValue);
         }
     }
@@ -619,17 +610,6 @@ void lagNonOverlapping::updateCosts(){
             }
         }
     }
-    //std::cout << "\t> Costs were updated. " << std::endl;
-    //int label = 1;
-    //displayEGraph(label);
-    /* If it is for p_e */
-    //TODO
-    //for (int e = 0; e < instance.getNbEdges(); e++){
-        //int e = 6;
-        //displayEGraph(e);
-    //}
-    //int label = 2;
-    //displayEGraph(label);
 }
 
 /********************************** ASSIGNMENT MATRIX ***************************************/
@@ -659,9 +639,6 @@ void lagNonOverlapping::updateMultiplier(double step){
     updateLengthMultiplier(step);
     updateSourceTargetMultiplier(step);
     updateFlowMultiplier(step);
-
-    //displaySlack();
-    //displayMultiplier();
 }
 
 /** Update length multipliers **/
@@ -811,73 +788,194 @@ void lagNonOverlapping::displayENode(const ListDigraph::Node &n, int e){
     }
 }
 
-void lagNonOverlapping::displaySlack(){
-    std::string display = "Length Slack = [ ";
+void lagNonOverlapping::displaySlack(std::ostream & saida){
+    std::string display = "Length Slack = [ \n";
     //std::cout << "Length:" << std::endl;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        display += std::to_string(getLengthSlack_k(d)) + " "; 
+        display += "Demand " + std::to_string(d+1) + ": " +std::to_string(-getLengthSlack_k(d)) + "\n"; 
         //std::cout << "Demand:" << d << " "<< getLengthSlack_k(d) << std::endl;
     }
-    std::cout << display << std::endl;
     display += "]";
+    //std::cout << display << std::endl;
+    saida << display << std::endl;
 
-    display = "Source Target Slack = [ ";
+    display = "Source Target Slack = [ \n";
     //std::cout << std::endl <<"Source/Target:" << std::endl;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        display += "Demand " + std::to_string(d+1) + "\n ";
         for (int v = 0; v < instance.getNbNodes(); v++){ 
-            display += std::to_string(getSourceTargetSlack_k(d,v)) + " "; 
+            display += "\t Node " + std::to_string(v+1) + ": "+std::to_string(-getSourceTargetSlack_k(d,v)) + "\n"; 
             //std::cout << "Demand:" << d << " Node:" << v << " "<< getSourceTargetSlack_k(d,v) << std::endl;
         }
     }
     display += "]";
-    std::cout << display << std::endl;
+    //std::cout << display << std::endl;
+    saida << display << std::endl;
 
-    display = "Flow Slack = [ ";
+    display = "Flow Slack = [ \n";
     //std::cout << std::endl <<"Source/Target:" << std::endl;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        display += "Demand " + std::to_string(d+1) + "\n ";
         for (int v = 0; v < instance.getNbNodes(); v++){ 
             //if((v != getToBeRouted_k(d).getSource()) && v != getToBeRouted_k(d).getTarget()){
                 //std::cout << "Demand:" << d << " Node:" << v << " "<< getFlowSlack_k(d,v) << std::endl;
             //}
-            display += std::to_string(getFlowSlack_k(d,v)) + " "; 
+            display += "\t Node " + std::to_string(v+1) + ": "+ std::to_string(-getFlowSlack_k(d,v)) + "\n"; 
         }
     }
 
     display += "]";
-    std::cout << display << std::endl;
+    saida << display << std::endl;
+    //std::cout << display << std::endl;
 
 }
 
-
-
-void lagNonOverlapping::displayMultiplier(){
-    std::string display = "Length Multiplier = [ ";
+void lagNonOverlapping::displayMultiplier(std::ostream & saida){
+    std::string display = "Length Multiplier = [ \n";
     for (unsigned int i = 0; i < lagrangianMultiplierLength.size(); i++){
-        display += std::to_string(getLengthMultiplier_k(i)) + " "; 
+        display += "Demand " + std::to_string(i+1) + ": " + std::to_string(getLengthMultiplier_k(i)) + "\n"; 
     }
     display += "]";
-    std::cout << display << std::endl;
+    //std::cout << display << std::endl;
+    saida << display << std::endl;
 
-    display = "Source Target Multiplier = [ ";
+    display = "Source Target Multiplier = [ \n";
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        display += "Demand " + std::to_string(d+1) + ":\n ";
         for (int v = 0; v < instance.getNbNodes(); v++){ 
-            display += std::to_string(getSourceTargetMultiplier_k(d,v)) + " "; 
+            display += "\t Node " + std::to_string(v+1) + ": "+ std::to_string(getSourceTargetMultiplier_k(d,v)) + "\n"; 
 
         }
     }
     display += "]";
-    std::cout << display << std::endl;
+    //std::cout << display << std::endl;
+    saida << display << std::endl;
     //overlap 2
     
-    display = "Flow Multiplier = [ ";
+    display = "Flow Multiplier = [ \n";
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        display += "Demand " + std::to_string(d+1) + "\n ";
         for (int v = 0; v < instance.getNbNodes(); v++){ 
-            display += std::to_string(getFlowMultiplier_k(d,v)) + " "; 
+            display += "\t Node "  + std::to_string(v+1) +": " + std::to_string(getFlowMultiplier_k(d,v)) + "\n"; 
 
         }
     }
     display += "]";
-    std::cout << display << std::endl;
+    //std::cout << display << std::endl;
+    saida << display << std::endl;
+}
+
+void lagNonOverlapping::createGraphFile(int it){
+    //std::cout<<"oi" << std::endl;
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        std::string nom = "outputs/graph_edge_";
+        nom.append(std::to_string(e+1));
+        nom.append("_it_");
+        nom.append(std::to_string(it));
+        nom.append(".dot");
+        std::ofstream fichier(nom);
+        if (!fichier.fail()) {
+            fichier << "digraph G {" << std::endl;
+            for (ListDigraph::ArcIt a(*vecEGraph[e]); a != INVALID; ++a){
+
+                /* nodes from the auxiliary graph */
+                const ListDigraph::Node SOURCE = (*vecEGraph[e]).source(a);
+                const ListDigraph::Node DEST = (*vecEGraph[e]).target(a);
+
+                /* arcs it represents in the original graph */
+                const ListDigraph::Arc ARC_SOURCE = getNodeEArc(SOURCE,e);
+                const ListDigraph::Arc ARC_DEST = getNodeEArc(DEST,e);
+
+                /* if its artificial nodes source/ destination in the auxiliary graph */
+                //if(getArcECost(a,e) < 0){
+                //    std::cout << "edge:" << e;
+                if((ARC_SOURCE == INVALID) || (ARC_DEST == INVALID)){
+                    if((ARC_SOURCE == INVALID) && (ARC_DEST == INVALID)){
+                        if((getNodeEDemand(SOURCE,e) == -1) && (getNodeEDemand(DEST,e) ==-2)){
+                            fichier << " \" SOURCE \" -> \" DEST \" [label=\"" << getArcECost(a,e) << "\"];" << std::endl;
+                        }else if((getNodeEDemand(SOURCE,e) == -2) && (getNodeEDemand(DEST,e) ==-1)){
+                            fichier << " \" DEST \" -> \" SOURCE \" [label=\"" << getArcECost(a,e) << "\"];" << std::endl;
+                        }
+                    }else if(ARC_SOURCE == INVALID){
+                        if(getNodeEDemand(SOURCE,e) == -1){
+                            int d = getNodeEDemand(DEST,e);
+                            fichier << " \" SOURCE \" -> \" ";
+                            fichier << (getNodeLabel((*vecGraph[d]).source(ARC_DEST), d) + 1) ;
+                            fichier << "--";
+                            fichier << (getNodeLabel((*vecGraph[d]).target(ARC_DEST), d) + 1) << ", ";
+                            fichier << "s:" << (getArcSlice(ARC_DEST, d) + 1) << " d:" << (d+1) << " \" " ;
+                            fichier << "[label=\"" << getArcECost(a,e) << "\"];" << std::endl;
+                        }else if(getNodeEDemand(SOURCE,e) == -2){
+                            int d = getNodeEDemand(DEST,e);
+                            fichier << " \" DEST \" -> \" ";
+                            fichier << getNodeLabel((*vecGraph[d]).source(ARC_DEST), d) + 1;
+                            fichier << "--";
+                            fichier << getNodeLabel((*vecGraph[d]).target(ARC_DEST), d) + 1 << ", ";
+                            fichier << "s:" << getArcSlice(ARC_DEST, d) + 1 << " d:" << d+1 << " \" ";
+                            fichier << "[label=\"" << getArcECost(a,e) << "\"];" << std::endl;
+                        }
+                    }else if(ARC_DEST == INVALID){
+                        if(getNodeEDemand(DEST,e) == -1){
+                            int d = getNodeEDemand(SOURCE,e);
+                            fichier << " \" ";
+                            fichier << getNodeLabel((*vecGraph[d]).source(ARC_SOURCE) , d) + 1;
+                            fichier << "--";
+                            fichier << getNodeLabel((*vecGraph[d]).target(ARC_SOURCE), d) + 1;
+                            fichier << ", ";
+                            fichier << "s:" << getArcSlice(ARC_SOURCE, d) + 1 << " d:" << d+1;
+                            fichier << " \" ";
+                            fichier << " -> ";
+                            fichier << " \" SOURCE \" ";
+                            fichier << "[label=\"" << getArcECost(a,e) << "\"];" << std::endl;
+                        }else if(getNodeEDemand(DEST,e) == -2){
+                            int d = getNodeEDemand(SOURCE,e);
+                            fichier << " \" ";
+                            fichier << getNodeLabel((*vecGraph[d]).source(ARC_SOURCE) , d) + 1;
+                            fichier << "--";
+                            fichier << getNodeLabel((*vecGraph[d]).target(ARC_SOURCE), d) + 1;
+                            fichier << ", ";
+                            fichier << "s:" << getArcSlice(ARC_SOURCE, d) + 1 << " d:" << d+1;
+                            fichier << " \" ";
+                            fichier << " -> ";
+                            fichier << " \" DEST \" ";
+                            fichier << "[label=\"" << getArcECost(a,e) << "\"];" << std::endl;
+                        }
+                    }
+                }else{
+                    /* Printing the conection */
+                    int d = getNodeEDemand(SOURCE,e);
+                    fichier << " \" ";
+                    fichier << getNodeLabel((*vecGraph[d]).source(ARC_SOURCE) , d) + 1;
+                    fichier << "--";
+                    fichier << getNodeLabel((*vecGraph[d]).target(ARC_SOURCE), d) + 1;
+                    fichier << ", ";
+                    fichier << "s:" << getArcSlice(ARC_SOURCE, d) + 1 << " d:"<< d+1;
+                    fichier << " \" ";
+                    fichier << " -> ";
+                    fichier << " \" ";
+                    d = getNodeEDemand(DEST,e);
+                    fichier << getNodeLabel((*vecGraph[d]).source(ARC_DEST) , d) + 1;
+                    fichier << "--";
+                    fichier << getNodeLabel((*vecGraph[d]).target(ARC_DEST), d) + 1;
+                    fichier << ", ";
+                    fichier << "s:" << getArcSlice(ARC_DEST, d) + 1 << " d:"<< d+1;
+                    fichier << " \" ";
+                    fichier << "[label=\"" << getArcECost(a,e) << "\"];" << std::endl;
+                }
+            }
+            fichier << "}" << std::endl;
+        }
+        std::string command = "dot -Tjpg -o ";
+        std::string nom2 = "outputs/graph_edge_";
+        nom2.append(std::to_string(e+1));
+        nom2.append("_it_");
+        nom2.append(std::to_string(it));
+        nom2.append(".jpg");
+        command.append(nom2);
+        command.append(" ");
+        command.append(nom);
+        system(command.c_str());
+    }
 }
 
 /* *******************************************************************************
@@ -907,240 +1005,5 @@ lagNonOverlapping::~lagNonOverlapping(){
     vecESourceIndex.clear();
     vecEDestinationIndex.clear();
 
-    // Heuristic
-    heuristicCosts.clear();
-    heuristicCostsAux.clear();
-    heuristicSolution.clear();
-    notAnalysedDemands.clear();
-    analysedDemands.clear();
 }
 
-/* *******************************************************************************
-*                                HEURISTIC
-******************************************************************************* */
-
-/* Initializes the Heuristic Costs and Solution - allocation */
-void lagNonOverlapping::initHeuristic(){  
-    heuristicSolution.resize(getNbDemandsToBeRouted());
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        /* Initializing costs */
-        heuristicCosts.emplace_back( std::make_shared<ArcCost>((*vecGraph[d]), 0.0)); 
-        heuristicCostsAux.emplace_back( std::make_shared<ArcCost>((*vecGraph[d]), 0.0)); 
-
-        /* Initializing solution */
-        heuristicSolution[d].resize(countArcs(*vecGraph[d]));
-        std::fill(heuristicSolution[d].begin(), heuristicSolution[d].end(), false);
-    } 
-}
-
-/* Initializes the Heuristics elements to run the algorithm */
-void lagNonOverlapping::heuristicInitialization(){
-    initHeuristicSolution();
-    initHeuristicDemandsSets();
-    initHeuristicCosts();
-}
-
-/*Initializes the  heuristic Solution - to 0 for every element - to run the algorithm*/
-void lagNonOverlapping::initHeuristicSolution(){  
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        std::fill(heuristicSolution[d].begin(), heuristicSolution[d].end(), false);
-    }
-}
-
-/* Initialize the sets of not analysed demands and analysed demands for the Heuristic - to run the algorithm*/
-void lagNonOverlapping::initHeuristicDemandsSets(){
-    notAnalysedDemands.clear();
-    analysedDemands.clear();
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){ notAnalysedDemands.insert(d);}
-}
-
-/** Initialize the considered cost for the heuristic using the values of the assgnmentMatrix. cost arc = 1-x - to run the algorithm **/
-void lagNonOverlapping::initHeuristicCosts(){
-    for (int e = 0; e < instance.getNbEdges(); e++){
-        for(int v = 0; v < countNodes(*vecEGraph[e]); ++v){
-            const ListDigraph::Node node = getNodeFromIndex(e,v);
-            const ListDigraph::Arc arc = getNodeEArc(node, e);
-            int d = getNodeEDemand(node,e);
-            if(arc != INVALID){
-                (*heuristicCosts[d])[arc] = 1 - assignmentMatrix[e][v]; /* cost is 1 - x */
-                (*heuristicCostsAux[d])[arc] = 1 - assignmentMatrix[e][v]; /* cost is 1 - x */
-            }
-        }
-    } 
-}
-
-void lagNonOverlapping::ShortestPathHeuristic(){
-    /* Initialization*/
-    heuristicInitialization();
-
-    while(!notAnalysedDemands.empty()){
-        /* Choses a demand */
-        int demand = choseDemand(notAnalysedDemands);
-        notAnalysedDemands.erase(demand);
-        analysedDemands.insert(demand);
-        bool STOP = false;
-
-        while(!STOP){
-            /* Apply the shortest path */
-            STOP = heuristicRun(demand);    
-        }
-    }
-    updateCostFromHeuristic();
-
-}
-
-/* Find a feasible shortest path  for demand d - return true*/
-/* If coul not find the path - return false */
-bool lagNonOverlapping::heuristicRun(int d){
-
-    /** SOURCE and DEST from the graph d **/
-    const ListDigraph::Node SOURCE = getFirstNodeFromLabel(d, getToBeRouted_k(d).getSource());
-    const ListDigraph::Node TARGET = getFirstNodeFromLabel(d, getToBeRouted_k(d).getTarget());
-
-    /** Shortest path with the heuristic cost**/
-    Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > shortestPath((*vecGraph[d]), (*heuristicCosts[d]));
-    shortestPath.run(SOURCE, TARGET);
-
-    if (shortestPath.reached(TARGET) == false){   
-        std::cout << "> RSA is infeasible because there is no path from " << getToBeRouted_k(d).getSource()+1 << " to " << getToBeRouted_k(d).getTarget()+1 << " required for routing demand " << getToBeRouted_k(d).getId()+1 << "." << std::endl;
-        return true;
-    }
-
-    const int PATH_LENGTH = getPathLength(d, shortestPath, SOURCE, TARGET);
-    if(shortestPath.dist(TARGET) >= __DBL_MAX__){
-        /** There is no path between the source and the destination for this demand **/
-        /** It does not respect the non overlap constraints **/
-        /** Remove a demand from the analysed Demands **/
-        int demand2 = choseDemand(analysedDemands);
-        analysedDemands.erase(demand2);
-        notAnalysedDemands.insert(demand2);
-        removePath_k(demand2);
-        return false;
-
-    }else if(PATH_LENGTH > getToBeRouted_k(d).getMaxLength()){
-        /** The solution is infeasible because of the length constraints**/
-        remove_Arc(d,shortestPath,SOURCE,TARGET);
-        return false;
-    }else{
-        /** A feasible path for the demand was found **/
-        insertPath_k(d,shortestPath,SOURCE,TARGET);
-        return true;
-    }
-
-}
-
-/* Remove a found path for demand d. Then, we have to find another path for this demand*/
-void lagNonOverlapping::removePath_k(int d){
-    for(ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-        int index = getArcIndex(a,d);
-        if(heuristicSolution[d][index] == true){
-            /* the path uses this arc */
-            heuristicSolution[d][index] = false; /* removing path from the solution */
-            int slice = getArcSlice(a,d);
-            int label = getArcLabel(a,d);
-            int load = getToBeRouted_k(d).getLoad();
-            /* include the arcs were removed when this path was chosen */
-            /* they were removed from the posibilities in order to find feasible solutions considering non overlap constraints*/
-            include_arcs(slice,label,load); 
-        }
-    }
-}
-
-/* Changes the cost of some arcs so they can be chosen - respect the non overlapping constraints*/
-/* For all arcs, considering every demand, that have @param  slice-load+1 <= slice_k <= slice @param label_k = label */
-void lagNonOverlapping::include_arcs(int slice, int label, int load){
-    for (int k = 0; k < getNbDemandsToBeRouted(); k++){
-        for(ListDigraph::ArcIt arc(*vecGraph[k]); arc != INVALID; ++arc){
-            int slice_k = getArcSlice(arc,k);
-            int label_k = getArcLabel(arc,k);
-            if((slice_k >= slice-load+1) && (slice_k <= slice) && (label_k == label)){
-                (*heuristicCosts[k])[arc] = (*heuristicCostsAux[k])[arc]; /* come back with arc - their cost will be no longer infinite*/
-            }
-        }
-    }
-
-}
-
-/* Changes the heuristic Solution considering the found path for demand d*/
-void lagNonOverlapping::insertPath_k(int d, Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
-    ListDigraph::Node currentNode = TARGET;
-    while (currentNode != SOURCE){
-        ListDigraph::Arc arc = path.predArc(currentNode);
-        int index = getArcIndex(arc, d);
-        heuristicSolution[d][index] = true;
-        int slice = getArcSlice(arc,d);
-        int label = getArcLabel(arc,d);
-        int load = getToBeRouted_k(d).getLoad();
-        remove_arcs(slice,label,load);
-        currentNode = path.predNode(currentNode);
-    }
-}
-
-/* Changes the cost (to infinite) of some arcs so they will not be chosen - respect the non overlapping constraints*/
-/* For all arcs, considering every demand, that have @param  slice-load+1 <= slice_k <= slice @param label_k = label */
-void lagNonOverlapping::remove_arcs(int slice, int label, int load){
-    for (int k = 0; k < getNbDemandsToBeRouted(); k++){
-        for(ListDigraph::ArcIt arc(*vecGraph[k]); arc != INVALID; ++arc){
-            int slice_k = getArcSlice(arc,k);
-            int label_k = getArcLabel(arc,k);
-            if((slice_k >= slice-load+1) && (slice_k <= slice) && (label_k == label)){
-                (*heuristicCosts[k])[arc] = __DBL_MAX__; /* "remove "arc - their cost will be infinite*/
-            }
-        }
-    }
-}
-
-/* "Remove" (cost infinite) arc with highest length, so  it can not be selected -> respect length constraints  */
-void lagNonOverlapping::remove_Arc(int d, Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
-    ListDigraph::Node currentNode = TARGET;
-    ListDigraph::Arc arcHighestLength = path.predArc(currentNode);
-    int length = getArcLength(arcHighestLength,d);
-    while (currentNode != SOURCE){
-        ListDigraph::Arc arc = path.predArc(currentNode);
-        if(getArcLength(arc,d) > length){
-            arcHighestLength = arc;
-        }
-        currentNode = path.predNode(currentNode);
-    }
-    (*heuristicCosts[d])[arcHighestLength] = __DBL_MAX__;
-}
-
-/* Selects one demand to be analysed */
-int lagNonOverlapping::choseDemand(std::set<int> set){
-    std::set<int>::iterator it;
-    int load = 0;
-    int demand = -1;
-    for (it = set.begin(); it != set.end(); ++it){
-        if(getToBeRouted_k(*it).getLoad() > load){
-            load = getToBeRouted_k(*it).getLoad();
-            demand = *it;
-        }
-    }
-    return demand;
-}
-
-/* Returns the physical length of the path. */
-double lagNonOverlapping::getPathLength(int d, Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &s, const ListDigraph::Node &t){
-    double pathLength = 0.0;
-    ListDigraph::Node n = t;
-    while (n != s){
-        ListDigraph::Arc arc = path.predArc(n);
-        n = path.predNode(n);
-        pathLength += getArcLength(arc, d);
-    }
-    return pathLength;
-}
-
-void lagNonOverlapping::updateCostFromHeuristic(){
-    setCurrentHeuristicCost(0.0);
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-            int index = getArcIndex(a,d);
-            if(heuristicSolution[d][index] == true){
-                int val = getCoeff(a,d);
-                incCurrentHeuristicCost(val);
-            }
-        }
-    }
-
-}

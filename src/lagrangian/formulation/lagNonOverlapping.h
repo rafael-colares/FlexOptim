@@ -1,13 +1,14 @@
-#ifndef LAG_NON_OVERLAP_H
-#define LAG_NON_OVERLAP_H
+#ifndef LAG_NON_OVERLAPPING_H
+#define LAG_NON_OVERLAPPING_H
 
-#include "../formulation/rsa.h"
+#include "AbstractLagrangianFormulation.h"
 #include <set>
 
-class lagNonOverlapping: public RSA{
+using namespace lemon;
+
+class lagNonOverlapping: public AbstractLagFormulation{
+
     private:
-        double currentLagrCost;
-        double currentRealCost;
 
         /********************************* MULTIPLIERS ***********************************/
 
@@ -90,29 +91,11 @@ class lagNonOverlapping: public RSA{
         /* Vector of the id of the destination node for each edge*/
         std::vector<int> vecEDestinationIndex;
 
-        /* ***************************** HEURISTIC ********************************** */
-
-        double currentHeuristicCost;
-
-        /* A list of pointers to the Map Arc storing the COSTS used in the Heuristic Shortest Path */
-        std::vector<std::shared_ptr<ArcCost>> heuristicCosts;
-
-        /* A list of pointers to the Map Arc storing the auxiliary COSTS used in the Heuristic Shortest Path */
-        /* it is used to help when an arc is removed and included */
-        std::vector<std::shared_ptr<ArcCost>> heuristicCostsAux;
-
-        /* A vector for the heuristic solution */
-        std::vector<std::vector<bool>> heuristicSolution;
-
-        /* Creating auxiliary sets with the analysed and not analysed demands */
-        std::set<int> notAnalysedDemands;
-        std::set<int> analysedDemands;
-
     public:
         /* *******************************************************************************
         *                             INITIALIZATION METHODS
         ******************************************************************************* */
-        lagNonOverlapping(const Instance &instance):RSA(instance){}
+        lagNonOverlapping(const Instance &instance):AbstractLagFormulation(instance){}
 
         /** Sets all initial parameters **/
         void init();
@@ -144,6 +127,8 @@ class lagNonOverlapping: public RSA{
 
         /** Initializes the slack of Flow constraints. **/
         void initializeFlowSlacks();
+
+        /******************************** COSTS *********************************/
 
         /** Initializes the costs in the objective function. **/
         void initCosts();
@@ -184,9 +169,6 @@ class lagNonOverlapping: public RSA{
         /****************************************************************************************/
         /*										Getters 										*/
         /****************************************************************************************/
-
-        double getLagrCurrentCost() const { return currentLagrCost; }
-        double getRealCurrentCost() const { return currentRealCost; }
 
         /** Returns the multiplier for the length constraint k **/
         double getLengthMultiplier_k(int k) const { return lagrangianMultiplierLength[k]; }
@@ -251,11 +233,6 @@ class lagNonOverlapping: public RSA{
         /****************************************************************************************/
         /*										Setters											*/
         /****************************************************************************************/
-
-        void setCurrentLagrCost(double val){ currentLagrCost = val; }
-        void incCurrentLagrCost(double val){ currentLagrCost += val; }
-        void setCurrentRealCost(double val){ currentRealCost = val; }
-        void incCurrentRealCost(double val){ currentRealCost += val; }
 
         void setLengthMultiplier_k (int k, double val) { lagrangianMultiplierLength[k] = val; }
         void setSourceTargetMultiplier_k (int k, int v, double val) { lagrangianMultiplierSourceTarget[k][v] = val; }
@@ -330,73 +307,16 @@ class lagNonOverlapping: public RSA{
         void displayAssignmentMatrix(int);
 
         void displayENode(const ListDigraph::Node &, int);
-        void displaySlack();
+        void displaySlack(std::ostream & = std::cout);
 
-        void displayMultiplier();
+        void displayMultiplier(std::ostream & = std::cout);
+        void createGraphFile(int);
 
         /* *******************************************************************************
         *                             DESTRUCTOR
         ******************************************************************************* */
 
         ~lagNonOverlapping();
-
-        /* *******************************************************************************
-        *                             HEURISTIC
-        ******************************************************************************* */
-
-        /* Initializes the Heuristics elements  - allocation */
-        void initHeuristic();
-
-        /* Initializes the Heuristics elements to run the algorithm */
-        void heuristicInitialization();
-
-        /* Solution initialization */
-        void initHeuristicSolution();
-
-        /* Initialize the sets of not analysed demands and analysed demands for the Heuristic - to run the algorithm*/
-        void initHeuristicDemandsSets();
-
-        /* Updates the heuristic costs using the assignment matrix */
-        void initHeuristicCosts();
-
-        void ShortestPathHeuristic();
-
-        /* Selects one demand to be analysed */
-        int choseDemand(std::set<int>);
-
-        /* Find a shortest path for demand d*/
-        bool heuristicRun(int);
-
-        /* Changes the heuristic Solutin including the found path to demand d */
-        void insertPath_k(int, Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > &, const ListDigraph::Node &, const ListDigraph::Node &);
-
-        /* Remove a found path for demand d. Then, we have to find another path for this demand*/
-        void removePath_k(int);
-
-        /* Changes the cost of some arcs so they will not be chosen - respect the non overlapping constraints*/
-        void remove_arcs(int,int,int);
-
-        /* Changes the cost of some arcs so they can be chosen - respect the non overlapping constraints*/
-        /* Changes it for the original cost */
-        void include_arcs(int,int,int);
-
-        /* "Remove" (cost infinite) arc with highest length, so  it can not be selected -> respect length constraints  */
-        void remove_Arc(int, Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > &, const ListDigraph::Node &, const ListDigraph::Node &);
-
-        /* Returns the physical length of the path. */
-        double getPathLength(int d, Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &s, const ListDigraph::Node &t);
-        
-        /* Calcules the heuristic solution cost*/
-        void updateCostFromHeuristic();
-
-        /* Set the current heuristic solution cost */
-        void setCurrentHeuristicCost(int val){currentHeuristicCost = val;}
-
-        void incCurrentHeuristicCost(int val){currentHeuristicCost += val;}
-
-        /* Get the current heuristic solution cost */
-        double getCurrentHeuristicCost(){ return currentHeuristicCost;}
-
 };
 
 
