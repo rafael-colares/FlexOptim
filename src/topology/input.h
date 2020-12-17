@@ -71,6 +71,40 @@ public:
 		PREPROCESSING_LVL_FULL = 2		/**< Previous levels recursively until no additional arc can be removed. **/
 	};
 
+	/******** INCLUSION FOR LAGRANGIAN *********/
+	/** Enumerates all possible Lagrangian methods to be applied **/
+	enum LagMethod {
+		SUBGRADIENT = 0,  		/**< Solve the model with Subgradient Method. **/
+		VOLUME = 1, 		    /**< Solve the model with Volume method. **/
+	};
+
+	/** Enumerates all possible Lagrangian formulations to be applied **/
+	enum LagFormulation{
+		LAG_FLOW = 0,           /**< Uses the Lagrangian Flow formulation. **/
+		LAG_OVERLAP = 1,        /**< Uses the Lagrangian Overlap formulation. **/
+	};
+
+	/** Enumerates all possible Heuristics to be applied **/
+
+	enum Heuristic{
+		SHORT_PATH = 0,          /**< Uses the Shortest Path Heuristic. **/
+		PROBABILITY = 1,         /**< Uses the Probability Heuristic. **/
+	}; 
+
+	/** Enumerates all possible forms to compute the direction in the subgradient method to be applied **/
+	enum DirectionMethod{
+		NORMAL = 0,              /**< Uses the gradient as direction. **/
+		CROWDER = 1,             /**< Uses the crowder rule to compute the direction. **/
+		CARMERINI = 3,           /**< Uses the carmerini fratta maffioli rule to compute the direction. **/
+		MODIFIED_CARMERINI = 4,  /**< Uses the modified carmerini fratta maffioli rule to compute the direction. **/
+	}; 
+
+	enum ProjectionType{
+		USUAL = 0,              /**< Uses all directions value to compute the stepsize. **/
+		IMPROVED = 1,            /**< Negative directions with multiplier eguals to zero are not considered on the stepsize. **/
+		PROJECTED = 2,           /**< Negatice direction are not considered in the stepsize. **/
+	};
+	/*******************************************/
 	
 private:
 	const std::string PARAMETER_FILE;				/**< Path to the file containing all the parameters. **/
@@ -110,6 +144,17 @@ private:
 	int nbIterationsWithoutImprovement;	/**< The maximal number of iterations allowed in the subgradient method.**/
 	int maxNbIterations;				/**< The maximal number of iterations allowed without improving the lower bound in the subgradient method.**/
 
+	/******** INCLUSION FOR LAGRANGIAN *********/
+	LagMethod lagChosenMethod;               /**< The chosen Lagrangian Method. **/
+	LagFormulation lagChosenFormulation;     /**< The chosen Lagrangian Formulation. **/
+	Heuristic chosenHeuristic;               /**< The chosen Heuristic. **/
+	DirectionMethod chosenDirectionMethod;   /**< The chosen Lagrangian Direction calculus method. **/
+	double crowderParameter;                 /**< Paramater for crowder direction calculus, if it was chosen. **/
+	double carmeriniParameter;               /**< Paramater for carmerini direction calculus, if it was chosen. **/
+	ProjectionType chosenProjection;         /**< The way the stepsize is computed. **/
+	bool alternativeStop;                    /**< If an alternative stopping criterion is used or not. **/
+	bool warmstart;                          /**< If the warmstart for the initial multipliers is used or not. **/
+	/*******************************************/
 
 public:
 	/****************************************************************************************/
@@ -228,6 +273,17 @@ public:
 	/** Returns the maximal number of iterations allowed without improving the lower bound in the subgradient method.**/
 	int getMaxNbIterations() const { return maxNbIterations; }
 
+	/******** INCLUSION FOR LAGRANGIAN *********/
+	LagMethod getChosenLagMethod() const { return lagChosenMethod;}
+	LagFormulation getChosenLagFormulation() const { return lagChosenFormulation;}
+	Heuristic getChosenHeuristic() const { return chosenHeuristic;}
+	DirectionMethod getChosenDirectionMethod() const { return chosenDirectionMethod; }
+	double getCrowderParameter() const { return crowderParameter;}
+	double getCarmeriniParameter() const { return carmeriniParameter;}
+	ProjectionType getChosenProjection() const { return chosenProjection;}
+	bool getAlternativeStop() const { return alternativeStop;}
+	bool getWarmstart() const { return warmstart;}
+
 	/****************************************************************************************/
 	/*										Setters											*/
 	/****************************************************************************************/
@@ -273,6 +329,14 @@ public:
 	
 	/** Checks if the gathered information is consistent with what is implemented. **/
 	void checkConsistency();
+
+	/******** INCLUSION FOR LAGRANGIAN *********/
+	LagMethod to_LagMethod(std::string data);
+	LagFormulation to_LagFormulation(std::string data);
+	Heuristic to_Heuristic(std::string data);
+	DirectionMethod to_DirectionMethod(std::string data);
+	ProjectionType to_ProjectionType(std::string data);
+
 	/****************************************************************************************/
 	/*										Destructor										*/
 	/****************************************************************************************/
