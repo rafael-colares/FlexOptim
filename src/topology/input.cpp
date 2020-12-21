@@ -313,8 +313,6 @@ Input::MIP_Solver Input::to_MIP_Solver(std::string data){
         }
         case 1: {
             policy = MIP_SOLVER_CBC;
-            std::cout << "ERROR: MIP_Solve=1 but CBC still needs to be implemented." << std::endl;
-            exit(0);
             return policy;
             break;
         }
@@ -343,10 +341,6 @@ void Input::checkConsistency(){
         std::cout << "ERROR: MIP_Solver Gurobi has been chosen but still needs to be implemented." << std::endl;
         exit(0);
     }
-    if (getChosenMIPSolver() == MIP_SOLVER_CBC){
-        std::cout << "ERROR: MIP_Solver CBC has been chosen but still needs to be implemented." << std::endl;
-        exit(0);
-    }
     if (getChosenNodeMethod() != NODE_METHOD_LINEAR_RELAX && getChosenMIPSolver() != MIP_SOLVER_CBC){
         std::cout << "ERROR: Subgradient methods should only be called with CBC." << std::endl;
         exit(0);
@@ -373,6 +367,12 @@ void Input::displayMainParameters(){
     std::cout << "INITIAL ASSIGNMENT FILE: " << initialMappingAssignmentFile << std::endl;
 }
 
+bool Input::isObj8(int i) const{ 
+    if (getChosenObj_k(i) == OBJECTIVE_METRIC_8){
+        return true;
+    }
+    return false;
+}
 /****************************************************************************************/
 /*										Destructor										*/
 /****************************************************************************************/

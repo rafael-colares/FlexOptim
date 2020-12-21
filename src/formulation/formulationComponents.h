@@ -1,6 +1,8 @@
 #ifndef __FormulationComponents__h
 #define __FormulationComponents__h
 
+#include "../topology/input.h"
+
 #include <string>
 #include <vector>
 #include <iostream>
@@ -122,6 +124,7 @@ public:
 
     /** Copy constructor. @param e The expression to be copied. **/
     Expression(const Expression &e);
+    Expression(const Variable &v);
 
 	/****************************************************************************************/
 	/*										Getters											*/
@@ -151,6 +154,11 @@ public:
 
 	double getExpressionValue();
 
+	double getTrivialUb();
+	double getTrivialLb();
+
+	std::string to_string() const;
+
     /** Clears the array of terms. **/
     void clear() { termsArray.clear(); }
 };
@@ -173,6 +181,7 @@ private:
     Expression expr;        /**< The objective function expression. **/
     Direction direction;    /**< The direction to be optimized. **/
 	std::string name;		/**< The objective name. **/
+	Input::ObjectiveMetric id;	/** The objective identifier. **/
 
 public:
     /** Constructor. @param e The expression. @param d The direction. **/
@@ -192,6 +201,9 @@ public:
 	/** Returns the objective function's name. **/
     std::string getName() const { return name; }
 
+	/** Returns the objective function's id. **/
+    Input::ObjectiveMetric getId() const { return id; }
+
 	/****************************************************************************************/
 	/*										Setters											*/
 	/****************************************************************************************/
@@ -204,6 +216,9 @@ public:
     
 	/** Changes the objective function's name. **/
     void setName(std::string str) { this->name = str; }
+
+	/** Changes the objective function's id. **/
+    void setId(Input::ObjectiveMetric obj) { this->id = obj; }
 
     /** Clear the objective function's expression. **/
     void clear() { this->expr.clear(); }
@@ -246,7 +261,6 @@ public:
 	/** Returns the number of terms in the constraint expression. **/
     int getSize() const { return this->expr.getNbTerms(); }
 	
-
 	/****************************************************************************************/
 	/*										Setters											*/
 	/****************************************************************************************/

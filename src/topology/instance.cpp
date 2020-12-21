@@ -68,7 +68,7 @@ void Instance::decreaseNbDemandsAtOnce(){
 
 /* Returns the max used slice position throughout the whole network. */
 int Instance::getMaxUsedSlicePosition() const{
-	int maxSlice = 0;
+	int maxSlice = -1;
 	for (int i = 0; i < getNbEdges(); i++){
 		int maxSliceFromEdge = tabEdge[i].getMaxUsedSlicePosition();
 		if (maxSliceFromEdge > maxSlice){

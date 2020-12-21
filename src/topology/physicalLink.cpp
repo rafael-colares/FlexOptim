@@ -65,9 +65,9 @@ void Fiber::assignSlices(const Demand &d, int p){
 	}
 }
 
-/* Returns the maximal slice position used in the frequency spectrum. */
+/* Returns the maximal slice position used in the frequency spectrum. Returns -1 if no slice is used. */
 int Fiber::getMaxUsedSlicePosition() const {
-	int max = 0;
+	int max = -1;
 	for (int i = 0; i < this->getNbSlices(); i++){
 		if (getSlice_i(i).isUsed()){
 			if (i >= max){
@@ -96,7 +96,7 @@ int Fiber::getNbUsedSlices() const {
 /* Displays summarized information about the fiber. */
 void Fiber::displayFiber(){
 	std::cout << "#" << this->getId()+1 << ". " << this->getSource()+1 << " -- " << this->getTarget()+1;
-	std::cout << ". lenght: " << this->getLength() << ", cost: " << this->getCost() << std::endl;
+	std::cout << ". nb slices: " << this->getNbSlices() << ", length: " << this->getLength() << ", cost: " << this->getCost() << std::endl;
 }
 
 /* Displays detailed information about state of the fiber. */

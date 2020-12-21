@@ -19,7 +19,7 @@ protected:
     
     std::vector<Constraint> constraintSet;			/**< The set of constraints. **/
     std::vector<ObjectiveFunction> objectiveSet;	/**< The set of objectives to be optimized (in order). **/
-
+	double upperBound;
 public:
 	/****************************************************************************************/
 	/*										Constructors									*/
@@ -59,6 +59,9 @@ public:
 	/** Defines the set of constraints. **/
     virtual void setConstraints() = 0;
 
+	/****************************************************************************************/
+	/*									Additional Cuts										*/
+	/****************************************************************************************/
 	/** Solves the separation problem for fractional points. If the solution is violated, return the constraint that cuts it, otherwise the constraint returned has an empty expression. **/
     virtual std::vector<Constraint> solveSeparationProblemFract(const std::vector<double> &solution){ 
 		std::cout << "WARNING: Unimplemented fractional separation problem!" << std::endl;
@@ -96,6 +99,14 @@ public:
 
 	/** Recovers the obtained MIP solution and builds a path for each demand on its associated graph from RSA. **/
     virtual void updatePath(const std::vector<double> &vals) = 0;
+	
+	
+	/****************************************************************************************/
+	/*									Variable Fixing										*/
+	/****************************************************************************************/
+
+	/** Returns a set of variables to be fixed to 0 according to the current upper bound. **/
+    virtual std::vector<Variable> objective8_fixing(const double upperBound) = 0;
 
 	/****************************************************************************************/
 	/*										Display											*/

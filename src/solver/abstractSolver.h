@@ -4,6 +4,7 @@
 #include "../formulation/formulationFactory.h"
 
 #define EPS 1e-4
+#define EPSILON 1e-10
 
 //typedef IloArray<IloNumVarArray> IloNumVarMatrix;
 typedef IloArray<IloBoolVarArray> IloBoolVarMatrix;
@@ -65,6 +66,7 @@ public:
 
 	void setDurationTime(const double t) { time = t; }
 	void setMipGap(const double g) { gap = g; }
+	void setMipGap(const double bestBound, const double bestInteger) { gap = (std::abs(bestBound - bestInteger)/(EPSILON + std::abs(bestInteger))); }
 	void setUpperBound(const double ub) { upperBound = ub; }
 	void setLowerBound(const double lb) { lowerBound = lb; }
 	void setTreeSize(const int t) { treeSize = t; }
@@ -77,7 +79,9 @@ public:
 	
 	virtual void implementFormulation() = 0;
 
-	virtual void updateRSA(Instance &instance) = 0;
+	void updateRSA(Instance &instance);
+
+	virtual std::vector<double> getSolution() = 0;
 
 	
 	/* Builds file results.csv containing information about the main obtained results. */

@@ -121,7 +121,7 @@ public:
     std::vector<int> getLoadsToBeRouted() { return loadsToBeRouted; } 
     
     /** Returns the i-th demand to be routed. @param k The index of the required demand. **/
-    Demand getToBeRouted_k(int k){ return toBeRouted[k]; }
+    Demand getToBeRouted_k(int k) const { return toBeRouted[k]; }
 
     /** Returns the i-th load to be routed. @param k The index of the required load. **/
     int getLoadsToBeRouted_k(int k){ return loadsToBeRouted[k]; }
@@ -131,6 +131,9 @@ public:
 
     /** Returns the number of loads to be routed. **/
     int getNbLoadsToBeRouted() const { return loadsToBeRouted.size(); }
+
+    /** Returns the total number of loads to be routed. **/
+    int getTotalLoadsToBeRouted() const;
 
     /** Returns the LEMON id of a node in a graph. @param n The node. @param d The graph index. **/
     int getNodeId(const ListDigraph::Node &n, int d) const { return (*vecNodeId[d])[n]; }
@@ -203,6 +206,9 @@ public:
 
     ListGraph::Node getCompactNodeFromLabel(int label) const;
     
+    int getNbSlicesGlobalLimit() const{ return std::min(instance.getMaxSlice(), instance.getMaxUsedSlicePosition() + 1 + getTotalLoadsToBeRouted());}
+	int getNbSlicesLimitFromEdge(int edge) const{ return std::min(instance.getPhysicalLinkFromIndex(edge).getNbSlices(), instance.getMaxUsedSlicePosition() + 1 + getTotalLoadsToBeRouted());}
+	
 	/****************************************************************************************/
 	/*										Setters											*/
 	/****************************************************************************************/
