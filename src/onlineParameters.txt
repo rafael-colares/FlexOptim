@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ******* Input File Paths *******
 topologyFile=../Parameters/Instances/Benchmark/leipzig/spain_21nodes_35links/15demands/Link.csv
 initialMappingDemandFile=
@@ -35,9 +36,21 @@ nbSlicesInOutputFile=320
 globalTimeLimit=70000 
 timeLimit=7200
 
-
 ******* Fields below are reserved for team LIMOS ********
-lagrangianMultiplier_zero=0.0
-lagrangianLambda_zero=2.0
-nbIterationsWithoutImprovement=5
-maxNbIterations=100
+lagrangianMultiplier_zero=0 
+lagrangianLambda_zero=2.0 
+nbIterationsWithoutImprovement=15 
+maxNbIterations=100 
+
+lagMethod=0 
+lagFormulation=0  
+heuristic=0 
+
+directionMethod=0 
+crowderParam=0 
+carmeriniParam=0 
+
+projection=0 
+alternativeStop=0 
+warmstart=0  
+WithoutImprovement=5
