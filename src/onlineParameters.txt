@@ -13,6 +13,7 @@ GNPY_equipmentFile=../oopt-gnpy/gnpy/example-data/spain_eqpt_config.json
 ******* Formulation parameters *******
 nbDemandsAtOnce=15
 formulation=0
+userCuts=1
 obj=8
 allowBlocking=0
 hopPenalty=0

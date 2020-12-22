@@ -125,7 +125,19 @@ public:
 	
 	std::vector<Constraint> solveSeparationProblemInt(const std::vector<double> &solution, const int threadNo) override;
 
-	std::vector<Constraint> separationGNPY(const std::vector<double> &value, const int threadNo);
+	std::vector<Constraint> solveSeparationGnpy(const std::vector<double> &value, const int threadNo);
+
+	/** Defines the pool of cuts. **/
+    void setCutPool() override;
+	
+	/** Defines the flow cuts for nodes. **/
+	void setFlowNodeCuts();
+
+	/** Returns the cutset flow cuts associated with a cutset and a slice. **/
+	Constraint getCutSetFlowConstraint(const std::vector<int> &cutSet, int slice, int cutCardinality);
+
+	/** Defines the flow cuts for edges. **/
+	void setFlowEdgeCuts();
 	/****************************************************************************************/
 	/*									Objective Functions									*/
 	/****************************************************************************************/

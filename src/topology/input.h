@@ -100,6 +100,7 @@ private:
 	bool allowBlocking;					/**< If this option is inactive, optimization stops within first blocking. Otherwise, blocking is accepted (this only works in online case). **/
 	int hopPenalty;						/**< Refers to the penalty of reach applied on each hop. **/
 	bool linearRelaxation;				/**< If this option is active, all variables are real (i.e., runs linear relaxation). **/
+	bool userCuts;						/**< If this option is active, apply user cuts. **/
 
 	bool GNPY_activation;				/**< If this option is active, the solution provided is guaranteed to satisfy GNPY constraints. Whenever a candidate solution is found, GNPY is called to validade or to reject such solution. **/
 	std::string GNPY_topologyFile;		/**< The .json file defining the topology that serves as input for GNPY. **/
@@ -174,6 +175,9 @@ public:
 
 	/** Returns true if linear relaxation is applied. **/
     bool isRelaxed() const { return linearRelaxation; }
+
+	/** Returns true if user cuts are applied. **/
+    bool isUserCutsActivated() const { return userCuts; }
 
 	/** Returns the hop penality. **/
     int getHopPenalty() const { return hopPenalty; }

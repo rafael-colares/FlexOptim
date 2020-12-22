@@ -76,7 +76,7 @@ public:
 	void outputLogResults(std::string fileName) override;
 
 	/** Returns a context mask used in callback. No callback is used, return 0. **/
-	CPXLONG context(Input::ObjectiveMetric obj, Input::Formulation form, bool isGnpyActive);
+	CPXLONG context(Input::ObjectiveMetric obj, const Input &i);
 	/****************************************************************************************/
 	/*										Display											*/
 	/****************************************************************************************/

@@ -25,6 +25,7 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     chosenObj = to_ObjectiveMetric(getParameterValue("obj="));
     allowBlocking = std::stoi(getParameterValue("allowBlocking="));
     linearRelaxation = std::stoi(getParameterValue("linearRelaxation="));
+    userCuts = std::stoi(getParameterValue("userCuts="));
     hopPenalty = std::stoi(getParameterValue("hopPenalty="));
     chosenFormulation = to_Formulation(getParameterValue("formulation="));
     chosenPartitionPolicy = to_PartitionPolicy(getParameterValue("partitionPolicy="));
@@ -80,6 +81,7 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     chosenObj = i.getChosenObj();
     allowBlocking = i.isBlockingAllowed();
     linearRelaxation = i.isRelaxed();
+    userCuts = i.isUserCutsActivated();
     hopPenalty = i.getHopPenalty();
     chosenFormulation = i.getChosenFormulation();
     chosenPartitionPolicy = i.getChosenPartitionPolicy();

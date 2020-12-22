@@ -26,18 +26,21 @@ std::vector<double> SolverCplex::getSolution(){
     return solution;
 }
 
-CPXLONG SolverCplex::context(Input::ObjectiveMetric obj, Input::Formulation form, bool isGnpyActive){ 
+CPXLONG SolverCplex::context(Input::ObjectiveMetric obj, const Input &i){ 
     CPXLONG contextMask = 0;
 
     if (obj == Input::OBJECTIVE_METRIC_8){
         contextMask |= IloCplex::Callback::Context::Id::Relaxation;
     }
-    if(form == Input::FORMULATION_EDGE_NODE){
+    if(i.getChosenFormulation() == Input::FORMULATION_EDGE_NODE){
         contextMask |= IloCplex::Callback::Context::Id::Candidate;
         contextMask |= IloCplex::Callback::Context::Id::Relaxation;
     }
-    if(isGnpyActive){
+    if(i.isGNPYEnabled()){
         contextMask |= IloCplex::Callback::Context::Id::Candidate;
+    }
+    if(i.isUserCutsActivated()){
+        contextMask |= IloCplex::Callback::Context::Id::Relaxation;
     }
     return contextMask;
 }
@@ -54,11 +57,9 @@ void SolverCplex::solve(){
         }
         
         CplexCallback myGenericCallback(var, formulation,
-                                        formulation->getInstance().getInput().isObj8(i),
-                                        formulation->getInstance().getInput().isGNPYEnabled());
-        CPXLONG contextMask = context(myObjectives[i].getId(), 
-                                    formulation->getInstance().getInput().getChosenFormulation(), 
-                                    formulation->getInstance().getInput().isGNPYEnabled());
+                                        formulation->getInstance().getInput(),
+                                        formulation->getInstance().getInput().isObj8(i));
+        CPXLONG contextMask = context(myObjectives[i].getId(), formulation->getInstance().getInput());
         
         
         cplex.use(&myGenericCallback, contextMask);

@@ -18,6 +18,7 @@ protected:
     int nbVar;                                      /**< The total number of variables. **/
     
     std::vector<Constraint> constraintSet;			/**< The set of constraints. **/
+    std::vector<Constraint> cutPool;				/**< The set of cuts. **/
     std::vector<ObjectiveFunction> objectiveSet;	/**< The set of objectives to be optimized (in order). **/
 	double upperBound;
 public:
@@ -58,6 +59,8 @@ public:
 
 	/** Defines the set of constraints. **/
     virtual void setConstraints() = 0;
+	/** Defines the pool of cuts. **/
+    virtual void setCutPool() { std::cout << "WARNING: Cut pool is empty." << std::endl; }
 
 	/****************************************************************************************/
 	/*									Additional Cuts										*/
@@ -72,6 +75,12 @@ public:
 	/** Solves the separation problem for integer points. If the solution is violated, return the constraint that cuts it, otherwise the constraint returned has an empty expression. **/
     virtual std::vector<Constraint> solveSeparationProblemInt(const std::vector<double> &solution, const int threadNo){ 
 		std::cout << "WARNING: Unimplemented integer separation problem!" << std::endl;Expression exp;
+		std::vector<Constraint> cuts;
+		return cuts;
+    }
+	/** Solves the separation problem for gnpy. If the solution is violated, return the constraints that cuts it, otherwise the returned vector is empty. **/
+    virtual std::vector<Constraint> solveSeparationGnpy(const std::vector<double> &solution, const int threadNo){ 
+		std::cout << "WARNING: Unimplemented gnpy separation problem!" << std::endl;Expression exp;
 		std::vector<Constraint> cuts;
 		return cuts;
     }

@@ -208,7 +208,10 @@ public:
     
     int getNbSlicesGlobalLimit() const{ return std::min(instance.getMaxSlice(), instance.getMaxUsedSlicePosition() + 1 + getTotalLoadsToBeRouted());}
 	int getNbSlicesLimitFromEdge(int edge) const{ return std::min(instance.getPhysicalLinkFromIndex(edge).getNbSlices(), instance.getMaxUsedSlicePosition() + 1 + getTotalLoadsToBeRouted());}
-	
+
+    int getDegree(const ListGraph::Node& node) const;
+
+    int getCutCardinality(const std::vector<int> & cutSet) const;
 	/****************************************************************************************/
 	/*										Setters											*/
 	/****************************************************************************************/

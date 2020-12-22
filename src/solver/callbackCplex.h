@@ -11,24 +11,24 @@ class CplexCallback: public IloCplex::Callback::Function {
 private:
 	IloNumVarArray var;
 	AbstractFormulation *formulation;
+	const Input& input;
 	double upperBound;
 	const bool obj8;
-	const bool gnpy;
 
 public:
 	// Constructor with data.
-	CplexCallback(const IloNumVarArray _var, AbstractFormulation* &_formulation, bool _obj8, bool _gnpy);
+	CplexCallback(const IloNumVarArray _var, AbstractFormulation* &_formulation, const Input& _input, bool _obj8);
 
 	void addUserCuts (const IloCplex::Callback::Context &context) const; 
     
     void addLazyConstraints(const IloCplex::Callback::Context &context) const;
+    void addGnpyConstraints(const IloCplex::Callback::Context &context) const;
 
 	void fixVariables(const IloCplex::Callback::Context &context);
     
 	void setUpperBound(double ub){ upperBound = ub; }
 	double getUpperBound() const{ return upperBound; }
 	bool isObj8() const{ return obj8; }
-	bool isGNPYActive() const{ return gnpy; }
 
 	virtual void invoke (const IloCplex::Callback::Context &context);
 

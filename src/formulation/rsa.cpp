@@ -632,6 +632,27 @@ void RSA::displayNode(int d, const ListDigraph::Node &n){
 }
 
 
+int RSA::getDegree(const ListGraph::Node& node) const{
+    int degree = 0;
+    for (ListGraph::IncEdgeIt a(compactGraph, node); a != INVALID; ++a){
+        degree++;
+    }
+    return degree;
+}
+
+int RSA::getCutCardinality(const std::vector<int> & cutSet) const{
+    int cardinality = 0;
+    for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
+        int labelU = getCompactNodeLabel(compactGraph.u(e));
+        int labelV = getCompactNodeLabel(compactGraph.v(e));
+        bool uInCut = (std::find(cutSet.begin(), cutSet.end(), labelU) != cutSet.end());
+        bool vInCut = (std::find(cutSet.begin(), cutSet.end(), labelV) != cutSet.end());
+        if (vInCut != uInCut){
+            cardinality++;
+        }
+    }
+    return cardinality;
+}
 /****************************************************************************************/
 /*										Destructor										*/
 /****************************************************************************************/

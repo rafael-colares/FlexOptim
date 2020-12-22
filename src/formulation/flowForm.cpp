@@ -6,6 +6,7 @@ FlowForm::FlowForm(const Instance &inst) : AbstractFormulation(inst){
     std::cout << "--- Flow formulation has been chosen. " << displayDimensions() << " ---" << std::endl;
     this->setVariables();
     this->setConstraints();
+    this->setCutPool();
     this->setObjectives();
     std::cout << "--- Flow formulation has been defined ---" << std::endl;
 }
@@ -221,8 +222,8 @@ void FlowForm::setConstraints(){
     this->setSourceConstraints();
     this->setFlowConservationConstraints();
     this->setTargetConstraints();
-    //this->setLengthConstraints();
-    this->setStrongLengthConstraints();
+    this->setLengthConstraints();
+    //this->setStrongLengthConstraints();
     this->setNonOverlappingConstraints();    
 
     this->setMaxUsedSlicePerLinkConstraints();    
@@ -665,6 +666,90 @@ Constraint FlowForm::getMaxUsedSliceOverallConstraints4(int nodeLabel){
     return constraint;
 }
 
+
+void FlowForm::setCutPool(){
+    this->setFlowNodeCuts();
+    this->setFlowEdgeCuts();
+} 
+
+
+/* Defines the flow cuts for nodes. */
+void FlowForm::setFlowNodeCuts(){
+    for (ListGraph::NodeIt n(compactGraph); n != INVALID; ++n){
+        int nodeLabel = getCompactNodeLabel(n);
+        int degree = getDegree(n);
+        if (degree % 2 != 0){
+            for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+                std::vector<int> cutSet;
+                cutSet.push_back(nodeLabel);
+                Constraint cut = getCutSetFlowConstraint(cutSet, s, degree);
+                cutPool.push_back(cut);
+            }
+        }
+    }
+    std::cout << "Flow Node cuts have been defined..." << std::endl;
+}
+
+/* Returns the cutset flow cuts associated with a cutset and a slice. */
+Constraint FlowForm::getCutSetFlowConstraint(const std::vector<int> &cutSet, int s, int cutCardinality){ 
+    
+    Expression exp;
+    int rhs = (cutCardinality - 1)/2;
+    
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        int demandLoad = getToBeRouted_k(d).getLoad();
+        int demandSource = getToBeRouted_k(d).getSource();
+        int demandTarget = getToBeRouted_k(d).getTarget();
+        if (std::find(cutSet.begin(), cutSet.end(), demandSource) == cutSet.end()) {
+            if (std::find(cutSet.begin(), cutSet.end(), demandTarget) == cutSet.end()) {
+                for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+                    int slice = getArcSlice(a, d);
+                    if ((slice >= s) && (slice <= s + demandLoad - 1)){
+                        int arc = getArcIndex(a, d); 
+                        int arcSource = getNodeLabel((*vecGraph[d]).source(a),d);
+                        int arcTarget = getNodeLabel((*vecGraph[d]).target(a),d);
+                        if (std::find(cutSet.begin(), cutSet.end(), arcSource) != cutSet.end()) {
+                            if (std::find(cutSet.begin(), cutSet.end(), arcTarget) == cutSet.end()) {
+                                Term term(x[d][arc], 1);
+                                exp.addTerm(term);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    std::ostringstream constraintName;
+    constraintName << "CutSetFlow__";
+    for (unsigned int i = 0; i < cutSet.size(); ++i) {
+        constraintName << cutSet[i] << "_";
+    }
+    constraintName << "_" << s+1;
+    Constraint constraint(0, exp, rhs, constraintName.str());
+    return constraint;
+}
+
+/* Defines the flow cuts for edges. */
+void FlowForm::setFlowEdgeCuts(){
+    for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
+        int labelU = getCompactNodeLabel(compactGraph.u(e));
+        int labelV = getCompactNodeLabel(compactGraph.v(e));
+        int labelE = getCompactEdgeLabel(e);
+        std::vector<int> cutSet;
+        cutSet.push_back(labelU);
+        cutSet.push_back(labelV);
+        int cardinality = getCutCardinality(cutSet);
+        if (cardinality % 2 != 0){
+            for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+                Constraint cut = getCutSetFlowConstraint(cutSet, s, cardinality);
+                cutPool.push_back(cut);
+            }
+        }
+    }
+    std::cout << "Flow Edge cuts have been defined..." << std::endl;
+}
+
 /** Returns a vector of node id's corresponding to the sequence of nodes that the d-th demand passes through. **/
 std::vector<int> FlowForm::getPathNodeSequence(int d){
     std::vector<int> path;
@@ -776,20 +861,26 @@ std::vector<Variable> FlowForm::objective8_fixing(const double upperBound){
 }
 
 std::vector<Constraint> FlowForm::solveSeparationProblemInt(const std::vector<double> &solution, const int threadNo){
-    //std::cout << "Entering separation problem of an integer point for Flow Form." << std::endl;
-    std::vector<Constraint> cuts;
-    if (instance.getInput().isGNPYEnabled()){
-        cuts = separationGNPY(solution, threadNo);
-    }
-    return cuts;
-}
-
-std::vector<Constraint> FlowForm::solveSeparationProblemFract(const std::vector<double> &solution){
     //std::cout << "Entering separation problem of a fractional point for Flow Form." << std::endl;
     return std::vector<Constraint>();
 }
 
-std::vector<Constraint> FlowForm::separationGNPY(const std::vector<double> &solution, const int threadNo){
+std::vector<Constraint> FlowForm::solveSeparationProblemFract(const std::vector<double> &solution){
+    //std::cout << "Entering separation problem of a fractional point for Flow Form." << std::endl;
+    setVariableValues(solution);
+    std::vector<Constraint> cuts;
+    for (unsigned int i = 0; i < cutPool.size(); ++i) {
+        double lhs = cutPool[i].getExpression().getExpressionValue();
+        if ((lhs < cutPool[i].getLb() - 0.0001) || (lhs >  cutPool[i].getUb() + 0.0001 )) {
+            std::cout << "Adding: " << cutPool[i].getName() << " [lhs = " << lhs << "]" << std::endl;
+            cuts.push_back(cutPool[i]);
+         }
+    }
+    //std::cout << "Exiting separation problem of a fractional point for Flow Form." << std::endl;
+    return cuts;
+}
+
+std::vector<Constraint> FlowForm::solveSeparationGnpy(const std::vector<double> &solution, const int threadNo){
     std::vector<Constraint> cuts;
     setVariableValues(solution);
     

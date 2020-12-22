@@ -1,19 +1,51 @@
 #include "callbackCplex.h"
 
-CplexCallback::CplexCallback(const IloNumVarArray _var, AbstractFormulation* &_formulation, bool _obj8, bool _gnpy): var(_var), obj8(_obj8), gnpy(_gnpy){ 
+CplexCallback::CplexCallback(const IloNumVarArray _var, AbstractFormulation* &_formulation, const Input& _input, bool _obj8): var(_var), input(_input), obj8(_obj8){ 
     formulation = _formulation;
     upperBound = IloInfinity;
 }
 
 void CplexCallback::invoke (const IloCplex::Callback::Context &context){
-    if ( context.inRelaxation() && isObj8()){
-        fixVariables(context);
-    }
-    if ( context.inRelaxation() ) {
-        addUserCuts(context);
+    if ( context.inRelaxation() ){
+        if (isObj8()){
+            //fixVariables(context);
+        }
+        if ( input.isUserCutsActivated() ){
+            addUserCuts(context);
+        }
     }
     if ( context.inCandidate()){
-        addLazyConstraints(context);
+        if (input.getChosenFormulation() == Input::FORMULATION_EDGE_NODE){
+            addLazyConstraints(context);
+        }
+        if (input.isGNPYEnabled()){
+            addGnpyConstraints(context);
+        }
+        
+    }
+}
+
+void CplexCallback::addGnpyConstraints(const IloCplex::Callback::Context &context) const{
+    //std::cout << "Callback gnpy constraints..." << std::endl;
+    if ( !context.isCandidatePoint() ){
+        throw IloCplex::Exception(-1, "Unbounded solution");
+    }
+    try {
+        
+        int const threadNo = context.getIntInfo(IloCplex::Callback::Context::Info::ThreadId);
+        std::vector<Constraint> constraint = formulation->solveSeparationGnpy(getIntegerSolution(context), threadNo);
+        if (!constraint.empty()){
+            //std::cout << "A lazy constraint was found:";
+            for (unsigned int i = 0; i < constraint.size(); i++){
+                //constraint.display();
+                IloRange cut(context.getEnv(), constraint[i].getLb(), to_IloExpr(context, constraint[i].getExpression()), constraint[i].getUb());
+                //std::cout << "CPLEX add lazy: " << cut << std::endl;
+                context.rejectCandidate(cut);
+            }
+        }
+    }
+    catch (...) {
+        throw;
     }
 }
 
@@ -25,14 +57,11 @@ void CplexCallback::addUserCuts(const IloCplex::Callback::Context &context) cons
         if (!constraint.empty()){
             //std::cout << "A violated cut was found: ";
             for (unsigned int i = 0; i < constraint.size(); i++){
-                if (constraint[i].getLb() != -INFTY){
-                    //std::cout << "A >= violated cut was found: ";
-                    context.addUserCut(to_IloExpr(context, constraint[i].getExpression()) >= constraint[i].getLb(), IloCplex::UseCutForce, IloFalse);
-                }
-                if (constraint[i].getUb() != INFTY){
-                    //std::cout << "A <= violated cut was found: ";
-                    context.addUserCut(to_IloExpr(context, constraint[i].getExpression()) <= constraint[i].getUb(), IloCplex::UseCutForce, IloFalse);
-                }
+                std::cout << "Adding user cut..." << std::endl;
+                context.addUserCut( IloRange(context.getEnv(), constraint[i].getLb(), 
+                                        to_IloExpr(context, constraint[i].getExpression()),
+                                        constraint[i].getUb(), constraint[i].getName().c_str()),
+                                    IloCplex::UseCutPurge, IloFalse);
             }
         }
     }

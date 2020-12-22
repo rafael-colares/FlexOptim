@@ -311,6 +311,7 @@ void Instance::generateDemandsFromFile(std::string filePath){
 		Demand demand(idDemand, demandSource, demandTarget, demandLoad, DemandMaxLength, false, -1, 0, 0, demandMode, demandSpacing, demandPathBandwidth);
 		this->tabDemand.push_back(demand);
 	}
+	std::cout << "out" << std::endl;
 }
 
 /* Adds non-routed demands to the pool by generating N random demands. */
