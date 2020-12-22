@@ -54,6 +54,19 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     nbIterationsWithoutImprovement = std::stoi(getParameterValue("nbIterationsWithoutImprovement="));
     maxNbIterations = std::stoi(getParameterValue("maxNbIterations="));
 
+    /******** INCLUSION FOR LAGRANGIAN *********/
+    lagChosenMethod = to_LagMethod(getParameterValue("lagMethod="));
+    lagChosenFormulation = to_LagFormulation(getParameterValue("lagFormulation="));
+    chosenHeuristic = to_Heuristic(getParameterValue("heuristic="));
+    chosenDirectionMethod = to_DirectionMethod(getParameterValue("directionMethod="));
+    crowderParameter = std::stod(getParameterValue("crowderParam="));
+    carmeriniParameter = std::stod(getParameterValue("carmeriniParam="));
+    chosenProjection = to_ProjectionType(getParameterValue("projection="));
+    alternativeStop = std::stoi(getParameterValue("alternativeStop="));
+    warmstart = std::stoi(getParameterValue("warmstart="));
+
+    /********************************************/
+
     std::cout << "Populating online demand files..." << std::endl;
     populateOnlineDemandFiles();
     
@@ -100,6 +113,19 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     lagrangianLambda_zero = i.getInitialLagrangianLambda();
     maxNbIterations = i.getMaxNbIterations();
     nbIterationsWithoutImprovement = i.getNbIterationsWithoutImprovement();
+
+    /******** INCLUSION FOR LAGRANGIAN *********/
+    lagChosenMethod = i.getChosenLagMethod();
+    lagChosenFormulation =i.getChosenLagFormulation();
+    chosenHeuristic = i.getChosenHeuristic();
+    chosenDirectionMethod = i.getChosenDirectionMethod();
+    crowderParameter = i.getCrowderParameter();
+    carmeriniParameter = i.getCarmeriniParameter();
+    chosenProjection = i.getChosenProjection();
+    alternativeStop = i.getAlternativeStop();
+    warmstart = i.getWarmstart();
+
+    /********************************************/
 }
 
 /* Returns the path to the file containing all the parameters. */
@@ -336,6 +362,164 @@ Input::MIP_Solver Input::to_MIP_Solver(std::string data){
     }
 }
 
+/******** INCLUSION FOR LAGRANGIAN *********/
+Input::LagMethod Input::to_LagMethod(std::string data){
+    Input::LagMethod policy;
+    if (!data.empty()){
+        int policyId = std::stoi(data);
+        switch (policyId)
+        {
+        case 0: {
+            policy = SUBGRADIENT;
+            return policy;
+            break;
+        }
+        case 1: {
+            policy = VOLUME;
+            return policy;
+            break;
+        }
+        default:
+            std::cout << "ERROR: Invalid MIP_SOLVER." << std::endl;
+            exit(0);
+            break;
+        }
+    }
+    else{
+        std::cout << "ERROR: A lagrangian method must be specified." << std::endl;
+        exit(0);
+    }
+}
+
+Input::LagFormulation Input::to_LagFormulation(std::string data){
+    Input::LagFormulation policy;
+    if (!data.empty()){
+        int policyId = std::stoi(data);
+        switch (policyId)
+        {
+        case 0: {
+            policy = LAG_FLOW;
+            return policy;
+            break;
+        }
+        case 1: {
+            policy = LAG_OVERLAP;
+            return policy;
+            break;
+        }
+        default:
+            std::cout << "ERROR: Invalid MIP_SOLVER." << std::endl;
+            exit(0);
+            break;
+        }
+    }
+    else{
+        std::cout << "ERROR: A lagrangian method must be specified." << std::endl;
+        exit(0);
+    }
+}
+
+Input::Heuristic Input::to_Heuristic(std::string data){
+    Input::Heuristic policy;
+    if (!data.empty()){
+        int policyId = std::stoi(data);
+        switch (policyId)
+        {
+        case 0: {
+            policy = SHORT_PATH;
+            return policy;
+            break;
+        }
+        case 1: {
+            policy = PROBABILITY;
+            return policy;
+            break;
+        }
+        default:
+            std::cout << "ERROR: Invalid MIP_SOLVER." << std::endl;
+            exit(0);
+            break;
+        }
+    }
+    else{
+        std::cout << "ERROR: A lagrangian method must be specified." << std::endl;
+        exit(0);
+    }
+}
+
+Input::DirectionMethod Input::to_DirectionMethod(std::string data){
+    Input::DirectionMethod policy;
+    if (!data.empty()){
+        int policyId = std::stoi(data);
+        switch (policyId)
+        {
+        case 0: {
+            policy = NORMAL;
+            return policy;
+            break;
+        }
+        case 1: {
+            policy = CROWDER;
+            return policy;
+            break;
+        }
+         case 2: {
+            policy = CARMERINI;
+            return policy;
+            break;
+        }
+         case 3: {
+            policy = MODIFIED_CARMERINI;
+            return policy;
+            break;
+        }
+        default:
+            std::cout << "ERROR: Invalid DIRECTION_METHOD." << std::endl;
+            exit(0);
+            break;
+        }
+    }
+    else{
+        std::cout << "ERROR: A lagrangian method must be specified." << std::endl;
+        exit(0);
+    }
+
+}
+
+Input::ProjectionType Input::to_ProjectionType(std::string data){
+    Input::ProjectionType policy;
+    if (!data.empty()){
+        int policyId = std::stoi(data);
+        switch (policyId)
+        {
+        case 0: {
+            policy = USUAL;
+            return policy;
+            break;
+        }
+        case 1: {
+            policy = IMPROVED;
+            return policy;
+            break;
+        }
+         case 2: {
+            policy = PROJECTED;
+            return policy;
+            break;
+        }
+        default:
+            std::cout << "ERROR: Invalid DIRECTION_METHOD." << std::endl;
+            exit(0);
+            break;
+        }
+    }
+    else{
+        std::cout << "ERROR: A lagrangian method must be specified." << std::endl;
+        exit(0);
+    }
+}
+/********************************************/
+
 void Input::checkConsistency(){
     if (getChosenMIPSolver() == MIP_SOLVER_GUROBI){
         std::cout << "ERROR: MIP_Solver Gurobi has been chosen but still needs to be implemented." << std::endl;
@@ -349,6 +533,7 @@ void Input::checkConsistency(){
         std::cout << "ERROR: Subgradient methods chosen but still needs to be implemented." << std::endl;
         exit(0);
     }
+    /******* INCLUSION FOR LAGRANGIAN **************/
     std::cout << "All information from input is consistent." << std::endl;
 }
 

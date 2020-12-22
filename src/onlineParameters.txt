@@ -13,6 +13,7 @@ GNPY_equipmentFile=../oopt-gnpy/gnpy/example-data/spain_eqpt_config.json
 ******* Formulation parameters *******
 nbDemandsAtOnce=15
 formulation=0
+userCuts=1
 obj=8
 allowBlocking=0
 hopPenalty=0
@@ -34,9 +35,20 @@ nbSlicesInOutputFile=320
 globalTimeLimit=70000 
 timeLimit=7200
 
-
 ******* Fields below are reserved for team LIMOS ********
-lagrangianMultiplier_zero=0.0
-lagrangianLambda_zero=2.0
-nbIterationsWithoutImprovement=5
-maxNbIterations=100
+lagrangianMultiplier_zero=0 
+lagrangianLambda_zero=2.0 
+nbIterationsWithoutImprovement=15 
+maxNbIterations=500 
+
+lagMethod=0 
+lagFormulation=0  
+heuristic=0 
+
+directionMethod=0 
+crowderParam=0 
+carmeriniParam=0 
+
+projection=0 
+alternativeStop=0 
+warmstart=0  
