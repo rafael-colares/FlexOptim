@@ -27,7 +27,7 @@ public:
 private:
 	Input input;						/**< An instance needs an input. **/
 	int nbNodes;						/**< Number of nodes in the physical network. **/
-	std::vector<Fiber> tabEdge;	/**< A set of Fiber. **/
+	std::vector<Fiber> tabEdge;			/**< A set of Fiber. **/
 	std::vector<Demand> tabDemand;		/**< A set of Demand (already routed or not). **/
 	int nbInitialDemands;				/**< The number of demands routed in the first initial mapping. **/
 	int nextDemandToBeRoutedIndex;		/**< Stores the index of the next demand to be analyzed in tabDemand. **/

@@ -3,6 +3,7 @@
 
 // include all concrete solvers
 #include "solverCplex.h"
+#include "solverCBC.h"
 
 /*********************************************************************************************
 * This class implements a factory for Formulations. It provides a concrete formulation.
@@ -24,8 +25,7 @@ public:
                 break;
             }
             case Input::MIP_SOLVER_CBC:{
-                std::cout << "Not implemented yet. Should create solverCBC." << std::endl;
-                exit(0);
+                return new SolverCBC(instance);
                 break;
             }
             default:{

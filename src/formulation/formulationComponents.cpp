@@ -6,6 +6,10 @@ Term::Term(Variable variable, double coefficient): coeff(coefficient), var(varia
 
 Expression::Expression(const Expression &e): termsArray(e.getTerms()){}
 
+Expression::Expression(const Variable &v){
+    termsArray.push_back(Term(v, 1));
+}
+
 Constraint::Constraint(double lowerBound, Expression &e, double upperBound, std::string constName): lb(lowerBound), expr(e), ub(upperBound), name(constName){}
 
 ObjectiveFunction::ObjectiveFunction(Expression &e, Direction d): expr(e), direction(d){}
@@ -28,6 +32,35 @@ double Expression::getExpressionValue(){
         val += (termsArray[i].getCoeff()*termsArray[i].getVar().getVal());
     }
     return val;
+}
+
+double Expression::getTrivialUb(){
+    double val = 0.0;
+    for (unsigned int i = 0; i < termsArray.size(); i++){
+        if (termsArray[i].getCoeff() >= 0) 
+            val += termsArray[i].getCoeff()*termsArray[i].getVar().getUb();
+        else 
+            val += termsArray[i].getCoeff()*termsArray[i].getVar().getLb();
+    }
+    return val;
+}
+double Expression::getTrivialLb(){
+    double val = 0.0;
+    for (unsigned int i = 0; i < termsArray.size(); i++){
+        if (termsArray[i].getCoeff() <= 0) 
+            val += termsArray[i].getCoeff()*termsArray[i].getVar().getUb();
+        else 
+            val += termsArray[i].getCoeff()*termsArray[i].getVar().getLb();
+    }
+    return val;
+}
+
+std::string Expression::to_string() const {
+    std::string exp = "";
+    for (unsigned int i = 0; i < termsArray.size(); i++){
+        exp += std::to_string(termsArray[i].getCoeff()) + "*" + termsArray[i].getVar().getName() + " + ";
+    }
+    return exp;
 }
 
 void Constraint::display(){

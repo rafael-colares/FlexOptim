@@ -115,9 +115,9 @@ public:
 
 	Constraint getMaxUsedSliceOverallConstraints(int k);
 
-    std::vector<Constraint> solveSeparationProblemFract(const std::vector<double> &solution) override; // #TODO Implement separation problem for fractional points!
+    std::vector<Constraint> solveSeparationProblemFract(const std::vector<double> &solution) override; 
 
-    std::vector<Constraint> solveSeparationProblemInt(const std::vector<double> &solution, const int threadNo) override; // #TODO Implement separation problem for integer points!
+    std::vector<Constraint> solveSeparationProblemInt(const std::vector<double> &solution, const int threadNo) override; 
 
 	Expression separationGNPY(const std::vector<double> &value, const int threadNo);
 	/****************************************************************************************/
@@ -137,12 +137,22 @@ public:
     void updatePath(const std::vector<double> &vals) override;
 
 	/****************************************************************************************/
+	/*									Variable Fixing										*/
+	/****************************************************************************************/
+
+	/** Returns a set of variables to be fixed to 0 according to the current upper bound. **/
+    std::vector<Variable> objective8_fixing(const double upperBound) override;
+
+	/****************************************************************************************/
 	/*										Display											*/
 	/****************************************************************************************/
 
 	/** Displays the value of each variable in the obtained solution. **/
     void displayVariableValues() override;
+	/** Displays the value of positive x variables in the obtained solution. **/
+    void displayVariableValuesOfX();
 
+	std::string displayDimensions();
 	/****************************************************************************************/
 	/*										Destructor										*/
 	/****************************************************************************************/

@@ -9,26 +9,11 @@ int SolverCplex::count = 0;
 
 /* Constructor. The RSA constructor is called and the arc map storing the index of the preprocessed graphs associated is built. */
 SolverCplex::SolverCplex(const Instance &inst) : AbstractSolver(inst, STATUS_UNKNOWN), model(env), cplex(model), obj(env){
-    std::cout << "--- CPLEX has been initalized ---" << std::endl;
+    std::cout << "--- CPLEX has been initialized ---" << std::endl;
     setCplexParams(inst.getInput());
     implementFormulation();
-    //exportFormulation(inst);
+    exportFormulation(inst);
     count++;
-}
-
-void SolverCplex::updateRSA(Instance &instance){
-    if ((cplex.getStatus() == IloAlgorithm::Optimal) || (cplex.getStatus() == IloAlgorithm::Feasible)){   
-        formulation->updatePath(getSolution());
-        formulation->updateInstance(instance);
-        instance.setWasBlocked(false);
-        formulation->displayPaths();
-
-    }
-    else{
-        std::cout << "Decrease the number of demands to be treated." << std::endl;
-        instance.decreaseNbDemandsAtOnce();
-        instance.setWasBlocked(true);
-    }
 }
 
 
@@ -41,14 +26,23 @@ std::vector<double> SolverCplex::getSolution(){
     return solution;
 }
 
-void SolverCplex::solve(){
-    CplexCallback myGenericCallback(var, formulation);
+CPXLONG SolverCplex::context(Input::ObjectiveMetric obj, Input::Formulation form, bool isGnpyActive){ 
     CPXLONG contextMask = 0;
-    contextMask |= IloCplex::Callback::Context::Id::Candidate;
-    contextMask |= IloCplex::Callback::Context::Id::Relaxation;
-    if(formulation->getInstance().getInput().getChosenFormulation() == Input::FORMULATION_EDGE_NODE){
-        cplex.use(&myGenericCallback, contextMask);
+
+    if (obj == Input::OBJECTIVE_METRIC_8){
+        contextMask |= IloCplex::Callback::Context::Id::Relaxation;
     }
+    if(form == Input::FORMULATION_EDGE_NODE){
+        contextMask |= IloCplex::Callback::Context::Id::Candidate;
+        contextMask |= IloCplex::Callback::Context::Id::Relaxation;
+    }
+    if(isGnpyActive){
+        contextMask |= IloCplex::Callback::Context::Id::Candidate;
+    }
+    return contextMask;
+}
+
+void SolverCplex::solve(){
 
     IloNum timeStart = cplex.getCplexTime();
     std::cout << "Solving..." << std::endl;
@@ -59,6 +53,15 @@ void SolverCplex::solve(){
             setObjective(myObjectives[i]);
         }
         
+        CplexCallback myGenericCallback(var, formulation,
+                                        formulation->getInstance().getInput().isObj8(i),
+                                        formulation->getInstance().getInput().isGNPYEnabled());
+        CPXLONG contextMask = context(myObjectives[i].getId(), 
+                                    formulation->getInstance().getInput().getChosenFormulation(), 
+                                    formulation->getInstance().getInput().isGNPYEnabled());
+        
+        
+        cplex.use(&myGenericCallback, contextMask);
         std::cout << "Chosen objective: " << myObjectives[i].getName() << std::endl;
         cplex.solve();
         
@@ -153,15 +156,15 @@ IloInt SolverCplex::getNbCutsFromCplex(){
 
 
 void SolverCplex::exportFormulation(const Instance &instance){
-    std::string file = instance.getInput().getOutputPath() + "LP/model" + std::to_string(count) + ".lp";
+    std::string file = "model" + std::to_string(count) + ".lp";
     cplex.exportModel(file.c_str());
     std::cout << "LP model has been exported." << std::endl;
 }
 
 void SolverCplex::setCplexParams(const Input &input){
-    cplex.setParam(IloCplex::Param::MIP::Display, 5);
+    cplex.setParam(IloCplex::Param::MIP::Display, 3);
     cplex.setParam(IloCplex::Param::TimeLimit, input.getIterationTimeLimit());
-    //cplex.setParam(IloCplex::Param::Threads, 1);
+    cplex.setParam(IloCplex::Param::Threads, 1);
     
     std::cout << "CPLEX parameters have been defined..." << std::endl;
 }
@@ -295,98 +298,3 @@ SolverCplex::~SolverCplex(){
     model.end();
     env.end();
 }
-
-CplexCallback::CplexCallback(const IloNumVarArray _var, AbstractFormulation* &_formulation): var(_var){ 
-    formulation = _formulation;
-}
-
-void CplexCallback::invoke (const IloCplex::Callback::Context &context){
-    if ( context.inRelaxation() ) {
-        addUserCuts(context);
-    }
-    if ( context.inCandidate() ){
-        addLazyConstraints(context);
-    }
-}
-
-void CplexCallback::addUserCuts(const IloCplex::Callback::Context &context) const{
-    
-    try {
-        std::vector<Constraint> constraint = formulation->solveSeparationProblemFract(getFractionalSolution(context));
-        if (!constraint.empty()){
-            //std::cout << "A violated cut was found: ";
-            for (unsigned int i = 0; i < constraint.size(); i++){
-                if (constraint[i].getLb() != -INFTY){
-                    //std::cout << "A >= violated cut was found: ";
-                    context.addUserCut(to_IloExpr(context, constraint[i].getExpression()) >= constraint[i].getLb(), IloCplex::UseCutForce, IloFalse);
-                }
-                if (constraint[i].getUb() != INFTY){
-                    //std::cout << "A <= violated cut was found: ";
-                    context.addUserCut(to_IloExpr(context, constraint[i].getExpression()) <= constraint[i].getUb(), IloCplex::UseCutForce, IloFalse);
-                }
-            }
-        }
-    }
-    catch (...) {
-        throw;
-    }
-}
-
-void CplexCallback::addLazyConstraints(const IloCplex::Callback::Context &context) const{
-    
-    if ( !context.isCandidatePoint() ){
-        throw IloCplex::Exception(-1, "Unbounded solution");
-    }
-    try {
-        
-        int const threadNo = context.getIntInfo(IloCplex::Callback::Context::Info::ThreadId);
-        std::vector<Constraint> constraint = formulation->solveSeparationProblemInt(getIntegerSolution(context), threadNo);
-        if (!constraint.empty()){
-            //std::cout << "A lazy constraint was found:";
-            for (unsigned int i = 0; i < constraint.size(); i++){
-                //constraint.display();
-                IloRange cut(context.getEnv(), constraint[i].getLb(), to_IloExpr(context, constraint[i].getExpression()), constraint[i].getUb());
-                //std::cout << cut << std::endl;
-                context.rejectCandidate(cut);
-            }
-        }
-        else{
-            //std::cout << "The solution is valid." << std::endl;
-        }
-    }
-    catch (...) {
-        throw;
-    }
-}
-
-std::vector<double> CplexCallback::getIntegerSolution(const IloCplex::Callback::Context &context) const{
-    const int NB_VAR = var.getSize();
-    std::vector<double> solution(NB_VAR);
-    for (int i = 0; i < NB_VAR; i++){
-        solution[i] = context.getCandidatePoint(var[i]);
-    }
-    return solution;
-}
-
-std::vector<double> CplexCallback::getFractionalSolution(const IloCplex::Callback::Context &context) const{
-    const int NB_VAR = var.getSize();
-    std::vector<double> solution(NB_VAR);
-    for (int i = 0; i < NB_VAR; i++){
-        solution[i] = context.getRelaxationPoint(var[i]);
-    }
-    return solution;
-}
-
-
-IloExpr CplexCallback::to_IloExpr(const IloCplex::Callback::Context &context, const Expression &e) const{
-    IloExpr exp(context.getEnv());
-    for (int i = 0; i < e.getNbTerms(); i++){
-        int index = e.getTerm_i(i).getVar().getId();
-        double coefficient = e.getTerm_i(i).getCoeff();
-        exp += coefficient*var[index];
-    }
-    return exp;
-}
-
-// Destructor
-CplexCallback::~CplexCallback(){}

@@ -27,7 +27,7 @@ public:
 	/** Enumerates the possible solvers to be used for solving the RSA formulation.**/
 	enum MIP_Solver {						
 		MIP_SOLVER_CPLEX = 0,  	/**< The MIP is solved using CPLEX. **/
-		MIP_SOLVER_CBC = 1, 	/**< The MIP is solved using CBC. #TODO Implement CBC.**/
+		MIP_SOLVER_CBC = 1, 	/**< The MIP is solved using CBC. **/
 		MIP_SOLVER_GUROBI = 2  	/**< The MIP is solved using Gurobi. #TODO Implement gurobi.**/
 	};
 
@@ -225,6 +225,8 @@ public:
 
 	/** Returns true if GNPY should be used. **/
     bool isGNPYEnabled() const { return GNPY_activation; }
+
+	bool isObj8(int i) const;
 
 	/** Returns the path to the .json topology file that serves as input for the GNPY.**/
     std::string getGNPYTopologyFile() const { return GNPY_topologyFile; }

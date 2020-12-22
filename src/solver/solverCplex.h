@@ -3,37 +3,12 @@
 
 #include <ilcplex/ilocplex.h>
 #include "abstractSolver.h"
+#include "callbackCplex.h"
 
-/************************************************************************************
- * This is the class implementing the generic callback interface. It has two main 
- * functions: addUserCuts and addLazyConstraints.												
- ************************************************************************************/
-class CplexCallback: public IloCplex::Callback::Function {
-private:
-	IloNumVarArray var;
-	AbstractFormulation *formulation;
 
-public:
-	// Constructor with data.
-	CplexCallback(const IloNumVarArray _var, AbstractFormulation* &_formulation);
-
-	void addUserCuts (const IloCplex::Callback::Context &context) const; 
-    
-    void addLazyConstraints(const IloCplex::Callback::Context &context) const;
-    
-	virtual void invoke (const IloCplex::Callback::Context &context);
-
-	std::vector<double> getIntegerSolution(const IloCplex::Callback::Context &context) const;
-	std::vector<double> getFractionalSolution(const IloCplex::Callback::Context &context) const;
-	IloExpr to_IloExpr(const IloCplex::Callback::Context &context, const Expression &e) const;
-    // Destructor
-    virtual ~CplexCallback();
-};
-
-/*********************************************************************************************
-* This class implements the Online Routing and Spectrum Allocation through a Flow MIP 
-* formulation using CPLEX.	
-*********************************************************************************************/
+/***********************************************************************************************
+* This class implements a Formulation of the Online Routing and Spectrum Allocation using CPLEX.
+************************************************************************************************/
 class SolverCplex : public AbstractSolver{
 
 private:
@@ -61,7 +36,7 @@ public:
 
 	AbstractSolver::Status getStatus() override;
 
-	std::vector<double> getSolution();
+	std::vector<double> getSolution() override;
 	/****************************************************************************************/
 	/*										Setters											*/
 	/****************************************************************************************/
@@ -86,7 +61,7 @@ public:
 
 	void implementFormulation() override;
 
-	void updateRSA(Instance &instance) override;
+	//void updateRSA(Instance &instance) override;
 	
 	void exportFormulation(const Instance &instance);
 	
@@ -99,6 +74,9 @@ public:
 	
 	/* Builds file results.csv containing information about the main obtained results. */
 	void outputLogResults(std::string fileName) override;
+
+	/** Returns a context mask used in callback. No callback is used, return 0. **/
+	CPXLONG context(Input::ObjectiveMetric obj, Input::Formulation form, bool isGnpyActive);
 	/****************************************************************************************/
 	/*										Display											*/
 	/****************************************************************************************/

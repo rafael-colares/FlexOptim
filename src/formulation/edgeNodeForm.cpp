@@ -3,7 +3,7 @@
 
 /* Constructor. Builds the Online RSA mixed-integer program and solves it using CPLEX. */
 EdgeNodeForm::EdgeNodeForm(const Instance &inst) : AbstractFormulation(inst){
-    std::cout << "--- Edge-Node formulation has been chosen ---" << std::endl;
+    std::cout << "--- Edge-Node formulation has been chosen. " << displayDimensions() << " ---" << std::endl;
     this->setVariables();
     this->setConstraints();
     this->setObjectives();
@@ -12,6 +12,9 @@ EdgeNodeForm::EdgeNodeForm(const Instance &inst) : AbstractFormulation(inst){
 
 
 
+std::string EdgeNodeForm::displayDimensions(){
+    return "|K| = " + std::to_string(getNbDemandsToBeRouted()) + ", |S| = " + std::to_string(getNbSlicesGlobalLimit()) + ".";
+}
 /****************************************************************************************/
 /*										Variables    									*/
 /****************************************************************************************/
@@ -47,8 +50,9 @@ void EdgeNodeForm::setVariables(){
     std::cout << "X variables were created." << std::endl;
 
     // Variables z[s][k]
-    z.resize(instance.getPhysicalLinkFromIndex(0).getNbSlices());
-    for (int s = 0; s < instance.getPhysicalLinkFromIndex(0).getNbSlices(); s++){
+    int sliceLimit = getNbSlicesGlobalLimit();
+    z.resize(sliceLimit);
+    for (int s = 0; s < sliceLimit; s++){
         z[s].resize(getNbDemandsToBeRouted());  
         for (int k = 0; k < getNbDemandsToBeRouted(); k++){
             std::ostringstream varName;
@@ -73,8 +77,8 @@ void EdgeNodeForm::setVariables(){
     t.resize(nbEdges);
     for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
         int edge = getCompactEdgeLabel(e);
-        t[edge].resize(instance.getPhysicalLinkFromIndex(edge).getNbSlices());  
-        for (int s = 0; s < instance.getPhysicalLinkFromIndex(edge).getNbSlices(); s++){
+        t[edge].resize(getNbSlicesLimitFromEdge(edge));
+        for (int s = 0; s < getNbSlicesLimitFromEdge(edge); s++){
             t[edge][s].resize(getNbDemandsToBeRouted());  
             for (int k = 0; k < getNbDemandsToBeRouted(); k++){
                 std::ostringstream varName;
@@ -82,6 +86,9 @@ void EdgeNodeForm::setVariables(){
                 varName << "(" + std::to_string(edge+1) + "," + std::to_string(s+1) + "," ;
                 varName <<  std::to_string(getToBeRouted_k(k).getId() + 1) + ")";
                 int upperBound = 1;
+                if (instance.getPhysicalLinkFromIndex(edge).getSlice_i(s).isUsed()){
+                    upperBound = 0;
+                }
                 int varId = getNbVar();
                 if(instance.getInput().isRelaxed()){
                     t[edge][s][k] = Variable(varId, 0, upperBound, Variable::TYPE_REAL, 0, varName.str());
@@ -99,8 +106,8 @@ void EdgeNodeForm::setVariables(){
     for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
         int edge = getCompactEdgeLabel(e);
         std::string varName = "maxSlice(" + std::to_string(edge) + ")";
-        int lowerBound = instance.getPhysicalLinkFromIndex(edge).getMaxUsedSlicePosition();
-        int upperBound = instance.getPhysicalLinkFromIndex(edge).getNbSlices();
+        int lowerBound = std::max(0,instance.getPhysicalLinkFromIndex(edge).getMaxUsedSlicePosition());
+        int upperBound = getNbSlicesLimitFromEdge(edge);
         int varId = getNbVar();
         if (instance.getInput().isRelaxed()){
             maxSlicePerLink[edge] = Variable(varId, lowerBound, upperBound, Variable::TYPE_REAL, 0, varName);
@@ -113,8 +120,8 @@ void EdgeNodeForm::setVariables(){
     std::cout << "MaxSlicePerLink variables were created." << std::endl;
 
     std::string varName = "maxSlice";
-    int lowerBound = instance.getMaxUsedSlicePosition();
-    int upperBound = instance.getMaxSlice();
+    int lowerBound = std::max(0,instance.getMaxUsedSlicePosition());
+    int upperBound = getNbSlicesGlobalLimit();
     int varId = getNbVar();
     if (instance.getInput().isRelaxed()){
         maxSliceOverall = Variable(varId, lowerBound, upperBound, Variable::TYPE_REAL, 0, varName);
@@ -136,7 +143,8 @@ VarArray EdgeNodeForm::getVariables(){
             vec[pos] = x[edge][k];
         }
     }
-    for (int s = 0; s < instance.getPhysicalLinkFromIndex(0).getNbSlices(); s++){
+    int sliceLimit = getNbSlicesGlobalLimit();
+    for (int s = 0; s < sliceLimit; s++){
         for (int k = 0; k < getNbDemandsToBeRouted(); k++){
             int pos = z[s][k].getId();
             vec[pos] = z[s][k];
@@ -144,7 +152,8 @@ VarArray EdgeNodeForm::getVariables(){
     }
     for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
         int edge = getCompactEdgeLabel(e);
-        for (int s = 0; s < instance.getPhysicalLinkFromIndex(edge).getNbSlices(); s++){
+        int sliceLimit = getNbSlicesLimitFromEdge(edge);
+        for (int s = 0; s < sliceLimit; s++){
             for (int k = 0; k < getNbDemandsToBeRouted(); k++){
                 int pos = t[edge][s][k].getId();
                 vec[pos] = t[edge][s][k];
@@ -171,7 +180,8 @@ void EdgeNodeForm::setVariableValues(const std::vector<double> &vals){
             x[edge][k].setVal(newValue);
         }
     }
-    for (int s = 0; s < instance.getPhysicalLinkFromIndex(0).getNbSlices(); s++){
+    int sliceLimit = getNbSlicesGlobalLimit();
+    for (int s = 0; s < sliceLimit; s++){
         for (int k = 0; k < getNbDemandsToBeRouted(); k++){
             int pos = z[s][k].getId();
             double newValue = vals[pos];
@@ -180,7 +190,8 @@ void EdgeNodeForm::setVariableValues(const std::vector<double> &vals){
     }
     for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
         int edge = getCompactEdgeLabel(e);
-        for (int s = 0; s < instance.getPhysicalLinkFromIndex(edge).getNbSlices(); s++){
+        int sliceLimit = getNbSlicesLimitFromEdge(edge);
+        for (int s = 0; s < sliceLimit; s++){
             for (int k = 0; k < getNbDemandsToBeRouted(); k++){
                 int pos = t[edge][s][k].getId();
                 double newValue = vals[pos];
@@ -210,7 +221,9 @@ void EdgeNodeForm::setObjectives(){
         Expression myObjective = this->getObjFunctionFromMetric(chosenObjectives[i]);
         objectiveSet[i].setExpression(myObjective);
         objectiveSet[i].setDirection(ObjectiveFunction::DIRECTION_MIN);
-        std::cout << "Objective " << chosenObjectives[i] << " has been defined." << std::endl;
+        objectiveSet[i].setName(instance.getInput().getObjName(chosenObjectives[i]));
+        objectiveSet[i].setId(chosenObjectives[i]);
+        std::cout << "Objective " << objectiveSet[i].getName() << " has been defined." << std::endl;
     }
 }
 
@@ -222,7 +235,7 @@ Expression EdgeNodeForm::getObjFunctionFromMetric(Input::ObjectiveMetric chosenO
             break;
         }
         case Input::OBJECTIVE_METRIC_1:{
-            for (int s = 0; s < instance.getPhysicalLinkFromIndex(0).getNbSlices(); s++){
+            for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
                 for (int k = 0; k < getNbDemandsToBeRouted(); k++){
                     Term term(z[s][k], s+1);
                     obj.addTerm(term);
@@ -327,7 +340,7 @@ Constraint EdgeNodeForm::getOriginConstraint_k(int k){
         }
     }
     std::ostringstream constraintName;
-    constraintName << "Origin(" << getToBeRouted_k(k).getId()+1 << ")";
+    constraintName << "Origin_" << getToBeRouted_k(k).getId()+1 ;
     Constraint constraint(lowerBound, exp, upperBound, constraintName.str());
     return constraint;
 }
@@ -357,7 +370,7 @@ Constraint EdgeNodeForm::getDestinationConstraint_k(int k){
         }
     }
     std::ostringstream constraintName;
-    constraintName << "Destination(" << getToBeRouted_k(k).getId()+1 << ")";
+    constraintName << "Destination_" << getToBeRouted_k(k).getId()+1;
     Constraint constraint(lowerBound, exp, upperBound, constraintName.str());
     return constraint;
 }
@@ -387,7 +400,7 @@ Constraint EdgeNodeForm::getDegreeConstraint_k(int k, const ListGraph::Node &v){
         exp.addTerm(term);
     }
     std::ostringstream constraintName;
-    constraintName << "Degree(" << getToBeRouted_k(k).getId()+1 << "," << getCompactNodeLabel(v)+1 << ")";
+    constraintName << "Degree_" << getToBeRouted_k(k).getId()+1 << "_" << getCompactNodeLabel(v)+1;
     Constraint constraint(lowerBound, exp, upperBound, constraintName.str());
     return constraint;
 }
@@ -433,7 +446,7 @@ Constraint EdgeNodeForm::getChannelSelectionConstraint_k(int k){
     int upperBound = 1;
     int lowerBound = 1;
     int load_k = getToBeRouted_k(k).getLoad();
-    for (int s = load_k-1; s < instance.getPhysicalLinkFromIndex(0).getNbSlices(); s++){
+    for (int s = load_k-1; s < getNbSlicesGlobalLimit(); s++){
         Term term(z[s][k], 1);
         exp.addTerm(term);
     }
@@ -458,7 +471,7 @@ Constraint EdgeNodeForm::getForbiddenSlotConstraint_k(int k){
     int upperBound = 0;
     int lowerBound = 0;
     int load_k = getToBeRouted_k(k).getLoad();
-    for (int s = 0; s < load_k-1; s++){
+    for (int s = 0; s < std::min(load_k-1, getNbSlicesGlobalLimit()); s++){
         Term term(z[s][k], 1);
         exp.addTerm(term);
     }
@@ -486,7 +499,7 @@ Constraint EdgeNodeForm::getEdgeSlotConstraint_k_e(int k, int e){
     int upperBound = 0;
     int lowerBound = 0;
     int load_k = getToBeRouted_k(k).getLoad();
-    for (int s = 0; s < instance.getPhysicalLinkFromIndex(e).getNbSlices(); s++){
+    for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
         Term term(t[e][s][k], 1);
         exp.addTerm(term);
     }
@@ -504,7 +517,7 @@ void EdgeNodeForm::setDemandEdgeSlotConstraints(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
             int edge = getCompactEdgeLabel(e);
-            for (int s = 0; s < instance.getPhysicalLinkFromIndex(edge).getNbSlices(); s++){
+            for (int s = 0; s < getNbSlicesLimitFromEdge(edge); s++){
                 Constraint demandEdgeSlot = getDemandEdgeSlotConstraint_k_e_s(d, edge, s);
                 constraintSet.push_back(demandEdgeSlot); 
             }
@@ -516,13 +529,12 @@ void EdgeNodeForm::setDemandEdgeSlotConstraints(){
 /* Returns the Demand-Edge-Slot constraint associated with a demand, an edge and a slice. */
 Constraint EdgeNodeForm::getDemandEdgeSlotConstraint_k_e_s(int k, int e, int s){
     Expression exp;
+    
+    std::ostringstream constraintName;
+    constraintName << "DemandEdgeSlot(" << getToBeRouted_k(k).getId()+1 << "," << e+1 << "," << s+1 << ")";
     int upperBound = 1;
-    double lowerBound = -INFTY;
     int load_k = getToBeRouted_k(k).getLoad();
-    int maxS = s + load_k - 1;
-    if (instance.getPhysicalLinkFromIndex(e).getNbSlices() - 1 < s + load_k - 1){
-        maxS = instance.getPhysicalLinkFromIndex(e).getNbSlices() - 1;
-    }
+    int maxS = std::min(s + load_k - 1, getNbSlicesLimitFromEdge(e)-1);
     
     Term termX(x[e][k], 1);
     exp.addTerm(termX);
@@ -533,9 +545,7 @@ Constraint EdgeNodeForm::getDemandEdgeSlotConstraint_k_e_s(int k, int e, int s){
     Term termT(t[e][s][k], -1);
     exp.addTerm(termT);
     
-    std::ostringstream constraintName;
-    constraintName << "DemandEdgeSlot(" << getToBeRouted_k(k).getId()+1 << "," << e+1 << "," << s+1 << ")";
-    Constraint constraint(lowerBound, exp, upperBound, constraintName.str());
+    Constraint constraint(exp.getTrivialLb(), exp, upperBound, constraintName.str());
     return constraint;
 }
 
@@ -543,7 +553,7 @@ Constraint EdgeNodeForm::getDemandEdgeSlotConstraint_k_e_s(int k, int e, int s){
 void EdgeNodeForm::setNonOverlappingConstraints(){
     for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
         int edge = getCompactEdgeLabel(e);
-        for (int s = 0; s < instance.getPhysicalLinkFromIndex(edge).getNbSlices(); s++){
+        for (int s = 0; s < getNbSlicesLimitFromEdge(edge) ; s++){
             Constraint nonOverlap = getNonOverlappingConstraint_e_s(edge, s);
             constraintSet.push_back(nonOverlap);
         }
@@ -575,7 +585,7 @@ void EdgeNodeForm::setMaxUsedSlicePerLinkConstraints(){
     for (int k = 0; k < getNbDemandsToBeRouted(); k++){
         for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
             int edge = getCompactEdgeLabel(e);
-            for (int s = 0; s < instance.getPhysicalLinkFromIndex(edge).getNbSlices(); s++){
+            for (int s = 0; s < getNbSlicesLimitFromEdge(edge); s++){
                 Constraint maxUsedSlicePerLinkConstraint = getMaxUsedSlicePerLinkConstraints(k, edge, s);
                 constraintSet.push_back(maxUsedSlicePerLinkConstraint);
             }
@@ -595,7 +605,7 @@ Constraint EdgeNodeForm::getMaxUsedSlicePerLinkConstraints(int k, int e, int s){
     
     std::ostringstream constraintName;
     constraintName << "MaxUsedSlicePerLink(" << getToBeRouted_k(k).getId()+1 << "," << e+1 << "," << s+1 << ")";
-    Constraint constraint(-INFTY, exp, upperBound, constraintName.str());
+    Constraint constraint(exp.getTrivialLb(), exp, upperBound, constraintName.str());
     return constraint;
 }
 
@@ -611,7 +621,7 @@ void EdgeNodeForm::setMaxUsedSliceOverallConstraints(){
 Constraint EdgeNodeForm::getMaxUsedSliceOverallConstraints(int k){
     Expression exp;
     int rhs = 0;
-    for (int s = 0; s < instance.getPhysicalLinkFromIndex(0).getNbSlices(); s++){
+    for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
         Term term(z[s][k], s);
         exp.addTerm(term);
     }
@@ -620,7 +630,7 @@ Constraint EdgeNodeForm::getMaxUsedSliceOverallConstraints(int k){
 
     std::ostringstream constraintName;
     constraintName << "MaxUsedSliceOverall(" << getToBeRouted_k(k).getId()+1 << ")";
-    Constraint constraint(-INFTY, exp, rhs, constraintName.str());
+    Constraint constraint(exp.getTrivialLb(), exp, rhs, constraintName.str());
     return constraint;
 }
 
@@ -663,7 +673,7 @@ void EdgeNodeForm::displayVariableValues(){
         }
         std::cout << std::endl;
     }
-    for (int s = 0; s < instance.getPhysicalLinkFromIndex(0).getNbSlices(); s++){
+    for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
         for (int k = 0; k < getNbDemandsToBeRouted(); k++){
             std::cout << z[s][k].getName() << " = " << z[s][k].getVal() << "   ";
         }
@@ -671,7 +681,7 @@ void EdgeNodeForm::displayVariableValues(){
     }
     for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
         int edge = getCompactEdgeLabel(e);
-        for (int s = 0; s < instance.getPhysicalLinkFromIndex(edge).getNbSlices(); s++){
+        for (int s = 0; s < getNbSlicesLimitFromEdge(edge); s++){
             for (int k = 0; k < getNbDemandsToBeRouted(); k++){
                 std::cout << t[edge][s][k].getName() << " = " << t[edge][s][k].getVal() << "   ";
             }
@@ -687,7 +697,22 @@ void EdgeNodeForm::displayVariableValues(){
     std::cout << maxSliceOverall.getName() << " = " << maxSliceOverall.getVal() << std::endl;
 }
 
+/* Displays the value of each variable in the obtained solution. */
+void EdgeNodeForm::displayVariableValuesOfX(){
+    for (int k = 0; k < getNbDemandsToBeRouted(); k++){
+        for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
+            int edge = getCompactEdgeLabel(e);
+            if (x[edge][k].getVal() > 0.001){
+                std::cout << x[edge][k].getName() << " = " << x[edge][k].getVal() << std::endl;
+            }
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+}
+
 std::vector<Constraint> EdgeNodeForm::solveSeparationProblemFract(const std::vector<double> &solution){
+    //std::cout << "Solving separation problem fractional..." << std::endl;
     setVariableValues(solution);
     std::vector<Constraint> cuts;
     //separating path continuity constraints
@@ -718,7 +743,8 @@ std::vector<Constraint> EdgeNodeForm::solveSeparationProblemFract(const std::vec
         }
 
         if (exprValue <= (1 - EPS)){
-            cuts.push_back(Constraint(1, expr, INFTY));
+            //std::cout << "Adding user cut: " << expr.to_string() << " >= 1" << std::endl;
+            cuts.push_back(Constraint(1, expr, expr.getNbTerms()));
         }
     }
     return cuts;
@@ -726,7 +752,9 @@ std::vector<Constraint> EdgeNodeForm::solveSeparationProblemFract(const std::vec
 
 
 std::vector<Constraint> EdgeNodeForm::solveSeparationProblemInt(const std::vector<double> &solution, const int threadNo){
+    //std::cout << "Solving separation problem integer..." << std::endl; 
     setVariableValues(solution);
+    //displayVariableValuesOfX();
     std::vector<Constraint> cuts;
     //separating path-continuity constraints.
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
@@ -782,9 +810,8 @@ std::vector<Constraint> EdgeNodeForm::solveSeparationProblemInt(const std::vecto
                     }
                 }
                 
-                //std::cout << "Adding lazy constraint: " << exp << " >= 1" << std::endl;
-                //std::cout << "Candidate has: " << context.getCandidateValue(exp) << " > 1" << std::endl;
-                cuts.push_back(Constraint(1, exp, INFTY));
+                //std::cout << "Adding lazy constraint: " << exp.to_string() << " >= 1" << std::endl;
+                cuts.push_back(Constraint(1, exp, exp.getNbTerms()));
                 cutFound = true;
             }
             else{
@@ -802,10 +829,30 @@ std::vector<Constraint> EdgeNodeForm::solveSeparationProblemInt(const std::vecto
     return cuts;
 }
 
+/** Returns a set of variables to be fixed to 0 according to the current upper bound. **/
+std::vector<Variable> EdgeNodeForm::objective8_fixing(const double upperBound){
+    std::vector<Variable> vars;
+    int initialSlice = std::ceil(upperBound+0.5);
+    for (int k = 0; k < getNbDemandsToBeRouted(); k++){
+        for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
+            int edge = getCompactEdgeLabel(e);
+            for (int s = initialSlice; s < getNbSlicesLimitFromEdge(edge); s++){
+                vars.push_back(t[edge][s][k]);
+            }
+        }
+    }
+    for (int k = 0; k < getNbDemandsToBeRouted(); k++){
+        for (int s = initialSlice; s < getNbSlicesGlobalLimit(); s++){
+            vars.push_back(z[s][k]);
+        }
+    }
+    return vars;
+}
+
 Expression EdgeNodeForm::separationGNPY(const std::vector<double> &solution, const int threadNo){
     setVariableValues(solution);
     Expression cut;
-    
+    // TODO: implement gnpy for edgeNode
     if (cut.getNbTerms() > 0){
         std::cout << "A separating cut was found." << std::endl;
     }

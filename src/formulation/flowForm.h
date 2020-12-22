@@ -40,6 +40,9 @@ public:
 	/****************************************************************************************/
 	/*										Constraints										*/
 	/****************************************************************************************/
+	
+	//-------------------------------- Original constraints -------------------------------- //
+
 	/** Defines the set of constraints. **/
     void setConstraints() override;
 
@@ -58,6 +61,27 @@ public:
 	/** Defines Non-Overlapping constraints. Demands must not overlap eachother's slices. **/
     void setNonOverlappingConstraints();
 	
+	/** Returns the source constraint associated with a demand and a node. @param demand The demand. @param d The demand index. @param nodeLabel The node label. **/
+    Constraint getSourceConstraint_d_n(const Demand & demand, int d, int nodeLabel);
+	
+	/** Returns the flow conservation constraint associated with a demand and a node. @param v The node. @param demand The demand. @param d The demand index. **/
+    Constraint getFlowConservationConstraint_i_d(ListDigraph::Node &v, const Demand & demand, int d);
+
+	/** Returns the target constraint associated with a demand. @param demand The demand. @param d The demand index. **/
+    Constraint getTargetConstraint_d(const Demand & demand, int d);
+	
+    /** Returns the length constraint associated with a demand. @param demand The demand. @param d The demand index. **/
+    Constraint getLengthConstraint(const Demand &demand, int d);
+
+	/** Returns the non-overlapping constraint associated with an edge and a slice. @param linkLabel The arc label. @param slice The arc slice. **/
+	Constraint getNonOverlappingConstraint(int linkLabel, int slice);
+	
+
+	//---------------------------------- New constraints ---------------------------------- //
+
+	/** Defines the reinforced max reach constraints. **/
+	void setStrongLengthConstraints();
+
 	/** Defines the Link's Max Used Slice Position constraints. The max used slice position on each link must be greater than every slice position used in the link. **/
 	void setMaxUsedSlicePerLinkConstraints();
 	/** Defines the Link's Max Used Slice Position constraints. The max used slice position on each link must be greater than every slice position used in the link. **/
@@ -74,20 +98,9 @@ public:
 	/** Defines the Overall Max Used Slice Position constraints. The max used slice position overall must be greater than every other slice position used in the network. **/
 	void setMaxUsedSliceOverallConstraints4();
 
-	/** Returns the source constraint associated with a demand and a node. @param demand The demand. @param d The demand index. @param nodeLabel The node label. **/
-    Constraint getSourceConstraint_d_n(const Demand & demand, int d, int nodeLabel);
-	
-	/** Returns the flow conservation constraint associated with a demand and a node. @param v The node. @param demand The demand. @param d The demand index. **/
-    Constraint getFlowConservationConstraint_i_d(ListDigraph::Node &v, const Demand & demand, int d);
 
-	/** Returns the target constraint associated with a demand. @param demand The demand. @param d The demand index. **/
-    Constraint getTargetConstraint_d(const Demand & demand, int d);
-	
-    /** Returns the length constraint associated with a demand. @param demand The demand. @param d The demand index. **/
-    Constraint getLengthConstraint(const Demand &demand, int d);
-
-	/** Returns the non-overlapping constraint associated with an edge and a slice. @param linkLabel The arc label. @param slice The arc slice. **/
-	Constraint getNonOverlappingConstraint(int linkLabel, int slice);
+	/** Returns the strong max reach constraint associated with a demand and a slice. @param demand The demand. @param d The demand index. @param s The slice index.**/
+	Constraint getStrongLengthConstraint(const Demand &demand, int d, int s);
 	
 	/** Returns the Link's Max Used Slice Position constraint associated with a link and a demand. @param linkIndex The link's index. @param d The demand's index. **/
 	Constraint getMaxUsedSlicePerLinkConstraints(int linkIndex, int d);
@@ -137,12 +150,20 @@ public:
 	std::vector<int> getPathNodeSequence(int d);
 
 	/****************************************************************************************/
+	/*									Variable Fixing										*/
+	/****************************************************************************************/
+
+	/** Returns a set of variables to be fixed to 0 according to the current upper bound. **/
+    std::vector<Variable> objective8_fixing(const double upperBound) override;
+
+	/****************************************************************************************/
 	/*										Display											*/
 	/****************************************************************************************/
 
 	/** Displays the value of each variable in the obtained solution. **/
     void displayVariableValues() override;
 
+	std::string displayDimensions();
 	/****************************************************************************************/
 	/*										Destructor										*/
 	/****************************************************************************************/

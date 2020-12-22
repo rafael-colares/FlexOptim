@@ -3,13 +3,16 @@
 
 /* Constructor. Builds the Online RSA mixed-integer program and solves it using CPLEX. */
 FlowForm::FlowForm(const Instance &inst) : AbstractFormulation(inst){
-    std::cout << "--- Flow formulation has been chosen ---" << std::endl;
+    std::cout << "--- Flow formulation has been chosen. " << displayDimensions() << " ---" << std::endl;
     this->setVariables();
     this->setConstraints();
     this->setObjectives();
     std::cout << "--- Flow formulation has been defined ---" << std::endl;
 }
 
+std::string FlowForm::displayDimensions(){
+    return "|K| = " + std::to_string(getNbDemandsToBeRouted()) + ", |S| = " + std::to_string(getNbSlicesGlobalLimit()) + ".";
+}
 
  
 /****************************************************************************************/
@@ -53,8 +56,8 @@ void FlowForm::setVariables(){
     maxSlicePerLink.resize(instance.getNbEdges());
     for (int i = 0; i < instance.getNbEdges(); i++){
         std::string varName = "maxSlice(" + std::to_string(instance.getPhysicalLinkFromIndex(i).getId() + 1) + ")";
-        int lowerBound = instance.getPhysicalLinkFromIndex(i).getMaxUsedSlicePosition();
-        int upperBound = instance.getPhysicalLinkFromIndex(i).getNbSlices();
+        int lowerBound = std::max(0, instance.getPhysicalLinkFromIndex(i).getMaxUsedSlicePosition());
+        int upperBound = getNbSlicesLimitFromEdge(i);
         int varId = getNbVar();
         maxSlicePerLink[i] = Variable(varId, lowerBound, upperBound, Variable::TYPE_REAL, 0, varName);
         incNbVar();
@@ -62,8 +65,8 @@ void FlowForm::setVariables(){
     std::cout << "Max slice variables have been defined..." << std::endl;
 
     std::string varName = "maxSliceOverall";
-    int lowerBound = instance.getMaxUsedSlicePosition();
-    int upperBound = instance.getMaxSlice();
+    int lowerBound = std::max(0,instance.getMaxUsedSlicePosition());
+    int upperBound = getNbSlicesGlobalLimit();
     int varId = getNbVar();
     maxSliceOverall = Variable(varId, lowerBound, upperBound, Variable::TYPE_REAL, 0, varName);
     incNbVar();
@@ -124,7 +127,8 @@ void FlowForm::setObjectives(){
         objectiveSet[i].setExpression(myObjective);
         objectiveSet[i].setDirection(ObjectiveFunction::DIRECTION_MIN);
         objectiveSet[i].setName(instance.getInput().getObjName(chosenObjectives[i]));
-        std::cout << "Objective " << chosenObjectives[i] << " has been defined." << std::endl;
+        objectiveSet[i].setId(chosenObjectives[i]);
+        std::cout << "Objective " << objectiveSet[i].getName() << " has been defined." << std::endl;
     }
 }
 
@@ -217,7 +221,8 @@ void FlowForm::setConstraints(){
     this->setSourceConstraints();
     this->setFlowConservationConstraints();
     this->setTargetConstraints();
-    this->setLengthConstraints();
+    //this->setLengthConstraints();
+    this->setStrongLengthConstraints();
     this->setNonOverlappingConstraints();    
 
     this->setMaxUsedSlicePerLinkConstraints();    
@@ -255,7 +260,7 @@ Constraint FlowForm::getSourceConstraint_d_n(const Demand & demand, int d, int n
         }
     }
     std::ostringstream constraintName;
-    constraintName << "Source(" << nodeLabel+1 << "," << demand.getId()+1 << "):" << constraintSet.size();
+    constraintName << "Source_" << nodeLabel+1 << "_" << demand.getId()+1;
     if (nodeLabel == demand.getSource()){
         lowerBound = 1;
     }
@@ -297,7 +302,7 @@ Constraint FlowForm::getFlowConservationConstraint_i_d(ListDigraph::Node &v, con
     std::ostringstream constraintName;
     int label = getNodeLabel(v, d);
     int slice = getNodeSlice(v, d);
-    constraintName << "Flow(" << label+1 << "," << slice+1 << "," << demand.getId()+1 << ")";
+    constraintName << "Flow_" << label+1 << "_" << slice+1 << "_" << demand.getId()+1;
     Constraint constraint(rhs, exp, rhs, constraintName.str());
     return constraint;
 }
@@ -326,10 +331,58 @@ Constraint FlowForm::getTargetConstraint_d(const Demand & demand, int d){
         }
     }
     std::ostringstream constraintName;
-    constraintName << "Target(" << demand.getId()+1 << ")";
+    constraintName << "Target_" << demand.getId()+1 ;
     Constraint constraint(rhs, exp, rhs, constraintName.str());
     return constraint;
 }
+
+
+/* Defines the reinforced max reach constraints. */
+void FlowForm::setStrongLengthConstraints(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
+        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){  
+            Constraint strongLengthConstraint = getStrongLengthConstraint(getToBeRouted_k(d), d, s);
+            constraintSet.push_back(strongLengthConstraint);
+        }
+    }
+    std::cout << "Length constraints have been defined..." << std::endl;
+}
+
+
+/* Returns the strong max reach constraint associated with a demand and a slice. */
+Constraint FlowForm::getStrongLengthConstraint(const Demand &demand, int d, int s){
+    Expression exp;
+    int source = demand.getSource();
+    int hop = instance.getInput().getHopPenalty();
+    for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+        int arc = getArcIndex(a, d); 
+        if (getArcSlice(a, d) == s){
+            double coeff = getArcLength(a, d);
+            int tail = getNodeLabel((*vecGraph[d]).source(a), d);
+            if (tail != source){
+                coeff += hop;
+            }
+            Term term(x[d][arc], coeff);
+            exp.addTerm(term);
+        }
+    }
+    for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
+        if (getNodeLabel(v, d) == source){
+            for (ListDigraph::OutArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
+                if (getArcSlice(a, d) == s){
+                    int arc = getArcIndex(a, d); 
+                    Term term(x[d][arc], -demand.getMaxLength());
+                    exp.addTerm(term);
+                }
+            }
+        }
+    }
+    std::ostringstream constraintName;
+    constraintName << "StrongLength_" << demand.getId()+1 << "_" << s+1;
+    Constraint constraint(exp.getTrivialLb(), exp, 0, constraintName.str());
+    return constraint;
+}
+
 
 /* Defines Length constraints. Demands must be routed within a length limit. */
 void FlowForm::setLengthConstraints(){
@@ -357,7 +410,7 @@ Constraint FlowForm::getLengthConstraint(const Demand &demand, int d){
         exp.addTerm(term);
     }
     std::ostringstream constraintName;
-    constraintName << "Length(" << demand.getId()+1 << ")";
+    constraintName << "Length_" << demand.getId()+1;
     Constraint constraint(0, exp, rhs, constraintName.str());
     return constraint;
 }
@@ -366,7 +419,8 @@ Constraint FlowForm::getLengthConstraint(const Demand &demand, int d){
 /* Defines the second set of Improved Non-Overlapping constraints. */
 void FlowForm::setNonOverlappingConstraints(){
     for (int i = 0; i < instance.getNbEdges(); i++){
-        for (int s = 0; s < instance.getPhysicalLinkFromIndex(i).getNbSlices(); s++){
+        int sliceLimit = getNbSlicesLimitFromEdge(i);
+        for (int s = 0; s < sliceLimit; s++){
             Constraint nonOverlap = getNonOverlappingConstraint(instance.getPhysicalLinkFromIndex(i).getId(), s);
             constraintSet.push_back(nonOverlap);
         }
@@ -391,7 +445,7 @@ Constraint FlowForm::getNonOverlappingConstraint(int linkLabel, int slice){
     }
     
     std::ostringstream constraintName;
-    constraintName << "NonOverlap(" << linkLabel+1 << "," << slice+1 << ")";
+    constraintName << "NonOverlap_" << linkLabel+1 << "_" << slice+1;
     Constraint constraint(0, exp, rhs, constraintName.str());
     return constraint;
 }
@@ -429,8 +483,8 @@ Constraint FlowForm::getMaxUsedSlicePerLinkConstraints(int linkIndex, int d){
     exp.addTerm(term);
     
     std::ostringstream constraintName;
-    constraintName << "MaxUsedSlicePerLink(" << linkLabel+1 << "," << getToBeRouted_k(d).getId()+1 << ")";
-    Constraint constraint(-INFTY, exp, rhs, constraintName.str());
+    constraintName << "MaxUsedSlicePerLink_" << linkLabel+1 << "_" << getToBeRouted_k(d).getId()+1;
+    Constraint constraint(exp.getTrivialLb(), exp, rhs, constraintName.str());
     return constraint;
 }
 
@@ -438,7 +492,8 @@ Constraint FlowForm::getMaxUsedSlicePerLinkConstraints(int linkIndex, int d){
 /* Defines the Link's Max Used Slice Position constraints. The max used slice position on each link must be greater than every slice position used in the link. */
 void FlowForm::setMaxUsedSlicePerLinkConstraints2(){
     for (int i = 0; i < instance.getNbEdges(); i++){
-        for (int s = 0; s < instance.getPhysicalLinkFromIndex(i).getNbSlices(); s++){
+        int sliceLimit = getNbSlicesLimitFromEdge(i);
+        for (int s = 0; s < sliceLimit; s++){
             Constraint maxUsedSlicePerLinkConst = getMaxUsedSlicePerLinkConstraints2(i, s);
             constraintSet.push_back(maxUsedSlicePerLinkConst);
         }
@@ -465,8 +520,8 @@ Constraint FlowForm::getMaxUsedSlicePerLinkConstraints2(int linkIndex, int s){
     exp.addTerm(term);
     
     std::ostringstream constraintName;
-    constraintName << "MaxUsedSlicePerLink2(" << linkLabel+1 << "," << s+1 << ")";
-    Constraint constraint(-INFTY, exp, rhs, constraintName.str());
+    constraintName << "MaxUsedSlicePerLink_" << linkLabel+1 << "_" << s+1;
+    Constraint constraint(exp.getTrivialLb(), exp, rhs, constraintName.str());
     return constraint;
 }
 
@@ -494,15 +549,16 @@ Constraint FlowForm::getMaxUsedSliceOverallConstraints(int d){
     exp.addTerm(term);
 
     std::ostringstream constraintName;
-    constraintName << "MaxUsedSliceOverall(" << getToBeRouted_k(d).getId()+1 << ")";
-    Constraint constraint(-INFTY, exp, rhs, constraintName.str());
+    constraintName << "MaxUsedSliceOverall_" << getToBeRouted_k(d).getId()+1;
+    Constraint constraint(exp.getTrivialLb(), exp, rhs, constraintName.str());
     return constraint;
 }
 
 /* Defines the Overall Max Used Slice Position constraints. */
 void FlowForm::setMaxUsedSliceOverallConstraints2(){
     for (int i = 0; i < instance.getNbEdges(); i++){
-        for (int s = 0; s < instance.getPhysicalLinkFromIndex(i).getNbSlices(); s++){
+        int sliceLimit = getNbSlicesLimitFromEdge(i);
+        for (int s = 0; s < sliceLimit; s++){
             Constraint maxUsedSliceOverallConst = getMaxUsedSliceOverallConstraints2(instance.getPhysicalLinkFromIndex(i).getId(), s);
             constraintSet.push_back(maxUsedSliceOverallConst);
         }
@@ -530,8 +586,8 @@ Constraint FlowForm::getMaxUsedSliceOverallConstraints2(int linkLabel, int s){
     exp.addTerm(term);
 
     std::ostringstream constraintName;
-    constraintName << "MaxUsedSliceOverall2(" << linkLabel+1 << "," << s+1 << ")";
-    Constraint constraint(-INFTY, exp, rhs, constraintName.str());
+    constraintName << "MaxUsedSliceOverall2_" << linkLabel+1 << "_" << s+1;
+    Constraint constraint(exp.getTrivialLb(), exp, rhs, constraintName.str());
     return constraint;
 }
 
@@ -539,7 +595,7 @@ Constraint FlowForm::getMaxUsedSliceOverallConstraints2(int linkLabel, int s){
 /* Defines the Overall Max Used Slice Position constraints 3. */
 void FlowForm::setMaxUsedSliceOverallConstraints3(){
     for (int i = 0; i < instance.getNbNodes(); i++){
-        for (int s = 0; s < instance.getPhysicalLinkFromIndex(0).getNbSlices(); s++){
+        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
             Constraint maxUsedSliceOverallConst = getMaxUsedSliceOverallConstraints3(i, s);
             constraintSet.push_back(maxUsedSliceOverallConst);
         }
@@ -581,8 +637,8 @@ Constraint FlowForm::getMaxUsedSliceOverallConstraints3(int nodeLabel, int s){
     exp.addTerm(term);
     
     std::ostringstream constraintName;
-    constraintName << "MaxUsedSliceOverall3(" << nodeLabel+1 << "," << s+1 << ")";
-    Constraint constraint(-INFTY, exp, rhs, constraintName.str());
+    constraintName << "MaxUsedSliceOverall3_" << nodeLabel+1 << "_" << s+1;
+    Constraint constraint(exp.getTrivialLb(), exp, rhs, constraintName.str());
     return constraint;
 }
 
@@ -604,8 +660,8 @@ Constraint FlowForm::getMaxUsedSliceOverallConstraints4(int nodeLabel){
     exp.addTerm(Term(maxSliceOverall, -1));
     
     std::ostringstream constraintName;
-    constraintName << "MaxUsedSliceOverall3(" << nodeLabel+1 << ")";
-    Constraint constraint(-INFTY, exp, rhs, constraintName.str());
+    constraintName << "MaxUsedSliceOverall3_" << nodeLabel+1;
+    Constraint constraint(exp.getTrivialLb(), exp, rhs, constraintName.str());
     return constraint;
 }
 
@@ -704,6 +760,21 @@ void FlowForm::displayVariableValues(){
     }
 }
 
+/** Returns a set of variables to be fixed to 0 according to the current upper bound. **/
+std::vector<Variable> FlowForm::objective8_fixing(const double upperBound){
+    std::vector<Variable> vars;
+    int initialSlice = std::ceil(upperBound+0.5);
+    for (int k = 0; k < getNbDemandsToBeRouted(); k++){
+        for (ListDigraph::ArcIt a(*vecGraph[k]); a != INVALID; ++a){
+            int arc = getArcIndex(a, k);
+            if (getArcSlice(a, k) >= initialSlice){
+                vars.push_back(x[k][arc]);
+            }
+        }
+    }
+    return vars;
+}
+
 std::vector<Constraint> FlowForm::solveSeparationProblemInt(const std::vector<double> &solution, const int threadNo){
     //std::cout << "Entering separation problem of an integer point for Flow Form." << std::endl;
     std::vector<Constraint> cuts;
@@ -780,7 +851,7 @@ Constraint FlowForm::getPathEliminationConstraint(int d){
     int rhs = nbHops-1;
     std::ostringstream constraintName;
     constraintName << "PathElimination(" << std::to_string(getToBeRouted_k(d).getId()+1) << ")";
-    return Constraint(-INFTY, exp, rhs, constraintName.str());
+    return Constraint(0, exp, rhs, constraintName.str());
 }
 
 void FlowForm::writeServiceFile(const std::string &file){

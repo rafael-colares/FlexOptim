@@ -10,3 +10,20 @@ AbstractSolver::AbstractSolver(const Instance &instance, const Status &s) : curr
     FormulationFactory factory;
     formulation = factory.createFormulation(instance);
 }
+
+void AbstractSolver::updateRSA(Instance &instance){
+    std::cout << "Update RSA" << std::endl;
+    if (this->getStatus() == STATUS_OPTIMAL || this->getStatus() == STATUS_FEASIBLE){   
+        std::cout << "Feasible" << std::endl;
+        formulation->updatePath(this->getSolution());
+        formulation->updateInstance(instance);
+        instance.setWasBlocked(false);
+        formulation->displayPaths();
+
+    }
+    else{
+        std::cout << "Decrease the number of demands to be treated." << std::endl;
+        instance.decreaseNbDemandsAtOnce();
+        instance.setWasBlocked(true);
+    }
+}

@@ -17,6 +17,8 @@ ILOSTLBEGIN
 //#include "subgradient.h"
 
 
+#include "OsiClpSolverInterface.hpp"
+
 using namespace lemon;
 
 int main(int argc, char *argv[]) {
@@ -53,7 +55,7 @@ int main(int argc, char *argv[]) {
 		/* 					Define set of demands to be routed 				*/
 		/********************************************************************/
 		//instance.displayDetailedTopology();
-		std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
+		std::cout << "--- READING NEW DEMANDS TO BE ROUTED... --- " << std::endl;
 		std::string nextFile = instance.getInput().getDemandToBeRoutedFilesFromIndex(i);
 		instance.generateDemandsFromFile(nextFile);
 		//instance.generateRandomDemands(1);
@@ -87,6 +89,7 @@ int main(int argc, char *argv[]) {
 			SolverFactory factory;
 			AbstractSolver *solver = factory.createSolver(instance);
 			solver->solve();
+			//std::cout << "call update" << std::endl;
 			solver->updateRSA(instance);
 			
 			/********************************************************************/

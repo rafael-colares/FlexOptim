@@ -38,7 +38,8 @@ RSA::RSA(const Instance &inst) : instance(inst), compactEdgeId(compactGraph), co
         for (int i = 0; i < instance.getNbEdges(); i++){
             int linkSourceLabel = instance.getPhysicalLinkFromIndex(i).getSource();
             int linkTargetLabel = instance.getPhysicalLinkFromIndex(i).getTarget();
-            for (int s = 0; s < instance.getPhysicalLinkFromIndex(i).getNbSlices(); s++){
+            int sliceLimit = getNbSlicesLimitFromEdge(i);
+            for (int s = 0; s < sliceLimit; s++){
                 /* IF SLICE s IS NOT USED */
                 if (instance.getPhysicalLinkFromIndex(i).getSlice_i(s).isUsed() == false){
                     
@@ -79,6 +80,16 @@ RSA::RSA(const Instance &inst) : instance(inst), compactEdgeId(compactGraph), co
         }
     }
 }
+
+/** Returns the total number of loads to be routed. **/
+int RSA::getTotalLoadsToBeRouted() const{ 
+    int total = 0;
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        total += getToBeRouted_k(d).getLoad();
+    }
+    return total;
+}
+    
 
 /* Builds the simple graph associated with the initial mapping. */
 void RSA::buildCompactGraph(){
@@ -461,26 +472,20 @@ double RSA::getCoeffObj4(const ListDigraph::Arc &a, int d){
 /* Returns the coefficient of an arc according to metric 8 on graph #d. */
 double RSA::getCoeffObj8(const ListDigraph::Arc &a, int d){
     double coeff = 0.0;
-    int maxSliceUsed = 0;
-    for (int i = 0; i < instance.getNbEdges(); i++){
-        int maxSliceUsedOnLink = instance.getPhysicalLinkFromIndex(i).getMaxUsedSlicePosition();
-        if (maxSliceUsedOnLink >= maxSliceUsed){
-            maxSliceUsed = maxSliceUsedOnLink;
-        }
-    }
+    int maxSliceUsed = instance.getMaxUsedSlicePosition();
     int arcSlice = getArcSlice(a, d);
     ListDigraph::Node u = (*vecGraph[d]).source(a);
     int uLabel = getNodeLabel(u, d);
     if(uLabel == getToBeRouted_k(d).getSource()){
         if(arcSlice <= maxSliceUsed){
-            coeff = maxSliceUsed + 1; 
+            coeff = maxSliceUsed; 
         }
         else{
-            coeff = arcSlice + 1; 
+            coeff = arcSlice; 
         }
     }
     else{
-        coeff = 1;
+        coeff = 0;
     }
     return coeff;
 }
@@ -557,9 +562,9 @@ void RSA::displayToBeRouted(){
 }
 /* Displays the loads to be routed in the next optimization. */
 void RSA::displayLoadsToBeRouted(){
-    std::cout << "--- THE DIFFERENT ROUTING LOADS --- " << std::endl;
+    std::cout << "--> THE DIFFERENT ROUTING LOADS: ";
     if (getNbLoadsToBeRouted() <= 0){
-        std::cout << "ERROR: Loads have not been computed." << std::endl;
+        std::cout << "\nERROR: Loads have not been computed." << std::endl;
         exit(0);
     }
     std::cout << loadsToBeRouted[0];
