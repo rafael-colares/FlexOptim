@@ -45,7 +45,7 @@ EXE = $(DRIVER)
 
 # CHANGEME: Here is the name of all object files corresponding to the source
 #           code that you wrote in order to define the problem statement
-OBJS = main.o formulation/edgeNodeForm.o formulation/flowForm.o formulation/formulationComponents.o formulation/rsa.o solver/abstractSolver.o solver/solverCplex.o solver/callbackCplex.o solver/solverCBC.o tools/CSVReader.o topology/demand.o topology/input.o topology/instance.o topology/physicalLink.o topology/slice.o
+OBJS = main.o formulation/edgeNodeForm.o formulation/flowForm.o formulation/formulationComponents.o formulation/rsa.o solver/abstractSolver.o solver/solverCplex.o solver/callbackCplex.o solver/solverCBC.o tools/CSVReader.o topology/demand.o topology/input.o topology/instance.o topology/physicalLink.o topology/slice.o lagrangian/formulation/AbstractLagrangianFormulation.o lagrangian/formulation/lagFlow.o lagrangian/formulation/lagNonOverlap.o lagrangian/formulation/lagNonOverlapping.o lagrangian/solver/AbstractLagrangianSolver.o lagrangian/solver/lagSubgradient.o lagrangian/solver/lagVolume.o lagrangian/AbstractHeuristic.o lagrangian/shortestPathHeuristic.o
 
 # extra object files that are required by some examples (we just link them into each one)
 EXTRAOBJS = \

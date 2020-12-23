@@ -4,7 +4,10 @@
 Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     std::cout << "Getting input file paths..." << std::endl;
 
+    std::cout << "Getting topology file..." << std::endl;
     topologyFile = getParameterValue("topologyFile=");
+    std::cout << "... " << topologyFile << std::endl;
+
     initialMappingDemandFile = getParameterValue("initialMappingDemandFile=");
     initialMappingAssignmentFile = getParameterValue("initialMappingAssignmentFile=");
     demandToBeRoutedFolder = getParameterValue("demandToBeRoutedFolder=");
@@ -140,7 +143,7 @@ std::string Input::getParameterValue(std::string pattern){
             std::size_t pos = line.find(pattern);
             if (pos != std::string::npos){
                 value = line.substr(pos + pattern.size());
-                value.pop_back();
+                //value.pop_back();
                 if (value.empty()){
                     std::cout << "WARNING: Field '" << pattern << "' is empty." << std::endl; 
                 }
