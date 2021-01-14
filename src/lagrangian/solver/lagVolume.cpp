@@ -11,6 +11,7 @@ void lagVolume::initialization(){
     setGreenIt(false);
     setNbRedIt(0);
     setNbYellowIt(0);
+    setItWithoutImprovement(0);
 
     setStepSize(0.000);
     initLambda();
@@ -22,10 +23,10 @@ void lagVolume::initialization(){
     formulation->setStatus(RSA::STATUS_UNKNOWN);
 
     std::cout << "> Initialization is done. " << std::endl;
-    fichier << "> Initialization is done. " << std::endl;
-    fichier << "> ******* Iteration: " << getIteration() << " ********" << std::endl;
-    formulation->displaySlack(fichier);
-    formulation->displayMultiplier(fichier);
+    //fichier << "> Initialization is done. " << std::endl;
+    //fichier << "> ******* Iteration: " << getIteration() << " ********" << std::endl;
+    //formulation->displaySlack(fichier);
+    //formulation->displayMultiplier(fichier);
 }
 
 /*************************************************************************/
@@ -43,7 +44,7 @@ void lagVolume::run(){
     while (!STOP){
         runIteration();
         if (formulation->getStatus() != RSA::STATUS_INFEASIBLE){
-            displayMainParameters();
+            //displayMainParameters();
 
             updateLambda();
             updateStepSize();
@@ -63,9 +64,9 @@ void lagVolume::run(){
                 formulation->updatePrimalSolution(alpha);
             }
 
-            fichier << "\n\n> ******************** Iteration: " << getIteration() << " ********************"<< std::endl;
-            formulation->displaySlack(fichier);
-            formulation->displayMultiplier(fichier);
+            //fichier << "\n\n> ******************** Iteration: " << getIteration() << " ********************"<< std::endl;
+            //formulation->displaySlack(fichier);
+            //formulation->displayMultiplier(fichier);
             //formulation->displaySlack();
             //formulation->displayMultiplier();
 
@@ -73,19 +74,23 @@ void lagVolume::run(){
             if(getLB() >= getUB() - DBL_EPSILON){ 
                 formulation->setStatus(RSA::STATUS_OPTIMAL);
                 STOP = true;
+                setStop("Optimal");
                 std::cout << "Optimal" << std::endl;
             }
             if(getIteration() >= MAX_NB_IT){
                 STOP = true;
+                setStop("Max It");
                 std::cout << "Max It" << std::endl;
             }
             if(formulation->getMeanSlackModule_v2()  < MIN_MODULE_VALUE){
                 STOP = true;
+                setStop("Small Module");
                 std::cout << "Small Module" << std::endl;
             }
             //if((getIteration()!=1)&&(formulation->getPrimalObjective()-getLB())/getLB() < MIN_DIF_OBJ_VALUE){
             //    std::cout<< "Primal OBj" <<formulation->getPrimalObjective() << std::endl;
             //    STOP = true;
+            //    setStop("Small Objective Difference");
             //    std::cout << "Small Objective Difference" << std::endl;
             //}
         }
@@ -112,7 +117,7 @@ void lagVolume::runIteration(){
             updateUB(feasibleSolutionCost);
         }
     }
-    if(getIteration()==1 || getIteration()%20 ==0){
+    if(getIteration()==1 || getIteration()%30 ==0){
         heuristic->run();
         double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
         updateUB(feasibleSolutionCostHeur);

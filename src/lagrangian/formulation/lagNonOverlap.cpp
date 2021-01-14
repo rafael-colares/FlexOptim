@@ -1,7 +1,5 @@
 #include "lagNonOverlap.h"
-#include <set>
-#include <lemon/core.h>
-#include <lemon/capacity_scaling.h>
+
 
 /* *******************************************************************************
 *                             INITIALIZATION METHODS
@@ -1815,4 +1813,5 @@ lagNonOverlap::~lagNonOverlap(){
 
     assignmentMatrix.clear();
     cost.clear();
+    EGraph->clear();
 }

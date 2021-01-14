@@ -2,6 +2,9 @@
 #define LAG_NON_OVERLAP_H
 
 #include "AbstractLagrangianFormulation.h"
+#include <set>
+#include <lemon/core.h>
+#include <lemon/capacity_scaling.h>
 
 using namespace lemon;
 

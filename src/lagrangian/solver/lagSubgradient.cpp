@@ -3,7 +3,7 @@
 
 void lagSubgradient::run(){
     std::cout << "--- Subgradient was invoked ---" << std::endl;
-    formulation->displayToBeRouted();
+    //formulation->displayToBeRouted();
 
     initialization();
     std::cout << "> Subgradient was initialized. " << std::endl;
@@ -12,7 +12,7 @@ void lagSubgradient::run(){
     while (!STOP){
         runIteration();
         if (formulation->getStatus() != RSA::STATUS_INFEASIBLE){
-            displayMainParameters();
+            //displayMainParameters();
 
             updateLambda();
 
@@ -21,9 +21,9 @@ void lagSubgradient::run(){
             formulation->updateMultiplier(getStepSize());
             formulation->updateCosts();
 
-            fichier << "\n\n> ******************** Iteration: " << getIteration() << " ********************"<< std::endl;
-            formulation->displaySlack(fichier);
-            formulation->displayMultiplier(fichier);
+            //fichier << "\n\n> ******************** Iteration: " << getIteration() << " ********************"<< std::endl;
+            //formulation->displaySlack(fichier);
+            //formulation->displayMultiplier(fichier);
 
             //formulation->displaySlack();
             //formulation->displayMultiplier();
@@ -78,14 +78,14 @@ void lagSubgradient::initialization(){
 
     initLambda();
     formulation->init();
-    std::cout << "> Initialization is done. " << std::endl;
+    //std::cout << "> Initialization is done. " << std::endl;
 
-    fichier << "> Initialization is done. " << std::endl;
-    fichier << "> ******************** Iteration: " << getIteration() << " ********************"<< std::endl;
+    //fichier << "> Initialization is done. " << std::endl;
+    //fichier << "> ******************** Iteration: " << getIteration() << " ********************"<< std::endl;
     
     //formulation.createGraphFile(getIteration());
-    formulation->displaySlack(fichier);
-    formulation->displayMultiplier(fichier);
+    //formulation->displaySlack(fichier);
+    //formulation->displayMultiplier(fichier);
 }
 
 void lagSubgradient::runIteration(){ 
@@ -102,11 +102,11 @@ void lagSubgradient::runIteration(){
             updateUB(feasibleSolutionCost);
         }
     }
-    //if(getIteration()==1 || getIteration()%20 ==0){
+    if(getIteration()==1 || getIteration()%30 ==0){
         heuristic->run();
         double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
         updateUB(feasibleSolutionCostHeur);
-    //}
+    }
     
 }
 

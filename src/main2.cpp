@@ -96,9 +96,9 @@ int main(int argc, char *argv[]) {
 			//lagSubgradient subgradient(instance);
 			//subgradient.run();
 			//Subgradient sub(instance);
-			//std::cout << "Time taken by optimization is : ";
-			//std::cout << std::fixed  << LAG1_OPTIMIZATION_TIME.getTimeInSecFromStart() << std::setprecision(9); 
-			//std::cout << " sec" << std::endl; 
+			std::cout << "Time taken by optimization is : ";
+			std::cout << std::fixed  << LAG1_OPTIMIZATION_TIME.getTimeInSecFromStart() << std::setprecision(9); 
+			std::cout << " sec" << std::endl; 
 			//SolverFactory factory;
 			//AbstractSolver *solver = factory.createSolver(instance);
 			//solver->solve();
