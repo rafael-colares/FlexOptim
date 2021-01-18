@@ -3,10 +3,11 @@
 #===============================================================================
 # exemples d'options
  
-#SBATCH --partition=normal    # choix de la partition où soumettre le job
-#SBATCH --nodelist=django     # choix du noeud
-#SBATCH --ntasks=1            # nombre processus
-#SBATCH --mem=8000            # mémoire nécessaire (par noeud) en Mo
+#SBATCH --partition=normal        # choix de la partition où soumettre le job
+#SBATCH --nodes=1
+#SBATCH -w, --nodelist=django     # choix du noeud
+#SBATCH --ntasks=1                # nombre processus
+#SBATCH --mem=8000                # mémoire nécessaire (par noeud) en Mo
  
 #===============================================================================
 #exécution du programme (remplacer exe par le nom du programme
