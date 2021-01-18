@@ -3,6 +3,8 @@
 
 #include "../../formulation/rsa.h"
 
+#include <lemon/bellman_ford.h>
+
 class AbstractLagFormulation: public RSA{
 
         protected:

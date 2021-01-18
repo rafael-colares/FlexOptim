@@ -29,10 +29,10 @@ void createFile(std::string parameterFile,std::string linkfile,std::string deman
     std::ofstream fichier(parameterFile.c_str());
     if (!fichier.fail()) {
         fichier << "******* Input File Paths *******" << std::endl;;
-        fichier << "topologyFile=" << linkfile <<" "<< std::endl;
-        fichier << "initialMappingDemandFile= " << std::endl;
-        fichier << "initialMappingAssignmentFile= " << std::endl;
-        fichier << "demandToBeRoutedFolder="<< demandfolder << " " << std::endl;
+        fichier << "topologyFile=" << linkfile <<""<< std::endl;
+        fichier << "initialMappingDemandFile=" << std::endl;
+        fichier << "initialMappingAssignmentFile=" << std::endl;
+        fichier << "demandToBeRoutedFolder="<< demandfolder << "" << std::endl;
         fichier << std::endl;
         fichier << "******* GNPY parameters *******" << std::endl;
         fichier << "GNPY_activation=0 "<< std::endl;
@@ -42,7 +42,8 @@ void createFile(std::string parameterFile,std::string linkfile,std::string deman
         fichier << "******* Formulation parameters *******" << std::endl;
         fichier << "nbDemandsAtOnce=" << nbdemands << " " << std::endl;
         fichier << "formulation=0 " << std::endl;
-        fichier << "obj=" <<obj<<" " << std::endl;
+        fichier << "userCuts=0 " << std::endl;
+        fichier << "obj=" <<obj<<"" << std::endl;
         fichier << "allowBlocking=0 " << std::endl;
         fichier << "hopPenalty=0 " << std::endl;
         fichier << "partitionPolicy=0 " << std::endl;
@@ -100,23 +101,23 @@ int main(int argc, char *argv[]) {
     /********************************************************************/
 	/* 						Instances to test 							*/
 	/********************************************************************/
-    int n = 10;
-    int m = 4;
-    std::string aux              = "../Parameters/MeusTestes/NSF/";
-    std::string aux2[m]          = {"10demands/","20demands/","30demands/","40demands/"};//,"50demands/","60demands/"};
-    std::string aux3[n]          = {"Demands1","Demands2","Demands3","Demands4","Demands5","Demands6","Demands7","Demands8","Demands9","Demands10"};
-    std::string linkfile         = "../Parameters/MeusTestes/NSF/Link.csv";
+    int n = 1;
+    int m = 1;
+    std::string aux              = "../Parameters/Instances/Benchmark/leipzig/spain_21nodes_35links/";//"../Parameters/Tests/NSF/";
+    std::string aux2[m]          = {"50demands/"};//{"10demands/","20demands/","30demands/","40demands/"};
+    std::string aux3[n]          = {"Demands"};//;{"Demands1","Demands2","Demands3","Demands4","Demands5","Demands6","Demands7","Demands8","Demands9","Demands10"};
+    std::string linkfile         = "../Parameters/Instances/Benchmark/leipzig/spain_21nodes_35links/50demands/Link.csv";//"../Parameters/Tests/NSF/Link.csv";
     std::string demandfolders[m][n];
     for(int i=0;i<m;i++){
         for(int j=0;j<n;j++){
             demandfolders[i][j] = aux + aux2[i] + aux3[j];
         }
     }
-    int numdemands[m] = {10,20,30,40};//,50,60};
+    int numdemands[m] = {50};//{10,20,30,40};
 
-    for(int i=3;i<m;i++){
+    for(int i=0;i<m;i++){
         /************************ File with the responses *************************/
-        std::string nom_fichier = aux + aux2[i] + "general-teste2-faltou.csv";
+        std::string nom_fichier = aux + aux2[i] + "general.csv";
         std::ofstream fichier(nom_fichier);
         
         fichier << "MIP-UB;MIP-LB;MIP-GAP;MIP-Time;;RELAX-OBJ;RELAX-Time;;";
@@ -146,7 +147,7 @@ int main(int argc, char *argv[]) {
         int lagMethod;
         int lagFormulation;
 
-        for(int j=5;j<6;j++){
+        for(int j=0;j<n;j++){
         
             rl = 0; lagMethod = 0; lagFormulation = 0;
             createFile(parameterFile,linkfile,demandfolders[i][j],numdemands[i],rl,lagMethod,lagFormulation,heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations);
