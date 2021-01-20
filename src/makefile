@@ -9,23 +9,23 @@ SYSTEM = x86-64_linux
 LIBFORMAT = static_pic
 
 CPLEXVERSION = CPLEX_Studio1210
-CPLEXDIR = /home/mariabazotte/opt/ibm/ILOG/$(CPLEXVERSION)/cplex
+CPLEXDIR = /opt/ibm/ILOG/$(CPLEXVERSION)/cplex
 CPLEXINCDIR = $(CPLEXDIR)/include/
 CPLEXLIBDIR = $(CPLEXDIR)/lib/$(SYSTEM)/$(LIBFORMAT)
 CPLEXLIBFLAGS = -L$(CPLEXLIBDIR) -lilocplex -lcplex 
 
 CONCERTVERSION = concert
-CONCERTDIR = /home/mariabazotte/opt/ibm/ILOG/$(CPLEXVERSION)/$(CONCERTVERSION)
+CONCERTDIR = /opt/ibm/ILOG/$(CPLEXVERSION)/$(CONCERTVERSION)
 CONCERTINCDIR = $(CONCERTDIR)/include/
 CONCERTLIBDIR = $(CONCERTDIR)/lib/$(SYSTEM)/$(LIBFORMAT)
 CONCERTLIBFLAGS = -L$(CONCERTLIBDIR) -lconcert -lm -lpthread -ldl
 
-LEMONINCDIR = /home/mariabazotte/lemon-1.3.1/include/
-LEMONLIBDIR = /home/mariabazotte/lemon-1.3.1/lib/
+LEMONINCDIR = /opt/lemon/include/
+LEMONLIBDIR = /opt/lemon/lib/
 LEMONINCFLAGS = -I$(LEMONINCDIR)
 LEMONLIBFLAGS = -L$(LEMONLIBDIR) -lemon
 
-BOOSTINCDIR = /home/mariabazotte/boost_1_71_0/
+BOOSTINCDIR = /mnt/c/soft/boost_1_71_0/
 BOOSTINCFLAGS = -I$(BOOSTINCDIR)
 
 OSIFLAGS = /opt/Cbc-2.9.9/Osi/
@@ -45,7 +45,7 @@ EXE = $(DRIVER)
 
 # CHANGEME: Here is the name of all object files corresponding to the source
 #           code that you wrote in order to define the problem statement
-OBJS = main3.o formulation/edgeNodeForm.o formulation/flowForm.o formulation/formulationComponents.o formulation/rsa.o solver/abstractSolver.o solver/solverCplex.o solver/callbackCplex.o solver/solverCBC.o tools/CSVReader.o topology/demand.o topology/input.o topology/instance.o topology/physicalLink.o topology/slice.o lagrangian/formulation/AbstractLagrangianFormulation.o lagrangian/formulation/lagFlow.o lagrangian/formulation/lagNonOverlap.o lagrangian/formulation/lagNonOverlapping.o lagrangian/solver/AbstractLagrangianSolver.o lagrangian/solver/lagSubgradient.o lagrangian/solver/lagVolume.o lagrangian/AbstractHeuristic.o lagrangian/shortestPathHeuristic.o
+OBJS = main.o formulation/edgeNodeForm.o formulation/flowForm.o formulation/formulationComponents.o formulation/rsa.o solver/abstractSolver.o solver/solverCplex.o solver/callbackCplex.o solver/solverCBC.o tools/CSVReader.o topology/demand.o topology/input.o topology/instance.o topology/physicalLink.o topology/slice.o lagrangian/formulation/AbstractLagrangianFormulation.o lagrangian/formulation/lagFlow.o lagrangian/formulation/lagNonOverlap.o lagrangian/formulation/lagNonOverlapping.o lagrangian/solver/AbstractLagrangianSolver.o lagrangian/solver/lagSubgradient.o lagrangian/solver/lagVolume.o lagrangian/AbstractHeuristic.o lagrangian/shortestPathHeuristic.o
 
 # extra object files that are required by some examples (we just link them into each one)
 EXTRAOBJS = \
