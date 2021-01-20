@@ -12,4 +12,4 @@
 #===============================================================================
 #exécution du programme (remplacer exe par le nom du programme
 # ou la ligne de commande à exécuter)
-./exe teste3.txt
+./exec teste3.txt
