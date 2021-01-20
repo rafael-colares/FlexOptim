@@ -5,7 +5,7 @@
  
 #SBATCH --partition=normal        # choix de la partition où soumettre le job
 #SBATCH --nodes=1
-#SBATCH -w, --nodelist=django     # choix du noeud
+#SBATCH --nodelist=node32     # choix du noeud
 #SBATCH --ntasks=1                # nombre processus
 #SBATCH --mem=8000                # mémoire nécessaire (par noeud) en Mo
  
