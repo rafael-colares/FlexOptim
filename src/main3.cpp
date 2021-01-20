@@ -101,8 +101,8 @@ int main(int argc, char *argv[]) {
     /********************************************************************/
 	/* 						Instances to test 							*/
 	/********************************************************************/
-    int n = 1;
-    int m = 1;
+    int n = 4;
+    int m = 4;
     std::string aux              = "../Parameters/Instances/Benchmark/leipzig/spain_21nodes_35links/";//"../Parameters/Tests/NSF/";
     std::string aux2[m]          = {"70demands/","80demands/","100demands/","120demands/"};//{"10demands/","20demands/","30demands/","40demands/"};
     std::string aux3[n]          = {"Demands1","Demands2","Demands3","Demands4"};//,"Demands5","Demands6","Demands7","Demands8","Demands9","Demands10"};
