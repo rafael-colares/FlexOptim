@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
     int n = 1;
     int m = 8;
 
-    std::string generalFolder              = "../Parameters/Tests/NSF/";
+    std::string generalFolder              = "../Parameters/Instances/Tests2/NSF/";
     std::string generalConf[m]             = {"50demands/","60demands/","70demands/","80demands/","150demands/","160demands/","170demands/","180demands/"};
     std::string generalInst[n]             = {"Demands1"};
 

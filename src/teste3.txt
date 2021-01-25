@@ -1,8 +1,8 @@
 ******* Input File Paths *******
-topologyFile=../Parameters/Tests/NSF/50demands/Link.csv
+topologyFile=../Parameters/Instances/Tests2/NSF/50demands/Link.csv
 initialMappingDemandFile=
 initialMappingAssignmentFile=
-demandToBeRoutedFolder=../Parameters/Tests/NSF/50demands/Demands1
+demandToBeRoutedFolder=../Parameters/Instances/Tests2/NSF/50demands/Demands1
 
 ******* GNPY parameters *******
 GNPY_activation=0 
