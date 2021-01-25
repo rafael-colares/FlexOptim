@@ -89,6 +89,11 @@ void SolverCplex::solve(){
     setLowerBound(cplex.getBestObjValue());
     setMipGap(cplex.getMIPRelativeGap()*100);
 	setTreeSize(cplex.getNnodes());
+
+    setAlgorithm(cplex.getAlgorithm());
+    //int root = cplex.getParam(IloCplex::RootAlg);
+    //int node = cplex.getParam(IloCplex::NodeAlg);
+    
     std::cout << "Optimization done in " << timeFinish - timeStart << " secs." << std::endl;
     if ((cplex.getStatus() == IloAlgorithm::Optimal) || (cplex.getStatus() == IloAlgorithm::Feasible)){    
         std::cout << "Status: " << cplex.getStatus() << std::endl;

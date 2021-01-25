@@ -96,6 +96,15 @@ int main(int argc, char *argv[]) {
 			//lagSubgradient subgradient(instance);
 			//subgradient.run();
 			//Subgradient sub(instance);
+			std::cout << solver->getGeneralTime().getTimeInSecFromStart() << std::endl;
+			
+			std::cout << solver->getSolvingSubProblemTime() << std::endl;
+			std::cout << solver->getFormulationConstTime() << std::endl;
+			std::cout << solver->getHeuristicConstTime() << std::endl;
+			std::cout << solver->getUpdatingMultipliersTime() << std::endl;
+			std::cout << solver->getUpdatingHeuristicBoundTime() << std::endl;
+			std::cout << solver->getUpdatingCostsTime() << std::endl;
+			
 			std::cout << "Time taken by optimization is : ";
 			std::cout << std::fixed  << LAG1_OPTIMIZATION_TIME.getTimeInSecFromStart() << std::setprecision(9); 
 			std::cout << " sec" << std::endl; 

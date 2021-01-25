@@ -6,6 +6,19 @@
 
 /* Sets the initial parameters for the subgradient to run. */
 void lagVolume::initialization(){
+    /** Setting initial time **/
+    setInitializationTime(0.0);
+    setConstAuxGraphTime(0.0);
+    setSolvingSubProblemTime(0.0);
+    setUpdatingSlackTime(0.0);
+    setUpdatingBoundsTime(0.0);
+    setHeuristicBoundTime(0.0);
+    setUpdatingMultipliersTime(0.0);
+    setUpdatingCostsTime(0.0);
+    setStoppingCriterionTime(0.0);
+    setUpdatingPrimalVariablesTime(0.0);
+
+    time.setStart(ClockTime::getTimeNow());
 
     setIteration(0);
     setGreenIt(false);
@@ -21,6 +34,10 @@ void lagVolume::initialization(){
 
     formulation->init();
     formulation->setStatus(RSA::STATUS_UNKNOWN);
+
+    setInitializationTime(time.getTimeInSecFromStart());
+
+    setConstAuxGraphTime(formulation->getConstAuxGraphTime()); 
 
     std::cout << "> Initialization is done. " << std::endl;
     //fichier << "> Initialization is done. " << std::endl;
@@ -44,33 +61,20 @@ void lagVolume::run(){
     while (!STOP){
         runIteration();
         if (formulation->getStatus() != RSA::STATUS_INFEASIBLE){
-            //displayMainParameters();
+            displayMainParameters(fichier);
 
             updateLambda();
             updateStepSize();
             
+            time.setStart(ClockTime::getTimeNow());
             formulation->updateMultiplier_v2(getStepSize());
+            incUpdatingMultipliersTime(time.getTimeInSecFromStart());
+
+            time.setStart(ClockTime::getTimeNow());
             formulation->updateCosts();
+            incUpdatingCostsTime(time.getTimeInSecFromStart());
 
-            if(getIteration()%100==0){
-                updateParamAlpha();
-            }
-            if(getIteration()==1){
-                formulation->initPrimalSolution();
-                previous_lb = getLB();
-            }else{
-                double alpha = getAlphaValue();
-                //std::cout << "alpha" << alpha << std::endl;
-                formulation->updatePrimalSolution(alpha);
-            }
-
-            //fichier << "\n\n> ******************** Iteration: " << getIteration() << " ********************"<< std::endl;
-            //formulation->displaySlack(fichier);
-            //formulation->displayMultiplier(fichier);
-            //formulation->displaySlack();
-            //formulation->displayMultiplier();
-
-
+            time.setStart(ClockTime::getTimeNow());
             if(getLB() >= getUB() - DBL_EPSILON){ 
                 formulation->setStatus(RSA::STATUS_OPTIMAL);
                 STOP = true;
@@ -87,16 +91,21 @@ void lagVolume::run(){
                 setStop("Small Module");
                 std::cout << "Small Module" << std::endl;
             }
-            //if((getIteration()!=1)&&(formulation->getPrimalObjective()-getLB())/getLB() < MIN_DIF_OBJ_VALUE){
-            //    std::cout<< "Primal OBj" <<formulation->getPrimalObjective() << std::endl;
+            //if((getIteration()>2)&&(std::abs(formulation->getPrimalObjective()-getLB())/getLB()) < MIN_DIF_OBJ_VALUE){
+            //    std::cout<< "Primal Obj " << formulation->getPrimalObjective() << std::endl;
+            //    std::cout<< "LB " << getLB() << std::endl;
             //    STOP = true;
             //    setStop("Small Objective Difference");
             //    std::cout << "Small Objective Difference" << std::endl;
             //}
+            incStoppingCriterionTime(time.getTimeInSecFromStart());
         }
         else{
             STOP = true;
             std::cout << "Infeasible" << std::endl;
+        }
+        if(STOP==true){
+            setTotalTime(getGeneralTime().getTimeInSecFromStart());
         }
     }
 
@@ -105,7 +114,34 @@ void lagVolume::run(){
 void lagVolume::runIteration(){ 
 
     incIteration();
-    formulation->run(); // using the current multiplier
+
+    /* Running sub problem */
+    time.setStart(ClockTime::getTimeNow());
+    formulation->run();
+    incSolvingSubProblemTime(time.getTimeInSecFromStart());
+
+    /* Updating primal solution */
+    time.setStart(ClockTime::getTimeNow());
+    if(getIteration()==1){
+        formulation->initPrimalSolution();
+    }else{
+        double alpha = getAlphaValue();         
+        formulation->updatePrimalSolution(alpha);
+    }
+    incUpdatingPrimalVariablesTime(time.getTimeInSecFromStart());
+
+    /* Updating slacks */
+    time.setStart(ClockTime::getTimeNow());
+    formulation->updateSlack();
+    formulation->updateSlack_v2();
+    formulation->updateDirection();
+    incUpdatingSlackTime(time.getTimeInSecFromStart());
+    
+    time.setStart(ClockTime::getTimeNow());
+    /* Updating feasibility */
+    if (formulation->checkFeasibility() == true){
+        formulation->setStatus(RSA::STATUS_FEASIBLE);
+    }
 
     /* Updating LOWER BOUND*/
     updateLB(formulation->getLagrCurrentCost());
@@ -117,12 +153,28 @@ void lagVolume::runIteration(){
             updateUB(feasibleSolutionCost);
         }
     }
+    incUpdatingBoundsTime(time.getTimeInSecFromStart());
+
+    time.setStart(ClockTime::getTimeNow());
     if(getIteration()==1 || getIteration()%30 ==0){
         heuristic->run();
         double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
         updateUB(feasibleSolutionCostHeur);
     }
-    
+    incHeuristicBoundTime(time.getTimeInSecFromStart());
+
+    if(getIteration()%100==0){
+        updateParamAlpha();
+    }
+    if(getIteration()==1){
+        previous_lb = getLB();
+    }
+
+    //fichier << "\n\n> ****** Iteration: " << getIteration() << " ******"<< std::endl;
+    //formulation->displaySlack(fichier);
+    //formulation->displayMultiplier(fichier);
+    //formulation->displaySlack();
+    //formulation->displayMultiplier();
 }
 
 /*************************************************************************/

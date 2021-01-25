@@ -3,6 +3,7 @@
 
 #include "../formulation/lagFormulationFactory.h"
 #include "../heuristicFactory.h"
+#include "../../tools/clockTime.h"
 
 /**********************************************************************************************
  * This is an abstract class modelling a Lagrangian solver. Derived classes need to specify how the 
@@ -30,8 +31,25 @@ class AbstractLagSolver{
         const double MIN_STEPSIZE;
 
         Status currentStatus;
+        ClockTime time;
+        ClockTime generalTime;
         AbstractLagFormulation *formulation;
         AbstractHeuristic *heuristic;
+
+        double formulationConstTime;
+        double heuristicConstTime;
+        double initializationTime;
+        double constAuxGraphTime;
+        double solvingSubProblemTime;
+        double updatingSlackTime;
+        double updatingBoundsTime;
+        double heuristicBoundTime;
+        double updatingMultipliersTime;
+        double updatingCostsTime;
+        double stoppingCriterionTime;
+        double updatingPrimalVariablesTime;
+
+        double totalTime;
 
         int iteration;
         int itWithoutImprovement;
@@ -69,6 +87,23 @@ class AbstractLagSolver{
 
         std::string getStop() const { return stop;}
 
+        ClockTime getGeneralTime() const { return generalTime;}
+
+        double getFormulationConstTime() const { return formulationConstTime; }
+        double getHeuristicConstTime() const { return heuristicConstTime; }
+        double getInitializationTime() const { return initializationTime; }
+        double getConstAuxGraphTime() const { return constAuxGraphTime; }
+        double getSolvingSubProblemTime() const { return solvingSubProblemTime;}
+        double getUpdatingSlackTime() const { return updatingSlackTime; }
+        double getUpdatingBoundsTime() const { return updatingBoundsTime; }
+        double getUpdatingHeuristicBoundTime() const { return heuristicBoundTime;}
+        double getUpdatingMultipliersTime() const{ return updatingMultipliersTime;}
+        double getUpdatingCostsTime() const { return updatingCostsTime;}
+        double getStoppingCriterionTime() const{ return stoppingCriterionTime;}
+        double getUpdatingPrimalVariablesTime() const { return updatingPrimalVariablesTime;}
+        double getTotalTime() const {return totalTime;}
+
+
         int getIteration() const { return iteration; }
         int getItWithoutImprovement() const { return itWithoutImprovement; }
 
@@ -86,6 +121,30 @@ class AbstractLagSolver{
         void setStatus(const Status &s){ currentStatus = s; }
 
         void setStop(std::string s){ stop = s;}
+
+        void setFormulationConstTime(double value)  { formulationConstTime = value; }
+        void setHeuristicConstTime(double value)  { heuristicConstTime = value; }
+        void setInitializationTime(double value)  { initializationTime = value; }
+        void setConstAuxGraphTime(double value) { constAuxGraphTime = value;}
+        void setSolvingSubProblemTime(double value) { solvingSubProblemTime = value;}
+        void incSolvingSubProblemTime(double value) { solvingSubProblemTime += value;}
+        void setUpdatingSlackTime(double value) {updatingSlackTime = value;}
+        void incUpdatingSlackTime(double value) {updatingSlackTime += value;}
+        void setUpdatingBoundsTime(double value) {updatingBoundsTime = value;}
+        void incUpdatingBoundsTime(double value) {updatingBoundsTime += value;}
+        void setHeuristicBoundTime(double value) {heuristicBoundTime = value;}
+        void incHeuristicBoundTime(double value) {heuristicBoundTime += value;}
+        void setUpdatingMultipliersTime(double value) {updatingMultipliersTime = value;}
+        void incUpdatingMultipliersTime(double value) {updatingMultipliersTime += value;}
+        void setUpdatingCostsTime(double value) {updatingCostsTime = value;}
+        void incUpdatingCostsTime(double value) {updatingCostsTime += value;}
+        void setStoppingCriterionTime(double value) {stoppingCriterionTime = value;}
+        void incStoppingCriterionTime(double value) {stoppingCriterionTime += value;}
+        void setUpdatingPrimalVariablesTime(double value) {updatingPrimalVariablesTime = value;}
+        void incUpdatingPrimalVariablesTime(double value) {updatingPrimalVariablesTime += value;}
+
+        void setTotalTime(double value) { totalTime = value;}
+
 
         void setIteration(int i) { iteration = i; }
         void setItWithoutImprovement(int i) { itWithoutImprovement = i; }
@@ -138,7 +197,9 @@ class AbstractLagSolver{
         /*					   Display 		    		*/
         /************************************************/
 
-        void displayMainParameters();
+        void displayMainParameters(std::ostream & = std::cout);
+
+        void displayResults(std::ostream & = std::cout);
 
         /************************************************/
         /*				   Destructors 		    		*/

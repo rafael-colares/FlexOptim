@@ -1,8 +1,8 @@
 ******* Input File Paths *******
-topologyFile=../Parameters/Instances/Benchmark/leipzig/spain_21nodes_35links/70demands/Link.csv
+topologyFile=../Parameters/Tests/NSF/50demands/Link.csv
 initialMappingDemandFile=
 initialMappingAssignmentFile=
-demandToBeRoutedFolder=../Parameters/Instances/Benchmark/leipzig/spain_21nodes_35links/70demands/Demands1
+demandToBeRoutedFolder=../Parameters/Tests/NSF/50demands/Demands1
 
 ******* GNPY parameters *******
 GNPY_activation=0 
@@ -10,7 +10,7 @@ GNPY_topologyFile=../oopt-gnpy/gnpy/example-data/spain_topo.json
 GNPY_equipmentFile=../oopt-gnpy/gnpy/example-data/spain_eqpt_config.json 
 
 ******* Formulation parameters *******
-nbDemandsAtOnce=70 
+nbDemandsAtOnce=50 
 formulation=0 
 userCuts=0 
 obj=1

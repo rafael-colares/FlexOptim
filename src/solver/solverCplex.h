@@ -19,6 +19,8 @@ private:
     IloNumVarArray var;				/**< The array of variables used in the MIP. **/
 	IloObjective obj;
 
+	IloCplex::Algorithm algo;       /**< Algorithm used by cplex to solve the problem. **/
+
 public:
 	/****************************************************************************************/
 	/*										Constructors									*/
@@ -32,11 +34,11 @@ public:
 	/****************************************************************************************/
 	IloCplex getCplex(){ return cplex; }
 
-	
-
 	AbstractSolver::Status getStatus() override;
 
 	std::vector<double> getSolution() override;
+
+	IloCplex::Algorithm getAlgorithm() const {return algo;}
 	/****************************************************************************************/
 	/*										Setters											*/
 	/****************************************************************************************/
@@ -52,6 +54,8 @@ public:
 
 	/** Defines the cplex optimization parameters. **/
 	void setCplexParams(const Input &input);
+
+	void setAlgorithm(const IloCplex::Algorithm &a) { algo = a;}
 	/****************************************************************************************/
 	/*										Methods											*/
 	/****************************************************************************************/

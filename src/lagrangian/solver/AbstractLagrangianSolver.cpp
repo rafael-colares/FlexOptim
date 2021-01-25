@@ -7,16 +7,27 @@
 
 AbstractLagSolver::AbstractLagSolver(const Instance &inst, const Status &s): MAX_NB_IT_WITHOUT_IMPROVEMENT(inst.getInput().getNbIterationsWithoutImprovement()), 
         MAX_NB_IT(inst.getInput().getMaxNbIterations()), INITIAL_STEPSIZE(inst.getInput().getInitialLagrangianLambda()),
-        MIN_STEPSIZE(0.00001),currentStatus(s){
+        MIN_STEPSIZE(0.00001),currentStatus(s),time(ClockTime::getTimeNow()),generalTime(ClockTime::getTimeNow()){
 
     lagFormulationFactory factory;
     formulation = factory.createFormulation(inst);
 
+    formulationConstTime = time.getTimeInSecFromStart();
+    time.setStart(ClockTime::getTimeNow());
+
     heuristicFactory factoryHeuristic;
     heuristic = factoryHeuristic.createHeuristic(formulation,inst);
 
-    std::string nom = "sortie.txt";
-    std::string nom2 = "sortie2.txt";
+    heuristicConstTime = time.getTimeInSecFromStart();
+
+    Input::LagFormulation formu = inst.getInput().getChosenLagFormulation();
+    Input::LagMethod method = inst.getInput().getChosenLagMethod();
+
+    int demands = formulation->getNbDemandsToBeRouted();
+
+    std::string nom = "demands" + std::to_string(demands)+ "_method" + std::to_string(method) + "_formulation" + std::to_string(formu)+  "_sortie.txt";
+    std::string nom2 =  "demands" + std::to_string(demands)+ "_method" + std::to_string(method) + "_formulation" + std::to_string(formu)+ "_sortie2.txt";
+    std::cout << nom << std::endl;
     fichier.open(nom.c_str());
     fichier2.open(nom2.c_str());
 }
@@ -54,10 +65,10 @@ void AbstractLagSolver::updateUB(double bound){
 /*										DISPLAY  									*/
 /****************************************************************************************/
 
-void AbstractLagSolver::displayMainParameters(){
+void AbstractLagSolver::displayMainParameters(std::ostream & sortie){
     int k = getIteration();
     std::vector<int> sizeOfField;
-    sizeOfField.resize(9);
+    sizeOfField.resize(10);
     sizeOfField[0] = 5;
     sizeOfField[1] = 8;
     sizeOfField[2] = 10;
@@ -67,11 +78,11 @@ void AbstractLagSolver::displayMainParameters(){
     sizeOfField[6] = 6;
     sizeOfField[7] = 8;
     sizeOfField[8] = 11;
-    //sizeOfField[9] = 12;
+    sizeOfField[9] = 9;
     char space = ' ';
 
     std::vector<std::string> field;
-    field.resize(9);
+    field.resize(10);
     if (k == 1){
         field[0] = "Iter";
         field[1] = "Wout Impr";
@@ -82,14 +93,13 @@ void AbstractLagSolver::displayMainParameters(){
         field[6] = "Step";
         field[7] = "Lambda";
         field[8] = "Feasibility";
+        field[9] = "Time";
         
         for (unsigned int i = 0; i < field.size(); i++){
             field[i].resize(sizeOfField[i], space);
-            std::cout << field[i] << " | ";
-            fichier2 << field[i] << " | ";
+            sortie << field[i] << " | ";
         }
-        fichier2 << std::endl;;
-        std::cout << std::endl;
+        sortie << std::endl;;
     }
     field[0] = std::to_string(k);
     field[1] = std::to_string(getItWithoutImprovement());
@@ -106,16 +116,43 @@ void AbstractLagSolver::displayMainParameters(){
     else{
         field[8] = "NO";
     }
+
+    field[9] = std::to_string(generalTime.getTimeInSecFromStart());
     
     for (unsigned int i = 0; i < field.size(); i++){
         field[i].resize(sizeOfField[i], space);
-        std::cout << field[i] << " | ";
-        fichier2 << field[i] << " | ";
+        sortie << field[i] << " | ";
 
     }
-    fichier2 << std::endl;
-    std::cout << std::endl;
-   // displayMultiplier();
+    sortie << std::endl;
+}
+
+void AbstractLagSolver::displayResults(std::ostream & sortie){
+    
+    std::string delimiter = ";";
+
+    sortie << getUB() << delimiter;
+    sortie << getLB() << delimiter;
+    sortie << getIteration() << delimiter;
+    sortie << getLambda() << delimiter;
+    sortie << getStepSize() << delimiter;
+    sortie << getStop() << delimiter;
+    sortie << getTotalTime() << delimiter << delimiter;
+
+    sortie << getFormulationConstTime() << delimiter;
+    sortie << getHeuristicConstTime() << delimiter;
+    sortie << getInitializationTime() << delimiter;
+    sortie << getConstAuxGraphTime() << delimiter;
+    sortie << getSolvingSubProblemTime() << delimiter;
+    sortie << getUpdatingSlackTime() << delimiter;
+    sortie << getUpdatingBoundsTime() << delimiter;
+    sortie << getUpdatingHeuristicBoundTime() << delimiter;
+    sortie << getUpdatingMultipliersTime() << delimiter;
+    sortie << getUpdatingCostsTime() << delimiter;
+    sortie << getStoppingCriterionTime() << delimiter;
+    sortie << getUpdatingPrimalVariablesTime() << delimiter;
+    sortie << std::endl;
+
 }
 
 /****************************************************************************************/
