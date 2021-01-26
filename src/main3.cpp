@@ -145,7 +145,7 @@ int main(int argc, char *argv[]) {
 
     for(int i=0;i<m;i++){
         /************************ File with the responses *************************/
-        std::string nom_fichier = generalFolder + generalConf[i] + "general.csv";
+        std::string nom_fichier = generalFolder + generalConf[i] + "obj"+ std::to_string(obj) +"_general.csv";
         std::ofstream fichier(nom_fichier);
         std::string delimiter = ";";
         
