@@ -81,7 +81,8 @@ public:
 	/** Enumerates all possible Lagrangian formulations to be applied **/
 	enum LagFormulation{
 		LAG_FLOW = 0,           /**< Uses the Lagrangian Flow formulation. **/
-		LAG_OVERLAP = 1,        /**< Uses the Lagrangian Overlap formulation. **/
+		LAG_OVERLAPPING = 1,    /**< Uses the Lagrangian Overlapping formulation. **/
+		LAG_OVERLAP = 2,        /**< Uses the Lagrangian Overlap formulation. **/
 	};
 
 	/** Enumerates all possible Heuristics to be applied **/

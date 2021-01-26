@@ -3,13 +3,13 @@
 #===============================================================================
 # exemples d'options
  
-#SBATCH --partition=court        # choix de la partition où soumettre le job
+#SBATCH --partition=normal        # choix de la partition où soumettre le job
 #SBATCH --nodes=1
-#SBATCH --nodelist=kephren        # choix du noeud
+#SBATCH --nodelist=node22        # choix du noeud
 #SBATCH --ntasks=1                # nombre processus
-#SBATCH --mem=8000                # mémoire nécessaire (par noeud) en Mo
+#SBATCH --mem=20000                # mémoire nécessaire (par noeud) en Mo
  
 #===============================================================================
 #exécution du programme (remplacer exe par le nom du programme
 # ou la ligne de commande à exécuter)
-./exec teste3.txt
+./exec teste3.txt 2

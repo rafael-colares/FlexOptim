@@ -21,6 +21,11 @@ class lagFormulationFactory{
                     break;
                 }
                 case Input::LAG_OVERLAP:{
+                    return new lagNonOverlap(instance);
+                    break;
+                }
+
+                case Input::LAG_OVERLAPPING:{
                     return new lagNonOverlapping(instance);
                     break;
                 }

@@ -23,10 +23,12 @@ AbstractLagSolver::AbstractLagSolver(const Instance &inst, const Status &s): MAX
     Input::LagFormulation formu = inst.getInput().getChosenLagFormulation();
     Input::LagMethod method = inst.getInput().getChosenLagMethod();
 
+    Input::ObjectiveMetric obj = inst.getInput().getChosenObj_k(0);
+
     int demands = formulation->getNbDemandsToBeRouted();
 
-    std::string nom = "demands" + std::to_string(demands)+ "_method" + std::to_string(method) + "_formulation" + std::to_string(formu)+  "_sortie.txt";
-    std::string nom2 =  "demands" + std::to_string(demands)+ "_method" + std::to_string(method) + "_formulation" + std::to_string(formu)+ "_sortie2.txt";
+    std::string nom = "outputs/obj" + std::to_string(obj) + "_demands" + std::to_string(demands)+ "_method" + std::to_string(method) + "_formulation" + std::to_string(formu)+  "_sortie.txt";
+    std::string nom2 =  "outputs/obj" + std::to_string(obj) +"_demands" + std::to_string(demands)+ "_method" + std::to_string(method) + "_formulation" + std::to_string(formu)+ "_sortie2.txt";
     std::cout << nom << std::endl;
     fichier.open(nom.c_str());
     fichier2.open(nom2.c_str());

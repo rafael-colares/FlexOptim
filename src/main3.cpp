@@ -21,9 +21,8 @@ ILOSTLBEGIN
 
 using namespace lemon;
 
-void createFile(std::string parameterFile,std::string linkfile,std::string demandfolder,int nbdemands,int rl,int lagMethod,int lagFormulation,int heuristic,int projection,int warmstart,int alternativeStop,int directionMethod,double crowderParam,double carmeriniParam,double lagrangianLambda_zero,int nbIterationsWithoutImprovement, int maxNbIterations){
+void createFile(std::string parameterFile,std::string linkfile,std::string demandfolder,int nbdemands,int rl,int lagMethod,int lagFormulation,int heuristic,int projection,int warmstart,int alternativeStop,int directionMethod,double crowderParam,double carmeriniParam,double lagrangianLambda_zero,int nbIterationsWithoutImprovement, int maxNbIterations,int obj){
 
-    int obj = 1;
     double lagrangianMultiplier_zero = 0.0;
 
     std::ofstream fichier(parameterFile.c_str());
@@ -43,7 +42,7 @@ void createFile(std::string parameterFile,std::string linkfile,std::string deman
         fichier << "nbDemandsAtOnce=" << nbdemands << " " << std::endl;
         fichier << "formulation=0 " << std::endl;
         fichier << "userCuts=0 " << std::endl;
-        fichier << "obj=" <<obj<<"" << std::endl;
+        fichier << "obj=" << obj<<"" << std::endl;
         fichier << "allowBlocking=0 " << std::endl;
         fichier << "hopPenalty=0 " << std::endl;
         fichier << "partitionPolicy=0 " << std::endl;
@@ -98,15 +97,17 @@ int main(int argc, char *argv[]) {
 	}
 	std::cout << "PARAMETER FILE: " << parameterFile << std::endl;
 
+    int obj = atoi(argv[2]);
+
     /********************************************************************/
 	/* 						Instances to test 							*/
 	/********************************************************************/
     int n = 1;
-    int m = 8;
+    int m = 4;
 
     std::string generalFolder              = "../Parameters/Instances/Tests2/NSF/";
-    std::string generalConf[m]             = {"50demands/","60demands/","70demands/","80demands/","150demands/","160demands/","170demands/","180demands/"};
-    std::string generalInst[n]             = {"Demands1"};
+    std::string generalConf[4]             = {"50demands/","60demands/","70demands/","80demands/"};
+    std::string generalInst[1]             = {"Demands1"};
 
     std::string linkfile[m];         
     std::string demandfolders[m][n];
@@ -119,7 +120,7 @@ int main(int argc, char *argv[]) {
             demandfolders[i][j] = generalFolder + generalConf[i] + generalInst[j];
     }
 
-    int numdemands[m] = {50,60,70,80,150,160,170,180};
+    int numdemands[4] = {50,60,70,80};
 
     /************************  Parameters *************************/
     // We always use the shortest path heuristic
@@ -141,6 +142,7 @@ int main(int argc, char *argv[]) {
     int lagMethod;
     int lagFormulation;
 
+
     for(int i=0;i<m;i++){
         /************************ File with the responses *************************/
         std::string nom_fichier = generalFolder + generalConf[i] + "general.csv";
@@ -152,7 +154,7 @@ int main(int argc, char *argv[]) {
         for(int j=0;j<n;j++){
 
             rl = 0; lagMethod = 0; lagFormulation = 0;
-            createFile(parameterFile,linkfile[i],demandfolders[i][j],numdemands[i],rl,lagMethod,lagFormulation,heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations);
+            createFile(parameterFile,linkfile[i],demandfolders[i][j],numdemands[i],rl,lagMethod,lagFormulation,heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj);
             Input input(parameterFile);
 
             std::cout << "--- READING INSTANCE... --- " << std::endl;
@@ -183,7 +185,7 @@ int main(int argc, char *argv[]) {
         for(int j=0;j<n;j++){
 
             rl = 1; lagMethod = 0; lagFormulation = 0;
-            createFile(parameterFile,linkfile[i],demandfolders[i][j],numdemands[i],rl,lagMethod,lagFormulation,heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations);
+            createFile(parameterFile,linkfile[i],demandfolders[i][j],numdemands[i],rl,lagMethod,lagFormulation,heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj);
             Input input2(parameterFile);
 
             std::cout << "--- READING INSTANCE... --- " << std::endl;
@@ -216,7 +218,7 @@ int main(int argc, char *argv[]) {
         for(int j=0;j<n;j++){
 
             rl = 0; lagMethod = 0; lagFormulation = 0; maxNbIterations = 150;
-            createFile(parameterFile,linkfile[i],demandfolders[i][j],numdemands[i],rl,lagMethod,lagFormulation,heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations);
+            createFile(parameterFile,linkfile[i],demandfolders[i][j],numdemands[i],rl,lagMethod,lagFormulation,heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj);
             Input input3(parameterFile);
 
             std::cout << "--- READING INSTANCE... --- " << std::endl;
@@ -238,7 +240,7 @@ int main(int argc, char *argv[]) {
         }
 
         fichier << std::endl << std::endl;
-        fichier << "Subgradient with overlap formulation" << std::endl << std::endl;
+        fichier << "Subgradient with overlapping formulation" << std::endl << std::endl;
         fichier << "UB;LB;Iterations;Lambda;Step size;Stop Criterion;Total Time;;";
         fichier << "Formulation Construction;Heuristic Construction;Initialization;Auxiliar graph construction;" ;
         fichier <<"Solving sub problem;Updating Slack;Updating Bounds;Updating heuristic bound;Updating Multipliers;";
@@ -247,7 +249,7 @@ int main(int argc, char *argv[]) {
         for(int j=0;j<n;j++){
 
             rl = 0; lagMethod = 0; lagFormulation = 1; maxNbIterations = 300;
-            createFile(parameterFile,linkfile[i],demandfolders[i][j],numdemands[i],rl,lagMethod,lagFormulation,heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations);
+            createFile(parameterFile,linkfile[i],demandfolders[i][j],numdemands[i],rl,lagMethod,lagFormulation,heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj);
             Input input4(parameterFile);
 
             std::cout << "--- READING INSTANCE... --- " << std::endl;
@@ -265,6 +267,38 @@ int main(int argc, char *argv[]) {
             AbstractLagSolver *lagsolver2 = lagfactory2.createSolver(instance4);
             lagsolver2->run();
             lagsolver2->displayResults(fichier);
+            std::cout << "subgradient non overlapping completed "<<std::endl;
+
+        }
+
+        fichier << std::endl << std::endl;
+        fichier << "Subgradient with overlap formulation" << std::endl << std::endl;
+        fichier << "UB;LB;Iterations;Lambda;Step size;Stop Criterion;Total Time;;";
+        fichier << "Formulation Construction;Heuristic Construction;Initialization;Auxiliar graph construction;" ;
+        fichier <<"Solving sub problem;Updating Slack;Updating Bounds;Updating heuristic bound;Updating Multipliers;";
+        fichier << "Updating Costs;Updating Stopping Criterion;Updating Primal Variables;"<< std::endl;
+
+        for(int j=0;j<n;j++){
+
+            rl = 0; lagMethod = 0; lagFormulation = 2; maxNbIterations = 300;
+            createFile(parameterFile,linkfile[i],demandfolders[i][j],numdemands[i],rl,lagMethod,lagFormulation,heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj);
+            Input input_aux(parameterFile);
+
+            std::cout << "--- READING INSTANCE... --- " << std::endl;
+            Instance instance_aux(input_aux);
+		
+            std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
+            std::string nextFile_aux = instance_aux.getInput().getDemandToBeRoutedFilesFromIndex(0);
+            instance_aux.generateDemandsFromFile(nextFile_aux);
+
+            /********************************************************************/
+            /* 		Solve - SUBGRADIENT LAGNONOVERLAP FORMULATION      	 		*/
+            /********************************************************************/
+            std::cout << "Solving with subgradient non overlap formualtion" << std::endl;
+            lagSolverFactory lagfactory_aux;
+            AbstractLagSolver *lagsolver_aux = lagfactory_aux.createSolver(instance_aux);
+            lagsolver_aux->run();
+            lagsolver_aux->displayResults(fichier);
             std::cout << "subgradient non overlap completed "<<std::endl;
 
         }
@@ -279,7 +313,7 @@ int main(int argc, char *argv[]) {
         for(int j=0;j<n;j++){
 
             rl = 0; lagMethod = 1; lagFormulation = 0; maxNbIterations = 150;
-            createFile(parameterFile,linkfile[i],demandfolders[i][j],numdemands[i],rl,lagMethod,lagFormulation,heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations);
+            createFile(parameterFile,linkfile[i],demandfolders[i][j],numdemands[i],rl,lagMethod,lagFormulation,heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj);
             Input input5(parameterFile);
 
             std::cout << "--- READING INSTANCE... --- " << std::endl;
@@ -301,16 +335,16 @@ int main(int argc, char *argv[]) {
         }
 
         fichier << std::endl << std::endl;
-        fichier << "Volume with overlap formulation" << std::endl << std::endl;
+        fichier << "Volume with overlapping formulation" << std::endl << std::endl;
         fichier << "UB;LB;Iterations;Lambda;Step size;Stop Criterion;Total Time;;";
         fichier << "Formulation Construction;Heuristic Construction;Initialization;Auxiliar graph construction;" ;
         fichier <<"Solving sub problem;Updating Slack;Updating Bounds;Updating heuristic bound;Updating Multipliers;";
         fichier << "Updating Costs;Updating Stopping Criterion;Updating Primal Variables;"<< std::endl;
 
-       
+        
         for(int j=0;j<n;j++){
             rl = 0; lagMethod = 1; lagFormulation = 1; maxNbIterations = 300;
-            createFile(parameterFile,linkfile[i],demandfolders[i][j],numdemands[i],rl,lagMethod,lagFormulation,heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations);
+            createFile(parameterFile,linkfile[i],demandfolders[i][j],numdemands[i],rl,lagMethod,lagFormulation,heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj);
             Input input6(parameterFile);
 
             std::cout << "--- READING INSTANCE... --- " << std::endl;
@@ -328,8 +362,40 @@ int main(int argc, char *argv[]) {
             AbstractLagSolver *lagsolver4 = lagfactory4.createSolver(instance6);
             lagsolver4->run();
             lagsolver4->displayResults(fichier);
+            std::cout << "Solving with volume non overlapping completed "<< std::endl; 
+        } 
+
+        fichier << std::endl << std::endl;
+        fichier << "Volume with overlap formulation" << std::endl << std::endl;
+        fichier << "UB;LB;Iterations;Lambda;Step size;Stop Criterion;Total Time;;";
+        fichier << "Formulation Construction;Heuristic Construction;Initialization;Auxiliar graph construction;" ;
+        fichier <<"Solving sub problem;Updating Slack;Updating Bounds;Updating heuristic bound;Updating Multipliers;";
+        fichier << "Updating Costs;Updating Stopping Criterion;Updating Primal Variables;"<< std::endl;
+
+        
+        for(int j=0;j<n;j++){
+            rl = 0; lagMethod = 1; lagFormulation = 2; maxNbIterations = 300;
+            createFile(parameterFile,linkfile[i],demandfolders[i][j],numdemands[i],rl,lagMethod,lagFormulation,heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj);
+            Input input_aux2(parameterFile);
+
+            std::cout << "--- READING INSTANCE... --- " << std::endl;
+            Instance instance_aux2(input_aux2);
+            
+            std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
+            std::string nextFile_aux2 = instance_aux2.getInput().getDemandToBeRoutedFilesFromIndex(0);
+            instance_aux2.generateDemandsFromFile(nextFile_aux2);
+
+            /********************************************************************/
+            /* 		Solve - VOLUME LAGNONOVERLAP FORMULATION      	 		*/
+            /********************************************************************/
+            std::cout << "Solving with volume non overlap formualtion" << std::endl;
+            lagSolverFactory lagfactory_aux2;
+            AbstractLagSolver *lagsolver_aux2 = lagfactory_aux2.createSolver(instance_aux2);
+            lagsolver_aux2->run();
+            lagsolver_aux2->displayResults(fichier);
             std::cout << "Solving with volume non overlap completed "<< std::endl; 
-        }    
+        } 
+
         fichier << std::endl;
         fichier.close();
     }

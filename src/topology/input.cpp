@@ -385,7 +385,7 @@ Input::LagMethod Input::to_LagMethod(std::string data){
             break;
         }
         default:
-            std::cout << "ERROR: Invalid MIP_SOLVER." << std::endl;
+            std::cout << "ERROR: Invalid LAG_METHOD." << std::endl;
             exit(0);
             break;
         }
@@ -408,12 +408,17 @@ Input::LagFormulation Input::to_LagFormulation(std::string data){
             break;
         }
         case 1: {
+            policy = LAG_OVERLAPPING;
+            return policy;
+            break;
+        }
+        case 2: {
             policy = LAG_OVERLAP;
             return policy;
             break;
         }
         default:
-            std::cout << "ERROR: Invalid MIP_SOLVER." << std::endl;
+            std::cout << "ERROR: Invalid LAG_FORMULATION." << std::endl;
             exit(0);
             break;
         }
@@ -441,7 +446,7 @@ Input::Heuristic Input::to_Heuristic(std::string data){
             break;
         }
         default:
-            std::cout << "ERROR: Invalid MIP_SOLVER." << std::endl;
+            std::cout << "ERROR: Invalid HEURISTIC." << std::endl;
             exit(0);
             break;
         }
@@ -513,7 +518,7 @@ Input::ProjectionType Input::to_ProjectionType(std::string data){
             break;
         }
         default:
-            std::cout << "ERROR: Invalid DIRECTION_METHOD." << std::endl;
+            std::cout << "ERROR: Invalid PROJECTION_METHOD." << std::endl;
             exit(0);
             break;
         }
