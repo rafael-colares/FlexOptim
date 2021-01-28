@@ -630,6 +630,47 @@ class AbstractLagFormulation: public RSA{
                 ******************************************************************************* */
                 virtual ~AbstractLagFormulation(){
                         primal_linear_solution.clear();
+
+                        lagrangianMultiplierLength.clear();
+                        lagrangianMultiplierSourceTarget.clear();
+                        lagrangianMultiplierFlow.clear();
+                        lagrangianMultiplierOverlap.clear();
+                        lagrangianMultiplierMaxUsedSliceOverall.clear();
+                        lagrangianMultiplierMaxUsedSliceOverall2.clear();
+                        lagrangianMultiplierMaxUsedSliceOverall3.clear();
+
+                        lengthSlack.clear();
+                        sourceTargetSlack.clear();
+                        flowSlack.clear();
+                        overlapSlack.clear();
+                        maxUsedSliceOverallSlack.clear();
+                        maxUsedSliceOverallSlack2.clear();
+                        maxUsedSliceOverallSlack3.clear();
+
+                        lengthSlack_v2.clear();
+                        sourceTargetSlack_v2.clear();
+                        flowSlack_v2.clear();
+                        overlapSlack_v2.clear();
+                        maxUsedSliceOverallSlack_v2.clear();
+                        maxUsedSliceOverallSlack2_v2.clear();
+                        maxUsedSliceOverallSlack3_v2.clear();
+
+                        lagrangianSCLength.clear();
+                        lagrangianSCSourceTarget.clear();
+                        lagrangianSCFlow.clear();
+                        lagrangianSCOverlap.clear();
+                        lagrangianSCMaxUsedSliceOverall.clear();
+                        lagrangianSCMaxUsedSliceOverall2.clear();
+                        lagrangianSCMaxUsedSliceOverall3.clear();
+
+                        lengthDirection.clear();
+                        sourceTargetDirection.clear();
+                        flowDirection.clear();
+                        overlapDirection.clear();
+                        maxUsedSliceOverallDirection.clear();
+                        maxUsedSliceOverall2Direction.clear();
+                        maxUsedSliceOverall3Direction.clear();
+
                         assignmentMatrix_d.clear();
                 }
 

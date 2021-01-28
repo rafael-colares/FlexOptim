@@ -766,6 +766,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverallSlack(){
             if (getToBeRouted_k(d).getSource() == getNodeLabel((*vecGraph[d]).source(a), d)){
                 int indexArc = getArcIndex(a, d);
                 exp += assignmentMatrix_d[d][indexArc]*getArcSlice(a, d);
+                //exp += assignmentMatrix_d[d][indexArc]*getArcSlice(a, d)/getInstance().getMaxSlice();
             }
         }
         maxUsedSliceOverallSlack[d] = 0 + maxUsedSliceOverall - exp;
@@ -783,6 +784,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverall2Slack(){
                     if ((getArcLabel(a, d) == e) && (getArcSlice(a, d) >= s) && (getArcSlice(a, d) <= s + demandLoad - 1)){
                         int indexArc = getArcIndex(a, d);
                         exp += assignmentMatrix_d[d][indexArc]*getArcSlice(a, d);
+                        //exp += assignmentMatrix_d[d][indexArc]*getArcSlice(a, d)/getInstance().getMaxSlice();
                     }
                 }
             }
@@ -813,6 +815,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverall3Slack(){
                             if ( (getArcSlice(a, d) >= s) && (getArcSlice(a, d) <= s + demandLoad - 1) ){
                                 int indexArc = getArcIndex(a, d);
                                 exp += assignmentMatrix_d[d][indexArc]*getArcSlice(a, d);
+                                //exp += assignmentMatrix_d[d][indexArc]*getArcSlice(a, d)/getInstance().getMaxSlice();
                             }
                         }
                     }
@@ -919,6 +922,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverallSlack_v2(){
             if (getToBeRouted_k(d).getSource() == getNodeLabel((*vecGraph[d]).source(a), d)){
                 int indexArc = getArcIndex(a, d);
                 exp += primal_linear_solution[d][indexArc]*getArcSlice(a, d);
+                //exp += primal_linear_solution[d][indexArc]*getArcSlice(a, d)/getInstance().getMaxSlice();
             }
         }
         maxUsedSliceOverallSlack_v2[d] = 0 + maxUsedSliceOverall - exp;
@@ -936,6 +940,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverall2Slack_v2(){
                     if ((getArcLabel(a, d) == e) && (getArcSlice(a, d) >= s) && (getArcSlice(a, d) <= s + demandLoad - 1)){
                         int indexArc = getArcIndex(a, d);
                         exp += primal_linear_solution[d][indexArc]*getArcSlice(a, d);
+                        //exp += primal_linear_solution[d][indexArc]*getArcSlice(a, d)/getInstance().getMaxSlice();
                     }
                 }
             }
@@ -966,6 +971,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverall3Slack_v2(){
                             if ( (getArcSlice(a, d) >= s) && (getArcSlice(a, d) <= s + demandLoad - 1) ){
                                 int indexArc = getArcIndex(a, d);
                                 exp += primal_linear_solution[d][indexArc]*getArcSlice(a, d);
+                                //exp += primal_linear_solution[d][indexArc]*getArcSlice(a, d)/getInstance().getMaxSlice();
                             }
                         }
                     }

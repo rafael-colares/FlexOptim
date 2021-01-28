@@ -164,4 +164,6 @@ void AbstractLagSolver::displayResults(std::ostream & sortie){
 AbstractLagSolver::~AbstractLagSolver(){
     fichier.close();
     fichier2.close();
+    delete heuristic;
+    delete formulation;
 }

@@ -106,8 +106,8 @@ int main(int argc, char *argv[]) {
     int m = 4;
 
     std::string generalFolder              = "../Parameters/Instances/Tests2/NSF/";
-    std::string generalConf[4]             = {"50demands/","60demands/","70demands/","80demands/"};
-    std::string generalInst[1]             = {"Demands1"};
+    std::string generalConf[4]             = {"10demands/","20demands/","30demands/","40demands/"};
+    std::string generalInst[1]             = {"Demands2"};
 
     std::string linkfile[m];         
     std::string demandfolders[m][n];
@@ -120,7 +120,7 @@ int main(int argc, char *argv[]) {
             demandfolders[i][j] = generalFolder + generalConf[i] + generalInst[j];
     }
 
-    int numdemands[4] = {50,60,70,80};
+    int numdemands[4] = {10,20,30,40};
 
     /************************  Parameters *************************/
     // We always use the shortest path heuristic
@@ -177,6 +177,8 @@ int main(int argc, char *argv[]) {
             fichier << solver->getTreeSize() << delimiter;
             fichier << solver->getDurationTime() << delimiter << std::endl;
             std::cout << "Mip-Cplex completed" << std::endl;
+
+            delete solver;
         }
 
         fichier << std::endl << std::endl;
@@ -206,6 +208,8 @@ int main(int argc, char *argv[]) {
             fichier << solver2->getDurationTime() << delimiter;
             fichier << ((SolverCplex*)solver2)->getAlgorithm() << delimiter << std::endl;
             std::cout << "RELAX-Cplex completed "<< std::endl;
+
+            delete solver2;
         }
 
         fichier << std::endl << std::endl;
@@ -237,6 +241,8 @@ int main(int argc, char *argv[]) {
             lagsolver->run();
             lagsolver->displayResults(fichier);
             std::cout << "Subgradient flow formulation completed "<< std::endl;
+
+            delete lagfactory;
         }
 
         fichier << std::endl << std::endl;
@@ -269,9 +275,11 @@ int main(int argc, char *argv[]) {
             lagsolver2->displayResults(fichier);
             std::cout << "subgradient non overlapping completed "<<std::endl;
 
+            delete lagsolver2;
+
         }
 
-        fichier << std::endl << std::endl;
+        /*fichier << std::endl << std::endl;
         fichier << "Subgradient with overlap formulation" << std::endl << std::endl;
         fichier << "UB;LB;Iterations;Lambda;Step size;Stop Criterion;Total Time;;";
         fichier << "Formulation Construction;Heuristic Construction;Initialization;Auxiliar graph construction;" ;
@@ -290,18 +298,18 @@ int main(int argc, char *argv[]) {
             std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
             std::string nextFile_aux = instance_aux.getInput().getDemandToBeRoutedFilesFromIndex(0);
             instance_aux.generateDemandsFromFile(nextFile_aux);
-
+            */
             /********************************************************************/
             /* 		Solve - SUBGRADIENT LAGNONOVERLAP FORMULATION      	 		*/
             /********************************************************************/
-            std::cout << "Solving with subgradient non overlap formualtion" << std::endl;
+            /*std::cout << "Solving with subgradient non overlap formualtion" << std::endl;
             lagSolverFactory lagfactory_aux;
             AbstractLagSolver *lagsolver_aux = lagfactory_aux.createSolver(instance_aux);
             lagsolver_aux->run();
             lagsolver_aux->displayResults(fichier);
             std::cout << "subgradient non overlap completed "<<std::endl;
 
-        }
+        }*/
 
         fichier << std::endl << std::endl;
         fichier << "Volume with flow formulation" << std::endl << std::endl;
@@ -332,6 +340,8 @@ int main(int argc, char *argv[]) {
             lagsolver3->run();
             lagsolver3->displayResults(fichier);
             std::cout << "Solving with volume and flow completed " << std::endl; 
+
+            delete lagsolver3;
         }
 
         fichier << std::endl << std::endl;
@@ -363,9 +373,11 @@ int main(int argc, char *argv[]) {
             lagsolver4->run();
             lagsolver4->displayResults(fichier);
             std::cout << "Solving with volume non overlapping completed "<< std::endl; 
+
+            delete lagsolver4;
         } 
 
-        fichier << std::endl << std::endl;
+        /*fichier << std::endl << std::endl;
         fichier << "Volume with overlap formulation" << std::endl << std::endl;
         fichier << "UB;LB;Iterations;Lambda;Step size;Stop Criterion;Total Time;;";
         fichier << "Formulation Construction;Heuristic Construction;Initialization;Auxiliar graph construction;" ;
@@ -384,17 +396,17 @@ int main(int argc, char *argv[]) {
             std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
             std::string nextFile_aux2 = instance_aux2.getInput().getDemandToBeRoutedFilesFromIndex(0);
             instance_aux2.generateDemandsFromFile(nextFile_aux2);
-
+            */
             /********************************************************************/
             /* 		Solve - VOLUME LAGNONOVERLAP FORMULATION      	 		*/
             /********************************************************************/
-            std::cout << "Solving with volume non overlap formualtion" << std::endl;
+            /*std::cout << "Solving with volume non overlap formualtion" << std::endl;
             lagSolverFactory lagfactory_aux2;
             AbstractLagSolver *lagsolver_aux2 = lagfactory_aux2.createSolver(instance_aux2);
             lagsolver_aux2->run();
             lagsolver_aux2->displayResults(fichier);
             std::cout << "Solving with volume non overlap completed "<< std::endl; 
-        } 
+        } */
 
         fichier << std::endl;
         fichier.close();

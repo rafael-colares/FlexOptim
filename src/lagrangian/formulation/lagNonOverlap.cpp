@@ -1574,26 +1574,6 @@ void lagNonOverlap::createGraphFile(int e, int it){
 ******************************************************************************* */
 
 lagNonOverlap::~lagNonOverlap(){
-    lagrangianMultiplierLength.clear();
-    lagrangianMultiplierSourceTarget.clear();
-    lagrangianMultiplierFlow.clear();
-
-    lengthSlack.clear();
-    sourceTargetSlack.clear();
-    flowSlack.clear();
-
-    lengthSlack_v2.clear();
-    sourceTargetSlack_v2.clear();
-    flowSlack_v2.clear();
-
-    lagrangianSCLength.clear();
-    lagrangianSCSourceTarget.clear();
-    lagrangianSCFlow.clear();
-
-    lengthDirection.clear();
-    sourceTargetDirection.clear();
-    flowDirection.clear();
-
     assignmentMatrix.clear();
     cost.clear();
     EGraph->clear();

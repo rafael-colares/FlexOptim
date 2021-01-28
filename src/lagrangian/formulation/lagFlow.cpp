@@ -224,12 +224,13 @@ void lagFlow::updateCosts(){
             double multiplier =  getMaxUsedSliceOverallMultiplier_k(d);
             for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
                 if (getToBeRouted_k(d).getSource() == getNodeLabel((*vecGraph[d]).source(a), d)){
+                    //double incrementValue = multiplier*getArcSlice(a, d)/getInstance().getMaxSlice();
                     double incrementValue = multiplier*getArcSlice(a, d);
                     incArcCost(a,d,incrementValue);
                 }
             }
         }
-
+        
         for (int linkLabel = 0; linkLabel < instance.getNbEdges(); linkLabel++){
             int sliceLimit = getNbSlicesLimitFromEdge(linkLabel);
             for (int s = 0; s < sliceLimit; s++){
@@ -238,6 +239,7 @@ void lagFlow::updateCosts(){
                     int demandLoad = getToBeRouted_k(d).getLoad();
                     for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
                         if ((getArcLabel(a, d) == linkLabel) && (getArcSlice(a, d) >= s) && (getArcSlice(a, d) <= s + demandLoad - 1)){
+                            //double incrementValue = multiplier*getArcSlice(a, d)/getInstance().getMaxSlice();
                             double incrementValue = multiplier*getArcSlice(a, d);
                             incArcCost(a,d,incrementValue);
                         }
@@ -255,6 +257,7 @@ void lagFlow::updateCosts(){
                         if ((getNodeLabel(v, d) == nodeLabel)){
                             for (ListDigraph::OutArcIt a(*vecGraph[d], v); a != INVALID; ++a){
                                 if ( (getArcSlice(a, d) >= s) && (getArcSlice(a, d) <= s + demandLoad - 1) ){
+                                    //double incrementValue = multiplier*getArcSlice(a, d)/getInstance().getMaxSlice();
                                     double incrementValue = multiplier*getArcSlice(a, d);
                                     incArcCost(a,d,incrementValue);
                                 }
@@ -507,7 +510,7 @@ double lagFlow::getSlackDirectionProdNormal(){
         for (int d = 0; d < getNbDemandsToBeRouted(); d++){
             denominator += getMaxUsedSliceOverallSlack_k(d)*getMaxUsedSliceOverallDirection_k(d);
         }
-
+        
         for (int e = 0; e < instance.getNbEdges(); e++){
             int sliceLimit = getNbSlicesLimitFromEdge(e);
             for (int s = 0; s < sliceLimit; s++){
@@ -520,6 +523,7 @@ double lagFlow::getSlackDirectionProdNormal(){
                 denominator += getMaxUsedSliceOverall3Slack_k(v,s)*getMaxUsedSliceOverall3Direction_k(v,s);
             }
         }
+        
     }
     return denominator;
 }
@@ -725,14 +729,14 @@ void lagFlow::run(){
         if(chosenMetric != Input::OBJECTIVE_METRIC_8){
             incCurrentRealCost(getRealCostFromPath(d, shortestPath, SOURCE, TARGET));
         }
+        //std::cout << "DIST " << shortestPath.dist(TARGET) << std::endl;
         incCurrentLagrCost(shortestPath.dist(TARGET));
     }
-
+    subtractConstantValuesFromLagrCost();
+    //std::cout << "DIST SUB " << getLagrCurrentCost() << std::endl;
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         solveProblemMaxUsedSliceOverall();
     }
-
-    subtractConstantValuesFromLagrCost();
 
     /**
     updateSlack();
@@ -744,7 +748,6 @@ void lagFlow::run(){
     }
     **/
 
-    /**
     int soma = 0;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
@@ -752,8 +755,8 @@ void lagFlow::run(){
             soma += assignmentMatrix_d[d][index];
         }
     }
-    **/
-    //std::cout << soma << std::endl;
+    
+    //std::cout << "SOMA " << soma << std::endl;
 }
 
 void lagFlow::subtractConstantValuesFromLagrCost(){
@@ -777,6 +780,8 @@ void lagFlow::solveProblemMaxUsedSliceOverall(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         exp += getMaxUsedSliceOverallMultiplier_k(d);
     }
+    //std::cout << "EXP1 " << exp <<std::endl;
+
     for (int e = 0; e < instance.getNbEdges(); e++){
         int sliceLimit = getNbSlicesLimitFromEdge(e);
         for (int s = 0; s < sliceLimit; s++){
@@ -789,14 +794,32 @@ void lagFlow::solveProblemMaxUsedSliceOverall(){
             exp += getMaxUsedSliceOverall3Multiplier_k(v,s);
         }
     }
+    
 
+    double aux = 0.0;
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+            if (getToBeRouted_k(d).getSource() == getNodeLabel((*vecGraph[d]).source(a), d)){
+                int indexArc = getArcIndex(a,d);
+                if(getArcSlice(a, d)*assignmentMatrix_d[d][indexArc] >aux){
+                    aux = getArcSlice(a, d)*assignmentMatrix_d[d][indexArc];
+                }
+            }
+        }
+    }
+
+    //if(exp/getInstance().getMaxSlice() > 1.000){
     if(exp > 1.000){
         maxUsedSliceOverall = getInstance().getMaxSlice();
+        //maxUsedSliceOverall = aux;
+        //maxUsedSliceOverall = maxUsedSliceOverall/getInstance().getMaxSlice();
     }else{
         maxUsedSliceOverall = 0.0;
     }
-
     incCurrentLagrCost(maxUsedSliceOverall*(1-exp));
+    //incCurrentLagrCost(aux*(1-exp));
+    //std::cout << "DIST3 " << getLagrCurrentCost() <<std::endl;
+    //incCurrentRealCost(maxUsedSliceOverall);
     incCurrentRealCost(maxUsedSliceOverall);
 }
 
@@ -860,35 +883,38 @@ void lagFlow::displayMultiplier(std::ostream & saida){
     //std::cout << display << std::endl;
     saida << display << std::endl;
 
-    display = "Max Used Slice Overall Multiplier = [ \n";
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        display += "Demand " + std::to_string(d+1) + ": " + std::to_string(getMaxUsedSliceOverallMultiplier_k(d)) + "\n"; 
-    }
-    display += "]";
-    saida << display << std::endl;
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
 
-    display = "Max Used Slice Overall 2 Multiplier = [ \n";
-    for (int e = 0; e < instance.getNbEdges(); e++){
-        maxUsedSliceOverallSlack2[e].resize(getNbSlicesLimitFromEdge(e));
-        display += "Edge " + std::to_string(e+1) + ":\n ";
-        for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
-            display += "\t Slice " + std::to_string(s+1) + ": "+ std::to_string(getMaxUsedSliceOverall2Multiplier_k(e, s)) + "\n"; 
+    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        display = "Max Used Slice Overall Multiplier = [ \n";
+        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+            display += "Demand " + std::to_string(d+1) + ": " + std::to_string(getMaxUsedSliceOverallMultiplier_k(d)) + "\n"; 
         }
-    }
-    display += "]";
-    saida << display << std::endl;
+        display += "]";
+        saida << display << std::endl;
 
-    display = "Max Used Slice Overall 3 Multiplier = [ \n";
-    for (int v = 0; v < instance.getNbNodes(); v++){
-        maxUsedSliceOverallSlack3[v].resize(getNbSlicesGlobalLimit());
-        display += "Node " + std::to_string(v+1) + ":\n ";
-        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
-            display += "\t Slice " + std::to_string(s+1) + ": "+ std::to_string(getMaxUsedSliceOverall3Multiplier_k(v, s)) + "\n"; 
+        display = "Max Used Slice Overall 2 Multiplier = [ \n";
+        for (int e = 0; e < instance.getNbEdges(); e++){
+            maxUsedSliceOverallSlack2[e].resize(getNbSlicesLimitFromEdge(e));
+            display += "Edge " + std::to_string(e+1) + ":\n ";
+            for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
+                display += "\t Slice " + std::to_string(s+1) + ": "+ std::to_string(getMaxUsedSliceOverall2Multiplier_k(e, s)) + "\n"; 
+            }
         }
-    }
-    display += "]";
-    saida << display << std::endl;
+        display += "]";
+        saida << display << std::endl;
 
+        display = "Max Used Slice Overall 3 Multiplier = [ \n";
+        for (int v = 0; v < instance.getNbNodes(); v++){
+            maxUsedSliceOverallSlack3[v].resize(getNbSlicesGlobalLimit());
+            display += "Node " + std::to_string(v+1) + ":\n ";
+            for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+                display += "\t Slice " + std::to_string(s+1) + ": "+ std::to_string(getMaxUsedSliceOverall3Multiplier_k(v, s)) + "\n"; 
+            }
+        }
+        display += "]";
+        saida << display << std::endl;
+    }
 }
 
 void lagFlow::displaySlack(std::ostream & saida){
@@ -913,34 +939,39 @@ void lagFlow::displaySlack(std::ostream & saida){
     //std::cout << display << std::endl;
     saida << display << std::endl;
 
-    display = "Max Used Slice Overall Slack = [ \n";
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        display += "Demand " + std::to_string(d+1) + ": " + std::to_string(getMaxUsedSliceOverallSlack_k(d)) + "\n"; 
-    }
-    display += "]";
-    saida << display << std::endl;
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
 
-    display = "Max Used Slice Overall 2 Slack = [ \n";
-    for (int e = 0; e < instance.getNbEdges(); e++){
-        maxUsedSliceOverallSlack2[e].resize(getNbSlicesLimitFromEdge(e));
-        display += "Edge " + std::to_string(e+1) + ":\n ";
-        for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
-            display += "\t Slice " + std::to_string(s+1) + ": "+ std::to_string(getMaxUsedSliceOverall2Slack_k(e, s)) + "\n"; 
-        }
-    }
-    display += "]";
-    saida << display << std::endl;
+    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
 
-    display = "Max Used Slice Overall 3 Slack = [ \n";
-    for (int v = 0; v < instance.getNbNodes(); v++){
-        maxUsedSliceOverallSlack3[v].resize(getNbSlicesGlobalLimit());
-        display += "Node " + std::to_string(v+1) + ":\n ";
-        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
-            display += "\t Slice " + std::to_string(s+1) + ": "+ std::to_string(getMaxUsedSliceOverall3Slack_k(v, s)) + "\n"; 
+        display = "Max Used Slice Overall Slack = [ \n";
+        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+            display += "Demand " + std::to_string(d+1) + ": " + std::to_string(getMaxUsedSliceOverallSlack_k(d)) + "\n"; 
         }
+        display += "]";
+        saida << display << std::endl;
+
+        display = "Max Used Slice Overall 2 Slack = [ \n";
+        for (int e = 0; e < instance.getNbEdges(); e++){
+            maxUsedSliceOverallSlack2[e].resize(getNbSlicesLimitFromEdge(e));
+            display += "Edge " + std::to_string(e+1) + ":\n ";
+            for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
+                display += "\t Slice " + std::to_string(s+1) + ": "+ std::to_string(getMaxUsedSliceOverall2Slack_k(e, s)) + "\n"; 
+            }
+        }
+        display += "]";
+        saida << display << std::endl;
+
+        display = "Max Used Slice Overall 3 Slack = [ \n";
+        for (int v = 0; v < instance.getNbNodes(); v++){
+            maxUsedSliceOverallSlack3[v].resize(getNbSlicesGlobalLimit());
+            display += "Node " + std::to_string(v+1) + ":\n ";
+            for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+                display += "\t Slice " + std::to_string(s+1) + ": "+ std::to_string(getMaxUsedSliceOverall3Slack_k(v, s)) + "\n"; 
+            }
+        }
+        display += "]";
+        saida << display << std::endl;
     }
-    display += "]";
-    saida << display << std::endl;
 }
 
 /* *******************************************************************************
@@ -948,21 +979,6 @@ void lagFlow::displaySlack(std::ostream & saida){
 ******************************************************************************* */
 
 lagFlow::~lagFlow(){
-    lagrangianMultiplierLength.clear();
-    lagrangianMultiplierOverlap.clear();
-
-    lengthSlack.clear();
-    overlapSlack.clear();
-
-    lengthSlack_v2.clear();
-    overlapSlack_v2.clear();
-
-    lagrangianSCLength.clear();
-    lagrangianSCOverlap.clear();
-
-    lengthDirection.clear();
-    overlapDirection.clear();
-
-    assignmentMatrix_d.clear();
+    
     cost.clear();
 }

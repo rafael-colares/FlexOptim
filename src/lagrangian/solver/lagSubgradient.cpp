@@ -30,6 +30,7 @@ void lagSubgradient::initialization(){
     Input::ObjectiveMetric chosenMetric = formulation->getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         setUB(formulation->getInstance().getMaxSlice());
+        //setUB(13);
     }
 
     formulation->setStatus(RSA::STATUS_UNKNOWN);
@@ -43,11 +44,11 @@ void lagSubgradient::initialization(){
 
     std::cout << "> Initialization is done. " << std::endl;
 
-    //fichier << "> Initialization is done. " << std::endl;
-    //fichier << " ****** Iteration: " << getIteration() << " ****** "<< std::endl;
+    fichier2 << "> Initialization is done. " << std::endl;
+    fichier2 << " ****** Iteration: " << getIteration() << " ****** "<< std::endl;
     //formulation->createGraphFile(getIteration());
-    //formulation->displaySlack(fichier);
-    //formulation->displayMultiplier(fichier);
+    formulation->displaySlack(fichier2);
+    formulation->displayMultiplier(fichier2);
 }
 
 /*************************************************************************/
@@ -152,16 +153,20 @@ void lagSubgradient::runIteration(){
     incUpdatingBoundsTime(time.getTimeInSecFromStart());
     
     time.setStart(ClockTime::getTimeNow());
-    if(getIteration()==1 || getIteration()%30 ==0){
-        heuristic->run();
-        double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
-        updateUB(feasibleSolutionCostHeur);
+    Input::ObjectiveMetric chosenMetric = formulation->getInstance().getInput().getChosenObj_k(0);
+    if(chosenMetric != Input::OBJECTIVE_METRIC_8){
+        if(getIteration()==1 || getIteration()%30 ==0){
+            heuristic->run();
+            double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
+            updateUB(feasibleSolutionCostHeur);
+        }
     }
     incHeuristicBoundTime(time.getTimeInSecFromStart());
     
-    //fichier << "\n\n> ****** Iteration: " << getIteration() << " ******"<< std::endl;
-    //formulation->displaySlack(fichier);
-    //formulation->displayMultiplier(fichier);
+    
+    fichier2 << "\n\n> ****** Iteration: " << getIteration() << " ******"<< std::endl;
+    formulation->displaySlack(fichier2);
+    formulation->displayMultiplier(fichier2);
     //formulation->displaySlack();
     //formulation->displayMultiplier();
 }

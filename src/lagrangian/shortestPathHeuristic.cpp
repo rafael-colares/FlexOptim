@@ -92,7 +92,7 @@ void shortestPathHeuristic::run(){
         /* Choses a demand */
         int demand = choseDemand(notAnalysedDemands);
         notAnalysedDemands.erase(demand);
-        analysedDemands.insert(demand);
+        std::pair<std::set<int>::iterator,bool> aux = analysedDemands.insert(demand);
         bool STOP = false;
 
         while(!STOP){
@@ -276,6 +276,18 @@ double shortestPathHeuristic::getPathLength(int d, Dijkstra< ListDigraph, ListDi
 shortestPathHeuristic::~shortestPathHeuristic(){
     heuristicCosts.clear();
     heuristicCostsAux.clear();
+
+    while(!notAnalysedDemands.empty()){
+        std::set<int>::iterator it;
+        it = std::prev(notAnalysedDemands.end()); 
+        
+        notAnalysedDemands.erase(it);
+    }
     notAnalysedDemands.clear();
+    while(!analysedDemands.empty()){
+        std::set<int>::iterator it;
+        it = std::prev(analysedDemands.end()); 
+        analysedDemands.erase(it);
+    }
     analysedDemands.clear();
 }

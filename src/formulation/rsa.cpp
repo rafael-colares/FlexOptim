@@ -34,6 +34,8 @@ RSA::RSA(const Instance &inst) : instance(inst), compactEdgeId(compactGraph), co
         vecNodeLabel.emplace_back( std::make_shared<NodeMap>((*vecGraph[d])) );
         vecNodeSlice.emplace_back(std::make_shared<NodeMap>((*vecGraph[d])) );
         vecOnPath.emplace_back( std::make_shared<ArcMap>((*vecGraph[d])) );
+
+        vecArcIndex.emplace_back(std::make_shared<ArcMap>((*vecGraph[d])));
     
         for (int i = 0; i < instance.getNbEdges(); i++){
             int linkSourceLabel = instance.getPhysicalLinkFromIndex(i).getSource();
@@ -72,7 +74,6 @@ RSA::RSA(const Instance &inst) : instance(inst), compactEdgeId(compactGraph), co
 
     /* Sets arc index. */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){ 
-        vecArcIndex.emplace_back(new ArcMap((*vecGraph[d]), -1));
         int index=0;
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
             setArcIndex(a, d, index);
