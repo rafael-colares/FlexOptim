@@ -222,8 +222,8 @@ void FlowForm::setConstraints(){
     this->setSourceConstraints();
     this->setFlowConservationConstraints();
     this->setTargetConstraints();
-    this->setLengthConstraints();
-    //this->setStrongLengthConstraints();
+    //this->setLengthConstraints();
+    this->setStrongLengthConstraints();
     this->setNonOverlappingConstraints();    
 
     this->setMaxUsedSlicePerLinkConstraints();    
@@ -346,7 +346,7 @@ void FlowForm::setStrongLengthConstraints(){
             constraintSet.push_back(strongLengthConstraint);
         }
     }
-    std::cout << "Length constraints have been defined..." << std::endl;
+    std::cout << "Strong length constraints have been defined..." << std::endl;
 }
 
 

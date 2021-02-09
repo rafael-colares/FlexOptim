@@ -4,37 +4,47 @@
 
 # $Id: Makefile.in 1898 2013-04-09 18:06:04Z stefan $
 
+
+##########################################################################
+#    You can modify this example makefile to fit for your own program.   #
+#    Usually, you only need to change the CHANGEME entries below.  		 #
+##########################################################################
+
+# Compiler options
 CCOPT = -m64 -O -fPIC -fno-strict-aliasing -fexceptions -DNDEBUG -DIL_STD -Wno-ignored-attributes 
+
+# CHANGEME: The system where cplex will run
 SYSTEM = x86-64_linux
+
 LIBFORMAT = static_pic
 
+# CHANGEME: Cplex paths
 CPLEXVERSION = CPLEX_Studio1210
 CPLEXDIR = /opt/ibm/ILOG/$(CPLEXVERSION)/cplex
 CPLEXINCDIR = $(CPLEXDIR)/include/
 CPLEXLIBDIR = $(CPLEXDIR)/lib/$(SYSTEM)/$(LIBFORMAT)
 CPLEXLIBFLAGS = -L$(CPLEXLIBDIR) -lilocplex -lcplex 
 
+# CHANGEME: Concert paths
 CONCERTVERSION = concert
 CONCERTDIR = /opt/ibm/ILOG/$(CPLEXVERSION)/$(CONCERTVERSION)
 CONCERTINCDIR = $(CONCERTDIR)/include/
 CONCERTLIBDIR = $(CONCERTDIR)/lib/$(SYSTEM)/$(LIBFORMAT)
 CONCERTLIBFLAGS = -L$(CONCERTLIBDIR) -lconcert -lm -lpthread -ldl
 
+# CHANGEME: LEMON paths
 LEMONINCDIR = /opt/lemon/include/
 LEMONLIBDIR = /opt/lemon/lib/
 LEMONINCFLAGS = -I$(LEMONINCDIR)
 LEMONLIBFLAGS = -L$(LEMONLIBDIR) -lemon
 
+# CHANGEME: Boost paths
 BOOSTINCDIR = /mnt/c/soft/boost_1_71_0/
 BOOSTINCFLAGS = -I$(BOOSTINCDIR)
 
+# CHANGEME: CBC flags
 OSIFLAGS = /opt/Cbc-2.9.9/Osi/
 
-
-##########################################################################
-#    You can modify this example makefile to fit for your own program.   #
-#    Usually, you only need to change the five CHANGEME entries below.   #
-##########################################################################
 
 # To compile other examples, either changed the following line, or
 # add the argument DRIVER=problem_name to make

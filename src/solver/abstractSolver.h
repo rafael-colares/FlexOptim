@@ -83,7 +83,6 @@ public:
 
 	virtual std::vector<double> getSolution() = 0;
 
-	
 	/* Builds file results.csv containing information about the main obtained results. */
 	virtual void outputLogResults(std::string fileName){}
 

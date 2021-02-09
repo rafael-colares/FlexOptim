@@ -165,7 +165,7 @@ void SolverCplex::exportFormulation(const Instance &instance){
 void SolverCplex::setCplexParams(const Input &input){
     cplex.setParam(IloCplex::Param::MIP::Display, 3);
     cplex.setParam(IloCplex::Param::TimeLimit, input.getIterationTimeLimit());
-    cplex.setParam(IloCplex::Param::Threads, 1);
+    //cplex.setParam(IloCplex::Param::Threads, 1);
     
     std::cout << "CPLEX parameters have been defined..." << std::endl;
 }
@@ -275,6 +275,7 @@ void SolverCplex::outputLogResults(std::string fileName){
 	std::ofstream myfile(filePath.c_str(), std::ios_base::app);
 	if (myfile.is_open()){
 		myfile << fileName << delimiter;
+        myfile << cplex.getStatus() << delimiter;
 		myfile << getDurationTime() << delimiter;
 		myfile << getLowerBound() << delimiter;
 		myfile << getUpperBound() << delimiter;
