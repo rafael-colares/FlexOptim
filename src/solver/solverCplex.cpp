@@ -62,7 +62,7 @@ void SolverCplex::solve(){
         CPXLONG contextMask = context(myObjectives[i].getId(), formulation->getInstance().getInput());
         
         
-        cplex.use(&myGenericCallback, contextMask);
+        //cplex.use(&myGenericCallback, contextMask);
         std::cout << "Chosen objective: " << myObjectives[i].getName() << std::endl;
         cplex.solve();
         

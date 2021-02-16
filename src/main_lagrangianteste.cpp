@@ -182,6 +182,7 @@ int main(int argc, char *argv[]) {
             /********************************************************************/
             /* 				        Solve - MIP SOLUTION	 					*/
             /********************************************************************/
+            
             std::cout << "Solving with MIP-Cplex" << std::endl;
             SolverFactory factory;
             AbstractSolver *solver = factory.createSolver(instance);
