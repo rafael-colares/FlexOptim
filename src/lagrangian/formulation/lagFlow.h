@@ -5,153 +5,148 @@
 
 using namespace lemon;
 
-class lagFlow :public AbstractLagFormulation{
-
-    private:
-
-        /*****************************  COSTS *******************************/
-
-        /* Refers to the cost of an arc during iteration k of subgradient. cost = c_{ij} + u_k*length_{ij} */
-        std::vector< std::shared_ptr<ArcCost> > cost; 
+class lagFlow :public AbstractLagFormulation{ 
 
     public:
 
-        /* *******************************************************************************
-        *                             INITIALIZATION METHODS
-        ******************************************************************************* */
+        /* **************************************************************************************************************
+        *                                             CONSTRUCTOR
+        ************************************************************************************************************** */
         lagFlow(const Instance &instance):AbstractLagFormulation(instance){}
+
+        /* **************************************************************************************************************
+        *                                         INITIALIZATION METHODS
+        ************************************************************************************************************** */
 
         /** Sets all initial parameters **/
         void init();
 
-        /********************************* MULTIPLIERS ***********************************/
+        /*********************************************** MULTIPLIERS ***************************************************/
 
         /** Sets the initial lagrangian multipliers values for the subgradient to run. **/
         void initMultipliers();
 
-        /********************************* STABILITY CENTER ***********************************/
+        /********************************************** STABILITY CENTER ************************************************/
 
+        /** Initializes the stability center of relaxed constraints. **/
         void initStabilityCenter();
 
-        /********************************** SLACK ***************************************/
+        /*************************************************** SLACK ******************************************************/
 
         /** Initializes the slack of relaxed constraints. **/
         void initSlacks();
 
-        /*********** SLACK CONSIDERING PRIMAL VARIABLES ***********/    
+        void resetSlacks();
 
-        void initSlacks_v2();
+        void initPrimalSlacks();
 
-        /******************************** DIRECTION *********************************/
+        /************************************************** DIRECTION ****************************************************/
 
+        /** Initializes the direction of relaxed constraints. **/
         void initDirection();
 
-        /******************************** COSTS *********************************/
+        /* *****************************************************************************************************************
+        *                                                  RUNING METHODS
+        ***************************************************************************************************************** */
 
-        /** Initializes the costs in the objective function. **/
-        void initCosts();
-
-        /******************************** ASSIGMENT MATRIX *********************************/
-
-        /** Initializes the assignement matrix. **/
-        void initAssignmentMatrix();
-
-        /* *******************************************************************************
-        *                             RUNING METHODS
-        ******************************************************************************* */
-
-        /** Solves the RSA using the Subgradient Method. **/
+        /** Solves the lagrangian flow formulation sub problem. **/
         void run();
 
+        /** Solves the lagrangian flow formulation sub problem for general objective functions. **/
+        void runGeneralObj();
+
+        /** Solves the lagrangian flow formulation sub problem for objective 8. **/
+        void runObj8();
+
+        /** Substract constant values from the current lagrangian cost. **/
         void subtractConstantValuesFromLagrCost();
 
+        /** SOlve sub problem when objective 8 is chosen. Minimizing the maximum slice overall. **/
         void solveProblemMaxUsedSliceOverall();
 
-        /** Checks if all slacks are non-negative. **/
+        /** Checks if sub problem solution is feasible. **/
         bool checkFeasibility();
 
-        /****************************************************************************************/
-        /*										Getters 										*/
-        /****************************************************************************************/
+        /** Checks if primal approximation solution is feasible. **/
+        bool checkFeasibility_v2();
 
-        double getRealCostFromPath(int d, Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET);
+        /******************************************************************************************************************/
+        /*										               Getters 										              */
+        /******************************************************************************************************************/
 
+        /** Returns the cost considering the objective function coefficient of the resulting sub problem solution **/
+        double getRealCostFromPath(int d, DijkstraCost &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET);
+        
         /* Returns the physical length of the path. */
-        double getPathLength(int d, Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &s, const ListDigraph::Node &t);
+        double getPathLength(int d, DijkstraCost &path, const ListDigraph::Node &s, const ListDigraph::Node &t);
         
         /* Returns the actual cost of the path according to the metric used. */
-        double getPathCost(int d, Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &s, const ListDigraph::Node &t);
+        double getPathCost(int d, DijkstraCost &path, const ListDigraph::Node &s, const ListDigraph::Node &t);
 
-        /******************************** MODULES *********************************/
+        /****************************************************** MODULES ****************************************************/
         
-        double getSlackModule();
+        /* Returns |slack|^2 */
+        double getSlackModule(double = -1.0);
 
-        double getSlackModule_v2();
+        /* Returns |slack|^2, with the slack considering the primal variables*/
+        double getSlackModule_v2(double = -1.0);
 
+        /* Returns |Direction|^2 */
         double getDirectionModule();
 
+        /* Returns (Slack*Direction) */
         double getSlackDirectionProd();
 
+        /* Returns (Slack*Direction), projected or improved direction */
         double getSlackDirectionProdProjected(Input::ProjectionType);
 
+        /* Returns (Slack*Direction), normal direction */
         double getSlackDirectionProdNormal();
 
-        double get_prod_slack();
+        /* Returns (slack*slack_v2)*/ 
+        double getSlackPrimalSlackProd(double = -1.0);
 
+        /* Returns mean of |slack|, slack considering the primal variables */
         double getMeanSlackModule_v2();
+       
+        /*******************************************************************************************************************/
+        /*										               Update								           			   */
+        /*******************************************************************************************************************/
 
-        /****************************************************************************************/
-        /*										Setters											*/
-        /****************************************************************************************/
-
-        /** Changes the cost of an arc in a graph. @param a The arc. @param d The graph index. @param val The new cost value. **/
-        void setArcCost(const ListDigraph::Arc &a, int d, double val) { (*cost[d])[a] = val; }
-
-        /** Increments the cost of an arc in a graph. @param a The arc. @param d The graph index. @param val The value to be added to cost. **/
-        void incArcCost(const ListDigraph::Arc &a, int d, double val) { (*cost[d])[a] += val; }
-
-        /****************************************************************************************/
-        /*										Update											*/
-        /****************************************************************************************/
-
-        /********************************* MULTIPLIERS ***********************************/
+        /*************************************************** MULTIPLIERS ***************************************************/
 
         /* Updates lagrangian multipliers with the rule: u[k+1] = u[k] + t[k]*violation */
         void updateMultiplier(double);
 
-        /********************* MULTIPLIER CONSIDERING THE STABILITY CENTER ***************/
+        /************************************** MULTIPLIER CONSIDERING THE STABILITY CENTER ********************************/
 
+        /* Updates lagrangian multipliers with the rule: u[k+1] = stability center[k] + t[k]*violation */
         void updateMultiplier_v2(double);
 
-        /***************************** STABILITY CENTER ****************************/
+        /************************************************** STABILITY CENTER ***********************************************/
 
+        /* Updates stability center */
         void updateStabilityCenter();
         
-        /********************************* SLACK ***********************************/
+        /********************************************* SLACK PRIMAL APPROXIMATION ********************************************/
 
-        void updateSlack();
+        void updatePrimalSlack(double);
 
-        /******************** SLACK CONSIDERING THE PRIMAL VECTOR *******************/
+        /****************************************************** DIRECTION****************************************************/
 
-        void updateSlack_v2();
-
-        /*********************************** DIRECTION********************************/
-
+        /* Updates direction */
         void updateDirection();
 
-        /********************************* COSTS ***********************************/
-
-        /** Updates the arc costs. @note cost = coeff + u_d*length **/
-        void updateCosts();
-
-        /********************************* ASSIGNMENT MATRIX ***********************************/
+        /************************************************** ASSIGNMENT MATRIX **********************************************/
 
         /** Updates the assignment of a demand based on the a given path. @param d The d-th demand. @param path The path on which the demand is routed. @param SOURCE The path's source. @param TARGET The path's target. **/
-        void updateAssignment_k(int d, Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET);
+        void updateAssignment_k(int d, DijkstraCost &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET);
 
-        /****************************************************************************************/
-        /*										Display											*/
-        /****************************************************************************************/
+        void updateAssignment_k(int d, DijkstraCostObj8 &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET);
+        
+        /********************************************************************************************************************/
+        /*										                Display											            */
+        /********************************************************************************************************************/
     
         /* Verifies if optimality condition has been achieved and update STOP flag. */
         void updateStop(bool &STOP);
@@ -165,18 +160,18 @@ class lagFlow :public AbstractLagFormulation{
         /* Stores the solution found in the arcMap onPath. */
         void updateOnPath();
         
-        std::string getPathString(int d, Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &s, const ListDigraph::Node &t);
+        std::string getPathString(int d, DijkstraCost &path, const ListDigraph::Node &s, const ListDigraph::Node &t);
 
         void displayMultiplier(std::ostream & = std::cout);
 
         void displaySlack(std::ostream & = std::cout);
 
-        /* *******************************************************************************
-        *                             DESTRUCTOR
-        ******************************************************************************* */
+        /* *****************************************************************************************************************
+        *                                                     DESTRUCTOR
+        ***************************************************************************************************************** */
 
-        ~lagFlow();
-        
-};    
+        ~lagFlow(){}
+};  
 
-#endif
+
+#endif 

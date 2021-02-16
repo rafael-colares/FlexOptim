@@ -1,26 +1,32 @@
 #include "lagNonOverlapping.h"
 #include <set>
 
-/* *******************************************************************************
-*                             INITIALIZATION METHODS
-******************************************************************************* */
-void lagNonOverlapping::init(){
-    initMultipliers();
-    initStabilityCenter();
-    initSlacks();
-    initSlacks_v2();
-    initDirection();
+/* *******************************************************************************************************************
+*                                              INITIALIZATION METHODS
+******************************************************************************************************************** */
 
+void lagNonOverlapping::init(){
+
+    /** Lagrangian Values **/
+    initMultipliers();
+    initSlacks();
+    initDirection();
+    initCoeff();
     time.setStart(ClockTime::getTimeNow());
     build_Graphs_e();
     setConstAuxGraphTime(time.getTimeInSecFromStart());
-
-    initCosts();
     initAssignmentMatrix();
-    initPrimalSolution();
+
+    /** Time **/
+    setUpdateVariablesTime(0.0);
+    setShorstestPathTime(0.0);
+    setSubstractMultipliersTime(0.0);
+    setCostTime(0.0);
 }
 
-/********************************* MULTIPLIERS ***********************************/
+/*************************************************** MULTIPLIERS ******************************************************/
+
+/************************************************* Initial multiplier ************************************************/
 
 /* Sets the initial lagrangian multipliers for the subgradient to run. */
 void lagNonOverlapping::initMultipliers(){
@@ -28,10 +34,11 @@ void lagNonOverlapping::initMultipliers(){
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
 
     if(warmstart){
-        /**** Initializing all with 0.0 *****/
+        /**** Initializing all with 0.o and then solving the warmstart procedure *****/
         initializeLengthMultipliers(0.0);
         initializeSourceTargetMultipliers(0.0);
         initializeFlowMultipliers(0.0);
+
         if(chosenMetric == Input::OBJECTIVE_METRIC_8){
            initializeMaxUsedSliceOverallMultipliers(0.0);
             initializeMaxUsedSliceOverall2Multipliers(0.0);
@@ -39,6 +46,7 @@ void lagNonOverlapping::initMultipliers(){
         }
         initMultipliersWarmstart();
     }else{
+        /**** Initializing all with a given initial multiplier *****/
         double initialMultiplier = instance.getInput().getInitialLagrangianMultiplier();
         initializeLengthMultipliers(initialMultiplier);
         initializeSourceTargetMultipliers(initialMultiplier);
@@ -50,11 +58,10 @@ void lagNonOverlapping::initMultipliers(){
             initializeMaxUsedSliceOverall3Multipliers(initialMultiplier);
         }
     }
-
     std::cout << "> Initial Lagrangian multipliers were defined. " << std::endl;
 }
 
-/**************************** Option 2: Warmstart ****************************/
+/*********************************************** Warmstart  procedure  **************************************************/
 
 void lagNonOverlapping::initMultipliersWarmstart(){
     
@@ -165,7 +172,7 @@ void lagNonOverlapping::contractNodesFromLabel_v2(std::shared_ptr<ListDigraph> v
     //std::cout << "> Number of nodes with label " << label << " contracted: " << nb << std::endl; 
 }
 
-/********************************* STABILITY CENTER ***********************************/
+/************************************************ STABILITY CENTER ****************************************************/
 
 void lagNonOverlapping::initStabilityCenter(){
     initializeLengthSC();
@@ -180,14 +187,7 @@ void lagNonOverlapping::initStabilityCenter(){
     }
 }
 
-/********************************** SLACK ***************************************/
-
-/* Analyse the signal!  -> feasibility
-    -> Lenght slack has to be  positive to be feasible
-    -> Flow slack has to be zero (equality)                
-    -> Target and (if) of source slack has to be zero
-    -> (otherwise) source slack has to be psitive
-*/
+/**************************************************** SLACKS **********************************************************/
 
 /* Initializes the slack of relaxed constraints. */
 void lagNonOverlapping::initSlacks(){
@@ -205,22 +205,40 @@ void lagNonOverlapping::initSlacks(){
     std::cout << "> Initial Slacks were defined. " << std::endl;
 }
 
-/********************************** SLACK CONSIDERING PRIMAL VARIABLES ***************************************/
-
-void lagNonOverlapping::initSlacks_v2(){
-    initializeLengthSlacks_v2();
-    initializeSourceTargetSlacks_v2();
-    initializeFlowSlacks_v2();
+void lagNonOverlapping::resetSlacks(){
+    resetLengthSlacks();
+    resetSourceTargetSlacks();
+    resetFlowSlacks();
 
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
-        initializeMaxUsedSliceOverallSlacks_v2();
-        initializeMaxUsedSliceOverall2Slacks_v2();
-        initializeMaxUsedSliceOverall3Slacks_v2();
+        resetMaxUsedSliceOverallSlacks();
+        resetMaxUsedSliceOverall2Slacks();
+        resetMaxUsedSliceOverall3Slacks();
     }
 }
 
-/************************************ DIRECTION **************************************/
+/********************************************* SLACKS PRIMAL APPROXIMATION *************************************************/
+
+/* Initializes the slack of relaxed constraints. */
+void lagNonOverlapping::initPrimalSlacks(){
+    initializeLengthPrimalSlacks();
+    initializeSourceTargetPrimalSlacks();
+    initializeFlowPrimalSlacks();
+
+    initializeOneSlicePerDemandPrimalSlacks();
+
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
+    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        initializeMaxUsedSliceOverallPrimalSlacks();
+        initializeMaxUsedSliceOverallAuxPrimalSlacks();
+        //initializeMaxUsedSliceOverall2Slacks();
+        //initializeMaxUsedSliceOverall3Slacks();
+    }   
+    std::cout << "> Initial Slacks were defined. " << std::endl;
+}
+
+/*************************************************** DIRECTION ********************************************************/
 
 void lagNonOverlapping::initDirection(){
     initializeLengthDirection();
@@ -235,12 +253,15 @@ void lagNonOverlapping::initDirection(){
     }
 }
 
-/***************************** BUILDING AUXILIARY GRAPH *******************************/
+/********************************************* BUILD AUXILIARY GRAPH **************************************************/
 
 /* Builds an auxiliary graph for each edge */
 void lagNonOverlapping::build_Graphs_e(){  
     vecESourceIndex.resize(instance.getNbEdges());
     vecEDestinationIndex.resize(instance.getNbEdges());
+    for(int d = 0; d < getNbDemandsToBeRouted(); d++){
+        cost.emplace_back(std::make_shared<ArcCost>((*vecGraph[d])));
+    }
     for (int e = 0; e < instance.getNbEdges(); e++){
         /* Initialization - memory allocation with std::make_shared - it allocates the memory and returs the pointer */
         /* Its a vector of graphs, for each edge, it includes its graph in the list (as push_back but do not need the constructor) */   
@@ -252,7 +273,8 @@ void lagNonOverlapping::build_Graphs_e(){
         vecENodeArc.emplace_back(std::make_shared<ListDigraph::NodeMap<std::shared_ptr<ListDigraph::Arc>>>((*vecEGraph[e])));
         vecEArcId.emplace_back(std::make_shared<ArcMap>((*vecEGraph[e])));
         vecECost.emplace_back(std::make_shared<ArcCost>((*vecEGraph[e])));
-        
+        vecENodeIndex.emplace_back(std::make_shared<NodeMap>((*vecEGraph[e])));
+
         int linklabel = instance.getPhysicalLinkFromIndex(e).getId(); /* label of link e */
         /** For all arcs in G(D) -> create a corresponding node **/
         for(int d = 0; d < getNbDemandsToBeRouted(); d++){
@@ -273,21 +295,24 @@ void lagNonOverlapping::build_Graphs_e(){
         
         for(ListDigraph::NodeIt v(*vecEGraph[e]); v != INVALID; ++v){
             int lastConst = getNodeESlice(v,e);
+            int demand1 = getNodeEDemand(v,e);
             for(ListDigraph::NodeIt v2(*vecEGraph[e]); v2 != INVALID; ++v2){
                 int firstConst = getNodeEFirstConst(v2,e);
+                int demand2 = getNodeEDemand(v2,e);
                 /** If they are different nodes, and the firstconst the v2 appears is greater than the last const v appears **/
-                if((v2 != v) && (firstConst > lastConst)){
-                    /** Adding an arc between v and v2 **/
-                    ListDigraph::Arc a = vecEGraph[e]->addArc(v,v2);
-                    int id = vecEGraph[e]->id(a);
-                    setArcEId(a, e, id);
-                    setArcECost(a, e, 0.0);
-                }
+                //if((demand1 == -1) || (demand1 == -2) || (demand2== -1) || (demand2 == -2) || (demand1 != demand2)){
+                    if((v2 != v) && (firstConst > lastConst)){
+                        /** Adding an arc between v and v2 **/
+                        ListDigraph::Arc a = vecEGraph[e]->addArc(v,v2);
+                        int id = vecEGraph[e]->id(a);
+                        setArcEId(a, e, id);
+                        setArcECost(a, e, 0.0);
+                    }
+                //}
             }
         }
 
         /* Sets node index. */
-        vecENodeIndex.emplace_back(new NodeMap((*vecEGraph[e]), -1));
         int index=0;
         for (ListDigraph::NodeIt v(*vecEGraph[e]); v != INVALID; ++v){
             setNodeEIndex(v, e, index);
@@ -295,8 +320,6 @@ void lagNonOverlapping::build_Graphs_e(){
         }
     }
     std::cout << "> Graphs per edge were defined. " << std::endl;
-    //createGraphFile(label);
-    //displayEGraph(label);
 }
 
 /* Function to add a new node to the auxiliary graph */
@@ -317,103 +340,143 @@ void lagNonOverlapping::addENode(int e, int demand, int slice, int firstConst,co
     }
 }
 
-/***************************** ASSIGMENT MATRIX *********************************/
+/* **********************************************************************************************************************
+*                                                  UPDATE METHODS
+*********************************************************************************************************************** */
 
-/* Initializes the assignement matrix. */
-void lagNonOverlapping::initAssignmentMatrix(){
+/*************************************************** MULTIPLIERS ********************************************************/
 
-    AbstractLagFormulation::initAssignmentMatrix();
+/* Updates lagrangian multiplier with the rule: u[k+1] = u[k] + t[k]*violation */
+void lagNonOverlapping::updateMultiplier(double step){
+    updateLengthMultiplier(step);
+    updateSourceTargetMultiplier(step);
+    updateFlowMultiplier(step);
 
-    assignmentMatrix.resize(instance.getNbEdges());
-    for (int e = 0; e < instance.getNbEdges(); e++){
-        assignmentMatrix[e].resize(countNodes(*vecEGraph[e]));
-        std::fill(assignmentMatrix[e].begin(), assignmentMatrix[e].end(), false);
-    }
-
-    std::cout << "> Initial Assignment matrix was defined. " << std::endl;
-}
-
-/********************************** COST ***************************************/
-
-/* Initializes the costs in the objective function - considering, firstly, the original variables. */
-void lagNonOverlapping::initCosts(){
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        cost.emplace_back(std::make_shared<ArcCost>((*vecGraph[d]), 0.0)); 
-    }
-    updateCosts();
-    std::cout << "> Initial costs were defined. " << std::endl;
-}
-
-/* *******************************************************************************
-*                             RUNING METHODS
-******************************************************************************* */
-
-void lagNonOverlapping::run(){
-    setCurrentLagrCost(0.0);
-    setCurrentRealCost(0.0);
-    if(getStatus() == STATUS_FEASIBLE){
-        setStatus(STATUS_UNKNOWN);
-    }
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    for (int e = 0; e < instance.getNbEdges(); e++){
-        const ListDigraph::Node SOURCE = getNodeFromIndex(e, getIndexSource(e));
-        const ListDigraph::Node TARGET = getNodeFromIndex(e, getIndexDestination(e));
-        //std::cout << "Source " << getNodeEDemand(SOURCE,e); //ok
-        //std::cout << "Dest " << getNodeEDemand(TARGET,e);
-
-        /* Solving a shortest path for each edge considering the auxiliary graph */
-        /* From the artificial source to the artificial target*/
-        //Dijkstra<ListDigraph,ListDigraph::ArcMap<double>> shortestPath((*vecEGraph[e]), (*vecECost[e]));
-        //shortestPath.run(SOURCE, TARGET);
-
-        BellmanFord<ListDigraph,ListDigraph::ArcMap<double>> shortestPath((*vecEGraph[e]), (*vecECost[e]));
-        shortestPath.run(SOURCE);
-
-        /* There is always a path analysing the auxiliary graph */
-        if(shortestPath.reached(TARGET) == false){
-            setStatus(STATUS_INFEASIBLE);
-            std::cout << "> RSA is infeasible because there is no path from the artificial source to the artificial destination. Edge " << e << "." << std::endl;
-            return;
-        }
-        updateAssignment_e(e, shortestPath, SOURCE, TARGET);
-        incCurrentLagrCost(shortestPath.dist(TARGET));    
-        if(chosenMetric != Input::OBJECTIVE_METRIC_8){
-            incCurrentRealCost(getRealCostFromPath(e, shortestPath, SOURCE, TARGET));
-        }
-    }
-    //displayEGraph(0);
-    //createGraphFile(0);
-   
-    updateAssignment_d();
-
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
-        solveProblemMaxUsedSliceOverall();
+        updateMaxUsedSliceOverallMultiplier(step);
+        updateMaxUsedSliceOverall2Multiplier(step);
+        updateMaxUsedSliceOverall3Multiplier(step);
     }
-
-    subtractConstantValuesFromLagrCost();
-
-    /** 
-    updateSlack();
-    updateSlack_v2();
-    updateDirection();
-
-    if (checkFeasibility() == true){
-        setStatus(STATUS_FEASIBLE);
-    }
-    **/
-
-    /**
-    int soma = 0;
-    for (int ee = 0; ee < instance.getNbEdges(); ee++){
-        for(int vv = 0;vv < countNodes(*vecEGraph[ee]); vv++){
-            soma += assignmentMatrix[ee][vv];
-        }
-    }
-    **/
-    //std::cout << "Sum: " << soma << std::endl;
 }
 
-/* Checks with the slacks if the solution is feasible. */
+/************************************** MULTIPLIER CONSIDERING THE STABILITY CENTER **************************************/
+
+void lagNonOverlapping::updateMultiplier_v2(double step){
+    updateLengthMultiplier_v2(step);
+    updateSourceTargetMultiplier_v2(step);
+    updateFlowMultiplier_v2(step);
+
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
+    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        updateMaxUsedSliceOverallMultiplier_v2(step);
+        updateMaxUsedSliceOverall2Multiplier_v2(step);
+        updateMaxUsedSliceOverall3Multiplier_v2(step);
+    }
+}
+
+/***************************************************** STABILITY CENTER ***************************************************/
+
+void lagNonOverlapping::updateStabilityCenter(){
+    updateLengthSC();
+    updateSourceTargetSC();
+    updateFlowSC();
+
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
+    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        updateMaxUsedSliceOverallSC();
+        updateMaxUsedSliceOverall2SC();
+        updateMaxUsedSliceOverall3SC();
+    }
+}
+
+/********************************************************** SLACK *********************************************************/
+
+void lagNonOverlapping::updateSlack(int d, const ListDigraph::Arc & arc){
+    updateLengthSlack(d,arc);
+    updateSourceTargetSlack(d,arc);
+    updateFlowSlack(d,arc);
+
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
+    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        updateMaxUsedSliceOverallSlack(d,arc);
+        updateMaxUsedSliceOverall2Slack(d,arc);
+        updateMaxUsedSliceOverall3Slack(d,arc);
+    }
+}
+
+void lagNonOverlapping::updatePrimalSlack(double alpha){
+    updateLengthPrimalSlack(alpha);
+    updateSourceTargetPrimalSlack(alpha);
+    updateFlowPrimalSlack(alpha);
+
+    updateOneSlicePerDemandPrimalSlack(alpha);
+
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
+    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        updateMaxUsedSliceOverallPrimalSlack(alpha);
+        updateMaxUsedSliceOverallAuxPrimalSlack(alpha);
+        //updateMaxUsedSliceOverall2PrimalSlack(alpha);
+        //updateMaxUsedSliceOverall3PrimalSlack(alpha);
+    }
+}
+
+/********************************************************** DIRECTION *****************************************************/
+
+void lagNonOverlapping::updateDirection(){
+    double theta = getDirectionMult();
+    updateLengthDirection(theta);
+    updateSourceTargetDirection(theta);
+    updateFlowDirection(theta);
+
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
+    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        updateMaxUsedSliceOverallDirection(theta);
+        updateMaxUsedSliceOverall2Direction(theta);
+        updateMaxUsedSliceOverall3Direction(theta);
+    }
+}
+
+/**************************************************** ASSIGNMENT MATRIX *****************************************************/
+
+/* Updates the assignment of a edge based on the a given path. */
+void lagNonOverlapping::updateAssignment_k(int label, Dijkstra<ListDigraph,ListDigraph::ArcMap<double>>  &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
+    
+    ListDigraph::Node currentNode = TARGET;
+    while (currentNode != SOURCE){
+        const ListDigraph::Arc arc = getNodeEArc(currentNode,label); 
+        if(arc != INVALID){ 
+            int demand = getNodeEDemand(currentNode,label);
+            int index = getArcIndex(arc, demand);
+            assignmentMatrix_d[demand][index] = true;
+
+            /* Update Slack */
+            updateSlack(demand,arc);
+        }
+        currentNode = path.predNode(currentNode);
+    }
+}
+
+void lagNonOverlapping::updateAssignment_k(int label, BellmanFord< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
+    
+    ListDigraph::Node currentNode = TARGET;
+    while (currentNode != SOURCE){
+        const ListDigraph::Arc arc = getNodeEArc(currentNode,label); 
+        if(arc != INVALID){ 
+            int demand = getNodeEDemand(currentNode,label);
+            int index = getArcIndex(arc, demand);
+            assignmentMatrix_d[demand][index] = true;
+
+            /* Update Slack */
+            updateSlack(demand,arc);
+        }
+        currentNode = path.predNode(currentNode);
+    }
+}
+
+/**************************************************** CHECK FEASIBILITY *****************************************************/
+
+/* Checks feasibility of sub problem solution. */
 bool lagNonOverlapping::checkFeasibility(){
     if (checkLengthFeasibility() == false){
         return false;
@@ -427,62 +490,24 @@ bool lagNonOverlapping::checkFeasibility(){
     return true;
 }
 
-void lagNonOverlapping::subtractConstantValuesFromLagrCost(){
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        //double val = - getLengthMultiplier_k(d)*getToBeRouted_k(d).getMaxLength();
-        //double val = - getLengthMultiplier_k(d)*getToBeRouted_k(d).getMaxLength()/100;
-        double val = -getLengthMultiplier_k(d);
-        incCurrentLagrCost(val);
+/* Ckecks feasibility of primal approximation. */
+bool lagNonOverlapping::checkFeasibility_v2(){
+    if (checkLengthFeasibility_v2() == false){
+        return false;
     }
-
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        double val = -getSourceTargetMultiplier_k(d,getToBeRouted_k(d).getSource()) - getSourceTargetMultiplier_k(d,getToBeRouted_k(d).getTarget());
-        incCurrentLagrCost(val);
+    if (checkSourceTargetFeasibility_v2() == false){
+        return false;
     }
-
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (int v = 0; v < instance.getNbNodes(); v++){ 
-            if((v != getToBeRouted_k(d).getSource()) &&  (v != getToBeRouted_k(d).getTarget())){
-                double val = -getSourceTargetMultiplier_k(d,v);
-                incCurrentLagrCost(val);
-            }
-
-        }
+    if (checkFlowFeasibility_v2() == false){
+        return false;
     }
+    return true;
 }
 
-void lagNonOverlapping::solveProblemMaxUsedSliceOverall(){
-    double exp = 0.0;
+/* ***************************************************************************************************************************
+*                                                         GET METHODS
+**************************************************************************************************************************** */
 
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        exp += getMaxUsedSliceOverallMultiplier_k(d);
-    }
-    for (int e = 0; e < instance.getNbEdges(); e++){
-        int sliceLimit = getNbSlicesLimitFromEdge(e);
-        for (int s = 0; s < sliceLimit; s++){
-            exp += getMaxUsedSliceOverall2Multiplier_k(e,s);
-        }
-    }
-
-    for (int v = 0; v < instance.getNbNodes(); v++){
-        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
-            exp += getMaxUsedSliceOverall3Multiplier_k(v,s);
-        }
-    }
-
-    if(exp > 1.000){
-        maxUsedSliceOverall = getInstance().getMaxSlice();
-    }else{
-        maxUsedSliceOverall = 0.0;
-    }
-
-    incCurrentLagrCost(maxUsedSliceOverall*(1-exp));
-    incCurrentRealCost(maxUsedSliceOverall);
-}
-
-/* *******************************************************************************
-*                                GET METHODS
-******************************************************************************* */
 
 ListDigraph::Node lagNonOverlapping::getNodeFromIndex(int e, int id){
     for (ListDigraph::NodeIt n(*vecEGraph[e]); n != INVALID; ++n){
@@ -493,97 +518,164 @@ ListDigraph::Node lagNonOverlapping::getNodeFromIndex(int e, int id){
     return INVALID;
 }
 
-double lagNonOverlapping::getRealCostFromPath(int e, BellmanFord< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
+double lagNonOverlapping::getRealCostFromPath(int label, Dijkstra<ListDigraph,ListDigraph::ArcMap<double>>  &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
     double total = 0.0;
     ListDigraph::Node currentNode = TARGET;
     while (currentNode != SOURCE){
-        /* Find the correspondent arc (graph for each demand) of the currentNode (auxiliary graph) */
-        const ListDigraph::Arc arc = getNodeEArc(currentNode,e); 
-        if(arc != INVALID){ /* do not consider artificial source and destination */
-            total += getCoeff(arc, getNodeEDemand(currentNode,e)); // olhar para pe e p (???)   
-            //std::cout << getCoeff(arc, getNodeEDemand(currentNode,e)) << std::endl;
+        const ListDigraph::Arc arc = getNodeEArc(currentNode,label); 
+        if(arc != INVALID){ 
+            total += getCoeff(arc, getNodeEDemand(currentNode,label)); 
         }
         currentNode = path.predNode(currentNode);
     }
     return total;
 }
 
-/********************************** MODULE ***************************************/
+double lagNonOverlapping::getRealCostFromPath(int e, BellmanFord< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
+    double total = 0.0;
+    ListDigraph::Node currentNode = TARGET;
+    while (currentNode != SOURCE){
+        const ListDigraph::Arc arc = getNodeEArc(currentNode,e); 
+        if(arc != INVALID){ 
+            total += getCoeff(arc, getNodeEDemand(currentNode,e)); 
+        }
+        currentNode = path.predNode(currentNode);
+    }
+    return total;
+}
 
 /** Returns the constraints slack module **/
-double lagNonOverlapping::getSlackModule() {
+double lagNonOverlapping::getSlackModule(double alpha) {
     double denominator = 0.0;
+    /* Length */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        //if(!((-getLengthSlack_k(d) < - DBL_EPSILON) && (getLengthMultiplier_k(d) > -DBL_EPSILON && getLengthMultiplier_k(d) < DBL_EPSILON))){
-            denominator += std::pow(getLengthSlack_k(d), 2);
-        //}
-    }
-    for(int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (int v = 0; v < instance.getNbNodes(); v++){
-            if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()){   
-                //if(!((getSourceTargetSlack_k(d,v) > - DBL_EPSILON && getSourceTargetSlack_k(d,v) < DBL_EPSILON ) && (getSourceTargetMultiplier_k(d,v) > -DBL_EPSILON  && getSourceTargetMultiplier_k(d,v) < DBL_EPSILON))){
-                    denominator += std::pow(getSourceTargetSlack_k(d, v), 2);
-                //}
-            }else{
-                //if(!((-getSourceTargetSlack_k(d,v) < - DBL_EPSILON ) &&  (getSourceTargetMultiplier_k(d,v) > -DBL_EPSILON && getSourceTargetMultiplier_k(d,v) < DBL_EPSILON))){
-                    denominator += std::pow(getSourceTargetSlack_k(d, v), 2);
-                //}
-            } 
+        double slack = alpha*(-getLengthSlack_k(d)) + (1.0 - alpha)*(-getLengthSlack_v2_k(d));
+        double mult = getLengthMultiplier_k(d);
+        if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+            denominator += std::pow(getLengthSlack_k(d),2);
         }
     }
 
-    for (int d= 0; d < getNbDemandsToBeRouted(); d++){
+    /* Source/Target */
+    for(int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (int v = 0; v < instance.getNbNodes(); v++){
-            if((v != getToBeRouted_k(d).getSource()) && v != getToBeRouted_k(d).getTarget()){   
-                //if(!((getFlowSlack_k(d,v) > - DBL_EPSILON && getFlowSlack_k(d,v) < DBL_EPSILON ) &&  (getFlowMultiplier_k(d,v) > -DBL_EPSILON && getFlowMultiplier_k(d,v) < DBL_EPSILON))){   
-                    denominator += std::pow(getFlowSlack_k(d, v), 2);
-                //}
+            double slack = alpha*(-getSourceTargetSlack_k(d,v)) + (1.0 - alpha)*(-getSourceTargetSlack_v2_k(d,v));
+            double mult = getSourceTargetMultiplier_k(d,v);
+            if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                denominator += std::pow(getSourceTargetSlack_k(d,v),2);
             }
         }
+    }
+
+    /* Flow */
+    for (int d= 0; d < getNbDemandsToBeRouted(); d++){
+        for (int v = 0; v < countNodes(*vecGraph[d]); v++){
+            if((v != getToBeRouted_k(d).getSource()) && v != getToBeRouted_k(d).getTarget()){
+                double slack = alpha*(-getFlowSlack_k(d,v)) + (1.0 - alpha)*(-getFlowSlack_v2_k(d,v));
+                double mult = getFlowMultiplier_k(d,v);
+                if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                    denominator += std::pow(getFlowSlack_k(d,v),2);
+                }
+            }
+        }   
     } 
+    /* One slice Per demand */
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        for (int d= 0; d < getNbDemandsToBeRouted(); d++){
+            double slack = alpha*(-getOneSlicePerDemandSlack_k(e,d)) + (1.0 - alpha)*(-getOneSlicePerDemandSlack_v2_k(e,d));
+            double mult = getOneSlicePerDemandMultiplier_k(e,d);
+            if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                denominator += std::pow(getOneSlicePerDemandSlack_k(e,d),2);
+            }
+        }
+    }
+    
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-            denominator += std::pow(getMaxUsedSliceOverallSlack_k(d), 2);
+            double slack = alpha*(-getMaxUsedSliceOverallSlack_k(d)) + (1.0 - alpha)*(-getMaxUsedSliceOverallSlack_v2_k(d));
+            double mult = getMaxUsedSliceOverallMultiplier_k(d);
+            if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                denominator += std::pow(getMaxUsedSliceOverallSlack_k(d),2);
+            }       
         }
-
+        /*
+        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+            double slack = alpha*(-getMaxUsedSliceOverallAuxSlack_k(d)) + (1.0 - alpha)*(-getMaxUsedSliceOverallAuxSlack_v2_k(d));
+            double mult = getMaxUsedSliceOverallAuxMultiplier_k(d);
+            if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                denominator += std::pow(getMaxUsedSliceOverallAuxSlack_k(d),2);
+            }       
+        }
+        */
+        /*
         for (int e = 0; e < instance.getNbEdges(); e++){
-            int sliceLimit = getNbSlicesLimitFromEdge(e);
-            for (int s = 0; s < sliceLimit; s++){
-                denominator += std::pow(getMaxUsedSliceOverall2Slack_k(e,s), 2);
+            for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
+                double slack = alpha*(-getMaxUsedSliceOverall2Slack_k(e,s)) + (1.0 - alpha)*(-getMaxUsedSliceOverall2Slack_v2_k(e,s));
+                double mult = getMaxUsedSliceOverall2Multiplier_k(e,s);
+                if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                    denominator += std::pow(getMaxUsedSliceOverall2Slack_k(e,s),2);
+                }    
             }
         }
-
+        */
+        /*
         for (int v = 0; v < instance.getNbNodes(); v++){
             for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
-                denominator += std::pow(getMaxUsedSliceOverall3Slack_k(v,s), 2);
+                double slack = alpha*(-getMaxUsedSliceOverall3Slack_k(v,s)) + (1.0 - alpha)*(-getMaxUsedSliceOverall3Slack_v2_k(v,s));
+                double mult = getMaxUsedSliceOverall3Multiplier_k(v,s);
+                if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                    denominator += std::pow(getMaxUsedSliceOverall3Slack_k(v,s),2);
+                }     
             }
         }
+        */
     }
     return denominator;
 }
 
 /** Returns the constraints slack module (slack considering the primal variables) **/
-double lagNonOverlapping::getSlackModule_v2(){
+double lagNonOverlapping::getSlackModule_v2(double alpha){
     double denominator = 0.0;
+    /* Length */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        denominator += std::pow(getLengthSlack_v2_k(d), 2);
-    }
-
-    for(int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (int v = 0; v < instance.getNbNodes(); v++){
-            if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()){   
-                denominator += std::pow(getSourceTargetSlack_v2_k(d, v), 2);
-            }else{
-                denominator += std::pow(getSourceTargetSlack_v2_k(d, v), 2);
-            } 
+        double slack = alpha*(-getLengthSlack_k(d)) + (1.0 - alpha)*(-getLengthSlack_v2_k(d));
+        double mult = getLengthMultiplier_k(d);
+        if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+            denominator += std::pow(getLengthSlack_v2_k(d),2);
         }
     }
 
-    for (int d= 0; d < getNbDemandsToBeRouted(); d++){
+    /* Source/Target */
+    for(int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (int v = 0; v < instance.getNbNodes(); v++){
-            if((v != getToBeRouted_k(d).getSource()) && v != getToBeRouted_k(d).getTarget()){   
-                denominator += std::pow(getFlowSlack_v2_k(d, v), 2);
+            double slack = alpha*(-getSourceTargetSlack_k(d,v)) + (1.0 - alpha)*(-getSourceTargetSlack_v2_k(d,v));
+            double mult = getSourceTargetMultiplier_k(d,v);
+            if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                denominator += std::pow(getSourceTargetSlack_v2_k(d,v),2);
+            }
+        }
+    }
+
+    /* Flow */
+    for (int d= 0; d < getNbDemandsToBeRouted(); d++){
+        for (int v = 0; v < countNodes(*vecGraph[d]); v++){
+            if((v != getToBeRouted_k(d).getSource()) && v != getToBeRouted_k(d).getTarget()){
+                double slack = alpha*(-getFlowSlack_k(d,v)) + (1.0 - alpha)*(-getFlowSlack_v2_k(d,v));
+                double mult = getFlowMultiplier_k(d,v);
+                if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                    denominator += std::pow(getFlowSlack_v2_k(d,v),2);
+                }
+            }
+        }   
+    } 
+    /* One slice Per demand */
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        for (int d= 0; d < getNbDemandsToBeRouted(); d++){
+            double slack = alpha*(-getOneSlicePerDemandSlack_k(e,d)) + (1.0 - alpha)*(-getOneSlicePerDemandSlack_v2_k(e,d));
+            double mult = getOneSlicePerDemandMultiplier_k(e,d);
+            if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                denominator += std::pow(getOneSlicePerDemandSlack_v2_k(e,d),2);
             }
         }
     }
@@ -591,23 +683,44 @@ double lagNonOverlapping::getSlackModule_v2(){
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-            denominator += std::pow(getMaxUsedSliceOverallSlack_v2_k(d), 2);
+            double slack = alpha*(-getMaxUsedSliceOverallSlack_k(d)) + (1.0 - alpha)*(-getMaxUsedSliceOverallSlack_v2_k(d));
+            double mult = getMaxUsedSliceOverallMultiplier_k(d);
+            if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                denominator += std::pow(getMaxUsedSliceOverallSlack_v2_k(d),2);
+            }       
         }
-
+        /*
+        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+            double slack = alpha*(-getMaxUsedSliceOverallAuxSlack_k(d)) + (1.0 - alpha)*(-getMaxUsedSliceOverallAuxSlack_v2_k(d));
+            double mult = getMaxUsedSliceOverallAuxMultiplier_k(d);
+            if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                denominator += std::pow(getMaxUsedSliceOverallAuxSlack_v2_k(d),2);
+            }       
+        }
+        */
+        /*
         for (int e = 0; e < instance.getNbEdges(); e++){
-            int sliceLimit = getNbSlicesLimitFromEdge(e);
-            for (int s = 0; s < sliceLimit; s++){
-                denominator += std::pow(getMaxUsedSliceOverall2Slack_v2_k(e,s), 2);
+            for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
+                double slack = alpha*(-getMaxUsedSliceOverall2Slack_k(e,s)) + (1.0 - alpha)*(-getMaxUsedSliceOverall2Slack_v2_k(e,s));
+                double mult = getMaxUsedSliceOverall2Multiplier_k(e,s);
+                if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                    denominator += std::pow(getMaxUsedSliceOverall2Slack_v2_k(e,s),2);
+                }    
             }
         }
-
+        */
+        /*
         for (int v = 0; v < instance.getNbNodes(); v++){
             for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
-                denominator += std::pow(getMaxUsedSliceOverall3Slack_v2_k(v,s), 2);
+                double slack = alpha*(-getMaxUsedSliceOverall3Slack_k(v,s)) + (1.0 - alpha)*(-getMaxUsedSliceOverall3Slack_v2_k(v,s));
+                double mult = getMaxUsedSliceOverall3Multiplier_k(v,s);
+                if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                    denominator += std::pow(getMaxUsedSliceOverall3Slack_v2_k(v,s),2);
+                }     
             }
         }
+        */
     }
-
     return denominator;
 }
 
@@ -615,30 +728,17 @@ double lagNonOverlapping::getSlackModule_v2(){
 double lagNonOverlapping::getDirectionModule(){
     double denominator = 0.0;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        //if(!((-getLengthSlack_k(d) < - DBL_EPSILON) && (getLengthMultiplier_k(d) > -DBL_EPSILON && getLengthMultiplier_k(d) < DBL_EPSILON))){
-            denominator += std::pow(getLengthDirection_k(d), 2);
-        //}
+        denominator += std::pow(getLengthDirection_k(d), 2);
     }
     for(int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (int v = 0; v < instance.getNbNodes(); v++){
-            if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()){   
-                //if(!((getSourceTargetSlack_k(d,v) > - DBL_EPSILON && getSourceTargetSlack_k(d,v) < DBL_EPSILON ) && (getSourceTargetMultiplier_k(d,v) > -DBL_EPSILON  && getSourceTargetMultiplier_k(d,v) < DBL_EPSILON))){
-                    denominator += std::pow(getSourceTargetDirection_k(d, v), 2);
-                //}
-            }else{
-                //if(!((-getSourceTargetSlack_k(d,v) < - DBL_EPSILON ) &&  (getSourceTargetMultiplier_k(d,v) > -DBL_EPSILON && getSourceTargetMultiplier_k(d,v) < DBL_EPSILON))){
-                    denominator += std::pow(getSourceTargetDirection_k(d, v), 2);
-                //}
-            } 
+        for (int v = 0; v < instance.getNbNodes(); v++){ 
+            denominator += std::pow(getSourceTargetDirection_k(d, v), 2);
         }
     }
-
     for (int d= 0; d < getNbDemandsToBeRouted(); d++){
-        for (int v = 0; v < instance.getNbNodes(); v++){
+        for (int v = 0; v < countNodes(*vecGraph[d]); v++){
             if((v != getToBeRouted_k(d).getSource()) && v != getToBeRouted_k(d).getTarget()){   
-                //if(!((getFlowSlack_k(d,v) > - DBL_EPSILON && getFlowSlack_k(d,v) < DBL_EPSILON ) &&  (getFlowMultiplier_k(d,v) > -DBL_EPSILON && getFlowMultiplier_k(d,v) < DBL_EPSILON))){   
-                    denominator += std::pow(getFlowDirection_k(d, v), 2);
-                //}
+                denominator += std::pow(getFlowDirection_k(d, v), 2);
             }
         }
     } 
@@ -681,15 +781,11 @@ double lagNonOverlapping::getSlackDirectionProdNormal(){
     }
     for(int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (int v = 0; v < instance.getNbNodes(); v++){
-            if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()){   
-                denominator += getSourceTargetSlack_k(d, v)*getSourceTargetDirection_k(d,v);
-            }else{
-                denominator += getSourceTargetSlack_k(d, v)*getSourceTargetDirection_k(d,v);
-            } 
+            denominator += getSourceTargetSlack_k(d, v)*getSourceTargetDirection_k(d,v);
         }
     }
     for (int d= 0; d < getNbDemandsToBeRouted(); d++){
-        for (int v = 0; v < instance.getNbNodes(); v++){
+        for (int v = 0; v < countNodes(*vecGraph[d]); v++){
             if((v != getToBeRouted_k(d).getSource()) && v != getToBeRouted_k(d).getTarget()){   
                 denominator += getFlowSlack_k(d, v)*getFlowDirection_k(d,v);
             }
@@ -739,7 +835,7 @@ double lagNonOverlapping::getSlackDirectionProdProjected(Input::ProjectionType p
             }
         }
         for (int d= 0; d < getNbDemandsToBeRouted(); d++){
-            for (int v = 0; v < instance.getNbNodes(); v++){
+            for (int v = 0; v < countNodes(*vecGraph[d]); v++){
                 if((v != getToBeRouted_k(d).getSource()) && v != getToBeRouted_k(d).getTarget()){   
                     //if(!((getFlowDirection_k(d,v) > - DBL_EPSILON && getFlowDirection_k(d,v) < DBL_EPSILON ) &&  (getFlowMultiplier_k(d,v) > -DBL_EPSILON && getFlowMultiplier_k(d,v) < DBL_EPSILON))){   
                     denominator += getFlowSlack_k(d, v)*getFlowDirection_k(d,v);
@@ -792,7 +888,7 @@ double lagNonOverlapping::getSlackDirectionProdProjected(Input::ProjectionType p
             }
         }
         for (int d= 0; d < getNbDemandsToBeRouted(); d++){
-            for (int v = 0; v < instance.getNbNodes(); v++){
+            for (int v = 0; v < countNodes(*vecGraph[d]); v++){
                 if((v != getToBeRouted_k(d).getSource()) && v != getToBeRouted_k(d).getTarget()){   
                     //if(!((getFlowDirection_k(d,v) > - DBL_EPSILON && getFlowDirection_k(d,v) < DBL_EPSILON ) &&  (getFlowMultiplier_k(d,v) > -DBL_EPSILON && getFlowMultiplier_k(d,v) < DBL_EPSILON))){   
                     denominator += getFlowSlack_k(d, v)*getFlowDirection_k(d,v);
@@ -829,178 +925,292 @@ double lagNonOverlapping::getSlackDirectionProdProjected(Input::ProjectionType p
     return denominator;
 }
 
-/** Returns the mean of the slacks (primal variables) module **/
+/** Returns the module **/
 double lagNonOverlapping::getMeanSlackModule_v2(){
-    double module = std::sqrt(getSlackModule_v2());
+    double module = std::accumulate(lengthSlack_v2.begin(),lengthSlack_v2.end(),0.0,[](double sum, double slack){return sum +=std::abs(slack);});
+
+    for(int d = 0; d < getNbDemandsToBeRouted(); d++){
+        std::accumulate(sourceTargetSlack_v2[d].begin(),sourceTargetSlack_v2[d].end(),0.0,[](double sum, double slack){return sum +=std::abs(slack);});
+    }
+    for(int d = 0; d < getNbDemandsToBeRouted(); d++){
+        std::accumulate(flowSlack_v2[d].begin(),flowSlack_v2[d].end(),0.0,[](double sum, double slack){return sum +=std::abs(slack);});
+    }
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        std::accumulate(oneSlicePerDemandSlack_v2[e].begin(),oneSlicePerDemandSlack_v2[e].end(),0.0,[](double sum, double slack){return sum +=std::abs(slack);});
+    } 
+
     double numRest = getNbDemandsToBeRouted() + getNbDemandsToBeRouted()*instance.getNbNodes() + (getNbDemandsToBeRouted()*(instance.getNbNodes()-2));
+    numRest += getNbDemandsToBeRouted()*instance.getNbEdges();
+
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
-        numRest = getNbDemandsToBeRouted();
+        module += std::accumulate(maxUsedSliceOverallSlack_v2.begin(),maxUsedSliceOverallSlack_v2.end(),0.0,[](double sum, double slack){return sum +=std::abs(slack);});
+        //module += std::accumulate(maxUsedSliceOverallAuxSlack_v2.begin(),maxUsedSliceOverallAuxSlack_v2.end(),0.0,[](double sum, double slack){return sum +=std::abs(slack);});
+
+        /*
+        for (int e = 0; e < instance.getNbEdges(); e++){
+            module += std::accumulate(maxUsedSliceOverall2Slack_v2[e].begin(),maxUsedSliceOverall2Slack_v2[e].end(),0.0,[](double sum, double slack){return sum +=std::abs(slack);});
+        }
+
+        for (int v = 0; v < instance.getNbNodes(); v++){
+            module += std::accumulate(maxUsedSliceOverall3Slack_v2[v].begin(),maxUsedSliceOverall3Slack_v2[v].end(),0.0,[](double sum, double slack){return sum +=std::abs(slack);});
+        }
+        */
+
+        numRest += getNbDemandsToBeRouted();
+        //numRest += getNbDemandsToBeRouted();
+        /*
         for (int e = 0; e < instance.getNbEdges(); e++){
             numRest += getNbSlicesLimitFromEdge(e);
         }
         for (int e = 0; e < instance.getNbNodes(); e++){
             numRest += getNbSlicesGlobalLimit();
         }
+        */
     }
-
-    
     return module/numRest;
 }
 
 /** Returns the scalar product of the normal slack with the slack considering the primal variables **/
-double lagNonOverlapping::get_prod_slack(){
+double lagNonOverlapping::getSlackPrimalSlackProd(double alpha){
 
-    double prod = 0.0;
+    double denominator = 0.0;
+    /* Length */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        prod += getLengthSlack_v2_k(d)*getLengthSlack_k(d);
-    }
-
-    for(int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (int v = 0; v < instance.getNbNodes(); v++){
-            if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()){   
-                prod += getSourceTargetSlack_v2_k(d, v)*getSourceTargetSlack_k(d, v);
-            }else{
-                prod += getSourceTargetSlack_v2_k(d, v)*getSourceTargetSlack_k(d, v);
-            } 
+        double slack = alpha*(-getLengthSlack_k(d)) + (1.0 - alpha)*(-getLengthSlack_v2_k(d));
+        double mult = getLengthMultiplier_k(d);
+        if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+            denominator += getLengthSlack_k(d)*getLengthSlack_v2_k(d);
         }
     }
 
-    for (int d= 0; d < getNbDemandsToBeRouted(); d++){
+    /* Source/Target */
+    for(int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (int v = 0; v < instance.getNbNodes(); v++){
-            if((v != getToBeRouted_k(d).getSource()) && v != getToBeRouted_k(d).getTarget()){   
-                prod += getFlowSlack_v2_k(d, v)*getFlowSlack_k(d, v);
+            double slack = alpha*(-getSourceTargetSlack_k(d,v)) + (1.0 - alpha)*(-getSourceTargetSlack_v2_k(d,v));
+            double mult = getSourceTargetMultiplier_k(d,v);
+            if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                denominator += getSourceTargetSlack_k(d,v)*getSourceTargetSlack_v2_k(d,v);
             }
         }
     }
+
+    /* Flow */
+    for (int d= 0; d < getNbDemandsToBeRouted(); d++){
+        for (int v = 0; v < countNodes(*vecGraph[d]); v++){
+            if((v != getToBeRouted_k(d).getSource()) && v != getToBeRouted_k(d).getTarget()){
+                double slack = alpha*(-getFlowSlack_k(d,v)) + (1.0 - alpha)*(-getFlowSlack_v2_k(d,v));
+                double mult = getFlowMultiplier_k(d,v);
+                if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                    denominator += getFlowSlack_k(d,v)*getFlowSlack_v2_k(d,v);
+                }
+            }
+        }   
+    } 
+    /* One slice Per demand */
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        for (int d= 0; d < getNbDemandsToBeRouted(); d++){
+            double slack = alpha*(-getOneSlicePerDemandSlack_k(e,d)) + (1.0 - alpha)*(-getOneSlicePerDemandSlack_v2_k(e,d));
+            double mult = getOneSlicePerDemandMultiplier_k(e,d);
+            if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                denominator += getOneSlicePerDemandSlack_k(e,d)*getOneSlicePerDemandSlack_v2_k(e,d);
+            }
+        }
+    }
+
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-            prod += getMaxUsedSliceOverallSlack_k(d)*getMaxUsedSliceOverallSlack_v2_k(d);
+            double slack = alpha*(-getMaxUsedSliceOverallSlack_k(d)) + (1.0 - alpha)*(-getMaxUsedSliceOverallSlack_v2_k(d));
+            double mult = getMaxUsedSliceOverallMultiplier_k(d);
+            if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                denominator += getMaxUsedSliceOverallSlack_k(d)*getMaxUsedSliceOverallSlack_v2_k(d);
+            }       
         }
-
+        /*
+        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+            double slack = alpha*(-getMaxUsedSliceOverallAuxSlack_k(d)) + (1.0 - alpha)*(-getMaxUsedSliceOverallAuxSlack_v2_k(d));
+            double mult = getMaxUsedSliceOverallAuxMultiplier_k(d);
+            if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                denominator += getMaxUsedSliceOverallAuxSlack_k(d)*getMaxUsedSliceOverallAuxSlack_v2_k(d);
+            }       
+        }
+        */
+        /*
         for (int e = 0; e < instance.getNbEdges(); e++){
-            int sliceLimit = getNbSlicesLimitFromEdge(e);
-            for (int s = 0; s < sliceLimit; s++){
-                prod += getMaxUsedSliceOverall2Slack_k(e,s)*getMaxUsedSliceOverall2Slack_v2_k(e,s);
+            for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
+                double slack = alpha*(-getMaxUsedSliceOverall2Slack_k(e,s)) + (1.0 - alpha)*(-getMaxUsedSliceOverall2Slack_v2_k(e,s));
+                double mult = getMaxUsedSliceOverall2Multiplier_k(e,s);
+                if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                    denominator += getMaxUsedSliceOverall2Slack_k(e,s)*getMaxUsedSliceOverall2Slack_v2_k(e,s);
+                }    
             }
         }
-
+        */
+        /*
         for (int v = 0; v < instance.getNbNodes(); v++){
             for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
-                prod += getMaxUsedSliceOverall3Slack_k(v,s)*getMaxUsedSliceOverall2Slack_v2_k(v,s);
+                double slack = alpha*(-getMaxUsedSliceOverall3Slack_k(v,s)) + (1.0 - alpha)*(-getMaxUsedSliceOverall3Slack_v2_k(v,s));
+                double mult = getMaxUsedSliceOverall3Multiplier_k(v,s);
+                if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
+                    denominator += getMaxUsedSliceOverall3Slack_k(v,s)*getMaxUsedSliceOverall3Slack_v2_k(v,s);
+                }     
+            }
+        }
+        */
+    }
+    return denominator;
+}
+
+/* ***********************************************************************************************************************
+*                                                   RUNING METHODS
+*********************************************************************************************************************** */
+
+void lagNonOverlapping::run(){
+    setCurrentLagrCost(0.0);
+    setCurrentRealCost(0.0);
+
+    if(getStatus() == STATUS_FEASIBLE){
+        setStatus(STATUS_UNKNOWN);
+    }
+
+    updateAssignment();
+    updateCosts();
+
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        
+        time.setStart(ClockTime::getTimeNow());
+        const ListDigraph::Node SOURCE = getNodeFromIndex(e, getIndexSource(e));
+        const ListDigraph::Node TARGET = getNodeFromIndex(e, getIndexDestination(e));
+
+        /* Solving a shortest path for each edge considering the auxiliary graph */
+        /* From the artificial source to the artificial target*/
+        Dijkstra<ListDigraph,ListDigraph::ArcMap<double>> shortestPath((*vecEGraph[e]), (*vecECost[e]));
+        shortestPath.run(SOURCE, TARGET);
+
+        //BellmanFord<ListDigraph,ListDigraph::ArcMap<double>> shortestPath((*vecEGraph[e]), (*vecECost[e]));
+        //shortestPath.run(SOURCE);
+        
+        if(shortestPath.reached(TARGET) == false){ // There is always a path in this graph.
+            setStatus(STATUS_INFEASIBLE);
+            std::cout << "> RSA is infeasible because there is no path from the artificial source to the artificial destination. Edge " << e << "." << std::endl;
+            return;
+        }
+        incShorstestPathTime(time.getTimeInSecFromStart());
+
+        time.setStart(ClockTime::getTimeNow());
+        updateAssignment_k(e, shortestPath, SOURCE, TARGET);
+        incUpdateVariablesTime(time.getTimeInSecFromStart());
+
+        incCurrentLagrCost(shortestPath.dist(TARGET));    
+        if(chosenMetric != Input::OBJECTIVE_METRIC_8){
+            incCurrentRealCost(getRealCostFromPath(e, shortestPath, SOURCE, TARGET));
+        } 
+    }
+
+    std::cout << "Cost 1: " << getLagrCurrentCost() << std::endl;
+    time.setStart(ClockTime::getTimeNow());
+    subtractConstantValuesFromLagrCost();
+    incSubstractMultipliersTime(time.getTimeInSecFromStart());
+    std::cout << "Cost 2: " << getLagrCurrentCost() << std::endl;
+
+    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        solveProblemMaxUsedSliceOverall();
+    }
+
+    int soma = 0;
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        for (int e = 0; e < instance.getNbEdges(); e++){
+            soma =0;
+            for(ListDigraph::ArcIt a(*vecGraph[d]); a!= INVALID;++a){
+                if(getArcLabel(a,d)==e){
+                    int index = getArcIndex(a,d);
+                    soma += assignmentMatrix_d[d][index];
+                }    
+            }
+            std::cout << "SOMA: " << d << " " << e <<  " " << soma << std::endl;
+        }
+    }
+    std::cout << "SOMA: " << soma << std::endl;
+}
+
+void lagNonOverlapping::subtractConstantValuesFromLagrCost(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        double val = -getLengthMultiplier_k(d);
+        incCurrentLagrCost(val);
+        std::cout << "length " << val << std::endl;
+    }
+
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        double val = -getSourceTargetMultiplier_k(d,getToBeRouted_k(d).getSource()) - getSourceTargetMultiplier_k(d,getToBeRouted_k(d).getTarget());
+        incCurrentLagrCost(val);
+        std::cout << "source slack " << -getSourceTargetSlack_k(d,getToBeRouted_k(d).getSource() ) << std::endl;
+        std::cout << "target slack " << -getSourceTargetSlack_k(d,getToBeRouted_k(d).getTarget() ) << std::endl;
+        std::cout << "sum mult " << val << std::endl;
+    }
+
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        for (int v = 0; v < instance.getNbNodes(); v++){ 
+            if((v != getToBeRouted_k(d).getSource()) &&  (v != getToBeRouted_k(d).getTarget())){
+                double val = -getSourceTargetMultiplier_k(d,v);
+                std::cout << "other nodes " << val<< std::endl;
+                incCurrentLagrCost(val);
             }
         }
     }
-    return prod;
 }
 
-/* *******************************************************************************
-*                             UPDATE METHODS
-******************************************************************************* */
+void lagNonOverlapping::solveProblemMaxUsedSliceOverall(){
+    double exp = 0.0;
 
-/********************************** MULTIPLIERS ***************************************/
-
-/* Updates lagrangian multiplier with the rule: u[k+1] = u[k] + t[k]*violation */
-void lagNonOverlapping::updateMultiplier(double step){
-    updateLengthMultiplier(step);
-    updateSourceTargetMultiplier(step);
-    updateFlowMultiplier(step);
-}
-
-/******** MULTIPLIER CONSIDERING THE STABILITY CENTER ************/
-
-void lagNonOverlapping::updateMultiplier_v2(double step){
-    updateLengthMultiplier_v2(step);
-    updateSourceTargetMultiplier_v2(step);
-    updateFlowMultiplier_v2(step);
-}
-
-/********************************** STABILITY CENTER ***************************************/
-void lagNonOverlapping::updateStabilityCenter(){
-    updateLengthSC();
-    updateSourceTargetSC();
-    updateFlowSC();
-
-}
-
-/********************************** SLACK ***************************************/
-
-void lagNonOverlapping::updateSlack(){
-    /* Update Slacks */ 
-    updateLengthSlack();
-    updateSourceTargetSlack();
-    updateFlowSlack();
-}
-
-/************************ SLACK CONSIDERING THE PRIMAL VECTOR ********************/
-
-void lagNonOverlapping::updateSlack_v2(){
-    updateLengthSlack_v2();
-    updateSourceTargetSlack_v2();
-    updateFlowSlack_v2();
-}
-
-/********************************* DIRECTION ***********************************/
-
-void lagNonOverlapping::updateDirection(){
-    Input::DirectionMethod chosenDirectionMethod = getInstance().getInput().getChosenDirectionMethod();
-    double theta= 0.0;
-    if(chosenDirectionMethod == Input::NORMAL){
-        theta = 0.0;
-    }else if(chosenDirectionMethod == Input::CROWDER){
-        theta = getInstance().getInput().getCrowderParameter();
-    }else if(chosenDirectionMethod == Input::CARMERINI){
-        if(getSlackDirectionProdNormal() < 0.0){
-            theta = -(getInstance().getInput().getCarmeriniParameter()*getSlackDirectionProdNormal())/getDirectionModule();
-        }else{
-            theta = 0.0;
-        }
-    }else if(chosenDirectionMethod == Input::MODIFIED_CARMERINI){
-        if(getSlackDirectionProdNormal() < 0.0){
-            theta = std::sqrt(getSlackModule())/std::sqrt(getDirectionModule());
-        }else{
-            theta = 0.0;
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        exp += getMaxUsedSliceOverallMultiplier_k(d);
+    }
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        int sliceLimit = getNbSlicesLimitFromEdge(e);
+        for (int s = 0; s < sliceLimit; s++){
+            exp += getMaxUsedSliceOverall2Multiplier_k(e,s);
         }
     }
-    updateLengthDirection(theta);
-    updateSourceTargetDirection(theta);
-    updateFlowDirection(theta);
+
+    for (int v = 0; v < instance.getNbNodes(); v++){
+        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+            exp += getMaxUsedSliceOverall3Multiplier_k(v,s);
+        }
+    }
+
+    if(exp > 1.000){
+        maxUsedSliceOverall = getInstance().getMaxSlice();
+    }else{
+        maxUsedSliceOverall = 0.0;
+    }
+
+    incCurrentLagrCost(maxUsedSliceOverall*(1-exp));
+    incCurrentRealCost(maxUsedSliceOverall);
 }
 
-/********************************** COSTS ***************************************/
+/*********************************************************** COSTS ***********************************************************/
 
 /* Updates the arc costs according to the last lagrangian multiplier available. cost = c + u_k*length */
 /* It calcules the cost for the original variables, and then it passes the cost to the auxiliary graph */
 void lagNonOverlapping::updateCosts(){
     /********* Original Variables *********/
     /* Original costs */
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric != Input::OBJECTIVE_METRIC_8){
-        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-            for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-                setArcCost(a, d, getCoeff(a, d));
-            }
-        }
-    }else{
-        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-            for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-                setArcCost(a, d, 0.0);
-            }
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+            setArcCost(a, d, getCoeff(a,d));
         }
     }
-
     /* Length multipliers */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         double multiplier =  getLengthMultiplier_k(d);
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-            //double incrementValue = multiplier*getArcLength(a, d);
-            //double incrementValue = multiplier*getArcLength(a, d)/100;
             double incrementValue = multiplier*getArcLength(a, d)/getToBeRouted_k(d).getMaxLength();
             incArcCost(a, d, incrementValue);
         }
     }
-
+    
     /* Source/Target multipliers */
     for(int d =0; d < getNbDemandsToBeRouted(); d++){
         for (int label = 0; label < instance.getNbNodes(); label++){
@@ -1030,26 +1240,47 @@ void lagNonOverlapping::updateCosts(){
 
     /* Flow constraints */
     for(int d =0; d < getNbDemandsToBeRouted(); d++){
-        for (int label = 0; label < instance.getNbNodes(); label++){
-            /* It is not defined for the source and destination */
+        for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
+            int label = getNodeLabel(v, d);
+            int indexNode = getNodeIndex(v, d);
             if((label != getToBeRouted_k(d).getTarget()) && (label != getToBeRouted_k(d).getSource())){
-                double multiplier = getFlowMultiplier_k(d,label);
-                for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
-                    if(getNodeLabel(v, d) == label){
-                        for (ListDigraph::OutArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
-                            double incrementValue =  multiplier;
-                            incArcCost(a, d, incrementValue);
-                        }
-                        for (ListDigraph::InArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
-                            double incrementValue = - multiplier;
-                            incArcCost(a, d, incrementValue);
-                        }
-                    }
+                double multiplier = getFlowMultiplier_k(d,indexNode);
+                for (ListDigraph::OutArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
+                    double incrementValue =  multiplier;
+                    incArcCost(a, d, incrementValue);
+                }
+                for (ListDigraph::InArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
+                    double incrementValue = - multiplier;
+                    incArcCost(a, d, incrementValue);
                 }
             }
         }
     }
 
+    for(int d =0; d < getNbDemandsToBeRouted(); d++){
+        double sum =0;
+        for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
+            int indexNode = getNodeIndex(v, d);
+            double multiplier = getFlowMultiplier_k(d,indexNode);
+            sum += multiplier;
+        }
+        std::cout << "FLOW MULT " << sum <<std::endl;
+
+    }
+    double soma =0;
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+
+        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+            if(getArcCost(a,d)  < 0.0){
+                soma += getArcCost(a,d);
+            }
+            //std::cout << getArcCost(a,d) << "   "; 
+        }
+        //std::cout << std::endl;
+    }
+    std::cout << "SOMA COSTT "<< soma << std::endl;
+
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         for (int d = 0; d < getNbDemandsToBeRouted(); d++){
             double multiplier =  getMaxUsedSliceOverallMultiplier_k(d);
@@ -1099,59 +1330,19 @@ void lagNonOverlapping::updateCosts(){
 
     /* Passing the costs to the auxiliary graph */
     for (int e = 0; e < instance.getNbEdges(); e++){
-        /* for all arcs in the auxiliary graph */
         for(ListDigraph::ArcIt a(*vecEGraph[e]); a != INVALID; ++a){
             const ListDigraph::Node DEST = (*vecEGraph[e]).target(a);
             const ListDigraph::Arc arc = getNodeEArc(DEST,e);
-            /* If it is not the final destination */
-            if(arc != INVALID){
+            if(arc != INVALID){ /* If it is not the final destination */
                 setArcECost(a,e,getArcCost(arc, getNodeEDemand(DEST,e)));
             }
         }
     }
 }
 
-/********************************** ASSIGNMENT MATRIX ***************************************/
-
-/* Updates the assignment of a edge based on the a given path. */
-void lagNonOverlapping::updateAssignment_e(int e, BellmanFord< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
-    std::fill(assignmentMatrix[e].begin(), assignmentMatrix[e].end(), false); 
-    ListDigraph::Node currentNode = path.predNode(TARGET);
-
-    //std::cout << "> Assignment Matrix"<< std::endl;
-
-    while (currentNode != SOURCE){
-        /* Find the correspondent arc (graph for each demand) of the currentNode (auxiliary graph) */
-        int index = getNodeEIndex(currentNode, e);
-        assignmentMatrix[e][index] = true;
-        currentNode = path.predNode(currentNode);
-        //std::cout << getNodeEDemand(currentNode,e) << std::endl;
-    }
-    //displayAssignmentMatrix(e);
-    //std::cout << "\t> Assigment Matrix was updated. " << std::endl;
-}
-
-void lagNonOverlapping::updateAssignment_d(){
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        std::fill(assignmentMatrix_d[d].begin(), assignmentMatrix_d[d].end(), false);
-    }
-
-    for (int e = 0; e < instance.getNbEdges(); e++){
-        for(ListDigraph::NodeIt n((*vecEGraph[e])); n!= INVALID; ++n){
-            const ListDigraph::Arc arc = getNodeEArc(n,e);
-            if(arc != INVALID){
-                int d = getNodeEDemand(n,e);
-                int indexNode = getNodeEIndex(n, e);
-                int indexArc = getArcIndex(arc,d);
-                assignmentMatrix_d[d][indexArc] = assignmentMatrix[e][indexNode];
-            }
-        }
-    }
-}
-
-/* *******************************************************************************
-*                                 DISPLAYS
-******************************************************************************* */
+/* *****************************************************************************************************************
+*                                                       DISPLAYS
+****************************************************************************************************************** */
 
 /* Displays an arc from the graph #e. */
 void lagNonOverlapping::displayEArc(int e, const ListDigraph::Arc &a){

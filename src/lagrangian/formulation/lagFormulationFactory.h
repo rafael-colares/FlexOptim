@@ -2,8 +2,9 @@
 #define LAG_FORMULATION_FACTORY_H
 
 // include all concrete formulations
-#include "lagNonOverlap.h"
+//#include "lagNonOverlap.h"
 #include "lagNonOverlapping.h"
+#include "lagNewNonOverlapping.h"
 #include "lagFlow.h"
 
 /*********************************************************************************************
@@ -20,12 +21,12 @@ class lagFormulationFactory{
                     return new lagFlow(instance);
                     break;
                 }
-                case Input::LAG_OVERLAP:{
-                    return new lagNonOverlap(instance);
+                case Input::LAG_OVERLAPPING:{
+                    return new lagNewNonOverlapping(instance);
                     break;
                 }
 
-                case Input::LAG_OVERLAPPING:{
+                case Input::LAG_OVERLAP:{
                     return new lagNonOverlapping(instance);
                     break;
                 }

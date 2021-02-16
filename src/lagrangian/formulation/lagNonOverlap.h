@@ -102,10 +102,6 @@ class lagNonOverlap: public AbstractLagFormulation{
         /** Initializes the slack of relaxed constraints. **/
         void initSlacks();
 
-        /********************************** SLACK PRIMAL VARIABLES ***************************************/
-
-        void initSlacks_v2();
-
        /********************************** DIRECTION ***************************************/
 
         void initDirection();
@@ -264,10 +260,6 @@ class lagNonOverlap: public AbstractLagFormulation{
         /********************************* SLACK ***********************************/
 
         void updateSlack();
-
-        /******** SLACK CONSIDERING THE PRIMAL VECTOR ************/
-
-        void updateSlack_v2();
 
         /********************************* DIRECTION ***********************************/
 

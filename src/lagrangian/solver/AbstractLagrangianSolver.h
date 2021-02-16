@@ -2,8 +2,9 @@
 #define ABSTRACT_LAG_SOLVER_H
 
 #include "../formulation/lagFormulationFactory.h"
-#include "../heuristicFactory.h"
+#include "../heuristic/heuristicFactory.h"
 #include "../../tools/clockTime.h"
+#include "../../topology/instance.h"
 
 /**********************************************************************************************
  * This is an abstract class modelling a Lagrangian solver. Derived classes need to specify how the 
@@ -48,11 +49,19 @@ class AbstractLagSolver{
         double updatingCostsTime;
         double stoppingCriterionTime;
         double updatingPrimalVariablesTime;
+        double updateVariablesTime;
+        double ShorstestPathTime;
+        double substractMultipliersTime;
+        double updateStepLambdaTime;
+        double costTime;
+        double RSAGraphConstructionTime;
+        double PreprocessingTime;
 
         double totalTime;
 
         int iteration;
         int itWithoutImprovement;
+        int globalItWithoutImprovement;
 
         double UB;
         double LB;
@@ -102,10 +111,19 @@ class AbstractLagSolver{
         double getStoppingCriterionTime() const{ return stoppingCriterionTime;}
         double getUpdatingPrimalVariablesTime() const { return updatingPrimalVariablesTime;}
         double getTotalTime() const {return totalTime;}
+        double getUpdateVariablesTime() const { return updateVariablesTime;}
+        double getShorstestPathTime() const { return ShorstestPathTime;}
+        double getSubstractMultipliersTime() const { return substractMultipliersTime;}
+        double getUpdateStepLambdaTime() const{ return updateStepLambdaTime;}  
+        double getCostTime() const{ return costTime;}  
+        double getRSAGraphConstructionTime() const { return RSAGraphConstructionTime;}
+        double getPreprocessingTime() const { return PreprocessingTime;}
 
 
         int getIteration() const { return iteration; }
         int getItWithoutImprovement() const { return itWithoutImprovement; }
+
+        int getGlobalItWithoutImprovement() const { return globalItWithoutImprovement;}
 
         double getUB() const { return UB; }
         double getLB() const { return LB; }
@@ -142,14 +160,28 @@ class AbstractLagSolver{
         void incStoppingCriterionTime(double value) {stoppingCriterionTime += value;}
         void setUpdatingPrimalVariablesTime(double value) {updatingPrimalVariablesTime = value;}
         void incUpdatingPrimalVariablesTime(double value) {updatingPrimalVariablesTime += value;}
+        void setUpdateVariablesTime(double value) { updateVariablesTime = value; }
+        void incUpdateVariablesTime(double value) { updateVariablesTime += value; }
+        void setShorstestPathTime(double value) { ShorstestPathTime = value; }
+        void incShorstestPathTime(double value) { ShorstestPathTime += value; }
+        void setSubstractMultipliersTime(double value) { substractMultipliersTime = value;}
+        void incSubstractMultipliersTime(double value) { substractMultipliersTime+=value;}
+        void setUpdateStepLambdaTime(double value) { updateStepLambdaTime=value;}
+        void incUpdateStepLambdaTime(double value) {updateStepLambdaTime+=value;}
+        void setCostTime(double value) { costTime=value;}
+        void incCostTime(double value) {costTime+=value;}
+        void setRSAGraphConstructionTime(double val) { RSAGraphConstructionTime = val;}
+        void setPreprocessingTime(double val) { PreprocessingTime = val;}
 
         void setTotalTime(double value) { totalTime = value;}
-
 
         void setIteration(int i) { iteration = i; }
         void setItWithoutImprovement(int i) { itWithoutImprovement = i; }
         void incIteration() { iteration++; }
         void incItWithoutImprovement() { itWithoutImprovement++; }
+
+        void setGlobalItWithoutImprovement(int value) {globalItWithoutImprovement = value;}
+        void incGlobalItWithoutImprovement() {globalItWithoutImprovement++;}
 
         void setUB(double val){ UB = val; }
         void setLB(double val){ LB = val; }
@@ -197,7 +229,7 @@ class AbstractLagSolver{
         /*					   Display 		    		*/
         /************************************************/
 
-        void displayMainParameters(std::ostream & = std::cout);
+        virtual void displayMainParameters(std::ostream & = std::cout) = 0;
 
         void displayResults(std::ostream & = std::cout);
 

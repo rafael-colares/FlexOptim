@@ -68,6 +68,7 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     chosenProjection = to_ProjectionType(getParameterValue("projection="));
     alternativeStop = std::stoi(getParameterValue("alternativeStop="));
     warmstart = std::stoi(getParameterValue("warmstart="));
+    lagOutputPath = getParameterValue("lagOutputPath=");
 
     /********************************************/
 
@@ -129,6 +130,7 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     chosenProjection = i.getChosenProjection();
     alternativeStop = i.getAlternativeStop();
     warmstart = i.getWarmstart();
+    lagOutputPath = i.getLagOutputPath();
 
     /********************************************/
 }
@@ -442,6 +444,8 @@ Input::Heuristic Input::to_Heuristic(std::string data){
         }
         case 1: {
             policy = PROBABILITY;
+            std::cout << "ERROR: Not yet implemented." << std::endl;
+            exit(0);
             return policy;
             break;
         }
@@ -452,7 +456,7 @@ Input::Heuristic Input::to_Heuristic(std::string data){
         }
     }
     else{
-        std::cout << "ERROR: A lagrangian method must be specified." << std::endl;
+        std::cout << "ERROR: A heuristic must be specified." << std::endl;
         exit(0);
     }
 }
@@ -490,7 +494,7 @@ Input::DirectionMethod Input::to_DirectionMethod(std::string data){
         }
     }
     else{
-        std::cout << "ERROR: A lagrangian method must be specified." << std::endl;
+        std::cout << "ERROR: A lagrangian DIRECTION_METHOD must be specified." << std::endl;
         exit(0);
     }
 
@@ -524,7 +528,7 @@ Input::ProjectionType Input::to_ProjectionType(std::string data){
         }
     }
     else{
-        std::cout << "ERROR: A lagrangian method must be specified." << std::endl;
+        std::cout << "ERROR: A lagrangian PROJECTION_METHOD must be specified." << std::endl;
         exit(0);
     }
 }

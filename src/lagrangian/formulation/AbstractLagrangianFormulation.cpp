@@ -1,74 +1,71 @@
 #include "AbstractLagrangianFormulation.h"
 
-AbstractLagFormulation::AbstractLagFormulation(const Instance &instance): RSA(instance), time(ClockTime::getTimeNow()){}
-
-void AbstractLagFormulation::updatePrimalSolution(double alpha){
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-            int index = getArcIndex(a,d);
-            primal_linear_solution[d][index] = alpha*(double)assignmentMatrix_d[d][index] + (1-alpha)*primal_linear_solution[d][index];
-        }
-    }
-
-}
-
-/* Initializes the primal solution */
-void AbstractLagFormulation::initPrimalSolution(){
-
-    primal_linear_solution.resize(getNbDemandsToBeRouted());
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        primal_linear_solution[d].resize(countArcs(*vecGraph[d]));
-        std::fill(primal_linear_solution[d].begin(), primal_linear_solution[d].end(), 0.0);
-    } 
-
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-            int index = getArcIndex(a,d);
-            primal_linear_solution[d][index] = (double)assignmentMatrix_d[d][index];
+/************************************************************************************************************/
+/*			                                     CONSTRUCTORS	       	                                    */
+/************************************************************************************************************/
+AbstractLagFormulation::AbstractLagFormulation(const Instance &instance): RSA(instance), time(ClockTime::getTimeNow()){
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
+    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+            mapCopy<ListDigraph,NodeMap,IterableIntMap<ListDigraph, ListDigraph::Node>>((*vecGraph[d]),(*vecNodeLabel[d]),(*mapItLabel[d]));
         }
     }
 }
 
-double AbstractLagFormulation::getPrimalObjective(){
-    double total = 0.0;
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-            int index = getArcIndex(a,d);
-            total += getCoeff(a, d)*primal_linear_solution[d][index];
+/* **************************************************************************************************************
+*                                                   GETTERS 
+*************************************************************************************************************** */
+
+/* Returns the scalar used to update the direction according to the chosen direction method */
+double AbstractLagFormulation::getDirectionMult(){
+
+    Input::DirectionMethod chosenDirectionMethod = getInstance().getInput().getChosenDirectionMethod();
+    double theta = 0.0;
+
+    if(chosenDirectionMethod == Input::NORMAL){
+        theta = 0.0;
+    }
+    else if(chosenDirectionMethod == Input::CROWDER){
+        theta = getInstance().getInput().getCrowderParameter();
+    }
+    else if(chosenDirectionMethod == Input::CARMERINI){
+        
+        if(getSlackDirectionProdNormal() < 0.0){
+            double carmerini = getInstance().getInput().getCarmeriniParameter();
+            theta = -(carmerini*getSlackDirectionProdNormal())/getDirectionModule();
+        }
+        else{
+            theta = 0.0;
         }
     }
-    return total;
+    else if(chosenDirectionMethod == Input::MODIFIED_CARMERINI){
+        
+        if(getSlackDirectionProdNormal() < 0.0){
+            theta = std::sqrt(getSlackModule())/std::sqrt(getDirectionModule());
+        }
+        else{
+            theta = 0.0;
+        }
+    }
+    return theta;
 }
 
-/* *******************************************************************************
-*                             INITIALIZATION METHODS
-******************************************************************************* */
+/* **************************************************************************************************************
+*                                            INITIALIZATION METHODS
+*************************************************************************************************************** */
 
-/********************************* MULTIPLIERS ***********************************/
+/************************************************ MULTIPLIERS ***************************************************/
 
 /* Sets the initial lagrangian multipliers associated with length constraints. */
 void AbstractLagFormulation::initializeLengthMultipliers(double initialMultiplier){  
-    lagrangianMultiplierLength.resize(getNbDemandsToBeRouted());
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        lagrangianMultiplierLength[d] = initialMultiplier;
-    }
+    lagrangianMultiplierLength.resize(getNbDemandsToBeRouted(),initialMultiplier);
 }
 
 /* Sets the initial lagrangian multipliers associated with source/target constraints*/
 void AbstractLagFormulation::initializeSourceTargetMultipliers(double initialMultiplier){
     lagrangianMultiplierSourceTarget.resize(getNbDemandsToBeRouted());
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        lagrangianMultiplierSourceTarget[d].resize(instance.getNbNodes());
-        for (int v = 0; v < instance.getNbNodes(); v++){
-            if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()) {
-                //int load = getToBeRouted_k(d).getLoad();
-                //lagrangianMultiplierSourceTarget[d][v]= -load/2;
-                lagrangianMultiplierSourceTarget[d][v]= initialMultiplier;
-            }
-            else{
-                lagrangianMultiplierSourceTarget[d][v]= initialMultiplier;
-            }
-        }
+        lagrangianMultiplierSourceTarget[d].resize(instance.getNbNodes(),initialMultiplier);
     }
 }
 
@@ -76,15 +73,11 @@ void AbstractLagFormulation::initializeSourceTargetMultipliers(double initialMul
 void AbstractLagFormulation::initializeFlowMultipliers(double initialMultiplier){
     lagrangianMultiplierFlow.resize(getNbDemandsToBeRouted());
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        lagrangianMultiplierFlow[d].resize(instance.getNbNodes());
-        for (int v = 0; v < instance.getNbNodes(); v++){
-            /* The multiplier is not defined for the source and the target */
-            if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()) {
-                lagrangianMultiplierFlow[d][v]= 0.0;
-            }else{
-                lagrangianMultiplierFlow[d][v]= initialMultiplier;
-            }
-        }
+        lagrangianMultiplierFlow[d].resize(countNodes(*vecGraph[d]),initialMultiplier);
+        int indexSource = getSourceNodeIndex(d);
+        int indexTarget = getTargetNodeIndex(d);
+        lagrangianMultiplierFlow[d][indexSource] = 0.0;
+        lagrangianMultiplierFlow[d][indexTarget] = 0.0;
     }
 }
 
@@ -92,65 +85,56 @@ void AbstractLagFormulation::initializeFlowMultipliers(double initialMultiplier)
 void AbstractLagFormulation::initializeOverlapMultipliers(double initialMultiplier){
     lagrangianMultiplierOverlap.resize(instance.getNbEdges());
     for (int e = 0; e < instance.getNbEdges(); e++){
-        lagrangianMultiplierOverlap[e].resize(instance.getPhysicalLinkFromIndex(e).getNbSlices());
-        for (int s = 0; s < instance.getPhysicalLinkFromIndex(e).getNbSlices(); s++){
-            lagrangianMultiplierOverlap[e][s] = initialMultiplier;
-        }
+        lagrangianMultiplierOverlap[e].resize(instance.getPhysicalLinkFromIndex(e).getNbSlices(),initialMultiplier);
     }
 }
 
+/* Sets the nitial lagrangian multipliers associated with one slice per demand constraints. */
+void AbstractLagFormulation::initializeOneSlicePerDemandMultipliers(double initialMultiplier){
+    lagrangianMultiplierOneSlicePerDemand.resize(instance.getNbEdges());
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        lagrangianMultiplierOneSlicePerDemand[e].resize(getNbDemandsToBeRouted(),initialMultiplier);
+    }
+}
+
+/* Sets the initial lagrangian multipliers associated with maximum slice overall 1 constraints. */
 void AbstractLagFormulation::initializeMaxUsedSliceOverallMultipliers(double initialMultiplier){
-    lagrangianMultiplierMaxUsedSliceOverall.resize(getNbDemandsToBeRouted());
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        lagrangianMultiplierMaxUsedSliceOverall[d] = initialMultiplier;
-    }
+    lagrangianMultiplierMaxUsedSliceOverall.resize(getNbDemandsToBeRouted(),initialMultiplier);
 }
 
+/* Sets the initial lagrangian multipliers associated with maximum slice overall 1 (auxiliary) constraints. */
+void AbstractLagFormulation::initializeMaxUsedSliceOverallAuxMultipliers(double initialMultiplier){
+    lagrangianMultiplierMaxUsedSliceOverallAux.resize(getNbDemandsToBeRouted(),initialMultiplier);
+}
+
+/* Sets the initial lagrangian multipliers associated with maximum slice overall 2 constraints. */
 void AbstractLagFormulation::initializeMaxUsedSliceOverall2Multipliers(double initialMultiplier){
     lagrangianMultiplierMaxUsedSliceOverall2.resize(instance.getNbEdges());
     for (int e = 0; e < instance.getNbEdges(); e++){
-        lagrangianMultiplierMaxUsedSliceOverall2[e].resize(getNbSlicesLimitFromEdge(e));
-        for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
-            lagrangianMultiplierMaxUsedSliceOverall2[e][s] = initialMultiplier;
-        }
+        lagrangianMultiplierMaxUsedSliceOverall2[e].resize(getNbSlicesLimitFromEdge(e),initialMultiplier);
     }
 }
 
+/* Sets the initial lagrangian multipliers associated with maximum slice overall 3 constraints. */
 void AbstractLagFormulation::initializeMaxUsedSliceOverall3Multipliers(double initialMultiplier){
     lagrangianMultiplierMaxUsedSliceOverall3.resize(instance.getNbNodes());
     for (int v = 0; v < instance.getNbNodes(); v++){
-        lagrangianMultiplierMaxUsedSliceOverall3[v].resize(getNbSlicesGlobalLimit());
-        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
-            lagrangianMultiplierMaxUsedSliceOverall3[v][s] = initialMultiplier;
-        }
+        lagrangianMultiplierMaxUsedSliceOverall3[v].resize(getNbSlicesGlobalLimit(),initialMultiplier);
     }
 }
 
-/********************************* STABILITY CENTER ***********************************/
+/************************************************ STABILITY CENTER ***************************************************/
 
 /** Sets the initial lagrangian stability center associated with length constraints. **/
 void AbstractLagFormulation::initializeLengthSC(){
-    lagrangianSCLength.resize(getNbDemandsToBeRouted());
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        lagrangianSCLength[d] = lagrangianMultiplierLength[d];
-    }
+    std::copy(lagrangianMultiplierLength.begin(), lagrangianMultiplierLength.end(),std::back_inserter(lagrangianSCLength));
 }
 
 /** Sets the initial lagrangian stability center associated with Source/Target constraints **/
 void AbstractLagFormulation::initializeSourceTargetSC(){
     lagrangianSCSourceTarget.resize(getNbDemandsToBeRouted());
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        lagrangianSCSourceTarget[d].resize(instance.getNbNodes());
-        for (int v = 0; v < instance.getNbNodes(); v++){
-            if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()) {
-                //int load = getToBeRouted_k(d).getLoad();
-                //lagrangianSCSourceTarget[d][v]= -load/2;
-                lagrangianSCSourceTarget[d][v]= lagrangianMultiplierSourceTarget[d][v];
-            }
-            else{
-                lagrangianMultiplierSourceTarget[d][v]= lagrangianMultiplierSourceTarget[d][v];
-            }
-        }
+        std::copy(lagrangianMultiplierSourceTarget[d].begin(), lagrangianMultiplierSourceTarget[d].end(),std::back_inserter(lagrangianSCSourceTarget[d]));
     }
 }
         
@@ -158,77 +142,63 @@ void AbstractLagFormulation::initializeSourceTargetSC(){
 void AbstractLagFormulation::initializeFlowSC(){
     lagrangianSCFlow.resize(getNbDemandsToBeRouted());
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        lagrangianSCFlow[d].resize(instance.getNbNodes());
-        for (int v = 0; v < instance.getNbNodes(); v++){
-            /* The multiplier is not defined for the source and the target */
-            if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()) {
-                lagrangianSCFlow[d][v]= 0.0;
-            }else{
-                lagrangianSCFlow[d][v]= lagrangianMultiplierFlow[d][v];
-            }
-        }
+        std::copy(lagrangianMultiplierFlow[d].begin(), lagrangianMultiplierFlow[d].end(),std::back_inserter(lagrangianSCFlow[d]));
     }
-
 }
 
 /* Sets the initial lagrangian stability center associated with non-overlapping constraints. */
 void AbstractLagFormulation::initializeOverlapSC(){
     lagrangianSCOverlap.resize(instance.getNbEdges());
     for (int e = 0; e < instance.getNbEdges(); e++){
-        lagrangianSCOverlap[e].resize(instance.getPhysicalLinkFromIndex(e).getNbSlices());
-        for (int s = 0; s < instance.getPhysicalLinkFromIndex(e).getNbSlices(); s++){
-            lagrangianSCOverlap[e][s] = lagrangianMultiplierOverlap[e][s];
-        }
+        std::copy(lagrangianMultiplierOverlap[e].begin(), lagrangianMultiplierOverlap[e].end(),std::back_inserter(lagrangianSCOverlap[e]));
     }
 }
 
+void AbstractLagFormulation::initializeOneSlicePerDemandSC(){
+    lagrangianSCOneSlicePerDemand.resize(instance.getNbEdges());
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        std::copy(lagrangianMultiplierOneSlicePerDemand[e].begin(), lagrangianMultiplierOneSlicePerDemand[e].end(),std::back_inserter(lagrangianSCOneSlicePerDemand[e]));
+    }
+}
+
+/* Sets the initial lagrangian stability center associated with maximum slice overall 1 constraints. */
 void AbstractLagFormulation::initializeMaxUsedSliceOverallSC(){
-    lagrangianSCMaxUsedSliceOverall.resize(getNbDemandsToBeRouted());
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        lagrangianSCMaxUsedSliceOverall[d] = lagrangianMultiplierMaxUsedSliceOverall[d];
-    }
+    std::copy(lagrangianMultiplierMaxUsedSliceOverall.begin(), lagrangianMultiplierMaxUsedSliceOverall.end(),std::back_inserter(lagrangianSCMaxUsedSliceOverall));
 }
 
+/* Sets the initial lagrangian stability center associated with maximum slice overall 1 constraints. */
+void AbstractLagFormulation::initializeMaxUsedSliceOverallAuxSC(){
+    std::copy(lagrangianMultiplierMaxUsedSliceOverallAux.begin(), lagrangianMultiplierMaxUsedSliceOverallAux.end(),std::back_inserter(lagrangianSCMaxUsedSliceOverallAux));
+}
+
+/* Sets the initial lagrangian stability center associated with maximum slice overall 2 constraints. */
 void AbstractLagFormulation::initializeMaxUsedSliceOverall2SC(){
     lagrangianSCMaxUsedSliceOverall2.resize(instance.getNbEdges());
     for (int e = 0; e < instance.getNbEdges(); e++){
-        lagrangianSCMaxUsedSliceOverall2[e].resize(getNbSlicesLimitFromEdge(e));
-        for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
-            lagrangianSCMaxUsedSliceOverall2[e][s] = lagrangianMultiplierMaxUsedSliceOverall2[e][s];
-        }
+        std::copy(lagrangianSCMaxUsedSliceOverall2[e].begin(), lagrangianSCMaxUsedSliceOverall2[e].end(),std::back_inserter(lagrangianSCMaxUsedSliceOverall2[e]));
     }
 }
 
+/* Sets the initial lagrangian stability center associated with maximum slice overall 3 constraints. */
 void AbstractLagFormulation::initializeMaxUsedSliceOverall3SC(){
     lagrangianSCMaxUsedSliceOverall3.resize(instance.getNbNodes());
     for (int v = 0; v < instance.getNbNodes(); v++){
-        lagrangianSCMaxUsedSliceOverall3[v].resize(getNbSlicesGlobalLimit());
-        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
-            lagrangianSCMaxUsedSliceOverall3[v][s] = lagrangianMultiplierMaxUsedSliceOverall3[v][s];
-        }
+        std::copy(lagrangianSCMaxUsedSliceOverall3[v].begin(), lagrangianSCMaxUsedSliceOverall3[v].end(),std::back_inserter(lagrangianSCMaxUsedSliceOverall3[v]));
     }
 }
 
-/********************************** SLACK ***************************************/
+/**************************************************** SLACKS *******************************************************/
 
 /* Initializes the slack of Length constraints. */ 
 void AbstractLagFormulation::initializeLengthSlacks(){
-    lengthSlack.resize(getNbDemandsToBeRouted(), 0.0);
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        //lengthSlack[d] = getToBeRouted_k(d).getMaxLength();
-        //lengthSlack[d] = getToBeRouted_k(d).getMaxLength()/100;
-        lengthSlack[d] = 1;
-    }
+    lengthSlack.resize(getNbDemandsToBeRouted(), 1.0);
 }
 
 /* Initializes the slack of Source/Target constraints. */
 void AbstractLagFormulation::initializeSourceTargetSlacks(){
     sourceTargetSlack.resize(getNbDemandsToBeRouted());
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        sourceTargetSlack[d].resize(instance.getNbNodes());
-        for(int v = 0; v < instance.getNbNodes();v++){
-            sourceTargetSlack[d][v] = 1;
-        }
+        sourceTargetSlack[d].resize(instance.getNbNodes(),1.0);
     }
 }
 
@@ -236,15 +206,7 @@ void AbstractLagFormulation::initializeSourceTargetSlacks(){
 void AbstractLagFormulation::initializeFlowSlacks(){
     flowSlack.resize(getNbDemandsToBeRouted());
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        flowSlack[d].resize(instance.getNbNodes());
-        for(int v = 0; v < instance.getNbNodes();v++){
-            /* The slack is not defined for the source and the target */
-            if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()) {
-                flowSlack[d][v] = 0;
-            }else{
-                flowSlack[d][v] = 0;
-            } 
-        }
+        flowSlack[d].resize(countNodes(*vecGraph[d]),0.0);
     }
 }
 
@@ -252,199 +214,322 @@ void AbstractLagFormulation::initializeFlowSlacks(){
 void AbstractLagFormulation::initializeOverlapSlacks(){
     overlapSlack.resize(instance.getNbEdges());
     for (int e = 0; e < instance.getNbEdges(); e++){
-        overlapSlack[e].resize(instance.getPhysicalLinkFromIndex(e).getNbSlices());
-        for (int s = 0; s < instance.getPhysicalLinkFromIndex(e).getNbSlices(); s++){
-            overlapSlack[e][s] = 1;
-        }
+        overlapSlack[e].resize(instance.getPhysicalLinkFromIndex(e).getNbSlices(),1.0);
     }
 }
 
+/* Initializes the slack of one slice per demand constraints. */
+void AbstractLagFormulation::initializeOneSlicePerDemandSlacks(){
+    oneSlicePerDemandSlack.resize(instance.getNbEdges());
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        oneSlicePerDemandSlack[e].resize(getNbDemandsToBeRouted(),1.0);
+    }
+}
+
+/* Initializes the slack of maximum used slice overall 1 constraints. */
 void AbstractLagFormulation::initializeMaxUsedSliceOverallSlacks(){
-    maxUsedSliceOverallSlack.resize(getNbDemandsToBeRouted());
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        maxUsedSliceOverallSlack[d] = 0.0;
-    }
+    maxUsedSliceOverallSlack.resize(getNbDemandsToBeRouted(),0.0);
 }
 
+/* Initializes the slack of maximum used slice overall 1 (auxiliary) constraints. */
+void AbstractLagFormulation::initializeMaxUsedSliceOverallAuxSlacks(){
+    maxUsedSliceOverallAuxSlack.resize(getNbDemandsToBeRouted(),0.0);
+}
+
+/* Initializes the slack of maximum used slice overall 2 constraints. */
 void AbstractLagFormulation::initializeMaxUsedSliceOverall2Slacks(){
     maxUsedSliceOverallSlack2.resize(instance.getNbEdges());
     for (int e = 0; e < instance.getNbEdges(); e++){
-        maxUsedSliceOverallSlack2[e].resize(getNbSlicesLimitFromEdge(e));
-        for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
-            maxUsedSliceOverallSlack2[e][s] = 0.0;
-        }
+        maxUsedSliceOverallSlack2[e].resize(getNbSlicesLimitFromEdge(e),0.0);
     }
 }
 
+/* Initializes the slack of maximum used slice overall 3 constraints. */
 void AbstractLagFormulation::initializeMaxUsedSliceOverall3Slacks(){
     maxUsedSliceOverallSlack3.resize(instance.getNbNodes());
     for (int v = 0; v < instance.getNbNodes(); v++){
-        maxUsedSliceOverallSlack3[v].resize(getNbSlicesGlobalLimit());
-        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
-            maxUsedSliceOverallSlack3[v][s] = 0.0;
+        maxUsedSliceOverallSlack3[v].resize(getNbSlicesGlobalLimit(),0.0);
+    }
+}
+
+/* Reset the slack of length constraints. */
+void AbstractLagFormulation::resetLengthSlacks(){
+    std::fill(lengthSlack.begin(),lengthSlack.end(),1.0);
+}
+
+/* Reset the slack of source target constraints. */
+void AbstractLagFormulation::resetSourceTargetSlacks(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        std::fill(sourceTargetSlack[d].begin(),sourceTargetSlack[d].end(),1.0);
+    }
+}
+
+/* Reset the slack of source target constraints. */
+void AbstractLagFormulation::resetFlowSlacks(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        std::fill(flowSlack[d].begin(),flowSlack[d].end(),0.0);
+    } 
+}
+
+/* Reset the slack of non-overlap constraints. */
+void AbstractLagFormulation::resetOverlapSlacks(){
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        std::fill(overlapSlack[e].begin(),overlapSlack[e].end(),1.0);
+    }
+}
+
+/* Resets the slack of one slice per demand constraints. */
+void AbstractLagFormulation::resetOneSlicePerDemandSlacks(){
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        std::fill(oneSlicePerDemandSlack[e].begin(),oneSlicePerDemandSlack[e].end(),1.0);
+    }
+}
+
+/* Resets the slack of max used slice overall constraints. */
+void AbstractLagFormulation::resetMaxUsedSliceOverallSlacks(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        maxUsedSliceOverallSlack[d] = maxUsedSliceOverall;
+    }
+}
+
+/* Resets the slack of max used slice overall (auxiliary) constraints. */
+void AbstractLagFormulation::resetMaxUsedSliceOverallAuxSlacks(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        maxUsedSliceOverallAuxSlack[d]    = 0.0 - maxUsedSliceOverall + (getInstance().getMaxSlice())*(1-varAuxZ[d]);      
+    }
+}
+
+/* Resets the slack of max used slice overall 2 constraints. */
+void AbstractLagFormulation::resetMaxUsedSliceOverall2Slacks(){
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
+            maxUsedSliceOverallSlack2[e][s]    = maxUsedSliceOverall;
+            maxUsedSliceOverallSlack2_v2[e][s] = maxUsedSliceOverall;
         }
     }
 }
 
-/********************************** SLACK CONSIDERING PRIMAL VARIABLES ***************************************/
-
-void AbstractLagFormulation::initializeLengthSlacks_v2(){
-    lengthSlack_v2.resize(getNbDemandsToBeRouted(), 0.0);
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        //lengthSlack[d] = getToBeRouted_k(d).getMaxLength();
-        //lengthSlack[d] = getToBeRouted_k(d).getMaxLength()/100;
-        lengthSlack_v2[d] = 1;
+/* Resets the slack of max used slice overall 3 constraints. */
+void AbstractLagFormulation::resetMaxUsedSliceOverall3Slacks(){
+    for (int node = 0; node < instance.getNbNodes(); node++){
+        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+            int degree = 0;
+            for (ListGraph::NodeIt v(compactGraph); v != INVALID; ++v){
+                if ((getCompactNodeLabel(v) == node)){
+                    for (ListGraph::IncEdgeIt a(compactGraph, v); a != INVALID; ++a){
+                        degree++;
+                    }
+                }
+            }
+            maxUsedSliceOverallSlack3[node][s] =     maxUsedSliceOverall*degree;
+            maxUsedSliceOverallSlack3_v2[node][s] =  maxUsedSliceOverall*degree;
+        }
     }
 }
-        
-void AbstractLagFormulation::initializeSourceTargetSlacks_v2(){
+
+
+/********************************************* SLACKS CONSIDERING PRIMAL VARIABLES ********************************************/
+
+/* Initializes the slack (primal approximation) of Length constraints. */ 
+void AbstractLagFormulation::initializeLengthPrimalSlacks(){
+    std::copy(lengthSlack.begin(),lengthSlack.end(),std::back_inserter(lengthSlack_v2));
+}
+
+/* Initializes the slack (primal approximation) of Source/Target constraints. */
+void AbstractLagFormulation::initializeSourceTargetPrimalSlacks(){
     sourceTargetSlack_v2.resize(getNbDemandsToBeRouted());
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        sourceTargetSlack_v2[d].resize(instance.getNbNodes());
-        for(int v = 0; v < instance.getNbNodes();v++){
-            sourceTargetSlack_v2[d][v] = 1;
-        }
+        std::copy(sourceTargetSlack[d].begin(),sourceTargetSlack[d].end(),std::back_inserter(sourceTargetSlack_v2[d]));
     }
 }
 
-void AbstractLagFormulation::initializeFlowSlacks_v2(){
+/* Initializes the slack (primal approximation) of Flow constraints. */
+void AbstractLagFormulation::initializeFlowPrimalSlacks(){
     flowSlack_v2.resize(getNbDemandsToBeRouted());
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        flowSlack_v2[d].resize(instance.getNbNodes());
-        for(int v = 0; v < instance.getNbNodes();v++){
-            /* The slack is not defined for the source and the target */
-            if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()) {
-                flowSlack_v2[d][v] = 0;
-            }else{
-                flowSlack_v2[d][v] = 0;
-            } 
-        }
+        std::copy(flowSlack[d].begin(),flowSlack[d].end(),std::back_inserter(flowSlack_v2[d]));
     }
 }
 
-void AbstractLagFormulation::initializeOverlapSlacks_v2(){
+/* Initializes the slack (primal approximation) of non-overlap constraints. */
+void AbstractLagFormulation::initializeOverlapPrimalSlacks(){
     overlapSlack_v2.resize(instance.getNbEdges());
     for (int e = 0; e < instance.getNbEdges(); e++){
-        overlapSlack_v2[e].resize(instance.getPhysicalLinkFromIndex(e).getNbSlices());
-        for (int s = 0; s < instance.getPhysicalLinkFromIndex(e).getNbSlices(); s++){
-            overlapSlack_v2[e][s] = 1;
-        }
+        std::copy(overlapSlack[e].begin(),overlapSlack[e].end(),std::back_inserter(overlapSlack_v2[e]));
     }
 }
 
-void AbstractLagFormulation::initializeMaxUsedSliceOverallSlacks_v2(){
-    maxUsedSliceOverallSlack_v2.resize(getNbDemandsToBeRouted());
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        maxUsedSliceOverallSlack_v2[d] = 0.0;
+/* Initializes the slack (primal approximation) of one slice per demand constraints. */
+void AbstractLagFormulation::initializeOneSlicePerDemandPrimalSlacks(){
+    oneSlicePerDemandSlack_v2.resize(instance.getNbEdges());
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        std::copy(oneSlicePerDemandSlack[e].begin(),oneSlicePerDemandSlack[e].end(),std::back_inserter(oneSlicePerDemandSlack_v2[e]));
     }
 }
 
-void AbstractLagFormulation::initializeMaxUsedSliceOverall2Slacks_v2(){
+/* Initializes the slack (primal approximation) of maximum used slice overall 1 constraints. */
+void AbstractLagFormulation::initializeMaxUsedSliceOverallPrimalSlacks(){
+    std::copy(maxUsedSliceOverallSlack.begin(),maxUsedSliceOverallSlack.end(),std::back_inserter(maxUsedSliceOverallSlack_v2));
+}
+
+/* Initializes the slack (primal approximation) of maximum used slice overall 1 (auxiliary) constraints. */
+void AbstractLagFormulation::initializeMaxUsedSliceOverallAuxPrimalSlacks(){
+    std::copy(maxUsedSliceOverallAuxSlack.begin(),maxUsedSliceOverallAuxSlack.end(),std::back_inserter(maxUsedSliceOverallAuxSlack_v2));
+}
+
+/* Initializes the slack (primal approximation) of maximum used slice overall 2 constraints. */
+void AbstractLagFormulation::initializeMaxUsedSliceOverall2PrimalSlacks(){
     maxUsedSliceOverallSlack2_v2.resize(instance.getNbEdges());
     for (int e = 0; e < instance.getNbEdges(); e++){
-        maxUsedSliceOverallSlack2_v2[e].resize(getNbSlicesLimitFromEdge(e));
-        for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
-            maxUsedSliceOverallSlack2_v2[e][s] = 0.0;
-        }
+        std::copy(maxUsedSliceOverallSlack2[e].begin(),maxUsedSliceOverallSlack2[e].end(),std::back_inserter(maxUsedSliceOverallSlack2_v2[e]));
     }
 }
 
-void AbstractLagFormulation::initializeMaxUsedSliceOverall3Slacks_v2(){
-    maxUsedSliceOverallSlack3_v2.resize(instance.getNbNodes());
+/* Initializes the slack (primal approximation) of maximum used slice overall 3 constraints. */
+void AbstractLagFormulation::initializeMaxUsedSliceOverall3PrimalSlacks(){
+    maxUsedSliceOverallSlack3.resize(instance.getNbNodes());
     for (int v = 0; v < instance.getNbNodes(); v++){
-        maxUsedSliceOverallSlack3_v2[v].resize(getNbSlicesGlobalLimit());
-        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
-            maxUsedSliceOverallSlack3_v2[v][s] = 0.0;
-        }
+        std::copy(maxUsedSliceOverallSlack3[v].begin(),maxUsedSliceOverallSlack3[v].end(),std::back_inserter(maxUsedSliceOverallSlack3_v2[v]));
     }
 }
 
-/******************************** DIRECTION *********************************/
+/************************************************ DIRECTION ***********************************************/
 
+/* Initializes the direction of Length constraints. */ 
 void AbstractLagFormulation::initializeLengthDirection(){
-    lengthDirection.resize(getNbDemandsToBeRouted(), 0.0);
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        lengthDirection[d] = lengthSlack[d];
-    }
+    std::copy(lengthSlack.begin(), lengthSlack.end(),std::back_inserter(lengthDirection));
 }
 
+/* Initializes the direction of Source/Target constraints. */
 void AbstractLagFormulation::initializeSourceTargetDirection(){
     sourceTargetDirection.resize(getNbDemandsToBeRouted());
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        sourceTargetDirection[d].resize(instance.getNbNodes());
-        for(int v = 0; v < instance.getNbNodes();v++){
-            sourceTargetDirection[d][v] = sourceTargetSlack[d][v];
-        }
+        std::copy(sourceTargetSlack[d].begin(), sourceTargetSlack[d].end(),std::back_inserter(sourceTargetDirection[d]));
     }
 }
 
+/* Initializes the direction of flow constraints. */
 void AbstractLagFormulation::initializeFlowDirection(){
     flowDirection.resize(getNbDemandsToBeRouted());
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        flowDirection[d].resize(instance.getNbNodes());
-        for(int v = 0; v < instance.getNbNodes();v++){
-            flowDirection[d][v] = flowSlack[d][v];
-        }
+        std::copy(flowSlack[d].begin(), flowSlack[d].end(),std::back_inserter(flowDirection[d]));
     }
 }
 
+/* Initializes the direction of overlap constraints. */
 void AbstractLagFormulation::initializeOverlapDirection(){
     overlapDirection.resize(instance.getNbEdges());
     for (int e = 0; e < instance.getNbEdges(); e++){
-        overlapDirection[e].resize(instance.getPhysicalLinkFromIndex(e).getNbSlices());
-        for (int s = 0; s < instance.getPhysicalLinkFromIndex(e).getNbSlices(); s++){
-            overlapDirection[e][s] = overlapSlack[e][s];
-        }
+        std::copy(overlapSlack[e].begin(), overlapSlack[e].end(),std::back_inserter(overlapDirection[e]));
     }
 }
 
+/* Initializes the direction of one slice per demand constraints. */
+void AbstractLagFormulation::initializeOneSlicePerDemandDirection(){
+    oneSlicePerDemandDirection.resize(instance.getNbEdges());
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        std::copy(oneSlicePerDemandSlack[e].begin(), oneSlicePerDemandSlack[e].end(),std::back_inserter(oneSlicePerDemandDirection[e]));
+    }
+}
+
+/* Initializes the direction of maximum used slice overall 1 constraints. */
 void AbstractLagFormulation::initializeMaxUsedSliceOverallDirection(){
-    maxUsedSliceOverallDirection.resize(getNbDemandsToBeRouted());
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        maxUsedSliceOverallDirection[d] = maxUsedSliceOverallSlack[d];
-    }
+    std::copy(maxUsedSliceOverallSlack.begin(), maxUsedSliceOverallSlack.end(),std::back_inserter(maxUsedSliceOverallDirection));
 }
 
+/* Initializes the direction of maximum used slice overall 1 (auxiliary) constraints. */
+void AbstractLagFormulation::initializeMaxUsedSliceOverallAuxDirection(){
+    std::copy(maxUsedSliceOverallAuxSlack.begin(), maxUsedSliceOverallAuxSlack.end(),std::back_inserter(maxUsedSliceOverallAuxDirection));
+}
+
+/* Initializes the direction of maximum used slice overall 2 constraints. */
 void AbstractLagFormulation::initializeMaxUsedSliceOverall2Direction(){
     maxUsedSliceOverall2Direction.resize(instance.getNbEdges());
     for (int e = 0; e < instance.getNbEdges(); e++){
-        maxUsedSliceOverall2Direction[e].resize(getNbSlicesLimitFromEdge(e));
-        for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
-            maxUsedSliceOverall2Direction[e][s] = maxUsedSliceOverallSlack2[e][s];
-        }
+        std::copy(maxUsedSliceOverallSlack2[e].begin(), maxUsedSliceOverallSlack2[e].end(),std::back_inserter(maxUsedSliceOverall2Direction[e]));
     }
 }
 
+/* Initializes the direction of maximum used slice overall 3 constraints. */
 void AbstractLagFormulation::initializeMaxUsedSliceOverall3Direction(){
     maxUsedSliceOverall3Direction.resize(instance.getNbNodes());
     for (int v = 0; v < instance.getNbNodes(); v++){
-        maxUsedSliceOverall3Direction[v].resize(getNbSlicesGlobalLimit());
-        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
-            maxUsedSliceOverall3Direction[v][s] = maxUsedSliceOverallSlack3[v][s];
-        }
+        std::copy(maxUsedSliceOverallSlack3[v].begin(), maxUsedSliceOverallSlack3[v].end(),std::back_inserter(maxUsedSliceOverall3Direction[v]));
     }
 }
 
-/********************************** ASSIGNMENT MATRIX ***************************************/
+/************************************************** ASSIGNMENT MATRIX *************************************************/
 
+/* Initializes the assignment matrix (the sub problem solution) and the maxUsedSlice Overall **/
+/* The assignment matrix represents the x variables of the model */
 void AbstractLagFormulation::initAssignmentMatrix(){
     assignmentMatrix_d.resize(getNbDemandsToBeRouted());
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        assignmentMatrix_d[d].resize(countArcs(*vecGraph[d]));
-        std::fill(assignmentMatrix_d[d].begin(), assignmentMatrix_d[d].end(), false);
+        assignmentMatrix_d[d].resize(countArcs(*vecGraph[d]),false);
     }
     maxUsedSliceOverall = 0.0;
+    varAuxZ.resize(getNbDemandsToBeRouted(),false);
+
+    std::cout << "> Initial Assignment matrix was defined. " << std::endl;
 }
 
-/* *******************************************************************************
-*                             UPDATE METHODS
-******************************************************************************* */
+/************************************************** PRIMAL SOLUTION **************************************************/
 
-/********************************** MULTIPLIERS ***************************************/
+/* Initializes the primal solution - primal approximation given by the volume method */
+void AbstractLagFormulation::initPrimalSolution(){
+    primal_linear_solution.resize(getNbDemandsToBeRouted());
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        std::copy(assignmentMatrix_d[d].begin(),assignmentMatrix_d[d].end(),std::back_inserter(primal_linear_solution[d]));   
+    } 
+}
 
-/** Update length multipliers **/
+/************************************************** PRIMAL APPROXIMATION **********************************************/
+
+void AbstractLagFormulation::initPrimalApproximation(){
+    initStabilityCenter();
+    initPrimalSolution();
+    initPrimalSlacks();
+    setCurrentPrimalCost(getLagrCurrentCost());
+}
+
+/****************************************************** COEFF *********************************************************/
+
+/* Initializes the coefficients in the objective function ( according to chosen objective function). */
+void AbstractLagFormulation::initCoeff(){
+    operatorSliceCoefficient operSliceCoeff; // operator to modify keep the slice value just when arc leaves the source
+    operatorCoefficient operCoeff(getInstance().getInput().getChosenObj_k(0)); // operator to return the objective function coefficient
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        operSliceCoeff.setSource(getFirstNodeFromLabel(d, getToBeRouted_k(d).getSource()));
+        operCoeff.setDemandLoad(getToBeRouted_k(d).getLoad());
+        SourceMap<ListDigraph> sourceMap((*vecGraph[d])); // Map of the source nodes of the arcs
+        CombineMapCoeffSlice combineMapCS((*vecArcSlice[d]),sourceMap,operSliceCoeff); 
+        CombineMapCoeff combineMap((*vecArcLength[d]),combineMapCS,operCoeff);
+        coeff.emplace_back(std::make_shared<ArcCost>((*vecGraph[d]), 0.0)); 
+        mapCopy<ListDigraph,CombineMapCoeff,ArcCost>((*vecGraph[d]),combineMap,(*coeff[d])); // Copy to standard map to an easier utilization
+    }
+    std::cout << "> Initial Coeffs were defined. " << std::endl;
+}
+
+std::shared_ptr<ArcCost> AbstractLagFormulation::getCoeffMapObj8(int d) {
+    std::shared_ptr<ArcCost> aux = std::make_shared<ArcCost>((*vecGraph[d]));
+
+    operatorSliceCoefficient operSliceCoeff; 
+    operSliceCoeff.setSource(getFirstNodeFromLabel(d, getToBeRouted_k(d).getSource()));
+    SourceMap<ListDigraph> sourceMap((*vecGraph[d])); 
+    CombineMapCoeffSlice combineMapCS((*vecArcSlice[d]),sourceMap,operSliceCoeff);
+    mapCopy<ListDigraph,CombineMapCoeffSlice,ArcCost>((*vecGraph[d]),combineMapCS,(*aux));
+    
+    return aux;
+}
+
+/* ****************************************************************************************************************
+*                                                   UPDATE METHODS
+**************************************************************************************************************** */
+
+/*************************************************** MULTIPLIERS **************************************************/
+
+/** Updates length multipliers **/
 void AbstractLagFormulation::updateLengthMultiplier(double step){
-    /* length */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         double violation = -getLengthSlack_k(d); /* the constraint is <=, we have to pass to >= as it is a minimization problem*/
         double new_multipliplier = getLengthMultiplier_k(d) + (step*violation);
@@ -452,43 +537,39 @@ void AbstractLagFormulation::updateLengthMultiplier(double step){
     }
 }
 
-/** update source target multipliers **/
+/** Updates source target multipliers **/
 void AbstractLagFormulation::updateSourceTargetMultiplier(double step){
-    /* source target */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (int v = 0; v < instance.getNbNodes(); v++){ 
             if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()){
-                double violation = - getSourceTargetSlack_k(d,v);
-                //std::cout << "violation " << violation << std::endl;
+                double violation = -getSourceTargetSlack_k(d,v);
                 double new_multipliplier = getSourceTargetMultiplier_k(d,v) + (step*violation); /* equality */
                 setSourceTargetMultiplier_k(d,v,new_multipliplier); /* multiplier is a real number*/
-
             }else{
-                double violation = - getSourceTargetSlack_k(d,v); /* the original constraints are <=, we have to change to >= because it is a min problem*/
+                double violation = -getSourceTargetSlack_k(d,v); /* the original constraints are <=, we have to change to >= because it is a min problem*/
                 double new_multipliplier = getSourceTargetMultiplier_k(d,v) + (step*violation);
                 setSourceTargetMultiplier_k(d,v,std::max(new_multipliplier, 0.0)); /* multiplier >= 0*/
-
             }
         }
     }
 }
 
+/** Updates flow multipliers **/
 void AbstractLagFormulation::updateFlowMultiplier(double step){
-    /* flow */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (int v = 0; v < instance.getNbNodes(); v++){
-            if((v != getToBeRouted_k(d).getSource()) && v != getToBeRouted_k(d).getTarget()){
-                double violation = - getFlowSlack_k(d,v);
-                //std::cout << "violation " << violation << std::endl;
-                double new_multipliplier = getFlowMultiplier_k(d,v) + (step*violation); /* equality */
-                setFlowMultiplier_k(d,v,new_multipliplier); /* multiplier is a real number*/
+        for (int v = 0; v < countNodes(*vecGraph[d]); v++){
+            if(v != getTargetNodeIndex(d) && v != getSourceNodeIndex(d)){
+                double violation = -getFlowSlack_k(d,v);
+                double new_multiplier = getFlowMultiplier_k(d,v) + (step*violation); /* equality */
+                setFlowMultiplier_k(d,v,new_multiplier); /* multiplier is a real number*/
+                //std::cout << "Flow multiplier " << d << " " << v << " " <<  new_multipliplier << std::endl;
             }
         }
     }
 }
 
+/** update overlap multipliers **/
 void AbstractLagFormulation::updateOverlapMultiplier(double step){
-    //overlap 
     for (int e = 0; e < instance.getNbEdges(); e++){
         for (int s = 0; s < instance.getPhysicalLinkFromIndex(e).getNbSlices(); s++){
             double violation = -getOverlapSlack_k( e, s);
@@ -498,6 +579,18 @@ void AbstractLagFormulation::updateOverlapMultiplier(double step){
     }  
 }
 
+/** update one slice per demand multipliers **/
+void AbstractLagFormulation::updateOneSlicePerDemandMultiplier(double step){
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+            double violation = -getOneSlicePerDemandSlack_k(e,d);
+            double new_multipliplier = getOneSlicePerDemandMultiplier_k(e,d) +(step*violation);
+            setOneSlicePerDemandMultiplier_k(e,d,std::max(new_multipliplier, 0.0));
+        }
+    }
+}
+
+/** update maximum used slice overall 1 multipliers **/
 void AbstractLagFormulation::updateMaxUsedSliceOverallMultiplier(double step){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         double violation = -getMaxUsedSliceOverallSlack_k(d);
@@ -506,6 +599,16 @@ void AbstractLagFormulation::updateMaxUsedSliceOverallMultiplier(double step){
     }
 }
 
+/** update maximum used slice overall 1 (auxiliary) multipliers **/
+void AbstractLagFormulation::updateMaxUsedSliceOverallAuxMultiplier(double step){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        double violation = -getMaxUsedSliceOverallAuxSlack_k(d);
+        double new_multipliplier = getMaxUsedSliceOverallAuxMultiplier_k(d) + (step*violation);
+        setMaxUsedSliceOverallAuxMultiplier_k(d,std::max(new_multipliplier, 0.0));
+    }
+}
+
+/** update maximum used slice overall 2 multipliers **/
 void AbstractLagFormulation::updateMaxUsedSliceOverall2Multiplier(double step){
     for (int e = 0; e < instance.getNbEdges(); e++){
         for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
@@ -516,6 +619,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverall2Multiplier(double step){
     }
 }
 
+/** update maximum used slice overall 3 multipliers **/
 void AbstractLagFormulation::updateMaxUsedSliceOverall3Multiplier(double step){
     for (int v = 0; v < instance.getNbNodes(); v++){
         for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
@@ -526,10 +630,10 @@ void AbstractLagFormulation::updateMaxUsedSliceOverall3Multiplier(double step){
     }
 }
 
-/****************** MULTIPLIER CONSIDERING THE STABILITY CENTER *********************/
+/********************************** MULTIPLIER CONSIDERING THE STABILITY CENTER *********************************/
 
+/** update length multipliers considering stability center - volume**/
 void AbstractLagFormulation::updateLengthMultiplier_v2(double step){
-    /* length */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         double violation = -getLengthSlack_v2_k(d); /* the constraint is <=, we have to pass to >= as it is a minimization problem*/
         double new_multipliplier = getLengthSC_k(d) + (step*violation);
@@ -537,33 +641,30 @@ void AbstractLagFormulation::updateLengthMultiplier_v2(double step){
     }
 }
 
+/** update source/target multipliers considering stability center - volume**/
 void AbstractLagFormulation::updateSourceTargetMultiplier_v2(double step){
-    /* source target */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (int v = 0; v < instance.getNbNodes(); v++){ 
             if((v == getToBeRouted_k(d).getSource()) || v == getToBeRouted_k(d).getTarget()){
-                double violation = - getSourceTargetSlack_v2_k(d,v);
-                //std::cout << "violation " << violation << std::endl;
+                double violation = -getSourceTargetSlack_v2_k(d,v);
                 double new_multipliplier = getSourceTargetSC_k(d,v) + (step*violation); /* equality */
                 setSourceTargetMultiplier_k(d,v,new_multipliplier); /* multiplier is a real number*/
 
             }else{
-                double violation = - getSourceTargetSlack_v2_k(d,v); /* the original constraints are <=, we have to change to >= because it is a min problem*/
+                double violation = -getSourceTargetSlack_v2_k(d,v); /* the original constraints are <=, we have to change to >= because it is a min problem*/
                 double new_multipliplier = getSourceTargetSC_k(d,v) + (step*violation);
                 setSourceTargetMultiplier_k(d,v,std::max(new_multipliplier, 0.0)); /* multiplier >= 0*/
-
             }
         }
     }
 }
 
+/** update flow multipliers considering stability center - volume**/
 void AbstractLagFormulation::updateFlowMultiplier_v2(double step){
-    /* flow */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (int v = 0; v < instance.getNbNodes(); v++){
-            if((v != getToBeRouted_k(d).getSource()) && v != getToBeRouted_k(d).getTarget()){
-                double violation = - getFlowSlack_v2_k(d,v);
-                //std::cout << "violation " << violation << std::endl;
+        for (int v = 0; v < countNodes(*vecGraph[d]); v++){
+            if(v != getTargetNodeIndex(d) && v != getSourceNodeIndex(d)){
+                double violation = -getFlowSlack_v2_k(d,v);
                 double new_multipliplier = getFlowSC_k(d,v) + (step*violation); /* equality */
                 setFlowMultiplier_k(d,v,new_multipliplier); /* multiplier is a real number*/
             }
@@ -571,9 +672,8 @@ void AbstractLagFormulation::updateFlowMultiplier_v2(double step){
     }
 }
 
+/** Updates overlap  multipliers considering stability center - volume**/
 void AbstractLagFormulation::updateOverlapMultiplier_v2(double step){
-
-    //overlap 
     for (int e = 0; e < instance.getNbEdges(); e++){
         for (int s = 0; s < instance.getPhysicalLinkFromIndex(e).getNbSlices(); s++){
             double violation = -getOverlapSlack_v2_k( e, s);
@@ -583,6 +683,18 @@ void AbstractLagFormulation::updateOverlapMultiplier_v2(double step){
     }  
 }
 
+/** Updates one slice per demand  multipliers considering stability center - volume**/
+void AbstractLagFormulation::updateOneSlicePerDemandMultiplier_v2(double step){
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+            double violation = -getOneSlicePerDemandSlack_v2_k(e,d);
+            double new_multipliplier = getOneSlicePerDemandSC_k(e,d) + (step*violation);
+            setOneSlicePerDemandMultiplier_k(e,d,std::max(new_multipliplier,0.0));
+        }
+    }
+}
+
+/** Updates maximum used slice overall 1 multipliers considering stability center - volume**/
 void AbstractLagFormulation::updateMaxUsedSliceOverallMultiplier_v2(double step){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         double violation = -getMaxUsedSliceOverallSlack_v2_k(d);
@@ -591,6 +703,16 @@ void AbstractLagFormulation::updateMaxUsedSliceOverallMultiplier_v2(double step)
     }
 }
 
+/** Updates maximum used slice overall 1 (auxiliary) multipliers considering stability center - volume**/
+void AbstractLagFormulation::updateMaxUsedSliceOverallAuxMultiplier_v2(double step){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        double violation = -getMaxUsedSliceOverallAuxSlack_v2_k(d);
+        double new_multipliplier = getMaxUsedSliceOverallAuxSC_k(d) + (step*violation);
+        setMaxUsedSliceOverallAuxMultiplier_k(d,std::max(new_multipliplier, 0.0));
+    }
+}
+
+/** Updates maximum used slice overall 2 multipliers considering stability center - volume**/
 void AbstractLagFormulation::updateMaxUsedSliceOverall2Multiplier_v2(double step){
     for (int e = 0; e < instance.getNbEdges(); e++){
         for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
@@ -601,6 +723,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverall2Multiplier_v2(double step
     }
 }
 
+/** Updates maximum used slice overall 3 multipliers considering stability center - volume**/
 void AbstractLagFormulation::updateMaxUsedSliceOverall3Multiplier_v2(double step){
     for (int v = 0; v < instance.getNbNodes(); v++){
         for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
@@ -611,36 +734,35 @@ void AbstractLagFormulation::updateMaxUsedSliceOverall3Multiplier_v2(double step
     }
 }
 
-/********************************** STABILITY CENTER ***************************************/
+/************************************************ STABILITY CENTER ***************************************************/
 
+/* Updates length stability center */
 void AbstractLagFormulation::updateLengthSC(){
-    /* length */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         setLengthSC_k(d, getLengthMultiplier_k(d)); 
     }
 }
 
+/* Updates source/target stability center */
 void AbstractLagFormulation::updateSourceTargetSC(){
-     /* source target */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (int v = 0; v < instance.getNbNodes(); v++){ 
             setSourceTargetSC_k(d,v,getSourceTargetMultiplier_k(d,v)); 
         }
     }
-
 }
 
+/* Updates flow stability center */
 void AbstractLagFormulation::updateFlowSC(){
-    /* flow */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (int v = 0; v < instance.getNbNodes(); v++){
+        for (int v = 0; v < countNodes(*vecGraph[d]); v++){
             setFlowSC_k(d,v, getFlowMultiplier_k(d,v)); 
         }
     }
 }
 
+/* Updates overlap stability center */
 void AbstractLagFormulation::updateOverlapSC(){
-    //overlap 
     for (int e = 0; e < instance.getNbEdges(); e++){
         for (int s = 0; s < instance.getPhysicalLinkFromIndex(e).getNbSlices(); s++){
             setOverlapSC_k( e, s, getOverlapMultiplier_k( e, s));
@@ -648,12 +770,30 @@ void AbstractLagFormulation::updateOverlapSC(){
     }  
 }
 
+/* Updates one slice per demand stability center */
+void AbstractLagFormulation::updateOneSlicePerDemandSC(){
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+            setOneSlicePerDemandSC_k(e,d,getOneSlicePerDemandMultiplier_k(e,d));
+        }
+    }
+}
+
+/* Updates maximum used slice overall 1 stability center */
 void AbstractLagFormulation::updateMaxUsedSliceOverallSC(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         setMaxUsedSliceOverallSC_k(d,getMaxUsedSliceOverallMultiplier_k(d));
     }
 }
 
+/* Updates maximum used slice overall 1 (auxiliary) stability center */
+void AbstractLagFormulation::updateMaxUsedSliceOverallAuxSC(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        setMaxUsedSliceOverallAuxSC_k(d,getMaxUsedSliceOverallAuxMultiplier_k(d));
+    }
+}
+
+/* Updates maximum used slice overall 2 stability center */
 void AbstractLagFormulation::updateMaxUsedSliceOverall2SC(){
     for (int e = 0; e < instance.getNbEdges(); e++){
         for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
@@ -662,6 +802,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverall2SC(){
     }
 }
 
+/* Updates maximum used slice overall 3 stability center */
 void AbstractLagFormulation::updateMaxUsedSliceOverall3SC(){
     for (int v = 0; v < instance.getNbNodes(); v++){
         for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
@@ -670,329 +811,175 @@ void AbstractLagFormulation::updateMaxUsedSliceOverall3SC(){
     }
 }
 
-/********************************** SLACK ***************************************/
+/************************************************** SLACK ******************************************************/
 
 /* Updates the slack of length constraints. */
-void AbstractLagFormulation::updateLengthSlack(){
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        double exp = 0.0;
-
-        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-            int index = getArcIndex(a,d);
-            //exp += assignmentMatrix_d[d][index]*getArcLength(a,d);
-            exp += (assignmentMatrix_d[d][index]*getArcLength(a,d))/(getToBeRouted_k(d).getMaxLength());
-        }
-        //const int MAX_LENGTH = getToBeRouted_k(d).getMaxLength(); 
-        const int MAX_LENGTH = 1;
-        lengthSlack[d] = (MAX_LENGTH - exp);
-    }
+void AbstractLagFormulation::updateLengthSlack(int d, const ListDigraph::Arc & arc){
+    double maxReach = getToBeRouted_k(d).getMaxLength();
+    lengthSlack[d] -= (getArcLength(arc,d)/maxReach);
 }
 
 /* Updates the slack of source target constraints. */
-void AbstractLagFormulation::updateSourceTargetSlack(){
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (int label = 0; label < instance.getNbNodes(); label++){ 
-            double exp = 0.0;
-            for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
-                if (getNodeLabel(v, d) == label){
-                    if(label == getToBeRouted_k(d).getTarget()){
-                        for (ListDigraph::InArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
-                            int indexArc = getArcIndex(a,d);
-                            exp += assignmentMatrix_d[d][indexArc];
-                        }
-                    }else{
-                        for (ListDigraph::OutArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
-                            int indexArc = getArcIndex(a,d);
-                            exp += assignmentMatrix_d[d][indexArc];
-                        }
-                    }
-                }
-            }
-            sourceTargetSlack[d][label] = 1 - exp;
-        }
+void AbstractLagFormulation::updateSourceTargetSlack(int d, const ListDigraph::Arc & arc){
+    int nodeLabel = getNodeLabel((*vecGraph[d]).target(arc),d);
+    if(nodeLabel== getToBeRouted_k(d).getTarget()){
+        sourceTargetSlack[d][nodeLabel]     -= 1.0;
     }
-    //std::cout << "\t> Source/Target slack was updated. " << std::endl;
+    nodeLabel = getNodeLabel((*vecGraph[d]).source(arc),d);
+    sourceTargetSlack[d][nodeLabel]     -= 1.0;
 }
 
 /* Updates the slack of source target constraints. */
-void AbstractLagFormulation::updateFlowSlack(){
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
-            int label = getNodeLabel(v, d);
-            /* The multiplier is not defined for the source and the target */
-            if( (label != getToBeRouted_k(d).getSource()) && (label != getToBeRouted_k(d).getTarget()) ){
-                double exp = 0.0;
-                for (ListDigraph::OutArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
-                    int indexArc = getArcIndex(a,d);
-                    exp -= assignmentMatrix_d[d][indexArc];
-                }
-                for (ListDigraph::InArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
-                    int indexArc = getArcIndex(a,d);
-                    exp += assignmentMatrix_d[d][indexArc];
-                }
-                flowSlack[d][label] = 0 + exp;
-            }
-        }
-    } 
-    //std::cout << "\t> Flow slack was updated. " << std::endl; 
+void AbstractLagFormulation::updateFlowSlack(int d, const ListDigraph::Arc & arc){
+    int nodeIndex = getNodeIndex((*vecGraph[d]).target(arc),d);
+    flowSlack[d][nodeIndex] += 1.0;
+    nodeIndex = getNodeIndex((*vecGraph[d]).source(arc),d);
+    flowSlack[d][nodeIndex] -= 1.0;
 }
 
 /* Updates the slack of non-overlap constraints. */
-void AbstractLagFormulation::updateOverlapSlack(){
-    for (int e = 0; e < instance.getNbEdges(); e++){
-        int linkLabel = instance.getPhysicalLinkFromIndex(e).getId();
-        for (int s = 0; s < instance.getPhysicalLinkFromIndex(e).getNbSlices(); s++){
-            double expr = 0.0;
-             for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-                int demandLoad = getToBeRouted_k(d).getLoad();
-                for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-                    if( (getArcLabel(a, d) == linkLabel) && (getArcSlice(a, d) >= s)  && (getArcSlice(a, d) <= s + demandLoad - 1) ){
-                        int id = getArcIndex(a, d);
-                        expr += assignmentMatrix_d[d][id];
-                    }
-                }
-            }
-            overlapSlack[e][s] = 1 - expr;
-        }
+void AbstractLagFormulation::updateOverlapSlack(int d,const ListDigraph::Arc & arc){
+    int demandLoad = getToBeRouted_k(d).getLoad();
+    int slice = getArcSlice(arc, d); 
+    int label = getArcLabel(arc, d);
+    for(int s = slice-demandLoad + 1;s<= slice;s++){
+        overlapSlack[label][s] -= 1.0;
     }
-    //std::cout << "\t> Overlap slack was updated. " << std::endl;
+}
+
+/* Updates the slack of one slice per demand constraints. */
+void AbstractLagFormulation::updateOneSlicePerDemandSlack(int d, const ListDigraph::Arc & arc){
+    int label = getArcLabel(arc, d);
+    oneSlicePerDemandSlack[label][d] -= 1.0;
 }
 
 /* Updates the slack of max used slice overall constraints. */
-void AbstractLagFormulation::updateMaxUsedSliceOverallSlack(){
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        double exp = 0.0;
-        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-            if (getToBeRouted_k(d).getSource() == getNodeLabel((*vecGraph[d]).source(a), d)){
-                int indexArc = getArcIndex(a, d);
-                exp += assignmentMatrix_d[d][indexArc]*getArcSlice(a, d);
-                //exp += assignmentMatrix_d[d][indexArc]*getArcSlice(a, d)/getInstance().getMaxSlice();
-            }
-        }
-        maxUsedSliceOverallSlack[d] = 0 + maxUsedSliceOverall - exp;
+void AbstractLagFormulation::updateMaxUsedSliceOverallSlack(int d, const ListDigraph::Arc & arc){
+    int sourceLabel = getToBeRouted_k(d).getSource();
+    if(getNodeLabel((*vecGraph[d]).source(arc), d) == sourceLabel){
+        maxUsedSliceOverallSlack[d]    -= getArcSlice(arc, d);
+    }
+}
+
+/* Updates the slack of max used slice overall (auxiliary) constraints. */
+void AbstractLagFormulation::updateMaxUsedSliceOverallAuxSlack(int d, const ListDigraph::Arc & arc){
+    int sourceLabel = getToBeRouted_k(d).getSource();
+    if(getNodeLabel((*vecGraph[d]).source(arc), d) == sourceLabel){
+        maxUsedSliceOverallAuxSlack[d] += getArcSlice(arc, d);
     }
 }
 
 /* Updates the slack of max used slice overall 2 constraints. */
-void AbstractLagFormulation::updateMaxUsedSliceOverall2Slack(){
-    for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
-            double exp = 0.0;
-            for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-                int demandLoad = getToBeRouted_k(d).getLoad();
-                for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-                    if ((getArcLabel(a, d) == e) && (getArcSlice(a, d) >= s) && (getArcSlice(a, d) <= s + demandLoad - 1)){
-                        int indexArc = getArcIndex(a, d);
-                        exp += assignmentMatrix_d[d][indexArc]*getArcSlice(a, d);
-                        //exp += assignmentMatrix_d[d][indexArc]*getArcSlice(a, d)/getInstance().getMaxSlice();
-                    }
-                }
-            }
-            maxUsedSliceOverallSlack2[e][s] = 0 + maxUsedSliceOverall - exp;
-        }
+void AbstractLagFormulation::updateMaxUsedSliceOverall2Slack(int d, const ListDigraph::Arc & arc){
+    int demandLoad = getToBeRouted_k(d).getLoad();
+    int slice = getArcSlice(arc, d); 
+    int label = getArcLabel(arc, d);
+    for(int s = slice-demandLoad + 1;s<= slice;s++){
+        maxUsedSliceOverallSlack2[label][s] -= getArcSlice(arc, d);
     }
 }
 
 /* Updates the slack of max used slice overall 3 constraints. */
-void AbstractLagFormulation::updateMaxUsedSliceOverall3Slack(){
-    for (int node = 0; node < instance.getNbNodes(); node++){
-        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
-            double exp = 0.0;
-            int degree = 0;
-            for (ListGraph::NodeIt v(compactGraph); v != INVALID; ++v){
-                if ((getCompactNodeLabel(v) == node)){
-                    for (ListGraph::IncEdgeIt a(compactGraph, v); a != INVALID; ++a){
-                        degree++;
-                    }
-                }
-            }
+void AbstractLagFormulation::updateMaxUsedSliceOverall3Slack(int d, const ListDigraph::Arc & arc){
+    int demandLoad = getToBeRouted_k(d).getLoad();
+    int slice = getArcSlice(arc, d); 
+    int nodeLabel = getNodeLabel((*vecGraph[d]).source(arc),d);
+    for(int s = slice-demandLoad + 1;s<= slice;s++){
+        maxUsedSliceOverallSlack3[nodeLabel][s] -= getArcSlice(arc, d);
+    }
+}
 
-            for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-                int demandLoad = getToBeRouted_k(d).getLoad();
-                for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
-                    if ((getNodeLabel(v, d) == node)){
-                        for (ListDigraph::OutArcIt a(*vecGraph[d], v); a != INVALID; ++a){
-                            if ( (getArcSlice(a, d) >= s) && (getArcSlice(a, d) <= s + demandLoad - 1) ){
-                                int indexArc = getArcIndex(a, d);
-                                exp += assignmentMatrix_d[d][indexArc]*getArcSlice(a, d);
-                                //exp += assignmentMatrix_d[d][indexArc]*getArcSlice(a, d)/getInstance().getMaxSlice();
-                            }
-                        }
-                    }
-                }
-            }
-            maxUsedSliceOverallSlack3[node][s] = 0 + maxUsedSliceOverall*degree - exp;
+
+/********************************************** SLACK PRIMAL APPROXIMATION *********************************************/
+
+/*Updates the length slack considering the primal approximation. */
+void AbstractLagFormulation::updateLengthPrimalSlack(double alpha){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        lengthSlack_v2[d] = alpha*lengthSlack[d] + (1-alpha)*lengthSlack_v2[d];
+    }
+}
+
+/*Updates the source/target slack considering the primal approximation. */
+void AbstractLagFormulation::updateSourceTargetPrimalSlack(double alpha){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        for (int v = 0; v < instance.getNbNodes(); v++){ 
+            sourceTargetSlack_v2[d][v] = alpha*sourceTargetSlack[d][v] + (1-alpha)*sourceTargetSlack_v2[d][v];
         }
     }
 }
 
-/************************ SLACK CONSIDERING THE PRIMAL VECTOR ********************/
-
-/* Updates the slack (primal variables) of length constraints. */
-void AbstractLagFormulation::updateLengthSlack_v2(){
+/*Updates the flow slack considering the primal approximation. */
+void AbstractLagFormulation::updateFlowPrimalSlack(double alpha){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        double exp = 0.0;
-
-        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-            int index = getArcIndex(a,d);
-            //exp += assignmentMatrix_d[d][index]*getArcLength(a,d);
-            exp += (primal_linear_solution[d][index]*getArcLength(a,d))/(getToBeRouted_k(d).getMaxLength());
+        for (int v = 0; v < countNodes(*vecGraph[d]); v++){
+            if(v != getTargetNodeIndex(d) && v != getSourceNodeIndex(d)){
+                flowSlack_v2[d][v] = alpha*flowSlack[d][v] + (1-alpha)*flowSlack_v2[d][v];
+            }
         }
-        //const int MAX_LENGTH = getToBeRouted_k(d).getMaxLength(); 
-        const int MAX_LENGTH = 1;
-        lengthSlack_v2[d] = (MAX_LENGTH - exp);
     }
 }
 
-/* Updates the slack (primal variables) of source target constraints. */
-void AbstractLagFormulation::updateSourceTargetSlack_v2(){
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (int label = 0; label < instance.getNbNodes(); label++){ 
-            double exp = 0.0;
-            for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
-                if (getNodeLabel(v, d) == label){
-                    if(label == getToBeRouted_k(d).getTarget()){
-                        for (ListDigraph::InArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
-                            int indexArc = getArcIndex(a,d);
-                            exp += primal_linear_solution[d][indexArc];
-                        }
-                    }else{
-                        for (ListDigraph::OutArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
-                            int indexArc = getArcIndex(a,d);
-                            exp += primal_linear_solution[d][indexArc];
-                        }
-                    }
-                }
-            }
-            sourceTargetSlack_v2[d][label] = 1 - exp;
-        }
-    }
-    //std::cout << "\t> Source/Target slack was updated. " << std::endl;
-}
-
-/* Updates the slack (primal variables) of flow constraints. */
-void AbstractLagFormulation::updateFlowSlack_v2(){
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
-            int label = getNodeLabel(v, d);
-            /* The multiplier is not defined for the source and the target */
-            if( (label != getToBeRouted_k(d).getSource()) && (label != getToBeRouted_k(d).getTarget()) ){
-                double exp = 0.0;
-                for (ListDigraph::OutArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
-                    int indexArc = getArcIndex(a,d);
-                    exp -= primal_linear_solution[d][indexArc];
-                }
-                for (ListDigraph::InArcIt a((*vecGraph[d]), v); a != INVALID; ++a){
-                    int indexArc = getArcIndex(a,d);
-                    exp += primal_linear_solution[d][indexArc];
-                }
-                flowSlack_v2[d][label] = 0 + exp;
-            }
-        }
-    } 
-    //std::cout << "\t> Flow slack was updated. " << std::endl; 
-}
-
-/* Updates the slack (primal variables) of overlap constraints. */
-void AbstractLagFormulation::updateOverlapSlack_v2(){
+/*Updates the overlap slack considering the primal approximation. */
+void AbstractLagFormulation::updateOverlapPrimalSlack(double alpha){
     for (int e = 0; e < instance.getNbEdges(); e++){
-        int linkLabel = instance.getPhysicalLinkFromIndex(e).getId();
         for (int s = 0; s < instance.getPhysicalLinkFromIndex(e).getNbSlices(); s++){
-            double expr = 0.0;
-             for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-                 int demandLoad = getToBeRouted_k(d).getLoad();
-                for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-                    if( (getArcLabel(a, d) == linkLabel) && (getArcSlice(a, d) >= s)  && (getArcSlice(a, d) <= s + demandLoad - 1) ){
-                        int id = getArcIndex(a, d);
-                        expr += primal_linear_solution[d][id];
-                    }
-                }
-            }
-            overlapSlack_v2[e][s] = 1 - expr;
+            overlapSlack_v2[e][s] = alpha*overlapSlack[e][s] + (1-alpha)*overlapSlack_v2[e][s];
         }
     }
 }
 
+/*Updates the one slice per demand slack considering the primal variables. */
+void AbstractLagFormulation::updateOneSlicePerDemandPrimalSlack(double alpha){
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+            oneSlicePerDemandSlack_v2[e][d] = alpha*oneSlicePerDemandSlack[e][d] +(1-alpha)*oneSlicePerDemandSlack_v2[e][d];
+        }
+    }
+}
 
-/* Updates the slack (primal variables) of max used slice overall constraints. */
-void AbstractLagFormulation::updateMaxUsedSliceOverallSlack_v2(){
+/*Updates the max used slice overall slack considering the primal variables. */
+void AbstractLagFormulation::updateMaxUsedSliceOverallPrimalSlack(double alpha){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        double exp = 0.0;
-        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-            if (getToBeRouted_k(d).getSource() == getNodeLabel((*vecGraph[d]).source(a), d)){
-                int indexArc = getArcIndex(a, d);
-                exp += primal_linear_solution[d][indexArc]*getArcSlice(a, d);
-                //exp += primal_linear_solution[d][indexArc]*getArcSlice(a, d)/getInstance().getMaxSlice();
-            }
-        }
-        maxUsedSliceOverallSlack_v2[d] = 0 + maxUsedSliceOverall - exp;
+        maxUsedSliceOverallSlack_v2[d] = alpha*maxUsedSliceOverallSlack[d] + (1-alpha)*maxUsedSliceOverallSlack_v2[d];
     }
 }
 
-/* Updates the slack (primal variables) of max used slice overall 2 constraints. */
-void AbstractLagFormulation::updateMaxUsedSliceOverall2Slack_v2(){
+/*Updates the max used slice overall (auxiliary) slack considering the primal variables. */
+void AbstractLagFormulation::updateMaxUsedSliceOverallAuxPrimalSlack(double alpha){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        maxUsedSliceOverallAuxSlack_v2[d] = alpha*maxUsedSliceOverallAuxSlack[d] + (1-alpha)*maxUsedSliceOverallAuxSlack_v2[d];
+    }
+}
+
+/*Updates the max used slice overall 2 slack considering the primal variables. */
+void AbstractLagFormulation::updateMaxUsedSliceOverall2PrimalSlack(double alpha){
     for (int e = 0; e < instance.getNbEdges(); e++){
         for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
-            double exp = 0.0;
-            for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-                int demandLoad = getToBeRouted_k(d).getLoad();
-                for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
-                    if ((getArcLabel(a, d) == e) && (getArcSlice(a, d) >= s) && (getArcSlice(a, d) <= s + demandLoad - 1)){
-                        int indexArc = getArcIndex(a, d);
-                        exp += primal_linear_solution[d][indexArc]*getArcSlice(a, d);
-                        //exp += primal_linear_solution[d][indexArc]*getArcSlice(a, d)/getInstance().getMaxSlice();
-                    }
-                }
-            }
-            maxUsedSliceOverallSlack2_v2[e][s] = 0 + maxUsedSliceOverall - exp;
+            maxUsedSliceOverallSlack2_v2[e][s] = alpha*maxUsedSliceOverallSlack2[e][s] + (1-alpha)*maxUsedSliceOverallSlack2_v2[e][s];
         }
     }
 }
 
-/* Updates the slack (primal variables) of max used slice overall 3 constraints. */
-void AbstractLagFormulation::updateMaxUsedSliceOverall3Slack_v2(){
-    for (int node = 0; node < instance.getNbNodes(); node++){
+/*Updates the max used slice overall 3 slack considering the primal variables. */
+void AbstractLagFormulation::updateMaxUsedSliceOverall3PrimalSlack(double alpha){
+    for (int v = 0; v < instance.getNbNodes(); v++){
         for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
-            double exp = 0.0;
-            int degree = 0;
-            for (ListGraph::NodeIt v(compactGraph); v != INVALID; ++v){
-                if ((getCompactNodeLabel(v) == node)){
-                    for (ListGraph::IncEdgeIt a(compactGraph, v); a != INVALID; ++a){
-                        degree++;
-                    }
-                }
-            }
-
-            for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-                int demandLoad = getToBeRouted_k(d).getLoad();
-                for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
-                    if ((getNodeLabel(v, d) == node)){
-                        for (ListDigraph::OutArcIt a(*vecGraph[d], v); a != INVALID; ++a){
-                            if ( (getArcSlice(a, d) >= s) && (getArcSlice(a, d) <= s + demandLoad - 1) ){
-                                int indexArc = getArcIndex(a, d);
-                                exp += primal_linear_solution[d][indexArc]*getArcSlice(a, d);
-                                //exp += primal_linear_solution[d][indexArc]*getArcSlice(a, d)/getInstance().getMaxSlice();
-                            }
-                        }
-                    }
-                }
-            }
-            maxUsedSliceOverallSlack3_v2[node][s] = 0 + maxUsedSliceOverall*degree - exp;
+            maxUsedSliceOverallSlack3_v2[v][s] = alpha*maxUsedSliceOverallSlack3[v][s] + (1-alpha)*maxUsedSliceOverallSlack3_v2[v][s];
         }
     }
 }
 
-/********************************* DIRECTION ***********************************/
+/******************************************************* DIRECTION *****************************************************/
 
+/* Updates the slack of length constraints. */
 void AbstractLagFormulation::updateLengthDirection(double theta){
-
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         double value = getLengthSlack_k(d) + theta*getLengthDirection_k(d);
         setLengthDirection_k(d,value);
     }
-
 }
 
+/* Updates the slack of source/target constraints. */
 void AbstractLagFormulation::updateSourceTargetDirection(double theta){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (int v = 0; v < instance.getNbNodes(); v++){ 
@@ -1002,30 +989,39 @@ void AbstractLagFormulation::updateSourceTargetDirection(double theta){
     }
 }
 
+/* Updates the slack of flow constraints. */
 void AbstractLagFormulation::updateFlowDirection(double theta){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (int v = 0; v < instance.getNbNodes(); v++){
-            /* The multiplier is not defined for the source and the target */
-            if((v != getToBeRouted_k(d).getSource()) && v != getToBeRouted_k(d).getTarget()) {
+        for (int v = 0; v < countNodes(*vecGraph[d]); v++){
+            if(v != getTargetNodeIndex(d) && v != getSourceNodeIndex(d)){
                 double value = getFlowSlack_k(d,v) + theta*getFlowDirection_k(d,v);
                 setFlowDirection_k(d,v,value);
             }
         }
     }
-    
 }
 
+/* Updates the slack of non overlap constraints. */
 void AbstractLagFormulation::updateOverlapDirection(double theta){
-
     for (int e = 0; e < instance.getNbEdges(); e++){
         for (int s = 0; s < instance.getPhysicalLinkFromIndex(e).getNbSlices(); s++){
             double value = getOverlapSlack_k(e,s) + theta*getOverlapDirection_k(e,s);
             setOverlapDirection_k(e,s,value);
         }
     }
-    
 }
 
+/* Updates the slack of one slice per demand constraints. */
+void AbstractLagFormulation::updateOneSlicePerDemandDirection(double theta){
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+            double value = getOneSlicePerDemandSlack_k(e,d) + theta*getOneSlicePerDemandDirection_k(e,d);
+            setOneSlicePerDemandDirection_k(e,d,value);
+        }
+    }
+}
+
+/* Updates the slack of max used slice overall 1 constraints. */
 void AbstractLagFormulation::updateMaxUsedSliceOverallDirection(double theta){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         double value = getMaxUsedSliceOverallSlack_k(d) + theta*getMaxUsedSliceOverallDirection_k(d);
@@ -1033,6 +1029,15 @@ void AbstractLagFormulation::updateMaxUsedSliceOverallDirection(double theta){
     }
 }
 
+/* Updates the slack of max used slice overall 1 (auxiliary) constraints. */
+void AbstractLagFormulation::updateMaxUsedSliceOverallAuxDirection(double theta){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        double value = getMaxUsedSliceOverallAuxSlack_k(d) + theta*getMaxUsedSliceOverallAuxDirection_k(d);
+        setMaxUsedSliceOverallAuxDirection_k(d,value);
+    }
+}
+
+/* Updates the slack of max used slice overall 2 constraints. */
 void AbstractLagFormulation::updateMaxUsedSliceOverall2Direction(double theta){
     for (int e = 0; e < instance.getNbEdges(); e++){
         for (int s = 0; s < getNbSlicesLimitFromEdge(e); s++){
@@ -1042,6 +1047,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverall2Direction(double theta){
     }
 }
 
+/* Updates the slack of max used slice overall 3 constraints. */
 void AbstractLagFormulation::updateMaxUsedSliceOverall3Direction(double theta){
     for (int v = 0; v < instance.getNbNodes(); v++){
         for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
@@ -1051,10 +1057,44 @@ void AbstractLagFormulation::updateMaxUsedSliceOverall3Direction(double theta){
     }
 }
 
-/* *******************************************************************************
-*                             Check Feasibility METHODS
-******************************************************************************* */
+/**************************************************** ASSIGNMENT MATRIX *****************************************************/
 
+void AbstractLagFormulation::updateAssignment(){
+    for(int d = 0; d < getNbDemandsToBeRouted(); d++){
+        std::fill(assignmentMatrix_d[d].begin(), assignmentMatrix_d[d].end(), false);
+    }
+}
+
+/**************************************************** PRIMAL SOLUTION *****************************************************/
+
+void AbstractLagFormulation::updatePrimalSolution(double alpha){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        for(int index = 0; index < primal_linear_solution[d].size(); index++){
+            primal_linear_solution[d][index] = alpha*(double)assignmentMatrix_d[d][index] + (1.0-alpha)*primal_linear_solution[d][index];
+        }
+    }
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
+    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        primalMaxUsedSliceOverall = alpha*maxUsedSliceOverall + (1-alpha)*primalMaxUsedSliceOverall;
+        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+            primalVarAuxZ[d] = alpha*varAuxZ[d] + (1-alpha)*primalVarAuxZ[d];
+        }
+    }
+}
+
+/************************************************** PRIMAL APPROXIMATION **********************************************/
+
+void AbstractLagFormulation::updatePrimalApproximation(double alpha){
+    updatePrimalSolution(alpha);
+    updatePrimalSlack(alpha);
+
+    double obj = alpha*getLagrCurrentCost() + (1.0-alpha)*getPrimalCurrentCost();
+    setCurrentPrimalCost(obj);
+}
+
+/* ********************************************************************************************************************
+*                                                   Check Feasibility METHODS
+********************************************************************************************************************** */
 
 /* Checks if all length slacks are non-negative. */
 bool AbstractLagFormulation::checkLengthFeasibility(){
@@ -1066,7 +1106,8 @@ bool AbstractLagFormulation::checkLengthFeasibility(){
     return true;
 }
 
-/*  For the source and destination : its an equality, it must be 0, for the rest it must be non negative*/
+/* Checks if all source/target constraints are feasible. */
+/*  For the source and destination : its an equality, it must be 0, for the rest it must be non negative */
 bool AbstractLagFormulation::checkSourceTargetFeasibility(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (int v = 0; v < instance.getNbNodes(); v++){ 
@@ -1084,6 +1125,7 @@ bool AbstractLagFormulation::checkSourceTargetFeasibility(){
     return true;
 }
 
+/* Checks if all flow constraints are feasible. */
 /* Equalities: it most be 0.*/
 bool AbstractLagFormulation::checkFlowFeasibility(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
@@ -1103,6 +1145,62 @@ bool AbstractLagFormulation::checkOverlapFeasibility(){
     for (int e = 0; e < instance.getNbEdges(); e++){
         for (int s = 0; s < instance.getPhysicalLinkFromIndex(e).getNbSlices(); s++){
             if (overlapSlack[e][s] < -DBL_EPSILON){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+/* Checks if all length slacks (considering primal approximation) are non-negative. */
+bool AbstractLagFormulation::checkLengthFeasibility_v2(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        if (lengthSlack_v2[d] < -DBL_EPSILON){
+            return false;
+        }
+    }
+    return true;
+}
+
+/* Checks if all source/target constraints are feasible. (slack considering primal approximation) */
+/*  For the source and destination : its an equality, it must be 0, for the rest it must be non negative */
+bool AbstractLagFormulation::checkSourceTargetFeasibility_v2(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        for (int v = 0; v < instance.getNbNodes(); v++){ 
+            if((v == getToBeRouted_k(d).getSource()) ||  (v == getToBeRouted_k(d).getTarget())){
+                if((sourceTargetSlack_v2[d][v] < -DBL_EPSILON) || (sourceTargetSlack_v2[d][v] > DBL_EPSILON)){
+                    return false;
+                }
+            }else{
+                if(sourceTargetSlack_v2[d][v]< -DBL_EPSILON){
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
+/* Checks if all flow constraints are feasible. (slack considering primal approximation)*/
+/* Equalities: it most be 0.*/
+bool AbstractLagFormulation::checkFlowFeasibility_v2(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        for (int v = 0; v < instance.getNbNodes(); v++){ 
+            if((v != getToBeRouted_k(d).getSource()) &&  (v != getToBeRouted_k(d).getTarget())){
+                if((flowSlack_v2[d][v] < -DBL_EPSILON) || (flowSlack_v2[d][v] > DBL_EPSILON)){
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
+/* Checks if all overlap1 slacks (considering primal approximation) are non-negative. */
+bool AbstractLagFormulation::checkOverlapFeasibility_v2(){   
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        for (int s = 0; s < instance.getPhysicalLinkFromIndex(e).getNbSlices(); s++){
+            if (overlapSlack_v2[e][s] < -DBL_EPSILON){
                 return false;
             }
         }

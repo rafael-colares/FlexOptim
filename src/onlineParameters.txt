@@ -1,8 +1,8 @@
 ******* Input File Paths *******
-topologyFile=../Parameters/Instances/Benchmark/leipzig/spain_21nodes_35links/15demands/Link.csv
+topologyFile=../Parameters/Instances/Tests2/NSF/Link.csv
 initialMappingDemandFile=
 initialMappingAssignmentFile=
-demandToBeRoutedFolder=../Parameters/Instances/Benchmark/leipzig/spain_21nodes_35links/15demands/Demands1
+demandToBeRoutedFolder=../Parameters/Instances/Tests2/NSF/50demands/Demands1
 
 ******* GNPY parameters *******
 GNPY_activation=0 
@@ -10,10 +10,10 @@ GNPY_topologyFile=../oopt-gnpy/gnpy/example-data/spain_topo.json
 GNPY_equipmentFile=../oopt-gnpy/gnpy/example-data/spain_eqpt_config.json 
 
 ******* Formulation parameters *******
-nbDemandsAtOnce=15 
+nbDemandsAtOnce=50 
 formulation=0 
 userCuts=0 
-obj=1
+obj=8
 allowBlocking=0 
 hopPenalty=0 
 partitionPolicy=0 
@@ -36,7 +36,7 @@ timeLimit=7200
 ******* Fields below are reserved for team LIMOS ********
 lagrangianMultiplier_zero=0 
 lagrangianLambda_zero=2 
-nbIterationsWithoutImprovement=10 
+nbIterationsWithoutImprovement=15 
 maxNbIterations=150 
 
 lagMethod=1 

@@ -8,7 +8,6 @@ void lagNonOverlap::init(){
     initMultipliers();
     initStabilityCenter();
     initSlacks();
-    initSlacks_v2();
     initDirection();
 
     time.setStart(ClockTime::getTimeNow());
@@ -18,6 +17,10 @@ void lagNonOverlap::init(){
     initCosts();
     initAssignmentMatrix();
     initPrimalSolution();
+
+    setUpdateVariablesTime(0.0);
+    setShorstestPathTime(0.0);
+    setSubstractMultipliersTime(0.0);
 }
 
 /********************************* MULTIPLIERS ***********************************/
@@ -183,13 +186,6 @@ void lagNonOverlap::initStabilityCenter(){
 
 /********************************** SLACK ***************************************/
 
-/* Analyse the signal!  -> feasibility
-    -> Lenght slack has to be  positive to be feasible
-    -> Flow slack has to be zero (equality)                
-    -> Target and (if) of source slack has to be zero
-    -> (otherwise) source slack has to be psitive
-*/
-
 /* Initializes the slack of relaxed constraints. */
 void lagNonOverlap::initSlacks(){
     initializeLengthSlacks();
@@ -204,21 +200,6 @@ void lagNonOverlap::initSlacks(){
     }
     
     std::cout << "> Initial Slacks were defined. " << std::endl;
-}
-
-/********************************** SLACK CONSIDERING PRIMAL VARIABLES ***************************************/
-
-void lagNonOverlap::initSlacks_v2(){
-    initializeLengthSlacks_v2();
-    initializeSourceTargetSlacks_v2();
-    initializeFlowSlacks_v2();
-
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
-        initializeMaxUsedSliceOverallSlacks_v2();
-        initializeMaxUsedSliceOverall2Slacks_v2();
-        initializeMaxUsedSliceOverall3Slacks_v2();
-    }
 }
 
 /************************************ DIRECTION **************************************/
@@ -352,6 +333,7 @@ void lagNonOverlap::initCosts(){
 void lagNonOverlap::run(){
     setCurrentLagrCost(0.0);
     setCurrentRealCost(0.0);
+    
     if(getStatus() == STATUS_FEASIBLE){
         setStatus(STATUS_UNKNOWN);
     }
@@ -361,12 +343,14 @@ void lagNonOverlap::run(){
     const ListDigraph::Node TARGET = getNodeFromIndex(getIdDestination());
 
     for (int e = 0; e < instance.getNbEdges(); e++){
+
+        time.setStart(ClockTime::getTimeNow());
         updateCost_E(e);
 
         /* Solving a shortest path for each edge considering the auxiliary graph */
         /* From the artificial source to the artificial target*/
 
-        //Dijkstra<ListDigraph,ListDigraph::ArcMap<double>> shortestPath((*vecEGraph[e]), (*vecECost[e]));
+        //Dijkstra<ListDigraph,ListDigraph::ArcMap<double>> shortestPath((*EGraph), (*ECost));
         //shortestPath.run(SOURCE, TARGET);
 
         BellmanFord<ListDigraph,ListDigraph::ArcMap<double>> shortestPath((*EGraph), (*ECost));
@@ -378,30 +362,27 @@ void lagNonOverlap::run(){
             std::cout << "> RSA is infeasible because there is no path from the artificial source to the artificial destination. Edge " << e << "." << std::endl;
             return;
         }
-        updateAssignment_e(e, shortestPath, SOURCE, TARGET);
-        incCurrentLagrCost(shortestPath.dist(TARGET));    
+        incShorstestPathTime(time.getTimeInSecFromStart());
+
+        time.setStart(ClockTime::getTimeNow());
+        updateAssignment_e(e, shortestPath, SOURCE, TARGET);  
+        incCurrentLagrCost(shortestPath.dist(TARGET));  
         if(chosenMetric != Input::OBJECTIVE_METRIC_8){
             incCurrentRealCost(getRealCostFromPath(e, shortestPath, SOURCE, TARGET));
         }
-        //createGraphFile(e,0);
+        incUpdateVariablesTime(time.getTimeInSecFromStart()); 
     }
+    time.setStart(ClockTime::getTimeNow());
     updateAssignment_d();
+    incUpdateVariablesTime(time.getTimeInSecFromStart()); 
+
+    time.setStart(ClockTime::getTimeNow());
+    subtractConstantValuesFromLagrCost();
+    incSubstractMultipliersTime(time.getTimeInSecFromStart());
 
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         solveProblemMaxUsedSliceOverall();
     }
-
-    subtractConstantValuesFromLagrCost();
-
-    /**
-    updateSlack();
-    updateSlack_v2();
-    updateDirection();
-
-    if (checkFeasibility() == true){
-        setStatus(STATUS_FEASIBLE);
-    }
-    **/
 
     /**
     int soma = 0;
@@ -941,14 +922,6 @@ void lagNonOverlap::updateSlack(){
     updateSourceTargetSlack();
     updateFlowSlack();
 
-}
-
-/************************ SLACK CONSIDERING THE PRIMAL VECTOR ********************/
-
-void lagNonOverlap::updateSlack_v2(){
-    updateLengthSlack_v2();
-    updateSourceTargetSlack_v2();
-    updateFlowSlack_v2();
 }
 
 /********************************* DIRECTION ***********************************/

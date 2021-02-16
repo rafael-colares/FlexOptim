@@ -1,14 +1,18 @@
 #include "lagSubgradient.h"
 
-/*************************************************************************/
-/*					            INITIALIZATION 		    		         */
-/*************************************************************************/
+/****************************************************************************************************************************/
+/*					                                 INITIALIZATION 		    		                                    */
+/****************************************************************************************************************************/
 /* Sets the initial parameters for the subgradient to run. */
 void lagSubgradient::initialization(){
+
     /** Setting initial time **/
     setInitializationTime(0.0);
     setConstAuxGraphTime(0.0);
     setSolvingSubProblemTime(0.0);
+    setUpdateVariablesTime(0.0);
+    setShorstestPathTime(0.0);
+    setSubstractMultipliersTime(0.0);
     setUpdatingSlackTime(0.0);
     setUpdatingBoundsTime(0.0);
     setHeuristicBoundTime(0.0);
@@ -16,7 +20,9 @@ void lagSubgradient::initialization(){
     setUpdatingCostsTime(0.0);
     setStoppingCriterionTime(0.0);
     setUpdatingPrimalVariablesTime(0.0);
-
+    setUpdateStepLambdaTime(0.0);
+    setCostTime(0.0);
+    
     time.setStart(ClockTime::getTimeNow());
     
     setIteration(0);
@@ -25,13 +31,7 @@ void lagSubgradient::initialization(){
     setStepSize(0.000);
 
     setLB(-__DBL_MAX__);
-    setUB(50000); //setUB(__DBL_MAX__/2);
-
-    Input::ObjectiveMetric chosenMetric = formulation->getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
-        setUB(formulation->getInstance().getMaxSlice());
-        //setUB(13);
-    }
+    setUB(100000); //setUB(__DBL_MAX__/2);
 
     formulation->setStatus(RSA::STATUS_UNKNOWN);
 
@@ -39,21 +39,21 @@ void lagSubgradient::initialization(){
     formulation->init();
 
     setInitializationTime(time.getTimeInSecFromStart());
-
     setConstAuxGraphTime(formulation->getConstAuxGraphTime()); 
 
     std::cout << "> Initialization is done. " << std::endl;
 
-    fichier2 << "> Initialization is done. " << std::endl;
-    fichier2 << " ****** Iteration: " << getIteration() << " ****** "<< std::endl;
+    /* Printing information to file fichier2. */
+    //fichier2 << "> Initialization is done. " << std::endl;
+    //fichier2 << " ****** Iteration: " << getIteration() << " ****** "<< std::endl;
+    //formulation->displaySlack(fichier2);
+    //formulation->displayMultiplier(fichier2);
     //formulation->createGraphFile(getIteration());
-    formulation->displaySlack(fichier2);
-    formulation->displayMultiplier(fichier2);
 }
 
-/*************************************************************************/
-/*					            RUNNING METHODS 		    		     */
-/*************************************************************************/
+/****************************************************************************************************************************/
+/*					                                 RUNNING METHODS 		    	                               	        */
+/****************************************************************************************************************************/
 
 void lagSubgradient::run(){
     std::cout << "--- Subgradient was invoked ---" << std::endl;
@@ -68,16 +68,14 @@ void lagSubgradient::run(){
         if (formulation->getStatus() != RSA::STATUS_INFEASIBLE){
             displayMainParameters(fichier);
 
+            time.setStart(ClockTime::getTimeNow());
             updateLambda();
             updateStepSize();
+            incUpdateStepLambdaTime(time.getTimeInSecFromStart());
             
             time.setStart(ClockTime::getTimeNow());
             formulation->updateMultiplier(getStepSize());
             incUpdatingMultipliersTime(time.getTimeInSecFromStart());
-
-            time.setStart(ClockTime::getTimeNow());
-            formulation->updateCosts();
-            incUpdatingCostsTime(time.getTimeInSecFromStart());
 
             time.setStart(ClockTime::getTimeNow());
             if (getLB() >= getUB() - DBL_EPSILON){ 
@@ -99,7 +97,7 @@ void lagSubgradient::run(){
             }
             bool alternativeStop = formulation->getInstance().getInput().getAlternativeStop();
             if(alternativeStop){
-                if(getGlobalItWithoutImprovement() >= 3*MAX_NB_IT_WITHOUT_IMPROVEMENT){
+                if(getGlobalItWithoutImprovement() >= 5*MAX_NB_IT_WITHOUT_IMPROVEMENT){
                     STOP = true;
                     setStop("Alternative stop");
                     std::cout << "Alternative stop" << std::endl;
@@ -114,6 +112,12 @@ void lagSubgradient::run(){
         }
         if(STOP==true){
             setTotalTime(getGeneralTime().getTimeInSecFromStart());
+            setUpdateVariablesTime(formulation->getUpdateVariablesTime());
+            setShorstestPathTime(formulation->getShorstestPathTime());
+            setSubstractMultipliersTime(formulation->getSubstractMultipliersTime());
+            setCostTime(formulation->getCostTime());
+            setRSAGraphConstructionTime(formulation->getRSAGraphConstructionTime());
+            setPreprocessingTime(formulation->getPreprocessingTime());
         }
     }
 
@@ -127,15 +131,14 @@ void lagSubgradient::runIteration(){
     formulation->run();
     incSolvingSubProblemTime(time.getTimeInSecFromStart());
 
-    /** Updating slack **/
+    /** Updating direction **/
     time.setStart(ClockTime::getTimeNow());
-    formulation->updateSlack();
-    formulation->updateSlack_v2();
     formulation->updateDirection();
     incUpdatingSlackTime(time.getTimeInSecFromStart());
+
     
-    time.setStart(ClockTime::getTimeNow());
     /** Updating feasibility **/
+    time.setStart(ClockTime::getTimeNow());
     if (formulation->checkFeasibility() == true){
         formulation->setStatus(RSA::STATUS_FEASIBLE);
     }
@@ -151,29 +154,26 @@ void lagSubgradient::runIteration(){
         }
     }   
     incUpdatingBoundsTime(time.getTimeInSecFromStart());
-    
+
     time.setStart(ClockTime::getTimeNow());
-    Input::ObjectiveMetric chosenMetric = formulation->getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric != Input::OBJECTIVE_METRIC_8){
-        if(getIteration()==1 || getIteration()%30 ==0){
-            heuristic->run();
-            double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
-            updateUB(feasibleSolutionCostHeur);
-        }
+    if(getIteration()==1 || getIteration()%30 ==0){
+        heuristic->run();
+        double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
+        updateUB(feasibleSolutionCostHeur);
     }
     incHeuristicBoundTime(time.getTimeInSecFromStart());
     
-    
-    fichier2 << "\n\n> ****** Iteration: " << getIteration() << " ******"<< std::endl;
-    formulation->displaySlack(fichier2);
-    formulation->displayMultiplier(fichier2);
+    /* Display information at file fichier2 */
+    //fichier2 << "\n\n> ****** Iteration: " << getIteration() << " ******"<< std::endl;
+    //formulation->displaySlack(fichier2);
+    //formulation->displayMultiplier(fichier2);
     //formulation->displaySlack();
     //formulation->displayMultiplier();
 }
 
-/*************************************************************************/
-/*					            UPDATE 		    		                 */
-/*************************************************************************/
+/****************************************************************************************************************************/
+/*					                                      UPDATE 		    		                                        */
+/****************************************************************************************************************************/
 
 /* Updates the lambda used in the update of step size. Lambda is halved if LB has failed to increade in some fixed number of iterations */
 void lagSubgradient::updateLambda(){
@@ -192,12 +192,10 @@ void lagSubgradient::updateLB(double bound){
         setLB(bound);
         setItWithoutImprovement(0);
         setGlobalItWithoutImprovement(0);
-        //std::cout << "> Set LB: " << bound << std:: endl;
     }
     else{
         incItWithoutImprovement();
         incGlobalItWithoutImprovement();
-        //std::cout << "> Nb iterations without improvement: " << getItWithoutImprovement() << std:: endl;
     } 
 }
 
@@ -209,4 +207,131 @@ void lagSubgradient::updateStepSize(){
     setStepSize(new_stepSize);
 }
 
+void AbstractLagSolver::displayMainParameters(std::ostream & sortie){
+    int k = getIteration();
+    std::vector<int> sizeOfField;
+    sizeOfField.resize(10);
+    sizeOfField[0] = 5;
+    sizeOfField[1] = 8;
+    sizeOfField[2] = 10;
+    sizeOfField[3] = 9;
+    sizeOfField[4] = 9;
+    sizeOfField[5] = 6;
+    sizeOfField[6] = 6;
+    sizeOfField[7] = 8;
+    sizeOfField[8] = 11;
+    sizeOfField[9] = 9;
+    char space = ' ';
 
+    std::vector<std::string> field;
+    field.resize(10);
+    if (k == 1){
+        field[0] = "Iter";
+        field[1] = "Wout Impr";
+        field[2] = "LB";
+        field[3] = "Lagr Cost";
+        field[4] = "Real Cost";
+        field[5] = "UB";
+        field[6] = "Step";
+        field[7] = "Lambda";
+        field[8] = "Feasibility";
+        field[9] = "Time";
+        
+        for (unsigned int i = 0; i < field.size(); i++){
+            field[i].resize(sizeOfField[i], space);
+            sortie << field[i] << " | ";
+        }
+        sortie << std::endl;;
+    }
+    field[0] = std::to_string(k);
+    field[1] = std::to_string(getItWithoutImprovement());
+    field[2] = std::to_string(getLB());
+    field[3] = std::to_string(formulation->getLagrCurrentCost());
+    field[4] = std::to_string(formulation->getRealCurrentCost());
+    field[5] = std::to_string(getUB());
+    field[6] = std::to_string(getStepSize());
+    field[7] = std::to_string(getLambda());
+
+    if (formulation->checkFeasibility()){
+        field[8] = "YES";
+    }
+    else{
+        field[8] = "NO";
+    }
+
+    field[9] = std::to_string(generalTime.getTimeInSecFromStart());
+    
+    for (unsigned int i = 0; i < field.size(); i++){
+        field[i].resize(sizeOfField[i], space);
+        sortie << field[i] << " | ";
+
+    }
+    sortie << std::endl;
+}
+
+/******************************************************************************************************************************/
+/*										                    DISPLAY  									                      */
+/******************************************************************************************************************************/
+
+
+void lagSubgradient::displayMainParameters(std::ostream & sortie){
+    int k = getIteration();
+    std::vector<int> sizeOfField;
+    sizeOfField.resize(10);
+    sizeOfField[0] = 5;
+    sizeOfField[1] = 8;
+    sizeOfField[2] = 10;
+    sizeOfField[3] = 9;
+    sizeOfField[4] = 9;
+    sizeOfField[5] = 6;
+    sizeOfField[6] = 6;
+    sizeOfField[7] = 8;
+    sizeOfField[8] = 11;
+    sizeOfField[9] = 9;
+    char space = ' ';
+
+    std::vector<std::string> field;
+    field.resize(10);
+    if (k == 1){
+        field[0] = "Iter";
+        field[1] = "Wout Impr";
+        field[2] = "LB";
+        field[3] = "Lagr Cost";
+        field[4] = "Real Cost";
+        field[5] = "UB";
+        field[6] = "Step";
+        field[7] = "Lambda";
+        field[8] = "Feasibility";
+        field[9] = "Time";
+        
+        for (unsigned int i = 0; i < field.size(); i++){
+            field[i].resize(sizeOfField[i], space);
+            sortie << field[i] << " | ";
+        }
+        sortie << std::endl;;
+    }
+    field[0] = std::to_string(k);
+    field[1] = std::to_string(getItWithoutImprovement());
+    field[2] = std::to_string(getLB());
+    field[3] = std::to_string(formulation->getLagrCurrentCost());
+    field[4] = std::to_string(formulation->getRealCurrentCost());
+    field[5] = std::to_string(getUB());
+    field[6] = std::to_string(getStepSize());
+    field[7] = std::to_string(getLambda());
+
+    if (formulation->checkFeasibility()){
+        field[8] = "YES";
+    }
+    else{
+        field[8] = "NO";
+    }
+
+    field[9] = std::to_string(generalTime.getTimeInSecFromStart());
+    
+    for (unsigned int i = 0; i < field.size(); i++){
+        field[i].resize(sizeOfField[i], space);
+        sortie << field[i] << " | ";
+
+    }
+    sortie << std::endl;
+}

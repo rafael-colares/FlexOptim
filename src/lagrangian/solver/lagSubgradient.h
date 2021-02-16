@@ -2,11 +2,8 @@
 #define LAG_SUBGRADIENT_H
 
 #include "AbstractLagrangianSolver.h"
-#include "../../topology/instance.h"
 
 class lagSubgradient: public AbstractLagSolver{
-    private:
-        int globalItWithoutImprovement;
 
     public:
 
@@ -14,18 +11,7 @@ class lagSubgradient: public AbstractLagSolver{
 	    /*				    Constructors 		   		*/
 	    /************************************************/
         lagSubgradient(const Instance &inst):AbstractLagSolver(inst){}
-
-        /************************************************/
-        /*					   Getters 		    		*/
-        /************************************************/
-        int getGlobalItWithoutImprovement() const { return globalItWithoutImprovement;}
-
-        /************************************************/
-        /*					   Setters 		    		*/
-        /************************************************/
-        void setGlobalItWithoutImprovement(int value) {globalItWithoutImprovement = value;}
-        void incGlobalItWithoutImprovement() {globalItWithoutImprovement++;}
-
+        
         /************************************************/
         /*					   Update 		    		*/
         /************************************************/
@@ -49,6 +35,12 @@ class lagSubgradient: public AbstractLagSolver{
 
         /** Solves an iteration of the Subgradient Method. **/
         void runIteration();
+
+        /************************************************/
+        /*					   Display 		    		*/
+        /************************************************/
+
+        void displayMainParameters(std::ostream & = std::cout);
 
         ~lagSubgradient(){}
 

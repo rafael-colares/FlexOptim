@@ -100,23 +100,13 @@ class lagNonOverlapping: public AbstractLagFormulation{
         /** Initializes the slack of relaxed constraints. **/
         void initSlacks();
 
-        /********************************** SLACK PRIMAL VARIABLES **********************************/
+        void resetSlacks();
 
-        void initSlacks_v2();
+        void initPrimalSlacks();
 
         /********************************** DIRECTION **********************************/
 
         void initDirection();
-
-        /******************************** COSTS *********************************/
-
-        /** Initializes the costs in the objective function. **/
-        void initCosts();
-
-        /******************************** ASSIGMENT MATRIX *********************************/
-
-        /** Initializes the assignement matrix. **/
-        void initAssignmentMatrix();
 
         /***************************** BUILDING AUXILIARY GRAPH *******************************/
 
@@ -133,9 +123,11 @@ class lagNonOverlapping: public AbstractLagFormulation{
 
         double getRealCostFromPath(int, BellmanFord< ListDigraph, ListDigraph::ArcMap<double> > &, const ListDigraph::Node &, const ListDigraph::Node &);
 
-        void updateAssignment_e(int, BellmanFord< ListDigraph, ListDigraph::ArcMap<double> > &, const ListDigraph::Node &, const ListDigraph::Node &);
+        double getRealCostFromPath(int , Dijkstra<ListDigraph,ListDigraph::ArcMap<double>> &, const ListDigraph::Node &, const ListDigraph::Node &);
 
-        void updateAssignment_d();
+        void updateAssignment_k(int, Dijkstra<ListDigraph,ListDigraph::ArcMap<double>> &, const ListDigraph::Node &, const ListDigraph::Node &);
+
+        void updateAssignment_k(int, BellmanFord< ListDigraph, ListDigraph::ArcMap<double> > &, const ListDigraph::Node &, const ListDigraph::Node &);
 
         void subtractConstantValuesFromLagrCost();
 
@@ -143,6 +135,9 @@ class lagNonOverlapping: public AbstractLagFormulation{
 
         /** Checks with the slacks if the solution is feasible. **/
         bool checkFeasibility();
+
+        /* Verifies if the relaxed constraints are respected, considering primal apprximation. */
+        bool checkFeasibility_v2();
  
         /****************************************************************************************/
         /*										Getters 										*/
@@ -187,10 +182,10 @@ class lagNonOverlapping: public AbstractLagFormulation{
         ListDigraph::Node getNodeFromIndex(int, int);
 
         /** Returns the constraints slack module **/
-        double getSlackModule();
+        double getSlackModule(double = -1.0);
 
         /** Returns the constraints slack module considering the primal values **/
-        double getSlackModule_v2();
+        double getSlackModule_v2(double =-1.0);
         
         /** Returns the constraints slack module considering the primal values **/
         double getMeanSlackModule_v2();
@@ -206,7 +201,7 @@ class lagNonOverlapping: public AbstractLagFormulation{
         double getSlackDirectionProdProjected(Input::ProjectionType);
 
         /** Returns the product of the normal slack with the slack considering the primal variables **/
-        double get_prod_slack();
+        double getSlackPrimalSlackProd(double = -1.0);
 
 
         /****************************************************************************************/
@@ -268,11 +263,9 @@ class lagNonOverlapping: public AbstractLagFormulation{
 
         /********************************* SLACK ***********************************/
 
-        void updateSlack();
+        void updateSlack(int, const ListDigraph::Arc &);
 
-        /************************* SLACK PRIMAL VARIABLES *************************/
-
-        void updateSlack_v2();
+        void updatePrimalSlack(double);
 
         /********************************* DIRECTION ***********************************/
 

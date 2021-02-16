@@ -96,8 +96,8 @@ public:
 	enum DirectionMethod{
 		NORMAL = 0,              /**< Uses the gradient as direction. **/
 		CROWDER = 1,             /**< Uses the crowder rule to compute the direction. **/
-		CARMERINI = 3,           /**< Uses the carmerini fratta maffioli rule to compute the direction. **/
-		MODIFIED_CARMERINI = 4,  /**< Uses the modified carmerini fratta maffioli rule to compute the direction. **/
+		CARMERINI = 2,           /**< Uses the carmerini fratta maffioli rule to compute the direction. **/
+		MODIFIED_CARMERINI = 3,  /**< Uses the modified carmerini fratta maffioli rule to compute the direction. **/
 	}; 
 
 	enum ProjectionType{
@@ -156,6 +156,7 @@ private:
 	ProjectionType chosenProjection;         /**< The way the stepsize is computed. **/
 	bool alternativeStop;                    /**< If an alternative stopping criterion is used or not. **/
 	bool warmstart;                          /**< If the warmstart for the initial multipliers is used or not. **/
+	std::string lagOutputPath;	                 /**< Path to the folder where the lagrangian output files will be sent by the end of the optimization procedure.**/
 	/*******************************************/
 
 public:
@@ -238,8 +239,6 @@ public:
 
 	/** Returns the path to the .json equipment file that serves as input for the GNPY.**/
     std::string getGNPYEquipmentFile() const { return GNPY_equipmentFile; }
-	
-
 
 	/** Returns the identifier of the method chosen for solving each node. **/
     NodeMethod getChosenNodeMethod() const { return chosenNodeMethod; }
@@ -281,15 +280,36 @@ public:
 	int getMaxNbIterations() const { return maxNbIterations; }
 
 	/******** INCLUSION FOR LAGRANGIAN *********/
+
+	/** Returns the lagrangian method used. **/
 	LagMethod getChosenLagMethod() const { return lagChosenMethod;}
+
+	/** Returns the formulation used in the lagrangian procedure. **/
 	LagFormulation getChosenLagFormulation() const { return lagChosenFormulation;}
+
+	/** Returns the chosen heuristic used in the lagrangian procedure. **/
 	Heuristic getChosenHeuristic() const { return chosenHeuristic;}
+
+	/** Returns the direction method to be used in the lagrangian procedure. **/
 	DirectionMethod getChosenDirectionMethod() const { return chosenDirectionMethod; }
+
+	/** Returns the crowder parameter used if the crowder direction was chosen. **/
 	double getCrowderParameter() const { return crowderParameter;}
+
+	/** Returns the carmerini parameter used if the carmerine direction was chosen. **/
 	double getCarmeriniParameter() const { return carmeriniParameter;}
+
+	/** Returns the chosen projetion to use in the lagrangian procedure. **/
 	ProjectionType getChosenProjection() const { return chosenProjection;}
+
+	/** Returns if the alternative stop (maximum number of iterations without improvement) is used or not in the lagrangian procedure **/
 	bool getAlternativeStop() const { return alternativeStop;}
+
+	/** Returns if warmstart is used or not in the lagrangian procedure. **/
 	bool getWarmstart() const { return warmstart;}
+
+	/** Returns the path to the folder where the lagrangian output files will be sent by the end of the optimization procedure.**/
+    std::string getLagOutputPath() const { return lagOutputPath; }
 
 	/****************************************************************************************/
 	/*										Setters											*/

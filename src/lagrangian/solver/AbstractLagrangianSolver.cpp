@@ -1,42 +1,45 @@
 #include "AbstractLagrangianSolver.h"
 
-
-/****************************************************************************************/
-/*										Constructor										*/
-/****************************************************************************************/
+/****************************************************************************************************************************/
+/*										                 Constructor							                			*/
+/****************************************************************************************************************************/
 
 AbstractLagSolver::AbstractLagSolver(const Instance &inst, const Status &s): MAX_NB_IT_WITHOUT_IMPROVEMENT(inst.getInput().getNbIterationsWithoutImprovement()), 
         MAX_NB_IT(inst.getInput().getMaxNbIterations()), INITIAL_STEPSIZE(inst.getInput().getInitialLagrangianLambda()),
-        MIN_STEPSIZE(0.00001),currentStatus(s),time(ClockTime::getTimeNow()),generalTime(ClockTime::getTimeNow()){
+        MIN_STEPSIZE(0.0001),currentStatus(s),time(ClockTime::getTimeNow()),generalTime(ClockTime::getTimeNow()){
 
     lagFormulationFactory factory;
     formulation = factory.createFormulation(inst);
 
-    formulationConstTime = time.getTimeInSecFromStart();
+    setFormulationConstTime(time.getTimeInSecFromStart());
     time.setStart(ClockTime::getTimeNow());
 
     heuristicFactory factoryHeuristic;
     heuristic = factoryHeuristic.createHeuristic(formulation,inst);
 
-    heuristicConstTime = time.getTimeInSecFromStart();
+    setHeuristicConstTime(time.getTimeInSecFromStart());
 
     Input::LagFormulation formu = inst.getInput().getChosenLagFormulation();
     Input::LagMethod method = inst.getInput().getChosenLagMethod();
-
     Input::ObjectiveMetric obj = inst.getInput().getChosenObj_k(0);
+    Input::DirectionMethod direction = inst.getInput().getChosenDirectionMethod();
+    Input::ProjectionType projection = inst.getInput().getChosenProjection();
+    bool altstop = inst.getInput().getAlternativeStop();
+
+    std::string lagOutputPath = inst.getInput().getLagOutputPath();
 
     int demands = formulation->getNbDemandsToBeRouted();
 
-    std::string nom = "outputs/obj" + std::to_string(obj) + "_demands" + std::to_string(demands)+ "_method" + std::to_string(method) + "_formulation" + std::to_string(formu)+  "_sortie.txt";
-    std::string nom2 =  "outputs/obj" + std::to_string(obj) +"_demands" + std::to_string(demands)+ "_method" + std::to_string(method) + "_formulation" + std::to_string(formu)+ "_sortie2.txt";
+    std::string nom  =  lagOutputPath + "obj" + std::to_string(obj) + "_demands" + std::to_string(demands)+ "_method" + std::to_string(method) + "_formulation" + std::to_string(formu) + "_direction" + std::to_string(direction) + "_projection" + std::to_string(projection) + "_altStop" + std::to_string(altstop) + "_detailed.txt";
+    std::string nom2 =  lagOutputPath + "obj" + std::to_string(obj) + "_demands" + std::to_string(demands)+ "_method" + std::to_string(method) + "_formulation" + std::to_string(formu) + "_direction" + std::to_string(direction) + "_projection" + std::to_string(projection) + "_altStop" + std::to_string(altstop) + "_sortie2.txt";
     std::cout << nom << std::endl;
     fichier.open(nom.c_str());
     fichier2.open(nom2.c_str());
 }
 
-/****************************************************************************************/
-/*										METHODS  										*/
-/****************************************************************************************/
+/******************************************************************************************************************************/
+/*										                    METHODS  										                  */
+/******************************************************************************************************************************/
 
 /* Sets the initial lambda used for updating the step size. */
 void AbstractLagSolver::initLambda(){
@@ -51,9 +54,9 @@ bool AbstractLagSolver::isGradientMoving(){
     return false;
 }
 
-/****************************************************************************************/
-/*										UPDATE  										*/
-/****************************************************************************************/
+/******************************************************************************************************************************/
+/*										                    UPDATE  								                   		  */
+/******************************************************************************************************************************/
 
 /* Updates the known upper bound. */
 void AbstractLagSolver::updateUB(double bound){
@@ -63,71 +66,9 @@ void AbstractLagSolver::updateUB(double bound){
     }
 }
 
-/****************************************************************************************/
-/*										DISPLAY  									*/
-/****************************************************************************************/
-
-void AbstractLagSolver::displayMainParameters(std::ostream & sortie){
-    int k = getIteration();
-    std::vector<int> sizeOfField;
-    sizeOfField.resize(10);
-    sizeOfField[0] = 5;
-    sizeOfField[1] = 8;
-    sizeOfField[2] = 10;
-    sizeOfField[3] = 9;
-    sizeOfField[4] = 9;
-    sizeOfField[5] = 6;
-    sizeOfField[6] = 6;
-    sizeOfField[7] = 8;
-    sizeOfField[8] = 11;
-    sizeOfField[9] = 9;
-    char space = ' ';
-
-    std::vector<std::string> field;
-    field.resize(10);
-    if (k == 1){
-        field[0] = "Iter";
-        field[1] = "Wout Impr";
-        field[2] = "LB";
-        field[3] = "Lagr Cost";
-        field[4] = "Real Cost";
-        field[5] = "UB";
-        field[6] = "Step";
-        field[7] = "Lambda";
-        field[8] = "Feasibility";
-        field[9] = "Time";
-        
-        for (unsigned int i = 0; i < field.size(); i++){
-            field[i].resize(sizeOfField[i], space);
-            sortie << field[i] << " | ";
-        }
-        sortie << std::endl;;
-    }
-    field[0] = std::to_string(k);
-    field[1] = std::to_string(getItWithoutImprovement());
-    field[2] = std::to_string(getLB());
-    field[3] = std::to_string(formulation->getLagrCurrentCost());
-    field[4] = std::to_string(formulation->getRealCurrentCost());
-    field[5] = std::to_string(getUB());
-    field[6] = std::to_string(getStepSize());
-    field[7] = std::to_string(getLambda());
-
-    if (formulation->checkFeasibility()){
-        field[8] = "YES";
-    }
-    else{
-        field[8] = "NO";
-    }
-
-    field[9] = std::to_string(generalTime.getTimeInSecFromStart());
-    
-    for (unsigned int i = 0; i < field.size(); i++){
-        field[i].resize(sizeOfField[i], space);
-        sortie << field[i] << " | ";
-
-    }
-    sortie << std::endl;
-}
+/******************************************************************************************************************************/
+/*										                    DISPLAY  									                      */
+/******************************************************************************************************************************/
 
 void AbstractLagSolver::displayResults(std::ostream & sortie){
     
@@ -141,25 +82,32 @@ void AbstractLagSolver::displayResults(std::ostream & sortie){
     sortie << getStop() << delimiter;
     sortie << getTotalTime() << delimiter << delimiter;
 
+    sortie << getRSAGraphConstructionTime() << delimiter;
+    sortie << getPreprocessingTime() << delimiter;
+
     sortie << getFormulationConstTime() << delimiter;
     sortie << getHeuristicConstTime() << delimiter;
     sortie << getInitializationTime() << delimiter;
     sortie << getConstAuxGraphTime() << delimiter;
+
     sortie << getSolvingSubProblemTime() << delimiter;
+    sortie << getShorstestPathTime() << delimiter;
+    sortie << getUpdateVariablesTime() << delimiter;
+    sortie << getSubstractMultipliersTime() << delimiter;
+    sortie << getCostTime() << delimiter;
+
     sortie << getUpdatingSlackTime() << delimiter;
     sortie << getUpdatingBoundsTime() << delimiter;
     sortie << getUpdatingHeuristicBoundTime() << delimiter;
     sortie << getUpdatingMultipliersTime() << delimiter;
-    sortie << getUpdatingCostsTime() << delimiter;
     sortie << getStoppingCriterionTime() << delimiter;
     sortie << getUpdatingPrimalVariablesTime() << delimiter;
     sortie << std::endl;
-
 }
 
-/****************************************************************************************/
-/*										DESTRUCTOR  									*/
-/****************************************************************************************/
+/*****************************************************************************************************************************/
+/*										                   DESTRUCTOR  									                     */
+/*****************************************************************************************************************************/
 
 AbstractLagSolver::~AbstractLagSolver(){
     fichier.close();
