@@ -111,12 +111,12 @@ int main(int argc, char *argv[]) {
     /*************************************************************************************************************************/
 	/* 						                              Instances to test 							                     */
 	/*************************************************************************************************************************/
-    int n = 3; // topologias
+    int n = 1; // topologias
     int m = 7; // instances
 
     std::string generalFolder              = "../Parameters/Instances/LagrangianTests/";
-    std::string topologies[3]              = {"NSF/","German/","Spain/"};
-    std::string instances[7]               = {"10demands/","60demands/","70demands/","80demands/","90demands/","100demands/","110demands/"};
+    std::string topologies[3]              = {"German/","ubn","ion"};
+    std::string instances[7]               = {"50demands/","60demands/","70demands/","80demands/","90demands/","100demands/","110demands/"};
 
     std::string linkfile[3][7];
     for(int i=0; i<n;i++){
