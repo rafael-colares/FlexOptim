@@ -21,7 +21,7 @@ CONCERTLIBDIR = $(CONCERTDIR)/lib/$(SYSTEM)/$(LIBFORMAT)
 CONCERTLIBFLAGS = -L$(CONCERTLIBDIR) -lconcert -lm -lpthread -ldl
 
 LEMONINCDIR = /home/etud/mcbazottec/lemon-1.3.1/include/
-LEMONLIBDIR = /home/mariabazotte/lemon-1.3.1/lib/
+LEMONLIBDIR = /home/etud/mcbazottec/lemon-1.3.1/lib/
 LEMONINCFLAGS = -I$(LEMONINCDIR)
 LEMONLIBFLAGS = -L$(LEMONLIBDIR) -lemon
 
