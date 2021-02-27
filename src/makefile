@@ -9,26 +9,26 @@ SYSTEM = x86-64_linux
 LIBFORMAT = static_pic
 
 CPLEXVERSION = CPLEX_Studio1210
-CPLEXDIR = /home/mariabazotte/opt/ibm/ILOG/$(CPLEXVERSION)/cplex
+CPLEXDIR = /opt/ibm/ILOG/$(CPLEXVERSION)/cplex
 CPLEXINCDIR = $(CPLEXDIR)/include/
 CPLEXLIBDIR = $(CPLEXDIR)/lib/$(SYSTEM)/$(LIBFORMAT)
 CPLEXLIBFLAGS = -L$(CPLEXLIBDIR) -lilocplex -lcplex 
 
 CONCERTVERSION = concert
-CONCERTDIR = /home/mariabazotte/opt/ibm/ILOG/$(CPLEXVERSION)/$(CONCERTVERSION)
+CONCERTDIR = /opt/ibm/ILOG/$(CPLEXVERSION)/$(CONCERTVERSION)
 CONCERTINCDIR = $(CONCERTDIR)/include/
 CONCERTLIBDIR = $(CONCERTDIR)/lib/$(SYSTEM)/$(LIBFORMAT)
 CONCERTLIBFLAGS = -L$(CONCERTLIBDIR) -lconcert -lm -lpthread -ldl
 
-LEMONINCDIR = /home/mariabazotte/lemon-1.3.1/include/
+LEMONINCDIR = /home/etud/mcbazottec/lemon-1.3.1/include/
 LEMONLIBDIR = /home/mariabazotte/lemon-1.3.1/lib/
 LEMONINCFLAGS = -I$(LEMONINCDIR)
 LEMONLIBFLAGS = -L$(LEMONLIBDIR) -lemon
 
-BOOSTINCDIR = /home/mariabazotte/boost_1_71_0/
+BOOSTINCDIR = /home/etud/mcbazottec/boost_1_71_0/
 BOOSTINCFLAGS = -I$(BOOSTINCDIR)
 
-OSIFLAGS = /opt/Cbc-2.9.9/Osi/
+OSIFLAGS = /home/etud/mcbazottec/Cbc-2.9.9/Osi/
 
 
 ##########################################################################
@@ -49,14 +49,14 @@ OBJS = main_lagrangianteste.o formulation/edgeNodeForm.o formulation/flowForm.o 
 
 # extra object files that are required by some examples (we just link them into each one)
 EXTRAOBJS = \
-	/opt/Cbc-2.9.9/Cbc/examples/CbcCompareUser.o \
-	/opt/Cbc-2.9.9/Cbc/examples/CbcSolver2.o \
-	/opt/Cbc-2.9.9/Cbc/examples/CbcSolver3.o \
-	/opt/Cbc-2.9.9/Cbc/examples/CbcSolverLongThin.o \
-	/opt/Cbc-2.9.9/Cbc/examples/ClpQuadInterface.o \
-	/opt/Cbc-2.9.9/Cbc/examples/CbcBranchFollow2.o \
-	/opt/Cbc-2.9.9/Cbc/examples/CbcBranchUser.o \
-	/opt/Cbc-2.9.9/Cbc/examples/CbcBranchLink.o 
+	/home/etud/mcbazottec/Cbc-2.9.9/Cbc/examples/CbcCompareUser.o \
+	/home/etud/mcbazottec/Cbc-2.9.9/Cbc/examples/CbcSolver2.o \
+	/home/etud/mcbazottec/Cbc-2.9.9/Cbc/examples/CbcSolver3.o \
+	/home/etud/mcbazottec/Cbc-2.9.9/Cbc/examples/CbcSolverLongThin.o \
+	/home/etud/mcbazottec/Cbc-2.9.9/Cbc/examples/ClpQuadInterface.o \
+	/home/etud/mcbazottec/Cbc-2.9.9/Cbc/examples/CbcBranchFollow2.o \
+	/home/etud/mcbazottec/Cbc-2.9.9/Cbc/examples/CbcBranchUser.o \
+	/home/etud/mcbazottec/Cbc-2.9.9/Cbc/examples/CbcBranchLink.o 
 
 # CHANGEME: Additional libraries
 # e.g., for driver2, put -lOsiCbc here
@@ -90,44 +90,44 @@ CXXFLAGS = -O3 -pipe -DNDEBUG -Wparentheses -Wreturn-type -Wcast-qual -Wall -Wpo
 CFLAGS = -O3 -pipe -DNDEBUG -Wimplicit -Wparentheses -Wsequence-point -Wreturn-type -Wcast-qual -Wall -Wno-unknown-pragmas -Wno-long-long   -DCBC_BUILD
 
 # additional C++ Compiler options for linking
-CXXLINKFLAGS =  -Wl,--rpath -Wl,/opt/Cbc-2.9.9/lib
+CXXLINKFLAGS =  -Wl,--rpath -Wl,/home/etud/mcbazottec/Cbc-2.9.9/lib
 
 # Sample data directory
 ifeq ($(COIN_HAS_SAMPLE), TRUE)
   ifeq ($(COIN_HAS_PKGCONFIG), TRUE)
-    CXXFLAGS += -DSAMPLEDIR=\"`PKG_CONFIG_PATH=/opt/Cbc-2.9.9/lib64/pkgconfig:/opt/Cbc-2.9.9/lib/pkgconfig:/opt/Cbc-2.9.9/share/pkgconfig:  --variable=datadir coindatasample`\"
-      CFLAGS += -DSAMPLEDIR=\"`PKG_CONFIG_PATH=/opt/Cbc-2.9.9/lib64/pkgconfig:/opt/Cbc-2.9.9/lib/pkgconfig:/opt/Cbc-2.9.9/share/pkgconfig:  --variable=datadir coindatasample`\"
+    CXXFLAGS += -DSAMPLEDIR=\"`PKG_CONFIG_PATH=/home/etud/mcbazottec/Cbc-2.9.9/lib64/pkgconfig:/home/etud/mcbazottec/Cbc-2.9.9/lib/pkgconfig:/home/etud/mcbazottec/Cbc-2.9.9/share/pkgconfig:  --variable=datadir coindatasample`\"
+      CFLAGS += -DSAMPLEDIR=\"`PKG_CONFIG_PATH=/home/etud/mcbazottec/Cbc-2.9.9/lib64/pkgconfig:/home/etud/mcbazottec/Cbc-2.9.9/lib/pkgconfig:/home/etud/mcbazottec/Cbc-2.9.9/share/pkgconfig:  --variable=datadir coindatasample`\"
   else
-    CXXFLAGS += -DSAMPLEDIR=\"/opt/Cbc-2.9.9/share/coin/Data/Sample\"
-      CFLAGS += -DSAMPLEDIR=\"/opt/Cbc-2.9.9/share/coin/Data/Sample\"
+    CXXFLAGS += -DSAMPLEDIR=\"/home/etud/mcbazottec/Cbc-2.9.9/share/coin/Data/Sample\"
+      CFLAGS += -DSAMPLEDIR=\"/home/etud/mcbazottec/Cbc-2.9.9/share/coin/Data/Sample\"
   endif
 endif
 
 # Miplib3 data directory
 ifeq ($(COIN_HAS_MIPLIB3), TRUE)
   ifeq ($(COIN_HAS_PKGCONFIG), TRUE)
-    CXXFLAGS += -DMIPLIB3DIR=\"`PKG_CONFIG_PATH=/opt/Cbc-2.9.9/lib64/pkgconfig:/opt/Cbc-2.9.9/lib/pkgconfig:/opt/Cbc-2.9.9/share/pkgconfig:  --variable=datadir coindatamiplib3`\"
+    CXXFLAGS += -DMIPLIB3DIR=\"`PKG_CONFIG_PATH=/home/etud/mcbazottec/Cbc-2.9.9/lib64/pkgconfig:/home/etud/mcbazottec/Cbc-2.9.9/lib/pkgconfig:/home/etud/mcbazottec/Cbc-2.9.9/share/pkgconfig:  --variable=datadir coindatamiplib3`\"
   else
-    CXXFLAGS += -DMIPLIB3DIR=\"/opt/Cbc-2.9.9/share/coin/Data/miplib3\"
+    CXXFLAGS += -DMIPLIB3DIR=\"/home/etud/mcbazottec/Cbc-2.9.9/share/coin/Data/miplib3\"
   endif
 endif
 
 # Include directories (we use the CYGPATH_W variables to allow compilation with Windows compilers)
 ifeq ($(COIN_HAS_PKGCONFIG), TRUE)
-  INCL = `PKG_CONFIG_PATH=/opt/Cbc-2.9.9/lib64/pkgconfig:/opt/Cbc-2.9.9/lib/pkgconfig:/opt/Cbc-2.9.9/share/pkgconfig:  --cflags cbc`
+  INCL = `PKG_CONFIG_PATH=/home/etud/mcbazottec/Cbc-2.9.9/lib64/pkgconfig:/home/etud/mcbazottec/Cbc-2.9.9/lib/pkgconfig:/home/etud/mcbazottec/Cbc-2.9.9/share/pkgconfig:  --cflags cbc`
 else
-  INCL =  -I/opt/Cbc-2.9.9/include/coin  -I/opt/Cbc-2.9.9/include/coin  -I/opt/Cbc-2.9.9/include/coin  -I/opt/Cbc-2.9.9/include/coin   -I/opt/Cbc-2.9.9/include/coin  -I/opt/Cbc-2.9.9/include/coin  -I/opt/Cbc-2.9.9/include/coin  -I/opt/Cbc-2.9.9/include/coin  -I/opt/Cbc-2.9.9/include/coin  
+  INCL =  -I/home/etud/mcbazottec/Cbc-2.9.9/include/coin  -I/home/etud/mcbazottec/Cbc-2.9.9/include/coin  -I/home/etud/mcbazottec/Cbc-2.9.9/include/coin  -I/home/etud/mcbazottec/Cbc-2.9.9/include/coin   -I/home/etud/mcbazottec/Cbc-2.9.9/include/coin  -I/home/etud/mcbazottec/Cbc-2.9.9/include/coin  -I/home/etud/mcbazottec/Cbc-2.9.9/include/coin  -I/home/etud/mcbazottec/Cbc-2.9.9/include/coin  -I/home/etud/mcbazottec/Cbc-2.9.9/include/coin  
 endif
 INCL += -I. $(ADDINCFLAGS)
 
 # Linker flags
 ifeq ($(COIN_HAS_PKGCONFIG), TRUE)
-  LIBS = `PKG_CONFIG_PATH=/opt/Cbc-2.9.9/lib64/pkgconfig:/opt/Cbc-2.9.9/lib/pkgconfig:/opt/Cbc-2.9.9/share/pkgconfig:  --libs cbc`
+  LIBS = `PKG_CONFIG_PATH=/home/etud/mcbazottec/Cbc-2.9.9/lib64/pkgconfig:/home/etud/mcbazottec/Cbc-2.9.9/lib/pkgconfig:/home/etud/mcbazottec/Cbc-2.9.9/share/pkgconfig:  --libs cbc`
 else
   ifeq ($(COIN_CXX_IS_CL), TRUE)
-    LIBS = -link -libpath:`$(CYGPATH_W) /opt/Cbc-2.9.9/lib` libCbcSolver.lib libCbc.lib libOsiCbc.lib  -L/opt/Cbc-2.9.9/lib -lOsiClp   -L/opt/Cbc-2.9.9/lib -lClpSolver -lClp   -L/opt/Cbc-2.9.9/lib -lOsi   -L/opt/Cbc-2.9.9/lib -lCoinUtils -lm    -L/opt/Cbc-2.9.9/lib -lCgl   -L/opt/Cbc-2.9.9/lib -lOsiClp   -L/opt/Cbc-2.9.9/lib -lClpSolver -lClp   -L/opt/Cbc-2.9.9/lib -lOsi   -L/opt/Cbc-2.9.9/lib -lCoinUtils -lm   
+    LIBS = -link -libpath:`$(CYGPATH_W) /home/etud/mcbazottec/Cbc-2.9.9/lib` libCbcSolver.lib libCbc.lib libOsiCbc.lib  -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lOsiClp   -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lClpSolver -lClp   -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lOsi   -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lCoinUtils -lm    -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lCgl   -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lOsiClp   -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lClpSolver -lClp   -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lOsi   -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lCoinUtils -lm   
   else
-    LIBS = -L/opt/Cbc-2.9.9/lib -lCbcSolver -lCbc -lOsiCbc  -L/opt/Cbc-2.9.9/lib -lOsiClp   -L/opt/Cbc-2.9.9/lib -lClpSolver -lClp   -L/opt/Cbc-2.9.9/lib -lOsi   -L/opt/Cbc-2.9.9/lib -lCoinUtils -lm    -L/opt/Cbc-2.9.9/lib -lCgl   -L/opt/Cbc-2.9.9/lib -lOsiClp   -L/opt/Cbc-2.9.9/lib -lClpSolver -lClp   -L/opt/Cbc-2.9.9/lib -lOsi   -L/opt/Cbc-2.9.9/lib -lCoinUtils -lm   
+    LIBS = -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lCbcSolver -lCbc -lOsiCbc  -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lOsiClp   -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lClpSolver -lClp   -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lOsi   -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lCoinUtils -lm    -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lCgl   -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lOsiClp   -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lClpSolver -lClp   -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lOsi   -L/home/etud/mcbazottec/Cbc-2.9.9/lib -lCoinUtils -lm   
   endif
 endif
 
