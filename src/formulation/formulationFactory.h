@@ -16,8 +16,14 @@ public:
         Input::Formulation chosenForm = instance.getInput().getChosenFormulation();
         switch (chosenForm){
             case Input::FORMULATION_FLOW:{
-                return new FlowForm(instance);
-                break;
+                Input::NodeMethod chosenMethod = instance.getInput().getChosenNodeMethod();
+                if(chosenMethod == Input::NODE_METHOD_LINEAR_RELAX){
+                    return new FlowForm(instance);
+                    break;
+                }else{
+                    return NULL;
+                    break;
+                }  
             }
             case Input::FORMULATION_EDGE_NODE:{
                 return new EdgeNodeForm(instance);

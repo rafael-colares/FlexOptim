@@ -19,9 +19,11 @@ class lagFlow :public AbstractLagFormulation{
         ************************************************************************************************************** */
 
         /** Sets all initial parameters **/
-        void init();
+        void init(bool=true);
 
         /*********************************************** MULTIPLIERS ***************************************************/
+
+        void startMultipliers(double *,int,int);
 
         /** Sets the initial lagrangian multipliers values for the subgradient to run. **/
         void initMultipliers();
@@ -50,10 +52,13 @@ class lagFlow :public AbstractLagFormulation{
         ***************************************************************************************************************** */
 
         /** Solves the lagrangian flow formulation sub problem. **/
-        void run();
+        void run(bool=false);
 
         /** Solves the lagrangian flow formulation sub problem for general objective functions. **/
         void runGeneralObj();
+
+        /** Solves the lagrangian formulation modified sub problem for objective functions. **/
+        void runAdaptedGeneralObj();
 
         /** Solves the lagrangian flow formulation sub problem for objective 8. **/
         void runObj8();
@@ -70,12 +75,20 @@ class lagFlow :public AbstractLagFormulation{
         /** Checks if primal approximation solution is feasible. **/
         bool checkFeasibility_v2();
 
+        /** Checks if the slackness condition is satisfied ( mu*(Ax-b) = 0) **/
+        bool checkSlacknessCondition();
+
         /******************************************************************************************************************/
         /*										               Getters 										              */
         /******************************************************************************************************************/
 
+        void getDualSolution(double *);
+
         /** Returns the cost considering the objective function coefficient of the resulting sub problem solution **/
         double getRealCostFromPath(int d, DijkstraCost &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET);
+
+        double getRealCostFromPath(int d, CostScaling<ListDigraph,int,double> &costScale, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET);
+
         
         /* Returns the physical length of the path. */
         double getPathLength(int d, DijkstraCost &path, const ListDigraph::Node &s, const ListDigraph::Node &t);
@@ -143,6 +156,9 @@ class lagFlow :public AbstractLagFormulation{
         void updateAssignment_k(int d, DijkstraCost &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET);
 
         void updateAssignment_k(int d, DijkstraCostObj8 &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET);
+
+        void updateAssignment_k(int d, CostScaling<ListDigraph,int,double> &, const ListDigraph::Node &, const ListDigraph::Node &);
+
         
         /********************************************************************************************************************/
         /*										                Display											            */

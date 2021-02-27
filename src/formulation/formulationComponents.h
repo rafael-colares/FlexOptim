@@ -33,6 +33,11 @@ public:
     /** Constructor. @param lowerBound The variable lower bound. @param upperBound The variable upper bound. @param varType The variable type. @param val The variable value. @param varName The variable name. **/
     Variable(int identifier=-1, double lowerBound=0, double upperBound=1, Type varType=TYPE_BOOLEAN, double val=0, std::string varName="");
 
+	/** Copy constructor */
+	Variable(const Variable&);
+
+	Variable& operator=(const Variable&);
+
 	/****************************************************************************************/
 	/*										Getters											*/
 	/****************************************************************************************/

@@ -21,15 +21,19 @@ class AbstractLagSolver{
             STATUS_INFEASIBLE = 3,      /**< The algorithm proved the model infeasible; that is, it is not possible to find a feasible solution. **/
             STATUS_UNBOUNDED = 4,       /**< The algorithm proved the model unbounded. **/
             STATUS_INFEASIBLE_OR_UNBOUNDED = 5, /**< The model is infeasible or unbounded. **/
-            STATUS_ERROR = 6            /**< An error occurred. **/
+            STATUS_ERROR = 6,           /**< An error occurred. **/
+            STATUS_MAX_IT = 7,          /**< Maximum number of iterations.**/
+            STATUS_ABORTED = 8          /**< .**/
         };
 
     protected:
         
         const int MAX_NB_IT_WITHOUT_IMPROVEMENT;    /**< Maximum number of iterations without lower bound improvement. **/
-        const int MAX_NB_IT;                        /**< Maximum number of performed iterations. **/
+        int MAX_NB_IT;                              /**< Maximum number of performed iterations. **/
         const double INITIAL_STEPSIZE;
         const double MIN_STEPSIZE;
+        double PRIMAL_ABS_PRECISION;
+        double UBINIT;
 
         Status currentStatus;
         ClockTime time;
@@ -94,7 +98,14 @@ class AbstractLagSolver{
         /** Returns the status. **/
         Status getStatus() const {return currentStatus;}
 
+        AbstractLagFormulation* getLagrangianFormulation() {return formulation;}
+
         std::string getStop() const { return stop;}
+
+        int getNbMaxIterations() const {return MAX_NB_IT; }
+        int& getNbMaxIterations() {return MAX_NB_IT; } /*for the hot start in the OsiLagSolverInterface */
+        double getPrimalAbsPrecision() const { return PRIMAL_ABS_PRECISION;}
+        double getUBInit() const { return UBINIT;}
 
         ClockTime getGeneralTime() const { return generalTime;}
 
@@ -131,6 +142,10 @@ class AbstractLagSolver{
         double getStepSize() const { return stepSize; }
         double getLambda() const { return lambda; }
 
+        virtual void getSolution(double *)=0;
+
+        void getDualSolution(double *rowprice) { formulation->getDualSolution(rowprice);}
+
         /************************************************/
         /*					   Setters 		    		*/
         /************************************************/
@@ -139,6 +154,10 @@ class AbstractLagSolver{
         void setStatus(const Status &s){ currentStatus = s; }
 
         void setStop(std::string s){ stop = s;}
+
+        void setNbMaxIterations(int value) {MAX_NB_IT = value;}
+        void setPrimalAbsPrecision(double value) { PRIMAL_ABS_PRECISION = value;}
+        void setUBInit(double value) { UBINIT = value;}
 
         void setFormulationConstTime(double value)  { formulationConstTime = value; }
         void setHeuristicConstTime(double value)  { heuristicConstTime = value; }
@@ -211,19 +230,22 @@ class AbstractLagSolver{
         /*					   Methods 		    		*/
         /************************************************/
 
+        /* Initializes the variables, constraints and objective function of the studied formulation. */
+        void initLagFormulation();
+
         /** Sets the initial lambda used for updating the step size. **/
         void initLambda();
 
         bool isGradientMoving();
 
         /** Sets all the initial parameters for the subgradient to run. **/
-        virtual void initialization() = 0;
+        virtual void initialization(bool=true) = 0;
 
         /** Runs the subgradient method. **/
-        virtual void run() = 0;
+        virtual void run(bool=true,bool=false) = 0;
 
-        /** Solves an iteration of the Subgradient Method. **/
-        virtual void runIteration() = 0;
+        /** Solves an iteration of the Subgradient/Volume Method. **/
+        virtual void runIteration(bool=false) = 0;
 
         /************************************************/
         /*					   Display 		    		*/

@@ -11,6 +11,8 @@ class lagSubgradient: public AbstractLagSolver{
 	    /*				    Constructors 		   		*/
 	    /************************************************/
         lagSubgradient(const Instance &inst):AbstractLagSolver(inst){}
+
+        void getSolution(double *colsol) { formulation->getPrimalSolution(colsol);}
         
         /************************************************/
         /*					   Update 		    		*/
@@ -28,13 +30,13 @@ class lagSubgradient: public AbstractLagSolver{
         /************************************************/
 
         /** Sets all the initial parameters for the subgradient to run. **/
-        void initialization();
+        void initialization(bool=true);
 
         /** Runs the subgradient method. **/
-        void run();
+        void run(bool=true,bool=false);
 
         /** Solves an iteration of the Subgradient Method. **/
-        void runIteration();
+        void runIteration(bool=false);
 
         /************************************************/
         /*					   Display 		    		*/

@@ -43,6 +43,8 @@ class lagVolume: public AbstractLagSolver{
         int getNbYellowIt() const {return nbYellowIt;}
         double getTarget() const { return target; }
 
+        void getSolution(double *colsol) { formulation->getPrimalAppSolution(colsol);}
+
         /************************************************/
 	    /*				    SETTERS      		   		*/
 	    /************************************************/
@@ -58,11 +60,11 @@ class lagVolume: public AbstractLagSolver{
 	    /*				    Methods      		   		*/
 	    /************************************************/
 
-        void initialization();
+        void initialization(bool=true);
 
-        void run();
+        void run(bool=true,bool=false);
 
-        void runIteration();
+        void runIteration(bool=false);
 
         void updateLB(double);
 

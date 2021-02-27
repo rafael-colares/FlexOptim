@@ -17,7 +17,11 @@ ILOSTLBEGIN
 
 using namespace lemon;
 
-void createFile(std::string parameterFile,std::string linkfile,std::string demandfolder,int nbdemands,int rl,int lagMethod,int lagFormulation,int heuristic,int projection,int warmstart,int alternativeStop,int directionMethod,double crowderParam,double carmeriniParam,double lagrangianLambda_zero,int nbIterationsWithoutImprovement, int maxNbIterations,int obj, std::string outputFolder){
+void createFile(std::string parameterFile,std::string linkfile,std::string demandfolder,int nbdemands,
+                int rl,int lagRelax,int relaxMethod,int nodeMethod,int solver, int lagFormulation,
+                int heuristic,int projection,int warmstart,int alternativeStop,int directionMethod,
+                double crowderParam,double carmeriniParam,double lagrangianLambda_zero,int nbIterationsWithoutImprovement,
+                int maxNbIterations,int obj, std::string outputFolder){
 
     double lagrangianMultiplier_zero = 0.0;
 
@@ -46,10 +50,12 @@ void createFile(std::string parameterFile,std::string linkfile,std::string deman
         fichier << "partitionSlice=15 " << std::endl;
         fichier << std::endl;
         fichier << "******* Optimization parameters *******" << std::endl;
-        fichier << "solver=0 " << std::endl;
-        fichier << "method=0 " << std::endl;
+        fichier << "solver=" <<solver << " "<< std::endl;
+        fichier << "method=" << nodeMethod << " " << std::endl;
         fichier << "preprocessingLevel=2 " << std::endl;
         fichier << "linearRelaxation="<< rl << " " << std::endl;
+        fichier << "relaxMethod="<< relaxMethod << " " << std::endl;
+        fichier << "lagrangianRelaxation="<< lagRelax << " " << std::endl;
         fichier << std::endl;
         fichier << "******* Execution parameters *******" << std::endl;
         fichier << "outputPath=../Parameters/Instances/Spain_N5/InitialMappingMet1Slice30/SimpleTest/Output " << std::endl;
@@ -64,7 +70,6 @@ void createFile(std::string parameterFile,std::string linkfile,std::string deman
         fichier << "nbIterationsWithoutImprovement=" << nbIterationsWithoutImprovement<< " " << std::endl;
         fichier << "maxNbIterations=" << maxNbIterations << " "<< std::endl;
         fichier << std::endl;
-        fichier << "lagMethod=" << lagMethod << " " << std::endl;
         fichier << "lagFormulation=" << lagFormulation << " " << std::endl;
         fichier << "heuristic=" << heuristic << " " << std::endl;
         fichier << std::endl;
@@ -88,7 +93,7 @@ int main(int argc, char *argv[]) {
 	/**************************************************************************************************************************/
 	std::string parameterFile;
 	if (argc < 2){
-		std::cerr << "A parameter file is required in the arguments. PLease run the program as \n./exec parameterFile.par objective\n";
+		std::cerr << "A parameter file is required in the arguments. Please run the program as \n./exec parameterFile.par objective\n";
 		throw std::invalid_argument( "did not receive an argument" );
 	}
 	else{
@@ -110,8 +115,8 @@ int main(int argc, char *argv[]) {
     int m = 7; // instances
 
     std::string generalFolder              = "../Parameters/Instances/LagrangianTests/";
-    std::string topologies[3]              = {"Spain/","German/","NSF/"};
-    std::string instances[7]               = {"50demands/","60demands/","70demands/","80demands/","90demands/","100demands/","110demands/"};
+    std::string topologies[3]              = {"NSF/","German/","Spain/"};
+    std::string instances[7]               = {"10demands/","60demands/","70demands/","80demands/","90demands/","100demands/","110demands/"};
 
     std::string linkfile[3][7];
     for(int i=0; i<n;i++){
@@ -150,8 +155,11 @@ int main(int argc, char *argv[]) {
         int maxNbIterations = 150;
 
         // Changing parameters
+        int solver;
         int rl;
-        int lagMethod;
+        int nodeMethod;
+        int lagRelax;
+        int relaxMethod;
         
 
         /************************ File with the responses *************************/
@@ -161,13 +169,14 @@ int main(int argc, char *argv[]) {
         std::ofstream fichier(nom_fichier);
         std::string delimiter = ";";
         
+        /*
         fichier << std::endl << std::endl;
         fichier << " Slices ; Demands ; MIP-UB ; MIP-LB ; MIP-GAP ; MIP-Tree-Size ; MIP-Time; " << std::endl;
 
         for(int j=0;j<m;j++){
 
-            rl = 0; lagMethod = 0; lagFormulation = 0;
-            createFile(parameterFile,linkfile[i][j],demandfolders[i][j],numdemands[j],rl,lagMethod,lagFormulation,
+            rl = 0; nodeMethod = 0; lagFormulation = 0;
+            createFile(parameterFile,linkfile[i][j],demandfolders[i][j],numdemands[j],rl,nodeMethod,lagFormulation,
                         heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,
                         lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj,outputFolder);
             Input input(parameterFile);
@@ -178,11 +187,11 @@ int main(int argc, char *argv[]) {
             std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
             std::string nextFile = instance.getInput().getDemandToBeRoutedFilesFromIndex(0);
             instance.generateDemandsFromFile(nextFile);
-
+            */
             /********************************************************************/
             /* 				        Solve - MIP SOLUTION	 					*/
             /********************************************************************/
-            
+            /*
             std::cout << "Solving with MIP-Cplex" << std::endl;
             SolverFactory factory;
             AbstractSolver *solver = factory.createSolver(instance);
@@ -200,50 +209,110 @@ int main(int argc, char *argv[]) {
 
             delete solver;
         }
+        */
 
         fichier << std::endl << std::endl;
-        fichier << " Slices ; Demands ; RELAX-OBJ ; RELAX-Time ; RELAX-algorithm "<< std::endl;
+        fichier << " Slices ; Demands ; RELAX-Cplex-OBJ ; RELAX-Cplex-Time ; RELAX-Cplex-algorithm "<< std::endl;
 
-        for(int j=0;j<m;j++){
+        for(relaxMethod=0;relaxMethod<=4;relaxMethod++){
+            fichier << std::endl;
+            fichier << "PARAMETERS " << delimiter;
+            fichier << "Relax method "<< relaxMethod << delimiter << std::endl;
+            for(int j=0;j<m;j++){
 
-            rl = 1; lagMethod = 0; lagFormulation = 0;
-            createFile(parameterFile,linkfile[i][j],demandfolders[i][j],numdemands[j],rl,lagMethod,lagFormulation,
-                        heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,
-                        lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj,outputFolder);
-            Input input2(parameterFile);
+                rl = 1; nodeMethod = 0; lagFormulation = 0; lagRelax = 0; solver = 0;
+                createFile(parameterFile,linkfile[i][j],demandfolders[i][j],numdemands[j],
+                            rl,lagRelax,relaxMethod,nodeMethod,solver,lagFormulation,
+                            heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,
+                            lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj,outputFolder);
+                Input input2(parameterFile);
 
-            std::cout << "--- READING INSTANCE... --- " << std::endl;
-            Instance instance2(input2);
-            
-            std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
-            std::string nextFile2 = instance2.getInput().getDemandToBeRoutedFilesFromIndex(0);
-            instance2.generateDemandsFromFile(nextFile2);
+                std::cout << "--- READING INSTANCE... --- " << std::endl;
+                Instance instance2(input2);
+                
+                std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
+                std::string nextFile2 = instance2.getInput().getDemandToBeRoutedFilesFromIndex(0);
+                instance2.generateDemandsFromFile(nextFile2);
+                
+                /********************************************************************/
+                /* 				        Solve - RELAXATION	 					*/
+                /********************************************************************/
+                
+                std::cout << "Solving with RELAX-Cplex" << std::endl;
+                SolverFactory factory2;
+                AbstractSolver *solver2 = factory2.createSolver(instance2);
+                solver2->solve();
 
-            /********************************************************************/
-            /* 				        Solve - RELAXATION	 					*/
-            /********************************************************************/
-            std::cout << "Solving with RELAX-Cplex" << std::endl;
-            SolverFactory factory2;
-            AbstractSolver *solver2 = factory2.createSolver(instance2);
-            solver2->solve();
+                fichier << instance2.getMaxSlice() << delimiter;
+                fichier << instance2.getNbDemands() << delimiter;
 
-            fichier << instance2.getMaxSlice() << delimiter;
-            fichier << instance2.getNbDemands() << delimiter;
+                fichier << solver2->getUpperBound() << delimiter;
+                fichier << solver2->getDurationTime() << delimiter;
+                int algo = ((SolverCplex*)solver2)->getAlgorithm() ;
+                fichier << ((SolverCplex*)solver2)->getAlgorithm() << delimiter << std::endl;
+                std::cout << ((SolverCplex*)solver2)->getAlgorithm() << " " << algo << std::endl;
 
-            fichier << solver2->getUpperBound() << delimiter;
-            fichier << solver2->getDurationTime() << delimiter;
-            fichier << ((SolverCplex*)solver2)->getAlgorithm() << delimiter << std::endl;
+                std::cout << "RELAX-Cplex completed "<< std::endl;
 
-            std::cout << "RELAX-Cplex completed "<< std::endl;
+                delete solver2;
+            }
+        }
+        
 
-            delete solver2;
+        fichier << std::endl << std::endl;
+        fichier << " Slices ; Demands ; RELAX-CBC-OBJ ; RELAX-CBC-Time ; RELAX-CBC-algorithm "<< std::endl;
+
+        for(relaxMethod=0;relaxMethod<=0;relaxMethod++){
+            if(relaxMethod==3)
+                relaxMethod=4;
+            fichier << std::endl;
+            fichier << "PARAMETERS " << delimiter;
+            fichier << "Relax method "<< relaxMethod << delimiter << std::endl;
+            for(int j=0;j<m;j++){
+
+                rl = 1; nodeMethod = 0; lagFormulation = 0; lagRelax = 0; solver = 1;
+                createFile(parameterFile,linkfile[i][j],demandfolders[i][j],numdemands[j],
+                            rl,lagRelax,relaxMethod,nodeMethod,solver,lagFormulation,
+                            heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,
+                            lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj,outputFolder);
+                Input input2(parameterFile);
+
+                std::cout << "--- READING INSTANCE... --- " << std::endl;
+                Instance instance2(input2);
+                
+                std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
+                std::string nextFile2 = instance2.getInput().getDemandToBeRoutedFilesFromIndex(0);
+                instance2.generateDemandsFromFile(nextFile2);
+                
+                /********************************************************************/
+                /* 				        Solve - RELAXATION	 					*/
+                /********************************************************************/
+                
+                std::cout << "Solving with RELAX-Cplex" << std::endl;
+                SolverFactory factory2;
+                AbstractSolver *solver2 = factory2.createSolver(instance2);
+                solver2->solve();
+
+                fichier << instance2.getMaxSlice() << delimiter;
+                fichier << instance2.getNbDemands() << delimiter;
+
+                fichier << solver2->getUpperBound() << delimiter;
+                fichier << solver2->getDurationTime() << delimiter;
+                //int algo = ((SolverCplex*)solver2)->getAlgorithm() ;
+                //fichier << ((SolverCplex*)solver2)->getAlgorithm() << delimiter << std::endl;
+                //std::cout << ((SolverCplex*)solver2)->getAlgorithm() << " " << algo << std::endl;
+
+                std::cout << "RELAX-Cplex completed "<< std::endl;
+
+                delete solver2;
+            }
         }
 
         fichier << std::endl << std::endl;
         fichier << " SUBGRADIENT WITH FLOW FORMULATION " << std::endl << std::endl;
 
-        rl = 0; lagMethod = 0; lagFormulation = 0; maxNbIterations = 5000; lagrangianLambda_zero = 2.0;
-        crowderParam = 0.5; carmeriniParam = 1.5; alternativeStop = 1;
+        rl = 0; nodeMethod = 1; lagFormulation = 0; maxNbIterations = 5000; lagrangianLambda_zero = 2.0;
+        crowderParam = 0.5; carmeriniParam = 1.5; alternativeStop = 1; lagRelax =1; relaxMethod = 0; solver =1;
 
         for(int itProjection = 0; itProjection <= 2; itProjection++){
             for(int itDirectionMethod = 0; itDirectionMethod <= 3; itDirectionMethod++){
@@ -251,8 +320,8 @@ int main(int argc, char *argv[]) {
                 while(nbIterationsWithoutImprovement<=30){
                     fichier << std::endl;
                     fichier << "PARAMETERS " << delimiter;
-                    fichier << "Projection: " << projection << delimiter;
-                    fichier << "Direction: " << directionMethod << delimiter;
+                    fichier << "Projection: " << itProjection << delimiter;
+                    fichier << "Direction: " << itDirectionMethod << delimiter;
                     fichier << "Alternative stop: " << alternativeStop << delimiter;
                     fichier << "Nb iterations without improvement: " << nbIterationsWithoutImprovement << delimiter;
 
@@ -265,7 +334,8 @@ int main(int argc, char *argv[]) {
 
                     for(int j = 0 ; j < m ; j++){
 
-                        createFile(parameterFile,linkfile[i][j],demandfolders[i][j],numdemands[j],rl,lagMethod,lagFormulation,
+                        createFile(parameterFile,linkfile[i][j],demandfolders[i][j],numdemands[j],
+                                    rl,lagRelax,relaxMethod,nodeMethod,solver,lagFormulation,
                                     heuristic,itProjection,warmstart,alternativeStop,itDirectionMethod,crowderParam,carmeriniParam,
                                     lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj,outputFolder);
                         Input input3(parameterFile);
@@ -302,8 +372,8 @@ int main(int argc, char *argv[]) {
         fichier << std::endl << std::endl;
         fichier << " VOLUME WITH FLOW FORMULATION " << std::endl << std::endl;
 
-        rl = 0; lagMethod = 1; lagFormulation = 0; maxNbIterations = 5000; lagrangianLambda_zero = 2.0;
-        crowderParam = 0.0; carmeriniParam = 0.0; alternativeStop = 1;
+        rl = 0; nodeMethod = 2; lagFormulation = 0; maxNbIterations = 5000; lagrangianLambda_zero = 2.0;
+        crowderParam = 0.0; carmeriniParam = 0.0; alternativeStop = 1; lagRelax =1; relaxMethod = 0; solver =1;
         nbIterationsWithoutImprovement = 10;
         while(nbIterationsWithoutImprovement<=30){
             fichier << std::endl;
@@ -320,7 +390,8 @@ int main(int argc, char *argv[]) {
 
             for(int j = 0 ;j < m ; j++){
 
-                createFile(parameterFile,linkfile[i][j],demandfolders[i][j],numdemands[j],rl,lagMethod,lagFormulation,heuristic,
+                createFile(parameterFile,linkfile[i][j],demandfolders[i][j],numdemands[j],
+                            rl,lagRelax,relaxMethod,nodeMethod,solver,lagFormulation,heuristic,
                             projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,lagrangianLambda_zero,
                             nbIterationsWithoutImprovement,maxNbIterations,obj,outputFolder);
                 Input input5(parameterFile);
@@ -354,6 +425,7 @@ int main(int argc, char *argv[]) {
         fichier << std::endl;
         fichier.close();
     }
+    
 	return 0;
 }
 

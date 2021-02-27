@@ -35,6 +35,8 @@ class AbstractHeuristic{
         /* A vector for the heuristic solution */
         std::vector<std::vector<bool>> heuristicSolution;
 
+        std::vector<std::shared_ptr<IterableBoolMap<ListDigraph, ListDigraph::Arc>>> heuristicSolutionItBoolMap;
+
         Status statusheuristic;
 
         ClockTime time;
@@ -80,7 +82,7 @@ class AbstractHeuristic{
 
         void initSolution();
 
-        virtual void run() = 0;
+        virtual void run(bool=false) = 0;
 
         void updateCostFromHeuristic();
 
@@ -90,9 +92,7 @@ class AbstractHeuristic{
         *                                DESTRUCTOR
         ******************************************************************************* */
 
-        virtual ~AbstractHeuristic(){
-            heuristicSolution.clear();
-        }
+        virtual ~AbstractHeuristic();
 
 };
 

@@ -1,15 +1,17 @@
 #ifndef ABSTRACT_LAG_FORMULATION_H
 #define ABSTRACT_LAG_FORMULATION_H
 
-#include "../../formulation/rsa.h"
+//#include "../../formulation/rsa.h"
+#include "../../formulation/flowForm.h"
 #include "../../tools/clockTime.h"
 #include "../tools/lagTools.h"
 
 #include <lemon/bellman_ford.h>
+#include <lemon/cost_scaling.h>
 
 /** This class implements a general Lagrangian Formulation considering the Flow formulation **/
 
-class AbstractLagFormulation: public RSA{
+class AbstractLagFormulation: public FlowForm{
 
         protected:
 
@@ -198,7 +200,19 @@ class AbstractLagFormulation: public RSA{
                 /* Refers to the objective function coefficient of the arcs depending on the chosen objective function */
                 std::vector< std::shared_ptr<ArcCost> > coeff; 
 
-                std::vector<std::shared_ptr<IterableIntMap<ListDigraph, ListDigraph::Node>>> mapItLabel;
+                /* Refers to the objective function coefficient of the arcs depending on the chosen objective function */
+                std::vector< std::shared_ptr<ArcCost> > coeff8; 
+
+                std::vector< std::shared_ptr<IterableIntMap<ListDigraph, ListDigraph::Node>>> mapItLabel;
+
+                /* Refers to the upper bound of the arcs depending on the chosen objective function */
+                std::vector< std::shared_ptr<ArcMap> > upperBound; 
+
+                std::vector< std::shared_ptr<ArcMap> > lowerBound; 
+
+                double maxUsedSliceOverallUpperBound;
+
+                double maxUsedSliceOverallLowerBound;
 
         public:
                 /************************************************************************************************************/
@@ -415,7 +429,7 @@ class AbstractLagFormulation: public RSA{
                 /** Returns the map cost of the objective function coefficients. **/
                 std::shared_ptr<ArcCost> getCoeffMap(int d) const {return coeff[d];}
 
-                std::shared_ptr<ArcCost> getCoeffMapObj8(int d) ;
+                std::shared_ptr<ArcCost> getCoeffMapObj8(int d) const { return coeff8[d]; } 
 
                 /** Returns the map index of the atcs index. **/
                 std::shared_ptr<ArcMap> getIndexMap(int d) const {return vecArcIndex[d];}
@@ -423,6 +437,16 @@ class AbstractLagFormulation: public RSA{
                 std::shared_ptr<ArcMap> getArcSliceMap(int d) const {return vecArcSlice[d];}
 
                 std::shared_ptr<ArcMap> getArcLabelMap(int d) const {return vecArcLabel[d];}
+
+                std::shared_ptr<ArcMap> getArcLowerMap(int d) const {return lowerBound[d];}
+
+                std::shared_ptr<ArcMap> getArcUpperMap(int d) const {return upperBound[d];}
+
+                void getPrimalSolution(double *);
+
+                void getPrimalAppSolution(double *);
+
+                virtual void getDualSolution(double *) =0;
 
                 /*******************************************************************************************************/
                 /*		                               SETTERS 	    	    	                               */
@@ -596,10 +620,25 @@ class AbstractLagFormulation: public RSA{
                 *                                       INITIALIZATION METHODS                              
                 *************************************************************************************************** */
                 
+                double initialUBValue();
+
+                double initialUBValueObj1();
+
+                double initialUBValueObj2();
+
+                double initialUBValueObj4();
+
+                double initialUBValueObj8();
+
                 /** Sets all initial parameters **/
-                virtual void init() = 0;
+                virtual void init(bool = true) = 0;
+
+                /** Sets the lower and upper bound  of the variables. **/
+                void updateLowerUpperBound(double*,double*);
 
                 /******************************************** MULTIPLIERS *******************************************/
+
+                virtual void startMultipliers(double *,int,int) = 0;
 
                 /** Sets the initial lagrangian multipliers values for the subgradient to run. **/
                 virtual void initMultipliers() = 0;
@@ -802,12 +841,14 @@ class AbstractLagFormulation: public RSA{
                 /** Inializes the objective function coefficients **/
                 void initCoeff();
 
+                void setCoeffMapObj8();
+
                 /* *************************************************************************************************************
                 *                                                RUNING METHODS
                 ************************************************************************************************************** */
                 
                 /** Solves the RSA lagrangian sub problem according to the chosen formulation **/
-                virtual void run() = 0;
+                virtual void run(bool=false) = 0;
 
                 virtual void subtractConstantValuesFromLagrCost() = 0;
 
@@ -831,6 +872,7 @@ class AbstractLagFormulation: public RSA{
                 /** Check if one slice per demand are feasible **/
 
                 /** Check if maximum used slice overall are feasible **/
+                bool checkMaxUsedSliceOverallFeasibility();
 
                 /** Check if maximum used slice overall (auxiliary) are feasible **/
 
@@ -848,6 +890,23 @@ class AbstractLagFormulation: public RSA{
 
                 /** Check if non-overlap constraints are feasible - primal approximation **/
                 bool checkOverlapFeasibility_v2();
+                
+                /** Check if max used slice overall constraints are feasible - primal approximation **/
+                bool checkMaxUsedSliceOverallFeasibility_v2();
+
+                /*************************************** CHECK SLACKNESS CONDITION ********************************************/
+
+                virtual bool checkSlacknessCondition() = 0;
+
+                bool checkLengthSlacknessCondition();
+
+                bool checkSourceTargetSlacknessCondition();
+
+                bool checkFlowSlacknessCondition();
+
+                bool checkOverlapSlacknessCondition();
+
+                bool checkMaxUsedSliceOverallSlacknessCondition();
 
                 /*************************************************************************************************************/
                 /*				                  UPDATE		      				     */
@@ -968,6 +1027,9 @@ class AbstractLagFormulation: public RSA{
 
                 /** Updates the slack of a maximum used slice overall constraint using the assigment matrix. **/
                 void updateMaxUsedSliceOverallSlack(int, const ListDigraph::Arc &);
+
+                void updateMaxUsedSliceOverallSlack_aux();
+                void updateMaxUsedSliceOverallAuxSlack_aux();
 
                 /** Updates the slack of a maximum used slice overall (auxiliary) constraint using the assigment matrix. **/
                 void updateMaxUsedSliceOverallAuxSlack(int, const ListDigraph::Arc &);

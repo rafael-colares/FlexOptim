@@ -31,8 +31,29 @@ public:
 	/** Puts all variables into a single array of variables and returns it. @note The position of a variable in the array is given by its id. **/
 	VarArray getVariables() override;
 
+	VarArray getLagVariables();
+
+	VarMatrix getMatrixX(){return x;}
+
+	void copyVariables(VarMatrix,Variable);
+
+	Variable getVariableX_d(int d,int index) const {return x[d][index];}
+
+	Variable getMaxSliceOverall() const {return maxSliceOverall;}
+
 	/** Defines the decision variables need in the MIP formulation. **/
     void setVariables() override;
+
+	void setLagVariables();
+
+	/** Defines the flow variables. **/
+	void setFlowVariables();
+
+	/** Defines the max used slice per edge variables. **/
+	void setMaxUsedSlicePerEdgeVariables();
+
+	/** Defines the max used slice overall variable. **/
+	void setMaxUsedSliceOverallVariable();
 
 	/** Changes the variable values. @param value The vector of values. **/
 	void setVariableValues(const std::vector<double> &value) override;
@@ -45,6 +66,8 @@ public:
 
 	/** Defines the set of constraints. **/
     void setConstraints() override;
+
+	void setLagConstraints();
 
 	/** Defines Source constraints. At most one arc leaves each node and exactly one arc leaves the source. **/
     void setSourceConstraints();

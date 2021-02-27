@@ -18,11 +18,40 @@ SolverCBC::SolverCBC(const Instance &inst) : AbstractSolver(inst, STATUS_UNKNOWN
 
 void SolverCBC::setCBCParams(const Input &input){
     model.setMaximumSeconds(input.getIterationTimeLimit());
-    //model.setMaximumNodes(0);
-    //cplex.setParam(IloCplex::Param::Threads, 1);
+
+    if(input.isRelaxed()){
+        Input::RootMethod rootMethod = input.getChosenRootMethod();
+        if (rootMethod == Input::ROOT_METHOD_AUTO){
+            ClpSolve clpSolve;
+            clpSolve.setSolveType(ClpSolve::automatic);
+            solver.setSolveOptions(clpSolve);
+        }
+        else if (rootMethod == Input::ROOT_METHOD_PRIMAL){
+            ClpSolve clpSolve;
+            clpSolve.setSolveType(ClpSolve::usePrimal);
+            solver.setSolveOptions(clpSolve);
+        }
+        else if (rootMethod == Input::ROOT_METHOD_DUAL){
+            ClpSolve clpSolve;
+            clpSolve.setSolveType(ClpSolve::useDual);
+            solver.setSolveOptions(clpSolve);
+        }
+        else if (rootMethod == Input::ROOT_METHOD_NETWORK){
+            //cplex.setParam(IloCplex::RootAlg, IloCplex::Network);
+            //ClpSolve::SolveType method = ClpSolve::useNetwork;
+            //ClpSolve clpSolve(method);
+            //solver.setSolveOptions(clpSolve);
+        }
+        else if (rootMethod == Input::ROOT_METHOD_BARRIER){
+            ClpSolve clpSolve;
+            clpSolve.setSolveType(ClpSolve::useBarrier);
+            solver.setSolveOptions(clpSolve);
+        }
+    }
     
     std::cout << "CBC parameters have been defined..." << std::endl;
 }
+
 void SolverCBC::implementFormulation(){
     // add variables.
     setVariables(formulation->getVariables());
@@ -35,7 +64,6 @@ void SolverCBC::implementFormulation(){
     // free formulation memory.
     formulation->clearConstraints();
 }
-
 
 void SolverCBC::setVariables(const std::vector<Variable> &myVars){
     for (unsigned int i = 0; i < myVars.size(); i++){ 
@@ -109,6 +137,7 @@ void SolverCBC::solve(){
         
         std::cout << "Chosen objective: " << myObjectives[i].getName() << std::endl;
         model.branchAndBound();
+
         if (model.bestSolution() != NULL){
             double objValue = model.getObjValue();
             std::cout << "Objective Function Value: " << objValue << std::endl;
@@ -146,6 +175,7 @@ void SolverCBC::solve(){
         }
         std::cout << "Could not find an integer feasible solution..." << std::endl;
     }
+
 }
 
 std::vector<double> SolverCBC::getSolution(){

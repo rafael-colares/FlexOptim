@@ -1,14 +1,20 @@
 #include "lagNonOverlapping.h"
 #include <set>
 
+void lagNonOverlapping::getDualSolution(double *rowprice){
+    std::cout<< "Branch and bound for no overlapping not defined yet.\n";
+}
+
 /* *******************************************************************************************************************
 *                                              INITIALIZATION METHODS
 ******************************************************************************************************************** */
 
-void lagNonOverlapping::init(){
+void lagNonOverlapping::init(bool initMult){
 
     /** Lagrangian Values **/
-    initMultipliers();
+    if(initMult){
+        initMultipliers();
+    }
     initSlacks();
     initDirection();
     initCoeff();
@@ -27,6 +33,10 @@ void lagNonOverlapping::init(){
 /*************************************************** MULTIPLIERS ******************************************************/
 
 /************************************************* Initial multiplier ************************************************/
+
+void lagNonOverlapping::startMultipliers(double *row ,int size,int objSignal){
+    std::cout << "Non overlapping formulation with Branch and Bound not defined yet.\n";
+}
 
 /* Sets the initial lagrangian multipliers for the subgradient to run. */
 void lagNonOverlapping::initMultipliers(){
@@ -487,6 +497,12 @@ bool lagNonOverlapping::checkFeasibility(){
     if (checkFlowFeasibility() == false){
         return false;
     }
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
+    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        if(checkMaxUsedSliceOverallFeasibility()){
+            return false;
+        }
+    }
     return true;
 }
 
@@ -500,6 +516,31 @@ bool lagNonOverlapping::checkFeasibility_v2(){
     }
     if (checkFlowFeasibility_v2() == false){
         return false;
+    }
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
+    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        if(checkMaxUsedSliceOverallFeasibility_v2()){
+            return false;
+        }
+    }
+    return true;
+}
+
+bool lagNonOverlapping::checkSlacknessCondition(){
+    if (checkLengthSlacknessCondition() == false){
+        return false;
+    }
+    if (checkSourceTargetSlacknessCondition() == false){
+        return false;
+    }
+    if (checkFlowSlacknessCondition() == false){
+        return false;
+    }
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
+    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        if(checkMaxUsedSliceOverallSlacknessCondition()){
+            return false;
+        }
     }
     return true;
 }
@@ -1066,7 +1107,7 @@ double lagNonOverlapping::getSlackPrimalSlackProd(double alpha){
 *                                                   RUNING METHODS
 *********************************************************************************************************************** */
 
-void lagNonOverlapping::run(){
+void lagNonOverlapping::run(bool adaptedSubproblem){
     setCurrentLagrCost(0.0);
     setCurrentRealCost(0.0);
 

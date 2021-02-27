@@ -5,11 +5,11 @@
 ******************************************************************************* */
 
 AbstractHeuristic::AbstractHeuristic(AbstractLagFormulation* form, const Status &s):formulation(form),statusheuristic(s),time(ClockTime::getTimeNow()){
+    /* Initializing solution */
     heuristicSolution.resize(formulation->getNbDemandsToBeRouted());
     for (int d = 0; d < formulation->getNbDemandsToBeRouted(); d++){
-        /* Initializing solution */
         heuristicSolution[d].resize(countArcs(*formulation->getVecGraphD(d)),false);
-        //std::fill(heuristicSolution[d].begin(), heuristicSolution[d].end(), false);
+        heuristicSolutionItBoolMap.emplace_back(std::make_shared<IterableBoolMap<ListDigraph, ListDigraph::Arc>>((*formulation->getVecGraphD(d)),false)); //mapFill<ListDigraph,IterableBoolMap<ListDigraph,ListDigraph::Arc>>((*formulation->getVecGraphD(d)),(*heuristicSolutionItBoolMap[d]),false);
     } 
     timeAux = 0.0;
 }
@@ -22,6 +22,7 @@ AbstractHeuristic::AbstractHeuristic(AbstractLagFormulation* form, const Status 
 void AbstractHeuristic::initSolution(){  
     for (int d = 0; d < formulation->getNbDemandsToBeRouted(); d++){
         std::fill(heuristicSolution[d].begin(), heuristicSolution[d].end(), false);
+        mapFill<ListDigraph,IterableBoolMap<ListDigraph,ListDigraph::Arc>>((*formulation->getVecGraphD(d)),(*heuristicSolutionItBoolMap[d]),false);
     }
 }
 
@@ -71,3 +72,9 @@ void AbstractHeuristic::printSolution(){
     std::cout<< "soma: " << somaslice << std::endl;
 
 }
+
+AbstractHeuristic::~AbstractHeuristic(){
+    heuristicSolution.clear();
+}
+
+

@@ -1,12 +1,35 @@
 #include "lagFlow.h"
 
+void lagFlow::getDualSolution(double *rowprice){
+    int notComputedMultipliers = (getNbDemandsToBeRouted()*instance.getNbNodes()) + getNbDemandsToBeRouted();
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){  
+        notComputedMultipliers+=(countNodes(*vecGraph[d])-2);
+    }
+    int nbDemands = getNbDemandsToBeRouted();
+    std::copy(lagrangianMultiplierLength.begin(),lagrangianMultiplierLength.end(),rowprice+notComputedMultipliers);
+    notComputedMultipliers = notComputedMultipliers+nbDemands;
+
+    int nbSlicesEdges;
+    for (int i = 0; i < instance.getNbEdges(); i++){
+        nbSlicesEdges = getNbSlicesLimitFromEdge(i);
+        std::copy(lagrangianMultiplierOverlap[i].begin(),lagrangianMultiplierOverlap[i].end(),rowprice+notComputedMultipliers);
+        notComputedMultipliers = notComputedMultipliers + nbSlicesEdges;
+    }
+
+    if(instance.getInput().isObj8(0)){
+        std::copy(lagrangianMultiplierMaxUsedSliceOverall.begin(),lagrangianMultiplierMaxUsedSliceOverall.end(),rowprice+notComputedMultipliers);
+    }
+}
+
 /* ******************************************************************************************************************
 *                                               INITIALIZATION METHODS
 ******************************************************************************************************************* */
 
-void lagFlow::init(){
+void lagFlow::init(bool initMult){
     /** Lagrangian Values **/
-    initMultipliers();
+    if(initMult){
+        initMultipliers();
+    }
     initSlacks();
     initDirection();
     initCoeff();
@@ -22,6 +45,29 @@ void lagFlow::init(){
 
 /************************************************** MULTIPLIERS ****************************************************/
 
+/* The dual multipliers considering the source constraints, the flow constraints and the target constraints
+are not defined. They are always feasible (not relaxed in the lagrangian model), so the dual is always zero. */
+void lagFlow::startMultipliers(double *row,int size,int objSignal){
+    int notComputedMultipliers = (getNbDemandsToBeRouted()*instance.getNbNodes()) + getNbDemandsToBeRouted();
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){  
+        notComputedMultipliers+=(countNodes(*vecGraph[d])-2);
+    }
+    int nbDemands = getNbDemandsToBeRouted();
+    std::copy(row+notComputedMultipliers,row+(notComputedMultipliers+nbDemands) ,std::back_inserter(lagrangianMultiplierLength));
+    notComputedMultipliers = notComputedMultipliers+nbDemands;
+
+    int nbSlicesEdges = 0;
+    for (int i = 0; i < instance.getNbEdges(); i++){
+        nbSlicesEdges = getNbSlicesLimitFromEdge(i);
+        std::copy(row+notComputedMultipliers,row+(notComputedMultipliers+nbSlicesEdges) ,std::back_inserter(lagrangianMultiplierOverlap[i]));
+        notComputedMultipliers = notComputedMultipliers + nbSlicesEdges;
+    }
+
+    if(instance.getInput().isObj8(0)){
+        std::copy(row+notComputedMultipliers,row+(notComputedMultipliers+nbDemands) ,std::back_inserter(lagrangianMultiplierMaxUsedSliceOverall));
+    }
+}
+
 /* Sets the initial lagrangian multipliers for the subgradient to run. */
 void lagFlow::initMultipliers(){
     double initialMultiplier = instance.getInput().getInitialLagrangianMultiplier();
@@ -31,7 +77,7 @@ void lagFlow::initMultipliers(){
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         initializeMaxUsedSliceOverallMultipliers(initialMultiplier);
-        initializeMaxUsedSliceOverallAuxMultipliers(initialMultiplier);
+        //initializeMaxUsedSliceOverallAuxMultipliers(initialMultiplier);
         //initializeMaxUsedSliceOverall2Multipliers(initialMultiplier);
         //initializeMaxUsedSliceOverall3Multipliers(initialMultiplier);
     }
@@ -47,7 +93,7 @@ void lagFlow::initStabilityCenter(){
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         initializeMaxUsedSliceOverallSC();
-        initializeMaxUsedSliceOverallAuxSC();
+        //initializeMaxUsedSliceOverallAuxSC();
         //initializeMaxUsedSliceOverall2SC();
         //initializeMaxUsedSliceOverall3SC();
     }
@@ -64,7 +110,7 @@ void lagFlow::initSlacks(){
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         initializeMaxUsedSliceOverallSlacks();
-        initializeMaxUsedSliceOverallAuxSlacks();
+        //initializeMaxUsedSliceOverallAuxSlacks();
         //initializeMaxUsedSliceOverall2Slacks();
         //initializeMaxUsedSliceOverall3Slacks();
     }
@@ -79,7 +125,7 @@ void lagFlow::resetSlacks(){
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         resetMaxUsedSliceOverallSlacks();
-        resetMaxUsedSliceOverallAuxSlacks();
+        //resetMaxUsedSliceOverallAuxSlacks();
         //resetMaxUsedSliceOverall2Slacks();
         //resetMaxUsedSliceOverall3Slacks();
     }
@@ -95,7 +141,7 @@ void lagFlow::initPrimalSlacks(){
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         initializeMaxUsedSliceOverallPrimalSlacks();
-        initializeMaxUsedSliceOverallAuxPrimalSlacks();
+        //initializeMaxUsedSliceOverallAuxPrimalSlacks();
         //initializeMaxUsedSliceOverall2Slacks();
         //initializeMaxUsedSliceOverall3Slacks();
     }
@@ -111,7 +157,7 @@ void lagFlow::initDirection(){
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         initializeMaxUsedSliceOverallDirection();
-        initializeMaxUsedSliceOverallAuxDirection();
+        //initializeMaxUsedSliceOverallAuxDirection();
         //initializeMaxUsedSliceOverall2Direction();
         //initializeMaxUsedSliceOverall3Direction();
     }
@@ -132,7 +178,7 @@ void lagFlow::updateMultiplier(double step){
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         updateMaxUsedSliceOverallMultiplier(step);
-        updateMaxUsedSliceOverallAuxMultiplier(step);
+        //updateMaxUsedSliceOverallAuxMultiplier(step);
         //updateMaxUsedSliceOverall2Multiplier(step);
         //updateMaxUsedSliceOverall3Multiplier(step);
     }
@@ -147,7 +193,7 @@ void lagFlow::updateMultiplier_v2(double step){
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         updateMaxUsedSliceOverallMultiplier_v2(step);
-        updateMaxUsedSliceOverallAuxMultiplier_v2(step);
+        //updateMaxUsedSliceOverallAuxMultiplier_v2(step);
         //updateMaxUsedSliceOverall2Multiplier_v2(step);
         //updateMaxUsedSliceOverall3Multiplier_v2(step);
     }
@@ -162,7 +208,7 @@ void lagFlow::updateStabilityCenter(){
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         updateMaxUsedSliceOverallSC();
-        updateMaxUsedSliceOverallAuxSC();
+        //updateMaxUsedSliceOverallAuxSC();
         //updateMaxUsedSliceOverall2SC();
         //updateMaxUsedSliceOverall3SC();
     }
@@ -177,7 +223,7 @@ void lagFlow::updatePrimalSlack(double alpha){
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         updateMaxUsedSliceOverallPrimalSlack(alpha);
-        updateMaxUsedSliceOverallAuxPrimalSlack(alpha);
+        //updateMaxUsedSliceOverallAuxPrimalSlack(alpha);
         //updateMaxUsedSliceOverall2PrimalSlack(alpha);
         //updateMaxUsedSliceOverall3PrimalSlack(alpha);
     }
@@ -193,7 +239,7 @@ void lagFlow::updateDirection(){
     Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
     if(chosenMetric == Input::OBJECTIVE_METRIC_8){
         updateMaxUsedSliceOverallDirection(theta);
-        updateMaxUsedSliceOverallAuxDirection(theta);
+        //updateMaxUsedSliceOverallAuxDirection(theta);
         //updateMaxUsedSliceOverall2Direction(theta);
         //updateMaxUsedSliceOverall3Direction(theta);
     }
@@ -237,11 +283,31 @@ void lagFlow::updateAssignment_k(int d, DijkstraCostObj8 &path, const ListDigrap
         updateLengthSlack(d,arc);
         updateOverlapSlack(d,arc);
         updateMaxUsedSliceOverallSlack(d,arc);
-        updateMaxUsedSliceOverallAuxSlack(d,arc);
+        //updateMaxUsedSliceOverallAuxSlack(d,arc);
         //updateMaxUsedSliceOverall2Slack(d,arc);
         //updateMaxUsedSliceOverall3Slack(d,arc);
 
         currentNode = path.predNode(currentNode);
+    }
+}
+
+/* Updates the assignment of a demand based on the a given path. For general objective. */
+void lagFlow::updateAssignment_k(int d, CostScaling<ListDigraph,int,double> &costScale, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
+    std::fill(assignmentMatrix_d[d].begin(), assignmentMatrix_d[d].end(), false);
+
+    IterableValueMap<ListDigraph,ListDigraph::Arc,double> auxiliary(*vecGraph[d]);
+    costScale.flowMap(auxiliary);
+    int flow = 1;
+
+    for(IterableValueMap<ListDigraph,ListDigraph::Arc,double>::ItemIt arc(auxiliary,flow); arc != INVALID; ++arc){
+        int index = getArcIndex(arc, d);
+
+        /* Update Assignment */
+        assignmentMatrix_d[d][index] = true;
+        
+        /* Update Slack */
+        updateLengthSlack(d,arc);
+        updateOverlapSlack(d,arc);
     }
 }
 
@@ -255,6 +321,12 @@ bool lagFlow::checkFeasibility(){
     if (checkOverlapFeasibility() == false){
         return false;
     }
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
+    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        if(checkMaxUsedSliceOverallFeasibility() == false){
+            return false;
+        }
+    }
     return true;
 }
 
@@ -265,6 +337,28 @@ bool lagFlow::checkFeasibility_v2(){
     }
     if (checkOverlapFeasibility_v2() == false){
         return false;
+    }
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
+    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        if(checkMaxUsedSliceOverallFeasibility_v2() == false){
+            return false;
+        }
+    }
+    return true;
+}
+
+bool lagFlow::checkSlacknessCondition(){
+     if (checkLengthSlacknessCondition() == false){
+        return false;
+    }
+    if (checkOverlapSlacknessCondition() == false){
+        return false;
+    }
+    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
+    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        if(checkMaxUsedSliceOverallSlacknessCondition() == false){
+            return false;
+        }
     }
     return true;
 }
@@ -283,6 +377,19 @@ double lagFlow::getRealCostFromPath(int d, DijkstraCost &path, const ListDigraph
     }
     return total;
 }
+
+double lagFlow::getRealCostFromPath(int d, CostScaling<ListDigraph,int,double> &costScale, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
+    double total = 0.0;
+    IterableValueMap<ListDigraph,ListDigraph::Arc,double> auxiliary(*vecGraph[d]);
+    costScale.flowMap(auxiliary);
+    int flow = 1;
+
+    for(IterableValueMap<ListDigraph,ListDigraph::Arc,double>::ItemIt arc(auxiliary,flow); arc != INVALID; ++arc){
+        total += (*coeff[d])[arc];
+    }
+    return total;
+}
+
 
 /* ******************************************************* MODULES *****************************************************/
 
@@ -728,7 +835,7 @@ double lagFlow::getPathCost(int d, DijkstraCost &path, const ListDigraph::Node &
 *********************************************************************************************************************** */
 
 /* To solve an iteration of the Lagrangian - one sub problem */
-void lagFlow::run(){
+void lagFlow::run(bool adaptedSubproblem){
     setCurrentLagrCost(0.0);
     setCurrentRealCost(0.0);
     
@@ -737,13 +844,14 @@ void lagFlow::run(){
     }
 
     resetSlacks();
-    
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
-        runObj8();
-    }
-    else{
-        runGeneralObj();
+    if(adaptedSubproblem){
+        runAdaptedGeneralObj();
+    }else{
+        if(instance.getInput().isObj8(0)){
+            runObj8();
+        }else{
+            runGeneralObj();
+        }
     }
 }
 
@@ -791,6 +899,75 @@ void lagFlow::runGeneralObj(){
     time.setStart(ClockTime::getTimeNow());
     subtractConstantValuesFromLagrCost();
     incSubstractMultipliersTime(time.getTimeInSecFromStart());
+}
+
+void lagFlow::runAdaptedGeneralObj(){
+    operatorCost oper(lagrangianMultiplierOverlap); 
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+
+        /* Time to compute costs */
+        time.setStart(ClockTime::getTimeNow());  
+
+        double scale = getLengthMultiplier_k(d)/getToBeRouted_k(d).getMaxLength();
+        ScaleMapCost scaleMap((*vecArcLength[d]),scale);  // Multiply length Map Arc by length constraint multiplier
+        AddMapCost addMap((*coeff[d]),scaleMap);  // Add to the coefficients
+        oper.setDemandLoad(getToBeRouted_k(d).getLoad());
+        CombineMapCost combine((*vecArcLabel[d]),(*vecArcSlice[d]),oper);  // Add the overlap part
+        AddMapFinalCost addMapFinal(combine,addMap);
+
+        const ListDigraph::Node SOURCE = getFirstNodeFromLabel(d, getToBeRouted_k(d).getSource());
+        const ListDigraph::Node TARGET = getFirstNodeFromLabel(d, getToBeRouted_k(d).getTarget());
+
+        CostScaling<ListDigraph,int,double> costScale((*vecGraph[d]));
+
+        if(instance.getInput().isObj8(0)){
+            operatorCostObj8 operCostObj8(getFirstNodeFromLabel(d, getToBeRouted_k(d).getSource()),getMaxUsedSliceOverallMultiplier_k(d),0.0);
+            //operatorCostObj8 operCostObj8(getFirstNodeFromLabel(d, getToBeRouted_k(d).getSource()),getMaxUsedSliceOverallMultiplier_k(d),getMaxUsedSliceOverallAuxMultiplier_k(d));
+            SourceMap<ListDigraph> sourceMap((*vecGraph[d])); 
+            CombineMapCostObj8 combineObj8((*vecArcSlice[d]),sourceMap,operCostObj8); 
+            AddMapFinalCostObj8 addMapFinalObj8(addMapFinal,combineObj8);
+            costScale.costMap(addMapFinalObj8);
+        }else{
+            std::cout<<"yoi" <<std::endl;
+            costScale.costMap(addMapFinal);
+        }
+
+        incCostTime(time.getTimeInSecFromStart());
+
+        time.setStart(ClockTime::getTimeNow());
+
+        costScale.upperMap(*upperBound[d]);
+        costScale.lowerMap(*lowerBound[d]);
+        costScale.stSupply(SOURCE,TARGET,1);
+        std::cout<<"oi" <<std::endl;
+        CostScaling<ListDigraph,int,double>::ProblemType problemType = costScale.run();
+        std::cout<< d <<std::endl;
+
+        if(problemType == CostScaling<ListDigraph,int,double>::INFEASIBLE){
+            setStatus(STATUS_INFEASIBLE);
+            std::cout << "> RSA is infeasible because there is no path from " << getToBeRouted_k(d).getSource()+1 << " to " << getToBeRouted_k(d).getTarget()+1 << " required for routing demand " << getToBeRouted_k(d).getId()+1 << "." << std::endl;
+            return;
+        }
+        if(problemType == CostScaling<ListDigraph,int,double>::UNBOUNDED){
+            std::cout << "> The problem should not be unbounded because all the variables considered have upper bound at most equal to 1." << std::endl;
+        }
+        incShorstestPathTime(time.getTimeInSecFromStart());
+
+        time.setStart(ClockTime::getTimeNow());
+        updateAssignment_k(d, costScale, SOURCE, TARGET);
+        incCurrentLagrCost(costScale.totalCost());
+        if(!instance.getInput().isObj8(0)){
+            incCurrentRealCost(getRealCostFromPath(d, costScale, SOURCE, TARGET));
+        }
+        incUpdateVariablesTime(time.getTimeInSecFromStart());
+    }
+    time.setStart(ClockTime::getTimeNow());
+    subtractConstantValuesFromLagrCost();
+    incSubstractMultipliersTime(time.getTimeInSecFromStart());
+
+    if(instance.getInput().isObj8(0)){
+        solveProblemMaxUsedSliceOverall();
+    }
 }
 
 void lagFlow::runObj8(){
@@ -856,63 +1033,53 @@ void lagFlow::subtractConstantValuesFromLagrCost(){
 }
 
 void lagFlow::solveProblemMaxUsedSliceOverall(){
-    std::fill(varAuxZ.begin(), varAuxZ.end(), false);
-
     double exp = 0.0;
-    double min = __DBL_MAX__;
-    int ind = 0;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         exp += getMaxUsedSliceOverallMultiplier_k(d);
-        //exp -= getMaxUsedSliceOverallAuxMultiplier_k(d);
+    }
+    if(exp > 1.000){
+        maxUsedSliceOverall = (getNbSlicesGlobalLimit()-1);
+    }else{
+        maxUsedSliceOverall = 0.0;
+    }
+    updateMaxUsedSliceOverallSlack_aux();
+
+    incCurrentLagrCost(maxUsedSliceOverall*(1.0-exp));
+    incCurrentRealCost(maxUsedSliceOverall);
+}
+
+/*void lagFlow::solveProblemMaxUsedSliceOverall(){
+    std::fill(varAuxZ.begin(), varAuxZ.end(), false);
+    double min = __DBL_MAX__; int ind = 0;
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         if(getMaxUsedSliceOverallAuxMultiplier_k(d) < min){
             min = getMaxUsedSliceOverallAuxMultiplier_k(d);
             ind = d;
         }
     }
-    varAuxZ[ind] = true;
+    varAuxZ[ind] = true; 
     
-    /*
-    for (int e = 0; e < instance.getNbEdges(); e++){
-        int sliceLimit = getNbSlicesLimitFromEdge(e);
-        for (int s = 0; s < sliceLimit; s++){
-            exp += getMaxUsedSliceOverall2Multiplier_k(e,s);
-        }
-    }
-    for (int v = 0; v < instance.getNbNodes(); v++){
-        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
-            exp += getMaxUsedSliceOverall3Multiplier_k(v,s);
-        }
-    }
-    */
-
-    double aux = 0.0;
+    double exp = 0.0;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        int label = getToBeRouted_k(d).getSource();
-        for(IterableIntMap< ListDigraph, ListDigraph::Node >::ItemIt node((*mapItLabel[d]),label); node != INVALID; ++node){
-            for (ListDigraph::OutArcIt a(*vecGraph[d],node); a != INVALID; ++a){
-                int indexArc = getArcIndex(a,d);
-                if(getArcSlice(a, d)*assignmentMatrix_d[d][indexArc] > aux){
-                    aux = getArcSlice(a, d)*assignmentMatrix_d[d][indexArc];
-                }
-            }
-        }
+        exp += getMaxUsedSliceOverallMultiplier_k(d);
+        exp -= getMaxUsedSliceOverallAuxMultiplier_k(d);
     }
-
-    double sum = 0.0;
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        sum += getMaxUsedSliceOverallAuxMultiplier_k(d)*(getInstance().getMaxSlice()-1)*(1-varAuxZ[d]);
-    }
-
     if(exp > 1.000){
         maxUsedSliceOverall = (getInstance().getMaxSlice()-1);
     }else{
         maxUsedSliceOverall = 0.0;
     }
 
-    //incCurrentLagrCost(maxUsedSliceOverall*(1-exp)-sum);
-    incCurrentLagrCost(maxUsedSliceOverall*(1-exp));
+    updateMaxUsedSliceOverallSlack_aux();
+    updateMaxUsedSliceOverallAuxSlack_aux();
+
+    double sum = 0.0;
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        sum += getMaxUsedSliceOverallAuxMultiplier_k(d)*(getInstance().getMaxSlice()-1)*(1-varAuxZ[d]);
+    }
+    incCurrentLagrCost(maxUsedSliceOverall*(1-exp)-sum);
     incCurrentRealCost(maxUsedSliceOverall);
-}
+}*/
 
 /* Assigns length as the main cost of the arcs. */
 void lagFlow::setLengthCost(){

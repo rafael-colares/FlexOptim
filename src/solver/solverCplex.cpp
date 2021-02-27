@@ -12,7 +12,7 @@ SolverCplex::SolverCplex(const Instance &inst) : AbstractSolver(inst, STATUS_UNK
     std::cout << "--- CPLEX has been initialized ---" << std::endl;
     setCplexParams(inst.getInput());
     implementFormulation();
-    exportFormulation(inst);
+    //exportFormulation(inst);
     count++;
 }
 
@@ -171,6 +171,30 @@ void SolverCplex::setCplexParams(const Input &input){
     cplex.setParam(IloCplex::Param::MIP::Display, 3);
     cplex.setParam(IloCplex::Param::TimeLimit, input.getIterationTimeLimit());
     cplex.setParam(IloCplex::Param::Threads, 1);
+
+    if(formulation->getInstance().getInput().isRelaxed()){
+        Input::RootMethod rootMethod = formulation->getInstance().getInput().getChosenRootMethod();
+        if (rootMethod == Input::ROOT_METHOD_AUTO){
+            cplex.setParam(IloCplex::RootAlg, IloCplex::AutoAlg);
+            std::cout<< "auto" <<std::endl;
+        }
+        else if (rootMethod == Input::ROOT_METHOD_PRIMAL){
+            cplex.setParam(IloCplex::RootAlg, IloCplex::Primal);
+            std::cout<< "primal" <<std::endl;
+        }
+        else if (rootMethod == Input::ROOT_METHOD_DUAL){
+            cplex.setParam(IloCplex::RootAlg, IloCplex::Dual);
+            std::cout<< "dual" <<std::endl;
+        }
+        else if (rootMethod == Input::ROOT_METHOD_NETWORK){
+            cplex.setParam(IloCplex::RootAlg, IloCplex::Network);
+            std::cout<< "net" <<std::endl;
+        }
+        else if (rootMethod == Input::ROOT_METHOD_BARRIER){
+            cplex.setParam(IloCplex::RootAlg, IloCplex::Barrier);
+            std::cout<< "barrier" <<std::endl;
+        }
+    }
     
     std::cout << "CPLEX parameters have been defined..." << std::endl;
 }

@@ -39,6 +39,15 @@ public:
 		NODE_METHOD_VOLUME = 2 				/**< At each node of the enumeration tree, the Volume algorithm is applied. #TODO Implement volume. **/
 	};
 
+	/** Enumerates the possible methods to be applied at the root **/
+	enum RootMethod{
+		ROOT_METHOD_AUTO = 0,
+		ROOT_METHOD_PRIMAL = 1,
+		ROOT_METHOD_DUAL = 2,
+		ROOT_METHOD_NETWORK = 3,
+		ROOT_METHOD_BARRIER = 4
+	};
+
 	/** Enumerates the possible objectives to be optimized. **/
 	enum ObjectiveMetric {
 		OBJECTIVE_METRIC_0 = 0,		/**< Minimize nothing, just search for a feasible solution. **/
@@ -72,11 +81,6 @@ public:
 	};
 
 	/******** INCLUSION FOR LAGRANGIAN *********/
-	/** Enumerates all possible Lagrangian methods to be applied **/
-	enum LagMethod {
-		SUBGRADIENT = 0,  		/**< Solve the model with Subgradient Method. **/
-		VOLUME = 1, 		    /**< Solve the model with Volume method. **/
-	};
 
 	/** Enumerates all possible Lagrangian formulations to be applied **/
 	enum LagFormulation{
@@ -118,6 +122,7 @@ private:
 	
 
 	NodeMethod chosenNodeMethod;			/**< Refers to which method is applied for solving each node.**/
+	RootMethod chosenRootMethod;			/**< Refers to which method is applied for solving the root. **/
 	Formulation chosenFormulation;			/**< Refers to the formulation used to solve the problem. **/
 	MIP_Solver chosenMipSolver;				/**< Refers to the MIP solver chosen to applied. **/
 	PreprocessingLevel chosenPreprLvl;		/**< Refers to which level of preprocessing is applied before solving the problem.**/
@@ -147,7 +152,7 @@ private:
 	int maxNbIterations;				/**< The maximal number of iterations allowed without improving the lower bound in the subgradient method.**/
 
 	/******** INCLUSION FOR LAGRANGIAN *********/
-	LagMethod lagChosenMethod;               /**< The chosen Lagrangian Method. **/
+	bool lagrangianRelaxation;               /**< If this option is active, the lagrangian relaxation is run. **/
 	LagFormulation lagChosenFormulation;     /**< The chosen Lagrangian Formulation. **/
 	Heuristic chosenHeuristic;               /**< The chosen Heuristic. **/
 	DirectionMethod chosenDirectionMethod;   /**< The chosen Lagrangian Direction calculus method. **/
@@ -243,6 +248,9 @@ public:
 	/** Returns the identifier of the method chosen for solving each node. **/
     NodeMethod getChosenNodeMethod() const { return chosenNodeMethod; }
 
+	/** Returns the identifier of the method chosen for solving the root. **/
+    RootMethod getChosenRootMethod() const { return chosenRootMethod; }
+
 	/** Returns the identifier of the formulation chosen for solving the problem. **/
     Formulation getChosenFormulation() const { return chosenFormulation; }
 
@@ -281,9 +289,9 @@ public:
 
 	/******** INCLUSION FOR LAGRANGIAN *********/
 
-	/** Returns the lagrangian method used. **/
-	LagMethod getChosenLagMethod() const { return lagChosenMethod;}
-
+	/** Returns true if lagrangian relaxation is applied. **/
+    bool isLagrangianRelaxed() const { return linearRelaxation; }
+	
 	/** Returns the formulation used in the lagrangian procedure. **/
 	LagFormulation getChosenLagFormulation() const { return lagChosenFormulation;}
 
@@ -342,6 +350,9 @@ public:
 	/** Converts a string into a NodeMethod. **/
 	NodeMethod to_NodeMethod(std::string data);
 
+	/** Converts a string into a RootMethod. **/
+	RootMethod to_RootMethod(std::string data);
+
 	/** Converts a string into a Formulation. **/
 	Formulation to_Formulation(std::string data);
 
@@ -358,7 +369,6 @@ public:
 	void checkConsistency();
 
 	/******** INCLUSION FOR LAGRANGIAN *********/
-	LagMethod to_LagMethod(std::string data);
 	LagFormulation to_LagFormulation(std::string data);
 	Heuristic to_Heuristic(std::string data);
 	DirectionMethod to_DirectionMethod(std::string data);

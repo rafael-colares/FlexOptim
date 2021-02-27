@@ -45,7 +45,7 @@ class shortestPathHeuristic : public AbstractHeuristic{
         *                              RUNNING METHODS
         ******************************************************************************* */
 
-        void run();
+        void run(bool=false);
 
         /* Selects one demand to be analysed */
         int choseDemand(std::set<int>);
@@ -53,11 +53,14 @@ class shortestPathHeuristic : public AbstractHeuristic{
         /* Find a shortest path for demand d*/
         bool heuristicRun(int);
 
+        bool heuristicAdaptedRun(int);
+
         /* Changes the heuristic Solutin including the found path to demand d */
         void insertPath_k(int, Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > &, const ListDigraph::Node &, const ListDigraph::Node &);
 
         void insertPath_k(int d, Dijkstra< FilterArcs<ListDigraph>, ListDigraph::ArcMap<double> > &, const ListDigraph::Node &, const ListDigraph::Node &);
 
+        void insertPath_k(int d, CostScaling<FilterArcs<ListDigraph>,int,double> &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET);
 
         /* Remove a found path for demand d. Then, we have to find another path for this demand*/
         void removePath_k(int);
@@ -74,10 +77,15 @@ class shortestPathHeuristic : public AbstractHeuristic{
 
         void remove_Arc(int, Dijkstra< FilterArcs<ListDigraph>, ListDigraph::ArcMap<double> > &, const ListDigraph::Node &, const ListDigraph::Node &);
 
+        void remove_Arc(int d, CostScaling<FilterArcs<ListDigraph>,int,double> &, const ListDigraph::Node &, const ListDigraph::Node &);
+ 
         /* Returns the physical length of the path. */
         double getPathLength(int d, Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &s, const ListDigraph::Node &t);
 
         double getPathLength(int d, Dijkstra< FilterArcs<ListDigraph>, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &s, const ListDigraph::Node &t);
+
+        double getPathLength(int d, CostScaling<FilterArcs<ListDigraph>,int,double> &costScale, const ListDigraph::Node &s, const ListDigraph::Node &t);
+
 
         //ListDigraph::Node getNodeFromIndex2(int, int);
 

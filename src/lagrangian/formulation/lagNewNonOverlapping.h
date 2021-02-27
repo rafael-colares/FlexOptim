@@ -123,10 +123,12 @@ class lagNewNonOverlapping:public AbstractLagFormulation{
         lagNewNonOverlapping(const Instance &instance):AbstractLagFormulation(instance){}
 
         /** Sets all initial parameters **/
-        void init();
+        void init(bool=true);
 
         /********************************************** MULTIPLIERS ************************************************/
-
+        
+        void startMultipliers(double *,int,int);
+        
         /** Sets the initial lagrangian multipliers values for the subgradient to run. **/
         void initMultipliers();
 
@@ -205,10 +207,15 @@ class lagNewNonOverlapping:public AbstractLagFormulation{
         /* Verifies if the relaxed constraints are respected, considering primal apprximation. */
         bool checkFeasibility_v2();
 
+        /** Checks if the slackness condition is satisfied ( mu*(Ax-b) = 0) **/
+        bool checkSlacknessCondition();
+
         /* ********************************************************************************************************************
         *                                                     GET METHODS
         ******************************************************************************************************************** */
 
+        void getDualSolution(double *);
+        
         /* Returns the real objective function cost of the result obtained with the shortest path (lagrangian subproblem)*/
         /* (label,path,source,target), label is the edge, path the result of the shortest path, source and target the nodes*/
         double getRealCostFromPath(int, DijkstraCostE &, const ListDigraph::Node &, const ListDigraph::Node &);
@@ -242,7 +249,7 @@ class lagNewNonOverlapping:public AbstractLagFormulation{
         ********************************************************************************************************************* */
         
         /** One iteration of the Lagrangian relaxation **/
-        void run();
+        void run(bool=false);
 
         void runGeneralObj();
 

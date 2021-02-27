@@ -8,22 +8,18 @@
 class lagSolverFactory{
     public:
         inline AbstractLagSolver* createSolver(const Instance &instance){
-            //Input::NodeMethod chosenSolver = instance.getInput().getChosenNodeMethod();
-            Input::LagMethod chosenSolver = instance.getInput().getChosenLagMethod();
-            switch (chosenSolver){
-                //case Input::NODE_METHOD_SUBGRADIENT:{
-                case Input::SUBGRADIENT:{
+            Input::NodeMethod chosenNodeMethod = instance.getInput().getChosenNodeMethod();
+            switch (chosenNodeMethod){
+                case Input::NODE_METHOD_SUBGRADIENT:{
                     return new lagSubgradient(instance);
                     break;
                 }
-                //case Input::NODE_METHOD_VOLUME:{
-                case Input::VOLUME:{
+                case Input::NODE_METHOD_VOLUME:{
                     return new lagVolume(instance);
                     break;
                 }
-               
                 default:{
-                    std::cout << "ERROR: Invalid LAG_Solver." << std::endl;
+                    std::cout << "ERROR: Invalid Lagrangian Node Method." << std::endl;
                     exit(0);
                     break;
                 }

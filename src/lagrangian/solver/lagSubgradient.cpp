@@ -4,7 +4,7 @@
 /*					                                 INITIALIZATION 		    		                                    */
 /****************************************************************************************************************************/
 /* Sets the initial parameters for the subgradient to run. */
-void lagSubgradient::initialization(){
+void lagSubgradient::initialization(bool initMultipliers){
 
     /** Setting initial time **/
     setInitializationTime(0.0);
@@ -36,7 +36,14 @@ void lagSubgradient::initialization(){
     formulation->setStatus(RSA::STATUS_UNKNOWN);
 
     initLambda();
-    formulation->init();
+    formulation->init(initMultipliers);
+
+    //double initUB = formulation->initialUBValue();
+    //setUB(initUB);
+
+    updateUB(UBINIT);
+
+    setStatus(STATUS_UNKNOWN);
 
     setInitializationTime(time.getTimeInSecFromStart());
     setConstAuxGraphTime(formulation->getConstAuxGraphTime()); 
@@ -55,16 +62,16 @@ void lagSubgradient::initialization(){
 /*					                                 RUNNING METHODS 		    	                               	        */
 /****************************************************************************************************************************/
 
-void lagSubgradient::run(){
+void lagSubgradient::run(bool initMultipliers, bool modifiedSubproblem){
     std::cout << "--- Subgradient was invoked ---" << std::endl;
     //formulation->displayToBeRouted();
 
-    initialization();
+    initialization(initMultipliers);
     std::cout << "> Subgradient was initialized. " << std::endl;
 
     bool STOP = false;
     while (!STOP){
-        runIteration();
+        runIteration(modifiedSubproblem);
         if (formulation->getStatus() != RSA::STATUS_INFEASIBLE){
             displayMainParameters(fichier);
 
@@ -78,35 +85,49 @@ void lagSubgradient::run(){
             incUpdatingMultipliersTime(time.getTimeInSecFromStart());
 
             time.setStart(ClockTime::getTimeNow());
+            bool alternativeStop = formulation->getInstance().getInput().getAlternativeStop();
             if (getLB() >= getUB() - DBL_EPSILON){ 
-                formulation->setStatus(RSA::STATUS_OPTIMAL);
                 STOP = true;
+                formulation->setStatus(RSA::STATUS_OPTIMAL);
+                setStatus(STATUS_OPTIMAL);
+                setStop("Optimal");
+                std::cout << "Optimal" << std::endl;
+            }
+            else if(formulation->checkSlacknessCondition() && formulation->checkFeasibility()){
+                STOP = true;
+                formulation->setStatus(RSA::STATUS_OPTIMAL);
+                setStatus(STATUS_OPTIMAL);
                 setStop("Optimal");
                 std::cout << "Optimal" << std::endl;
             }
             else if (getIteration() >= MAX_NB_IT){
                 STOP = true;
+                setStatus(STATUS_MAX_IT);
                 setStop("Max It");
                 std::cout << "Max It" << std::endl;
             }
             else if (isGradientMoving() == false){
-                std::cout << getStepSize() << std::endl;
                 STOP = true;
+                setStatus(STATUS_FEASIBLE);
                 setStop("Small Step");
                 std::cout << "Small Step" << std::endl;
             }
-            bool alternativeStop = formulation->getInstance().getInput().getAlternativeStop();
-            if(alternativeStop){
+            else if(alternativeStop){
                 if(getGlobalItWithoutImprovement() >= 5*MAX_NB_IT_WITHOUT_IMPROVEMENT){
                     STOP = true;
+                    setStatus(STATUS_FEASIBLE);
                     setStop("Alternative stop");
                     std::cout << "Alternative stop" << std::endl;
                 }
+            }
+            if(formulation->getLagrCurrentCost() >= __DBL_MAX__/2){
+                setStatus(STATUS_INFEASIBLE);
             }
             incStoppingCriterionTime(time.getTimeInSecFromStart());
         }
         else{
             STOP = true;
+            setStatus(STATUS_INFEASIBLE);
             setStop("Infeasible");
             std::cout << "Infeasible" << std::endl;
         }
@@ -123,12 +144,12 @@ void lagSubgradient::run(){
 
 }
 
-void lagSubgradient::runIteration(){ 
+void lagSubgradient::runIteration(bool modifiedSubproblem){ 
     incIteration();
 
     /** Solving sub problem **/
     time.setStart(ClockTime::getTimeNow());
-    formulation->run();
+    formulation->run(modifiedSubproblem);
     incSolvingSubProblemTime(time.getTimeInSecFromStart());
 
     /** Updating direction **/
@@ -156,8 +177,8 @@ void lagSubgradient::runIteration(){
     incUpdatingBoundsTime(time.getTimeInSecFromStart());
 
     time.setStart(ClockTime::getTimeNow());
-    if(getIteration()==1 || getIteration()%30 ==0){
-        heuristic->run();
+    if(getIteration()<=5 || getIteration()%30 ==0){
+        heuristic->run(modifiedSubproblem);
         double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
         updateUB(feasibleSolutionCostHeur);
     }

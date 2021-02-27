@@ -79,10 +79,12 @@ class lagNonOverlapping: public AbstractLagFormulation{
         lagNonOverlapping(const Instance &instance):AbstractLagFormulation(instance){}
 
         /** Sets all initial parameters **/
-        void init();
+        void init(bool=true);
 
         /********************************* MULTIPLIERS ***********************************/
 
+        void startMultipliers(double *,int,int);
+        
         /** Sets the initial lagrangian multipliers values for the subgradient to run. **/
         void initMultipliers();
 
@@ -119,7 +121,7 @@ class lagNonOverlapping: public AbstractLagFormulation{
         /* *******************************************************************************
         *                             RUNING METHODS
         ******************************************************************************* */
-        void run();
+        void run(bool=false);
 
         double getRealCostFromPath(int, BellmanFord< ListDigraph, ListDigraph::ArcMap<double> > &, const ListDigraph::Node &, const ListDigraph::Node &);
 
@@ -138,11 +140,16 @@ class lagNonOverlapping: public AbstractLagFormulation{
 
         /* Verifies if the relaxed constraints are respected, considering primal apprximation. */
         bool checkFeasibility_v2();
+
+        /** Checks if the slackness condition is satisfied ( mu*(Ax-b) = 0) **/
+        bool checkSlacknessCondition();
  
         /****************************************************************************************/
         /*										Getters 										*/
         /****************************************************************************************/
 
+        void getDualSolution(double *);
+        
         /** Returns the LEMON id of a node in a graph. @param n The node. @param label The graph index. **/
         int getNodeEId(const ListDigraph::Node &n, int label) const { return (*vecENodeID[label])[n]; }
         

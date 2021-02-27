@@ -2,6 +2,25 @@
 
 Variable::Variable(int identifier, double lowerBound, double upperBound, Type varType, double val, std::string varName): id(identifier), lb(lowerBound), ub(upperBound), type(varType), value(val), name(varName){}
 
+Variable::Variable(const Variable& var){
+    id = var.id;
+    lb = var.lb;
+    ub = var.ub;
+    type = var.type;
+    value = var.value;
+    name = var.name;
+}
+
+Variable& Variable::operator=(const Variable& var){
+    id = var.id;
+    lb = var.lb;
+    ub = var.ub;
+    type = var.type;
+    value = var.value;
+    name = var.name;
+    return (*this);
+}
+
 Term::Term(Variable variable, double coefficient): coeff(coefficient), var(variable){}
 
 Expression::Expression(const Expression &e): termsArray(e.getTerms()){}

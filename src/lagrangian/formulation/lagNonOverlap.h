@@ -85,6 +85,8 @@ class lagNonOverlap: public AbstractLagFormulation{
 
         /********************************* MULTIPLIERS ***********************************/
 
+        void startMultipliers(double *,int,int);
+        
         /** Sets the initial lagrangian multipliers values for the subgradient to run. **/
         void initMultipliers();
 

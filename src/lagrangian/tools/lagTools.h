@@ -10,6 +10,7 @@
 #include <lemon/concepts/maps.h>
 #include "../../topology/input.h"
 #include "../../formulation/rsa.h"
+#include "../../formulation/flowForm.h"
 
 
 using namespace lemon;
@@ -27,6 +28,7 @@ class operatorCostEOneSlicePerDemand;
 class operatorCostHeuristicRemoveArcs;
 template <typename T> class operatorHeuristicCost;
 template <typename T> class operatorArcCostArcIndex;
+class operatorLowerUpperBound;
 
 /* Typedef Auxiliary Functors */
 typedef operatorHeuristicCost<bool>   HeuristicCostAssign;
@@ -72,6 +74,9 @@ typedef AddMap<CombineArcMapArcMapCostELength,ArcCost> AddMapLength;
 typedef AddMap<AddMapFlow,AddMapST> AddMapFlowST;
 typedef AddMap<AddMapFlowST,AddMapLength> AddMappFinal;
 typedef AddMap<AddMappFinal,CombineArcMapArcMapCostEOneSlicePerDemand> AddMapFinalOneSlicePerDemand;
+
+/* Upper and lower bound */
+typedef CombineMap<ArcMap,ArcMap,operatorLowerUpperBound,int> CombineArcMapArcMapLowerUpperBound;
 
 /* Auxiliaries */
 typedef Dijkstra< ListDigraph, AddMapFinalCost > DijkstraCost;
@@ -273,5 +278,16 @@ class operatorCostEOneSlicePerDemand{
 };
 
 /**********************************************************************************************************************/
+
+class operatorLowerUpperBound{
+    private:
+        VarMatrix x;
+        int d; /*demand*/
+        double * bound;
+    public:
+        operatorLowerUpperBound(VarMatrix,double*);
+        void setDemand(int val) { d = val;}
+        int operator()(int,int) const;
+};
 
 #endif

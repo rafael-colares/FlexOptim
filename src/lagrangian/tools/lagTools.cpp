@@ -158,3 +158,16 @@ double operatorCostEOneSlicePerDemand::operator()(int demand, int demand2) const
     }
     return multiplier[label][demand];
 }
+
+operatorLowerUpperBound::operatorLowerUpperBound(VarMatrix var, double * point){
+    x.resize(var.size());
+    for(int i=0;i<var.size();i++){
+        std::copy(var[i].begin(),var[i].end(),std::back_inserter(x[i]));
+    }
+    bound = point;
+}
+
+int operatorLowerUpperBound::operator()(int index, int index2) const{
+    int id = x[d][index].getId();
+    return bound[id];
+}
