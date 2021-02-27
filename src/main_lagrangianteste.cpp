@@ -115,7 +115,7 @@ int main(int argc, char *argv[]) {
     int m = 7; // instances
 
     std::string generalFolder              = "../Parameters/Instances/LagrangianTests/";
-    std::string topologies[3]              = {"ubn/","ion/","German/"};
+    std::string topologies[3]              = {"NSF","Spain","German","ubn/","ion/"};
     std::string instances[7]               = {"50demands/","60demands/","70demands/","80demands/","90demands/","100demands/","110demands/"};
 
     std::string linkfile[3][7];
@@ -214,7 +214,7 @@ int main(int argc, char *argv[]) {
         fichier << std::endl << std::endl;
         fichier << " Slices ; Demands ; RELAX-Cplex-OBJ ; RELAX-Cplex-Time ; RELAX-Cplex-algorithm "<< std::endl;
 
-        for(relaxMethod=0;relaxMethod<=4;relaxMethod++){
+        for(relaxMethod=1;relaxMethod<=4;relaxMethod++){
             fichier << std::endl;
             fichier << "PARAMETERS " << delimiter;
             fichier << "Relax method "<< relaxMethod << delimiter << std::endl;
