@@ -115,7 +115,7 @@ int main(int argc, char *argv[]) {
     int m = 7; // instances
 
     std::string generalFolder              = "../Parameters/Instances/LagrangianTests/";
-    std::string topologies[3]              = {"German/","ubn","ion"};
+    std::string topologies[3]              = {"ubn/","ion/","German/"};
     std::string instances[7]               = {"50demands/","60demands/","70demands/","80demands/","90demands/","100demands/","110demands/"};
 
     std::string linkfile[3][7];
