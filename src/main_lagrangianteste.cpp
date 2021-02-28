@@ -100,12 +100,19 @@ int main(int argc, char *argv[]) {
 		parameterFile = argv[1];
 	}
 	std::cout << "PARAMETER FILE: " << parameterFile << std::endl;
-    int obj;
+    std::string topology;
     if (argc < 3){
         std::cerr << "A objetive function is required in the arguments. Please run the program as \n./exec parameterFile.par objective\n";
 		throw std::invalid_argument( "did not receive an argument" );
     }else{
-        obj = std::atoi(argv[2]);
+        topology = argv[2];
+    }
+    int obj;
+    if (argc < 4){
+        std::cerr << "A objetive function is required in the arguments. Please run the program as \n./exec parameterFile.par objective\n";
+		throw std::invalid_argument( "did not receive an argument" );
+    }else{
+        obj = std::atoi(argv[3]);
     }
     
     /*************************************************************************************************************************/
@@ -115,7 +122,8 @@ int main(int argc, char *argv[]) {
     int m = 7; // instances
 
     std::string generalFolder              = "../Parameters/Instances/LagrangianTests/";
-    std::string topologies[3]              = {"NSF","Spain","German","ubn/","ion/"};
+    std::string topologies[5]              = {"NSF/","Spain/","German/","ubn/","ion/"};
+    topologies[1] = topology;
     std::string instances[7]               = {"50demands/","60demands/","70demands/","80demands/","90demands/","100demands/","110demands/"};
 
     std::string linkfile[3][7];
@@ -211,7 +219,7 @@ int main(int argc, char *argv[]) {
         }
         */
 
-        fichier << std::endl << std::endl;
+        /*fichier << std::endl << std::endl;
         fichier << " Slices ; Demands ; RELAX-Cplex-OBJ ; RELAX-Cplex-Time ; RELAX-Cplex-algorithm "<< std::endl;
 
         for(relaxMethod=1;relaxMethod<=4;relaxMethod++){
@@ -233,11 +241,11 @@ int main(int argc, char *argv[]) {
                 std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
                 std::string nextFile2 = instance2.getInput().getDemandToBeRoutedFilesFromIndex(0);
                 instance2.generateDemandsFromFile(nextFile2);
-                
+                */
                 /********************************************************************/
                 /* 				        Solve - RELAXATION	 					*/
                 /********************************************************************/
-                
+                /*
                 std::cout << "Solving with RELAX-Cplex" << std::endl;
                 SolverFactory factory2;
                 AbstractSolver *solver2 = factory2.createSolver(instance2);
@@ -256,7 +264,7 @@ int main(int argc, char *argv[]) {
 
                 delete solver2;
             }
-        }
+        }*/
         
 
         fichier << std::endl << std::endl;
@@ -298,6 +306,7 @@ int main(int argc, char *argv[]) {
 
                 fichier << solver2->getUpperBound() << delimiter;
                 fichier << solver2->getDurationTime() << delimiter;
+                fichier << std::endl;
                 //int algo = ((SolverCplex*)solver2)->getAlgorithm() ;
                 //fichier << ((SolverCplex*)solver2)->getAlgorithm() << delimiter << std::endl;
                 //std::cout << ((SolverCplex*)solver2)->getAlgorithm() << " " << algo << std::endl;
