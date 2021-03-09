@@ -5,6 +5,45 @@ void lagNonOverlapping::getDualSolution(double *rowprice){
     std::cout<< "Branch and bound for no overlapping not defined yet.\n";
 }
 
+void lagNonOverlapping::clearSlacks(){
+    lengthDirection.clear();
+    lengthSlack.clear();
+    lengthSlack_v2.clear();
+
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        sourceTargetSlack[d].clear();
+        sourceTargetSlack_v2[d].clear();
+        sourceTargetDirection[d].clear();
+
+        flowSlack[d].clear();
+        flowSlack_v2[d].clear();
+        flowDirection[d].clear();
+    }
+    sourceTargetSlack.clear();
+    sourceTargetSlack_v2.clear();
+    sourceTargetDirection.clear();
+
+    flowSlack.clear();
+    flowSlack_v2.clear();
+    flowDirection.clear();
+
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        oneSlicePerDemandDirection[e].clear();
+        oneSlicePerDemandSlack[e].clear();
+        oneSlicePerDemandSlack_v2[e].clear();
+    }
+
+    oneSlicePerDemandDirection.clear();
+    oneSlicePerDemandSlack.clear();
+    oneSlicePerDemandSlack_v2.clear();
+
+    if(instance.getInput().isObj8(0)){
+        maxUsedSliceOverallSlack.clear();
+        maxUsedSliceOverallSlack_v2.clear();
+        maxUsedSliceOverallDirection.clear();
+    }
+}
+
 /* *******************************************************************************************************************
 *                                              INITIALIZATION METHODS
 ******************************************************************************************************************** */

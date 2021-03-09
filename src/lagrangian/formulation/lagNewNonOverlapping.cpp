@@ -5,6 +5,45 @@ void lagNewNonOverlapping::getDualSolution(double *rowprice){
     std::cout<< "Branch and bound for no overlapping not defined yet.\n";
 }
 
+void lagNewNonOverlapping::clearSlacks(){
+    lengthDirection.clear();
+    lengthSlack.clear();
+    lengthSlack_v2.clear();
+
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        sourceTargetSlack[d].clear();
+        sourceTargetSlack_v2[d].clear();
+        sourceTargetDirection[d].clear();
+
+        flowSlack[d].clear();
+        flowSlack_v2[d].clear();
+        flowDirection[d].clear();
+    }
+    sourceTargetSlack.clear();
+    sourceTargetSlack_v2.clear();
+    sourceTargetDirection.clear();
+
+    flowSlack.clear();
+    flowSlack_v2.clear();
+    flowDirection.clear();
+
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        oneSlicePerDemandDirection[e].clear();
+        oneSlicePerDemandSlack[e].clear();
+        oneSlicePerDemandSlack_v2[e].clear();
+    }
+
+    oneSlicePerDemandDirection.clear();
+    oneSlicePerDemandSlack.clear();
+    oneSlicePerDemandSlack_v2.clear();
+
+    if(instance.getInput().isObj8(0)){
+        maxUsedSliceOverallSlack.clear();
+        maxUsedSliceOverallSlack_v2.clear();
+        maxUsedSliceOverallDirection.clear();
+    }
+}
+
 /* *******************************************************************************************************************
 *                                              INITIALIZATION METHODS
 ******************************************************************************************************************** */
@@ -41,8 +80,6 @@ void lagNewNonOverlapping::startMultipliers(double *row ,int size,int objSignal)
 /* Sets the initial lagrangian multipliers for the subgradient to run. */
 void lagNewNonOverlapping::initMultipliers(){
     bool warmstart = getInstance().getInput().getWarmstart();
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-
     if(warmstart){
         /**** Initializing all with 0.o and then solving the warmstart procedure *****/
         initializeLengthMultipliers(0.0);
@@ -51,9 +88,9 @@ void lagNewNonOverlapping::initMultipliers(){
 
         initializeOneSlicePerDemandMultipliers(0.0);
 
-        if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        if(instance.getInput().isObj8(0)){
             initializeMaxUsedSliceOverallMultipliers(0.0);
-            initializeMaxUsedSliceOverallAuxMultipliers(0.0);
+            //initializeMaxUsedSliceOverallAuxMultipliers(0.0);
             //initializeMaxUsedSliceOverall2Multipliers(0.0);
             //initializeMaxUsedSliceOverall3Multipliers(0.0);
         }
@@ -67,9 +104,9 @@ void lagNewNonOverlapping::initMultipliers(){
 
         initializeOneSlicePerDemandMultipliers(initialMultiplier);
 
-        if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        if(instance.getInput().isObj8(0)){
             initializeMaxUsedSliceOverallMultipliers(initialMultiplier);
-            initializeMaxUsedSliceOverallAuxMultipliers(initialMultiplier);
+            //initializeMaxUsedSliceOverallAuxMultipliers(initialMultiplier);
             //initializeMaxUsedSliceOverall2Multipliers(initialMultiplier);
             //initializeMaxUsedSliceOverall3Multipliers(initialMultiplier);
         }
@@ -128,10 +165,9 @@ void lagNewNonOverlapping::initStabilityCenter(){
 
     initializeOneSlicePerDemandSC();
 
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         initializeMaxUsedSliceOverallSC();
-        initializeMaxUsedSliceOverallAuxSC();
+        //initializeMaxUsedSliceOverallAuxSC();
         //initializeMaxUsedSliceOverall2SC();
         //initializeMaxUsedSliceOverall3SC();
     }
@@ -147,10 +183,9 @@ void lagNewNonOverlapping::initSlacks(){
 
     initializeOneSlicePerDemandSlacks();
 
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         initializeMaxUsedSliceOverallSlacks();
-        initializeMaxUsedSliceOverallAuxSlacks();
+        //initializeMaxUsedSliceOverallAuxSlacks();
         //initializeMaxUsedSliceOverall2Slacks();
         //initializeMaxUsedSliceOverall3Slacks();
     }   
@@ -164,10 +199,9 @@ void lagNewNonOverlapping::resetSlacks(){
 
     resetOneSlicePerDemandSlacks();
 
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         resetMaxUsedSliceOverallSlacks();
-        resetMaxUsedSliceOverallAuxSlacks();
+        //resetMaxUsedSliceOverallAuxSlacks();
         //resetMaxUsedSliceOverall2Slacks();
         //resetMaxUsedSliceOverall3Slacks();
     }   
@@ -183,10 +217,9 @@ void lagNewNonOverlapping::initPrimalSlacks(){
 
     initializeOneSlicePerDemandPrimalSlacks();
 
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         initializeMaxUsedSliceOverallPrimalSlacks();
-        initializeMaxUsedSliceOverallAuxPrimalSlacks();
+        //initializeMaxUsedSliceOverallAuxPrimalSlacks();
         //initializeMaxUsedSliceOverall2Slacks();
         //initializeMaxUsedSliceOverall3Slacks();
     }   
@@ -202,10 +235,9 @@ void lagNewNonOverlapping::initDirection(){
 
     initializeOneSlicePerDemandDirection();
 
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         initializeMaxUsedSliceOverallDirection();
-        initializeMaxUsedSliceOverallAuxDirection();
+        //initializeMaxUsedSliceOverallAuxDirection();
         //initializeMaxUsedSliceOverall2Direction();
         //initializeMaxUsedSliceOverall3Direction();
     }
@@ -330,10 +362,9 @@ void lagNewNonOverlapping::updateMultiplier(double step){
 
     updateOneSlicePerDemandMultiplier(step);
 
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         updateMaxUsedSliceOverallMultiplier(step);
-        updateMaxUsedSliceOverallAuxMultiplier(step);
+        //updateMaxUsedSliceOverallAuxMultiplier(step);
         //updateMaxUsedSliceOverall2Multiplier(step);
         //updateMaxUsedSliceOverall3Multiplier(step);
     }
@@ -348,10 +379,9 @@ void lagNewNonOverlapping::updateMultiplier_v2(double step){
 
     updateOneSlicePerDemandMultiplier_v2(step);
 
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         updateMaxUsedSliceOverallMultiplier_v2(step);
-        updateMaxUsedSliceOverallAuxMultiplier_v2(step);
+        //updateMaxUsedSliceOverallAuxMultiplier_v2(step);
         //updateMaxUsedSliceOverall2Multiplier_v2(step);
         //updateMaxUsedSliceOverall3Multiplier_v2(step);
     }
@@ -366,10 +396,9 @@ void lagNewNonOverlapping::updateStabilityCenter(){
 
     updateOneSlicePerDemandSC();
 
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         updateMaxUsedSliceOverallSC();
-        updateMaxUsedSliceOverallAuxSC();
+        //updateMaxUsedSliceOverallAuxSC();
         //updateMaxUsedSliceOverall2SC();
         //updateMaxUsedSliceOverall3SC();
     }
@@ -384,10 +413,9 @@ void lagNewNonOverlapping::updateSlack(int d, const ListDigraph::Arc & arc){
 
     updateOneSlicePerDemandSlack(d,arc);
 
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         updateMaxUsedSliceOverallSlack(d,arc);
-        updateMaxUsedSliceOverallAuxSlack(d,arc);
+        //updateMaxUsedSliceOverallAuxSlack(d,arc);
         //updateMaxUsedSliceOverall2Slack(d,arc);
         //updateMaxUsedSliceOverall3Slack(d,arc);
     }
@@ -400,10 +428,9 @@ void lagNewNonOverlapping::updatePrimalSlack(double alpha){
 
     updateOneSlicePerDemandPrimalSlack(alpha);
 
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         updateMaxUsedSliceOverallPrimalSlack(alpha);
-        updateMaxUsedSliceOverallAuxPrimalSlack(alpha);
+        //updateMaxUsedSliceOverallAuxPrimalSlack(alpha);
         //updateMaxUsedSliceOverall2PrimalSlack(alpha);
         //updateMaxUsedSliceOverall3PrimalSlack(alpha);
     }
@@ -419,10 +446,9 @@ void lagNewNonOverlapping::updateDirection(){
 
     updateOneSlicePerDemandDirection(theta);
 
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         updateMaxUsedSliceOverallDirection(theta);
-        updateMaxUsedSliceOverallAuxDirection(theta);
+        //updateMaxUsedSliceOverallAuxDirection(theta);
         //updateMaxUsedSliceOverall2Direction(theta);
         //updateMaxUsedSliceOverall3Direction(theta);
     }
@@ -465,8 +491,7 @@ bool lagNewNonOverlapping::checkFeasibility(){
     if (checkFlowFeasibility() == false){
         return false;
     }
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         if(checkMaxUsedSliceOverallFeasibility()){
             return false;
         }
@@ -485,8 +510,7 @@ bool lagNewNonOverlapping::checkFeasibility_v2(){
     if (checkFlowFeasibility_v2() == false){
         return false;
     }
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         if(checkMaxUsedSliceOverallFeasibility_v2()){
             return false;
         }
@@ -504,8 +528,7 @@ bool lagNewNonOverlapping::checkSlacknessCondition(){
     if (checkFlowSlacknessCondition() == false){
         return false;
     }
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         if(checkMaxUsedSliceOverallSlacknessCondition()){
             return false;
         }
@@ -574,9 +597,7 @@ double lagNewNonOverlapping::getSlackModule(double alpha) {
             }
         }
     }
-    
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         for (int d = 0; d < getNbDemandsToBeRouted(); d++){
             double slack = alpha*(-getMaxUsedSliceOverallSlack_k(d)) + (1.0 - alpha)*(-getMaxUsedSliceOverallSlack_v2_k(d));
             double mult = getMaxUsedSliceOverallMultiplier_k(d);
@@ -664,9 +685,7 @@ double lagNewNonOverlapping::getSlackModule_v2(double alpha){
             }
         }
     }
-
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         for (int d = 0; d < getNbDemandsToBeRouted(); d++){
             double slack = alpha*(-getMaxUsedSliceOverallSlack_k(d)) + (1.0 - alpha)*(-getMaxUsedSliceOverallSlack_v2_k(d));
             double mult = getMaxUsedSliceOverallMultiplier_k(d);
@@ -729,12 +748,9 @@ double lagNewNonOverlapping::getDirectionModule(){
     for (int e = 0; e < instance.getNbEdges(); e++){
         denominator += std::accumulate(oneSlicePerDemandDirection[e].begin(),oneSlicePerDemandDirection[e].end(),0.0,[](double sum, double direction){return sum +=std::pow(direction,2);});
     }
-
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         denominator += std::accumulate(maxUsedSliceOverallDirection.begin(),maxUsedSliceOverallDirection.end(),0.0,[](double sum, double direction){return sum +=std::pow(direction,2);});
         //denominator += std::accumulate(maxUsedSliceOverallAuxDirection.begin(),maxUsedSliceOverallAuxDirection.end(),0.0,[](double sum, double direction){return sum +=std::pow(direction,2);});
-     
         /*
         for (int e = 0; e < instance.getNbEdges(); e++){
             denominator += std::accumulate(maxUsedSliceOverall2Direction[e].begin(),maxUsedSliceOverall2Direction[e].end(),0.0,[](double sum, double direction){return sum +=std::pow(direction,2);});
@@ -749,7 +765,6 @@ double lagNewNonOverlapping::getDirectionModule(){
 
 /** Returns the scalar product between the slack (gradient) and the direction **/
 double lagNewNonOverlapping::getSlackDirectionProd(){
-
     Input::ProjectionType projection = getInstance().getInput().getChosenProjection();
     if((projection == Input::IMPROVED) ||(projection == Input::PROJECTED)){
         return getSlackDirectionProdProjected(projection);
@@ -780,8 +795,7 @@ double lagNewNonOverlapping::getSlackDirectionProdNormal(){
             denominator += getOneSlicePerDemandSlack_k(e,d)*getOneSlicePerDemandDirection_k(e,d);
         }
     }
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         for (int d = 0; d < getNbDemandsToBeRouted(); d++){
             denominator += getMaxUsedSliceOverallSlack_k(d)*getMaxUsedSliceOverallDirection_k(d);
             //denominator += getMaxUsedSliceOverallAuxSlack_k(d)*getMaxUsedSliceOverallAuxDirection_k(d);
@@ -839,8 +853,7 @@ double lagNewNonOverlapping::getSlackDirectionProdProjected(Input::ProjectionTyp
                 }
             }
         }
-        Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-        if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+        if(instance.getInput().isObj8(0)){
             for (int d = 0; d < getNbDemandsToBeRouted(); d++){
                 if(!((-getMaxUsedSliceOverallDirection_k(d) < - DBL_EPSILON)&&(getMaxUsedSliceOverallMultiplier_k(d) > - DBL_EPSILON && getMaxUsedSliceOverallMultiplier_k(d) < DBL_EPSILON))){
                     denominator += getMaxUsedSliceOverallSlack_k(d)*getMaxUsedSliceOverallDirection_k(d);
@@ -953,8 +966,7 @@ double lagNewNonOverlapping::getMeanSlackModule_v2(){
     double numRest = getNbDemandsToBeRouted() + getNbDemandsToBeRouted()*instance.getNbNodes() + (getNbDemandsToBeRouted()*(instance.getNbNodes()-2));
     numRest += getNbDemandsToBeRouted()*instance.getNbEdges();
 
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         module += std::accumulate(maxUsedSliceOverallSlack_v2.begin(),maxUsedSliceOverallSlack_v2.end(),0.0,[](double sum, double slack){return sum +=std::abs(slack);});
         //module += std::accumulate(maxUsedSliceOverallAuxSlack_v2.begin(),maxUsedSliceOverallAuxSlack_v2.end(),0.0,[](double sum, double slack){return sum +=std::abs(slack);});
 
@@ -1028,9 +1040,7 @@ double lagNewNonOverlapping::getSlackPrimalSlackProd(double alpha){
             }
         }
     }
-
-    Input::ObjectiveMetric chosenMetric = getInstance().getInput().getChosenObj_k(0);
-    if(chosenMetric == Input::OBJECTIVE_METRIC_8){
+    if(instance.getInput().isObj8(0)){
         for (int d = 0; d < getNbDemandsToBeRouted(); d++){
             double slack = alpha*(-getMaxUsedSliceOverallSlack_k(d)) + (1.0 - alpha)*(-getMaxUsedSliceOverallSlack_v2_k(d));
             double mult = getMaxUsedSliceOverallMultiplier_k(d);
@@ -1095,13 +1105,11 @@ void lagNewNonOverlapping::run(bool adaptedSubproblem){
     else{
         runGeneralObj();
     }
-
 }
 
 void lagNewNonOverlapping::runGeneralObj(){
 
     //updateCost();
-
     operatorCostELength operLength(lagrangianMultiplierLength, vecMaxLength);
     operatorCostEFlow operFlow(lagrangianMultiplierFlow);
     operatorCostESource operSource(lagrangianMultiplierSourceTarget, vecSourceLabels);
@@ -1162,32 +1170,12 @@ void lagNewNonOverlapping::runGeneralObj(){
         incUpdateVariablesTime(time.getTimeInSecFromStart());
 
     }
-
-    std::cout << "Cost 1: " << getLagrCurrentCost() << std::endl;
     time.setStart(ClockTime::getTimeNow());
     subtractConstantValuesFromLagrCost();
     incSubstractMultipliersTime(time.getTimeInSecFromStart());
-    std::cout << "Cost 2: " << getLagrCurrentCost() << std::endl;
-
-    int soma = 0;
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        for (int e = 0; e < instance.getNbEdges(); e++){
-            soma =0;
-            for(ListDigraph::ArcIt a(*vecGraph[d]); a!= INVALID;++a){
-                if(getArcLabel(a,d)==e){
-                    int index = getArcIndex(a,d);
-                    soma += assignmentMatrix_d[d][index];
-                }    
-            }
-            std::cout << "SOMA: " << d << " " << e <<  " " << soma << std::endl;
-        }
-    }
 }
 
 void lagNewNonOverlapping::runObj8(){
-
-    //updateCost();
-
     operatorCostELength operLength(lagrangianMultiplierLength, vecMaxLength);
     operatorCostEFlow operFlow(lagrangianMultiplierFlow);
     operatorCostESource operSource(lagrangianMultiplierSourceTarget, vecSourceLabels);
@@ -1273,52 +1261,32 @@ void lagNewNonOverlapping::runObj8(){
 }
 
 void lagNewNonOverlapping::subtractConstantValuesFromLagrCost(){
-    double sum = 0;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         double val = -getLengthMultiplier_k(d);
-        std::cout << "slack " << -getLengthSlack_k(d) << std::endl;
-        std::cout << "length " << val << std::endl;
         incCurrentLagrCost(val);
-        sum += val;
     }
-    std::cout << "sum length: " << sum << std::endl;
-    sum = 0;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (int v = 0; v < instance.getNbNodes(); v++){ 
             if(v == getToBeRouted_k(d).getSource() ){
                 double val = -getSourceTargetMultiplier_k(d,v);
-                //std::cout << "slack " << -getSourceTargetSlack_k(d,v) << std::endl;
-                std::cout << "source " << val << std::endl;
                 incCurrentLagrCost(val);
-                sum += val;
             }
             else if( v== getToBeRouted_k(d).getTarget()){
                 double val = -getSourceTargetMultiplier_k(d,v);
-                //std::cout << "slack " << -getSourceTargetSlack_k(d,v) << std::endl;
-                std::cout << "target " << val << std::endl;
                 incCurrentLagrCost(val);
-                sum += val;
             }else{
                 double val = -getSourceTargetMultiplier_k(d,v);
-                //std::cout << "slack " << -getSourceTargetSlack_k(d,v) << std::endl;
-                std::cout << "other nodes " << val << std::endl;
                 incCurrentLagrCost(val);
-                //sum += val;
             }
             
         }
     }
-    std::cout << "sum sourec: " << sum << std::endl;
-
-
     for (int e = 0; e < instance.getNbEdges(); e++){
         for (int d = 0; d < getNbDemandsToBeRouted(); d++){
             double val = -getOneSlicePerDemandMultiplier_k(e,d);
             incCurrentLagrCost(val);
-            std::cout << "oneslice " << val <<std::endl;
         }
     }
-
 }
 
 void lagNewNonOverlapping::solveProblemMaxUsedSliceOverall(){
@@ -1349,7 +1317,6 @@ void lagNewNonOverlapping::solveProblemMaxUsedSliceOverall(){
     incCurrentLagrCost(maxUsedSliceOverall*(1-exp));
     incCurrentRealCost(maxUsedSliceOverall);
 }
-
 
 /* ***********************************************************************************************************************
 *                                                     DISPLAY
@@ -1415,6 +1382,8 @@ void lagNewNonOverlapping::displayMultiplier(std::ostream & saida){
     display += "]";
     saida << display << std::endl;
 }
+
+/*********************************************************************************************************************** */
 
 void lagNewNonOverlapping::updateCost(){
     

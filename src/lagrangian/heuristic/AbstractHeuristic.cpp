@@ -28,7 +28,7 @@ void AbstractHeuristic::initSolution(){
 
 void AbstractHeuristic::updateCostFromHeuristic(){
     setCurrentHeuristicCost(0.0);
-    if(maxChangesPossible){
+    if(maxChangesPossible || statusheuristic == STATUS_INFEASIBLE){
         setCurrentHeuristicCost(__DBL_MAX__);
     }
     else{

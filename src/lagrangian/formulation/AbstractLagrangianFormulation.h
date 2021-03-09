@@ -8,6 +8,7 @@
 
 #include <lemon/bellman_ford.h>
 #include <lemon/cost_scaling.h>
+#include <lemon/capacity_scaling.h>
 
 /** This class implements a general Lagrangian Formulation considering the Flow formulation **/
 
@@ -236,6 +237,12 @@ class AbstractLagFormulation: public FlowForm{
                 double getShorstestPathTime() const { return ShorstestPathTime;}
                 double getSubstractMultipliersTime() const { return substractMultipliersTime;}
                 double getCostTime() const {return costTime;}
+
+                bool isInteger();
+
+                /*********************************************** AUXILIARY **************************************************/
+
+                void updateMaxUsedSliceOverallUpperBound(double value){ if(value < maxUsedSliceOverallUpperBound){maxUsedSliceOverallUpperBound = value;}}
 
                 /**************************************** ****** MULTIPLIERS ************************************************/
 
@@ -620,6 +627,7 @@ class AbstractLagFormulation: public FlowForm{
                 *                                       INITIALIZATION METHODS                              
                 *************************************************************************************************** */
                 
+                /* Initiliaze the upper bound according to each objective function */
                 double initialUBValue();
 
                 double initialUBValueObj1();
@@ -1104,15 +1112,21 @@ class AbstractLagFormulation: public FlowForm{
 
                 /** Updates the maximum used slice overall 3 direction **/
                 void updateMaxUsedSliceOverall3Direction(double);
+
+                virtual void clearSlacks() = 0;
         
                 /******************************************** PRIMAL SOLUTION *********************************************/
 
                 /** Updates the primal approximation according to given alpha (parameter)**/
                 void updatePrimalSolution(double); 
 
+                void clearAssignmentMatrix();
+
                 /*************************************** PRIMAL APPROXIMATION *********************************************/
 
                 void updatePrimalApproximation(double);
+
+                void clearPrimalApproximationMatrix();
 
                 /***************************************** ASSIGNMENT MATRIX **********************************************/
 

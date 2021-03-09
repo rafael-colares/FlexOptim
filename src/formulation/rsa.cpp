@@ -39,6 +39,7 @@ RSA::RSA(const Instance &inst) : instance(inst), compactEdgeId(compactGraph), co
 
         vecArcIndex.emplace_back(std::make_shared<ArcMap>((*vecGraph[d])));
         vecNodeIndex.emplace_back(std::make_shared<NodeMap>((*vecGraph[d])));
+        vecArcVarId.emplace_back(std::make_shared<ArcMap>((*vecGraph[d])));
     
         for (int i = 0; i < instance.getNbEdges(); i++){
             int linkSourceLabel = instance.getPhysicalLinkFromIndex(i).getSource();
@@ -84,11 +85,14 @@ RSA::RSA(const Instance &inst) : instance(inst), compactEdgeId(compactGraph), co
     /* Sets arc and node index. */
     sourceNodeIndex.resize(getNbDemandsToBeRouted());
     targetNodeIndex.resize(getNbDemandsToBeRouted());
+    int varId = 0;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){ 
         int index=0;
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
             setArcIndex(a, d, index);
             index++;
+            (*vecArcVarId[d])[a] = varId;
+            varId++;
         }
         int nodeIndex = 0;
         for(ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
@@ -103,6 +107,7 @@ RSA::RSA(const Instance &inst) : instance(inst), compactEdgeId(compactGraph), co
             nodeIndex++;
         }
     }
+    maxSliceOverallVarId = varId;
 }
 
 /** Returns the total number of loads to be routed. **/
@@ -694,5 +699,9 @@ RSA::~RSA() {
     vecNodeSlice.clear();
     vecOnPath.clear();
     vecArcIndex.clear();
+    vecNodeIndex.clear();
+    vecArcVarId.clear();
+    sourceNodeIndex.clear();
+    targetNodeIndex.clear();
     vecGraph.clear();
 }

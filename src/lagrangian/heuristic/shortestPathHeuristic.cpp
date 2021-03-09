@@ -11,7 +11,7 @@ shortestPathHeuristic::shortestPathHeuristic(AbstractLagFormulation* form): Abst
         freeArcs.emplace_back(std::make_shared<ListDigraph::ArcMap<bool>>(*formulation->getVecGraphD(d),true));
         mapItLabel.emplace_back(std::make_shared<IterableIntMap<ListDigraph, ListDigraph::Arc>>(*formulation->getVecGraphD(d)));
         mapCopy<ListDigraph,ArcMap,IterableIntMap<ListDigraph, ListDigraph::Arc>>((*formulation->getVecGraphD(d)),(*formulation->getArcLabelMap(d)),(*mapItLabel[d]));
-        heuristicSolutionItBoolMap.emplace_back(std::make_shared<IterableBoolMap<ListDigraph, ListDigraph::Arc>>(*formulation->getVecGraphD(d),false));
+        heuristicSolutionItBoolMap.emplace_back(std::make_shared<IterableBoolMap<ListDigraph, ListDigraph::Arc>>((*formulation->getVecGraphD(d)),false));
     }  
 }
 
@@ -108,6 +108,8 @@ void shortestPathHeuristic::initCosts(){
 void shortestPathHeuristic::run(bool modifiedProblem){
     /* Initialization*/
     init();
+    setStatus(STATUS_UNKNOWN);
+    //std::cout << "init heuristic" << std::endl;
     
     int maxChanges = 5*formulation->getNbDemandsToBeRouted();
     maxChangesPossible = false;
@@ -119,6 +121,7 @@ void shortestPathHeuristic::run(bool modifiedProblem){
         int lixo = notAnalysedDemands.erase(demand);
         std::pair<std::set<int>::iterator,bool> aux = analysedDemands.insert(demand);
         bool STOP = false;
+        //std::cout << demand << "chosen demand\n";
 
         while(!STOP){
             /* Apply the shortest path */   
@@ -127,9 +130,12 @@ void shortestPathHeuristic::run(bool modifiedProblem){
             }else{
                 STOP = heuristicRun(demand);  
             } 
+            if(getStatus() == STATUS_INFEASIBLE){
+                STOP = true;
+            }
             count ++;   
         }
-        if(statusheuristic == STATUS_INFEASIBLE){
+        if(getStatus() == STATUS_INFEASIBLE){
             std::cout <<"Infeasible\n";
             break;
         }
@@ -161,10 +167,14 @@ bool shortestPathHeuristic::heuristicRun(int d){
         /** There is no path between the source and the destination for this demand **/
         /** It does not respect the non overlap constraints **/
         /** Remove a demand from the analysed Demands **/
-        int demand2 = choseDemand(analysedDemands);
-        analysedDemands.erase(demand2);
-        notAnalysedDemands.insert(demand2);
-        removePath_k(demand2);
+        if(!analysedDemands.empty()){
+            int demand2 = choseDemand(analysedDemands);
+            analysedDemands.erase(demand2);
+            notAnalysedDemands.insert(demand2);
+            removePath_k(demand2);
+        }else{
+            setStatus(STATUS_INFEASIBLE);
+        }
         return false;
 
     }else if(getPathLength(d, shortestPath, SOURCE, TARGET) > formulation->getToBeRouted_k(d).getMaxLength()){
@@ -187,22 +197,30 @@ bool shortestPathHeuristic::heuristicAdaptedRun(int d){
 
     /** Shortest path with the heuristic cost**/
     FilterArcs<ListDigraph> subgraph(*formulation->getVecGraphD(d), (*freeArcs[d]));
-    CostScaling<FilterArcs<ListDigraph>,int,double> costScale(subgraph);
+    CapacityScaling<FilterArcs<ListDigraph>,int,double> costScale(subgraph);
     costScale.costMap((*heuristicCosts[d]));
     costScale.lowerMap((*formulation->getArcLowerMap(d)));
     costScale.upperMap((*formulation->getArcUpperMap(d)));
     costScale.stSupply(SOURCE,TARGET,1);
-    CostScaling<FilterArcs<ListDigraph>,int,double>::ProblemType problemType = costScale.run();
+    CapacityScaling<FilterArcs<ListDigraph>,int,double>::ProblemType problemType = costScale.run();
    
-    time.setStart(ClockTime::getTimeNow());
-    if(problemType == CostScaling<ListDigraph,int,double>::INFEASIBLE){
+    if(problemType == CapacityScaling<ListDigraph,int,double>::INFEASIBLE){
         /** There is no path between the source and the destination for this demand **/
         /** It does not respect the non overlap constraints **/
         /** Remove a demand from the analysed Demands **/
-        int demand2 = choseDemand(analysedDemands);
-        analysedDemands.erase(demand2);
-        notAnalysedDemands.insert(demand2);
-        removePath_k(demand2);
+        if(!analysedDemands.empty()){
+            int demand2 = choseDemand(analysedDemands);
+            analysedDemands.erase(demand2);
+            if(analysedDemands.empty()){
+                //std::cout << "empty" << std::endl;
+            }
+            notAnalysedDemands.insert(demand2);
+            removePath_k(demand2);
+            //std::cout << demand2 << "refazer demand" << std::endl;
+        }else{
+            //std::cout << "ola" << std::endl;
+            setStatus(STATUS_INFEASIBLE);
+        }
         return false;
 
     }else if(getPathLength(d, costScale, SOURCE, TARGET) > formulation->getToBeRouted_k(d).getMaxLength()){
@@ -212,7 +230,6 @@ bool shortestPathHeuristic::heuristicAdaptedRun(int d){
     }else{
         /** A feasible path for the demand was found **/
         insertPath_k(d,costScale,SOURCE,TARGET);
-        timeAux += time.getTimeInSecFromStart();
         return true;
     }
 }
@@ -220,6 +237,7 @@ bool shortestPathHeuristic::heuristicAdaptedRun(int d){
 /* Remove a found path for demand d. Then, we have to find another path for this demand*/
 void shortestPathHeuristic::removePath_k(int d){
     int label_demand = -1;
+    
     for(IterableBoolMap< ListDigraph, ListDigraph::Arc >::TrueIt arc((*heuristicSolutionItBoolMap[d])); arc != INVALID; ++arc){
         /* the path uses this arc */
         int index = formulation->getArcIndex(arc,d);
@@ -240,13 +258,26 @@ void shortestPathHeuristic::removePath_k(int d){
         label_demand = label;
     }
 
+    /*if(analysedDemands.empty()){
+        //std::cout << "olaaaaaaaa" << std::endl;
+        for(int d_aux =0; d_aux < formulation->getNbDemandsToBeRouted();d_aux++){
+            for (ListDigraph::ArcIt a(*formulation->getVecGraphD(d_aux)); a != INVALID; ++a){
+                if((*freeArcs[d_aux])[a] == false){
+                    //std::cout<< d_aux << "demand ";
+                    std::cout << (*freeArcs[d_aux])[a] << " ";
+                }
+            }
+        }
+        std::cout << "\n";
+    }*/
+
     /* If I have returned one arc that cannot be returned (another demand uses the channel) -> I have to remove the arc again */
     if(label_demand!=-1){
-        for (int d: analysedDemands){
-            for(IterableBoolMap< ListDigraph, ListDigraph::Arc >::TrueIt arc((*heuristicSolutionItBoolMap[d])); arc != INVALID; ++arc){
-                int slice = formulation->getArcSlice(arc,d);
-                int label = formulation->getArcLabel(arc,d);
-                int load = formulation->getToBeRouted_k(d).getLoad();
+        for (int d_aux: analysedDemands){
+            for(IterableBoolMap< ListDigraph, ListDigraph::Arc >::TrueIt arc((*heuristicSolutionItBoolMap[d_aux])); arc != INVALID; ++arc){
+                int slice = formulation->getArcSlice(arc,d_aux);
+                int label = formulation->getArcLabel(arc,d_aux);
+                int load = formulation->getToBeRouted_k(d_aux).getLoad();
                 if(label == label_demand){
                     remove_arcs(slice,label,load);
                 }
@@ -270,7 +301,7 @@ void shortestPathHeuristic::include_arcs(int slice, int label, int load){
 }
 
 /* Changes the heuristic Solution considering the found path for demand d*/
-void shortestPathHeuristic::insertPath_k(int d, CostScaling<FilterArcs<ListDigraph>,int,double> &costScale, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
+void shortestPathHeuristic::insertPath_k(int d, CapacityScaling<FilterArcs<ListDigraph>,int,double> &costScale, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
     
     IterableValueMap<ListDigraph,ListDigraph::Arc,double> auxiliary(*formulation->getVecGraphD(d));
     costScale.flowMap(auxiliary);
@@ -364,7 +395,7 @@ void shortestPathHeuristic::remove_Arc(int d, Dijkstra< FilterArcs<ListDigraph>,
 }
 
 /* "Remove" (cost infinite) arc with highest length, so  it can not be selected -> respect length constraints  */
-void shortestPathHeuristic::remove_Arc(int d, CostScaling<FilterArcs<ListDigraph>,int,double> &costScale, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
+void shortestPathHeuristic::remove_Arc(int d, CapacityScaling<FilterArcs<ListDigraph>,int,double> &costScale, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
     
     IterableValueMap<ListDigraph,ListDigraph::Arc,double> auxiliary(*formulation->getVecGraphD(d));
     costScale.flowMap(auxiliary);
@@ -420,7 +451,7 @@ double shortestPathHeuristic::getPathLength(int d, Dijkstra< FilterArcs<ListDigr
 }
 
 /* Returns the physical length of the path. */
-double shortestPathHeuristic::getPathLength(int d, CostScaling<FilterArcs<ListDigraph>,int,double> &costScale, const ListDigraph::Node &s, const ListDigraph::Node &t){
+double shortestPathHeuristic::getPathLength(int d, CapacityScaling<FilterArcs<ListDigraph>,int,double> &costScale, const ListDigraph::Node &s, const ListDigraph::Node &t){
     
     IterableValueMap<ListDigraph,ListDigraph::Arc,double> auxiliary(*formulation->getVecGraphD(d));
     costScale.flowMap(auxiliary);

@@ -106,6 +106,8 @@ class lagNonOverlapping: public AbstractLagFormulation{
 
         void initPrimalSlacks();
 
+        void clearSlacks();
+
         /********************************** DIRECTION **********************************/
 
         void initDirection();

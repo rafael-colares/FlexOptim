@@ -281,11 +281,10 @@ class operatorCostEOneSlicePerDemand{
 
 class operatorLowerUpperBound{
     private:
-        VarMatrix x;
         int d; /*demand*/
         double * bound;
     public:
-        operatorLowerUpperBound(VarMatrix,double*);
+        operatorLowerUpperBound(double*);
         void setDemand(int val) { d = val;}
         int operator()(int,int) const;
 };

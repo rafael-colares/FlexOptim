@@ -3,6 +3,7 @@
 
 #include "abstractSolver.h"
 #include "CbcModel.hpp"
+#include "CbcBranchDefaultDecision.hpp"
 // Using as solver
 #include "OsiLagSolverInterface.h"
 
@@ -17,6 +18,7 @@ class lagSolverCBC : public AbstractSolver{
         OsiLagSolverInterface solver;	/**< The Lagrangian engine. **/
         CbcModel model;					/**< The CBC model. **/
         static int count;				/**< Counts how many times the solver is called. **/
+        bool isrelaxed;
 
     public:
 

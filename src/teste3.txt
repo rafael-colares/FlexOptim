@@ -22,11 +22,11 @@ partitionSlice=15
 
 ******* Optimization parameters *******
 solver=1 
-method=1 
+method=0 
 preprocessingLevel=2 
 linearRelaxation=1 
-relaxMethod=0
-lagrangianRelaxation=1
+relaxMethod=4
+lagrangianRelaxation=0
 
 ******* Execution parameters *******
 outputPath=../Parameters/Instances/Spain_N5/InitialMappingMet1Slice30/SimpleTest/Output 
@@ -44,7 +44,7 @@ maxNbIterations=5000
 lagFormulation=0 
 heuristic=0 
 
-directionMethod=0 
+directionMethod=3 
 crowderParam=0.5  
 carmeriniParam=1.5  
 

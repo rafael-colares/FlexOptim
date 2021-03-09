@@ -123,7 +123,7 @@ int main(int argc, char *argv[]) {
 
     std::string generalFolder              = "../Parameters/Instances/LagrangianTests/";
     std::string topologies[5]              = {"NSF/","Spain/","German/","ubn/","ion/"};
-    topologies[1] = topology;
+    topologies[0] = topology;
     std::string instances[7]               = {"50demands/","60demands/","70demands/","80demands/","90demands/","100demands/","110demands/"};
 
     std::string linkfile[3][7];
@@ -270,7 +270,7 @@ int main(int argc, char *argv[]) {
         fichier << std::endl << std::endl;
         fichier << " Slices ; Demands ; RELAX-CBC-OBJ ; RELAX-CBC-Time ; RELAX-CBC-algorithm "<< std::endl;
 
-        for(relaxMethod=0;relaxMethod<=0;relaxMethod++){
+        for(relaxMethod=0;relaxMethod<=3;relaxMethod++){
             if(relaxMethod==3)
                 relaxMethod=4;
             fichier << std::endl;

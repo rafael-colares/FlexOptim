@@ -38,10 +38,8 @@ void lagSubgradient::initialization(bool initMultipliers){
     initLambda();
     formulation->init(initMultipliers);
 
-    //double initUB = formulation->initialUBValue();
-    //setUB(initUB);
-
-    updateUB(UBINIT);
+    UBINIT = formulation->initialUBValue();
+    setUB(UBINIT);
 
     setStatus(STATUS_UNKNOWN);
 
@@ -103,24 +101,27 @@ void lagSubgradient::run(bool initMultipliers, bool modifiedSubproblem){
             else if (getIteration() >= MAX_NB_IT){
                 STOP = true;
                 setStatus(STATUS_MAX_IT);
+                setStatus(STATUS_OPTIMAL);
                 setStop("Max It");
                 std::cout << "Max It" << std::endl;
             }
             else if (isGradientMoving() == false){
                 STOP = true;
                 setStatus(STATUS_FEASIBLE);
+                setStatus(STATUS_OPTIMAL);
                 setStop("Small Step");
-                std::cout << "Small Step" << std::endl;
+                std::cout << "Small Step" << getIteration() << std::endl;
             }
             else if(alternativeStop){
                 if(getGlobalItWithoutImprovement() >= 5*MAX_NB_IT_WITHOUT_IMPROVEMENT){
                     STOP = true;
                     setStatus(STATUS_FEASIBLE);
+                    setStatus(STATUS_OPTIMAL);
                     setStop("Alternative stop");
                     std::cout << "Alternative stop" << std::endl;
                 }
             }
-            if(formulation->getLagrCurrentCost() >= __DBL_MAX__/2){
+            if(formulation->getLagrCurrentCost() >= UBINIT){
                 setStatus(STATUS_INFEASIBLE);
             }
             incStoppingCriterionTime(time.getTimeInSecFromStart());
@@ -160,7 +161,7 @@ void lagSubgradient::runIteration(bool modifiedSubproblem){
     
     /** Updating feasibility **/
     time.setStart(ClockTime::getTimeNow());
-    if (formulation->checkFeasibility() == true){
+    if (formulation->checkFeasibility() == true && formulation->getStatus()!= RSA::STATUS_INFEASIBLE){
         formulation->setStatus(RSA::STATUS_FEASIBLE);
     }
 
@@ -181,6 +182,9 @@ void lagSubgradient::runIteration(bool modifiedSubproblem){
         heuristic->run(modifiedSubproblem);
         double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
         updateUB(feasibleSolutionCostHeur);
+        if(formulation->getInstance().getInput().isObj8(0)){
+            formulation->updateMaxUsedSliceOverallUpperBound(feasibleSolutionCostHeur);
+        }
     }
     incHeuristicBoundTime(time.getTimeInSecFromStart());
     

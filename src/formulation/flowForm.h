@@ -18,6 +18,7 @@ private:
     VarMatrix x;				    /**< The matrix of assignement variables used in the MIP. x[d][a]=1 if the d-th demand is routed through the arc from index a. **/
     VarArray maxSlicePerLink;	    /**< The array of variables used in the MIP for verifying the max used slice position for each link in the topology network. maxSlicePerLink[i]=p if p is the max used slice position from the link with id i. **/
 	Variable maxSliceOverall;		/**< The max used slice position throughout all the network. **/
+
 public:
 	/****************************************************************************************/
 	/*										Constructors									*/
@@ -31,13 +32,8 @@ public:
 	/** Puts all variables into a single array of variables and returns it. @note The position of a variable in the array is given by its id. **/
 	VarArray getVariables() override;
 
+	/** Puts all variables into a single array of variables (considered in the lagrangian formulation) and returns it. @note The position of a variable in the array is given by its id. **/
 	VarArray getLagVariables();
-
-	VarMatrix getMatrixX(){return x;}
-
-	void copyVariables(VarMatrix,Variable);
-
-	Variable getVariableX_d(int d,int index) const {return x[d][index];}
 
 	Variable getMaxSliceOverall() const {return maxSliceOverall;}
 
@@ -67,6 +63,7 @@ public:
 	/** Defines the set of constraints. **/
     void setConstraints() override;
 
+	/** Defines the set of constraints considered in the lagrangian formulation. **/
 	void setLagConstraints();
 
 	/** Defines Source constraints. At most one arc leaves each node and exactly one arc leaves the source. **/
@@ -205,7 +202,6 @@ public:
 
 	/** Destructor. Clears the variable matrices, cplex model and environment. **/
 	~FlowForm();
-
 };
 
 

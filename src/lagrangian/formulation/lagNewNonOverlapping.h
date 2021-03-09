@@ -149,6 +149,8 @@ class lagNewNonOverlapping:public AbstractLagFormulation{
 
         void initPrimalSlacks();
 
+        void clearSlacks();
+
         /*********************************************** DIRECTION *************************************************/
 
         /** Initializes the direction of relaxed constraints. **/

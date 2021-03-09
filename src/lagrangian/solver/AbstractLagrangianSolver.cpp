@@ -6,7 +6,7 @@
 
 AbstractLagSolver::AbstractLagSolver(const Instance &inst, const Status &s): MAX_NB_IT_WITHOUT_IMPROVEMENT(inst.getInput().getNbIterationsWithoutImprovement()), 
         MAX_NB_IT(inst.getInput().getMaxNbIterations()), INITIAL_STEPSIZE(inst.getInput().getInitialLagrangianLambda()),
-        MIN_STEPSIZE(0.0001), PRIMAL_ABS_PRECISION(0.02), UBINIT(__DBL_MAX__/2),currentStatus(s),time(ClockTime::getTimeNow()),generalTime(ClockTime::getTimeNow()){
+        MIN_STEPSIZE(0.0001), PRIMAL_ABS_PRECISION(0.0001), UBINIT(__DBL_MAX__/2),currentStatus(s),time(ClockTime::getTimeNow()),generalTime(ClockTime::getTimeNow()){
 
     lagFormulationFactory factory;
     formulation = factory.createFormulation(inst);

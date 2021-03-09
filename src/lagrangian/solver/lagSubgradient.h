@@ -12,7 +12,9 @@ class lagSubgradient: public AbstractLagSolver{
 	    /************************************************/
         lagSubgradient(const Instance &inst):AbstractLagSolver(inst){}
 
-        void getSolution(double *colsol) { formulation->getPrimalSolution(colsol);}
+        void getSolution(double *colsol) { formulation->getPrimalSolution(colsol);
+                                           formulation->clearAssignmentMatrix();
+                                           formulation->clearSlacks();  }
         
         /************************************************/
         /*					   Update 		    		*/

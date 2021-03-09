@@ -28,6 +28,8 @@ class lagFlow :public AbstractLagFormulation{
         /** Sets the initial lagrangian multipliers values for the subgradient to run. **/
         void initMultipliers();
 
+        void clearDualSolution();
+
         /********************************************** STABILITY CENTER ************************************************/
 
         /** Initializes the stability center of relaxed constraints. **/
@@ -41,6 +43,8 @@ class lagFlow :public AbstractLagFormulation{
         void resetSlacks();
 
         void initPrimalSlacks();
+
+        void clearSlacks();
 
         /************************************************** DIRECTION ****************************************************/
 
@@ -87,7 +91,7 @@ class lagFlow :public AbstractLagFormulation{
         /** Returns the cost considering the objective function coefficient of the resulting sub problem solution **/
         double getRealCostFromPath(int d, DijkstraCost &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET);
 
-        double getRealCostFromPath(int d, CostScaling<ListDigraph,int,double> &costScale, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET);
+        double getRealCostFromPath(int d, CapacityScaling<ListDigraph,int,double> &costScale, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET);
 
         
         /* Returns the physical length of the path. */
@@ -157,7 +161,7 @@ class lagFlow :public AbstractLagFormulation{
 
         void updateAssignment_k(int d, DijkstraCostObj8 &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET);
 
-        void updateAssignment_k(int d, CostScaling<ListDigraph,int,double> &, const ListDigraph::Node &, const ListDigraph::Node &);
+        void updateAssignment_k(int d, CapacityScaling<ListDigraph,int,double> &, const ListDigraph::Node &, const ListDigraph::Node &);
 
         
         /********************************************************************************************************************/

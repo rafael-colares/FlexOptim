@@ -19,6 +19,19 @@ Fiber::Fiber(int i, int ind, int s, int t, double l, int nb, double c) {
 	this->setCost(c);
 }
 
+Fiber::Fiber(const Fiber & f){
+	this->setId(f.id);
+	this->setIndex(f.index);
+	this->setSource(f.idSource);
+	this->setTarget(f.idTarget);
+	this->setNbSlices(f.nbSlices);
+	this->setLength(f.length);
+	for (int i = 0; i < f.nbSlices; i++){
+		this->spectrum.push_back(f.spectrum[i]);
+	}
+	this->setCost(f.cost);
+}
+
 /****************************************************************************************/
 /*										Destructor										*/
 /****************************************************************************************/
