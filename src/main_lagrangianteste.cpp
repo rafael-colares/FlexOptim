@@ -123,7 +123,7 @@ int main(int argc, char *argv[]) {
 
     std::string generalFolder              = "../Parameters/Instances/LagrangianTests/";
     std::string topologies[5]              = {"NSF/","Spain/","German/","ubn/","ion/"};
-    topologies[1] = topology;
+    topologies[0] = topology;
     std::string instances[7]               = {"50demands/","60demands/","70demands/","80demands/","90demands/","100demands/","110demands/"};
 
     std::string linkfile[3][7];
@@ -266,11 +266,11 @@ int main(int argc, char *argv[]) {
             }
         }*/
         
-
+        
         fichier << std::endl << std::endl;
         fichier << " Slices ; Demands ; RELAX-CBC-OBJ ; RELAX-CBC-Time ; RELAX-CBC-algorithm "<< std::endl;
 
-        for(relaxMethod=0;relaxMethod<=0;relaxMethod++){
+        for(relaxMethod=0;relaxMethod<=3;relaxMethod++){
             if(relaxMethod==3)
                 relaxMethod=4;
             fichier << std::endl;
@@ -311,20 +311,22 @@ int main(int argc, char *argv[]) {
                 //fichier << ((SolverCplex*)solver2)->getAlgorithm() << delimiter << std::endl;
                 //std::cout << ((SolverCplex*)solver2)->getAlgorithm() << " " << algo << std::endl;
 
-                std::cout << "RELAX-Cplex completed "<< std::endl;
+                std::cout << "RELAX-CLP completed "<< std::endl;
 
                 delete solver2;
             }
         }
+        
 
+       /*
         fichier << std::endl << std::endl;
         fichier << " SUBGRADIENT WITH FLOW FORMULATION " << std::endl << std::endl;
 
         rl = 0; nodeMethod = 1; lagFormulation = 0; maxNbIterations = 5000; lagrangianLambda_zero = 2.0;
         crowderParam = 0.5; carmeriniParam = 1.5; alternativeStop = 1; lagRelax =1; relaxMethod = 0; solver =1;
 
-        for(int itProjection = 0; itProjection <= 2; itProjection++){
-            for(int itDirectionMethod = 0; itDirectionMethod <= 3; itDirectionMethod++){
+        for(int itProjection = 0; itProjection <= 0; itProjection++){
+            for(int itDirectionMethod = 0; itDirectionMethod <= 0; itDirectionMethod++){
                 nbIterationsWithoutImprovement = 10;
                 while(nbIterationsWithoutImprovement<=30){
                     fichier << std::endl;
@@ -355,10 +357,11 @@ int main(int argc, char *argv[]) {
                         std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
                         std::string nextFile3 = instance3.getInput().getDemandToBeRoutedFilesFromIndex(0);
                         instance3.generateDemandsFromFile(nextFile3);
-                    
+                        */
                         /********************************************************************/
                         /* 		      Solve - SUBGRADIENT LAGFLOW FORMULATION               */
                         /********************************************************************/
+                        /*
                         std::cout << "Solving with subgradient and flow formulation" << std::endl;
                         lagSolverFactory lagfactory;
                         AbstractLagSolver *lagsolver = lagfactory.createSolver(instance3);
@@ -377,7 +380,9 @@ int main(int argc, char *argv[]) {
                 }
             }
         }
+        */
 
+       /*
         fichier << std::endl << std::endl;
         fichier << " VOLUME WITH FLOW FORMULATION " << std::endl << std::endl;
 
@@ -411,10 +416,11 @@ int main(int argc, char *argv[]) {
                 std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
                 std::string nextFile5 = instance5.getInput().getDemandToBeRoutedFilesFromIndex(0);
                 instance5.generateDemandsFromFile(nextFile5);
-        
+                */
                 /********************************************************************/
                 /* 		      Solve - VOLUME LAGFLOW FORMULATION               */
                 /********************************************************************/
+                /*
                 std::cout << "Solving with volume and flow formulation" << std::endl;
                 lagSolverFactory lagfactory3;
                 AbstractLagSolver *lagsolver3 = lagfactory3.createSolver(instance5);
@@ -431,6 +437,7 @@ int main(int argc, char *argv[]) {
             }
             nbIterationsWithoutImprovement = nbIterationsWithoutImprovement + 5;
         }
+        */
         fichier << std::endl;
         fichier.close();
     }

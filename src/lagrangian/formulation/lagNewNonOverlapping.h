@@ -149,6 +149,8 @@ class lagNewNonOverlapping:public AbstractLagFormulation{
 
         void initPrimalSlacks();
 
+        void clearSlacks();
+
         /*********************************************** DIRECTION *************************************************/
 
         /** Initializes the direction of relaxed constraints. **/
@@ -197,7 +199,7 @@ class lagNewNonOverlapping:public AbstractLagFormulation{
 
         /* Updates the assignment considering the obtained path result in each edge subproblem*/
         /* (label,path,source,target), label is the edge, path the result of the shortest path, source and target the nodes*/
-        void updateAssignment_k(int, DijkstraCostE &, const ListDigraph::Node &, const ListDigraph::Node &);
+        void updateAssignment_k(int, BellmanFordCostE &, const ListDigraph::Node &, const ListDigraph::Node &);
 
         /************************************************* CHECK FEASIBILITY *************************************************/
         
@@ -218,7 +220,7 @@ class lagNewNonOverlapping:public AbstractLagFormulation{
         
         /* Returns the real objective function cost of the result obtained with the shortest path (lagrangian subproblem)*/
         /* (label,path,source,target), label is the edge, path the result of the shortest path, source and target the nodes*/
-        double getRealCostFromPath(int, DijkstraCostE &, const ListDigraph::Node &, const ListDigraph::Node &);
+        double getRealCostFromPath(int, BellmanFordCostE &, const ListDigraph::Node &, const ListDigraph::Node &);
 
         /** return ||slack||^2 **/
         double  getSlackModule(double = -1.0);

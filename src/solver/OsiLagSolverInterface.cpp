@@ -36,13 +36,13 @@ void OsiLagSolverInterface::checkData_() const{
     int i;
     for(i = getNumRows() - 1; i >= 0; --i){
         if (rowlower_[i] > -1.0e20 && rowupper_[i] < 1.0e20 && rowlower_[i] != rowupper_[i]){
-           //throw CoinError("Volume algorithm is unable to handle ranged rows","checkData_", "OsiVolSolverInterface");
+           //throw CoinError("Volume algorithm is unable to handle ranged rows","checkData_", "OsiLagSolverInterface");
         }
     }
 
     for(i = getNumCols() - 1; i >= 0; --i){
         if (collower_[i] < -1.0e20 || colupper_[i] > 1.0e20) 
-            throw CoinError("Volume algorithm is unable to handle infinite bounds","checkData_", "OsiVolSolverInterface");
+            throw CoinError("Volume algorithm is unable to handle infinite bounds","checkData_", "OsiLagSolverInterface");
     }
 }
 
@@ -194,16 +194,22 @@ void OsiLagSolverInterface::convertSensesToBounds_(){
 
 
 CoinWarmStart* OsiLagSolverInterface::getEmptyWarmStart () const{ 
-    return (dynamic_cast<CoinWarmStart *>(new CoinWarmStartDual())); 
+    //return (dynamic_cast<CoinWarmStart *>(new CoinWarmStartDual())); 
+    return (static_cast< CoinWarmStart * >(new CoinWarmStartBasis()));
 }
 
 CoinWarmStart* OsiLagSolverInterface::getWarmStart() const{
-    return new CoinWarmStartDual(getNumRows(), rowprice_);
+    std::cout << "OsiLagSolverInterface: Get warm start" << std::endl;
+    return (static_cast< CoinWarmStart * >(new CoinWarmStartBasis()));
+    //return (static_cast< CoinWarmStart * >(new CoinWarmStartDual(getNumRows(), rowprice_)));
+    //return new CoinWarmStartDual(getNumRows(), rowprice_);
 }
 
 //-----------------------------------------------------------------------------
 
 bool OsiLagSolverInterface::setWarmStart(const CoinWarmStart* warmstart){
+    
+    std::cout << "OsiLagSolverInterface: Set warm start" << std::endl;
     const CoinWarmStartDual* ws = dynamic_cast<const CoinWarmStartDual*>(warmstart);
 
     if (! ws)
@@ -211,12 +217,16 @@ bool OsiLagSolverInterface::setWarmStart(const CoinWarmStart* warmstart){
 
     const int ws_size = ws->size();
     if (ws_size != getNumRows() && ws_size != 0) {
-        throw CoinError("wrong dual warmstart size", "setWarmStart",
-            "OsiVolSolverInterface");
+        throw CoinError("wrong dual warmstart size", "setWarmStart","OsiLAgSolverInterface");
     }
 
     CoinDisjointCopyN(ws->dual(), ws_size, rowprice_);
     return true;
+}
+
+CoinWarmStart *OsiLagSolverInterface::getPointerToWarmStart(bool &mustDelete){
+    mustDelete = true;
+    return getWarmStart();
 }
 
 /**************************************************************************************************/
@@ -224,17 +234,17 @@ bool OsiLagSolverInterface::setWarmStart(const CoinWarmStart* warmstart){
 /**************************************************************************************************/
 
 void OsiLagSolverInterface::markHotStart(){
-  delete[] rowpriceHotStart_;
-  rowpriceHotStart_ = new double[getNumRows()];
-  CoinDisjointCopyN(rowprice_, getNumRows(), rowpriceHotStart_);
+    delete[] rowpriceHotStart_;
+    rowpriceHotStart_ = new double[getNumRows()];
+    CoinDisjointCopyN(rowprice_, getNumRows(), rowpriceHotStart_);
 }
 
 void OsiLagSolverInterface::solveFromHotStart(){
-   int itlimOrig = lagrangianSolver->getNbMaxIterations();
-   getIntParam(OsiMaxNumIterationHotStart, lagrangianSolver->getNbMaxIterations());
-   CoinDisjointCopyN(rowpriceHotStart_, getNumRows(), rowprice_);
-   resolve();
-   lagrangianSolver->setNbMaxIterations(itlimOrig);
+    int itlimOrig = lagrangianSolver->getNbMaxIterations();
+    getIntParam(OsiMaxNumIterationHotStart, lagrangianSolver->getNbMaxIterations());
+    CoinDisjointCopyN(rowpriceHotStart_, getNumRows(), rowprice_);
+    resolve();
+    lagrangianSolver->setNbMaxIterations(itlimOrig);
 }
 
 void OsiLagSolverInterface::unmarkHotStart(){
@@ -273,7 +283,7 @@ const CoinPackedMatrix *OsiLagSolverInterface::getMatrixByCol() const {
 std::vector<double*> OsiLagSolverInterface::getDualRays(int /*maxNumRays*/,bool /*fullRay*/) const{
     // *FIXME* : must write the method -LL
     throw CoinError("method is not yet written", "getDualRays",
-            "OsiVolSolverInterface");
+            "OsiLagSolverInterface");
     return std::vector<double*>();
 }
 
@@ -281,7 +291,7 @@ std::vector<double*> OsiLagSolverInterface::getDualRays(int /*maxNumRays*/,bool 
 std::vector<double*> OsiLagSolverInterface::getPrimalRays(int /*maxNumRays*/) const{
     // *FIXME* : must write the method -LL
     throw CoinError("method is not yet written", "getPrimalRays",
-            "OsiVolSolverInterface");
+            "OsiLagSolverInterface");
     return std::vector<double*>();
 }
 
@@ -344,7 +354,7 @@ void OsiLagSolverInterface::setContinuous(int index){
     assert(continuous_ != NULL);
     if (index < 0 || index > getNumCols()) {
         throw CoinError("Index out of bound.", "setContinuous",
-            "OsiVolSolverInterface");
+            "OsiLagSolverInterface");
     }
     continuous_[index] = true;
 }
@@ -354,8 +364,7 @@ void OsiLagSolverInterface::setContinuous(int index){
 void OsiLagSolverInterface::setInteger(int index){
     assert(continuous_ != NULL);
     if (index < 0 || index > getNumCols()) {
-        throw CoinError("Index out of bound.", "setContinuous",
-            "OsiVolSolverInterface");
+        throw CoinError("Index out of bound.","setContinuous","OsiLagSolverInterface");
     }
     continuous_[index] = false;
 }
@@ -369,8 +378,7 @@ void OsiLagSolverInterface::setContinuous(const int* indices, int len){
 
     for (i = len - 1; i >= 0; --i) {
         if (indices[i] < 0 || indices[i] > colnum) {
-        throw CoinError("Index out of bound.", "setContinuous",
-                "OsiVolSolverInterface");
+            throw CoinError("Index out of bound.", "setContinuous","OsiLagSolverInterface");
         }
     }
     
@@ -388,8 +396,7 @@ void OsiLagSolverInterface::setInteger(const int* indices, int len){
 
     for (i = len - 1; i >= 0; --i) {
         if (indices[i] < 0 || indices[i] > colnum) {
-        throw CoinError("Index out of bound.", "setContinuous",
-                "OsiVolSolverInterface");
+        throw CoinError("Index out of bound.", "setContinuous","OsiLagSolverInterface");
         }
     }
     
@@ -540,22 +547,22 @@ void OsiLagSolverInterface::addRows(const int numrows, const CoinPackedVectorBas
 //-----------------------------------------------------------------------------
 
 void OsiLagSolverInterface::addRows(const int numrows,const CoinPackedVectorBase * const * rows,const char* rowsen, const double* rowrhs,const double* rowrng){
-  if (numrows > 0) {
-    const int rownum = getNumRows();
-    rowRimResize_(rownum + numrows);
-    CoinDisjointCopyN(rowsen, numrows, rowsense_ + rownum);
-    CoinDisjointCopyN(rowrhs, numrows, rhs_ + rownum);
-    CoinDisjointCopyN(rowrng, numrows, rowrange_ + rownum);
-    for (int i = rownum + numrows - 1; i >= rownum; --i) {
-      convertSenseToBound(rowsense_[i], rhs_[i], rowrange_[i], rowlower_[i], rowupper_[i]);
-    }
-    CoinFillN(rowprice_ + rownum, numrows, 0.0);
-    CoinFillN(lhs_      + rownum, numrows, 0.0);
+    if (numrows > 0) {
+        const int rownum = getNumRows();
+        rowRimResize_(rownum + numrows);
+        CoinDisjointCopyN(rowsen, numrows, rowsense_ + rownum);
+        CoinDisjointCopyN(rowrhs, numrows, rhs_ + rownum);
+        CoinDisjointCopyN(rowrng, numrows, rowrange_ + rownum);
+        for (int i = rownum + numrows - 1; i >= rownum; --i) {
+        convertSenseToBound(rowsense_[i], rhs_[i], rowrange_[i], rowlower_[i], rowupper_[i]);
+        }
+        CoinFillN(rowprice_ + rownum, numrows, 0.0);
+        CoinFillN(lhs_      + rownum, numrows, 0.0);
 
-    updateRowMatrix_();
-    rowMatrix_.appendRows(numrows, rows);
-    colMatrixCurrent_ = false;
-  }
+        updateRowMatrix_();
+        rowMatrix_.appendRows(numrows, rows);
+        colMatrixCurrent_ = false;
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -624,14 +631,403 @@ void OsiLagSolverInterface::applyColCut(const OsiColCut& cc){
 /*                                             ADDED        	    		                      */			      
 /**************************************************************************************************/
 
-void OsiLagSolverInterface::loadProblem(const CoinPackedMatrix& matrix,const double* collb, const double* colub,const double* obj,const double* rowlb, const double* rowub){}			    
-void OsiLagSolverInterface::assignProblem(CoinPackedMatrix*& matrix,double*& collb, double*& colub, double*& obj,double*& rowlb, double*& rowub){}   			    
-void OsiLagSolverInterface::loadProblem(const CoinPackedMatrix& matrix,const double* collb, const double* colub,const double* obj,const char* rowsen, const double* rowrhs,   const double* rowrng){}
-void OsiLagSolverInterface::assignProblem(CoinPackedMatrix*& matrix,double*& collb, double*& colub, double*& obj,char*& rowsen, double*& rowrhs,double*& rowrng){}
-void OsiLagSolverInterface::loadProblem(const int numcols, const int numrows,const int* start, const int* index,const double* value,const double* collb, const double* colub,   const double* obj,const double* rowlb, const double* rowub){}
-void OsiLagSolverInterface::loadProblem(const int numcols, const int numrows,const int* start, const int* index,const double* value,const double* collb, const double* colub,   const double* obj, const char* rowsen, const double* rowrhs,const double* rowrng){}
-int OsiLagSolverInterface::readMps(const char *filename,const char *extension ){ return 0;}
-void OsiLagSolverInterface::writeMps(const char *filename,const char *extension ,double objSense) const{}
+//#############################################################################
+// Problem input methods
+//#############################################################################
+
+void
+OsiLagSolverInterface::loadProblem(const CoinPackedMatrix& matrix,
+				   const double* collb, const double* colub,   
+				   const double* obj,
+				   const double* rowlb, const double* rowub)
+{
+   gutsOfDestructor_();
+   const int rownum = matrix.getNumRows();
+   const int colnum = matrix.getNumCols();
+
+   if (matrix.isColOrdered()) {
+      colMatrix_.setExtraGap(matrix.getExtraGap());
+      colMatrix_.setExtraMajor(matrix.getExtraMajor());
+      colMatrix_ = matrix;
+      colMatrixCurrent_ = true;
+      rowMatrixCurrent_ = false;
+      maxNumcols_ = colMatrix_.getMaxMajorDim();
+      maxNumrows_ = static_cast<int>((1+colMatrix_.getExtraGap()) *
+				     colMatrix_.getMinorDim());
+   } else {
+      rowMatrix_.setExtraGap(matrix.getExtraGap());
+      rowMatrix_.setExtraMajor(matrix.getExtraMajor());
+      rowMatrix_ = matrix;
+      rowMatrixCurrent_ = true;
+      colMatrixCurrent_ = false;
+      maxNumcols_ = static_cast<int>((1+rowMatrix_.getExtraGap()) *
+				     rowMatrix_.getMinorDim());
+      maxNumrows_ = rowMatrix_.getMaxMajorDim();
+   }
+
+   initFromRlbRub(rownum, rowlb, rowub);
+   initFromClbCubObj(colnum, collb, colub, obj);
+}
+
+//-----------------------------------------------------------------------
+
+void
+OsiLagSolverInterface::assignProblem(CoinPackedMatrix*& matrix,
+				     double*& collb, double*& colub,
+				     double*& obj,
+				     double*& rowlb, double*& rowub)
+{
+   gutsOfDestructor_();
+   const int rownum = matrix->getNumRows();
+   const int colnum = matrix->getNumCols();
+   maxNumcols_ = colnum;
+   maxNumrows_ = rownum;
+
+   if (matrix->isColOrdered()) {
+      colMatrix_.swap(*matrix);
+      colMatrixCurrent_ = true;
+      rowMatrixCurrent_ = false;
+   } else {
+      rowMatrix_.swap(*matrix);
+      rowMatrixCurrent_ = true;
+      colMatrixCurrent_ = false;
+   }
+   delete matrix; matrix = 0;
+      
+   rowupper_  = rowub;     rowub  = 0;
+   rowlower_  = rowlb;     rowlb  = 0;
+   colupper_  = colub;     colub  = 0;
+   collower_  = collb;     collb  = 0;
+   objcoeffs_ = obj;       obj    = 0;
+
+   if (maxNumrows_ > 0) {
+      if (!rowupper_) {
+	 rowupper_ = new double[maxNumrows_];
+	 CoinFillN(rowupper_, rownum, OsiLagInfinity);
+      }
+      if (!rowlower_) {
+	 rowlower_ = new double[maxNumrows_];
+	 CoinFillN(rowlower_, rownum, -OsiLagInfinity);
+      }
+      rowsense_ = new char[maxNumrows_];
+      rhs_      = new double[maxNumrows_];
+      rowrange_ = new double[maxNumrows_];
+      rowprice_ = new double[maxNumrows_];
+      lhs_      = new double[maxNumrows_];
+      // Set the initial dual solution
+      CoinFillN(rowprice_, rownum, 0.0);
+      convertBoundsToSenses_();
+   }
+   if (maxNumcols_ > 0) {
+      if (!colupper_) {
+	 colupper_ = new double[maxNumcols_];
+	 CoinFillN(colupper_, colnum, OsiLagInfinity);
+      }
+      if (!collower_) {
+	 collower_ = new double[maxNumcols_];
+	 CoinFillN(collower_, colnum, -OsiLagInfinity);
+      }
+      if (!objcoeffs_) {
+	 objcoeffs_ = new double[maxNumcols_];
+	 CoinFillN(objcoeffs_, colnum, -OsiLagInfinity);
+      }
+
+      colsol_    = new double[maxNumcols_];
+      int c;
+      for ( c=0; c<colnum; c++ ) {
+	if ( fabs(collower_[c]) < fabs(colupper_[c]) ) {
+	  colsol_[c] = collower_[c];
+	}
+	else {
+	  colsol_[c] = colupper_[c];
+	}
+      }
+
+      rc_        = new double[maxNumcols_];
+      continuous_ = new bool[maxNumcols_];
+   }
+}
+
+//-----------------------------------------------------------------------
+
+void
+OsiLagSolverInterface::loadProblem(const CoinPackedMatrix& matrix,
+				   const double* collb, const double* colub,
+				   const double* obj,
+				   const char* rowsen, const double* rowrhs,   
+				   const double* rowrng)
+{
+   gutsOfDestructor_();
+   const int rownum = matrix.getNumRows();
+   const int colnum = matrix.getNumCols();
+
+   if (matrix.isColOrdered()) {
+      colMatrix_ = matrix;
+      colMatrixCurrent_ = true;
+      rowMatrixCurrent_ = false;
+      maxNumcols_ = colMatrix_.getMaxMajorDim();
+      maxNumrows_ = static_cast<int>((1+colMatrix_.getExtraGap()) *
+				     colMatrix_.getMinorDim());
+   } else {
+      rowMatrix_ = matrix;
+      rowMatrixCurrent_ = true;
+      colMatrixCurrent_ = false;
+      maxNumcols_ = static_cast<int>((1+rowMatrix_.getExtraGap()) *
+				     rowMatrix_.getMinorDim());
+      maxNumrows_ = rowMatrix_.getMaxMajorDim();
+   }
+
+   initFromRhsSenseRange(rownum, rowsen, rowrhs, rowrng);
+   initFromClbCubObj(colnum, collb, colub, obj);
+}
+
+//-----------------------------------------------------------------------
+
+void
+OsiLagSolverInterface::assignProblem(CoinPackedMatrix*& matrix,
+				     double*& collb, double*& colub,
+				     double*& obj,
+				     char*& rowsen, double*& rowrhs,
+				     double*& rowrng)
+{
+   gutsOfDestructor_();
+   const int rownum = matrix->getNumRows();
+   const int colnum = matrix->getNumCols();
+   maxNumcols_ = colnum;
+   maxNumrows_ = rownum;
+
+   if (matrix->isColOrdered()) {
+      colMatrix_.swap(*matrix);
+      colMatrixCurrent_ = true;
+      rowMatrixCurrent_ = false;
+   } else {
+      rowMatrix_.swap(*matrix);
+      rowMatrixCurrent_ = true;
+      colMatrixCurrent_ = false;
+   }
+   delete matrix; matrix = 0;
+      
+   rowsense_  = rowsen;   rowsen = 0;
+   rhs_       = rowrhs;   rowrhs = 0;
+   rowrange_  = rowrng;   rowrng = 0;
+   colupper_  = colub;    colub  = 0;
+   collower_  = collb;    collb  = 0;
+   objcoeffs_ = obj;      obj    = 0;
+
+   if (maxNumrows_ > 0) {
+      if (!rowsense_) {
+	 rowsense_ = new char[maxNumrows_];
+	 CoinFillN(rowsense_, rownum, 'G');
+      }
+      if (!rhs_) {
+	 rhs_ = new double[maxNumrows_];
+	 CoinFillN(rhs_, rownum, 0.0);
+      }
+      if (!rowrange_) {
+	 rowrange_ = new double[maxNumrows_];
+	 CoinFillN(rowrange_, rownum, 0.0);
+      }
+      rowlower_ = new double[maxNumrows_];
+      rowupper_ = new double[maxNumrows_];
+      rowprice_ = new double[maxNumrows_];
+      lhs_      = new double[maxNumrows_];
+      // Set the initial dual solution
+      CoinFillN(rowprice_, rownum, 0.0);
+      convertSensesToBounds_();
+   }
+   if (maxNumcols_ > 0) {
+      if (!colupper_) {
+	 colupper_ = new double[maxNumcols_];
+	 CoinFillN(colupper_, colnum, OsiLagInfinity);
+      }
+      if (!collower_) {
+	 collower_ = new double[maxNumcols_];
+	 CoinFillN(collower_, colnum, -OsiLagInfinity);
+      }
+      if (!objcoeffs_) {
+	 objcoeffs_ = new double[maxNumcols_];
+	 CoinFillN(objcoeffs_, colnum, -OsiLagInfinity);
+      }
+
+      colsol_    = new double[maxNumcols_];
+      int c;
+      for ( c=0; c<colnum; c++ ) {
+	if ( fabs(collower_[c]) < fabs(colupper_[c]) ) {
+	  colsol_[c] = collower_[c];
+	}
+	else {
+	  colsol_[c] = colupper_[c];
+	}
+      }
+
+      rc_        = new double[maxNumcols_];
+      continuous_ = new bool[maxNumcols_];
+   }
+}
+
+//-----------------------------------------------------------------------
+
+void
+OsiLagSolverInterface::loadProblem(const int numcols, const int numrows,
+				   const int* start, const int* index,
+				   const double* value,
+				   const double* collb, const double* colub,
+				   const double* obj,
+				   const double* rowlb, const double* rowub)
+{
+   gutsOfDestructor_();
+
+   colMatrix_.copyOf(true, numrows, numcols, start[numcols],
+		     value, index, start, 0);
+   colMatrixCurrent_ = true;
+   rowMatrixCurrent_ = false;
+   maxNumcols_ = colMatrix_.getMaxMajorDim();
+   maxNumrows_ = static_cast<int>((1+colMatrix_.getExtraGap()) *
+				  colMatrix_.getMinorDim());
+
+   initFromRlbRub(numrows, rowlb, rowub);
+   initFromClbCubObj(numcols, collb, colub, obj);
+}
+
+//-----------------------------------------------------------------------
+
+void
+OsiLagSolverInterface::loadProblem(const int numcols, const int numrows,
+				   const int* start, const int* index,
+				   const double* value,
+				   const double* collb, const double* colub,
+				   const double* obj,
+				   const char* rowsen, const double* rowrhs,   
+				   const double* rowrng)
+{
+   gutsOfDestructor_();
+
+   colMatrix_.copyOf(true, numrows, numcols, start[numcols],
+		     value, index, start, 0);
+   colMatrixCurrent_ = true;
+   rowMatrixCurrent_ = false;
+   maxNumcols_ = colMatrix_.getMaxMajorDim();
+   maxNumrows_ = static_cast<int>((1+colMatrix_.getExtraGap()) *
+				  colMatrix_.getMinorDim());
+
+   initFromRhsSenseRange(numrows, rowsen, rowrhs, rowrng);
+   initFromClbCubObj(numcols, collb, colub, obj);
+}
+
+//-----------------------------------------------------------------------
+
+
+int 
+OsiLagSolverInterface::readMps(const char *filename, const char *extension)
+{
+   CoinMpsIO reader;
+   reader.setInfinity(getInfinity());
+   int retVal = reader.readMps(filename, extension);
+   loadProblem(*reader.getMatrixByCol(),
+	       reader.getColLower(), reader.getColUpper(),
+	       reader.getObjCoefficients(),
+	       reader.getRowLower(), reader.getRowUpper());
+   int nc = getNumCols();
+   assert (continuous_);
+   CoinFillN(continuous_, nc, true);
+   return retVal;
+}
+
+
+//-----------------------------------------------------------------------
+
+void OsiLagSolverInterface::writeMps(const char *filename,
+				const char *extension,
+				double /*objSense*/) const
+{
+   CoinMpsIO writer;
+   writer.setMpsData(*getMatrixByCol(), getInfinity(),
+		     getColLower(), getColUpper(),
+		     getObjCoefficients(), 
+		     NULL /*integrality*/,
+		     getRowLower(), getRowUpper(),
+		     NULL /*colnam*/, 
+		     NULL /*rownam*/);
+   std::string fname = filename;
+   if (extension)
+   { if (extension[0] != '\0' && extension[0] != '.')
+     fname += "." ; }
+   fname += extension;
+   writer.writeMps(fname.c_str());
+}
+
+
+void OsiLagSolverInterface::initFromRlbRub(const int rownum,const double* rowlb, const double* rowub){
+    if (maxNumrows_ > 0) {
+        rowRimAllocator_();
+        if (rowub) {
+            CoinDisjointCopyN(rowub, rownum, rowupper_);
+        } else {
+            CoinFillN(rowupper_, rownum, OsiLagInfinity);
+        }
+        if (rowlb) {
+            CoinDisjointCopyN(rowlb, rownum, rowlower_);
+        } else {
+            CoinFillN(rowlower_, rownum, -OsiLagInfinity);
+        }
+        // Set the initial dual solution
+        CoinFillN(rowprice_, rownum, 0.0);
+        convertBoundsToSenses_();
+    }
+}
+void OsiLagSolverInterface::initFromRhsSenseRange(const int rownum, const char* rowsen,const double* rowrhs, const double* rowrng){
+    if (maxNumrows_ > 0) {
+        rowRimAllocator_();
+        if (rowsen) {
+            CoinDisjointCopyN(rowsen, rownum, rowsense_);
+        } else {
+            CoinFillN(rowsense_, rownum, 'G');
+        }
+        if (rowrhs) {
+            CoinDisjointCopyN(rowrhs, rownum, rhs_);
+        } else {
+            CoinFillN(rhs_, rownum, 0.0);
+        }
+        if (rowrng) {
+            CoinDisjointCopyN(rowrng, rownum, rowrange_);
+        } else {
+            CoinFillN(rowrange_, rownum, 0.0);
+        }
+        // Set the initial dual solution
+        CoinFillN(rowprice_, rownum, 0.0);
+        convertSensesToBounds_();
+    }
+}
+void OsiLagSolverInterface::initFromClbCubObj(const int colnum, const double* collb,const double* colub, const double* obj){
+    if (maxNumcols_ > 0) {
+        colRimAllocator_();
+        if (colub) {
+            CoinDisjointCopyN(colub, colnum, colupper_);
+        } else {
+            CoinFillN(colupper_, colnum, OsiLagInfinity);
+        }
+        if (collb) {
+            CoinDisjointCopyN(collb, colnum, collower_);
+        } else {
+            CoinFillN(collower_, colnum, 0.0);
+        }
+        CoinFillN(continuous_,colnum,true);
+        if (obj) {
+            CoinDisjointCopyN(obj, colnum, objcoeffs_);
+        } else {
+            CoinFillN(objcoeffs_, colnum, 0.0);
+        }
+        int c;
+        for ( c=0; c<colnum; c++ ) {
+            if ( fabs(collower_[c]) < fabs(colupper_[c]) ) {
+                colsol_[c] = collower_[c];
+            }
+            else {
+                colsol_[c] = colupper_[c];
+            }
+        }
+    }
+}
 
 /**************************************************************************************************/
 /*                                             CHANGED        	    		                      */			      
@@ -772,6 +1168,7 @@ bool OsiLagSolverInterface::getStrParam(OsiStrParam key, std::string & value) co
 /**************************************************************************************************/
 
 bool OsiLagSolverInterface::isAbandoned() const{
+    //return (lagrangianSolver->getStatus()==AbstractLagSolver::STATUS_ABORTED);
     return false;
 }
 
@@ -799,7 +1196,8 @@ bool OsiLagSolverInterface::isDualObjectiveLimitReached() const{
 }
 
 bool OsiLagSolverInterface::isIterationLimitReached() const{
-    return (lagrangianSolver->getStatus()==AbstractLagSolver::STATUS_MAX_IT);
+    //return (lagrangianSolver->getStatus()==AbstractLagSolver::STATUS_MAX_IT);
+    return false;
 }
 
 void OsiLagSolverInterface::initialSolve(){
@@ -850,6 +1248,7 @@ void OsiLagSolverInterface::resolve(){
 
     /* Set the dual starting point */ /* it is missing to multiply by objsense_ */
     lagrangianSolver->getLagrangianFormulation()->startMultipliers(rowprice_,dsize,objsense_);
+
     lagrangianSolver->getLagrangianFormulation()->updateLowerUpperBound(collower_,colupper_);
     
     /* Solves the problem */
@@ -857,7 +1256,6 @@ void OsiLagSolverInterface::resolve(){
 
     /* extract the solution */
     extractSolution();
-    
 }
 
 void OsiLagSolverInterface::extractSolution(){
@@ -897,8 +1295,10 @@ OsiLagSolverInterface::OsiLagSolverInterface(const Instance &instance): OsiSolve
                                             colupper_(0),collower_(0),continuous_(0),rowupper_(0),rowlower_(0),rowsense_(0),
                                             rhs_(0),rowrange_(0),objcoeffs_(0),objsense_(1.0),colsol_(0),rowprice_(0),rc_(0),
                                             lhs_(0),lagrangeanCost_(0.0),rowpriceHotStart_(0),maxNumrows_(0),maxNumcols_(0){
+    std::cout << "OsiLagSolver: default constructor." <<std::endl;
     lagSolverFactory factory;
     lagrangianSolver = factory.createSolver(instance);
+    
 }
 
 OsiLagSolverInterface::OsiLagSolverInterface(const OsiLagSolverInterface& x) : OsiSolverInterface(x),
@@ -906,14 +1306,15 @@ OsiLagSolverInterface::OsiLagSolverInterface(const OsiLagSolverInterface& x) : O
                                             colupper_(0),collower_(0),continuous_(0),rowupper_(0),rowlower_(0),rowsense_(0),
                                             rhs_(0),rowrange_(0),objcoeffs_(0),objsense_(1.0),colsol_(0),rowprice_(0),rc_(0),
                                             lhs_(0),lagrangeanCost_(0.0),rowpriceHotStart_(0),maxNumrows_(0),maxNumcols_(0){
+    std::cout << "OsiLagSolver: copy constructor." <<std::endl;
     operator=(x);
-    lagSolverFactory factory;
-    Instance instance(x.lagrangianSolver->getLagrangianFormulation()->getInstance());
-    lagrangianSolver = factory.createSolver(instance);
-    lagrangianSolver->getLagrangianFormulation()->copyVariables(x.lagrangianSolver->getLagrangianFormulation()->getMatrixX(),x.lagrangianSolver->getLagrangianFormulation()->getMaxSliceOverall());
+    //lagSolverFactory factory;
+    //Instance instance(x.lagrangianSolver->getLagrangianFormulation()->getInstance());
+    //lagrangianSolver = factory.createSolver(instance);
 }
 
 OsiLagSolverInterface& OsiLagSolverInterface::operator=(const OsiLagSolverInterface& rhs){
+    std::cout << "OsiLagSolver: oper=." <<std::endl;
     if (&rhs == this)
         return *this;
 
@@ -954,15 +1355,15 @@ OsiLagSolverInterface& OsiLagSolverInterface::operator=(const OsiLagSolverInterf
     lagSolverFactory factory;
     Instance instance(rhs.lagrangianSolver->getLagrangianFormulation()->getInstance());
     lagrangianSolver = factory.createSolver(instance);
-    lagrangianSolver->getLagrangianFormulation()->copyVariables(rhs.lagrangianSolver->getLagrangianFormulation()->getMatrixX(),rhs.lagrangianSolver->getLagrangianFormulation()->getMaxSliceOverall());
 
     return *this;
 }
 
 OsiSolverInterface * OsiLagSolverInterface::clone(bool copyData) const {
-  return copyData ?
-    new OsiLagSolverInterface(*this) :
-    new OsiLagSolverInterface(this->lagrangianSolver->getLagrangianFormulation()->getInstance());
+    std::cout << "OsiLagSolver: clone." << std::endl;
+    return copyData ?
+        new OsiLagSolverInterface(*this) :
+        new OsiLagSolverInterface(this->lagrangianSolver->getLagrangianFormulation()->getInstance());
 }
 
 /**************************************************************************************************/
@@ -987,7 +1388,8 @@ void OsiLagSolverInterface::freeFormulation(){
 /* Defines the variables needed in the MIP formulation. */
 void OsiLagSolverInterface::setVariables(const std::vector<Variable> &myVars){
     for (unsigned int i = 0; i < myVars.size(); i++){ 
-        addCol(0,NULL,NULL, myVars[i].getLb(), myVars[i].getUb(), 0, myVars[i].getName());
+        CoinPackedVector column(0);
+        addCol(column, myVars[i].getLb(), myVars[i].getUb(), 0, myVars[i].getName());
         // std::cout << "Created variable: " << var[d][arc].getName() << std::endl;
     }
     for (unsigned int i = 0; i < myVars.size(); i++){ 

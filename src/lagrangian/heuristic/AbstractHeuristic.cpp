@@ -28,7 +28,7 @@ void AbstractHeuristic::initSolution(){
 
 void AbstractHeuristic::updateCostFromHeuristic(){
     setCurrentHeuristicCost(0.0);
-    if(maxChangesPossible){
+    if(maxChangesPossible || statusheuristic == STATUS_INFEASIBLE){
         setCurrentHeuristicCost(__DBL_MAX__);
     }
     else{
@@ -45,17 +45,81 @@ void AbstractHeuristic::updateCostFromHeuristic(){
             }
             incCurrentHeuristicCost(val);
         }else{
+            std::vector<std::vector<double>> overlapSlack;
+            std::vector<double> lengthslack;
+            lengthslack.resize(formulation->getNbDemandsToBeRouted());
+            overlapSlack.resize(formulation->getInstance().getNbEdges());
+            for(int i=0;i<formulation->getInstance().getNbEdges();i++){
+                overlapSlack[i].resize(formulation->getInstance().getPhysicalLinkFromIndex(i).getNbSlices());
+            }
             for (int d = 0; d < formulation->getNbDemandsToBeRouted(); d++){
                 for (ListDigraph::ArcIt a(*formulation->getVecGraphD(d)); a != INVALID; ++a){
                     int index = formulation->getArcIndex(a,d);
                     if(heuristicSolution[d][index] == true){
                         double val = formulation->getCoeff(a,d);
                         incCurrentHeuristicCost(val);
+
+                        double length = formulation->getArcLength(a,d);
+                        lengthslack[d] += length;
+
+                        int label = formulation->getArcLabel(a,d);
+                        int slice = formulation->getArcSlice(a,d);
+                        int load = formulation->getToBeRouted_k(d).getLoad();
+
+                        for(int s = slice-load+1;s<=slice;s++){
+                            overlapSlack[label][s] = overlapSlack[label][s]+1;
+                        }
                     }
                 }
             }  
+            for (int d = 0; d < formulation->getNbDemandsToBeRouted(); d++){
+                double maxlength = formulation->getToBeRouted_k(d).getMaxLength();
+                if(lengthslack[d] > maxlength){
+                    std::cout << "Heuristic found infeasible solution: length " << std::endl;
+                    setCurrentHeuristicCost(__DBL_MAX__);
+                }
+            }
+            for(int i=0;i<formulation->getInstance().getNbEdges();i++){
+                for(int j =0; j< formulation->getInstance().getPhysicalLinkFromIndex(i).getNbSlices();j++){
+                    if(overlapSlack[i][j]>1){
+                        std::cout << "Heuristic found infeasible solution: overlap " << std::endl;
+                        setCurrentHeuristicCost(__DBL_MAX__);
+                    }
+                }
+            }
         }
     }
+
+
+}
+
+double * AbstractHeuristic::getAdaptedSolution(){
+    int nb_var = 0;
+    for (int d = 0; d < formulation->getNbDemandsToBeRouted(); d++){
+        nb_var += countArcs(*formulation->getVecGraphD(d));
+    }
+    if(formulation->getInstance().getInput().isObj8(0)){
+        nb_var++;
+    }
+
+    double *sol = new double[nb_var];
+
+    double p =0;
+    for (int d = 0; d < formulation->getNbDemandsToBeRouted(); d++){
+        for (ListDigraph::ArcIt a(*formulation->getVecGraphD(d)); a != INVALID; ++a){
+            int varId = formulation->getVarId(a,d);
+            int index = formulation->getArcIndex(a,d);
+            int slice = formulation->getArcSlice(a,d);
+            if(slice > p){
+                p = slice;
+            }
+            sol[varId] = heuristicSolution[d][index];
+        }
+    }
+    if(formulation->getInstance().getInput().isObj8(0)){
+        sol[nb_var-1] = p;
+    }
+    return sol;
 }
 
 void AbstractHeuristic::printSolution(){

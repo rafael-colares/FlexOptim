@@ -106,6 +106,8 @@ class lagNonOverlapping: public AbstractLagFormulation{
 
         void initPrimalSlacks();
 
+        void clearSlacks();
+
         /********************************** DIRECTION **********************************/
 
         void initDirection();
@@ -124,11 +126,7 @@ class lagNonOverlapping: public AbstractLagFormulation{
         void run(bool=false);
 
         double getRealCostFromPath(int, BellmanFord< ListDigraph, ListDigraph::ArcMap<double> > &, const ListDigraph::Node &, const ListDigraph::Node &);
-
-        double getRealCostFromPath(int , Dijkstra<ListDigraph,ListDigraph::ArcMap<double>> &, const ListDigraph::Node &, const ListDigraph::Node &);
-
-        void updateAssignment_k(int, Dijkstra<ListDigraph,ListDigraph::ArcMap<double>> &, const ListDigraph::Node &, const ListDigraph::Node &);
-
+        
         void updateAssignment_k(int, BellmanFord< ListDigraph, ListDigraph::ArcMap<double> > &, const ListDigraph::Node &, const ListDigraph::Node &);
 
         void subtractConstantValuesFromLagrCost();

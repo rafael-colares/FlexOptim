@@ -1,13 +1,14 @@
 #ifndef ABSTRACT_LAG_FORMULATION_H
 #define ABSTRACT_LAG_FORMULATION_H
 
-//#include "../../formulation/rsa.h"
-#include "../../formulation/flowForm.h"
+#include "../../formulation/rsa.h"
+//#include "../../formulation/flowForm.h"
 #include "../../tools/clockTime.h"
 #include "../tools/lagTools.h"
 
 #include <lemon/bellman_ford.h>
 #include <lemon/cost_scaling.h>
+#include <lemon/capacity_scaling.h>
 
 /** This class implements a general Lagrangian Formulation considering the Flow formulation **/
 
@@ -214,6 +215,8 @@ class AbstractLagFormulation: public FlowForm{
 
                 double maxUsedSliceOverallLowerBound;
 
+                std::vector<int> nbSlicesLimitFromEdge;
+
         public:
                 /************************************************************************************************************/
                 /*			                        CONSTRUCTORS	       	                                    */
@@ -236,6 +239,12 @@ class AbstractLagFormulation: public FlowForm{
                 double getShorstestPathTime() const { return ShorstestPathTime;}
                 double getSubstractMultipliersTime() const { return substractMultipliersTime;}
                 double getCostTime() const {return costTime;}
+
+                bool isInteger();
+
+                /*********************************************** AUXILIARY **************************************************/
+
+                void updateMaxUsedSliceOverallUpperBound(double value){ if(value < maxUsedSliceOverallUpperBound){maxUsedSliceOverallUpperBound = value;}}
 
                 /**************************************** ****** MULTIPLIERS ************************************************/
 
@@ -434,6 +443,8 @@ class AbstractLagFormulation: public FlowForm{
                 /** Returns the map index of the atcs index. **/
                 std::shared_ptr<ArcMap> getIndexMap(int d) const {return vecArcIndex[d];}
 
+                std::shared_ptr<ArcMap> getVarIdMap(int d) const {return vecArcVarId[d];}
+
                 std::shared_ptr<ArcMap> getArcSliceMap(int d) const {return vecArcSlice[d];}
 
                 std::shared_ptr<ArcMap> getArcLabelMap(int d) const {return vecArcLabel[d];}
@@ -620,6 +631,7 @@ class AbstractLagFormulation: public FlowForm{
                 *                                       INITIALIZATION METHODS                              
                 *************************************************************************************************** */
                 
+                /* Initiliaze the upper bound according to each objective function */
                 double initialUBValue();
 
                 double initialUBValueObj1();
@@ -635,6 +647,8 @@ class AbstractLagFormulation: public FlowForm{
 
                 /** Sets the lower and upper bound  of the variables. **/
                 void updateLowerUpperBound(double*,double*);
+
+                void verifyLowerUpperBound();
 
                 /******************************************** MULTIPLIERS *******************************************/
 
@@ -1104,15 +1118,21 @@ class AbstractLagFormulation: public FlowForm{
 
                 /** Updates the maximum used slice overall 3 direction **/
                 void updateMaxUsedSliceOverall3Direction(double);
+
+                virtual void clearSlacks() = 0;
         
                 /******************************************** PRIMAL SOLUTION *********************************************/
 
                 /** Updates the primal approximation according to given alpha (parameter)**/
                 void updatePrimalSolution(double); 
 
+                void clearAssignmentMatrix();
+
                 /*************************************** PRIMAL APPROXIMATION *********************************************/
 
                 void updatePrimalApproximation(double);
+
+                void clearPrimalApproximationMatrix();
 
                 /***************************************** ASSIGNMENT MATRIX **********************************************/
 

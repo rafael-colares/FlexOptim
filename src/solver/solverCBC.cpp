@@ -13,42 +13,43 @@ SolverCBC::SolverCBC(const Instance &inst) : AbstractSolver(inst, STATUS_UNKNOWN
     std::cout << "--- CBC has been initialized ---" << std::endl;
     implementFormulation();
     setCBCParams(inst.getInput());
+    isrelaxed = inst.getInput().isRelaxed();
     count++;
 }
 
 void SolverCBC::setCBCParams(const Input &input){
-    model.setMaximumSeconds(input.getIterationTimeLimit());
+    //model.setMaximumSeconds(input.getIterationTimeLimit());
+    model.setDblParam(CbcModel::CbcMaximumSeconds,input.getIterationTimeLimit());
 
-    if(input.isRelaxed()){
-        Input::RootMethod rootMethod = input.getChosenRootMethod();
+    if(isrelaxed){
+        Input::RootMethod rootMethod = formulation->getInstance().getInput().getChosenRootMethod();
         if (rootMethod == Input::ROOT_METHOD_AUTO){
             ClpSolve clpSolve;
             clpSolve.setSolveType(ClpSolve::automatic);
+            clpSolve.setPresolveType(ClpSolve::presolveOn);
             solver.setSolveOptions(clpSolve);
         }
         else if (rootMethod == Input::ROOT_METHOD_PRIMAL){
             ClpSolve clpSolve;
             clpSolve.setSolveType(ClpSolve::usePrimal);
+            clpSolve.setPresolveType(ClpSolve::presolveOn);
             solver.setSolveOptions(clpSolve);
         }
         else if (rootMethod == Input::ROOT_METHOD_DUAL){
             ClpSolve clpSolve;
             clpSolve.setSolveType(ClpSolve::useDual);
+            clpSolve.setPresolveType(ClpSolve::presolveOn);
             solver.setSolveOptions(clpSolve);
         }
         else if (rootMethod == Input::ROOT_METHOD_NETWORK){
-            //cplex.setParam(IloCplex::RootAlg, IloCplex::Network);
-            //ClpSolve::SolveType method = ClpSolve::useNetwork;
-            //ClpSolve clpSolve(method);
-            //solver.setSolveOptions(clpSolve);
         }
         else if (rootMethod == Input::ROOT_METHOD_BARRIER){
             ClpSolve clpSolve;
             clpSolve.setSolveType(ClpSolve::useBarrier);
+            clpSolve.setPresolveType(ClpSolve::presolveOn);
             solver.setSolveOptions(clpSolve);
         }
     }
-    
     std::cout << "CBC parameters have been defined..." << std::endl;
 }
 
@@ -122,7 +123,6 @@ void SolverCBC::setObjective(const ObjectiveFunction &myObjective){
 
 void SolverCBC::solve(){
     // Implement time limit and count it here.
-    
 	ClockTime solveTime(ClockTime::getTimeNow());
     std::cout << "Solving with CBC..." << std::endl;
     std::vector<ObjectiveFunction> myObjectives = formulation->getObjectiveSet();
@@ -134,36 +134,45 @@ void SolverCBC::solve(){
             }
             setObjective(myObjectives[i]);
         }
-        
         std::cout << "Chosen objective: " << myObjectives[i].getName() << std::endl;
-        model.branchAndBound();
-
-        if (model.bestSolution() != NULL){
-            double objValue = model.getObjValue();
-            std::cout << "Objective Function Value: " << objValue << std::endl;
-            if (i < myObjectives.size() - 1){
-                CoinPackedVector objectiveExpression;
-                for (unsigned int j = 0; j < myObjectives[i].getExpression().getTerms().size(); j++){
-                    int index = myObjectives[i].getExpression().getTerm_i(j).getVar().getId();
-                    double coefficient = myObjectives[i].getExpression().getTerm_i(j).getCoeff();
-                    objectiveExpression.insert(index, coefficient);
-                }
-                model.solver()->addRow(objectiveExpression, objValue, objValue, myObjectives[i].getName());
-            }
+        if(isrelaxed){
+            model.initialSolve();
         }
         else{
-            // Stop optimizing.
-            std::cout << "Could not find a feasible solution..." << std::endl;
-            i = myObjectives.size()+1;
+            model.branchAndBound();
+            if (model.bestSolution() != NULL){
+                double objValue = model.getObjValue();
+                std::cout << "Objective Function Value: " << objValue << std::endl;
+                if (i < myObjectives.size() - 1){
+                    CoinPackedVector objectiveExpression;
+                    for (unsigned int j = 0; j < myObjectives[i].getExpression().getTerms().size(); j++){
+                        int index = myObjectives[i].getExpression().getTerm_i(j).getVar().getId();
+                        double coefficient = myObjectives[i].getExpression().getTerm_i(j).getCoeff();
+                        objectiveExpression.insert(index, coefficient);
+                    }
+                    model.solver()->addRow(objectiveExpression, objValue, objValue, myObjectives[i].getName());
+                }
+            }
+            else{
+                // Stop optimizing.
+                std::cout << "Could not find a feasible solution..." << std::endl;
+                i = myObjectives.size()+1;
+            }
         }
     }
     setDurationTime(solveTime.getTimeInSecFromStart());
-    setUpperBound(model.getObjValue());
-    setLowerBound(model.getCurrentObjValue());
-    setMipGap(model.getCurrentObjValue(), model.getObjValue());
-	setTreeSize(model.getNodeCount());
+    if(isrelaxed){
+        setUpperBound(model.getCurrentObjValue());
+        setMipGap(0);
+        setTreeSize(0);
+    }else{
+        setUpperBound(model.getObjValue());
+        setLowerBound(model.getCurrentObjValue());
+        setMipGap(model.getCurrentObjValue(), model.getObjValue());
+        setTreeSize(model.getNodeCount());
+    }
     std::cout << "Optimization done in " << std::fixed  << getDurationTime() << std::setprecision(2) << " secs." << std::endl;
-    if (getStatus() == STATUS_OPTIMAL || getStatus() == STATUS_FEASIBLE){    
+    if ((getStatus() == STATUS_OPTIMAL || getStatus() == STATUS_FEASIBLE) && !isrelaxed){    
         //std::cout << "Status: " << cplex.getStatus() << std::endl;
         displaySolution();
         std::cout << "Objective Function Value: " << model.getObjValue() << std::endl;

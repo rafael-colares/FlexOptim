@@ -1,5 +1,5 @@
 #include "lagSolverCBC.h"
-
+#include "CbcHeuristicGreedy.hpp"
 int lagSolverCBC::count = 0;
 
 /** Constructor. Builds the Online RSA mixed-integer program and solves it using CBC.**/
@@ -7,19 +7,19 @@ lagSolverCBC::lagSolverCBC(const Instance &inst) : AbstractSolver(inst, STATUS_U
     std::cout << "--- CBC has been initialized ---" << std::endl;
     implementFormulation();
     setCBCParams(inst.getInput());
+    isrelaxed = inst.getInput().isRelaxed();
     count++;
 }
 
 void lagSolverCBC::implementFormulation(){
     solver.loadModelFormulation();
     solver.writeLp("test");
-    std::cout << "ola" << std::endl;
     model = CbcModel(solver);
-    std::cout << "ola2" << std::endl;
 }
 
 void lagSolverCBC::setCBCParams(const Input &input){
     model.setMaximumSeconds(input.getIterationTimeLimit());
+    model.messageHandler()->setLogLevel(3);
     std::cout << "CBC parameters have been defined..." << std::endl;
 }
 
@@ -32,10 +32,11 @@ void lagSolverCBC::solve(){
     std::cout << "Chosen objective: " << myObjectives[0].getName() << std::endl;
 
     if(solver.getLagrangianSolver()->getLagrangianFormulation()->getInstance().getInput().isLagrangianRelaxed()){
-        std::cout << "ola" << std::endl;
         model.initialSolve();
     }else{
-        model.initialSolve();
+        //model.initialSolve();
+        CbcRounding heuristic1(model);
+        model.addHeuristic(&heuristic1);
         model.branchAndBound();
     }
 
@@ -55,12 +56,12 @@ void lagSolverCBC::solve(){
 	setTreeSize(model.getNodeCount());
     std::cout << "Optimization done in " << std::fixed  << getDurationTime() << std::setprecision(2) << " secs." << std::endl;
     if (getStatus() == STATUS_OPTIMAL || getStatus() == STATUS_FEASIBLE){    
-        displaySolution();
+        //displaySolution();
         std::cout << "Objective Function Value: " << model.getObjValue() << std::endl;
     }
     else{
         if (model.currentSolution() != NULL){
-            displayFractSolution();
+            //displayFractSolution();
             std::cout << "Current obj value: " << model.getCurrentObjValue() << std::endl;
         }
         std::cout << "Could not find an integer feasible solution..." << std::endl;

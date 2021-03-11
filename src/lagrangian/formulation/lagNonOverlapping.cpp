@@ -5,6 +5,45 @@ void lagNonOverlapping::getDualSolution(double *rowprice){
     std::cout<< "Branch and bound for no overlapping not defined yet.\n";
 }
 
+void lagNonOverlapping::clearSlacks(){
+    lengthDirection.clear();
+    lengthSlack.clear();
+    lengthSlack_v2.clear();
+
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        sourceTargetSlack[d].clear();
+        sourceTargetSlack_v2[d].clear();
+        sourceTargetDirection[d].clear();
+
+        flowSlack[d].clear();
+        flowSlack_v2[d].clear();
+        flowDirection[d].clear();
+    }
+    sourceTargetSlack.clear();
+    sourceTargetSlack_v2.clear();
+    sourceTargetDirection.clear();
+
+    flowSlack.clear();
+    flowSlack_v2.clear();
+    flowDirection.clear();
+
+    for (int e = 0; e < instance.getNbEdges(); e++){
+        oneSlicePerDemandDirection[e].clear();
+        oneSlicePerDemandSlack[e].clear();
+        oneSlicePerDemandSlack_v2[e].clear();
+    }
+
+    oneSlicePerDemandDirection.clear();
+    oneSlicePerDemandSlack.clear();
+    oneSlicePerDemandSlack_v2.clear();
+
+    if(instance.getInput().isObj8(0)){
+        maxUsedSliceOverallSlack.clear();
+        maxUsedSliceOverallSlack_v2.clear();
+        maxUsedSliceOverallDirection.clear();
+    }
+}
+
 /* *******************************************************************************************************************
 *                                              INITIALIZATION METHODS
 ******************************************************************************************************************** */
@@ -450,23 +489,6 @@ void lagNonOverlapping::updateDirection(){
 /**************************************************** ASSIGNMENT MATRIX *****************************************************/
 
 /* Updates the assignment of a edge based on the a given path. */
-void lagNonOverlapping::updateAssignment_k(int label, Dijkstra<ListDigraph,ListDigraph::ArcMap<double>>  &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
-    
-    ListDigraph::Node currentNode = TARGET;
-    while (currentNode != SOURCE){
-        const ListDigraph::Arc arc = getNodeEArc(currentNode,label); 
-        if(arc != INVALID){ 
-            int demand = getNodeEDemand(currentNode,label);
-            int index = getArcIndex(arc, demand);
-            assignmentMatrix_d[demand][index] = true;
-
-            /* Update Slack */
-            updateSlack(demand,arc);
-        }
-        currentNode = path.predNode(currentNode);
-    }
-}
-
 void lagNonOverlapping::updateAssignment_k(int label, BellmanFord< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
     
     ListDigraph::Node currentNode = TARGET;
@@ -557,19 +579,6 @@ ListDigraph::Node lagNonOverlapping::getNodeFromIndex(int e, int id){
         }
     }
     return INVALID;
-}
-
-double lagNonOverlapping::getRealCostFromPath(int label, Dijkstra<ListDigraph,ListDigraph::ArcMap<double>>  &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
-    double total = 0.0;
-    ListDigraph::Node currentNode = TARGET;
-    while (currentNode != SOURCE){
-        const ListDigraph::Arc arc = getNodeEArc(currentNode,label); 
-        if(arc != INVALID){ 
-            total += getCoeff(arc, getNodeEDemand(currentNode,label)); 
-        }
-        currentNode = path.predNode(currentNode);
-    }
-    return total;
 }
 
 double lagNonOverlapping::getRealCostFromPath(int e, BellmanFord< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET){
@@ -1127,11 +1136,8 @@ void lagNonOverlapping::run(bool adaptedSubproblem){
 
         /* Solving a shortest path for each edge considering the auxiliary graph */
         /* From the artificial source to the artificial target*/
-        Dijkstra<ListDigraph,ListDigraph::ArcMap<double>> shortestPath((*vecEGraph[e]), (*vecECost[e]));
-        shortestPath.run(SOURCE, TARGET);
-
-        //BellmanFord<ListDigraph,ListDigraph::ArcMap<double>> shortestPath((*vecEGraph[e]), (*vecECost[e]));
-        //shortestPath.run(SOURCE);
+        BellmanFord<ListDigraph,ListDigraph::ArcMap<double>> shortestPath((*vecEGraph[e]), (*vecECost[e]));
+        shortestPath.run(SOURCE);
         
         if(shortestPath.reached(TARGET) == false){ // There is always a path in this graph.
             setStatus(STATUS_INFEASIBLE);

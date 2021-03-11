@@ -33,7 +33,7 @@ class shortestPathHeuristic : public AbstractHeuristic{
         ******************************************************************************* */
 
         /* Initializes the Heuristics elements to run the algorithm */
-        void init();
+        void init(bool=true);
 
         /* Initialize the sets of not analysed demands and analysed demands for the Heuristic - to run the algorithm*/
         void initDemandsSets();
@@ -41,11 +41,13 @@ class shortestPathHeuristic : public AbstractHeuristic{
         /* Updates the heuristic costs using the assignment matrix */
         void initCosts();
 
+        void initAdaptedCosts(const double *);
+
         /* *******************************************************************************
         *                              RUNNING METHODS
         ******************************************************************************* */
 
-        void run(bool=false);
+        void run(bool=false,bool=true);
 
         /* Selects one demand to be analysed */
         int choseDemand(std::set<int>);
@@ -60,7 +62,7 @@ class shortestPathHeuristic : public AbstractHeuristic{
 
         void insertPath_k(int d, Dijkstra< FilterArcs<ListDigraph>, ListDigraph::ArcMap<double> > &, const ListDigraph::Node &, const ListDigraph::Node &);
 
-        void insertPath_k(int d, CostScaling<FilterArcs<ListDigraph>,int,double> &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET);
+        void insertPath_k(int d, CapacityScaling<FilterArcs<ListDigraph>,int,double> &path, const ListDigraph::Node &SOURCE, const ListDigraph::Node &TARGET);
 
         /* Remove a found path for demand d. Then, we have to find another path for this demand*/
         void removePath_k(int);
@@ -77,14 +79,14 @@ class shortestPathHeuristic : public AbstractHeuristic{
 
         void remove_Arc(int, Dijkstra< FilterArcs<ListDigraph>, ListDigraph::ArcMap<double> > &, const ListDigraph::Node &, const ListDigraph::Node &);
 
-        void remove_Arc(int d, CostScaling<FilterArcs<ListDigraph>,int,double> &, const ListDigraph::Node &, const ListDigraph::Node &);
+        void remove_Arc(int d, CapacityScaling<FilterArcs<ListDigraph>,int,double> &, const ListDigraph::Node &, const ListDigraph::Node &);
  
         /* Returns the physical length of the path. */
         double getPathLength(int d, Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &s, const ListDigraph::Node &t);
 
         double getPathLength(int d, Dijkstra< FilterArcs<ListDigraph>, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &s, const ListDigraph::Node &t);
 
-        double getPathLength(int d, CostScaling<FilterArcs<ListDigraph>,int,double> &costScale, const ListDigraph::Node &s, const ListDigraph::Node &t);
+        double getPathLength(int d, CapacityScaling<FilterArcs<ListDigraph>,int,double> &costScale, const ListDigraph::Node &s, const ListDigraph::Node &t);
 
 
         //ListDigraph::Node getNodeFromIndex2(int, int);

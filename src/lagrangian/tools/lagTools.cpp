@@ -159,15 +159,18 @@ double operatorCostEOneSlicePerDemand::operator()(int demand, int demand2) const
     return multiplier[label][demand];
 }
 
-operatorLowerUpperBound::operatorLowerUpperBound(VarMatrix var, double * point){
-    x.resize(var.size());
-    for(int i=0;i<var.size();i++){
-        std::copy(var[i].begin(),var[i].end(),std::back_inserter(x[i]));
-    }
+operatorLowerUpperBound::operatorLowerUpperBound(double * point){
     bound = point;
 }
 
-int operatorLowerUpperBound::operator()(int index, int index2) const{
-    int id = x[d][index].getId();
+int operatorLowerUpperBound::operator()(int id, int index2) const{
     return bound[id];
+}
+
+operatorHeuristicAdaptedCost::operatorHeuristicAdaptedCost(const double * point){
+    bound = point;
+}
+
+double operatorHeuristicAdaptedCost::operator()(int id, double cost) const{
+    return (1-bound[id])*cost;
 }

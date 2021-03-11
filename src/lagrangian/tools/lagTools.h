@@ -4,6 +4,7 @@
 #include <lemon/list_graph.h>
 #include <lemon/concepts/graph.h>
 #include <lemon/dijkstra.h>
+#include <lemon/bellman_ford.h>
 #include <lemon/list_graph.h>
 #include <lemon/concepts/graph.h>
 #include <lemon/maps.h>
@@ -29,6 +30,7 @@ class operatorCostHeuristicRemoveArcs;
 template <typename T> class operatorHeuristicCost;
 template <typename T> class operatorArcCostArcIndex;
 class operatorLowerUpperBound;
+class operatorHeuristicAdaptedCost;
 
 /* Typedef Auxiliary Functors */
 typedef operatorHeuristicCost<bool>   HeuristicCostAssign;
@@ -78,11 +80,14 @@ typedef AddMap<AddMappFinal,CombineArcMapArcMapCostEOneSlicePerDemand> AddMapFin
 /* Upper and lower bound */
 typedef CombineMap<ArcMap,ArcMap,operatorLowerUpperBound,int> CombineArcMapArcMapLowerUpperBound;
 
+typedef CombineMap<ArcMap,ArcCost,operatorHeuristicAdaptedCost,double> CombineArcMapArcCostHeuristicAdaptedCost;
+
 /* Auxiliaries */
 typedef Dijkstra< ListDigraph, AddMapFinalCost > DijkstraCost;
 typedef Dijkstra< ListDigraph, AddMapFinalCostObj8> DijkstraCostObj8;
 
 typedef Dijkstra<ListDigraph,AddMapFinalOneSlicePerDemand> DijkstraCostE;
+typedef BellmanFord<ListDigraph,AddMapFinalOneSlicePerDemand> BellmanFordCostE;
 typedef ArcCost::MapIt ArcCostIt;
 
 /* Class to compute the cost related with Non Overlap Multipliers.
@@ -281,13 +286,23 @@ class operatorCostEOneSlicePerDemand{
 
 class operatorLowerUpperBound{
     private:
-        VarMatrix x;
         int d; /*demand*/
         double * bound;
     public:
-        operatorLowerUpperBound(VarMatrix,double*);
+        operatorLowerUpperBound(double*);
         void setDemand(int val) { d = val;}
         int operator()(int,int) const;
+};
+
+
+class operatorHeuristicAdaptedCost{
+    private:
+        int d; /*demand*/
+        const double * bound;
+    public:
+        operatorHeuristicAdaptedCost(const double*);
+        void setDemand(int val) { d = val;}
+        double operator()(int,double) const;
 };
 
 #endif

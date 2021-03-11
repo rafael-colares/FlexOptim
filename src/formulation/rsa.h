@@ -104,6 +104,10 @@ protected:
     std::vector<int> sourceNodeIndex;
     std::vector<int> targetNodeIndex;
 
+    /** The ID of the flow variables. **/
+    std::vector< std::shared_ptr<ArcMap> > vecArcVarId;
+    int maxSliceOverallVarId;
+
     ListGraph compactGraph;             /**< The simple graph associated with the initial mapping. **/
     EdgeMap compactEdgeId;              /**< EdgeMap storing the edge ids of the simple graph associated with the initial mapping. **/
     EdgeMap compactEdgeLabel;           /**< EdgeMap storing the edge labels of the simple graph associated with the initial mapping. **/
@@ -187,6 +191,9 @@ public:
 
     /** Returns the index of the target in a graph. @param d The graph index. **/
     int getTargetNodeIndex(int d) const{ return targetNodeIndex[d];}
+
+    /** Returns the id of the flow variables **/
+    int getVarId(const ListDigraph::Arc &a, int d) const{ return (*vecArcVarId[d])[a];}
 
     /** Returns the first node identified by (label, slice) on a graph. @param d The graph index. @param label The node's label. @param slice The node's slice. \warning If it does not exist, returns INVALID. **/
     ListDigraph::Node getNode(int d, int label, int slice);

@@ -2,12 +2,16 @@
 #define SOLVER_LAG_INTERFACE
 
 #include "CoinPackedMatrix.hpp"
+#include "CoinPackedVector.hpp"
 #include "CoinHelperFunctions.hpp"
 #include "CoinWarmStartDual.hpp"
 #include "OsiRowCut.hpp"
 #include "OsiColCut.hpp"
+#include "CoinHelperFunctions.hpp"
+#include "CoinMpsIO.hpp"
 
 #include "OsiSolverInterface.hpp"
+#include "OsiCbcSolverInterface.hpp"
 
 #include "../lagrangian/solver/AbstractLagrangianSolver.h"
 #include "../lagrangian/solver/lagSolverFactory.h"
@@ -18,6 +22,7 @@ static const double OsiLagInfinity = 1.0e31;
 class AbstractLagSolver;
 class OsiSolverInterface;
 class CoinPackedMatrix;
+class CoinPackedVector;
 class CoinWarmStart;
 
 /************************************************************************************************************
@@ -209,6 +214,8 @@ class OsiLagSolverInterface : virtual public OsiSolverInterface{
         virtual CoinWarmStart *getEmptyWarmStart () const ;
         /* Get warmstarting information */
         virtual CoinWarmStart* getWarmStart() const;
+
+        virtual CoinWarmStart *getPointerToWarmStart(bool &mustDelete);
         /* Set warmstarting information. Return true/false depending on whether the warmstart information 
         was accepted or not. */
         virtual bool setWarmStart(const CoinWarmStart* warmstart);
@@ -391,7 +398,7 @@ class OsiLagSolverInterface : virtual public OsiSolverInterface{
         /************************** Changing bounds on variables and constraints **************************/
 
         /** Set an objective function coefficient */
-        virtual void setObjCoeff( int elementIndex, double elementValue ) {objcoeffs_[elementIndex] = elementValue;}
+        virtual void setObjCoeff( int elementIndex, double elementValue ) { objcoeffs_[elementIndex] = elementValue;}
 
         using OsiSolverInterface::setColLower ;
         /** Set a single column lower bound. Use -DBL_MAX for -infinity. */
@@ -524,7 +531,7 @@ class OsiLagSolverInterface : virtual public OsiSolverInterface{
         virtual void deleteRows(const int num, const int * rowIndices);
     
         //-----------------------------------------------------------------------
-        #if 0
+        //#if 0
             /** Apply a collection of cuts.<br>
                  Only cuts which have an <code>effectiveness >= effectivenessLb</code>
                 are applied.
@@ -546,8 +553,13 @@ class OsiLagSolverInterface : virtual public OsiSolverInterface{
                             nubmerApplied()
                 </ul>
             */
-            virtual ApplyCutsReturnCode applyCuts(const OsiCuts & cs,double effectivenessLb = 0.0);
-        #endif
+            virtual ApplyCutsReturnCode applyCuts(const OsiCuts & cs,double effectivenessLb = 0.0)
+            {
+                std::cout << "apply cuts" << std::endl;
+                OsiSolverInterface::applyCuts(cs,effectivenessLb);
+                std::cout << "apply cuts fim" << std::endl;
+            }
+        //#endif
         //---------------------------------------------------------------------------
 
         /*Get pointer to lagrangian solver */

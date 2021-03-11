@@ -104,6 +104,8 @@ class lagNonOverlap: public AbstractLagFormulation{
         /** Initializes the slack of relaxed constraints. **/
         void initSlacks();
 
+        void clearSlacks();
+
        /********************************** DIRECTION ***************************************/
 
         void initDirection();

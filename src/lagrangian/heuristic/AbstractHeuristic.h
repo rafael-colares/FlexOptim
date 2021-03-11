@@ -78,13 +78,17 @@ class AbstractHeuristic{
         *                                 METHODS
         ******************************************************************************* */
 
-        virtual void init() = 0;
+        virtual void init(bool=true) = 0;
+
+        virtual void initAdaptedCosts(const double *) = 0;
 
         void initSolution();
 
-        virtual void run(bool=false) = 0;
+        virtual void run(bool=false,bool=true) = 0;
 
         void updateCostFromHeuristic();
+
+        double * getAdaptedSolution();
 
         void printSolution();
 

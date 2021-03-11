@@ -32,7 +32,7 @@ class lagVolume: public AbstractLagSolver{
         /************************************************/
 	    /*				    Constructors 		   		*/
 	    /************************************************/
-        lagVolume(const Instance &inst):AbstractLagSolver(inst),MAX_NB_IT_RED(20),MAX_NB_IT_YELLOW(2),UPD_STEPSIZE_GREEN_YELLOW(1.1),UPD_STEPSIZE_RED(0.67),MIN_MODULE_VALUE(0.01),MIN_DIF_OBJ_VALUE(0.001),ASCENT_FIRST_CHECK(500),ASCENT_CHECK_INVL(100),MINIMUM_REL_ASCENT(0.0001),MAX_ALPHA(0.1){}
+        lagVolume(const Instance &inst):AbstractLagSolver(inst),MAX_NB_IT_RED(20),MAX_NB_IT_YELLOW(2),UPD_STEPSIZE_GREEN_YELLOW(1.1),UPD_STEPSIZE_RED(0.67),MIN_MODULE_VALUE(0.01),MIN_DIF_OBJ_VALUE(0.001),ASCENT_FIRST_CHECK(500),ASCENT_CHECK_INVL(500),MINIMUM_REL_ASCENT(0.001),MAX_ALPHA(0.1){}
 
         /************************************************/
 	    /*				    GETTERS      		   		*/
@@ -43,7 +43,10 @@ class lagVolume: public AbstractLagSolver{
         int getNbYellowIt() const {return nbYellowIt;}
         double getTarget() const { return target; }
 
-        void getSolution(double *colsol) { formulation->getPrimalAppSolution(colsol);}
+        void getSolution(double *colsol) { formulation->getPrimalAppSolution(colsol);
+                                           formulation->clearAssignmentMatrix();
+                                           formulation->clearPrimalApproximationMatrix();
+                                           formulation->clearSlacks(); }
 
         /************************************************/
 	    /*				    SETTERS      		   		*/

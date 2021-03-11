@@ -48,7 +48,8 @@ void FlowForm::setFlowVariables(){
                 upperBound = 0;
                 std::cout << "STILL REMOVING VARIABLES IN FORMULATION. \n" ;
             }
-            int varId = getNbVar();
+            //int varId = getNbVar();
+            int varId = getVarId(a,d);
             /* When solving with subgradient methods we do not change the variable to continuous. */
             if(instance.getInput().isRelaxed() && (instance.getInput().getChosenNodeMethod() == Input::NODE_METHOD_LINEAR_RELAX)){
                 x[d][arc] = Variable(varId, 0, upperBound, Variable::TYPE_REAL, 0, varName.str());
@@ -125,17 +126,6 @@ void FlowForm::setVariableValues(const std::vector<double> &vals){
     int pos = maxSliceOverall.getId();
     double newValue = vals[pos];
     maxSliceOverall.setVal(newValue);
-}
-
-void FlowForm::copyVariables(VarMatrix varX, Variable varMaxSliceOverall){
-    x.resize(varX.size());
-    for(int i = 0; i <varX.size();i++){
-        std::copy(varX[i].begin(),varX[i].end(),std::back_inserter(x[i]));
-    }
-    maxSliceOverall = varMaxSliceOverall;
-
-    std::cout << x[0][0].getId() << std::endl;
-    std::cout << x[0][varX[0].size()-1].getId() << std::endl;
 }
 
 /********************************** Lagrangian Inclusion ********************************/

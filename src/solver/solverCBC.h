@@ -18,6 +18,7 @@ private:
 	OsiClpSolverInterface solver;	/**< The Clp engine. **/
     CbcModel model;					/**< The CBC model. **/
 	static int count;				/**< Counts how many times the solver is called. **/
+	bool isrelaxed;
 
 public:
 	/****************************************************************************************/
