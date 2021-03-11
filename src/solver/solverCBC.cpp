@@ -21,7 +21,11 @@ void SolverCBC::setCBCParams(const Input &input){
     //model.setMaximumSeconds(input.getIterationTimeLimit());
     model.setDblParam(CbcModel::CbcMaximumSeconds,input.getIterationTimeLimit());
 
+<<<<<<< HEAD
     if(isrelaxed){
+=======
+    /*if(isrelaxed){
+>>>>>>> 9898e39609ddaef91d55d722d60c144bdbd8537b
         Input::RootMethod rootMethod = formulation->getInstance().getInput().getChosenRootMethod();
         if (rootMethod == Input::ROOT_METHOD_AUTO){
             ClpSolve clpSolve;
@@ -34,7 +38,7 @@ void SolverCBC::setCBCParams(const Input &input){
             clpSolve.setSolveType(ClpSolve::usePrimal);
             clpSolve.setPresolveType(ClpSolve::presolveOn);
             solver.setSolveOptions(clpSolve);
-        }
+            }
         else if (rootMethod == Input::ROOT_METHOD_DUAL){
             ClpSolve clpSolve;
             clpSolve.setSolveType(ClpSolve::useDual);
@@ -49,7 +53,11 @@ void SolverCBC::setCBCParams(const Input &input){
             clpSolve.setPresolveType(ClpSolve::presolveOn);
             solver.setSolveOptions(clpSolve);
         }
+<<<<<<< HEAD
     }
+=======
+    }*/
+>>>>>>> 9898e39609ddaef91d55d722d60c144bdbd8537b
     std::cout << "CBC parameters have been defined..." << std::endl;
 }
 
@@ -136,7 +144,11 @@ void SolverCBC::solve(){
         }
         std::cout << "Chosen objective: " << myObjectives[i].getName() << std::endl;
         if(isrelaxed){
+<<<<<<< HEAD
             model.initialSolve();
+=======
+            solver.initialSolve();
+>>>>>>> 9898e39609ddaef91d55d722d60c144bdbd8537b
         }
         else{
             model.branchAndBound();
@@ -162,7 +174,11 @@ void SolverCBC::solve(){
     }
     setDurationTime(solveTime.getTimeInSecFromStart());
     if(isrelaxed){
+<<<<<<< HEAD
         setUpperBound(model.getCurrentObjValue());
+=======
+        setUpperBound(solver.getObjValue());
+>>>>>>> 9898e39609ddaef91d55d722d60c144bdbd8537b
         setMipGap(0);
         setTreeSize(0);
     }else{

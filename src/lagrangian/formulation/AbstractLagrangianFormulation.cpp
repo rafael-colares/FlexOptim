@@ -220,6 +220,7 @@ void AbstractLagFormulation::getPrimalAppSolution(double * colsol){
     if(instance.getInput().isObj8(0)){
         colsol[maxSliceOverallVarId] = maxUsedSliceOverall;
     }
+    primal_linear_solution.clear();
 }
 
 /* **************************************************************************************************************
