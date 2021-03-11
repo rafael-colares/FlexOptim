@@ -22,9 +22,6 @@ void SolverCBC::setCBCParams(const Input &input){
     model.setDblParam(CbcModel::CbcMaximumSeconds,input.getIterationTimeLimit());
 
     if(isrelaxed){
-=======
-    /*if(isrelaxed){
->>>>>>> 9898e39609ddaef91d55d722d60c144bdbd8537b
         Input::RootMethod rootMethod = formulation->getInstance().getInput().getChosenRootMethod();
         if (rootMethod == Input::ROOT_METHOD_AUTO){
             ClpSolve clpSolve;
