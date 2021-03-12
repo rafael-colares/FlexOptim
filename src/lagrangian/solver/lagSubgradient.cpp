@@ -101,7 +101,7 @@ void lagSubgradient::run(bool initMultipliers, bool modifiedSubproblem){
             else if (getIteration() >= MAX_NB_IT){
                 STOP = true;
                 setStatus(STATUS_MAX_IT);
-                setStatus(STATUS_OPTIMAL);
+                //setStatus(STATUS_OPTIMAL);
                 setStop("Max It");
                 std::cout << "Max It" << std::endl;
             }
@@ -115,14 +115,17 @@ void lagSubgradient::run(bool initMultipliers, bool modifiedSubproblem){
             else if(alternativeStop){
                 if(getGlobalItWithoutImprovement() >= 5*MAX_NB_IT_WITHOUT_IMPROVEMENT){
                     STOP = true;
-                    setStatus(STATUS_FEASIBLE);
-                    setStatus(STATUS_OPTIMAL);
+                    setStatus(STATUS_MAX_IT);
+                    //setStatus(STATUS_OPTIMAL);
                     setStop("Alternative stop");
                     std::cout << "Alternative stop" << std::endl;
                 }
             }
             if(formulation->getLagrCurrentCost() >= UBINIT){
+                STOP = true;
                 setStatus(STATUS_INFEASIBLE);
+                setStop("Infeasible");
+                std::cout << "Infeasible 2" << std::endl;
             }
             incStoppingCriterionTime(time.getTimeInSecFromStart());
         }
@@ -130,7 +133,7 @@ void lagSubgradient::run(bool initMultipliers, bool modifiedSubproblem){
             STOP = true;
             setStatus(STATUS_INFEASIBLE);
             setStop("Infeasible");
-            std::cout << "Infeasible" << std::endl;
+            std::cout << "Infeasible 1" << std::endl;
         }
         if(STOP==true){
             setTotalTime(getGeneralTime().getTimeInSecFromStart());

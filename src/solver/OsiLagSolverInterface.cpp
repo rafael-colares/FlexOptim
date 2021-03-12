@@ -221,7 +221,8 @@ bool OsiLagSolverInterface::setWarmStart(const CoinWarmStart* warmstart){
     }
 
     //CoinDisjointCopyN(ws->dual(), ws_size, rowprice_);
-    CoinDisjointCopyN(rowpriceHotStart_, getNumRows(), rowprice_);
+    //CoinDisjointCopyN(rowpriceHotStart_, getNumRows(), rowprice_);
+    CoinFillN(rowprice_, getNumRows(), 0.0);
     return true;
 }
 

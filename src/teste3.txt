@@ -22,7 +22,7 @@ partitionSlice=15
 
 ******* Optimization parameters *******
 solver=1 
-method=2 
+method=1 
 preprocessingLevel=2 
 linearRelaxation=0 
 relaxMethod=0

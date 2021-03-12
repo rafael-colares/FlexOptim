@@ -114,7 +114,7 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
             }
             else if(getIteration() >= MAX_NB_IT){
                 STOP = true;
-                //setStatus(STATUS_MAX_IT);
+                setStatus(STATUS_MAX_IT);
                 //setStatus(STATUS_OPTIMAL);
                 setStop("Max It");
                 std::cout << "Max It " << getLB() << std::endl;
@@ -124,9 +124,9 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
                     STOP = true;
                     setStop("Small improvement");
                     //setStatus(STATUS_FEASIBLE);
-                    setStatus(STATUS_ABORTED);
+                    //setStatus(STATUS_ABORTED);
                     setStatus(STATUS_OPTIMAL);
-                    std::cout << "Small improvement" << getLB() << std::endl;
+                    std::cout << "Small improvement " << getLB() << std::endl;
                 }
             }           
             else if(alternativeStop){
