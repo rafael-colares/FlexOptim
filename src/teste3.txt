@@ -22,9 +22,9 @@ partitionSlice=15
 
 ******* Optimization parameters *******
 solver=1 
-method=1 
+method=0 
 preprocessingLevel=2 
-linearRelaxation=0 
+linearRelaxation=1 
 relaxMethod=0
 lagrangianRelaxation=0
 
@@ -39,7 +39,7 @@ timeLimit=7200
 lagrangianMultiplier_zero=0 
 lagrangianLambda_zero=2 
 nbIterationsWithoutImprovement=30 
-maxNbIterations=5000
+maxNbIterations=10000
 
 lagFormulation=0 
 heuristic=0 

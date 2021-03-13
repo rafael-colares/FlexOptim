@@ -223,11 +223,11 @@ void lagVolume::runIteration(bool modifiedSubproblem){
     time.setStart(ClockTime::getTimeNow());
     //if(getIteration()<=5 || getIteration()%30 ==0){
     if(getIteration()<=2){
-        heuristic->run(modifiedSubproblem);
-        double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
-        updateUB(feasibleSolutionCostHeur);
+        //heuristic->run(modifiedSubproblem);
+        //double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
+        //updateUB(feasibleSolutionCostHeur);
         if(formulation->getInstance().getInput().isObj8(0)){
-            formulation->updateMaxUsedSliceOverallUpperBound(feasibleSolutionCostHeur);
+            //formulation->updateMaxUsedSliceOverallUpperBound(feasibleSolutionCostHeur);
         }
     }
     incHeuristicBoundTime(time.getTimeInSecFromStart());

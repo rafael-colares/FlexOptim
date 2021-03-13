@@ -9,7 +9,8 @@ AbstractHeuristic::AbstractHeuristic(AbstractLagFormulation* form, const Status 
     heuristicSolution.resize(formulation->getNbDemandsToBeRouted());
     for (int d = 0; d < formulation->getNbDemandsToBeRouted(); d++){
         heuristicSolution[d].resize(countArcs(*formulation->getVecGraphD(d)),false);
-        heuristicSolutionItBoolMap.emplace_back(std::make_shared<IterableBoolMap<ListDigraph, ListDigraph::Arc>>((*formulation->getVecGraphD(d)),false)); //mapFill<ListDigraph,IterableBoolMap<ListDigraph,ListDigraph::Arc>>((*formulation->getVecGraphD(d)),(*heuristicSolutionItBoolMap[d]),false);
+        heuristicSolutionItBoolMap.emplace_back(std::make_shared<IterableBoolMap<ListDigraph, ListDigraph::Arc>>((*formulation->getVecGraphD(d)),false)); 
+        //mapFill<ListDigraph,IterableBoolMap<ListDigraph,ListDigraph::Arc>>((*formulation->getVecGraphD(d)),(*heuristicSolutionItBoolMap[d]),false);
     } 
     timeAux = 0.0;
 }

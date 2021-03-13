@@ -151,6 +151,8 @@ class OsiLagSolverInterface : virtual public OsiSolverInterface{
         /// Resolve an LP relaxation after problem modification
         virtual void resolve();
 
+        void resolveAdapted();
+
         void extractSolution();
 
         /// Invoke solver's built-in enumeration algorithm
@@ -329,7 +331,7 @@ class OsiLagSolverInterface : virtual public OsiSolverInterface{
         virtual const double * getColSolution() const { return colsol_; }
     
         /* Get pointer to array[getNumRows()] of dual prices. */
-        virtual const double * getRowPrice() const { return rowprice_; }
+        virtual const double * getRowPrice() const { std::cout << "Get row price " << std::endl;return rowprice_; }
     
         /* Get a pointer to array[getNumCols()] of reduced costs. */
         virtual const double * getReducedCost() const { return rc_; }

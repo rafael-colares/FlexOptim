@@ -20,7 +20,7 @@ SolverCBC::SolverCBC(const Instance &inst) : AbstractSolver(inst, STATUS_UNKNOWN
 void SolverCBC::setCBCParams(const Input &input){
     //model.setMaximumSeconds(input.getIterationTimeLimit());
     model.setDblParam(CbcModel::CbcMaximumSeconds,input.getIterationTimeLimit());
-
+    solver.getModelPtr()->setMaximumSeconds(input.getIterationTimeLimit());
     if(isrelaxed){
         Input::RootMethod rootMethod = formulation->getInstance().getInput().getChosenRootMethod();
         if (rootMethod == Input::ROOT_METHOD_AUTO){
@@ -136,7 +136,7 @@ void SolverCBC::solve(){
         }
         std::cout << "Chosen objective: " << myObjectives[i].getName() << std::endl;
         if(isrelaxed){
-            model.initialSolve();
+            solver.initialSolve();
         }
         else{
             model.branchAndBound();
@@ -162,7 +162,7 @@ void SolverCBC::solve(){
     }
     setDurationTime(solveTime.getTimeInSecFromStart());
     if(isrelaxed){
-        setUpperBound(model.getCurrentObjValue());
+        setUpperBound(solver.getObjValue());
         setMipGap(0);
         setTreeSize(0);
     }else{

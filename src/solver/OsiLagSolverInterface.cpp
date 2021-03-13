@@ -221,8 +221,8 @@ bool OsiLagSolverInterface::setWarmStart(const CoinWarmStart* warmstart){
     }
 
     //CoinDisjointCopyN(ws->dual(), ws_size, rowprice_);
-    //CoinDisjointCopyN(rowpriceHotStart_, getNumRows(), rowprice_);
-    CoinFillN(rowprice_, getNumRows(), 0.0);
+    CoinDisjointCopyN(rowpriceHotStart_, getNumRows(), rowprice_);
+    //CoinFillN(rowprice_, getNumRows(), 0.0);
     return true;
 }
 
@@ -236,20 +236,23 @@ CoinWarmStart *OsiLagSolverInterface::getPointerToWarmStart(bool &mustDelete){
 /**************************************************************************************************/
 
 void OsiLagSolverInterface::markHotStart(){
+    std::cout << "mark hot start " << std::endl;
     delete[] rowpriceHotStart_;
     rowpriceHotStart_ = new double[getNumRows()];
     CoinDisjointCopyN(rowprice_, getNumRows(), rowpriceHotStart_);
 }
 
 void OsiLagSolverInterface::solveFromHotStart(){
+    std::cout << "Solve from hotstart" << std::endl;
     int itlimOrig = lagrangianSolver->getNbMaxIterations();
     getIntParam(OsiMaxNumIterationHotStart, lagrangianSolver->getNbMaxIterations());
     CoinDisjointCopyN(rowpriceHotStart_, getNumRows(), rowprice_);
-    resolve();
+    resolveAdapted();
     lagrangianSolver->setNbMaxIterations(itlimOrig);
 }
 
 void OsiLagSolverInterface::unmarkHotStart(){
+    std::cout << "unmark hot start" << std::endl;
   delete[] rowpriceHotStart_;
   rowpriceHotStart_ = NULL;
 }
@@ -418,6 +421,7 @@ void OsiLagSolverInterface::setColSolution(const double *colsol){
 //-----------------------------------------------------------------------
 
 void OsiLagSolverInterface::setRowPrice(const double *rowprice){
+    std::cout << "Set row price" << std::endl;
     CoinDisjointCopyN(rowprice, getNumRows(), rowprice_);
     compute_rc_(rowprice_, rc_);
 }
@@ -1205,6 +1209,7 @@ bool OsiLagSolverInterface::isIterationLimitReached() const{
 
 void OsiLagSolverInterface::initialSolve(){
     // set every entry to 0.0 in the dual solution
+    std::cout << "Initial Solve" << std::endl;
     CoinFillN(rowprice_, getNumRows(), 0.0);
 
     int i;
@@ -1233,6 +1238,7 @@ void OsiLagSolverInterface::initialSolve(){
 
 /* Resolve an LP relaxation after problem modification */
 void OsiLagSolverInterface::resolve(){
+    std::cout << "Resolve" << std::endl;
     int i;
     
     checkData_();
@@ -1253,12 +1259,72 @@ void OsiLagSolverInterface::resolve(){
     lagrangianSolver->getLagrangianFormulation()->startMultipliers(rowprice_,dsize,objsense_);
 
     lagrangianSolver->getLagrangianFormulation()->updateLowerUpperBound(collower_,colupper_);
+
+    std::cout << rowprice_[-1] << std::endl;
     
     /* Solves the problem */
     lagrangianSolver->run(false,true);
 
     /* extract the solution */
     extractSolution();
+}
+
+/* Resolve an LP relaxation after problem modification */
+void OsiLagSolverInterface::resolveAdapted(){
+    std::cout << "Resolve" << std::endl;
+    int i;
+    
+    checkData_();
+
+    /* Only one of these can do any work. */
+    updateRowMatrix_();
+    updateColMatrix_();
+
+    const int dsize = getNumRows();
+    const int psize = getNumCols();
+
+    /* Negate the objective coefficients if necessary. */
+    if (objsense_ < 0) {
+        std::transform(objcoeffs_, objcoeffs_+psize, objcoeffs_,std::negate<double>());
+    }
+
+    /* Set the dual starting point */ /* it is missing to multiply by objsense_ */
+    lagrangianSolver->getLagrangianFormulation()->startMultipliers(rowprice_,dsize,objsense_);
+
+    lagrangianSolver->getLagrangianFormulation()->updateLowerUpperBound(collower_,colupper_);
+
+    std::cout << rowprice_[-1] << std::endl;
+    
+    /* Solves the problem */
+    lagrangianSolver->run(false,true);
+
+    /* the lower bound on the objective value */
+    lagrangeanCost_ = objsense_ * lagrangianSolver->getLB();
+
+    /* the primal solution. */
+    lagrangianSolver->getSolution(colsol_);
+
+    // Reset the objective coefficients if necessary
+    double* row = new double[dsize];
+    if (objsense_ < 0) {
+        std::transform(objcoeffs_, objcoeffs_ + psize, objcoeffs_,std::negate<double>());
+        // also, multiply the dual solution by -1
+        lagrangianSolver->getDualSolution(row);
+        std::transform(row, row+dsize, row,std::negate<double>());
+    } else {
+        std::cout << " sem multiplication" << std::endl;
+        // now we just have to copy the dual
+
+        lagrangianSolver->getDualSolution(row);
+    }
+
+    /* Compute the reduced costs */
+    compute_rc_(row, rc_);
+
+    /* Compute the left hand side (row activity levels). */
+    colMatrix_.times(colsol_, lhs_);
+
+    delete[] row;
 }
 
 void OsiLagSolverInterface::extractSolution(){
@@ -1271,15 +1337,19 @@ void OsiLagSolverInterface::extractSolution(){
     /* the primal solution. */
     lagrangianSolver->getSolution(colsol_);
 
+    double* row = new double[dsize];
     // Reset the objective coefficients if necessary
     if (objsense_ < 0) {
+        std::cout << "multiplica por -1" << std::endl;
         std::transform(objcoeffs_, objcoeffs_ + psize, objcoeffs_,std::negate<double>());
         // also, multiply the dual solution by -1
         lagrangianSolver->getDualSolution(rowprice_);
         std::transform(rowprice_, rowprice_+dsize, rowprice_,std::negate<double>());
     } else {
+        std::cout << " sem multiplication" << std::endl;
         // now we just have to copy the dual
         lagrangianSolver->getDualSolution(rowprice_);
+        //lagrangianSolver->getDualSolution(row);
     }
 
     /* Compute the reduced costs */
@@ -1287,6 +1357,8 @@ void OsiLagSolverInterface::extractSolution(){
 
     /* Compute the left hand side (row activity levels). */
     colMatrix_.times(colsol_, lhs_);
+    delete[] row;
+    //CoinFillN(rowprice_, getNumRows(), 0.0);
 }
 
 /**************************************************************************************************/

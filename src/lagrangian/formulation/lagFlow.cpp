@@ -84,16 +84,23 @@ void lagFlow::startMultipliers(double *row,int size,int objSignal){
     
     /* Length multipliers */
     std::copy(row+notComputedMultipliers,row+(notComputedMultipliers+nbDemands) ,std::back_inserter(lagrangianMultiplierLength));
-    notComputedMultipliers = notComputedMultipliers+nbDemands;
     
+    std::cout <<"start mult \n";
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){  
+        std::cout << lagrangianMultiplierLength[d] << " ";
+    }
+    std::cout << std::endl;
+    notComputedMultipliers = notComputedMultipliers+nbDemands;
     /* Overlapping multipliers. */
     int nbSlicesEdges = 0;
     lagrangianMultiplierOverlap.resize(instance.getNbEdges());
     for (int i = 0; i < instance.getNbEdges(); i++){
         nbSlicesEdges = nbSlicesLimitFromEdge[i];
         std::copy(row+notComputedMultipliers,row+(notComputedMultipliers+nbSlicesEdges) ,std::back_inserter(lagrangianMultiplierOverlap[i]));
+        //std::cout << lagrangianMultiplierOverlap[i][0] << " " << row[notComputedMultipliers] << std::endl;
         notComputedMultipliers = notComputedMultipliers + nbSlicesEdges;
     }
+    std::cout << "fim start mult \n";
 
     /* Max used slice overall */
     if(instance.getInput().isObj8(0)){
@@ -435,12 +442,20 @@ void lagFlow::getDualSolution(double *rowprice){
     /* Length multipliers. */
     std::copy(lagrangianMultiplierLength.begin(),lagrangianMultiplierLength.end(),rowprice+notComputedMultipliers);
 
+    std::cout <<"get dual \n";
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){  
+        std::cout << rowprice[notComputedMultipliers+d] << " ";
+    }
+    std::cout << std::endl;
+
     /* Non overlapping multipliers. */
     notComputedMultipliers = notComputedMultipliers+nbDemands;
     for (int i = 0; i < instance.getNbEdges(); i++){
         std::copy(lagrangianMultiplierOverlap[i].begin(),lagrangianMultiplierOverlap[i].end(),rowprice+notComputedMultipliers);
         int nbSlicesEdges = nbSlicesLimitFromEdge[i];
+        //std::cout <<lagrangianMultiplierOverlap[i][0]<<" " << rowprice[notComputedMultipliers] << std::endl;
         notComputedMultipliers = notComputedMultipliers + nbSlicesEdges;
+        
     }
 
     /* Maximum used slice overall multipliers. */
