@@ -82,7 +82,7 @@ RSA::RSA(const Instance &inst) : instance(inst), compactEdgeId(compactGraph), co
     setPreprocessingTime(clock.getTimeInSecFromStart());
     //std::cout <<  "Preprocessing: " << clock.getTimeInSecFromStart() << std::endl;
 
-    /* Sets arc and node index. */
+    /* Sets arcs and nodes index. Sets arcs id's (variables id). */
     sourceNodeIndex.resize(getNbDemandsToBeRouted());
     targetNodeIndex.resize(getNbDemandsToBeRouted());
     int varId = 0;
@@ -106,6 +106,11 @@ RSA::RSA(const Instance &inst) : instance(inst), compactEdgeId(compactGraph), co
             setNodeIndex(v,d,nodeIndex);
             nodeIndex++;
         }
+        /* Copy the node label map and the arc label map to iterable maps. */
+        mapItNodeLabel.emplace_back(std::make_shared<IterableIntMap<ListDigraph, ListDigraph::Node>>((*vecGraph[d])) );
+        mapItArcLabel.emplace_back(std::make_shared<IterableIntMap<ListDigraph, ListDigraph::Arc>>((*vecGraph[d])) );
+        mapCopy<ListDigraph,NodeMap,IterableIntMap<ListDigraph, ListDigraph::Node>>((*vecGraph[d]),(*vecNodeLabel[d]),(*mapItNodeLabel[d]));
+        mapCopy<ListDigraph,ArcMap,IterableIntMap<ListDigraph, ListDigraph::Arc>>((*vecGraph[d]),(*vecArcLabel[d]),(*mapItArcLabel[d]));
     }
     maxSliceOverallVarId = varId;
 }

@@ -34,8 +34,10 @@ class AbstractLagSolver{
         const double MIN_STEPSIZE;
         double PRIMAL_ABS_PRECISION;
         double UBINIT;
+        double DUAL_LIMIT;
 
         Status currentStatus;
+        bool dualinf;
         ClockTime time;
         ClockTime generalTime;
         AbstractLagFormulation *formulation;
@@ -106,6 +108,8 @@ class AbstractLagSolver{
         int& getNbMaxIterations() {return MAX_NB_IT; } /*for the hot start in the OsiLagSolverInterface */
         double getPrimalAbsPrecision() const { return PRIMAL_ABS_PRECISION;}
         double getUBInit() const { return UBINIT;}
+        double getDualLimit() const { return DUAL_LIMIT;}
+        bool getDualInf() const { return dualinf;}
 
         ClockTime getGeneralTime() const { return generalTime;}
 
@@ -158,10 +162,12 @@ class AbstractLagSolver{
         void setNbMaxIterations(int value) {MAX_NB_IT = value;}
         void setPrimalAbsPrecision(double value) { PRIMAL_ABS_PRECISION = value;}
         void setUBInit(double value) { UBINIT = value;}
+        void setDualLimit(double value) { DUAL_LIMIT = value;}
+        void setDualInf(bool value) { dualinf = value;}
 
-        void setFormulationConstTime(double value)  { formulationConstTime = value; }
-        void setHeuristicConstTime(double value)  { heuristicConstTime = value; }
-        void setInitializationTime(double value)  { initializationTime = value; }
+        void setFormulationConstTime(double value) { formulationConstTime = value; }
+        void setHeuristicConstTime(double value) { heuristicConstTime = value; }
+        void setInitializationTime(double value) { initializationTime = value; }
         void setConstAuxGraphTime(double value) { constAuxGraphTime = value;}
         void setSolvingSubProblemTime(double value) { solvingSubProblemTime = value;}
         void incSolvingSubProblemTime(double value) { solvingSubProblemTime += value;}

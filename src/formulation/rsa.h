@@ -116,7 +116,13 @@ protected:
     CompactNodeMap compactNodeLabel;    /**< NodeMap storing the node labels of the simple graph associated with the initial mapping. **/
     
     Status currentStatus;		/**< Provides information about the current model and solution. **/
-	
+
+    /* Map iterator for the nodes labels. */
+    std::vector< std::shared_ptr<IterableIntMap<ListDigraph, ListDigraph::Node>>> mapItNodeLabel;
+
+    /* Map iterator for the arcs labels. */
+    std::vector< std::shared_ptr<IterableIntMap<ListDigraph, ListDigraph::Arc>>> mapItArcLabel;
+
 public:
 	/****************************************************************************************/
 	/*										Constructor										*/

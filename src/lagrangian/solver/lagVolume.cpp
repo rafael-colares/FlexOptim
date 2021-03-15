@@ -6,7 +6,6 @@
 
 /* Sets the initial parameters for the subgradient to run. */
 void lagVolume::initialization(bool initMultipliers){
-    std::cout << "*******************************" << std::endl;
 
     /** Setting initial time **/
     setInitializationTime(0.0);
@@ -40,9 +39,10 @@ void lagVolume::initialization(bool initMultipliers){
 
     UBINIT = formulation->initialUBValue();
     setUB(UBINIT);
-    std::cout << "Initial UB " << UBINIT << std::endl;
+    std::cout << "Volume: Initial UB: " << UBINIT << std::endl;
 
     setStatus(STATUS_UNKNOWN);
+    setDualInf(false);
 
     setInitializationTime(time.getTimeInSecFromStart());
     setConstAuxGraphTime(formulation->getConstAuxGraphTime()); 
@@ -97,27 +97,28 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
                 formulation->setStatus(RSA::STATUS_OPTIMAL);
                 setStatus(STATUS_OPTIMAL);
                 setStop("Optimal");
-                std::cout << "Optimal 1: " << getLB() << std::endl;
+                std::cout << "Volume: Integer Optimal by UB: " << getLB() << std::endl;
             }
             else if ((getIteration()>1) && primal_feas && small_gap){ // Test optimality LP
                 STOP = true;
                 setStatus(STATUS_OPTIMAL);
                 setStop("Small lp gap ");
-                std::cout << "Small lp gap " << getLB() << std::endl;
+                std::cout << "Volume: Small linear program gap: " << getLB() << std::endl;
             }
             else if(formulation->checkSlacknessCondition() && formulation->checkFeasibility()){
                 STOP = true;
                 formulation->setStatus(RSA::STATUS_OPTIMAL);
                 setStatus(STATUS_OPTIMAL);
                 setStop("Optimal");
-                std::cout << "Optimal slackness " << getLB() << " " << formulation->getLagrCurrentCost() << std::endl;
+                formulation->changePrimalApproximation();
+                std::cout << "Volume: Integer Optimal by slackness: " << getLB() << " " << formulation->getLagrCurrentCost() << std::endl;
             }
             else if(getIteration() >= MAX_NB_IT){
                 STOP = true;
-                setStatus(STATUS_MAX_IT);
                 //setStatus(STATUS_OPTIMAL);
+                setStatus(STATUS_MAX_IT);
                 setStop("Max It");
-                std::cout << "Max It " << getLB() << std::endl;
+                std::cout << "Volume: Maximum number iterations: " << getLB() << std::endl;
             }
             else if(getIteration() > ascent_first_check){
                 if(getLB() - sequence_dualCost[k] < std::abs(sequence_dualCost[k])* MINIMUM_REL_ASCENT){
@@ -126,22 +127,28 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
                     //setStatus(STATUS_FEASIBLE);
                     //setStatus(STATUS_ABORTED);
                     setStatus(STATUS_OPTIMAL);
-                    std::cout << "Small improvement " << getLB() << std::endl;
+                    std::cout << "Volume: LB with small improvement: " << getLB() << std::endl;
                 }
             }           
             else if(alternativeStop){
                 if(getGlobalItWithoutImprovement() >= 5*MAX_NB_IT_WITHOUT_IMPROVEMENT){
                     STOP = true;
-                    setStatus(STATUS_FEASIBLE);
-                    //setStatus(STATUS_OPTIMAL);
+                    //setStatus(STATUS_FEASIBLE);
+                    setStatus(STATUS_OPTIMAL);
                     setStop("Alternative stop");
-                    std::cout << "Alternative stop" << std::endl;
+                    std::cout << "Volume: Alternative stop: " << getLB() << std::endl;
                 }
             }
             if(getLB() >= UBINIT){
                 STOP = true;
                 setStatus(STATUS_INFEASIBLE);
-                std::cout << "Infeasible ub" << std::endl;
+                setStop("Infeasible");
+                std::cout << "Volume: Primal infeasible, dual unbounded." << std::endl;
+            }
+            if(getLB() >= DUAL_LIMIT){
+                STOP = true;
+                setStop("dual limit");
+                std::cout << "Volume: Dual limit reached." << std::endl;
             }
             sequence_dualCost[k] = getLB();
             incStoppingCriterionTime(time.getTimeInSecFromStart());
@@ -149,8 +156,9 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
         else{
             STOP = true;
             setStatus(STATUS_INFEASIBLE);
+            setDualInf(true);
             setStop("Infeasible");
-            std::cout << "Infeasible 1" << std::endl;
+            std::cout << "Volume: infeasible sub problem." << std::endl;
         }
         if(STOP==true){
             setTotalTime(getGeneralTime().getTimeInSecFromStart());
@@ -161,7 +169,7 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
             setRSAGraphConstructionTime(formulation->getRSAGraphConstructionTime());
             setPreprocessingTime(formulation->getPreprocessingTime());
             if(formulation->isInteger()){
-                std::cout << "integer" << std::endl;
+                std::cout << "The solution is integer." << std::endl;
             }
             if(modifiedSubproblem){
                 formulation->verifyLowerUpperBound();
@@ -203,6 +211,7 @@ void lagVolume::runIteration(bool modifiedSubproblem){
         double feasibleSolutionCost = formulation->getRealCurrentCost();
         if (feasibleSolutionCost < getUB()){
             updateUB(feasibleSolutionCost);
+            std::cout << " Ub by feasibility." << std::endl;
         }
     }
     incUpdatingBoundsTime(time.getTimeInSecFromStart());
@@ -221,13 +230,14 @@ void lagVolume::runIteration(bool modifiedSubproblem){
     incUpdatingPrimalVariablesTime(time.getTimeInSecFromStart());
 
     time.setStart(ClockTime::getTimeNow());
-    //if(getIteration()<=5 || getIteration()%30 ==0){
-    if(getIteration()<=2){
-        //heuristic->run(modifiedSubproblem);
-        //double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
-        //updateUB(feasibleSolutionCostHeur);
-        if(formulation->getInstance().getInput().isObj8(0)){
-            //formulation->updateMaxUsedSliceOverallUpperBound(feasibleSolutionCostHeur);
+    if(!modifiedSubproblem){
+        if(getIteration()<=5 || getIteration()%30 ==0){
+            heuristic->run(modifiedSubproblem);
+            double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
+            updateUB(feasibleSolutionCostHeur);
+            if(formulation->getInstance().getInput().isObj8(0)){
+                formulation->updateMaxUsedSliceOverallUpperBound(feasibleSolutionCostHeur);
+            }
         }
     }
     incHeuristicBoundTime(time.getTimeInSecFromStart());

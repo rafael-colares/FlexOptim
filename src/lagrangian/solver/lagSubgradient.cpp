@@ -42,6 +42,7 @@ void lagSubgradient::initialization(bool initMultipliers){
     setUB(UBINIT);
 
     setStatus(STATUS_UNKNOWN);
+    setDualInf(false);
 
     setInitializationTime(time.getTimeInSecFromStart());
     setConstAuxGraphTime(formulation->getConstAuxGraphTime()); 
@@ -89,51 +90,57 @@ void lagSubgradient::run(bool initMultipliers, bool modifiedSubproblem){
                 formulation->setStatus(RSA::STATUS_OPTIMAL);
                 setStatus(STATUS_OPTIMAL);
                 setStop("Optimal");
-                std::cout << "Optimal" << std::endl;
+                std::cout << "Subgradient: Integer Optimal by UB: " << getLB() << std::endl;
             }
             else if(formulation->checkSlacknessCondition() && formulation->checkFeasibility()){
                 STOP = true;
                 formulation->setStatus(RSA::STATUS_OPTIMAL);
                 setStatus(STATUS_OPTIMAL);
                 setStop("Optimal");
-                std::cout << "Optimal" << std::endl;
+                 std::cout << "Subgradient: Integer Optimal by slackness: " << getLB() << " " << formulation->getLagrCurrentCost() << std::endl;
             }
             else if (getIteration() >= MAX_NB_IT){
                 STOP = true;
-                setStatus(STATUS_MAX_IT);
                 //setStatus(STATUS_OPTIMAL);
+                setStatus(STATUS_MAX_IT);
                 setStop("Max It");
-                std::cout << "Max It" << std::endl;
+                std::cout << "Subgradient: Maximum number iterations: " << getLB() << std::endl;
             }
             else if (isGradientMoving() == false){
                 STOP = true;
-                setStatus(STATUS_FEASIBLE);
+                //setStatus(STATUS_FEASIBLE);
                 setStatus(STATUS_OPTIMAL);
                 setStop("Small Step");
-                std::cout << "Small Step" << getIteration() << std::endl;
+                std::cout << "Subgradient: Small Step: " << getLB() << std::endl;
             }
             else if(alternativeStop){
                 if(getGlobalItWithoutImprovement() >= 5*MAX_NB_IT_WITHOUT_IMPROVEMENT){
                     STOP = true;
-                    setStatus(STATUS_MAX_IT);
-                    //setStatus(STATUS_OPTIMAL);
+                    //setStatus(STATUS_MAX_IT);
+                    setStatus(STATUS_OPTIMAL);
                     setStop("Alternative stop");
-                    std::cout << "Alternative stop" << std::endl;
+                    std::cout << "Subgradient: Alternative stop." << std::endl;
                 }
             }
-            if(formulation->getLagrCurrentCost() >= UBINIT){
+            if(getLB()  >= UBINIT){
                 STOP = true;
                 setStatus(STATUS_INFEASIBLE);
                 setStop("Infeasible");
-                std::cout << "Infeasible 2" << std::endl;
+                std::cout << "Subgradient: Primal infeasible, dual unbounded." << std::endl;
+            }
+            if(getLB() >= DUAL_LIMIT){
+                STOP = true;
+                setStop("dual limit");
+                std::cout << "Subgradient: Dual limit reached." << std::endl;
             }
             incStoppingCriterionTime(time.getTimeInSecFromStart());
         }
         else{
             STOP = true;
             setStatus(STATUS_INFEASIBLE);
+            setDualInf(true);
             setStop("Infeasible");
-            std::cout << "Infeasible 1" << std::endl;
+            std::cout << "Subgradient: infeasible sub problem." << std::endl;
         }
         if(STOP==true){
             setTotalTime(getGeneralTime().getTimeInSecFromStart());
@@ -181,12 +188,14 @@ void lagSubgradient::runIteration(bool modifiedSubproblem){
     incUpdatingBoundsTime(time.getTimeInSecFromStart());
 
     time.setStart(ClockTime::getTimeNow());
-    if(getIteration()<=5 || getIteration()%30 ==0){
-        heuristic->run(modifiedSubproblem);
-        double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
-        updateUB(feasibleSolutionCostHeur);
-        if(formulation->getInstance().getInput().isObj8(0)){
-            formulation->updateMaxUsedSliceOverallUpperBound(feasibleSolutionCostHeur);
+    if(!modifiedSubproblem){
+        if(getIteration()<=5 || getIteration()%30 ==0){
+            heuristic->run(modifiedSubproblem);
+            double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
+            updateUB(feasibleSolutionCostHeur);
+            if(formulation->getInstance().getInput().isObj8(0)){
+                formulation->updateMaxUsedSliceOverallUpperBound(feasibleSolutionCostHeur);
+            }
         }
     }
     incHeuristicBoundTime(time.getTimeInSecFromStart());

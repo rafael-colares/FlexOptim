@@ -33,6 +33,7 @@ class CoinWarmStart;
 class OsiLagSolverInterface : virtual public OsiSolverInterface{
 
     private:
+        int num;
 
         /**************************************************************************************************/
         /* The problem matrix in row and column ordered forms. Note that at least one of the matrices is  */
@@ -151,14 +152,11 @@ class OsiLagSolverInterface : virtual public OsiSolverInterface{
         /// Resolve an LP relaxation after problem modification
         virtual void resolve();
 
-        void resolveAdapted();
-
         void extractSolution();
 
         /// Invoke solver's built-in enumeration algorithm
         virtual void branchAndBound() {
-            throw CoinError("Sorry, the Volume Algorithm doesn't implement B&B",
-                "branchAndBound", "OsiVolSolverInterface");
+            throw CoinError("Sorry, the Volume Algorithm doesn't implement B&B","branchAndBound", "OsiVolSolverInterface");
         }
         //@}
 

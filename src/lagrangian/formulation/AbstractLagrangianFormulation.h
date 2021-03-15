@@ -1134,6 +1134,8 @@ class AbstractLagFormulation: public FlowForm{
 
                 void clearPrimalApproximationMatrix();
 
+                void changePrimalApproximation();
+
                 /***************************************** ASSIGNMENT MATRIX **********************************************/
 
                 /** Updates the assignment matrix to false **/

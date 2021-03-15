@@ -18,8 +18,8 @@ void lagSolverCBC::implementFormulation(){
 }
 
 void lagSolverCBC::setCBCParams(const Input &input){
-    model.setMaximumSeconds(input.getIterationTimeLimit());
-    model.messageHandler()->setLogLevel(3);
+    //model.setMaximumSeconds(input.getIterationTimeLimit());
+    model.messageHandler()->setLogLevel(4);
     std::cout << "CBC parameters have been defined..." << std::endl;
 }
 
@@ -35,8 +35,8 @@ void lagSolverCBC::solve(){
         model.initialSolve();
     }else{
         //model.initialSolve();
-        CbcRounding heuristic1(model);
-        model.addHeuristic(&heuristic1);
+        //CbcRounding heuristic1(model);
+        //model.addHeuristic(&heuristic1);
         model.branchAndBound();
     }
 

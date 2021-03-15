@@ -267,7 +267,7 @@ int main(int argc, char *argv[]) {
         }*/
         
         
-        fichier << std::endl << std::endl;
+        /*fichier << std::endl << std::endl;
         fichier << " Slices ; Demands ; RELAX-CBC-OBJ ; RELAX-CBC-Time ; RELAX-CBC-algorithm "<< std::endl;
 
         for(relaxMethod=0;relaxMethod<=3;relaxMethod++){
@@ -291,11 +291,11 @@ int main(int argc, char *argv[]) {
                 std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
                 std::string nextFile2 = instance2.getInput().getDemandToBeRoutedFilesFromIndex(0);
                 instance2.generateDemandsFromFile(nextFile2);
-                
+                */
                 /********************************************************************/
                 /* 				        Solve - RELAXATION	 					*/
                 /********************************************************************/
-                
+                /*
                 std::cout << "Solving with RELAX-Cplex" << std::endl;
                 SolverFactory factory2;
                 AbstractSolver *solver2 = factory2.createSolver(instance2);
@@ -316,9 +316,8 @@ int main(int argc, char *argv[]) {
                 delete solver2;
             }
         }
-        
+        */
 
-       /*
         fichier << std::endl << std::endl;
         fichier << " SUBGRADIENT WITH FLOW FORMULATION " << std::endl << std::endl;
 
@@ -357,11 +356,11 @@ int main(int argc, char *argv[]) {
                         std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
                         std::string nextFile3 = instance3.getInput().getDemandToBeRoutedFilesFromIndex(0);
                         instance3.generateDemandsFromFile(nextFile3);
-                        */
+                        
                         /********************************************************************/
                         /* 		      Solve - SUBGRADIENT LAGFLOW FORMULATION               */
                         /********************************************************************/
-                        /*
+                        
                         std::cout << "Solving with subgradient and flow formulation" << std::endl;
                         lagSolverFactory lagfactory;
                         AbstractLagSolver *lagsolver = lagfactory.createSolver(instance3);
@@ -380,9 +379,9 @@ int main(int argc, char *argv[]) {
                 }
             }
         }
-        */
+        
 
-       /*
+       
         fichier << std::endl << std::endl;
         fichier << " VOLUME WITH FLOW FORMULATION " << std::endl << std::endl;
 
@@ -416,11 +415,11 @@ int main(int argc, char *argv[]) {
                 std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
                 std::string nextFile5 = instance5.getInput().getDemandToBeRoutedFilesFromIndex(0);
                 instance5.generateDemandsFromFile(nextFile5);
-                */
+                
                 /********************************************************************/
                 /* 		      Solve - VOLUME LAGFLOW FORMULATION               */
                 /********************************************************************/
-                /*
+                
                 std::cout << "Solving with volume and flow formulation" << std::endl;
                 lagSolverFactory lagfactory3;
                 AbstractLagSolver *lagsolver3 = lagfactory3.createSolver(instance5);
@@ -437,7 +436,7 @@ int main(int argc, char *argv[]) {
             }
             nbIterationsWithoutImprovement = nbIterationsWithoutImprovement + 5;
         }
-        */
+        
         fichier << std::endl;
         fichier.close();
     }

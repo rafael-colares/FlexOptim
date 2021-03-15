@@ -85,11 +85,11 @@ void lagFlow::startMultipliers(double *row,int size,int objSignal){
     /* Length multipliers */
     std::copy(row+notComputedMultipliers,row+(notComputedMultipliers+nbDemands) ,std::back_inserter(lagrangianMultiplierLength));
     
-    std::cout <<"start mult \n";
+    /*std::cout <<"start mult \n";
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){  
         std::cout << lagrangianMultiplierLength[d] << " ";
     }
-    std::cout << std::endl;
+    std::cout << std::endl;*/
     notComputedMultipliers = notComputedMultipliers+nbDemands;
     /* Overlapping multipliers. */
     int nbSlicesEdges = 0;
@@ -100,7 +100,6 @@ void lagFlow::startMultipliers(double *row,int size,int objSignal){
         //std::cout << lagrangianMultiplierOverlap[i][0] << " " << row[notComputedMultipliers] << std::endl;
         notComputedMultipliers = notComputedMultipliers + nbSlicesEdges;
     }
-    std::cout << "fim start mult \n";
 
     /* Max used slice overall */
     if(instance.getInput().isObj8(0)){
@@ -442,11 +441,11 @@ void lagFlow::getDualSolution(double *rowprice){
     /* Length multipliers. */
     std::copy(lagrangianMultiplierLength.begin(),lagrangianMultiplierLength.end(),rowprice+notComputedMultipliers);
 
-    std::cout <<"get dual \n";
+    /*std::cout <<"get dual \n";
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){  
         std::cout << rowprice[notComputedMultipliers+d] << " ";
     }
-    std::cout << std::endl;
+    std::cout << std::endl;*/
 
     /* Non overlapping multipliers. */
     notComputedMultipliers = notComputedMultipliers+nbDemands;
@@ -1046,6 +1045,18 @@ void lagFlow::runAdaptedGeneralObj(){
             std::cout << "> The problem should not be unbounded because all the variables considered have upper bound at most equal to 1." << std::endl;
         }
         incShorstestPathTime(time.getTimeInSecFromStart());
+
+        if(d==6){
+            IterableValueMap<ListDigraph,ListDigraph::Arc,double> auxiliary(*vecGraph[d]);
+            costScale.flowMap(auxiliary);
+            int flow = 1;
+
+            for(IterableValueMap<ListDigraph,ListDigraph::Arc,double>::ItemIt arc(auxiliary,flow); arc != INVALID; ++arc){
+                //std::cout << "FLOW: label: " << getArcLabel(arc,d) << " slice: " << getArcSlice(arc,d) << std::endl;
+            }
+            //std::cout << "FIM" << std::endl;
+        }
+     
 
         time.setStart(ClockTime::getTimeNow());
         updateAssignment_k(d, costScale, SOURCE, TARGET);

@@ -160,22 +160,26 @@ void AbstractLagFormulation::updateLowerUpperBound(double *lower, double *upper)
     }
     int nbvar =0;
     int nbRealvar =0;
+    int count1;
+    int count2;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         nbRealvar += countArcs((*vecGraph[d]));
-
+        count1 = 0;
+        count2 =0;
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
             if((*lowerBound[d])[a]>0){
-                std::cout << "lb " << (*lowerBound[d])[a] << " slice:" << getArcSlice(a,d) << " d:" << d <<  std::endl;
+                //std::cout << "lb " << (*lowerBound[d])[a] << " slice:" << getArcSlice(a,d) << " d:" << d <<  std::endl;
                 nbvar++;
             }
             if((*upperBound[d])[a]<1){
-                std::cout << "ub " << (*upperBound[d])[a] << " slice: " << getArcSlice(a,d) << " d:" << d <<  std::endl;
+                //std::cout << "ub " << (*upperBound[d])[a] << " slice: " << getArcSlice(a,d) << " d:" << d <<  std::endl;
                 nbvar++;
             }
         }
     }
-    std::cout << "Nb var: " << nbRealvar << std::endl;
-    std::cout << "Nb var ub lb: " << nbvar << std::endl;
+    std::cout << "Total number of variables: " << nbRealvar << std::endl;
+    std::cout << "Fixed variables (ub or lb): " << nbvar << std::endl;
+      
 }
 
 void AbstractLagFormulation::verifyLowerUpperBound(){
@@ -1309,6 +1313,12 @@ void AbstractLagFormulation::updatePrimalApproximation(double alpha){
 
     double obj = alpha*getRealCurrentCost() + (1.0-alpha)*getPrimalCurrentCost();
     setCurrentPrimalCost(obj);
+}
+
+void AbstractLagFormulation::changePrimalApproximation(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        std::copy(assignmentMatrix_d[d].begin(),assignmentMatrix_d[d].end(),primal_linear_solution[d].begin());
+    }
 }
 
 /* ********************************************************************************************************************
