@@ -40,6 +40,7 @@ void lagSubgradient::initialization(bool initMultipliers){
 
     UBINIT = formulation->initialUBValue();
     setUB(UBINIT);
+    std::cout << "Subgradient: Initial UB: " << UBINIT << std::endl;
 
     setStatus(STATUS_UNKNOWN);
     setDualInf(false);
@@ -90,7 +91,7 @@ void lagSubgradient::run(bool initMultipliers, bool modifiedSubproblem){
                 formulation->setStatus(RSA::STATUS_OPTIMAL);
                 setStatus(STATUS_OPTIMAL);
                 setStop("Optimal");
-                std::cout << "Subgradient: Integer Optimal by UB: " << getLB() << std::endl;
+                std::cout << "Subgradient: Integer Optimal by UB: " << getLB() << getIteration() << std::endl;
             }
             else if(formulation->checkSlacknessCondition() && formulation->checkFeasibility()){
                 STOP = true;
@@ -101,8 +102,8 @@ void lagSubgradient::run(bool initMultipliers, bool modifiedSubproblem){
             }
             else if (getIteration() >= MAX_NB_IT){
                 STOP = true;
-                //setStatus(STATUS_OPTIMAL);
-                setStatus(STATUS_MAX_IT);
+                setStatus(STATUS_OPTIMAL);
+                //setStatus(STATUS_MAX_IT);
                 setStop("Max It");
                 std::cout << "Subgradient: Maximum number iterations: " << getLB() << std::endl;
             }
@@ -122,7 +123,7 @@ void lagSubgradient::run(bool initMultipliers, bool modifiedSubproblem){
                     std::cout << "Subgradient: Alternative stop." << std::endl;
                 }
             }
-            if(getLB()  >= UBINIT){
+            if(getLB() >= UBINIT -1){
                 STOP = true;
                 setStatus(STATUS_INFEASIBLE);
                 setStop("Infeasible");

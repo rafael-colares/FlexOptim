@@ -90,6 +90,7 @@ int main(int argc, char *argv[]) {
 			AbstractSolver *solver = factory.createSolver(instance);
 			solver->solve();
 			//std::cout << "call update" << std::endl;
+			std::cout << " Time: " << solver->getDurationTime() << std::endl << std::endl;
 			solver->updateRSA(instance);
 			
 			/********************************************************************/

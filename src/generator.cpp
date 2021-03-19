@@ -101,11 +101,11 @@ void Generator::generateDemands(int nbDemands){
                 slice = rand() % 4 + 3; 
 
                 if(slice == 3){
-                    length = 600.0;
+                    length = 3000.0;
                 }else if(slice == 4 || slice == 5){
                     length = 1500.0;
                 }else if(slice == 6){
-                    length = 3000.0;
+                    length = 600.0;
                 }
 
                 const ListDigraph::Node SOURCE = getFirstNodeFromLabel(sourceLabel);

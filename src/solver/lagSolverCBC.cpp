@@ -37,6 +37,7 @@ void lagSolverCBC::solve(){
         //model.initialSolve();
         //CbcRounding heuristic1(model);
         //model.addHeuristic(&heuristic1);
+        //model.setCutoff(68);
         model.branchAndBound();
     }
 
