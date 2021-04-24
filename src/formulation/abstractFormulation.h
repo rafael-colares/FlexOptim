@@ -51,7 +51,7 @@ public:
 	/*										Constraints										*/
 	/****************************************************************************************/
 	/** Returns the set of constraints. **/
-	std::vector<Constraint> getConstraints(){ return constraintSet; }
+	const std::vector<Constraint> & getConstraints(){ return constraintSet; }
 
 	/** Clears the set of constraints. **/
 	void clearConstraints(){ constraintSet.clear(); }
@@ -90,7 +90,7 @@ public:
 	/****************************************************************************************/
 
 	/** Returns the i-th objective function. @param i The objective function index. **/
-    ObjectiveFunction getObjFunction(int i){ return objectiveSet[i]; }
+    const ObjectiveFunction & getObjFunction(int i){ return objectiveSet[i]; }
 
 	/** Returns the set of objective functions. **/
     std::vector<ObjectiveFunction> getObjectiveSet(){ return objectiveSet; }

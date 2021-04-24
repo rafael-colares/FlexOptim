@@ -52,7 +52,7 @@ void createFile(std::string parameterFile,std::string linkfile,std::string deman
         fichier << "******* Optimization parameters *******" << std::endl;
         fichier << "solver=" <<solver << " "<< std::endl;
         fichier << "method=" << nodeMethod << " " << std::endl;
-        fichier << "preprocessingLevel=2 " << std::endl;
+        fichier << "preprocessingLevel=0 " << std::endl;
         fichier << "linearRelaxation="<< rl << " " << std::endl;
         fichier << "relaxMethod="<< relaxMethod << " " << std::endl;
         fichier << "lagrangianRelaxation="<< lagRelax << " " << std::endl;

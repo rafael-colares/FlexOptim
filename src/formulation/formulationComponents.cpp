@@ -23,6 +23,8 @@ Variable& Variable::operator=(const Variable& var){
 
 Term::Term(Variable variable, double coefficient): coeff(coefficient), var(variable){}
 
+Term::Term(const Term & term):coeff(term.coeff),var(term.var){}
+
 Expression::Expression(const Expression &e): termsArray(e.getTerms()){}
 
 Expression::Expression(const Variable &v){

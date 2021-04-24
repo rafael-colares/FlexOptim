@@ -19,8 +19,8 @@ SolverCBC::SolverCBC(const Instance &inst) : AbstractSolver(inst, STATUS_UNKNOWN
 
 void SolverCBC::setCBCParams(const Input &input){
     //model.setMaximumSeconds(input.getIterationTimeLimit());
-    model.setDblParam(CbcModel::CbcMaximumSeconds,input.getIterationTimeLimit());
-    solver.getModelPtr()->setMaximumSeconds(input.getIterationTimeLimit());
+    //model.setDblParam(CbcModel::CbcMaximumSeconds,input.getIterationTimeLimit());
+    //solver.getModelPtr()->setMaximumSeconds(input.getIterationTimeLimit());
     if(isrelaxed){
         Input::RootMethod rootMethod = formulation->getInstance().getInput().getChosenRootMethod();
         if (rootMethod == Input::ROOT_METHOD_AUTO){
@@ -95,9 +95,13 @@ void SolverCBC::setVariables(const std::vector<Variable> &myVars){
 void SolverCBC::setConstraints(const std::vector<Constraint> &myConstraints){
     for (unsigned int i = 0; i < myConstraints.size(); i++){ 
         CoinPackedVector constraint;
-        for (unsigned int j = 0; j < myConstraints[i].getExpression().getTerms().size(); j++){
-            int index = myConstraints[i].getExpression().getTerm_i(j).getVar().getId();
-            double coefficient = myConstraints[i].getExpression().getTerm_i(j).getCoeff();
+        Expression expression = myConstraints[i].getExpression();
+        int n = expression.getTerms().size();
+        int index; double coefficient;
+        for (unsigned int j = 0; j < n; j++){
+            Term term = expression.getTerm_i(j);
+            index = term.getVar().getId();
+            coefficient = term.getCoeff();
             constraint.insert(index, coefficient);
         }
         solver.addRow(constraint, myConstraints[i].getLb(), myConstraints[i].getUb(), myConstraints[i].getName());
@@ -107,15 +111,18 @@ void SolverCBC::setConstraints(const std::vector<Constraint> &myConstraints){
 
 /** Defines the objective function. **/
 void SolverCBC::setObjective(const ObjectiveFunction &myObjective){
-    
     // Define objective sense: 1 for minimize; -1 for maximize.
     int objSense = 1;
     solver.setObjSense(1);
 
     // Fill objective coefficients.
-    for (unsigned int i = 0; i < myObjective.getExpression().getTerms().size(); i++){
-        int index = myObjective.getExpression().getTerm_i(i).getVar().getId();
-        double coefficient = myObjective.getExpression().getTerm_i(i).getCoeff();
+    Expression expression =  myObjective.getExpression();
+    int n = expression.getTerms().size();
+    int index; double coefficient;
+    for (unsigned int i = 0; i < n; i++){
+        Term term= expression.getTerm_i(i);
+        index = term.getVar().getId();
+        coefficient = term.getCoeff();
         solver.setObjCoeff(index, coefficient);
     }
     std::cout << "CBC objective has been defined..." << std::endl;
@@ -136,7 +143,7 @@ void SolverCBC::solve(){
         }
         std::cout << "Chosen objective: " << myObjectives[i].getName() << std::endl;
         if(isrelaxed){
-            solver.initialSolve();
+            solver.initialSolve(); // Using this method so the time limit is respected.
         }
         else{
             model.branchAndBound();

@@ -1465,9 +1465,13 @@ void OsiLagSolverInterface::setVariables(const std::vector<Variable> &myVars){
 void OsiLagSolverInterface::setConstraints(const std::vector<Constraint> &myConstraints){
     for (unsigned int i = 0; i < myConstraints.size(); i++){ 
         CoinPackedVector constraint;
-        for (unsigned int j = 0; j < myConstraints[i].getExpression().getTerms().size(); j++){
-            int index = myConstraints[i].getExpression().getTerm_i(j).getVar().getId();
-            double coefficient = myConstraints[i].getExpression().getTerm_i(j).getCoeff();
+        Expression expression = myConstraints[i].getExpression();
+        int n = expression.getTerms().size();
+        int index; double coefficient;
+        for (unsigned int j = 0; j < n; j++){
+            Term term = expression.getTerm_i(j);
+            index = term.getVar().getId();
+            coefficient = term.getCoeff();
             constraint.insert(index, coefficient);
         }
         addRow(constraint, myConstraints[i].getLb(), myConstraints[i].getUb(), myConstraints[i].getName());
@@ -1483,9 +1487,13 @@ void OsiLagSolverInterface::setObjective(const ObjectiveFunction &myObjective){
     setObjSense(1);
 
     // Fill objective coefficients.
-    for (unsigned int i = 0; i < myObjective.getExpression().getTerms().size(); i++){
-        int index = myObjective.getExpression().getTerm_i(i).getVar().getId();
-        double coefficient = myObjective.getExpression().getTerm_i(i).getCoeff();
+    Expression expression =  myObjective.getExpression();
+    int n = expression.getTerms().size();
+    int index; double coefficient;
+    for (unsigned int i = 0; i < n; i++){
+        Term term= expression.getTerm_i(i);
+        index = term.getVar().getId();
+        coefficient = term.getCoeff();
         setObjCoeff(index, coefficient);
     }
     std::cout << "OsiLagSolverInterface: Objective has been defined..." << std::endl;

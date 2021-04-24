@@ -438,7 +438,7 @@ Input::LagFormulation Input::to_LagFormulation(std::string data){
         }
     }
     else{
-        std::cout << "ERROR: A lagrangian method must be specified." << std::endl;
+        std::cout << "ERROR: A lagrangian formulation must be specified." << std::endl;
         exit(0);
     }
 }
@@ -564,7 +564,7 @@ void Input::checkConsistency(){
         exit(0);
     }
     if((getChosenNodeMethod() != NODE_METHOD_LINEAR_RELAX) && (chosenObj[0]==OBJECTIVE_METRIC_1p)){
-        std::cout << "ERROR: Subgradient methods are not defined for objective 1p. ." << std::endl;
+        std::cout << "ERROR: Subgradient methods are not defined for objective 1p." << std::endl;
         exit(0);
     }
     std::cout << "All information from input is consistent." << std::endl;
@@ -591,6 +591,7 @@ bool Input::isObj8(int i) const{
     }
     return false;
 }
+
 /****************************************************************************************/
 /*										Destructor										*/
 /****************************************************************************************/

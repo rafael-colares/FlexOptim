@@ -15,6 +15,7 @@ void lagSolverCBC::implementFormulation(){
     solver.loadModelFormulation();
     solver.writeLp("test");
     model = CbcModel(solver);
+    formulation = solver.getLagrangianSolver()->getLagrangianFormulation();
 }
 
 void lagSolverCBC::setCBCParams(const Input &input){
@@ -31,15 +32,10 @@ void lagSolverCBC::solve(){
     std::vector<ObjectiveFunction> myObjectives = solver.getLagrangianSolver()->getLagrangianFormulation()->getObjectiveSet();
     std::cout << "Chosen objective: " << myObjectives[0].getName() << std::endl;
 
-    if(solver.getLagrangianSolver()->getLagrangianFormulation()->getInstance().getInput().isLagrangianRelaxed()){
-        model.initialSolve();
-    }else{
-        //model.initialSolve();
-        //CbcRounding heuristic1(model);
-        //model.addHeuristic(&heuristic1);
-        //model.setCutoff(68);
-        model.branchAndBound();
-    }
+    //CbcRounding heuristic1(model);
+    //model.addHeuristic(&heuristic1);
+    //model.setCutoff(68);
+    model.branchAndBound();
 
     if (model.bestSolution() != NULL){
         double objValue = model.getObjValue();
@@ -57,12 +53,12 @@ void lagSolverCBC::solve(){
 	setTreeSize(model.getNodeCount());
     std::cout << "Optimization done in " << std::fixed  << getDurationTime() << std::setprecision(2) << " secs." << std::endl;
     if (getStatus() == STATUS_OPTIMAL || getStatus() == STATUS_FEASIBLE){    
-        //displaySolution();
+        displaySolution();
         std::cout << "Objective Function Value: " << model.getObjValue() << std::endl;
     }
     else{
         if (model.currentSolution() != NULL){
-            //displayFractSolution();
+            displayFractSolution();
             std::cout << "Current obj value: " << model.getCurrentObjValue() << std::endl;
         }
         std::cout << "Could not find an integer feasible solution..." << std::endl;

@@ -9,12 +9,14 @@ FlowForm::FlowForm(const Instance &inst) : AbstractFormulation(inst){
     }
     auxNbSlicesGlobalLimit = getNbSlicesGlobalLimit();
     if(inst.getInput().getChosenNodeMethod() == Input::NODE_METHOD_LINEAR_RELAX){
+        ClockTime time(ClockTime::getTimeNow());
         std::cout << "--- Flow formulation has been chosen. " << displayDimensions() << " ---" << std::endl;
         this->setVariables();
         this->setConstraints();
         this->setCutPool();
         this->setObjectives();
         std::cout << "--- Flow formulation has been defined ---" << std::endl;
+        std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
     }
 }
 
@@ -56,7 +58,7 @@ void FlowForm::setFlowVariables(){
             //int varId = getNbVar();
             int varId = getVarId(a,d);
             /* When solving with subgradient methods we do not change the variable to continuous. */
-            if(instance.getInput().isRelaxed() && (instance.getInput().getChosenNodeMethod() == Input::NODE_METHOD_LINEAR_RELAX)){
+            if( (instance.getInput().isRelaxed() && (instance.getInput().getChosenNodeMethod() == Input::NODE_METHOD_LINEAR_RELAX) ) || ( instance.getInput().isLagrangianRelaxed() && (instance.getInput().getChosenNodeMethod()!=Input::NODE_METHOD_LINEAR_RELAX) )  ){
                 x[d][arc] = Variable(varId, 0, upperBound, Variable::TYPE_REAL, 0, varName.str());
             }
             else{
@@ -124,15 +126,23 @@ void FlowForm::setVariableValues(const std::vector<double> &vals){
             x[d][arc].setVal(newValue);
         }
     }
-    for (int i = 0; i < instance.getNbEdges(); i++){
-        int pos = maxSlicePerLink[i].getId();
+    if(instance.getInput().getChosenNodeMethod()!= Input::NODE_METHOD_LINEAR_RELAX){
+        if(instance.getInput().isObj8(0)){
+            int pos = maxSliceOverall.getId();
+            double newValue = vals[pos];
+            maxSliceOverall.setVal(newValue);
+        }
+
+    }else{
+        for (int i = 0; i < instance.getNbEdges(); i++){
+            int pos = maxSlicePerLink[i].getId();
+            double newValue = vals[pos];
+            maxSlicePerLink[i].setVal(newValue);
+        }
+        int pos = maxSliceOverall.getId();
         double newValue = vals[pos];
-        maxSlicePerLink[i].setVal(newValue);
+        maxSliceOverall.setVal(newValue);
     }
-    
-    int pos = maxSliceOverall.getId();
-    double newValue = vals[pos];
-    maxSliceOverall.setVal(newValue);
 }
 
 /********************************** Lagrangian Inclusion ********************************/
@@ -167,7 +177,7 @@ void FlowForm::setLagVariables(){
 
 /* Set the objective Function */
 void FlowForm::setObjectives(){
-    std::vector<Input::ObjectiveMetric> chosenObjectives = instance.getInput().getChosenObj();
+    const std::vector<Input::ObjectiveMetric> & chosenObjectives = instance.getInput().getChosenObj();
     objectiveSet.resize(chosenObjectives.size());
     for (unsigned int i = 0; i < chosenObjectives.size(); i++){
         Expression myObjective = this->getObjFunctionFromMetric(chosenObjectives[i]);
@@ -282,7 +292,7 @@ void FlowForm::setConstraints(){
 void FlowForm::setSourceConstraints(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){  
         for (int label = 0; label < instance.getNbNodes(); label++){
-            Constraint sourceConstraint = getSourceConstraint_d_n(getToBeRouted_k(d), d, label);
+            const Constraint & sourceConstraint = getSourceConstraint_d_n(getToBeRouted_k(d), d, label);
             constraintSet.push_back(sourceConstraint);
         }
     }
@@ -332,7 +342,7 @@ void FlowForm::setFlowConservationConstraints(){
         for (ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
             int label = getNodeLabel(v, d);
             if( (label != getToBeRouted_k(d).getSource()) && (label != getToBeRouted_k(d).getTarget()) ){
-                Constraint flow = getFlowConservationConstraint_i_d(v, getToBeRouted_k(d), d);
+                const Constraint & flow = getFlowConservationConstraint_i_d(v, getToBeRouted_k(d), d);
                 constraintSet.push_back(flow);
             }
         }
@@ -365,7 +375,7 @@ Constraint FlowForm::getFlowConservationConstraint_i_d(ListDigraph::Node &v, con
 /* Defines Target constraints. Exactly one arc enters the target. */
 void FlowForm::setTargetConstraints(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
-        Constraint targetConstraint = getTargetConstraint_d(getToBeRouted_k(d), d);
+        const Constraint & targetConstraint = getTargetConstraint_d(getToBeRouted_k(d), d);
         constraintSet.push_back(targetConstraint);
     }
     std::cout << "Target constraints have been defined..." << std::endl;
@@ -394,7 +404,7 @@ void FlowForm::setStrongLengthConstraints(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
         //for (int s = 0; s < getNbSlicesGlobalLimit(); s++){  
         for (int s = 0; s < auxNbSlicesGlobalLimit; s++){  
-            Constraint strongLengthConstraint = getStrongLengthConstraint(getToBeRouted_k(d), d, s);
+            const Constraint & strongLengthConstraint = getStrongLengthConstraint(getToBeRouted_k(d), d, s);
             constraintSet.push_back(strongLengthConstraint);
         }
     }
@@ -438,7 +448,7 @@ Constraint FlowForm::getStrongLengthConstraint(const Demand &demand, int d, int 
 /* Defines Length constraints. Demands must be routed within a length limit. */
 void FlowForm::setLengthConstraints(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){   
-        Constraint lengthConstraint = getLengthConstraint(getToBeRouted_k(d), d);
+        const Constraint & lengthConstraint = getLengthConstraint(getToBeRouted_k(d), d);
         constraintSet.push_back(lengthConstraint);
     }
     std::cout << "Length constraints have been defined..." << std::endl;
@@ -486,7 +496,7 @@ void FlowForm::setNonOverlappingConstraints(){
         //int sliceLimit = getNbSlicesLimitFromEdge(i);
         int sliceLimit = auxNbSlicesLimitFromEdge[i];
         for (int s = 0; s < sliceLimit; s++){
-            Constraint nonOverlap = getNonOverlappingConstraint(instance.getPhysicalLinkFromIndex(i).getId(), s);
+            const Constraint & nonOverlap = getNonOverlappingConstraint(instance.getPhysicalLinkFromIndex(i).getId(), s);
             constraintSet.push_back(nonOverlap);
         }
     }
@@ -569,7 +579,7 @@ void FlowForm::setMaxUsedSlicePerLinkConstraints2(){
         //int sliceLimit = getNbSlicesLimitFromEdge(i);
         int sliceLimit = auxNbSlicesLimitFromEdge[i];
         for (int s = 0; s < sliceLimit; s++){
-            Constraint maxUsedSlicePerLinkConst = getMaxUsedSlicePerLinkConstraints2(i, s);
+            const Constraint & maxUsedSlicePerLinkConst = getMaxUsedSlicePerLinkConstraints2(i, s);
             constraintSet.push_back(maxUsedSlicePerLinkConst);
         }
     }
@@ -1125,3 +1135,6 @@ FlowForm::~FlowForm(){
     x.clear();
     maxSlicePerLink.clear();
 }
+
+
+

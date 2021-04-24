@@ -170,7 +170,6 @@ VarArray EdgeNodeForm::getVariables(){
     return vec;
 }
 
-
 void EdgeNodeForm::setVariableValues(const std::vector<double> &vals){
     for (ListGraph::EdgeIt e(compactGraph); e != INVALID; ++e){
         int edge = getCompactEdgeLabel(e);
@@ -209,6 +208,7 @@ void EdgeNodeForm::setVariableValues(const std::vector<double> &vals){
     double newValue = vals[pos];
     maxSliceOverall.setVal(newValue);
 }
+
 /****************************************************************************************/
 /*									Objective Function    								*/
 /****************************************************************************************/

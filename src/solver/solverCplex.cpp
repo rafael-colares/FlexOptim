@@ -200,10 +200,18 @@ void SolverCplex::setCplexParams(const Input &input){
 }
 
 void SolverCplex::implementFormulation(){
+    ClockTime time(ClockTime::getTimeNow());
     setVariables(formulation->getVariables());
+    std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    time.setStart(ClockTime::getTimeNow());
     setConstraints(formulation->getConstraints());
+    std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    time.setStart(ClockTime::getTimeNow());
     setObjective(formulation->getObjFunction(0));
+    std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    time.setStart(ClockTime::getTimeNow());
     formulation->clearConstraints();
+    std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
 }
 
 IloExpr SolverCplex::to_IloExpr(const Expression &e){
@@ -242,11 +250,15 @@ void SolverCplex::setObjective(const ObjectiveFunction &myObjective){
 
 /* Defines the constraints needed in the MIP formulation. */
 void SolverCplex::setConstraints(const std::vector<Constraint> &myConstraints){
+    int index; double coefficient; int n;
     for (unsigned int i = 0; i < myConstraints.size(); i++){ 
         IloExpr exp(model.getEnv());
-        for (unsigned int j = 0; j < myConstraints[i].getExpression().getTerms().size(); j++){
-            int index = myConstraints[i].getExpression().getTerm_i(j).getVar().getId();
-            double coefficient = myConstraints[i].getExpression().getTerm_i(j).getCoeff();
+        Expression expression = myConstraints[i].getExpression();
+        n = expression.getTerms().size();
+        for (unsigned int j = 0; j < n; j++){
+            Term term = expression.getTerm_i(j);
+            index = term.getVar().getId();
+            coefficient = term.getCoeff();
             exp += coefficient*var[index];
         }
         IloRange constraint(model.getEnv(), myConstraints[i].getLb(), exp, myConstraints[i].getUb(), myConstraints[i].getName().c_str());

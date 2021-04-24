@@ -90,10 +90,9 @@ public:
 	};
 
 	/** Enumerates all possible Heuristics to be applied **/
-
 	enum Heuristic{
 		SHORT_PATH = 0,          /**< Uses the Shortest Path Heuristic. **/
-		PROBABILITY = 1,         /**< Uses the Probability Heuristic. **/
+		PROBABILITY = 1,         /**< Uses the Probability Heuristic. TO DO.**/
 	}; 
 
 	/** Enumerates all possible forms to compute the direction in the subgradient method to be applied **/
@@ -246,22 +245,22 @@ public:
     std::string getGNPYEquipmentFile() const { return GNPY_equipmentFile; }
 
 	/** Returns the identifier of the method chosen for solving each node. **/
-    NodeMethod getChosenNodeMethod() const { return chosenNodeMethod; }
+    const NodeMethod & getChosenNodeMethod() const { return chosenNodeMethod; }
 
 	/** Returns the identifier of the method chosen for solving the root. **/
-    RootMethod getChosenRootMethod() const { return chosenRootMethod; }
+    const RootMethod & getChosenRootMethod() const { return chosenRootMethod; }
 
 	/** Returns the identifier of the formulation chosen for solving the problem. **/
-    Formulation getChosenFormulation() const { return chosenFormulation; }
+    const Formulation & getChosenFormulation() const { return chosenFormulation; }
 
 	/** Returns the identifier of the MIP solver chosen for solving the formulation. **/
-    MIP_Solver getChosenMIPSolver() const { return chosenMipSolver; }
+    const MIP_Solver & getChosenMIPSolver() const { return chosenMipSolver; }
 
 	/** Returns the identifier of the chosen preprocessing level. **/
-    PreprocessingLevel getChosenPreprLvl() const { return chosenPreprLvl; }
+    const PreprocessingLevel & getChosenPreprLvl() const { return chosenPreprLvl; }
 
 	/** Returns the identifier of the objective chosen to be optimized. **/
-    ObjectiveMetric getChosenObj_k(int i) const { return chosenObj[i]; }
+    const ObjectiveMetric & getChosenObj_k(int i) const { return chosenObj[i]; }
 
 	/** Returns the name of the objective. @param obj The chosen objective. **/
 	std::string getObjName(ObjectiveMetric obj) const;
@@ -270,10 +269,10 @@ public:
     std::vector<ObjectiveMetric> getChosenObj() const { return chosenObj; }
 
 	/** Returns the identifier of the output policy adopted. **/
-    OutputLevel getChosenOutputLvl() const { return chosenOutputLvl; }
+    const OutputLevel & getChosenOutputLvl() const { return chosenOutputLvl; }
 
 	/** Returns the identifier of the partition policy adopted. **/
-    PartitionPolicy getChosenPartitionPolicy() const { return chosenPartitionPolicy; }
+    const PartitionPolicy & getChosenPartitionPolicy() const { return chosenPartitionPolicy; }
 
 	/** Returns the initial value of the lagrangian multiplier used if subgradient method is chosen. **/
 	double getInitialLagrangianMultiplier() const { return lagrangianMultiplier_zero; }
@@ -290,16 +289,16 @@ public:
 	/******** INCLUSION FOR LAGRANGIAN *********/
 
 	/** Returns true if lagrangian relaxation is applied. **/
-    bool isLagrangianRelaxed() const { return linearRelaxation; }
+    bool isLagrangianRelaxed() const { return lagrangianRelaxation; }
 	
 	/** Returns the formulation used in the lagrangian procedure. **/
-	LagFormulation getChosenLagFormulation() const { return lagChosenFormulation;}
+	const LagFormulation & getChosenLagFormulation() const { return lagChosenFormulation;}
 
 	/** Returns the chosen heuristic used in the lagrangian procedure. **/
-	Heuristic getChosenHeuristic() const { return chosenHeuristic;}
+	const Heuristic & getChosenHeuristic() const { return chosenHeuristic;}
 
 	/** Returns the direction method to be used in the lagrangian procedure. **/
-	DirectionMethod getChosenDirectionMethod() const { return chosenDirectionMethod; }
+	const DirectionMethod & getChosenDirectionMethod() const { return chosenDirectionMethod; }
 
 	/** Returns the crowder parameter used if the crowder direction was chosen. **/
 	double getCrowderParameter() const { return crowderParameter;}
@@ -308,7 +307,7 @@ public:
 	double getCarmeriniParameter() const { return carmeriniParameter;}
 
 	/** Returns the chosen projetion to use in the lagrangian procedure. **/
-	ProjectionType getChosenProjection() const { return chosenProjection;}
+	const ProjectionType & getChosenProjection() const { return chosenProjection;}
 
 	/** Returns if the alternative stop (maximum number of iterations without improvement) is used or not in the lagrangian procedure **/
 	bool getAlternativeStop() const { return alternativeStop;}

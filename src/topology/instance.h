@@ -69,10 +69,10 @@ public:
 	int getNbNodes() const { return this->nbNodes; }
 
 	/** Returns the instance's input. **/
-	Input getInput() const { return this->input; }
+	const Input & getInput() const { return this->input; }
 
 	/** Returns the Fiber with given index. @param index The index of Fiber required in tabEdge. **/
-	Fiber getPhysicalLinkFromIndex(int index) const { return this->tabEdge[index]; }	
+	const Fiber & getPhysicalLinkFromIndex(int index) const { return this->tabEdge[index]; }	
 
 	/** Returns the first Fiber with the given source and target.  @warning Should only be called if method hasLink returns true. If there is no such link, the program is aborted! @param s Source node id. @param t Target node id. **/
 	Fiber getPhysicalLinkBetween(int s, int t);	
@@ -81,10 +81,10 @@ public:
 	std::vector<Fiber> getTabEdge() const { return this->tabEdge; }
 
 	/** Returns the demand with given index. @param index The index of Demand required in tabDemand.**/
-	Demand getDemandFromIndex(int index) const { return this->tabDemand[index]; }
+	const Demand & getDemandFromIndex(int index) const { return this->tabDemand[index]; }
 
 	/** Returns the vector of Demand. **/
-	std::vector<Demand> getTabDemand() const { return this->tabDemand; }
+	const std::vector<Demand> & getTabDemand() const { return this->tabDemand; }
 	
 	/** Returns the vector of demands to be routed in the next optimization. **/
 	std::vector<Demand> getNextDemands() const;

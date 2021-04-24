@@ -302,7 +302,7 @@ void RSA::preprocessing(){
 
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         eraseNonRoutableArcs(d);
-    }/*
+    }
     if (getInstance().getInput().getChosenPreprLvl() >= Input::PREPROCESSING_LVL_PARTIAL){
         // do partial preprocessing;
         pathExistencePreprocessing();
@@ -315,7 +315,7 @@ void RSA::preprocessing(){
                 keepPreprocessing = lengthPreprocessing();
             }
         }
-    }*/
+    }
     
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         contractNodesFromLabel(d, getToBeRouted()[d].getSource());
@@ -326,7 +326,6 @@ void RSA::preprocessing(){
         //std::cout << "> Number of arcs in graph #" << d << " before preprocessing: " << nbArcsOld[d] << ". After: " << countArcs((*vecGraph[d])) << std::endl;
     //}
 }
-
 
 /* Erases every arc from graph #d having the given slice and returns the number of arcs removed. */
 void RSA::pathExistencePreprocessing(){
@@ -362,6 +361,7 @@ void RSA::pathExistencePreprocessing(){
     }
     std::cout << "> Number of erased arcs due to Path Existence: " << totalNb << std::endl;
 }
+
 /* Performs preprocessing based on the arc lengths and returns true if at least one arc is erased. */
 bool RSA::lengthPreprocessing(){
     std::cout << "Called Length preprocessing."<< std::endl;

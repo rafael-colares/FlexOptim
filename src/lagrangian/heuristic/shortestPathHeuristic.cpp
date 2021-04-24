@@ -178,7 +178,7 @@ bool shortestPathHeuristic::heuristicRun(int d){
     const ListDigraph::Node TARGET = formulation->getFirstNodeFromLabel(d, formulation->getToBeRouted_k(d).getTarget());
 
     /** Shortest path with the heuristic cost**/
-    FilterArcs<ListDigraph> subgraph(*formulation->getVecGraphD(d), (*freeArcs[d]));
+    FilterArcs<ListDigraph> subgraph((*formulation->getVecGraphD(d)), (*freeArcs[d]));
     Dijkstra< FilterArcs<ListDigraph>, ListDigraph::ArcMap<double> > shortestPath(subgraph, (*heuristicCosts[d]));
     //Dijkstra< ListDigraph, ListDigraph::ArcMap<double> > shortestPath(*formulation->getVecGraphD(d), (*heuristicCosts[d]));
     shortestPath.run(SOURCE, TARGET);
