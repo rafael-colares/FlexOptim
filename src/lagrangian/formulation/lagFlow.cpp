@@ -43,7 +43,7 @@ void lagFlow::clearDualSolution(){
     lagrangianMultiplierOverlap.clear();
 
     if(instance.getInput().isObj8(0)){
-        lagrangianSCMaxUsedSliceOverall.clear();
+        lagrangianMultiplierMaxUsedSliceOverall.clear();
     }
 }
 
@@ -105,6 +105,7 @@ void lagFlow::startMultipliers(double *row,int size,int objSignal){
     if(instance.getInput().isObj8(0)){
         std::copy(row+notComputedMultipliers,row+(notComputedMultipliers+nbDemands) ,std::back_inserter(lagrangianMultiplierMaxUsedSliceOverall));
     }
+
     //std::cout << "> Initial (Start) Lagrangian multipliers were defined. " << std::endl;
 }
 
@@ -317,7 +318,7 @@ void lagFlow::updateAssignment_k(int d, DijkstraCostObj8 &path, const ListDigrap
         //updateMaxUsedSliceOverallAuxSlack(d,arc);
         //updateMaxUsedSliceOverall2Slack(d,arc);
         //updateMaxUsedSliceOverall3Slack(d,arc);
-
+        
         currentNode = path.predNode(currentNode);
     }
 }
@@ -438,23 +439,17 @@ void lagFlow::getDualSolution(double *rowprice){
         notComputedMultipliers+=(countNodes(*vecGraph[d])-2);
     }
 
+    std::fill(rowprice,rowprice+notComputedMultipliers,0.0);
+
     /* Length multipliers. */
     std::copy(lagrangianMultiplierLength.begin(),lagrangianMultiplierLength.end(),rowprice+notComputedMultipliers);
-
-    /*std::cout <<"get dual \n";
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){  
-        std::cout << rowprice[notComputedMultipliers+d] << " ";
-    }
-    std::cout << std::endl;*/
 
     /* Non overlapping multipliers. */
     notComputedMultipliers = notComputedMultipliers+nbDemands;
     for (int i = 0; i < instance.getNbEdges(); i++){
         std::copy(lagrangianMultiplierOverlap[i].begin(),lagrangianMultiplierOverlap[i].end(),rowprice+notComputedMultipliers);
         int nbSlicesEdges = nbSlicesLimitFromEdge[i];
-        //std::cout <<lagrangianMultiplierOverlap[i][0]<<" " << rowprice[notComputedMultipliers] << std::endl;
         notComputedMultipliers = notComputedMultipliers + nbSlicesEdges;
-        
     }
 
     /* Maximum used slice overall multipliers. */

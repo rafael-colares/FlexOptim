@@ -1,8 +1,8 @@
 ******* Input File Paths *******
-topologyFile=../Parameters/Instances/LagrangianTests/NSF/110demands/Link.csv
+topologyFile=../Parameters/Instances/LagrangianTests/NSF/10demands/Link.csv
 initialMappingDemandFile=
 initialMappingAssignmentFile=
-demandToBeRoutedFolder=../Parameters/Instances/LagrangianTests/NSF/110demands/Demands1
+demandToBeRoutedFolder=../Parameters/Instances/LagrangianTests/NSF/10demands/Demands1
 
 ******* GNPY parameters *******
 GNPY_activation=0 
@@ -10,10 +10,10 @@ GNPY_topologyFile=../oopt-gnpy/gnpy/example-data/spain_topo.json
 GNPY_equipmentFile=../oopt-gnpy/gnpy/example-data/spain_eqpt_config.json 
 
 ******* Formulation parameters *******
-nbDemandsAtOnce=110 
+nbDemandsAtOnce=10 
 formulation=0 
 userCuts=0 
-obj=1
+obj=8
 allowBlocking=0 
 hopPenalty=0 
 partitionPolicy=0 
@@ -21,8 +21,8 @@ partitionLoad=4
 partitionSlice=15 
 
 ******* Optimization parameters *******
-solver=0 
-method=0 
+solver=1 
+method=2 
 preprocessingLevel=0  
 linearRelaxation=1 
 relaxMethod=0
