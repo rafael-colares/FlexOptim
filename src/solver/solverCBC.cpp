@@ -18,37 +18,42 @@ SolverCBC::SolverCBC(const Instance &inst) : AbstractSolver(inst, STATUS_UNKNOWN
 }
 
 void SolverCBC::setCBCParams(const Input &input){
-    //model.setMaximumSeconds(input.getIterationTimeLimit());
+    model.setMaximumSeconds(input.getIterationTimeLimit());
     //model.setDblParam(CbcModel::CbcMaximumSeconds,input.getIterationTimeLimit());
-    //solver.getModelPtr()->setMaximumSeconds(input.getIterationTimeLimit());
+   
+    Input::RootMethod rootMethod = formulation->getInstance().getInput().getChosenRootMethod();
+    if (rootMethod == Input::ROOT_METHOD_AUTO){
+        ClpSolve clpSolve;
+        clpSolve.setSolveType(ClpSolve::automatic);
+        clpSolve.setPresolveType(ClpSolve::presolveOn);
+        dynamic_cast<OsiClpSolverInterface*>(model.solver())->setSolveOptions(clpSolve);
+        solver.setSolveOptions(clpSolve);
+    }
+    else if (rootMethod == Input::ROOT_METHOD_PRIMAL){
+        ClpSolve clpSolve;
+        clpSolve.setSolveType(ClpSolve::usePrimal);
+        clpSolve.setPresolveType(ClpSolve::presolveOn);
+        dynamic_cast<OsiClpSolverInterface*>(model.solver())->setSolveOptions(clpSolve);
+        solver.setSolveOptions(clpSolve);
+    }
+    else if (rootMethod == Input::ROOT_METHOD_DUAL){
+        ClpSolve clpSolve;
+        clpSolve.setSolveType(ClpSolve::useDual);
+        clpSolve.setPresolveType(ClpSolve::presolveOn);
+        dynamic_cast<OsiClpSolverInterface*>(model.solver())->setSolveOptions(clpSolve);
+        solver.setSolveOptions(clpSolve);
+    }
+    else if (rootMethod == Input::ROOT_METHOD_NETWORK){
+    }
+    else if (rootMethod == Input::ROOT_METHOD_BARRIER){
+        ClpSolve clpSolve;
+        clpSolve.setSolveType(ClpSolve::useBarrier);
+        clpSolve.setPresolveType(ClpSolve::presolveOn);
+        dynamic_cast<OsiClpSolverInterface*>(model.solver())->setSolveOptions(clpSolve); //b&b
+        solver.setSolveOptions(clpSolve); // relaxed
+    }
     if(isrelaxed){
-        Input::RootMethod rootMethod = formulation->getInstance().getInput().getChosenRootMethod();
-        if (rootMethod == Input::ROOT_METHOD_AUTO){
-            ClpSolve clpSolve;
-            clpSolve.setSolveType(ClpSolve::automatic);
-            clpSolve.setPresolveType(ClpSolve::presolveOn);
-            solver.setSolveOptions(clpSolve);
-        }
-        else if (rootMethod == Input::ROOT_METHOD_PRIMAL){
-            ClpSolve clpSolve;
-            clpSolve.setSolveType(ClpSolve::usePrimal);
-            clpSolve.setPresolveType(ClpSolve::presolveOn);
-            solver.setSolveOptions(clpSolve);
-            }
-        else if (rootMethod == Input::ROOT_METHOD_DUAL){
-            ClpSolve clpSolve;
-            clpSolve.setSolveType(ClpSolve::useDual);
-            clpSolve.setPresolveType(ClpSolve::presolveOn);
-            solver.setSolveOptions(clpSolve);
-        }
-        else if (rootMethod == Input::ROOT_METHOD_NETWORK){
-        }
-        else if (rootMethod == Input::ROOT_METHOD_BARRIER){
-            ClpSolve clpSolve;
-            clpSolve.setSolveType(ClpSolve::useBarrier);
-            clpSolve.setPresolveType(ClpSolve::presolveOn);
-            solver.setSolveOptions(clpSolve);
-        }
+        solver.getModelPtr()->setMaximumSeconds(input.getIterationTimeLimit()); 
     }
     std::cout << "CBC parameters have been defined..." << std::endl;
 }
@@ -204,9 +209,8 @@ std::vector<double> SolverCBC::getSolution(){
 }
 
 /* Builds file results.csv containing information about the main obtained results. */
-void SolverCBC::outputLogResults(std::string fileName){
-	
-}
+void SolverCBC::outputLogResults(std::string fileName){ }
+
 AbstractSolver::Status SolverCBC::getStatus(){
     setStatus(STATUS_UNKNOWN);
 

@@ -24,7 +24,7 @@ void createFile(std::string parameterFile,std::string linkfile,std::string deman
                 int maxNbIterations,int obj, std::string outputFolder){
 
     double lagrangianMultiplier_zero = 0.0;
-    double time = 10800;
+    double time = 18000;
 
     std::ofstream fichier(parameterFile.c_str());
     if (!fichier.fail()) {
@@ -132,7 +132,7 @@ int main(int argc, char *argv[]) {
     int m = 7; // instances
 
     std::string generalFolder              = "../Parameters/Instances/LagrangianTests/";
-    std::string instances[7]               = {"50demands/","60demands/","70demands/","80demands/","90demands/","100demands/","110demands/"};
+    std::string instances[7]               = {"10demands/","20demands/","30demands/","40demands/","50demands/","60demands/","70demands/"};
 
     std::string linkfile[7];
     for(int j=0;j<m;j++){
@@ -144,7 +144,7 @@ int main(int argc, char *argv[]) {
         demandfolders[j] = generalFolder + topology + instances[j] + "Demands1";
     }
 
-    int numdemands[7] = {50,60,70,80,90,100,110};
+    int numdemands[7] = {10,20,30,40,50,60,70};
 
     /************************  Parameters *************************/
     // We always use the shortest path heuristic.
@@ -178,7 +178,7 @@ int main(int argc, char *argv[]) {
     fichier << " Slices ; Demands ; MIP-VOL-UB ; MIP-VOL-LB ; MIP-VOL-GAP ; MIP-VOL-Tree-Size ; MIP-Time; " << std::endl;
 
     for(int j=0;j<m;j++){
-        rl = 0; relaxMethod = 0; solver = 1; nodeMethod = 2; lagRelax = 0;
+        rl = 0; relaxMethod = 4; solver = 1; nodeMethod = 2; lagRelax = 0;
         createFile(parameterFile,linkfile[j],demandfolders[j],numdemands[j],
                                     rl,lagRelax,relaxMethod,nodeMethod,solver,lagFormulation,
                                     heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,
@@ -214,7 +214,7 @@ int main(int argc, char *argv[]) {
     fichier << " Slices ; Demands ; MIP-UB ; MIP-LB ; MIP-GAP ; MIP-Tree-Size ; MIP-Time; " << std::endl;
 
     for(int j=0;j<m;j++){
-        rl = 0; relaxMethod = 0; solver = 1; nodeMethod = 0; lagRelax = 0;
+        rl = 0; relaxMethod = 4; solver = 1; nodeMethod = 0; lagRelax = 0;
         createFile(parameterFile,linkfile[j],demandfolders[j],numdemands[j],
                                     rl,lagRelax,relaxMethod,nodeMethod,solver,lagFormulation,
                                     heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,
