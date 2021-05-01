@@ -72,11 +72,12 @@ void SolverCBC::implementFormulation(){
 }
 
 void SolverCBC::setVariables(const std::vector<Variable> &myVars){
-    for (unsigned int i = 0; i < myVars.size(); i++){ 
+    int n = myVars.size();
+    for (unsigned int i = 0; i < n; i++){ 
         solver.addCol(0,NULL,NULL, myVars[i].getLb(), myVars[i].getUb(), 0, myVars[i].getName());
         // std::cout << "Created variable: " << var[d][arc].getName() << std::endl;
     }
-    for (unsigned int i = 0; i < myVars.size(); i++){ 
+    for (unsigned int i = 0; i < n; i++){ 
         int pos = myVars[i].getId();
         switch (myVars[i].getType()){
             case Variable::TYPE_BOOLEAN:

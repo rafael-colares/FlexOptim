@@ -12,4 +12,4 @@
 #===============================================================================
 #exécution du programme (remplacer exe par le nom du programme
 # ou la ligne de commande à exécuter)
-./exec teste_NSF_obj1.txt NSF/ 1
+./exec teste_NSF_obj1.txt NSF/ 1 3 6 0

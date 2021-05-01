@@ -9,6 +9,12 @@
 AbstractSolver::AbstractSolver(const Instance &instance, const Status &s) : currentStatus(s) {
     FormulationFactory factory;
     formulation = factory.createFormulation(instance);
+
+    totalImpleTime = formulation->getTotalImpleTime();
+	varImpleTime = formulation->getVarImpleTime();
+	constImpleTime = formulation->getConstImpleTime();
+	cutImpleTime = formulation->getCutImpleTime();
+	objImpleTime = formulation->getObjImpleTime();
 }
 
 void AbstractSolver::updateRSA(Instance &instance){

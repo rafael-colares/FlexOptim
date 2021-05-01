@@ -201,17 +201,22 @@ void SolverCplex::setCplexParams(const Input &input){
 
 void SolverCplex::implementFormulation(){
     ClockTime time(ClockTime::getTimeNow());
+    ClockTime time2(ClockTime::getTimeNow());
     setVariables(formulation->getVariables());
-    std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    //std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    varChargeTime =  time.getTimeInSecFromStart();
     time.setStart(ClockTime::getTimeNow());
     setConstraints(formulation->getConstraints());
-    std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    //std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    constChargeTime = time.getTimeInSecFromStart();
     time.setStart(ClockTime::getTimeNow());
     setObjective(formulation->getObjFunction(0));
-    std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    //std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    objChargeTime = time.getTimeInSecFromStart();
     time.setStart(ClockTime::getTimeNow());
     formulation->clearConstraints();
-    std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    //std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    totalChargeTime = time2.getTimeInSecFromStart();
 }
 
 IloExpr SolverCplex::to_IloExpr(const Expression &e){

@@ -16,6 +16,8 @@ class shortestPathHeuristic : public AbstractHeuristic{
 
         std::vector<std::shared_ptr<IterableIntMap<ListDigraph, ListDigraph::Arc>>> mapItLabel; 
 
+        std::vector<std::shared_ptr<IterableIntMap<ListDigraph, ListDigraph::Arc>>> mapItLower;
+
         /* Creating auxiliary sets with the analysed and not analysed demands */
         std::set<int> notAnalysedDemands;
         std::set<int> analysedDemands;
@@ -52,6 +54,10 @@ class shortestPathHeuristic : public AbstractHeuristic{
         /* Selects one demand to be analysed */
         int choseDemand(std::set<int>);
 
+        bool adaptedPreprocessing();
+
+        bool solutionInfeasible(int,CapacityScaling<FilterArcs<ListDigraph>,int,double> &costScale);
+
         /* Find a shortest path for demand d*/
         bool heuristicRun(int);
 
@@ -86,7 +92,7 @@ class shortestPathHeuristic : public AbstractHeuristic{
 
         double getPathLength(int d, Dijkstra< FilterArcs<ListDigraph>, ListDigraph::ArcMap<double> > &path, const ListDigraph::Node &s, const ListDigraph::Node &t);
 
-        double getPathLength(int d, CapacityScaling<FilterArcs<ListDigraph>,int,double> &costScale, const ListDigraph::Node &s, const ListDigraph::Node &t);
+        double getPathLength(int d, CapacityScaling<FilterArcs<ListDigraph>,int,double> &costScale);
 
 
         //ListDigraph::Node getNodeFromIndex2(int, int);

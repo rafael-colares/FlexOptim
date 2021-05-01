@@ -48,18 +48,18 @@ void lagSolverCBC::solve(){
 
     setDurationTime(solveTime.getTimeInSecFromStart());
     setUpperBound(model.getObjValue());
-    setLowerBound(model.getCurrentObjValue());
+    setLowerBound(model.getBestPossibleObjValue());
     setMipGap(model.getCurrentObjValue(), model.getObjValue());
 	setTreeSize(model.getNodeCount());
     std::cout << "Optimization done in " << std::fixed  << getDurationTime() << std::setprecision(2) << " secs." << std::endl;
     if (getStatus() == STATUS_OPTIMAL || getStatus() == STATUS_FEASIBLE){    
-        displaySolution();
+        //displaySolution();
         std::cout << "Objective Function Value: " << model.getObjValue() << std::endl;
     }
     else{
-        if (model.currentSolution() != NULL){
-            displayFractSolution();
-            std::cout << "Current obj value: " << model.getCurrentObjValue() << std::endl;
+        if (model.getBestPossibleObjValue() != NULL){
+            //displayFractSolution();
+            std::cout << "Current obj value: " << model.getBestPossibleObjValue() << std::endl;
         }
         std::cout << "Could not find an integer feasible solution..." << std::endl;
     }

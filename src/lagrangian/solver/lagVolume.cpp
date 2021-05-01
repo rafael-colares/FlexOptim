@@ -98,6 +98,7 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
                 setStatus(STATUS_OPTIMAL);
                 setStop("Optimal");
                 std::cout << "Volume: Integer Optimal by UB: " << getLB() << std::endl;
+                //exit(0);
             }
             else if ((getIteration()>1) && primal_feas && small_gap){ // Test optimality LP
                 STOP = true;
@@ -176,7 +177,6 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
             }
         }
     }
-
 }
 
 void lagVolume::runIteration(bool modifiedSubproblem){ 
@@ -230,16 +230,20 @@ void lagVolume::runIteration(bool modifiedSubproblem){
     incUpdatingPrimalVariablesTime(time.getTimeInSecFromStart());
 
     time.setStart(ClockTime::getTimeNow());
-    if(!modifiedSubproblem){
+    //if(!modifiedSubproblem){
         if(getIteration()<=5 || getIteration()%30 ==0){
             heuristic->run(modifiedSubproblem);
             double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
+            if(feasibleSolutionCostHeur< getUB()){
+                //heuristic->display();
+            }
             updateUB(feasibleSolutionCostHeur);
             if(formulation->getInstance().getInput().isObj8(0)){
                 formulation->updateMaxUsedSliceOverallUpperBound(feasibleSolutionCostHeur);
             }
+
         }
-    }
+    //}
     incHeuristicBoundTime(time.getTimeInSecFromStart());
 
     //fichier << "\n\n> ****** Iteration: " << getIteration() << " ******"<< std::endl;
@@ -365,7 +369,6 @@ void lagVolume::updateTarget(){
 /******************************************************************************************************************************/
 /*										                    DISPLAY  									                      */
 /******************************************************************************************************************************/
-
 
 void lagVolume::displayMainParameters(std::ostream & sortie){
     int k = getIteration();

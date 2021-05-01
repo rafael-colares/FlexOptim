@@ -453,6 +453,9 @@ class AbstractLagFormulation: public FlowForm{
 
                 std::shared_ptr<ArcMap> getArcUpperMap(int d) const {return upperBound[d];}
 
+                /** Returns the lower bound of an arc in a graph. @param a The arc. @param d The graph index. **/
+                int getArcLower(const ListDigraph::Arc &a, int d) const { return (*lowerBound[d])[a]; }
+
                 void getPrimalSolution(double *);
 
                 void getPrimalAppSolution(double *);

@@ -10,13 +10,22 @@ FlowForm::FlowForm(const Instance &inst) : AbstractFormulation(inst){
     auxNbSlicesGlobalLimit = getNbSlicesGlobalLimit();
     if(inst.getInput().getChosenNodeMethod() == Input::NODE_METHOD_LINEAR_RELAX){
         ClockTime time(ClockTime::getTimeNow());
+        ClockTime time2(ClockTime::getTimeNow());
         std::cout << "--- Flow formulation has been chosen. " << displayDimensions() << " ---" << std::endl;
         this->setVariables();
+        varImpleTime = time.getTimeInSecFromStart() ;
+        time.setStart(ClockTime::getTimeNow());
         this->setConstraints();
+        constImpleTime = time.getTimeInSecFromStart() ;
+        time.setStart(ClockTime::getTimeNow());
         this->setCutPool();
+        cutImpleTime = time.getTimeInSecFromStart() ;
+        time.setStart(ClockTime::getTimeNow());
         this->setObjectives();
+        objImpleTime = time.getTimeInSecFromStart() ;
         std::cout << "--- Flow formulation has been defined ---" << std::endl;
-        std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+        totalImpleTime = time2.getTimeInSecFromStart() ;
+        //std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
     }
 }
 

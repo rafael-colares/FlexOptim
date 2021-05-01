@@ -21,12 +21,25 @@ protected:
     std::vector<Constraint> cutPool;				/**< The set of cuts. **/
     std::vector<ObjectiveFunction> objectiveSet;	/**< The set of objectives to be optimized (in order). **/
 	double upperBound;
+
+	double totalImpleTime;
+	double varImpleTime;
+	double constImpleTime;
+	double cutImpleTime;
+	double objImpleTime;
+
 public:
 	/****************************************************************************************/
 	/*										Constructors									*/
 	/****************************************************************************************/
 	/** Constructor. Builds the Formulation.  @param instance The instance to be solved. **/
     AbstractFormulation(const Instance &instance): RSA(instance), nbVar(0){}
+
+	double getTotalImpleTime() {return totalImpleTime;}
+	double getVarImpleTime(){ return varImpleTime;}
+	double getConstImpleTime() { return constImpleTime;}
+	double getCutImpleTime() { return cutImpleTime;}
+	double getObjImpleTime() { return objImpleTime;}
 
 	/****************************************************************************************/
 	/*										Variables										*/

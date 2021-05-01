@@ -168,7 +168,9 @@ void AbstractLagFormulation::updateLowerUpperBound(double *lower, double *upper)
         count2 =0;
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
             if((*lowerBound[d])[a]>0){
-                //std::cout << "lb " << (*lowerBound[d])[a] << " slice:" << getArcSlice(a,d) << " d:" << d <<  std::endl;
+                std::cout << "(" << getNodeLabel((*vecGraph[d]).source(a), d) + 1;
+                std::cout << "--";
+                std::cout <<  getNodeLabel((*vecGraph[d]).target(a), d) + 1 << ", " << getArcSlice(a, d) + 1 << ")" << " d:" << d+1 << std::endl;
                 nbvar++;
             }
             if((*upperBound[d])[a]<1){

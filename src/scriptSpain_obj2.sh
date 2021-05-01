@@ -12,4 +12,4 @@
 #===============================================================================
 #exécution du programme (remplacer exe par le nom du programme
 # ou la ligne de commande à exécuter)
-./exec teste_Spain_obj2.txt Spain/ 2
+./exec teste_Spain_obj2.txt Spain/ 2 3 6 0

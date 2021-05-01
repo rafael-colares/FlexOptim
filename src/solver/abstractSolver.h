@@ -37,6 +37,17 @@ protected:
 	int treeSize;
 	double rootValue;
 
+	double totalChargeTime;
+	double varChargeTime;
+	double constChargeTime;
+	double objChargeTime;
+
+	double totalImpleTime;
+	double varImpleTime;
+	double constImpleTime;
+	double cutImpleTime;
+	double objImpleTime;
+
 public:
 	/****************************************************************************************/
 	/*										Constructor										*/
@@ -57,6 +68,17 @@ public:
 	double getLowerBound() const { return lowerBound; }
 	int getTreeSize() const { return treeSize; }
 	double getRootValue() const { return rootValue; }
+
+	double getTotalChargeTime() const { return totalChargeTime;}
+	double getVarChargeTime() const { return varChargeTime;}
+	double getConstChargeTime() const { return constChargeTime;}
+	double getObjChargeTime() const { return objChargeTime;}
+
+	double getTotalImpleTime() {return totalImpleTime;}
+	double getVarImpleTime(){ return varImpleTime;}
+	double getConstImpleTime() { return constImpleTime;}
+	double getCutImpleTime() { return cutImpleTime;}
+	double getObjImpleTime() { return objImpleTime;}
 
 	/****************************************************************************************/
 	/*											Setters										*/

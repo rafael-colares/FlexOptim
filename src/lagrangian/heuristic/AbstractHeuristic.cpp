@@ -73,6 +73,7 @@ void AbstractHeuristic::updateCostFromHeuristic(){
                     }
                 }
             }  
+            bool disp =false;
             for (int d = 0; d < formulation->getNbDemandsToBeRouted(); d++){
                 double maxlength = formulation->getToBeRouted_k(d).getMaxLength();
                 if(lengthslack[d] > maxlength){
@@ -83,15 +84,34 @@ void AbstractHeuristic::updateCostFromHeuristic(){
             for(int i=0;i<formulation->getInstance().getNbEdges();i++){
                 for(int j =0; j< formulation->getInstance().getPhysicalLinkFromIndex(i).getNbSlices();j++){
                     if(overlapSlack[i][j]>1){
-                        std::cout << "Heuristic found infeasible solution: overlap " << std::endl;
+                        std::cout << "Heuristic found infeasible solution: overlap " << i << " " << j << std::endl;
+                        disp = true;
                         setCurrentHeuristicCost(__DBL_MAX__);
                     }
                 }
             }
+            if(disp){
+                display();
+            }
         }
     }
+}
 
-
+void AbstractHeuristic::display(){
+    for (int d = 0; d < formulation->getNbDemandsToBeRouted(); d++){
+        std::cout << "For demand " << formulation->getToBeRouted_k(d).getId() + 1 << " : " << "Load = " << formulation->getToBeRouted_k(d).getLoad() << " : " << std::endl;
+        for (ListDigraph::ArcIt a(*formulation->getVecGraphD(d)); a != INVALID; ++a){
+            int index = formulation->getArcIndex(a,d);
+            if(heuristicSolution[d][index]){
+                std::cout << "(" << formulation->getNodeLabel((*formulation->getVecGraphD(d)).source(a), d) + 1;
+                std::cout << "--";
+                std::cout <<  formulation->getNodeLabel((*formulation->getVecGraphD(d)).target(a), d) + 1 << ", " << formulation->getArcSlice(a, d) + 1 << ")" << std::endl;
+            }
+                
+        }
+        std::cout << std::endl;
+    }
+        
 }
 
 double * AbstractHeuristic::getAdaptedSolution(){

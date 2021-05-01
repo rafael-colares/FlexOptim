@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
 	/**************************************************************************************************************************/
 	std::string parameterFile;
 	if (argc < 2){
-		std::cerr << "A parameter file is required in the arguments. Please run the program as \n./exec parameterFile.par topology objective\n";
+		std::cerr << "A parameter file is required in the arguments. Please run the program as \n./exec parameterFile.par topology objective firstInstance lastInstance\n";
 		throw std::invalid_argument( "did not receive an argument" );
 	}
 	else{
@@ -113,38 +113,69 @@ int main(int argc, char *argv[]) {
 	std::cout << "PARAMETER FILE: " << parameterFile << std::endl;
     std::string topology;
     if (argc < 3){
-        std::cerr << "A topology file is required in the arguments. Please run the program as \n./exec parameterFile.par topology objective\n";
+        std::cerr << "A topology file is required in the arguments. Please run the program as \n./exec parameterFile.par topology objective firstInstance lastInstance model[0-3]\n";
 		throw std::invalid_argument( "did not receive an argument" );
     }else{
         topology = argv[2];
     }
     int obj;
     if (argc < 4){
-        std::cerr << "A objetive function is required in the arguments. Please run the program as \n./exec parameterFile.par topology objective\n";
+        std::cerr << "A objetive function is required in the arguments. Please run the program as \n./exec parameterFile.par topology objective firstInstance lastInstance model[0-3]\n";
 		throw std::invalid_argument( "did not receive an argument" );
     }else{
         obj = std::atoi(argv[3]);
     }
-    
+    int firstInst;
+    if(argc < 5){
+         std::cerr << "A objetive function is required in the arguments. Please run the program as \n./exec parameterFile.par topology objective firstInstance[1-11] lastInstance[1-11] model[0-3]\n";
+		throw std::invalid_argument( "did not receive an argument" );
+    }else{
+        firstInst = std::atoi(argv[4]) - 1;
+    }
+    int lastInst;
+    if(argc < 6){
+         std::cerr << "A objetive function is required in the arguments. Please run the program as \n./exec parameterFile.par topology objective firstInstance[1-11] lastInstance[1-11] model[0-3]\n";
+		throw std::invalid_argument( "did not receive an argument" );
+    }else{
+        lastInst = std::atoi(argv[5]);
+    }
+    int model;
+    if(argc < 7){
+         std::cerr << "A objetive function is required in the arguments. Please run the program as \n./exec parameterFile.par topology objective firstInstance[1-11] lastInstance[1-11] model[0-3]\n";
+		throw std::invalid_argument( "did not receive an argument" );
+    }else{
+        model = std::atoi(argv[6]);
+    }
+
     /*************************************************************************************************************************/
 	/* 						                              Instances to test 							                     */
 	/*************************************************************************************************************************/
-    int m = 7; // instances
+    int m = 11; // instances
+    int n = 3;
+
+    if(firstInst < 0 || lastInst > m ){
+        std::cout << "Wrong arguments - Instances" << std::endl;
+        std::exit(0);
+    }
+    if(model <0 || model >n){
+        std::cout << "Wrong arguments - Model" << std::endl;
+        std::exit(0);
+    }
 
     std::string generalFolder              = "../Parameters/Instances/LagrangianTests/";
-    std::string instances[7]               = {"10demands/","20demands/","30demands/","40demands/","50demands/","60demands/","70demands/"};
+    std::string instances[11]               = {"10demands/","20demands/","30demands/","40demands/","50demands/","60demands/","70demands/","80demands/","90demands/","100demands/","110demands/"};
 
-    std::string linkfile[7];
+    std::string linkfile[11];
     for(int j=0;j<m;j++){
         linkfile[j]= generalFolder + topology + instances[j] + "Link.csv";
     }
 
-    std::string demandfolders[7];
-    for(int j=0;j<m;j++){
+    std::string demandfolders[11];
+    for(int j=firstInst;j<lastInst;j++){
         demandfolders[j] = generalFolder + topology + instances[j] + "Demands1";
     }
 
-    int numdemands[7] = {10,20,30,40,50,60,70};
+    int numdemands[11] = {10,20,30,40,50,60,70,80,90,100,110};
 
     /************************  Parameters *************************/
     // We always use the shortest path heuristic.
@@ -170,80 +201,132 @@ int main(int argc, char *argv[]) {
     /************************ File with the responses *************************/
     std::string outputFolder = generalFolder + topology + "outputs/";
 
-    std::string nom_fichier = outputFolder + "obj_"+ std::to_string(obj) +"_general.csv";
+    std::string nom_fichier = outputFolder + "obj_"+ std::to_string(obj)+"_model_"+ std::to_string(model) +"_general.csv";
     std::ofstream fichier(nom_fichier);
     std::string delimiter = ";";
 
-    fichier << std::endl << std::endl;
-    fichier << " Slices ; Demands ; MIP-VOL-UB ; MIP-VOL-LB ; MIP-VOL-GAP ; MIP-VOL-Tree-Size ; MIP-Time; " << std::endl;
+    if(model == 0){
+        fichier << std::endl << std::endl;
+        fichier << " Slices ; Demands ; MIP-CPLEX-UB ; MIP-CPLEX-LB ; MIP-CPLEX-GAP ; MIP-CPLEX-Tree-Size ; CPLEX-Time; " << std::endl;
 
-    for(int j=0;j<m;j++){
-        rl = 0; relaxMethod = 4; solver = 1; nodeMethod = 2; lagRelax = 0;
-        createFile(parameterFile,linkfile[j],demandfolders[j],numdemands[j],
-                                    rl,lagRelax,relaxMethod,nodeMethod,solver,lagFormulation,
-                                    heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,
-                                    lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj,outputFolder);
-        Input input(parameterFile);
+        for(int j=firstInst;j<lastInst;j++){
+            rl = 0; relaxMethod = 4; solver = 0; nodeMethod = 0; lagRelax = 0;
+            createFile(parameterFile,linkfile[j],demandfolders[j],numdemands[j],
+                                        rl,lagRelax,relaxMethod,nodeMethod,solver,lagFormulation,
+                                        heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,
+                                        lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj,outputFolder);
+            Input input(parameterFile);
 
-        std::cout << "--- READING INSTANCE... --- " << std::endl;
-        Instance instance(input);
+            std::cout << "--- READING INSTANCE... --- " << std::endl;
+            Instance instance(input);
 
-        std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
-        std::string nextFile = instance.getInput().getDemandToBeRoutedFilesFromIndex(0);
-        instance.generateDemandsFromFile(nextFile);
+            std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
+            std::string nextFile = instance.getInput().getDemandToBeRoutedFilesFromIndex(0);
+            instance.generateDemandsFromFile(nextFile);
 
-        std::cout << "Solving with MIP-Vol" << std::endl;
-        SolverFactory factory;
-        AbstractSolver *solver = factory.createSolver(instance);
-        solver->solve();
+            std::cout << "Solving with MIP-CPLEX" << std::endl;
+            SolverFactory factory;
+            AbstractSolver *solver = factory.createSolver(instance);
+            solver->solve();
 
-        fichier << instance.getMaxSlice() << delimiter;
-        fichier << instance.getNbDemands() << delimiter;
-        fichier << solver->getUpperBound() << delimiter;
-        fichier << solver->getLowerBound() << delimiter;
-        fichier << solver->getMipGap() << delimiter;
-        fichier << solver->getTreeSize() << delimiter;
-        fichier << solver->getDurationTime() << delimiter << std::endl;
+            fichier << instance.getMaxSlice() << delimiter;
+            fichier << instance.getNbDemands() << delimiter;
+            fichier << solver->getUpperBound() << delimiter;
+            fichier << solver->getLowerBound() << delimiter;
+            fichier << solver->getMipGap() << delimiter;
+            fichier << solver->getTreeSize() << delimiter;
+            fichier << solver->getDurationTime() << delimiter ;
 
-        std::cout << "Mip-Vol completed" << std::endl;
+            fichier << solver->getTotalChargeTime() << delimiter ;
+            fichier << solver->getVarChargeTime() << delimiter ;
+            fichier << solver->getConstChargeTime() << delimiter ;
+            fichier << solver->getObjChargeTime() << delimiter ;
 
-        delete solver;
+            fichier << solver->getTotalImpleTime() << delimiter ;
+            fichier << solver->getVarImpleTime() << delimiter ;
+            fichier << solver->getConstImpleTime() << delimiter ;
+            fichier << solver->getCutImpleTime() << delimiter ;
+            fichier << solver->getObjImpleTime() << delimiter << std::endl;
+
+            std::cout << "Mip-CPLEX completed" << std::endl;
+
+            delete solver;
+        }
+
     }
+    else if(model == 1){
+        fichier << std::endl << std::endl;
+        fichier << " Slices ; Demands ; MIP-VOL-UB ; MIP-VOL-LB ; MIP-VOL-GAP ; MIP-VOL-Tree-Size ; MIP-Time; " << std::endl;
 
-    fichier << std::endl << std::endl;
-    fichier << " Slices ; Demands ; MIP-UB ; MIP-LB ; MIP-GAP ; MIP-Tree-Size ; MIP-Time; " << std::endl;
+        for(int j=firstInst;j<lastInst;j++){
+            rl = 0; relaxMethod = 4; solver = 1; nodeMethod = 2; lagRelax = 0;
+            createFile(parameterFile,linkfile[j],demandfolders[j],numdemands[j],
+                                        rl,lagRelax,relaxMethod,nodeMethod,solver,lagFormulation,
+                                        heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,
+                                        lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj,outputFolder);
+            Input input_vol(parameterFile);
 
-    for(int j=0;j<m;j++){
-        rl = 0; relaxMethod = 4; solver = 1; nodeMethod = 0; lagRelax = 0;
-        createFile(parameterFile,linkfile[j],demandfolders[j],numdemands[j],
-                                    rl,lagRelax,relaxMethod,nodeMethod,solver,lagFormulation,
-                                    heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,
-                                    lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj,outputFolder);
-        Input input_mip(parameterFile);
+            std::cout << "--- READING INSTANCE... --- " << std::endl;
+            Instance instance_vol(input_vol);
 
-        std::cout << "--- READING INSTANCE... --- " << std::endl;
-        Instance instance_mip(input_mip);
+            std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
+            std::string nextFile_vol = instance_vol.getInput().getDemandToBeRoutedFilesFromIndex(0);
+            instance_vol.generateDemandsFromFile(nextFile_vol);
 
-        std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
-        std::string nextFile_mip = instance_mip.getInput().getDemandToBeRoutedFilesFromIndex(0);
-        instance_mip.generateDemandsFromFile(nextFile_mip);
+            std::cout << "Solving with MIP-Vol" << std::endl;
+            SolverFactory factory_vol;
+            AbstractSolver *solver_vol = factory_vol.createSolver(instance_vol);
+            solver_vol->solve();
 
-        std::cout << "Solving with MIP-Relax" << std::endl;
-        SolverFactory factory_mip;
-        AbstractSolver *solver_mip = factory_mip.createSolver(instance_mip);
-        solver_mip->solve();
+            fichier << instance_vol.getMaxSlice() << delimiter;
+            fichier << instance_vol.getNbDemands() << delimiter;
+            fichier << solver_vol->getUpperBound() << delimiter;
+            fichier << solver_vol->getLowerBound() << delimiter;
+            fichier << solver_vol->getMipGap() << delimiter;
+            fichier << solver_vol->getTreeSize() << delimiter;
+            fichier << solver_vol->getDurationTime() << delimiter << std::endl;
 
-        fichier << instance_mip.getMaxSlice() << delimiter;
-        fichier << instance_mip.getNbDemands() << delimiter;
-        fichier << solver_mip->getUpperBound() << delimiter;
-        fichier << solver_mip->getLowerBound() << delimiter;
-        fichier << solver_mip->getMipGap() << delimiter;
-        fichier << solver_mip->getTreeSize() << delimiter;
-        fichier << solver_mip->getDurationTime() << delimiter << std::endl;
+            std::cout << "Mip CBC VOLUME completed" << std::endl;
 
-        std::cout << "Mip-Relax completed" << std::endl;
+            delete solver_vol;
+        }
+    }
+    else if(model == 2){
+        fichier << std::endl << std::endl;
+        fichier << " Slices ; Demands ; MIP-CBC-UB ; MIP-CBC-LB ; MIP-CBC-GAP ; MIP-CBC-Tree-Size ; MIP-CBC-Time; " << std::endl;
 
-        delete solver_mip;
+        for(int j=firstInst;j<lastInst;j++){
+            rl = 0; relaxMethod = 4; solver = 1; nodeMethod = 0; lagRelax = 0;
+            createFile(parameterFile,linkfile[j],demandfolders[j],numdemands[j],
+                                        rl,lagRelax,relaxMethod,nodeMethod,solver,lagFormulation,
+                                        heuristic,projection,warmstart,alternativeStop,directionMethod,crowderParam,carmeriniParam,
+                                        lagrangianLambda_zero,nbIterationsWithoutImprovement,maxNbIterations,obj,outputFolder);
+            Input input_mip(parameterFile);
+
+            std::cout << "--- READING INSTANCE... --- " << std::endl;
+            Instance instance_mip(input_mip);
+
+            std::cout << "--- READING NEW ONLINE DEMANDS... --- " << std::endl;
+            std::string nextFile_mip = instance_mip.getInput().getDemandToBeRoutedFilesFromIndex(0);
+            instance_mip.generateDemandsFromFile(nextFile_mip);
+
+            std::cout << "Solving with MIP-Relax" << std::endl;
+            SolverFactory factory_mip;
+            AbstractSolver *solver_mip = factory_mip.createSolver(instance_mip);
+            solver_mip->solve();
+
+            fichier << instance_mip.getMaxSlice() << delimiter;
+            fichier << instance_mip.getNbDemands() << delimiter;
+            fichier << solver_mip->getUpperBound() << delimiter;
+            fichier << solver_mip->getLowerBound() << delimiter;
+            fichier << solver_mip->getMipGap() << delimiter;
+            fichier << solver_mip->getTreeSize() << delimiter;
+            fichier << solver_mip->getDurationTime() << delimiter << std::endl;
+
+            std::cout << "Mip-Relax completed" << std::endl;
+
+            delete solver_mip;
+        }
     }
 
     fichier << std::endl;
