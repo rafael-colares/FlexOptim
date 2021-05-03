@@ -1530,7 +1530,7 @@ bool AbstractLagFormulation::checkOverlapSlacknessCondition(){
 /* Checks the slackness condition of max used slice overall constraints. */
 bool AbstractLagFormulation::checkMaxUsedSliceOverallSlacknessCondition(){
      for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        if(!(lagrangianMultiplierMaxUsedSliceOverall[d] < DBL_EPSILON || (-maxUsedSliceOverallAuxSlack[d] < DBL_EPSILON && -maxUsedSliceOverallAuxSlack[d] > -DBL_EPSILON))){
+        if(!(lagrangianMultiplierMaxUsedSliceOverall[d] < DBL_EPSILON || (-maxUsedSliceOverallSlack[d] < DBL_EPSILON && -maxUsedSliceOverallSlack[d] > -DBL_EPSILON))){
             return false;
         }
     }
