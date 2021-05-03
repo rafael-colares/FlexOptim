@@ -52,6 +52,7 @@ void lagVolume::initialization(bool initMultipliers){
     //fichier << "> ******* Iteration: " << getIteration() << " ********" << std::endl;
     //formulation->displaySlack(fichier);
     //formulation->displayMultiplier(fichier);
+    feasibleHeuristic = true;
 }
 
 /*****************************************************************************************************************************/
@@ -75,7 +76,7 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
     while (!STOP){
         runIteration(modifiedSubproblem);
         if (formulation->getStatus() != RSA::STATUS_INFEASIBLE){
-            displayMainParameters(fichier);
+            //displayMainParameters(fichier);
 
             updateLambda();
             updateStepSize();
@@ -92,12 +93,15 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
             const int k = getIteration() % ASCENT_CHECK_INVL;
             bool alternativeStop = formulation->getInstance().getInput().getAlternativeStop();
 
-            if(getLB() >= getUB() - DBL_EPSILON){ // Test optimality IP
+
+            if((getLB() >= (getUB() - 0.001)) && getLB() < UBINIT){ // Test optimality IP
                 STOP = true;
                 formulation->setStatus(RSA::STATUS_OPTIMAL);
                 setStatus(STATUS_OPTIMAL);
                 setStop("Optimal");
-                std::cout << "Volume: Integer Optimal by UB: " << getLB() << std::endl;
+                std::cout << "Volume: Integer Optimal by UB: " << getLB() << " " << getUB() << std::endl;
+
+                formulation->changePrimalApproximationToHeuristicValue(heuristic->getSolution(),heuristic->getVarP());
                 //exit(0);
             }
             else if ((getIteration()>1) && primal_feas && small_gap){ // Test optimality LP
@@ -232,16 +236,17 @@ void lagVolume::runIteration(bool modifiedSubproblem){
     time.setStart(ClockTime::getTimeNow());
     //if(!modifiedSubproblem){
         if(getIteration()<=5 || getIteration()%30 ==0){
-            heuristic->run(modifiedSubproblem);
-            double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
-            if(feasibleSolutionCostHeur< getUB()){
-                //heuristic->display();
+            if(feasibleHeuristic){
+                heuristic->run(modifiedSubproblem);
+                if(heuristic->getStatus() == AbstractHeuristic::STATUS_INFEASIBLE){
+                    feasibleHeuristic = false;
+                }
+                double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
+                updateUB(feasibleSolutionCostHeur);
+                if(formulation->getInstance().getInput().isObj8(0)){
+                    formulation->updateMaxUsedSliceOverallUpperBound(feasibleSolutionCostHeur);
+                }
             }
-            updateUB(feasibleSolutionCostHeur);
-            if(formulation->getInstance().getInput().isObj8(0)){
-                formulation->updateMaxUsedSliceOverallUpperBound(feasibleSolutionCostHeur);
-            }
-
         }
     //}
     incHeuristicBoundTime(time.getTimeInSecFromStart());

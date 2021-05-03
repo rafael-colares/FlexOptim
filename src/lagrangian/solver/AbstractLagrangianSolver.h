@@ -35,6 +35,7 @@ class AbstractLagSolver{
         double PRIMAL_ABS_PRECISION;
         double UBINIT;
         double DUAL_LIMIT;
+        bool feasibleHeuristic;
 
         Status currentStatus;
         bool dualinf;

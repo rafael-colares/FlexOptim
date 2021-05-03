@@ -13,7 +13,7 @@ lagSolverCBC::lagSolverCBC(const Instance &inst) : AbstractSolver(inst, STATUS_U
 
 void lagSolverCBC::implementFormulation(){
     solver.loadModelFormulation();
-    solver.writeLp("test");
+    //solver.writeLp("test");
     model = CbcModel(solver);
     formulation = solver.getLagrangianSolver()->getLagrangianFormulation();
 }
@@ -49,7 +49,7 @@ void lagSolverCBC::solve(){
     setDurationTime(solveTime.getTimeInSecFromStart());
     setUpperBound(model.getObjValue());
     setLowerBound(model.getBestPossibleObjValue());
-    setMipGap(model.getCurrentObjValue(), model.getObjValue());
+    setMipGap(model.getBestPossibleObjValue(), model.getObjValue());
 	setTreeSize(model.getNodeCount());
     std::cout << "Optimization done in " << std::fixed  << getDurationTime() << std::setprecision(2) << " secs." << std::endl;
     if (getStatus() == STATUS_OPTIMAL || getStatus() == STATUS_FEASIBLE){    

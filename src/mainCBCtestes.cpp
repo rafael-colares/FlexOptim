@@ -207,7 +207,9 @@ int main(int argc, char *argv[]) {
 
     if(model == 0){
         fichier << std::endl << std::endl;
-        fichier << " Slices ; Demands ; MIP-CPLEX-UB ; MIP-CPLEX-LB ; MIP-CPLEX-GAP ; MIP-CPLEX-Tree-Size ; CPLEX-Time; " << std::endl;
+        fichier << " Slices ; Demands ; MIP-CPLEX-UB ; MIP-CPLEX-LB ; MIP-CPLEX-GAP ; MIP-CPLEX-Tree-Size ; CPLEX-Time; " ;
+        fichier << " Total Implem Time ; Var Implem Time ; Const Implem Time ; Cut Implem Time ; Obj Imple Time ; ";
+        fichier << " Total Charge Time; Var Charge Time ; Const Cherge Time; Obj Charge Time; "<< std::endl;
 
         for(int j=firstInst;j<lastInst;j++){
             rl = 0; relaxMethod = 4; solver = 0; nodeMethod = 0; lagRelax = 0;
@@ -228,6 +230,7 @@ int main(int argc, char *argv[]) {
             SolverFactory factory;
             AbstractSolver *solver = factory.createSolver(instance);
             solver->solve();
+            std::cout << "ola" << std::endl;
 
             fichier << instance.getMaxSlice() << delimiter;
             fichier << instance.getNbDemands() << delimiter;
@@ -237,16 +240,16 @@ int main(int argc, char *argv[]) {
             fichier << solver->getTreeSize() << delimiter;
             fichier << solver->getDurationTime() << delimiter ;
 
-            fichier << solver->getTotalChargeTime() << delimiter ;
-            fichier << solver->getVarChargeTime() << delimiter ;
-            fichier << solver->getConstChargeTime() << delimiter ;
-            fichier << solver->getObjChargeTime() << delimiter ;
-
             fichier << solver->getTotalImpleTime() << delimiter ;
             fichier << solver->getVarImpleTime() << delimiter ;
             fichier << solver->getConstImpleTime() << delimiter ;
             fichier << solver->getCutImpleTime() << delimiter ;
-            fichier << solver->getObjImpleTime() << delimiter << std::endl;
+            fichier << solver->getObjImpleTime() << delimiter ;
+
+            fichier << solver->getTotalChargeTime() << delimiter ;
+            fichier << solver->getVarChargeTime() << delimiter ;
+            fichier << solver->getConstChargeTime() << delimiter ;
+            fichier << solver->getObjChargeTime() << delimiter << std::endl;;
 
             std::cout << "Mip-CPLEX completed" << std::endl;
 

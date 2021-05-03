@@ -35,6 +35,8 @@ class AbstractHeuristic{
         /* A vector for the heuristic solution */
         std::vector<std::vector<bool>> heuristicSolution;
 
+        double varP;
+
         std::vector<std::shared_ptr<IterableBoolMap<ListDigraph, ListDigraph::Arc>>> heuristicSolutionItBoolMap;
 
         Status statusheuristic;
@@ -58,9 +60,12 @@ class AbstractHeuristic{
         Status getStatus() const {return statusheuristic;}
 
         /* Get the current heuristic solution cost */
-        double getCurrentHeuristicCost(){ return currentHeuristicCost;}
+        double getCurrentHeuristicCost() const { return currentHeuristicCost;}
 
         double getTime() const { return timeAux;}
+
+        const std::vector<std::vector<bool>> & getSolution() const { return heuristicSolution;}
+        double getVarP() const {return varP;}
 
         /* *******************************************************************************
         *                              SETTERS

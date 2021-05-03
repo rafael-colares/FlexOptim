@@ -157,8 +157,10 @@ void AbstractLagFormulation::updateLowerUpperBound(double *lower, double *upper)
     if(instance.getInput().isObj8(0)){
         maxUsedSliceOverallUpperBound = upper[maxSliceOverallVarId];
         maxUsedSliceOverallLowerBound = lower[maxSliceOverallVarId];
+        //std::cout << "UB max used slice: " << maxUsedSliceOverallUpperBound << std::endl;
+        //std::cout << "LB max used slice: " << maxUsedSliceOverallLowerBound << std::endl;
     }
-    int nbvar =0;
+    /*int nbvar =0;
     int nbRealvar =0;
     int count1;
     int count2;
@@ -168,9 +170,9 @@ void AbstractLagFormulation::updateLowerUpperBound(double *lower, double *upper)
         count2 =0;
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
             if((*lowerBound[d])[a]>0){
-                std::cout << "(" << getNodeLabel((*vecGraph[d]).source(a), d) + 1;
-                std::cout << "--";
-                std::cout <<  getNodeLabel((*vecGraph[d]).target(a), d) + 1 << ", " << getArcSlice(a, d) + 1 << ")" << " d:" << d+1 << std::endl;
+                //std::cout << "(" << getNodeLabel((*vecGraph[d]).source(a), d) + 1;
+                //std::cout << "--";
+                //std::cout <<  getNodeLabel((*vecGraph[d]).target(a), d) + 1 << ", " << getArcSlice(a, d) + 1 << ")" << " d:" << d+1 << std::endl;
                 nbvar++;
             }
             if((*upperBound[d])[a]<1){
@@ -181,7 +183,7 @@ void AbstractLagFormulation::updateLowerUpperBound(double *lower, double *upper)
     }
     std::cout << "Total number of variables: " << nbRealvar << std::endl;
     std::cout << "Fixed variables (ub or lb): " << nbvar << std::endl;
-      
+    */
 }
 
 void AbstractLagFormulation::verifyLowerUpperBound(){
@@ -226,7 +228,6 @@ void AbstractLagFormulation::getPrimalAppSolution(double * colsol){
     if(instance.getInput().isObj8(0)){
         colsol[maxSliceOverallVarId] = maxUsedSliceOverall;
     }
-    primal_linear_solution.clear();
 }
 
 /* **************************************************************************************************************
@@ -1320,6 +1321,15 @@ void AbstractLagFormulation::updatePrimalApproximation(double alpha){
 void AbstractLagFormulation::changePrimalApproximation(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         std::copy(assignmentMatrix_d[d].begin(),assignmentMatrix_d[d].end(),primal_linear_solution[d].begin());
+    }
+}
+
+void AbstractLagFormulation::changePrimalApproximationToHeuristicValue(std::vector<std::vector<bool>> heuristicSol,double varP){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        std::copy(heuristicSol[d].begin(),heuristicSol[d].end(),primal_linear_solution[d].begin());
+    }
+    if(instance.getInput().isObj8(0)){
+        maxUsedSliceOverall = varImpleTime;
     }
 }
 

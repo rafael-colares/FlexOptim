@@ -1,8 +1,8 @@
 ******* Input File Paths *******
-topologyFile=../Parameters/Instances/LagrangianTests/Spain/40demands/Link.csv
+topologyFile=../Parameters/Instances/LagrangianTests/NSF/40demands/Link.csv
 initialMappingDemandFile=
 initialMappingAssignmentFile=
-demandToBeRoutedFolder=../Parameters/Instances/LagrangianTests/Spain/40demands/Demands1
+demandToBeRoutedFolder=../Parameters/Instances/LagrangianTests/NSF/40demands/Demands1
 
 ******* GNPY parameters *******
 GNPY_activation=0 
@@ -13,7 +13,7 @@ GNPY_equipmentFile=../oopt-gnpy/gnpy/example-data/spain_eqpt_config.json
 nbDemandsAtOnce=40 
 formulation=0 
 userCuts=0 
-obj=4
+obj=2
 allowBlocking=0 
 hopPenalty=0 
 partitionPolicy=0 
@@ -33,7 +33,7 @@ outputPath=../Parameters/Instances/Spain_N5/InitialMappingMet1Slice30/SimpleTest
 outputLevel=2 
 nbSlicesInOutputFile=320 
 globalTimeLimit=70000 
-timeLimit=1000 
+timeLimit=10800 
 
 ******* Fields below are reserved for team LIMOS ********
 lagrangianMultiplier_zero=0 

@@ -170,10 +170,14 @@ void shortestPathHeuristic::run(bool modifiedProblem,bool costs){
             if(getStatus() == STATUS_INFEASIBLE){
                 STOP = true;
             }
-            count ++;   
+            count ++; 
+            if (count  > maxChanges){
+                maxChangesPossible = true;
+                break;
+            }  
         }
         if(getStatus() == STATUS_INFEASIBLE){
-            std::cout <<"Infeasible\n";
+            std::cout << "Infea" <<std::endl;
             break;
         }
         if (count  > maxChanges){
@@ -247,29 +251,26 @@ bool shortestPathHeuristic::heuristicAdaptedRun(int d){
         if(!analysedDemands.empty()){
             int demand2 = choseDemand(analysedDemands);
             analysedDemands.erase(demand2);
-            if(analysedDemands.empty()){
-                //std::cout << "empty" << std::endl;
-            }
             notAnalysedDemands.insert(demand2);
             removePath_k(demand2);
-            //std::cout << demand2 << "refazer demand" << std::endl;
+            //std::cout << "Remove " << demand2+1 <<std::endl;
         }else{
-            //std::cout << "ola" << std::endl;
             setStatus(STATUS_INFEASIBLE);
         }
         return false;
-
     }else if(getPathLength(d, costScale) > formulation->getToBeRouted_k(d).getMaxLength()){
         /** The solution is infeasible because of the length constraints**/
         remove_Arc(d,costScale,SOURCE,TARGET);
+        //std::cout<< "length" << d+1 << std::endl;
         return false;
     }else if(solutionInfeasible(d,costScale)){
-        std::cout << "infeas" << std::endl;
+        //std::cout<< "sol inf" << d+1 << std::endl;
         return false;
     }
     else{
         /** A feasible path for the demand was found **/
         insertPath_k(d,costScale,SOURCE,TARGET);
+        //std::cout<< "insert" << d+1 << std::endl;
         return true;
     }
 }
@@ -375,20 +376,8 @@ bool shortestPathHeuristic::adaptedPreprocessing(){
             }
             //std::cout << "Remove arcs for the fixed variables\n";
             /* Removing variables due to the non overlapping for the fixed bounds. */
-            for (int k = 0; k < formulation->getNbDemandsToBeRouted(); k++){
-                int load_k = formulation->getToBeRouted_k(k).getLoad();
-                for(IterableIntMap< ListDigraph, ListDigraph::Arc >::ItemIt arc2((*mapItLabel[k]),label[size]); arc2 != INVALID; ++arc2){
-                    int slice_k = formulation->getArcSlice(arc2,k);
-                    if(!((slice_k < slice[size]-load[size]+1)||(slice_k-load_k+1 > slice[size]))){
-                        if(arc != arc2){
-                            (*freeArcs[k])[arc2] = false;
-                            if(formulation->getArcLower(arc2,k)==1){
-                                std::cout << "Removing arc fixed to 1"<< std::endl;
-                            }
-                        } 
-                    }
-                }
-            }
+            remove_arcs(slice[size],label[size],load[size]);
+            (*freeArcs[d])[arc] = true;
         }
     }
     label.clear(); slice.clear(); load.clear();
@@ -398,6 +387,7 @@ bool shortestPathHeuristic::adaptedPreprocessing(){
 
 /* Remove a found path for demand d. Then, we have to find another path for this demand*/
 void shortestPathHeuristic::removePath_k(int d){
+    
     /* For the true variables in demand's d path. */
     for(IterableBoolMap< ListDigraph, ListDigraph::Arc >::TrueIt arc((*heuristicSolutionItBoolMap[d])); arc != INVALID; ++arc){
         /* the path uses this arc */
@@ -414,24 +404,23 @@ void shortestPathHeuristic::removePath_k(int d){
         include_arcs(slice,label,load); 
     }
 
-    /* Remove arcs that affects other arcs. */
-    for (int d = 0; d < formulation->getNbDemandsToBeRouted(); d++){
-        for(IterableBoolMap< ListDigraph, ListDigraph::Arc >::TrueIt arc((*heuristicSolutionItBoolMap[d])); arc != INVALID; ++arc){
-            int slice = formulation->getArcSlice(arc,d);
-            int label = formulation->getArcLabel(arc,d);
-            int load = formulation->getToBeRouted_k(d).getLoad();
+    for (int d1 = 0; d1 < formulation->getNbDemandsToBeRouted(); d1++){
+        /* Remove arcs that affects other arcs. */
+        for(IterableBoolMap< ListDigraph, ListDigraph::Arc >::TrueIt arc((*heuristicSolutionItBoolMap[d1])); arc != INVALID; ++arc){
+            int slice = formulation->getArcSlice(arc,d1);
+            int label = formulation->getArcLabel(arc,d1);
+            int load = formulation->getToBeRouted_k(d1).getLoad();
             remove_arcs(slice,label,load);
         }
+        /* Remove arcs due to the fixed variables. */
+        for(IterableIntMap< ListDigraph, ListDigraph::Arc >::ItemIt arc((*mapItLower[d1]),1); arc != INVALID; ++arc){
+            int slice = formulation->getArcSlice(arc,d1);
+            int label = formulation->getArcLabel(arc,d1);
+            int load = formulation->getToBeRouted_k(d1).getLoad();
+            remove_arcs(slice,label,load);
+            (*freeArcs[d1])[arc] = true;
+        }
     }
-
-    /* Remove arcs due to the fixed variables. */
-    for(IterableIntMap< ListDigraph, ListDigraph::Arc >::ItemIt arc((*mapItLower[d]),1); arc != INVALID; ++arc){
-        int slice = formulation->getArcSlice(arc,d);
-        int label = formulation->getArcLabel(arc,d);
-        int load = formulation->getToBeRouted_k(d).getLoad();
-        remove_arcs(slice,label,load);
-    }
-    //std::cout << "Include d:" << d+1 << std::endl;
 }
 
 /* Changes the cost of some arcs so they can be chosen - respect the non overlapping constraints*/
@@ -627,6 +616,7 @@ shortestPathHeuristic::~shortestPathHeuristic(){
     freeArcs.clear();
     mapItLabel.clear();
     heuristicSolutionItBoolMap.clear();
+    heuristicSolution.clear();
 
     while(!notAnalysedDemands.empty()){
         std::set<int>::iterator it;

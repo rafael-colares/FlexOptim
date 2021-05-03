@@ -45,13 +45,14 @@ void AbstractHeuristic::updateCostFromHeuristic(){
                 }
             }
             incCurrentHeuristicCost(val);
+            varP = val;
         }else{
             std::vector<std::vector<double>> overlapSlack;
             std::vector<double> lengthslack;
-            lengthslack.resize(formulation->getNbDemandsToBeRouted());
+            lengthslack.resize(formulation->getNbDemandsToBeRouted(),0);
             overlapSlack.resize(formulation->getInstance().getNbEdges());
             for(int i=0;i<formulation->getInstance().getNbEdges();i++){
-                overlapSlack[i].resize(formulation->getInstance().getPhysicalLinkFromIndex(i).getNbSlices());
+                overlapSlack[i].resize(formulation->getInstance().getPhysicalLinkFromIndex(i).getNbSlices()),0;
             }
             for (int d = 0; d < formulation->getNbDemandsToBeRouted(); d++){
                 for (ListDigraph::ArcIt a(*formulation->getVecGraphD(d)); a != INVALID; ++a){
@@ -78,13 +79,15 @@ void AbstractHeuristic::updateCostFromHeuristic(){
                 double maxlength = formulation->getToBeRouted_k(d).getMaxLength();
                 if(lengthslack[d] > maxlength){
                     std::cout << "Heuristic found infeasible solution: length " << std::endl;
+                    std::cout << "d: " << d+1 << " length: " << lengthslack[d] << " maxlength: " << maxlength << std::endl;
                     setCurrentHeuristicCost(__DBL_MAX__);
-                }
+                    disp = true;
+                } 
             }
             for(int i=0;i<formulation->getInstance().getNbEdges();i++){
                 for(int j =0; j< formulation->getInstance().getPhysicalLinkFromIndex(i).getNbSlices();j++){
                     if(overlapSlack[i][j]>1){
-                        std::cout << "Heuristic found infeasible solution: overlap " << i << " " << j << std::endl;
+                        std::cout << "Heuristic found infeasible solution: overlap " << i+1 << " " << j+1 << std::endl;
                         disp = true;
                         setCurrentHeuristicCost(__DBL_MAX__);
                     }
@@ -92,6 +95,7 @@ void AbstractHeuristic::updateCostFromHeuristic(){
             }
             if(disp){
                 display();
+                //std::exit(0);
             }
         }
     }

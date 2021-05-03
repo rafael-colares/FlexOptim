@@ -56,6 +56,7 @@ void lagSubgradient::initialization(bool initMultipliers){
     //formulation->displaySlack(fichier2);
     //formulation->displayMultiplier(fichier2);
     //formulation->createGraphFile(getIteration());
+    feasibleHeuristic = true;
 }
 
 /****************************************************************************************************************************/
@@ -86,7 +87,7 @@ void lagSubgradient::run(bool initMultipliers, bool modifiedSubproblem){
 
             time.setStart(ClockTime::getTimeNow());
             bool alternativeStop = formulation->getInstance().getInput().getAlternativeStop();
-            if (getLB() >= getUB() - DBL_EPSILON){ 
+            if ((getLB() >= getUB() - 0.001) && getLB() < UBINIT){ 
                 STOP = true;
                 formulation->setStatus(RSA::STATUS_OPTIMAL);
                 setStatus(STATUS_OPTIMAL);

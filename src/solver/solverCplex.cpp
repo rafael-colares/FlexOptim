@@ -10,6 +10,11 @@ int SolverCplex::count = 0;
 /* Constructor. The RSA constructor is called and the arc map storing the index of the preprocessed graphs associated is built. */
 SolverCplex::SolverCplex(const Instance &inst) : AbstractSolver(inst, STATUS_UNKNOWN), model(env), cplex(model), obj(env){
     std::cout << "--- CPLEX has been initialized ---" << std::endl;
+    totalImpleTime = formulation->getTotalImpleTime();
+    varImpleTime = formulation->getVarImpleTime();
+    constImpleTime = formulation->getConstImpleTime();
+    cutImpleTime = formulation->getCutImpleTime();
+    objImpleTime = formulation->getObjImpleTime();
     setCplexParams(inst.getInput());
     implementFormulation();
     //exportFormulation(inst);
@@ -61,8 +66,9 @@ void SolverCplex::solve(){
                                         formulation->getInstance().getInput().isObj8(i));
         CPXLONG contextMask = context(myObjectives[i].getId(), formulation->getInstance().getInput());
         
-        
-        //cplex.use(&myGenericCallback, contextMask);
+        //if(!formulation->getInstance().getInput().isRelaxed()){
+        cplex.use(&myGenericCallback, contextMask);
+        //}
         std::cout << "Chosen objective: " << myObjectives[i].getName() << std::endl;
         cplex.solve();
         
@@ -170,7 +176,7 @@ void SolverCplex::exportFormulation(const Instance &instance){
 void SolverCplex::setCplexParams(const Input &input){
     cplex.setParam(IloCplex::Param::MIP::Display, 3);
     cplex.setParam(IloCplex::Param::TimeLimit, input.getIterationTimeLimit());
-    cplex.setParam(IloCplex::Param::Threads, 1);
+    //cplex.setParam(IloCplex::Param::Threads, 1);
 
     if(formulation->getInstance().getInput().isRelaxed()){
         Input::RootMethod rootMethod = formulation->getInstance().getInput().getChosenRootMethod();
@@ -195,6 +201,7 @@ void SolverCplex::setCplexParams(const Input &input){
             std::cout<< "barrier" <<std::endl;
         }
     }
+    
     
     std::cout << "CPLEX parameters have been defined..." << std::endl;
 }

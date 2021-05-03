@@ -179,6 +179,9 @@ class AbstractLagFormulation: public FlowForm{
                 /** Vector with the lagrangian current primal approximation solution **/
                 std::vector< std::vector<double> > primal_linear_solution;
 
+                /** Primal approximation for maxUsedSliceOverall of the model **/
+                double primalMaxUsedSliceOverall;
+
                 /******************************************** ASSIGNMENT MATRIX ***********************************************/
 
                 /** Vector with the current lagrangian solution **/
@@ -187,9 +190,6 @@ class AbstractLagFormulation: public FlowForm{
                 /** Variable maxUsedSliceOverall of the model **/
                 double maxUsedSliceOverall;
                 
-                /** Primal approximation for maxUsedSliceOverall of the model **/
-                double primalMaxUsedSliceOverall;
-
                 /** Auxiliary variable for auxiliary constraint max used slice overall **/
                 std::vector<bool> varAuxZ;
 
@@ -1138,6 +1138,8 @@ class AbstractLagFormulation: public FlowForm{
                 void clearPrimalApproximationMatrix();
 
                 void changePrimalApproximation();
+
+                void changePrimalApproximationToHeuristicValue(std::vector<std::vector<bool>>,double);
 
                 /***************************************** ASSIGNMENT MATRIX **********************************************/
 
