@@ -94,7 +94,7 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
             bool alternativeStop = formulation->getInstance().getInput().getAlternativeStop();
 
 
-            if((getLB() >= (getUB() - 0.001)) && getLB() < UBINIT){ // Test optimality IP
+            if((getLB() >= (getUB() - 0.001)) && (getLB() < (UBINIT-0.001))){ // Test optimality IP
                 STOP = true;
                 formulation->setStatus(RSA::STATUS_OPTIMAL);
                 setStatus(STATUS_OPTIMAL);

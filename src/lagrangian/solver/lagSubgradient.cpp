@@ -87,7 +87,7 @@ void lagSubgradient::run(bool initMultipliers, bool modifiedSubproblem){
 
             time.setStart(ClockTime::getTimeNow());
             bool alternativeStop = formulation->getInstance().getInput().getAlternativeStop();
-            if ((getLB() >= getUB() - 0.001) && getLB() < UBINIT){ 
+            if ((getLB() >= getUB() - 0.001) && getLB() < (UBINIT-0.001)){ 
                 STOP = true;
                 formulation->setStatus(RSA::STATUS_OPTIMAL);
                 setStatus(STATUS_OPTIMAL);

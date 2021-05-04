@@ -52,9 +52,9 @@ void SolverCBC::setCBCParams(const Input &input){
         dynamic_cast<OsiClpSolverInterface*>(model.solver())->setSolveOptions(clpSolve); //b&b
         solver.setSolveOptions(clpSolve); // relaxed
     }
-    if(isrelaxed){
+    //if(isrelaxed){
         solver.getModelPtr()->setMaximumSeconds(input.getIterationTimeLimit()); 
-    }
+    //}
     std::cout << "CBC parameters have been defined..." << std::endl;
 }
 

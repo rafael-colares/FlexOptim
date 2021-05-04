@@ -99,7 +99,7 @@ void FlowForm::setMaxUsedSliceOverallVariable(){
     std::string varName = "maxSliceOverall";
     int lowerBound = std::max(0,instance.getMaxUsedSlicePosition());
     //int upperBound = getNbSlicesGlobalLimit();
-    int upperBound = auxNbSlicesGlobalLimit;
+    int upperBound = auxNbSlicesGlobalLimit-1;
     int varId = getNbVar();
     maxSliceOverall = Variable(varId, lowerBound, upperBound, Variable::TYPE_REAL, 0, varName);
     incNbVar();

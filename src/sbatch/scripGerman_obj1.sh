@@ -13,4 +13,4 @@
 #exécution du programme (remplacer exe par le nom du programme
 # ou la ligne de commande à exécuter)
 cd ..
-./exec teste_German_0_obj1.txt German/ 1 3 8 0
+./exec teste_German_0_obj1.txt German/ 1 6 8 0

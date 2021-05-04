@@ -193,7 +193,7 @@ int main(int argc, char *argv[]) {
     double carmeriniParam = 0.0;
     double lagrangianLambda_zero = 2.0;
     int nbIterationsWithoutImprovement = 10;
-    int maxNbIterations = 5000;
+    int maxNbIterations = 50000;
 
     // Changing parameters
     int rl, relaxMethod, solver, nodeMethod, lagRelax; 
