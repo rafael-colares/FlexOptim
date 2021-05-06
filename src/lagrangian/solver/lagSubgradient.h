@@ -14,6 +14,7 @@ class lagSubgradient: public AbstractLagSolver{
 
         void getSolution(double *colsol) { formulation->getPrimalSolution(colsol);
                                            formulation->clearAssignmentMatrix();
+                                           formulation->clearBestFeasibleSolution();
                                            formulation->clearSlacks();  }
         
         /************************************************/

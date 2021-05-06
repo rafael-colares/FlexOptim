@@ -5,7 +5,6 @@
 /****************************************************************************************************************************/
 /* Sets the initial parameters for the subgradient to run. */
 void lagSubgradient::initialization(bool initMultipliers){
-
     /** Setting initial time **/
     setInitializationTime(0.0);
     setConstAuxGraphTime(0.0);
@@ -31,7 +30,7 @@ void lagSubgradient::initialization(bool initMultipliers){
     setStepSize(0.000);
 
     setLB(-__DBL_MAX__);
-    setUB(100000); //setUB(__DBL_MAX__/2);
+    setUB(1000000); //setUB(__DBL_MAX__/2);
 
     formulation->setStatus(RSA::STATUS_UNKNOWN);
 
@@ -48,6 +47,8 @@ void lagSubgradient::initialization(bool initMultipliers){
     setInitializationTime(time.getTimeInSecFromStart());
     setConstAuxGraphTime(formulation->getConstAuxGraphTime()); 
 
+    feasibleHeuristic = true;
+
     std::cout << "> Initialization is done. " << std::endl;
 
     /* Printing information to file fichier2. */
@@ -56,7 +57,6 @@ void lagSubgradient::initialization(bool initMultipliers){
     //formulation->displaySlack(fichier2);
     //formulation->displayMultiplier(fichier2);
     //formulation->createGraphFile(getIteration());
-    feasibleHeuristic = true;
 }
 
 /****************************************************************************************************************************/
@@ -87,7 +87,7 @@ void lagSubgradient::run(bool initMultipliers, bool modifiedSubproblem){
 
             time.setStart(ClockTime::getTimeNow());
             bool alternativeStop = formulation->getInstance().getInput().getAlternativeStop();
-            if ((getLB() >= getUB() - 0.001) && getLB() < (UBINIT-0.001)){ 
+            if((getLB() >= getUB() - 0.001) && (getLB() < (UBINIT-0.001))){ 
                 STOP = true;
                 formulation->setStatus(RSA::STATUS_OPTIMAL);
                 setStatus(STATUS_OPTIMAL);
@@ -99,7 +99,7 @@ void lagSubgradient::run(bool initMultipliers, bool modifiedSubproblem){
                 formulation->setStatus(RSA::STATUS_OPTIMAL);
                 setStatus(STATUS_OPTIMAL);
                 setStop("Optimal");
-                 std::cout << "Subgradient: Integer Optimal by slackness: " << getLB() << " " << formulation->getLagrCurrentCost() << std::endl;
+                std::cout << "Subgradient: Integer Optimal by slackness: " << getLB() << " " << formulation->getLagrCurrentCost() << std::endl;
             }
             else if (getIteration() >= MAX_NB_IT){
                 STOP = true;
@@ -185,6 +185,10 @@ void lagSubgradient::runIteration(bool modifiedSubproblem){
         double feasibleSolutionCost = formulation->getRealCurrentCost();
         if (feasibleSolutionCost < getUB()){
             updateUB(feasibleSolutionCost);
+            if(formulation->getInstance().getInput().isObj8(0)){
+                formulation->updateMaxUsedSliceOverallUpperBound(feasibleSolutionCost);
+            }
+            std::cout << " Ub by feasibility." << std::endl;
         }
     }   
     incUpdatingBoundsTime(time.getTimeInSecFromStart());

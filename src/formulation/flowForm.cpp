@@ -214,7 +214,7 @@ Expression FlowForm::getObjFunctionFromMetric(Input::ObjectiveMetric chosenObjec
                 int arc = getArcIndex(a, d);
                 double coeff = getCoeffObj1(a, d);
                 Term term(x[d][arc], coeff);
-                obj.addTerm(term);
+                obj.addTerm2(term);
             }
         }
         break;
@@ -223,7 +223,7 @@ Expression FlowForm::getObjFunctionFromMetric(Input::ObjectiveMetric chosenObjec
         {
         for (int i = 0; i < instance.getNbEdges(); i++){
             Term term(maxSlicePerLink[i], 1);
-            obj.addTerm(term);
+            obj.addTerm2(term);
         }
         break;
         }
@@ -234,7 +234,7 @@ Expression FlowForm::getObjFunctionFromMetric(Input::ObjectiveMetric chosenObjec
                 int arc = getArcIndex(a, d);
                 double coeff = getCoeffObj2(a, d);
                 Term term(x[d][arc], coeff);
-                obj.addTerm(term);
+                obj.addTerm2(term);
             }
         }
         break;
@@ -246,7 +246,7 @@ Expression FlowForm::getObjFunctionFromMetric(Input::ObjectiveMetric chosenObjec
                 int arc = getArcIndex(a, d);
                 double coeff = getCoeffObj2p(a, d);
                 Term term(x[d][arc], coeff);
-                obj.addTerm(term);
+                obj.addTerm2(term);
             }
         }
         break;
@@ -258,7 +258,7 @@ Expression FlowForm::getObjFunctionFromMetric(Input::ObjectiveMetric chosenObjec
                 int arc = getArcIndex(a, d);
                 double coeff = getCoeffObj4(a, d);
                 Term term(x[d][arc], coeff);
-                obj.addTerm(term);
+                obj.addTerm2(term);
             }
         }
         break;
@@ -266,7 +266,7 @@ Expression FlowForm::getObjFunctionFromMetric(Input::ObjectiveMetric chosenObjec
     case Input::OBJECTIVE_METRIC_8:
         {
         Term term(maxSliceOverall, 1);
-        obj.addTerm(term);
+        obj.addTerm2(term);
         break;
         }
     default:

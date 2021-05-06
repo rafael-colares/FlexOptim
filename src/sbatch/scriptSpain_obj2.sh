@@ -7,7 +7,7 @@
 #SBATCH --nodes=1
 #SBATCH --nodelist=django          # choix du noeud
 #SBATCH --ntasks=1                 # nombre processus
-#SBATCH --mem=15000                # mémoire nécessaire (par noeud) en Mo
+#SBATCH --mem=20000                # mémoire nécessaire (par noeud) en Mo
  
 #===============================================================================
 #exécution du programme (remplacer exe par le nom du programme

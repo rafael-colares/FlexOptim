@@ -13,6 +13,7 @@ AbstractHeuristic::AbstractHeuristic(AbstractLagFormulation* form, const Status 
         //mapFill<ListDigraph,IterableBoolMap<ListDigraph,ListDigraph::Arc>>((*formulation->getVecGraphD(d)),(*heuristicSolutionItBoolMap[d]),false);
     } 
     timeAux = 0.0;
+    infeasibleByBound = false;
 }
 
 /* *******************************************************************************

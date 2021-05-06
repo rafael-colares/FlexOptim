@@ -43,6 +43,7 @@ class AbstractHeuristic{
 
         ClockTime time;
         double timeAux;
+        bool infeasibleByBound;
 
     public:
 
@@ -58,6 +59,8 @@ class AbstractHeuristic{
 
         /** Returns the status. **/
         Status getStatus() const {return statusheuristic;}
+
+        bool getInfeasibilityByBound() const {return infeasibleByBound;}
 
         /* Get the current heuristic solution cost */
         double getCurrentHeuristicCost() const { return currentHeuristicCost;}

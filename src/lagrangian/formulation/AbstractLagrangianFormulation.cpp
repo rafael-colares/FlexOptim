@@ -170,9 +170,9 @@ void AbstractLagFormulation::updateLowerUpperBound(double *lower, double *upper)
         count2 =0;
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
             if((*lowerBound[d])[a]>0){
-                //std::cout << "(" << getNodeLabel((*vecGraph[d]).source(a), d) + 1;
-                //std::cout << "--";
-                //std::cout <<  getNodeLabel((*vecGraph[d]).target(a), d) + 1 << ", " << getArcSlice(a, d) + 1 << ")" << " d:" << d+1 << std::endl;
+                std::cout << "(" << getNodeLabel((*vecGraph[d]).source(a), d) + 1;
+                std::cout << "--";
+                std::cout <<  getNodeLabel((*vecGraph[d]).target(a), d) + 1 << ", " << getArcSlice(a, d) + 1 << ")" << " d:" << d+1 << std::endl;
                 nbvar++;
             }
             if((*upperBound[d])[a]<1){
@@ -184,6 +184,7 @@ void AbstractLagFormulation::updateLowerUpperBound(double *lower, double *upper)
     std::cout << "Total number of variables: " << nbRealvar << std::endl;
     std::cout << "Fixed variables (ub or lb): " << nbvar << std::endl;
     */
+    
 }
 
 void AbstractLagFormulation::verifyLowerUpperBound(){
@@ -242,6 +243,15 @@ void AbstractLagFormulation::clearAssignmentMatrix(){
         }
     }
     assignmentMatrix_d.clear();
+}
+
+void AbstractLagFormulation::clearBestFeasibleSolution(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        for(int index = 0; index < assignmentMatrix_d[d].size(); index++){
+            bestFeasibleSol[d].clear();
+        }
+    }
+    bestFeasibleSol.clear();
 }
 
 /* Clear Primal approximation matrix. */
@@ -693,6 +703,17 @@ void AbstractLagFormulation::initPrimalApproximation(){
     initPrimalSolution();
     initPrimalSlacks();
     setCurrentPrimalCost(getRealCurrentCost());
+}
+
+/********************************************* BEST FEASIBLE SOLUTION **************************************/
+
+void AbstractLagFormulation::initBestFeasibleSolution(){
+    bestFeasibleSol.resize(getNbDemandsToBeRouted());
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        bestFeasibleSol[d].resize(countArcs(*vecGraph[d]),false);
+    }
+    bestMaxUsedSliceOverall = 0.0;
+    //std::cout << "> Initial Best Solution was defined. " << std::endl;
 }
 
 /****************************************************** COEFF *********************************************************/
@@ -1318,20 +1339,46 @@ void AbstractLagFormulation::updatePrimalApproximation(double alpha){
     setCurrentPrimalCost(obj);
 }
 
+/* Update the primal approximation with the primal value, because it was proved optimality. */
 void AbstractLagFormulation::changePrimalApproximation(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         std::copy(assignmentMatrix_d[d].begin(),assignmentMatrix_d[d].end(),primal_linear_solution[d].begin());
     }
+    if(instance.getInput().isObj8(0)){
+        primalMaxUsedSliceOverall = realMaxUsedSliceOverall;
+    }
 }
 
-void AbstractLagFormulation::changePrimalApproximationToHeuristicValue(std::vector<std::vector<bool>> heuristicSol,double varP){
+/* Update the primal approximation with the best feasible solution, because it was proved optimality. */
+void AbstractLagFormulation::changePrimalApproximationToBestFeasibleSol(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        std::copy(heuristicSol[d].begin(),heuristicSol[d].end(),primal_linear_solution[d].begin());
+        std::copy(bestFeasibleSol[d].begin(),bestFeasibleSol[d].end(),primal_linear_solution[d].begin());
     }
     if(instance.getInput().isObj8(0)){
-        maxUsedSliceOverall = varImpleTime;
+        maxUsedSliceOverall = bestMaxUsedSliceOverall;
     }
 }
+
+/************************************************** BEST SOLUTION **********************************************/
+
+void AbstractLagFormulation::changeBestSolution(std::vector<std::vector<bool>> heuristicSol,double varP){
+     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        std::copy(heuristicSol[d].begin(),heuristicSol[d].end(),bestFeasibleSol[d].begin());
+    }
+    if(instance.getInput().isObj8(0)){
+        bestMaxUsedSliceOverall = varP;
+    }
+}
+
+void AbstractLagFormulation::changeBestSolutionWithPrimalSolution(){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        std::copy(assignmentMatrix_d[d].begin(),assignmentMatrix_d[d].end(),bestFeasibleSol[d].begin());
+    }
+    if(instance.getInput().isObj8(0)){
+        bestMaxUsedSliceOverall = realMaxUsedSliceOverall;
+    }
+}
+
 
 /* ********************************************************************************************************************
 *                                                   Check Feasibility METHODS
@@ -1340,7 +1387,7 @@ void AbstractLagFormulation::changePrimalApproximationToHeuristicValue(std::vect
 /* Checks if all length slacks are non-negative. */
 bool AbstractLagFormulation::checkLengthFeasibility(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
-        if (lengthSlack[d] < -DBL_EPSILON){
+        if (lengthSlack[d] < (-DBL_EPSILON)){
             return false;
         }
     }
@@ -1385,7 +1432,7 @@ bool AbstractLagFormulation::checkFlowFeasibility(){
 bool AbstractLagFormulation::checkOverlapFeasibility(){   
     for (int e = 0; e < instance.getNbEdges(); e++){
         for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
-            if (overlapSlack[e][s] < -DBL_EPSILON){
+            if (overlapSlack[e][s] < (-DBL_EPSILON)){
                 return false;
             }
         }
@@ -1395,7 +1442,7 @@ bool AbstractLagFormulation::checkOverlapFeasibility(){
 
 /* Checks if all max used slice overall slacks are non-negative. */
 bool AbstractLagFormulation::checkMaxUsedSliceOverallFeasibility(){
-     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         if (maxUsedSliceOverallSlack[d] < -DBL_EPSILON){
             return false;
         }

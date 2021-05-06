@@ -133,6 +133,7 @@ void shortestPathHeuristic::run(bool modifiedProblem,bool costs){
     /* Initialization*/
     init(costs);
     setStatus(STATUS_UNKNOWN);
+    infeasibleByBound = false;
     //std::cout << "Heuristic's initialization" << std::endl;
 
     /* If the problem is modified (fixed variables), we have to do a preprocessing.*/
@@ -142,6 +143,7 @@ void shortestPathHeuristic::run(bool modifiedProblem,bool costs){
         //std::cout << "Adapted preprocessing\n";
         if(infeasible){
             setStatus(STATUS_INFEASIBLE);
+            infeasibleByBound = true;
             std::cout << "Fixed variables make the problem infeasible (heuristic)." << std::endl;
             updateCostFromHeuristic();
             return;

@@ -62,6 +62,7 @@ void lagFlow::init(bool initMult){
     initDirection();
     initCoeff();
     initAssignmentMatrix();
+    initBestFeasibleSolution();
     
     /** Time **/
     setConstAuxGraphTime(0.0);
@@ -284,9 +285,13 @@ void lagFlow::updateAssignment_k(int d, DijkstraCost &path, const ListDigraph::N
     std::fill(assignmentMatrix_d[d].begin(), assignmentMatrix_d[d].end(), false);
     
     ListDigraph::Node currentNode = TARGET;
+    double slice = 0;
     while (currentNode != SOURCE){
         ListDigraph::Arc arc = path.predArc(currentNode);
         int index = getArcIndex(arc, d);
+        if(getArcSlice(arc,d)>slice){
+            slice = getArcSlice(arc,d);
+        }
 
         /* Update Assignment */
         assignmentMatrix_d[d][index] = true;
@@ -297,6 +302,10 @@ void lagFlow::updateAssignment_k(int d, DijkstraCost &path, const ListDigraph::N
 
         currentNode = path.predNode(currentNode);
     }
+
+    if(realMaxUsedSliceOverall < slice){
+        realMaxUsedSliceOverall = slice;
+    }
 }
 
 /* Updates the assignment of a demand based on the a given path. For objective 8. */
@@ -304,9 +313,13 @@ void lagFlow::updateAssignment_k(int d, DijkstraCostObj8 &path, const ListDigrap
     std::fill(assignmentMatrix_d[d].begin(), assignmentMatrix_d[d].end(), false);
     
     ListDigraph::Node currentNode = TARGET; 
+    double slice = 0;
     while (currentNode != SOURCE){
         ListDigraph::Arc arc = path.predArc(currentNode);
         int index = getArcIndex(arc, d);
+        if(getArcSlice(arc,d)>slice){
+            slice = getArcSlice(arc,d);
+        }
 
         /* Update Assignment */
         assignmentMatrix_d[d][index] = true;
@@ -321,6 +334,10 @@ void lagFlow::updateAssignment_k(int d, DijkstraCostObj8 &path, const ListDigrap
         
         currentNode = path.predNode(currentNode);
     }
+
+    if(realMaxUsedSliceOverall < slice){
+        realMaxUsedSliceOverall = slice;
+    }
 }
 
 /* This method is used in the branch and bound, when we have to fix the variables values. */
@@ -332,8 +349,12 @@ void lagFlow::updateAssignment_k(int d, CapacityScaling<ListDigraph,int,double> 
     costScale.flowMap(auxiliary);
     int flow = 1;
 
+    double slice = 0;
     for(IterableValueMap<ListDigraph,ListDigraph::Arc,double>::ItemIt arc(auxiliary,flow); arc != INVALID; ++arc){
         int index = getArcIndex(arc, d);
+        if(getArcSlice(arc,d)>slice){
+            slice = getArcSlice(arc,d);
+        }
 
         /* Update Assignment */
         assignmentMatrix_d[d][index] = true;
@@ -348,6 +369,10 @@ void lagFlow::updateAssignment_k(int d, CapacityScaling<ListDigraph,int,double> 
             //updateMaxUsedSliceOverall2Slack(d,arc);
             //updateMaxUsedSliceOverall3Slack(d,arc);
         }
+    }
+
+    if(realMaxUsedSliceOverall < slice){
+        realMaxUsedSliceOverall = slice;
     }
 }
 
@@ -883,6 +908,7 @@ double lagFlow::getPathCost(int d, DijkstraCost &path, const ListDigraph::Node &
 void lagFlow::run(bool adaptedSubproblem){
     setCurrentLagrCost(0.0);
     setCurrentRealCost(0.0);
+    realMaxUsedSliceOverall = 0.0;
     
     setStatus(STATUS_UNKNOWN);
 
@@ -1040,17 +1066,6 @@ void lagFlow::runAdaptedGeneralObj(){
             std::cout << "> The problem should not be unbounded because all the variables considered have upper bound at most equal to 1." << std::endl;
         }
         incShorstestPathTime(time.getTimeInSecFromStart());
-
-        if(d==6){
-            IterableValueMap<ListDigraph,ListDigraph::Arc,double> auxiliary(*vecGraph[d]);
-            costScale.flowMap(auxiliary);
-            int flow = 1;
-
-            for(IterableValueMap<ListDigraph,ListDigraph::Arc,double>::ItemIt arc(auxiliary,flow); arc != INVALID; ++arc){
-                //std::cout << "FLOW: label: " << getArcLabel(arc,d) << " slice: " << getArcSlice(arc,d) << std::endl;
-            }
-            //std::cout << "FIM" << std::endl;
-        }
      
 
         time.setStart(ClockTime::getTimeNow());
@@ -1096,7 +1111,7 @@ void lagFlow::solveProblemMaxUsedSliceOverall(){
     updateMaxUsedSliceOverallSlack_aux();
 
     incCurrentLagrCost(maxUsedSliceOverall*(1.0-exp));
-    incCurrentRealCost(maxUsedSliceOverall);
+    incCurrentRealCost(realMaxUsedSliceOverall);
 }
 
 /*void lagFlow::solveProblemMaxUsedSliceOverall(){

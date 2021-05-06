@@ -182,6 +182,9 @@ class AbstractLagFormulation: public FlowForm{
                 /** Primal approximation for maxUsedSliceOverall of the model **/
                 double primalMaxUsedSliceOverall;
 
+                /** Primal approximation for auxiliary constraint max used slice overall **/
+                std::vector<bool> primalVarAuxZ;
+
                 /******************************************** ASSIGNMENT MATRIX ***********************************************/
 
                 /** Vector with the current lagrangian solution **/
@@ -193,8 +196,13 @@ class AbstractLagFormulation: public FlowForm{
                 /** Auxiliary variable for auxiliary constraint max used slice overall **/
                 std::vector<bool> varAuxZ;
 
-                /** Primal approximation for auxiliary constraint max used slice overall **/
-                std::vector<bool> primalVarAuxZ;
+                /******************************************** BEST FEASIBLE SOLUTION ******************************************/
+                
+                /** Vector with the current best feasible solution. **/
+                std::vector< std::vector<bool> > bestFeasibleSol;
+
+                /** Best feasible value for the variable maxUsedSliceOverall of the model **/
+                double bestMaxUsedSliceOverall;
 
                 /************************************************** COEFF *****************************************************/
 
@@ -210,6 +218,8 @@ class AbstractLagFormulation: public FlowForm{
                 std::vector< std::shared_ptr<ArcMap> > upperBound; 
 
                 std::vector< std::shared_ptr<ArcMap> > lowerBound; 
+
+                double realMaxUsedSliceOverall;
 
                 double maxUsedSliceOverallUpperBound;
 
@@ -849,6 +859,10 @@ class AbstractLagFormulation: public FlowForm{
                 /** Initializes the primal approximation given by volume algorithm **/
                 void initPrimalSolution();
 
+                /******************************************* BEST FEASIBLE SOLUTION *******************************************/
+
+                void initBestFeasibleSolution();
+
                 /*********************************************** PRIMAL APPROXIMATION **********************************************/
 
                 void initPrimalApproximation();
@@ -1131,6 +1145,8 @@ class AbstractLagFormulation: public FlowForm{
 
                 void clearAssignmentMatrix();
 
+                void clearBestFeasibleSolution();
+
                 /*************************************** PRIMAL APPROXIMATION *********************************************/
 
                 void updatePrimalApproximation(double);
@@ -1139,7 +1155,13 @@ class AbstractLagFormulation: public FlowForm{
 
                 void changePrimalApproximation();
 
-                void changePrimalApproximationToHeuristicValue(std::vector<std::vector<bool>>,double);
+                void changePrimalApproximationToBestFeasibleSol();
+
+                /*************************************** PRIMAL APPROXIMATION *********************************************/
+
+                void changeBestSolution(std::vector<std::vector<bool>>,double);
+
+                void changeBestSolutionWithPrimalSolution();
 
                 /***************************************** ASSIGNMENT MATRIX **********************************************/
 

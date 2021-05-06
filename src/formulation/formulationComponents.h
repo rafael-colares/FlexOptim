@@ -158,6 +158,8 @@ public:
 	/** Adds a new term to the expression. @param term The term to be added. **/
     void addTerm(const Term &term);
 
+	void addTerm2(const Term &term) {termsArray.push_back(term); }
+
 	double getExpressionValue();
 
 	double getTrivialUb();

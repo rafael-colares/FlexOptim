@@ -31,7 +31,7 @@ void lagVolume::initialization(bool initMultipliers){
     initLambda();
 
     setLB(-__DBL_MAX__);
-    setUB(100000);
+    setUB(1000000);
     setTarget(-__DBL_MAX__/2);
 
     formulation->init(initMultipliers);
@@ -45,14 +45,15 @@ void lagVolume::initialization(bool initMultipliers){
     setDualInf(false);
 
     setInitializationTime(time.getTimeInSecFromStart());
-    setConstAuxGraphTime(formulation->getConstAuxGraphTime()); 
+    setConstAuxGraphTime(formulation->getConstAuxGraphTime());
+
+    feasibleHeuristic = true; 
 
     //std::cout << "> Initialization is done. " << std::endl;
     //fichier << "> Initialization is done. " << std::endl;
     //fichier << "> ******* Iteration: " << getIteration() << " ********" << std::endl;
     //formulation->displaySlack(fichier);
     //formulation->displayMultiplier(fichier);
-    feasibleHeuristic = true;
 }
 
 /*****************************************************************************************************************************/
@@ -69,8 +70,6 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
     sequence_dualCost.resize(ascent_first_check,0.0);
 
     //std::cout << "> Volume was initialized. " << std::endl;
-
-    //std::cout << MAX_NB_IT << std::endl;
 
     bool STOP = false;
     while (!STOP){
@@ -93,30 +92,27 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
             const int k = getIteration() % ASCENT_CHECK_INVL;
             bool alternativeStop = formulation->getInstance().getInput().getAlternativeStop();
 
-
-            if((getLB() >= (getUB() - 0.001)) && (getLB() < (UBINIT-0.001))){ // Test optimality IP
-                STOP = true;
-                formulation->setStatus(RSA::STATUS_OPTIMAL);
-                setStatus(STATUS_OPTIMAL);
-                setStop("Optimal");
-                std::cout << "Volume: Integer Optimal by UB: " << getLB() << " " << getUB() << std::endl;
-
-                formulation->changePrimalApproximationToHeuristicValue(heuristic->getSolution(),heuristic->getVarP());
-                //exit(0);
-            }
-            else if ((getIteration()>1) && primal_feas && small_gap){ // Test optimality LP
-                STOP = true;
-                setStatus(STATUS_OPTIMAL);
-                setStop("Small lp gap ");
-                std::cout << "Volume: Small linear program gap: " << getLB() << std::endl;
-            }
-            else if(formulation->checkSlacknessCondition() && formulation->checkFeasibility()){
+            if(formulation->checkSlacknessCondition() && formulation->checkFeasibility()){
                 STOP = true;
                 formulation->setStatus(RSA::STATUS_OPTIMAL);
                 setStatus(STATUS_OPTIMAL);
                 setStop("Optimal");
                 formulation->changePrimalApproximation();
                 std::cout << "Volume: Integer Optimal by slackness: " << getLB() << " " << formulation->getLagrCurrentCost() << std::endl;
+            }
+            else if((getLB() >= (getUB() - 0.001)) && (getLB() < (UBINIT-0.001))){ // Test optimality IP
+                STOP = true;
+                formulation->setStatus(RSA::STATUS_OPTIMAL);
+                setStatus(STATUS_OPTIMAL);
+                setStop("Optimal");
+                std::cout << "Volume: Integer Optimal by UB: " << getLB() << " " << getUB() << std::endl;
+                formulation->changePrimalApproximationToBestFeasibleSol();
+            }
+            else if ((getIteration()>1) && primal_feas && small_gap){ // Test optimality LP
+                STOP = true;
+                setStatus(STATUS_OPTIMAL);
+                setStop("Small lp gap ");
+                std::cout << "Volume: Small linear program gap: " << getLB() << std::endl;
             }
             else if(getIteration() >= MAX_NB_IT){
                 STOP = true;
@@ -215,6 +211,10 @@ void lagVolume::runIteration(bool modifiedSubproblem){
         double feasibleSolutionCost = formulation->getRealCurrentCost();
         if (feasibleSolutionCost < getUB()){
             updateUB(feasibleSolutionCost);
+            if(formulation->getInstance().getInput().isObj8(0)){
+                formulation->updateMaxUsedSliceOverallUpperBound(feasibleSolutionCost);
+            }
+            formulation->changeBestSolutionWithPrimalSolution();
             std::cout << " Ub by feasibility." << std::endl;
         }
     }
@@ -234,21 +234,25 @@ void lagVolume::runIteration(bool modifiedSubproblem){
     incUpdatingPrimalVariablesTime(time.getTimeInSecFromStart());
 
     time.setStart(ClockTime::getTimeNow());
-    //if(!modifiedSubproblem){
-        if(getIteration()<=5 || getIteration()%30 ==0){
-            if(feasibleHeuristic){
-                heuristic->run(modifiedSubproblem);
-                if(heuristic->getStatus() == AbstractHeuristic::STATUS_INFEASIBLE){
-                    feasibleHeuristic = false;
-                }
-                double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
+    if(getIteration()<=5 || getIteration()%30 ==0){
+        if(feasibleHeuristic){
+            heuristic->run(modifiedSubproblem);
+            if(heuristic->getStatus() == AbstractHeuristic::STATUS_INFEASIBLE){
+                feasibleHeuristic = false;
+            }
+            if(heuristic->getInfeasibilityByBound()){
+                formulation->setStatus(AbstractFormulation::STATUS_INFEASIBLE);
+            }
+            double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
+            if (feasibleSolutionCostHeur < getUB()){
                 updateUB(feasibleSolutionCostHeur);
                 if(formulation->getInstance().getInput().isObj8(0)){
                     formulation->updateMaxUsedSliceOverallUpperBound(feasibleSolutionCostHeur);
                 }
+                formulation->changeBestSolution(heuristic->getSolution(),heuristic->getVarP());
             }
         }
-    //}
+    }
     incHeuristicBoundTime(time.getTimeInSecFromStart());
 
     //fichier << "\n\n> ****** Iteration: " << getIteration() << " ******"<< std::endl;
