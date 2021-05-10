@@ -55,7 +55,7 @@ void lagFlow::init(bool initMult){
     /** Lagrangian Values **/
     if(initMult){
         initMultipliers(); 
-        maxUsedSliceOverallUpperBound = (getNbSlicesGlobalLimit()-1);
+        maxUsedSliceOverallUpperBound = (auxNbSlicesGlobalLimit-1);
         maxUsedSliceOverallLowerBound = 0;
     }
     initSlacks();
@@ -96,7 +96,7 @@ void lagFlow::startMultipliers(double *row,int size,int objSignal){
     int nbSlicesEdges = 0;
     lagrangianMultiplierOverlap.resize(instance.getNbEdges());
     for (int i = 0; i < instance.getNbEdges(); i++){
-        nbSlicesEdges = nbSlicesLimitFromEdge[i];
+        nbSlicesEdges = auxNbSlicesLimitFromEdge[i];
         std::copy(row+notComputedMultipliers,row+(notComputedMultipliers+nbSlicesEdges) ,std::back_inserter(lagrangianMultiplierOverlap[i]));
         //std::cout << lagrangianMultiplierOverlap[i][0] << " " << row[notComputedMultipliers] << std::endl;
         notComputedMultipliers = notComputedMultipliers + nbSlicesEdges;
@@ -473,7 +473,7 @@ void lagFlow::getDualSolution(double *rowprice){
     notComputedMultipliers = notComputedMultipliers+nbDemands;
     for (int i = 0; i < instance.getNbEdges(); i++){
         std::copy(lagrangianMultiplierOverlap[i].begin(),lagrangianMultiplierOverlap[i].end(),rowprice+notComputedMultipliers);
-        int nbSlicesEdges = nbSlicesLimitFromEdge[i];
+        int nbSlicesEdges = auxNbSlicesLimitFromEdge[i];
         notComputedMultipliers = notComputedMultipliers + nbSlicesEdges;
     }
 
@@ -502,7 +502,7 @@ double lagFlow::getSlackModule(double alpha) {
     }
     /* Overlap */
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             double slack = alpha*(-getOverlapSlack_k(e,s)) + (1.0 - alpha)*(-getOverlapSlack_v2_k(e,s));
             double mult = getOverlapMultiplier_k(e,s);
             if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
@@ -529,7 +529,7 @@ double lagFlow::getSlackModule(double alpha) {
         */
         /*
         for (int e = 0; e < instance.getNbEdges(); e++){
-            for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+            for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
                 double slack = alpha*(-getMaxUsedSliceOverall2Slack_k(e,s)) + (1.0 - alpha)*(-getMaxUsedSliceOverall2Slack_v2_k(e,s));
                 double mult = getMaxUsedSliceOverall2Multiplier_k(e,s);
                 if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
@@ -540,7 +540,7 @@ double lagFlow::getSlackModule(double alpha) {
         */
         /*
         for (int v = 0; v < instance.getNbNodes(); v++){
-            for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+            for (int s = 0; s < auxNbGlobalLimit; s++){
                 double slack = alpha*(-getMaxUsedSliceOverall3Slack_k(v,s)) + (1.0 - alpha)*(-getMaxUsedSliceOverall3Slack_v2_k(v,s));
                 double mult = getMaxUsedSliceOverall3Multiplier_k(v,s);
                 if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
@@ -567,7 +567,7 @@ double lagFlow::getSlackModule_v2(double alpha) {
     }
     /* Overlap */
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             double slack = alpha*(-getOverlapSlack_k(e,s)) + (1.0 - alpha)*(-getOverlapSlack_v2_k(e,s));
             double mult = getOverlapMultiplier_k(e,s);
             if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
@@ -594,7 +594,7 @@ double lagFlow::getSlackModule_v2(double alpha) {
         */
         /*
         for (int e = 0; e < instance.getNbEdges(); e++){
-            for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+            for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
                 double slack = alpha*(-getMaxUsedSliceOverall2Slack_k(e,s)) + (1.0 - alpha)*(-getMaxUsedSliceOverall2Slack_v2_k(e,s));
                 double mult = getMaxUsedSliceOverall2Multiplier_k(e,s);
                 if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
@@ -605,7 +605,7 @@ double lagFlow::getSlackModule_v2(double alpha) {
         */
         /*
         for (int v = 0; v < instance.getNbNodes(); v++){
-            for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+            for (int s = 0; s < auxNbSlicesGlobalLimit; s++){
                 double slack = alpha*(-getMaxUsedSliceOverall3Slack_k(v,s)) + (1.0 - alpha)*(-getMaxUsedSliceOverall3Slack_v2_k(v,s));
                 double mult = getMaxUsedSliceOverall3Multiplier_k(v,s);
                 if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
@@ -661,7 +661,7 @@ double lagFlow::getSlackDirectionProdNormal(){
         denominator += getLengthSlack_k(d)*getLengthDirection_k(d);
     }
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             denominator += getOverlapSlack_k( e, s)*getOverlapDirection_k(e,s);
         }
     }
@@ -672,13 +672,13 @@ double lagFlow::getSlackDirectionProdNormal(){
         }
         /*
         for (int e = 0; e < instance.getNbEdges(); e++){
-            int sliceLimit = nbSlicesLimitFromEdge[e];
+            int sliceLimit = auxNbSlicesLimitFromEdge[e];
             for (int s = 0; s < sliceLimit; s++){
                 denominator += getMaxUsedSliceOverall2Slack_k(e,s)*getMaxUsedSliceOverall2Direction_k(e,s);
             }
         }
         for (int v = 0; v < instance.getNbNodes(); v++){
-            for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+            for (int s = 0; s < auxNbSlicesGlobalLimit; s++){
                 denominator += getMaxUsedSliceOverall3Slack_k(v,s)*getMaxUsedSliceOverall3Direction_k(v,s);
             }
         }
@@ -697,7 +697,7 @@ double lagFlow::getSlackDirectionProdProjected(Input::ProjectionType projection)
             }
         }
         for (int e = 0; e < instance.getNbEdges(); e++){
-            for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+            for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
                 if(!((-getOverlapDirection_k(e,s) < - DBL_EPSILON)&&(getOverlapMultiplier_k(e,s)> -DBL_EPSILON && getOverlapMultiplier_k(e,s) < DBL_EPSILON))){ // if non negative or multiplier different from zero
                     denominator += getOverlapSlack_k( e, s)*getOverlapDirection_k(e,s);
                 }
@@ -714,7 +714,7 @@ double lagFlow::getSlackDirectionProdProjected(Input::ProjectionType projection)
             }
             /*
             for (int e = 0; e < instance.getNbEdges(); e++){
-                int sliceLimit = nbSlicesLimitFromEdge[e];
+                int sliceLimit = auxNbSlicesLimitFromEdge[e];
                 for (int s = 0; s < sliceLimit; s++){
                     if(!((-getMaxUsedSliceOverall2Direction_k(e,s) < - DBL_EPSILON)&&(getMaxUsedSliceOverall2Multiplier_k(e,s) > - DBL_EPSILON && getMaxUsedSliceOverall2Multiplier_k(e,s) < DBL_EPSILON))){
                         denominator += getMaxUsedSliceOverall2Slack_k(e,s)*getMaxUsedSliceOverall2Direction_k(e,s);
@@ -722,7 +722,7 @@ double lagFlow::getSlackDirectionProdProjected(Input::ProjectionType projection)
                 }
             }
             for (int v = 0; v < instance.getNbNodes(); v++){
-                for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+                for (int s = 0; s < auxNbSlicesGlobalLimit; s++){
                     if(!((-getMaxUsedSliceOverall3Direction_k(v,s) < - DBL_EPSILON)&&(getMaxUsedSliceOverall3Multiplier_k(v,s) > - DBL_EPSILON && getMaxUsedSliceOverall3Multiplier_k(v,s) < DBL_EPSILON))){
                         denominator += getMaxUsedSliceOverall3Slack_k(v,s)*getMaxUsedSliceOverall3Direction_k(v,s);
                     }
@@ -737,7 +737,7 @@ double lagFlow::getSlackDirectionProdProjected(Input::ProjectionType projection)
             }
         }
         for (int e = 0; e < instance.getNbEdges(); e++){
-            for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+            for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
                 if(!(-getOverlapDirection_k(e,s) < - DBL_EPSILON)){ // if non negative 
                     denominator += getOverlapSlack_k( e, s)*getOverlapDirection_k(e,s);
                 }
@@ -754,7 +754,7 @@ double lagFlow::getSlackDirectionProdProjected(Input::ProjectionType projection)
             }
             /*
             for (int e = 0; e < instance.getNbEdges(); e++){
-                int sliceLimit = nbSlicesLimitFromEdge[e];
+                int sliceLimit = auxNbSlicesLimitFromEdge[e];
                 for (int s = 0; s < sliceLimit; s++){
                     if(!(-getMaxUsedSliceOverall2Direction_k(e,s) < - DBL_EPSILON)){
                         denominator += getMaxUsedSliceOverall2Slack_k(e,s)*getMaxUsedSliceOverall2Direction_k(e,s);
@@ -762,7 +762,7 @@ double lagFlow::getSlackDirectionProdProjected(Input::ProjectionType projection)
                 }
             }
             for (int v = 0; v < instance.getNbNodes(); v++){
-                for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+                for (int s = 0; s < auxNbSlicesGlobalLimit; s++){
                     if(!(-getMaxUsedSliceOverall3Direction_k(v,s) < - DBL_EPSILON)){
                         denominator += getMaxUsedSliceOverall3Slack_k(v,s)*getMaxUsedSliceOverall3Direction_k(v,s);
                     }
@@ -784,7 +784,7 @@ double lagFlow::getMeanSlackModule_v2(){
     
     double numRest = getNbDemandsToBeRouted();
     for (int e = 0; e < instance.getNbEdges(); e++){
-        numRest += nbSlicesLimitFromEdge[e];
+        numRest += auxNbSlicesLimitFromEdge[e];
     }
     if(instance.getInput().isObj8(0)){
         module += std::accumulate(maxUsedSliceOverallSlack_v2.begin(),maxUsedSliceOverallSlack_v2.end(),0.0,[](double sum, double slack){return sum +=std::abs(slack);});
@@ -802,10 +802,10 @@ double lagFlow::getMeanSlackModule_v2(){
         //numRest += getNbDemandsToBeRouted();
         /*
         for (int e = 0; e < instance.getNbEdges(); e++){
-            numRest += nbSlicesLimitFromEdge[e];
+            numRest += auxNbSlicesLimitFromEdge[e];
         }
         for (int e = 0; e < instance.getNbNodes(); e++){
-            numRest += getNbSlicesGlobalLimit();
+            numRest += auxNbSlicesGlobalLimit;
         }
         */
     }
@@ -825,7 +825,7 @@ double lagFlow::getSlackPrimalSlackProd(double alpha){
     }
     /* Overlap */
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             double slack = alpha*(-getOverlapSlack_k(e,s)) + (1.0 - alpha)*(-getOverlapSlack_v2_k(e,s));
             double mult = getOverlapMultiplier_k(e,s);
             if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
@@ -852,7 +852,7 @@ double lagFlow::getSlackPrimalSlackProd(double alpha){
         */
         /*
         for (int e = 0; e < instance.getNbEdges(); e++){
-            for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+            for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
                 double slack = alpha*(-getMaxUsedSliceOverall2Slack_k(e,s)) + (1.0 - alpha)*(-getMaxUsedSliceOverall2Slack_v2_k(e,s));
                 double mult = getMaxUsedSliceOverall2Multiplier_k(e,s);
                 if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
@@ -863,7 +863,7 @@ double lagFlow::getSlackPrimalSlackProd(double alpha){
         */
         /*
         for (int v = 0; v < instance.getNbNodes(); v++){
-            for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+            for (int s = 0; s < auxNbSlicesGlobalLimit; s++){
                 double slack = alpha*(-getMaxUsedSliceOverall3Slack_k(v,s)) + (1.0 - alpha)*(-getMaxUsedSliceOverall3Slack_v2_k(v,s));
                 double mult = getMaxUsedSliceOverall3Multiplier_k(v,s);
                 if((alpha == -1.0) || !((slack < - DBL_EPSILON) && (mult > -DBL_EPSILON && mult < DBL_EPSILON))){ 
@@ -1091,7 +1091,7 @@ void lagFlow::subtractConstantValuesFromLagrCost(){
         incCurrentLagrCost(val);  
     }
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             double val = - getOverlapMultiplier_k(e, s);
             incCurrentLagrCost(val);
         }
@@ -1198,7 +1198,7 @@ void lagFlow::displayMultiplier(std::ostream & saida){
     display = "Overlap Multiplier = [ \n";
     for (int e = 0; e < instance.getNbEdges(); e++){
         display += "Edge " + std::to_string(e+1) + ":\n ";
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             display += "\t Slice " + std::to_string(s+1) + ": "+ std::to_string(getOverlapMultiplier_k( e, s)) + "\n"; 
         }
     }
@@ -1215,9 +1215,9 @@ void lagFlow::displayMultiplier(std::ostream & saida){
 
         /*display = "Max Used Slice Overall 2 Multiplier = [ \n";
         for (int e = 0; e < instance.getNbEdges(); e++){
-            maxUsedSliceOverallSlack2[e].resize(nbSlicesLimitFromEdge[e]);
+            maxUsedSliceOverallSlack2[e].resize(auxNbSlicesLimitFromEdge[e]);
             display += "Edge " + std::to_string(e+1) + ":\n ";
-            for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+            for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
                 display += "\t Slice " + std::to_string(s+1) + ": "+ std::to_string(getMaxUsedSliceOverall2Multiplier_k(e, s)) + "\n"; 
             }
         }
@@ -1226,9 +1226,9 @@ void lagFlow::displayMultiplier(std::ostream & saida){
 
         display = "Max Used Slice Overall 3 Multiplier = [ \n";
         for (int v = 0; v < instance.getNbNodes(); v++){
-            maxUsedSliceOverallSlack3[v].resize(getNbSlicesGlobalLimit());
+            maxUsedSliceOverallSlack3[v].resize(auxNbSlicesGlobalLimit;
             display += "Node " + std::to_string(v+1) + ":\n ";
-            for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+            for (int s = 0; s < auxNbSlicesGlobalLimit; s++){
                 display += "\t Slice " + std::to_string(s+1) + ": "+ std::to_string(getMaxUsedSliceOverall3Multiplier_k(v, s)) + "\n"; 
             }
         }
@@ -1249,7 +1249,7 @@ void lagFlow::displaySlack(std::ostream & saida){
     display = "Overlap Slack = [ \n";
     for (int e = 0; e < instance.getNbEdges(); e++){
         display += "Edge " + std::to_string(e+1) + "\n ";
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             display += "\t Slice " + std::to_string(s+1) + ": "+std::to_string(-getOverlapSlack_k( e, s)) + "\n"; 
         }
     }
@@ -1266,9 +1266,9 @@ void lagFlow::displaySlack(std::ostream & saida){
 
         /*display = "Max Used Slice Overall 2 Slack = [ \n";
         for (int e = 0; e < instance.getNbEdges(); e++){
-            maxUsedSliceOverallSlack2[e].resize(nbSlicesLimitFromEdge[e]);
+            maxUsedSliceOverallSlack2[e].resize(auxNbSlicesLimitFromEdge[e]);
             display += "Edge " + std::to_string(e+1) + ":\n ";
-            for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+            for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
                 display += "\t Slice " + std::to_string(s+1) + ": "+ std::to_string(getMaxUsedSliceOverall2Slack_k(e, s)) + "\n"; 
             }
         }
@@ -1277,9 +1277,9 @@ void lagFlow::displaySlack(std::ostream & saida){
 
         display = "Max Used Slice Overall 3 Slack = [ \n";
         for (int v = 0; v < instance.getNbNodes(); v++){
-            maxUsedSliceOverallSlack3[v].resize(getNbSlicesGlobalLimit());
+            maxUsedSliceOverallSlack3[v].resize(auxNbSlicesGlobalLimit;
             display += "Node " + std::to_string(v+1) + ":\n ";
-            for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+            for (int s = 0; s < auxNbSlicesGlobalLimit; s++){
                 display += "\t Slice " + std::to_string(s+1) + ": "+ std::to_string(getMaxUsedSliceOverall3Slack_k(v, s)) + "\n"; 
             }
         }

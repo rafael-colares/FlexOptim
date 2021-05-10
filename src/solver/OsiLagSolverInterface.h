@@ -9,9 +9,11 @@
 #include "OsiColCut.hpp"
 #include "CoinHelperFunctions.hpp"
 #include "CoinMpsIO.hpp"
+#include "CoinMessageHandler.hpp"
 
 #include "OsiSolverInterface.hpp"
 #include "OsiCbcSolverInterface.hpp"
+#include "CbcModel.hpp"
 
 #include "../lagrangian/solver/AbstractLagrangianSolver.h"
 #include "../lagrangian/solver/lagSolverFactory.h"
@@ -97,6 +99,10 @@ class OsiLagSolverInterface : virtual public OsiSolverInterface{
         double  *lhs_;
         /* The Lagrangean cost, a lower bound on the objective value. */
         double   lagrangeanCost_;
+        /* The best feasible solution found so far.*/
+        double  *feasibleSolution_;
+        /* The best feasible solution objective value found so far. */
+        double   feasibleSolutionValue_;
 
         /**************************************************************************************************/
         /*                                           Hotstart        						              */			      
@@ -110,6 +116,12 @@ class OsiLagSolverInterface : virtual public OsiSolverInterface{
         /**************************************************************************************************/
 
         AbstractLagSolver* lagrangianSolver;
+
+        /**************************************************************************************************/
+        /*                                          The CBC model             	    		              */			      
+        /**************************************************************************************************/
+
+        CbcModel* cbcModel;
 
         /**************************************************************************************************/
         /*                                     Private helper methods        	    		              */			      
@@ -143,22 +155,22 @@ class OsiLagSolverInterface : virtual public OsiSolverInterface{
         void convertSensesToBounds_();
 
     public:
+        /**************************************************************************************************/
+        /*                                         Solve methods        	    		                  */			      
+        /**************************************************************************************************/
         //---------------------------------------------------------------------------
-        /**@name Solve methods */
-        //@{
-        /// Solve initial LP relaxation 
+        /* Solve initial LP relaxation. */
         virtual void initialSolve();
 
-        /// Resolve an LP relaxation after problem modification
+        /* Resolve an LP relaxation after problem modification. */
         virtual void resolve();
 
         void extractSolution();
 
-        /// Invoke solver's built-in enumeration algorithm
+        /* Invoke solver's built-in enumeration algorithm.*/
         virtual void branchAndBound() {
             throw CoinError("Sorry, the Volume Algorithm doesn't implement B&B","branchAndBound", "OsiVolSolverInterface");
         }
-        //@}
 
         /**************************************************************************************************/
         /*                                   Parameter set/get methods                                    */			      
@@ -563,7 +575,11 @@ class OsiLagSolverInterface : virtual public OsiSolverInterface{
         //---------------------------------------------------------------------------
 
         /*Get pointer to lagrangian solver */
-        AbstractLagSolver* getLagrangianSolver() { return lagrangianSolver;}
+        AbstractLagSolver* const getLagrangianSolver() const { return lagrangianSolver;}
+
+        void setCbcModel(CbcModel* cbc) { cbcModel = cbc;}
+
+        CbcModel* const getCbcModel() const { return cbcModel;}
 
         /**************************************************************************************************/
         /*                                  CONSTRUCTORS AND COPY                                         */			      

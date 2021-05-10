@@ -142,12 +142,16 @@ class AbstractLagSolver{
         int getGlobalItWithoutImprovement() const { return globalItWithoutImprovement;}
 
         double getUB() const { return UB; }
+        double & getUBValue() { return UB;}
         double getLB() const { return LB; }
 
         double getStepSize() const { return stepSize; }
         double getLambda() const { return lambda; }
 
         virtual void getSolution(double *)=0;
+
+        void getBestSolution(double *feaSol_) { formulation->getBestFeasibleSolution(feaSol_);
+                                                formulation->clearBestFeasibleSolution();}
 
         void getDualSolution(double *rowprice) { formulation->getDualSolution(rowprice);}
 

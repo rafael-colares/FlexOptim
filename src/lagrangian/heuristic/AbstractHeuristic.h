@@ -78,9 +78,9 @@ class AbstractHeuristic{
         void setStatus(const Status &s){ statusheuristic = s; }
 
         /* Set the current heuristic solution cost */
-        void setCurrentHeuristicCost(int val){currentHeuristicCost = val;}
+        void setCurrentHeuristicCost(double val){currentHeuristicCost = val;}
 
-        void incCurrentHeuristicCost(int val){currentHeuristicCost += val;}
+        void incCurrentHeuristicCost(double val){currentHeuristicCost += val;}
 
         /* *******************************************************************************
         *                                 METHODS

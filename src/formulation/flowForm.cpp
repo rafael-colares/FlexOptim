@@ -3,11 +3,6 @@
 
 /* Constructor. Builds the Online RSA mixed-integer program and solves it using a defined solver (CPLEX or CBC). */
 FlowForm::FlowForm(const Instance &inst) : AbstractFormulation(inst){
-    auxNbSlicesLimitFromEdge.resize(instance.getNbEdges());
-    for(int i=0; i<instance.getNbEdges(); i++){
-        auxNbSlicesLimitFromEdge[i] = getNbSlicesLimitFromEdge(i);
-    }
-    auxNbSlicesGlobalLimit = getNbSlicesGlobalLimit();
     if(inst.getInput().getChosenNodeMethod() == Input::NODE_METHOD_LINEAR_RELAX){
         ClockTime time(ClockTime::getTimeNow());
         ClockTime time2(ClockTime::getTimeNow());

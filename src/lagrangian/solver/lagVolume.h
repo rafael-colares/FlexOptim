@@ -45,7 +45,6 @@ class lagVolume: public AbstractLagSolver{
 
         void getSolution(double *colsol) { formulation->getPrimalAppSolution(colsol);
                                            formulation->clearAssignmentMatrix();
-                                           formulation->clearBestFeasibleSolution();
                                            formulation->clearPrimalApproximationMatrix();
                                            formulation->clearSlacks(); }
 

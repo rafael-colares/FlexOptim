@@ -52,23 +52,36 @@ void SolverCBC::setCBCParams(const Input &input){
         dynamic_cast<OsiClpSolverInterface*>(model.solver())->setSolveOptions(clpSolve); //b&b
         solver.setSolveOptions(clpSolve); // relaxed
     }
-    //if(isrelaxed){
-        solver.getModelPtr()->setMaximumSeconds(input.getIterationTimeLimit()); 
-    //}
+    dynamic_cast<OsiClpSolverInterface*>(model.solver())->getModelPtr()->setMaximumSeconds(input.getIterationTimeLimit()); 
+    solver.getModelPtr()->setMaximumSeconds(input.getIterationTimeLimit()); 
+    model.setNumberStrong(0);
     std::cout << "CBC parameters have been defined..." << std::endl;
 }
 
 void SolverCBC::implementFormulation(){
+    ClockTime time(ClockTime::getTimeNow());
+    ClockTime time2(ClockTime::getTimeNow());
     // add variables.
     setVariables(formulation->getVariables());
+    //std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    varChargeTime =  time.getTimeInSecFromStart();
+    time.setStart(ClockTime::getTimeNow());
     // add constraints.
     setConstraints(formulation->getConstraints());
+    //std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    constChargeTime = time.getTimeInSecFromStart();
+    time.setStart(ClockTime::getTimeNow());
     // add the first objective function.
     setObjective(formulation->getObjFunction(0));
-    solver.writeLp("test");
+    //std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    objChargeTime = time.getTimeInSecFromStart();
+    time.setStart(ClockTime::getTimeNow());
+    //solver.writeLp("test");
     model = CbcModel(solver);
     // free formulation memory.
     formulation->clearConstraints();
+    //std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    totalChargeTime = time2.getTimeInSecFromStart();
 }
 
 void SolverCBC::setVariables(const std::vector<Variable> &myVars){
@@ -76,8 +89,6 @@ void SolverCBC::setVariables(const std::vector<Variable> &myVars){
     for (unsigned int i = 0; i < n; i++){ 
         solver.addCol(0,NULL,NULL, myVars[i].getLb(), myVars[i].getUb(), 0, myVars[i].getName());
         // std::cout << "Created variable: " << var[d][arc].getName() << std::endl;
-    }
-    for (unsigned int i = 0; i < n; i++){ 
         int pos = myVars[i].getId();
         switch (myVars[i].getType()){
             case Variable::TYPE_BOOLEAN:

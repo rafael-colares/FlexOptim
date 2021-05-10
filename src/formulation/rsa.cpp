@@ -113,6 +113,12 @@ RSA::RSA(const Instance &inst) : instance(inst), compactEdgeId(compactGraph), co
         mapCopy<ListDigraph,ArcMap,IterableIntMap<ListDigraph, ListDigraph::Arc>>((*vecGraph[d]),(*vecArcLabel[d]),(*mapItArcLabel[d]));
     }
     maxSliceOverallVarId = varId;
+
+    auxNbSlicesLimitFromEdge.resize(instance.getNbEdges());
+    for(int i=0; i<instance.getNbEdges(); i++){
+        auxNbSlicesLimitFromEdge[i] = getNbSlicesLimitFromEdge(i);
+    }
+    auxNbSlicesGlobalLimit = getNbSlicesGlobalLimit();
 }
 
 /** Returns the total number of loads to be routed. **/
@@ -123,7 +129,6 @@ int RSA::getTotalLoadsToBeRouted() const{
     }
     return total;
 }
-    
 
 /* Builds the simple graph associated with the initial mapping. */
 void RSA::buildCompactGraph(){

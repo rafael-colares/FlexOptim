@@ -19,8 +19,6 @@ private:
     VarArray maxSlicePerLink;	    /**< The array of variables used in the MIP for verifying the max used slice position for each link in the topology network. maxSlicePerLink[i]=p if p is the max used slice position from the link with id i. **/
 	Variable maxSliceOverall;		/**< The max used slice position throughout all the network. **/
 
-	std::vector<int> auxNbSlicesLimitFromEdge;
-	int auxNbSlicesGlobalLimit;
 public:
 	/****************************************************************************************/
 	/*										Constructors									*/

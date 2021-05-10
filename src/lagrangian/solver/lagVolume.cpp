@@ -125,6 +125,7 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
                 if(getLB() - sequence_dualCost[k] < std::abs(sequence_dualCost[k])* MINIMUM_REL_ASCENT){
                     STOP = true;
                     setStop("Small improvement");
+                    std::cout <<   std::fixed<< getLB() << " " << getUB() << std::setprecision(9)<< std::endl;
                     //setStatus(STATUS_FEASIBLE);
                     //setStatus(STATUS_ABORTED);
                     setStatus(STATUS_OPTIMAL);
@@ -244,7 +245,9 @@ void lagVolume::runIteration(bool modifiedSubproblem){
                 formulation->setStatus(AbstractFormulation::STATUS_INFEASIBLE);
             }
             double feasibleSolutionCostHeur = heuristic->getCurrentHeuristicCost();
+            //std::cout << feasibleSolutionCostHeur << std::endl;
             if (feasibleSolutionCostHeur < getUB()){
+                //heuristic->display();
                 updateUB(feasibleSolutionCostHeur);
                 if(formulation->getInstance().getInput().isObj8(0)){
                     formulation->updateMaxUsedSliceOverallUpperBound(feasibleSolutionCostHeur);

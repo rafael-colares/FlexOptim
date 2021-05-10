@@ -21,7 +21,7 @@ void createFile(std::string parameterFile,std::string linkfile,std::string deman
                 int rl,int lagRelax,int relaxMethod,int nodeMethod,int solver, int lagFormulation,
                 int heuristic,int projection,int warmstart,int alternativeStop,int directionMethod,
                 double crowderParam,double carmeriniParam,double lagrangianLambda_zero,int nbIterationsWithoutImprovement,
-                int maxNbIterations,int obj, std::string outputFolder){
+                int maxNbIterations,std::string obj, std::string outputFolder){
 
     double lagrangianMultiplier_zero = 0.0;
     double time = 18000;
@@ -118,12 +118,12 @@ int main(int argc, char *argv[]) {
     }else{
         topology = argv[2];
     }
-    int obj;
+    std::string obj;
     if (argc < 4){
         std::cerr << "A objetive function is required in the arguments. Please run the program as \n./exec parameterFile.par topology objective firstInstance lastInstance model[0-3]\n";
 		throw std::invalid_argument( "did not receive an argument" );
     }else{
-        obj = std::atoi(argv[3]);
+        obj = argv[3];
     }
     int firstInst;
     if(argc < 5){
@@ -201,7 +201,7 @@ int main(int argc, char *argv[]) {
     /************************ File with the responses *************************/
     std::string outputFolder = generalFolder + topology + "outputs/";
 
-    std::string nom_fichier = outputFolder + "obj_"+ std::to_string(obj)+"_model_"+ std::to_string(model) +"_general.csv";
+    std::string nom_fichier = outputFolder + "obj_"+ obj+"_model_"+ std::to_string(model) +"_general.csv";
     std::ofstream fichier(nom_fichier);
     std::string delimiter = ";";
 
@@ -249,7 +249,7 @@ int main(int argc, char *argv[]) {
             fichier << solver->getTotalChargeTime() << delimiter ;
             fichier << solver->getVarChargeTime() << delimiter ;
             fichier << solver->getConstChargeTime() << delimiter ;
-            fichier << solver->getObjChargeTime() << delimiter << std::endl;;
+            fichier << solver->getObjChargeTime() << delimiter << std::endl;
 
             std::cout << "Mip-CPLEX completed" << std::endl;
 
@@ -296,7 +296,9 @@ int main(int argc, char *argv[]) {
     }
     else if(model == 2){
         fichier << std::endl << std::endl;
-        fichier << " Slices ; Demands ; MIP-CBC-UB ; MIP-CBC-LB ; MIP-CBC-GAP ; MIP-CBC-Tree-Size ; MIP-CBC-Time; " << std::endl;
+        fichier << " Slices ; Demands ; MIP-CBC-UB ; MIP-CBC-LB ; MIP-CBC-GAP ; MIP-CBC-Tree-Size ; MIP-CBC-Time; " ;
+        fichier << " Total Implem Time ; Var Implem Time ; Const Implem Time ; Cut Implem Time ; Obj Imple Time ; ";
+        fichier << " Total Charge Time; Var Charge Time ; Const Cherge Time; Obj Charge Time; "<< std::endl;
 
         for(int j=firstInst;j<lastInst;j++){
             rl = 0; relaxMethod = 4; solver = 1; nodeMethod = 0; lagRelax = 0;
@@ -326,7 +328,18 @@ int main(int argc, char *argv[]) {
             fichier << solver_mip->getTreeSize() << delimiter;
             fichier << solver_mip->getDurationTime() << delimiter << std::endl;
 
-            std::cout << "Mip-Relax completed" << std::endl;
+            fichier << solver->getTotalImpleTime() << delimiter ;
+            fichier << solver->getVarImpleTime() << delimiter ;
+            fichier << solver->getConstImpleTime() << delimiter ;
+            fichier << solver->getCutImpleTime() << delimiter ;
+            fichier << solver->getObjImpleTime() << delimiter ;
+
+            fichier << solver->getTotalChargeTime() << delimiter ;
+            fichier << solver->getVarChargeTime() << delimiter ;
+            fichier << solver->getConstChargeTime() << delimiter ;
+            fichier << solver->getObjChargeTime() << delimiter << std::endl;
+
+            std::cout << "Mip-Cbc completed" << std::endl;
 
             delete solver_mip;
         }

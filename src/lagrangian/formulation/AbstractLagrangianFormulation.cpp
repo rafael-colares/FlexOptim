@@ -15,11 +15,6 @@ AbstractLagFormulation::AbstractLagFormulation(const Instance &instance): FlowFo
         lowerBound.emplace_back(std::make_shared<ArcMap>((*vecGraph[d])));
         upperBound.emplace_back(std::make_shared<ArcMap>((*vecGraph[d])));
     }
-
-    nbSlicesLimitFromEdge.resize(instance.getNbEdges());
-    for(int i=0; i<instance.getNbEdges(); i++){
-        nbSlicesLimitFromEdge[i] = getNbSlicesLimitFromEdge(i);
-    }
 }
 
 /* **************************************************************************************************************
@@ -91,6 +86,11 @@ double AbstractLagFormulation::initialUBValue(){
         }
         case Input::OBJECTIVE_METRIC_4:
         {
+            value = initialUBValueObj2p();
+            break;
+        }
+        case Input::OBJECTIVE_METRIC_2p:
+        {
             value = initialUBValueObj4();
             break;
         }
@@ -116,7 +116,7 @@ to this value, so we know that it is infeasible, as a feasible solution is at mo
 the maximum slice. When the primal is infeasible the dual is unbounded, so it goes to infinit,
 here the infinit will be this init. */
 double AbstractLagFormulation::initialUBValueObj1(){
-    double value = (getNbDemandsToBeRouted()*(getNbSlicesGlobalLimit()) + 1);
+    double value = (getNbDemandsToBeRouted()*(auxNbSlicesGlobalLimit) + 1);
     return value;
 }
 
@@ -125,6 +125,14 @@ number of demands + 1 */
 double AbstractLagFormulation::initialUBValueObj2(){
     double value = (instance.getNbNodes()-1)*getNbDemandsToBeRouted();
     return (value + 1);
+}
+
+double AbstractLagFormulation::initialUBValueObj2p(){
+    double value =0.0;
+    for(int i =0; i < instance.getNbEdges();i++){
+        value += auxNbSlicesLimitFromEdge[i];
+    }
+    return value;
 }
 
 /* Initial upper bound considering objective 4. Sum maximum demand's length +1. */
@@ -138,7 +146,7 @@ double AbstractLagFormulation::initialUBValueObj4(){
 
 /* Initial upper bound considering objective 8. Maximum number of slices +1. */
 double AbstractLagFormulation::initialUBValueObj8(){
-    return (getNbSlicesGlobalLimit());
+    return (auxNbSlicesGlobalLimit);
 }
 
 /* Updating the variables upper and lower bounds according to branch and bound. */
@@ -217,17 +225,28 @@ void AbstractLagFormulation::getPrimalSolution(double * colsol){
 
 /* Changes an array of double according to the primal approximation solution. */
 void AbstractLagFormulation::getPrimalAppSolution(double * colsol){
-    int id =0;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
             int index = getArcIndex(a,d);
             int id = getVarId(a,d);
             colsol[id] = primal_linear_solution[d][index];
-            id++;
         }
     }
     if(instance.getInput().isObj8(0)){
         colsol[maxSliceOverallVarId] = maxUsedSliceOverall;
+    }
+}
+
+void AbstractLagFormulation::getBestFeasibleSolution(double * feaSol){
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
+            int index = getArcIndex(a,d);
+            int id = getVarId(a,d);
+            feaSol[id] = bestFeasibleSol[d][index];
+        }
+    }
+    if(instance.getInput().isObj8(0)){
+        feaSol[maxSliceOverallVarId] = bestMaxUsedSliceOverall;
     }
 }
 
@@ -299,7 +318,7 @@ void AbstractLagFormulation::initializeFlowMultipliers(double initialMultiplier)
 void AbstractLagFormulation::initializeOverlapMultipliers(double initialMultiplier){
     lagrangianMultiplierOverlap.resize(instance.getNbEdges());
     for (int e = 0; e < instance.getNbEdges(); e++){
-        lagrangianMultiplierOverlap[e].resize(nbSlicesLimitFromEdge[e],initialMultiplier);
+        lagrangianMultiplierOverlap[e].resize(auxNbSlicesLimitFromEdge[e],initialMultiplier);
     }
 }
 
@@ -325,7 +344,7 @@ void AbstractLagFormulation::initializeMaxUsedSliceOverallAuxMultipliers(double 
 void AbstractLagFormulation::initializeMaxUsedSliceOverall2Multipliers(double initialMultiplier){
     lagrangianMultiplierMaxUsedSliceOverall2.resize(instance.getNbEdges());
     for (int e = 0; e < instance.getNbEdges(); e++){
-        lagrangianMultiplierMaxUsedSliceOverall2[e].resize(nbSlicesLimitFromEdge[e],initialMultiplier);
+        lagrangianMultiplierMaxUsedSliceOverall2[e].resize(auxNbSlicesLimitFromEdge[e],initialMultiplier);
     }
 }
 
@@ -333,7 +352,7 @@ void AbstractLagFormulation::initializeMaxUsedSliceOverall2Multipliers(double in
 void AbstractLagFormulation::initializeMaxUsedSliceOverall3Multipliers(double initialMultiplier){
     lagrangianMultiplierMaxUsedSliceOverall3.resize(instance.getNbNodes());
     for (int v = 0; v < instance.getNbNodes(); v++){
-        lagrangianMultiplierMaxUsedSliceOverall3[v].resize(getNbSlicesGlobalLimit(),initialMultiplier);
+        lagrangianMultiplierMaxUsedSliceOverall3[v].resize(auxNbSlicesGlobalLimit,initialMultiplier);
     }
 }
 
@@ -428,7 +447,7 @@ void AbstractLagFormulation::initializeFlowSlacks(){
 void AbstractLagFormulation::initializeOverlapSlacks(){
     overlapSlack.resize(instance.getNbEdges());
     for (int e = 0; e < instance.getNbEdges(); e++){
-        overlapSlack[e].resize(nbSlicesLimitFromEdge[e],1.0);
+        overlapSlack[e].resize(auxNbSlicesLimitFromEdge[e],1.0);
     }
 }
 
@@ -454,7 +473,7 @@ void AbstractLagFormulation::initializeMaxUsedSliceOverallAuxSlacks(){
 void AbstractLagFormulation::initializeMaxUsedSliceOverall2Slacks(){
     maxUsedSliceOverallSlack2.resize(instance.getNbEdges());
     for (int e = 0; e < instance.getNbEdges(); e++){
-        maxUsedSliceOverallSlack2[e].resize(nbSlicesLimitFromEdge[e],0.0);
+        maxUsedSliceOverallSlack2[e].resize(auxNbSlicesLimitFromEdge[e],0.0);
     }
 }
 
@@ -462,7 +481,7 @@ void AbstractLagFormulation::initializeMaxUsedSliceOverall2Slacks(){
 void AbstractLagFormulation::initializeMaxUsedSliceOverall3Slacks(){
     maxUsedSliceOverallSlack3.resize(instance.getNbNodes());
     for (int v = 0; v < instance.getNbNodes(); v++){
-        maxUsedSliceOverallSlack3[v].resize(getNbSlicesGlobalLimit(),0.0);
+        maxUsedSliceOverallSlack3[v].resize(auxNbSlicesGlobalLimit,0.0);
     }
 }
 
@@ -514,7 +533,7 @@ void AbstractLagFormulation::resetMaxUsedSliceOverallAuxSlacks(){
 /* Resets the slack of max used slice overall 2 constraints. */
 void AbstractLagFormulation::resetMaxUsedSliceOverall2Slacks(){
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             maxUsedSliceOverallSlack2[e][s]    = maxUsedSliceOverall;
             maxUsedSliceOverallSlack2_v2[e][s] = maxUsedSliceOverall;
         }
@@ -524,7 +543,7 @@ void AbstractLagFormulation::resetMaxUsedSliceOverall2Slacks(){
 /* Resets the slack of max used slice overall 3 constraints. */
 void AbstractLagFormulation::resetMaxUsedSliceOverall3Slacks(){
     for (int node = 0; node < instance.getNbNodes(); node++){
-        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+        for (int s = 0; s < auxNbSlicesGlobalLimit; s++){
             int degree = 0;
             for (ListGraph::NodeIt v(compactGraph); v != INVALID; ++v){
                 if ((getCompactNodeLabel(v) == node)){
@@ -801,7 +820,7 @@ void AbstractLagFormulation::updateFlowMultiplier(double step){
 /** update overlap multipliers **/
 void AbstractLagFormulation::updateOverlapMultiplier(double step){
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             double violation = -getOverlapDirection_k( e, s);
             double new_multipliplier = getOverlapMultiplier_k( e, s) + (step*violation);
             setOverlapMultiplier_k( e, s, std::max(new_multipliplier, 0.0));
@@ -841,7 +860,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverallAuxMultiplier(double step)
 /** update maximum used slice overall 2 multipliers **/
 void AbstractLagFormulation::updateMaxUsedSliceOverall2Multiplier(double step){
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             double violation = -getMaxUsedSliceOverall2Direction_k(e,s);
             double new_multipliplier = getMaxUsedSliceOverall2Multiplier_k(e,s) + (step*violation);
             setMaxUsedSliceOverall2Multiplier_k(e,s,std::max(new_multipliplier, 0.0)); 
@@ -852,7 +871,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverall2Multiplier(double step){
 /** update maximum used slice overall 3 multipliers **/
 void AbstractLagFormulation::updateMaxUsedSliceOverall3Multiplier(double step){
     for (int v = 0; v < instance.getNbNodes(); v++){
-        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+        for (int s = 0; s < auxNbSlicesGlobalLimit; s++){
             double violation = -getMaxUsedSliceOverall3Direction_k(v,s);
             double new_multipliplier = getMaxUsedSliceOverall3Multiplier_k(v,s) + (step*violation);
             setMaxUsedSliceOverall3Multiplier_k(v,s,std::max(new_multipliplier, 0.0)); 
@@ -906,7 +925,7 @@ void AbstractLagFormulation::updateFlowMultiplier_v2(double step){
 /** Updates overlap  multipliers considering stability center - volume**/
 void AbstractLagFormulation::updateOverlapMultiplier_v2(double step){
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             double violation = -getOverlapSlack_v2_k( e, s);
             double new_multipliplier = getOverlapSC_k( e, s) + (step*violation);
             setOverlapMultiplier_k( e, s, std::max(new_multipliplier, 0.0));
@@ -946,7 +965,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverallAuxMultiplier_v2(double st
 /** Updates maximum used slice overall 2 multipliers considering stability center - volume**/
 void AbstractLagFormulation::updateMaxUsedSliceOverall2Multiplier_v2(double step){
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             double violation = -getMaxUsedSliceOverall2Slack_v2_k(e,s);
             double new_multipliplier = getMaxUsedSliceOverall2SC_k(e,s) + (step*violation);
             setMaxUsedSliceOverall2Multiplier_k(e,s,std::max(new_multipliplier, 0.0)); 
@@ -957,7 +976,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverall2Multiplier_v2(double step
 /** Updates maximum used slice overall 3 multipliers considering stability center - volume**/
 void AbstractLagFormulation::updateMaxUsedSliceOverall3Multiplier_v2(double step){
     for (int v = 0; v < instance.getNbNodes(); v++){
-        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+        for (int s = 0; s < auxNbSlicesGlobalLimit; s++){
             double violation = -getMaxUsedSliceOverall3Slack_v2_k(v,s);
             double new_multipliplier = getMaxUsedSliceOverall3SC_k(v,s) + (step*violation);
             setMaxUsedSliceOverall3Multiplier_k(v,s,std::max(new_multipliplier, 0.0)); 
@@ -995,7 +1014,7 @@ void AbstractLagFormulation::updateFlowSC(){
 /* Updates overlap stability center */
 void AbstractLagFormulation::updateOverlapSC(){
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             setOverlapSC_k( e, s, getOverlapMultiplier_k( e, s));
         }
     }  
@@ -1027,7 +1046,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverallAuxSC(){
 /* Updates maximum used slice overall 2 stability center */
 void AbstractLagFormulation::updateMaxUsedSliceOverall2SC(){
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             setMaxUsedSliceOverall2SC_k(e,s,getMaxUsedSliceOverall2Multiplier_k(e,s));
         }
     }
@@ -1036,7 +1055,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverall2SC(){
 /* Updates maximum used slice overall 3 stability center */
 void AbstractLagFormulation::updateMaxUsedSliceOverall3SC(){
     for (int v = 0; v < instance.getNbNodes(); v++){
-        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+        for (int s = 0; s < auxNbSlicesGlobalLimit; s++){
             setMaxUsedSliceOverall3SC_k(v,s,getMaxUsedSliceOverall3Multiplier_k(v,s));
         }
     }
@@ -1166,7 +1185,7 @@ void AbstractLagFormulation::updateFlowPrimalSlack(double alpha){
 /*Updates the overlap slack considering the primal approximation. */
 void AbstractLagFormulation::updateOverlapPrimalSlack(double alpha){
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             overlapSlack_v2[e][s] = alpha*overlapSlack[e][s] + (1-alpha)*overlapSlack_v2[e][s];
         }
     }
@@ -1198,7 +1217,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverallAuxPrimalSlack(double alph
 /*Updates the max used slice overall 2 slack considering the primal variables. */
 void AbstractLagFormulation::updateMaxUsedSliceOverall2PrimalSlack(double alpha){
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             maxUsedSliceOverallSlack2_v2[e][s] = alpha*maxUsedSliceOverallSlack2[e][s] + (1-alpha)*maxUsedSliceOverallSlack2_v2[e][s];
         }
     }
@@ -1207,7 +1226,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverall2PrimalSlack(double alpha)
 /*Updates the max used slice overall 3 slack considering the primal variables. */
 void AbstractLagFormulation::updateMaxUsedSliceOverall3PrimalSlack(double alpha){
     for (int v = 0; v < instance.getNbNodes(); v++){
-        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+        for (int s = 0; s < auxNbSlicesGlobalLimit; s++){
             maxUsedSliceOverallSlack3_v2[v][s] = alpha*maxUsedSliceOverallSlack3[v][s] + (1-alpha)*maxUsedSliceOverallSlack3_v2[v][s];
         }
     }
@@ -1249,7 +1268,7 @@ void AbstractLagFormulation::updateFlowDirection(double theta){
 /* Updates the slack of non overlap constraints. */
 void AbstractLagFormulation::updateOverlapDirection(double theta){
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             double value = getOverlapSlack_k(e,s) - theta*getOverlapDirection_k(e,s);
             setOverlapDirection_k(e,s,value);
         }
@@ -1285,7 +1304,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverallAuxDirection(double theta)
 /* Updates the slack of max used slice overall 2 constraints. */
 void AbstractLagFormulation::updateMaxUsedSliceOverall2Direction(double theta){
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             double value = getMaxUsedSliceOverall2Slack_k(e,s) - theta*getMaxUsedSliceOverall2Direction_k(e,s);
             setMaxUsedSliceOverall2Direction_k(e,s,value);
         }
@@ -1295,7 +1314,7 @@ void AbstractLagFormulation::updateMaxUsedSliceOverall2Direction(double theta){
 /* Updates the slack of max used slice overall 3 constraints. */
 void AbstractLagFormulation::updateMaxUsedSliceOverall3Direction(double theta){
     for (int v = 0; v < instance.getNbNodes(); v++){
-        for (int s = 0; s < getNbSlicesGlobalLimit(); s++){
+        for (int s = 0; s < auxNbSlicesGlobalLimit; s++){
             double value = getMaxUsedSliceOverall3Slack_k(v,s) - theta*getMaxUsedSliceOverall3Direction_k(v,s);
             setMaxUsedSliceOverall3Direction_k(v,s,value);
         }
@@ -1431,7 +1450,7 @@ bool AbstractLagFormulation::checkFlowFeasibility(){
 /* Checks if all overlap slacks are non-negative. */
 bool AbstractLagFormulation::checkOverlapFeasibility(){   
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             if (overlapSlack[e][s] < (-DBL_EPSILON)){
                 return false;
             }
@@ -1497,7 +1516,7 @@ bool AbstractLagFormulation::checkFlowFeasibility_v2(){
 /* Checks if all overlap slacks (considering primal approximation) are non-negative. */
 bool AbstractLagFormulation::checkOverlapFeasibility_v2(){   
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             if (overlapSlack_v2[e][s] < -DBL_EPSILON){
                 return false;
             }
@@ -1565,7 +1584,7 @@ bool AbstractLagFormulation::checkFlowSlacknessCondition(){
 /* Checks the slackness condition of overlap constraints. */
 bool AbstractLagFormulation::checkOverlapSlacknessCondition(){   
     for (int e = 0; e < instance.getNbEdges(); e++){
-        for (int s = 0; s < nbSlicesLimitFromEdge[e]; s++){
+        for (int s = 0; s < auxNbSlicesLimitFromEdge[e]; s++){
             if(!(lagrangianMultiplierOverlap[e][s] < DBL_EPSILON || (-overlapSlack[e][s] < DBL_EPSILON && -overlapSlack[e][s] > -DBL_EPSILON))){
                 return false;
             }

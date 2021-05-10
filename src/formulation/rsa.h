@@ -123,6 +123,9 @@ protected:
     /* Map iterator for the arcs labels. */
     std::vector< std::shared_ptr<IterableIntMap<ListDigraph, ListDigraph::Arc>>> mapItArcLabel;
 
+    std::vector<int> auxNbSlicesLimitFromEdge;
+	int auxNbSlicesGlobalLimit;
+
 public:
 	/****************************************************************************************/
 	/*										Constructor										*/

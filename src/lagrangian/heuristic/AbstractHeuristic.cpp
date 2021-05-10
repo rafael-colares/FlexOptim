@@ -50,14 +50,20 @@ void AbstractHeuristic::updateCostFromHeuristic(){
         }else{
             std::vector<std::vector<double>> overlapSlack;
             std::vector<double> lengthslack;
+            std::vector<std::vector<double>> sourceSlack;
             lengthslack.resize(formulation->getNbDemandsToBeRouted(),0);
             overlapSlack.resize(formulation->getInstance().getNbEdges());
+            sourceSlack.resize(formulation->getNbDemandsToBeRouted());
             for(int i=0;i<formulation->getInstance().getNbEdges();i++){
-                overlapSlack[i].resize(formulation->getInstance().getPhysicalLinkFromIndex(i).getNbSlices()),0;
+                overlapSlack[i].resize(formulation->getInstance().getPhysicalLinkFromIndex(i).getNbSlices(),0);
+            }
+            for(int i=0;i<formulation->getNbDemandsToBeRouted();i++){
+                sourceSlack[i].resize(formulation->getInstance().getNbNodes(),0);
             }
             for (int d = 0; d < formulation->getNbDemandsToBeRouted(); d++){
                 for (ListDigraph::ArcIt a(*formulation->getVecGraphD(d)); a != INVALID; ++a){
                     int index = formulation->getArcIndex(a,d);
+                    int source = formulation->getNodeLabel((*formulation->getVecGraphD(d)).source(a),d);
                     if(heuristicSolution[d][index] == true){
                         double val = formulation->getCoeff(a,d);
                         incCurrentHeuristicCost(val);
@@ -72,6 +78,8 @@ void AbstractHeuristic::updateCostFromHeuristic(){
                         for(int s = slice-load+1;s<=slice;s++){
                             overlapSlack[label][s] = overlapSlack[label][s]+1;
                         }
+                        sourceSlack[d][source] = sourceSlack[d][source] +1;
+
                     }
                 }
             }  
@@ -84,6 +92,21 @@ void AbstractHeuristic::updateCostFromHeuristic(){
                     setCurrentHeuristicCost(__DBL_MAX__);
                     disp = true;
                 } 
+                for(int j =0; j< formulation->getInstance().getNbNodes();j++){
+                    if(sourceSlack[d][j]>1){
+                        std::cout << "Heuristic found infeasible solution: source " << d+1 << " " << j+1 << std::endl;
+                        disp = true;
+                        setCurrentHeuristicCost(__DBL_MAX__);
+                    }
+                    if(j==formulation->getToBeRouted_k(d).getSource()){
+                        if(sourceSlack[d][j]==0){
+                            std::cout << "Heuristic found infeasible solution: source (node source)" << d+1 << " " << j+1 << std::endl;
+                            disp = true;
+                            setCurrentHeuristicCost(__DBL_MAX__);
+                        }
+                    }
+                }
+                
             }
             for(int i=0;i<formulation->getInstance().getNbEdges();i++){
                 for(int j =0; j< formulation->getInstance().getPhysicalLinkFromIndex(i).getNbSlices();j++){
@@ -96,8 +119,11 @@ void AbstractHeuristic::updateCostFromHeuristic(){
             }
             if(disp){
                 display();
-                //std::exit(0);
             }
+
+            sourceSlack.clear();
+            overlapSlack.clear();
+            lengthslack.clear();
         }
     }
 }

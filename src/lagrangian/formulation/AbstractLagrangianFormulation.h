@@ -472,6 +472,8 @@ class AbstractLagFormulation: public FlowForm{
 
                 virtual void getDualSolution(double *) =0;
 
+                void getBestFeasibleSolution(double *);
+
                 /*******************************************************************************************************/
                 /*		                               SETTERS 	    	    	                               */
                 /*******************************************************************************************************/
@@ -650,6 +652,8 @@ class AbstractLagFormulation: public FlowForm{
                 double initialUBValueObj1();
 
                 double initialUBValueObj2();
+
+                double initialUBValueObj2p();
 
                 double initialUBValueObj4();
 

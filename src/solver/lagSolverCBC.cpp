@@ -16,11 +16,13 @@ void lagSolverCBC::implementFormulation(){
     //solver.writeLp("test");
     model = CbcModel(solver);
     formulation = solver.getLagrangianSolver()->getLagrangianFormulation();
+    dynamic_cast<OsiLagSolverInterface*>(model.solver())->setCbcModel(&model);
 }
 
 void lagSolverCBC::setCBCParams(const Input &input){
     model.setMaximumSeconds(input.getIterationTimeLimit());
     //model.messageHandler()->setLogLevel(4);
+    //model.setNumberStrong(0);
     std::cout << "CBC parameters have been defined..." << std::endl;
 }
 
