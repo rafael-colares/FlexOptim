@@ -328,16 +328,16 @@ int main(int argc, char *argv[]) {
             fichier << solver_mip->getTreeSize() << delimiter;
             fichier << solver_mip->getDurationTime() << delimiter << std::endl;
 
-            fichier << solver->getTotalImpleTime() << delimiter ;
-            fichier << solver->getVarImpleTime() << delimiter ;
-            fichier << solver->getConstImpleTime() << delimiter ;
-            fichier << solver->getCutImpleTime() << delimiter ;
-            fichier << solver->getObjImpleTime() << delimiter ;
+            fichier << solver_mip->getTotalImpleTime() << delimiter ;
+            fichier << solver_mip->getVarImpleTime() << delimiter ;
+            fichier << solver_mip->getConstImpleTime() << delimiter ;
+            fichier << solver_mip->getCutImpleTime() << delimiter ;
+            fichier << solver_mip->getObjImpleTime() << delimiter ;
 
-            fichier << solver->getTotalChargeTime() << delimiter ;
-            fichier << solver->getVarChargeTime() << delimiter ;
-            fichier << solver->getConstChargeTime() << delimiter ;
-            fichier << solver->getObjChargeTime() << delimiter << std::endl;
+            fichier << solver_mip->getTotalChargeTime() << delimiter ;
+            fichier << solver_mip->getVarChargeTime() << delimiter ;
+            fichier << solver_mip->getConstChargeTime() << delimiter ;
+            fichier << solver_mip->getObjChargeTime() << delimiter << std::endl;
 
             std::cout << "Mip-Cbc completed" << std::endl;
 
