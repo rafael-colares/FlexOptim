@@ -86,12 +86,12 @@ double AbstractLagFormulation::initialUBValue(){
         }
         case Input::OBJECTIVE_METRIC_4:
         {
-            value = initialUBValueObj2p();
+            value = initialUBValueObj4();
             break;
         }
         case Input::OBJECTIVE_METRIC_2p:
         {
-            value = initialUBValueObj4();
+            value = initialUBValueObj2p();
             break;
         }
         case Input::OBJECTIVE_METRIC_8:
