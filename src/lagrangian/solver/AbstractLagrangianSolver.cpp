@@ -1,34 +1,57 @@
 #include "AbstractLagrangianSolver.h"
 
-
-/****************************************************************************************/
-/*										Constructor										*/
-/****************************************************************************************/
+/****************************************************************************************************************************/
+/*										                 Constructor							                			*/
+/****************************************************************************************************************************/
 
 AbstractLagSolver::AbstractLagSolver(const Instance &inst, const Status &s): MAX_NB_IT_WITHOUT_IMPROVEMENT(inst.getInput().getNbIterationsWithoutImprovement()), 
         MAX_NB_IT(inst.getInput().getMaxNbIterations()), INITIAL_STEPSIZE(inst.getInput().getInitialLagrangianLambda()),
-        MIN_STEPSIZE(0.00001),currentStatus(s){
+        MIN_STEPSIZE(0.0001), PRIMAL_ABS_PRECISION(0.0001), UBINIT(__DBL_MAX__/2),DUAL_LIMIT(__DBL_MAX__/2),currentStatus(s),dualinf(false),time(ClockTime::getTimeNow()),generalTime(ClockTime::getTimeNow()){
 
     lagFormulationFactory factory;
     formulation = factory.createFormulation(inst);
 
+    setFormulationConstTime(time.getTimeInSecFromStart());
+    time.setStart(ClockTime::getTimeNow());
+
     heuristicFactory factoryHeuristic;
     heuristic = factoryHeuristic.createHeuristic(formulation,inst);
 
-    std::string nom = "sortie.txt";
-    std::string nom2 = "sortie2.txt";
+    setHeuristicConstTime(time.getTimeInSecFromStart());
+
+    Input::LagFormulation formu = inst.getInput().getChosenLagFormulation();
+    Input::NodeMethod method = inst.getInput().getChosenNodeMethod();
+    Input::ObjectiveMetric obj = inst.getInput().getChosenObj_k(0);
+    Input::DirectionMethod direction = inst.getInput().getChosenDirectionMethod();
+    Input::ProjectionType projection = inst.getInput().getChosenProjection();
+    bool altstop = inst.getInput().getAlternativeStop();
+    int numitwithoutimprov = inst.getInput().getNbIterationsWithoutImprovement();
+
+    std::string lagOutputPath = inst.getInput().getLagOutputPath();
+
+    int demands = formulation->getNbDemandsToBeRouted();
+
+    std::string nom  =  lagOutputPath + "obj" + std::to_string(obj) + "_demands" + std::to_string(demands)+ "_method" + std::to_string(method) + "_formulation" + std::to_string(formu) + "_direction" + std::to_string(direction) + "_projection" + std::to_string(projection) + "_altStop" + std::to_string(altstop) + "_withoutImprov" + std::to_string(numitwithoutimprov) + "_detailed.txt";
+    std::string nom2 =  lagOutputPath + "obj" + std::to_string(obj) + "_demands" + std::to_string(demands)+ "_method" + std::to_string(method) + "_formulation" + std::to_string(formu) + "_direction" + std::to_string(direction) + "_projection" + std::to_string(projection) + "_altStop" + std::to_string(altstop) + "_sortie2.txt";
+    //std::cout << nom << std::endl;
     fichier.open(nom.c_str());
-    fichier2.open(nom2.c_str());
+    //fichier2.open(nom2.c_str());
 }
 
-/****************************************************************************************/
-/*										METHODS  										*/
-/****************************************************************************************/
+/******************************************************************************************************************************/
+/*										                    METHODS  										                  */
+/******************************************************************************************************************************/
 
+/* Initializes the variables, constraints and objective function of the studied formulation. */
+void AbstractLagSolver::initLagFormulation(){
+    formulation->setLagVariables();
+    formulation->setLagConstraints();
+    formulation->setObjectives();
+}
 /* Sets the initial lambda used for updating the step size. */
 void AbstractLagSolver::initLambda(){
     setLambda(INITIAL_STEPSIZE);
-    std::cout << "> Initial lambda was defined. " << std::endl;
+    //std::cout << "> Initial lambda was defined. " << std::endl;
 }
 
 bool AbstractLagSolver::isGradientMoving(){
@@ -38,9 +61,9 @@ bool AbstractLagSolver::isGradientMoving(){
     return false;
 }
 
-/****************************************************************************************/
-/*										UPDATE  										*/
-/****************************************************************************************/
+/******************************************************************************************************************************/
+/*										                    UPDATE  								                   		  */
+/******************************************************************************************************************************/
 
 /* Updates the known upper bound. */
 void AbstractLagSolver::updateUB(double bound){
@@ -50,79 +73,52 @@ void AbstractLagSolver::updateUB(double bound){
     }
 }
 
-/****************************************************************************************/
-/*										DISPLAY  									*/
-/****************************************************************************************/
+/******************************************************************************************************************************/
+/*										                    DISPLAY  									                      */
+/******************************************************************************************************************************/
 
-void AbstractLagSolver::displayMainParameters(){
-    int k = getIteration();
-    std::vector<int> sizeOfField;
-    sizeOfField.resize(9);
-    sizeOfField[0] = 5;
-    sizeOfField[1] = 8;
-    sizeOfField[2] = 10;
-    sizeOfField[3] = 9;
-    sizeOfField[4] = 9;
-    sizeOfField[5] = 6;
-    sizeOfField[6] = 6;
-    sizeOfField[7] = 8;
-    sizeOfField[8] = 11;
-    //sizeOfField[9] = 12;
-    char space = ' ';
-
-    std::vector<std::string> field;
-    field.resize(9);
-    if (k == 1){
-        field[0] = "Iter";
-        field[1] = "Wout Impr";
-        field[2] = "LB";
-        field[3] = "Lagr Cost";
-        field[4] = "Real Cost";
-        field[5] = "UB";
-        field[6] = "Step";
-        field[7] = "Lambda";
-        field[8] = "Feasibility";
-        
-        for (unsigned int i = 0; i < field.size(); i++){
-            field[i].resize(sizeOfField[i], space);
-            std::cout << field[i] << " | ";
-            fichier2 << field[i] << " | ";
-        }
-        fichier2 << std::endl;;
-        std::cout << std::endl;
-    }
-    field[0] = std::to_string(k);
-    field[1] = std::to_string(getItWithoutImprovement());
-    field[2] = std::to_string(getLB());
-    field[3] = std::to_string(formulation->getLagrCurrentCost());
-    field[4] = std::to_string(formulation->getRealCurrentCost());
-    field[5] = std::to_string(getUB());
-    field[6] = std::to_string(getStepSize());
-    field[7] = std::to_string(getLambda());
-
-    if (formulation->checkFeasibility()){
-        field[8] = "YES";
-    }
-    else{
-        field[8] = "NO";
-    }
+void AbstractLagSolver::displayResults(std::ostream & sortie){
     
-    for (unsigned int i = 0; i < field.size(); i++){
-        field[i].resize(sizeOfField[i], space);
-        std::cout << field[i] << " | ";
-        fichier2 << field[i] << " | ";
+    std::string delimiter = ";";
 
-    }
-    fichier2 << std::endl;
-    std::cout << std::endl;
-   // displayMultiplier();
+    sortie << getUB() << delimiter;
+    sortie << getLB() << delimiter;
+    sortie << getIteration() << delimiter;
+    sortie << getLambda() << delimiter;
+    sortie << getStepSize() << delimiter;
+    sortie << getStop() << delimiter;
+    sortie << getTotalTime() << delimiter << delimiter;
+
+    sortie << getRSAGraphConstructionTime() << delimiter;
+    sortie << getPreprocessingTime() << delimiter;
+
+    sortie << getFormulationConstTime() << delimiter;
+    sortie << getHeuristicConstTime() << delimiter;
+    sortie << getInitializationTime() << delimiter;
+    sortie << getConstAuxGraphTime() << delimiter;
+
+    sortie << getSolvingSubProblemTime() << delimiter;
+    sortie << getShorstestPathTime() << delimiter;
+    sortie << getUpdateVariablesTime() << delimiter;
+    sortie << getSubstractMultipliersTime() << delimiter;
+    sortie << getCostTime() << delimiter;
+
+    sortie << getUpdatingSlackTime() << delimiter;
+    sortie << getUpdatingBoundsTime() << delimiter;
+    sortie << getUpdatingHeuristicBoundTime() << delimiter;
+    sortie << getUpdatingMultipliersTime() << delimiter;
+    sortie << getStoppingCriterionTime() << delimiter;
+    sortie << getUpdatingPrimalVariablesTime() << delimiter;
+    sortie << std::endl;
 }
 
-/****************************************************************************************/
-/*										DESTRUCTOR  									*/
-/****************************************************************************************/
+/*****************************************************************************************************************************/
+/*										                   DESTRUCTOR  									                     */
+/*****************************************************************************************************************************/
 
 AbstractLagSolver::~AbstractLagSolver(){
     fichier.close();
-    fichier2.close();
+    //fichier2.close();
+    delete heuristic;
+    delete formulation;
 }

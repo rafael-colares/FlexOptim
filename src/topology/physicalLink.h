@@ -32,6 +32,8 @@ public:
 	/** Constructor. @param i Id. @param ind Index. @param s Source node's id. @param t Target node's id. @param len Fiber's length n the physical network. @param nb Number of slices its frequency spectrum is divided into. @param c Cost of routing a demand through the fiber. **/
 	Fiber(int i, int ind, int s, int t, double len = 0.0, int nb = 1, double c = 0.0);
 
+	Fiber(const Fiber &);
+
 	/****************************************************************************************/
 	/*										Getters											*/
 	/****************************************************************************************/

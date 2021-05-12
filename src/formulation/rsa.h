@@ -9,6 +9,7 @@
 #include <lemon/concepts/graph.h>
 
 #include "../topology/instance.h"
+#include "../tools/clockTime.h"
 
 
 using namespace lemon;
@@ -45,6 +46,9 @@ protected:
 
     std::vector<Demand> toBeRouted;     /**< The list of demands to be routed in the next optimization. **/
     std::vector<int> loadsToBeRouted;   /**< The set of different loads present in the set of demands to be routed. **/
+
+    double RSAGraphConstructionTime;
+    double PreprocessingTime;
 
     /** A list of pointers to the extended graph associated with each demand to be routed. 
         \note (*vecGraph[i]) is the graph associated with the i-th demand to be routed. **/
@@ -90,6 +94,20 @@ protected:
         \note (*vecArcIndex[i])[a] is the index of the arc a in the preprocessed graph associated with the i-th demand to be routed. **/
 	std::vector< std::shared_ptr<ArcMap> > vecArcIndex; 
 
+    /** A list of pointers to the NodeMap storing the node index of the preprocessed graph associated with each demand to be routed. 
+        \note (*vecNodeIndex[i])[v] is the index of the node v in the preprocessed graph associated with the i-th demand to be routed. **/
+    std::vector< std::shared_ptr<NodeMap> > vecNodeIndex;
+
+    /** Vector with the node index of the source node and target node of each graph associated with each demand to be routed 
+        \note sourceNodeIndex[i] is the index of the source node in the preprocessed graph associated with the i-th demand to be routed. 
+        \note targetNodeIndex[i] is the index of the target node in the preprocessed graph associated with the i-th demand to be routed. **/
+    std::vector<int> sourceNodeIndex;
+    std::vector<int> targetNodeIndex;
+
+    /** The ID of the flow variables. **/
+    std::vector< std::shared_ptr<ArcMap> > vecArcVarId;
+    int maxSliceOverallVarId;
+
     ListGraph compactGraph;             /**< The simple graph associated with the initial mapping. **/
     EdgeMap compactEdgeId;              /**< EdgeMap storing the edge ids of the simple graph associated with the initial mapping. **/
     EdgeMap compactEdgeLabel;           /**< EdgeMap storing the edge labels of the simple graph associated with the initial mapping. **/
@@ -98,7 +116,16 @@ protected:
     CompactNodeMap compactNodeLabel;    /**< NodeMap storing the node labels of the simple graph associated with the initial mapping. **/
     
     Status currentStatus;		/**< Provides information about the current model and solution. **/
-	
+
+    /* Map iterator for the nodes labels. */
+    std::vector< std::shared_ptr<IterableIntMap<ListDigraph, ListDigraph::Node>>> mapItNodeLabel;
+
+    /* Map iterator for the arcs labels. */
+    std::vector< std::shared_ptr<IterableIntMap<ListDigraph, ListDigraph::Arc>>> mapItArcLabel;
+
+    std::vector<int> auxNbSlicesLimitFromEdge;
+	int auxNbSlicesGlobalLimit;
+
 public:
 	/****************************************************************************************/
 	/*										Constructor										*/
@@ -110,6 +137,9 @@ public:
 	/****************************************************************************************/
 	/*										Getters 										*/
 	/****************************************************************************************/
+
+    double getRSAGraphConstructionTime() const { return RSAGraphConstructionTime;}
+    double getPreprocessingTime() const { return PreprocessingTime; }
     
     /** Returns the input instance. **/
     Instance getInstance() const{ return instance; }
@@ -162,8 +192,22 @@ public:
     /** Returns the length with hop penalties of an arc in a graph. @param a The arc. @param d The graph index. **/
     double getArcLengthWithPenalties(const ListDigraph::Arc &a, int d) const  {return (*vecArcLengthWithPenalty[d])[a]; }
 
+    /** Returns the index of a node in a graph. @param v The node. @param d The graph index. **/
+    int getNodeIndex(const ListDigraph::Node &v,int d) const{ return (*vecNodeIndex[d])[v];}
+
+    /** Returns the index of the source in a graph. @param d The graph index. **/
+    int getSourceNodeIndex(int d) const{ return sourceNodeIndex[d];}
+
+    /** Returns the index of the target in a graph. @param d The graph index. **/
+    int getTargetNodeIndex(int d) const{ return targetNodeIndex[d];}
+
+    /** Returns the id of the flow variables **/
+    int getVarId(const ListDigraph::Arc &a, int d) const{ return (*vecArcVarId[d])[a];}
+
     /** Returns the first node identified by (label, slice) on a graph. @param d The graph index. @param label The node's label. @param slice The node's slice. \warning If it does not exist, returns INVALID. **/
     ListDigraph::Node getNode(int d, int label, int slice);
+
+    std::vector<int> indexArcsEdge;
     
     /** Returns the coefficient of an arc (according to the chosen metric) on a graph. @param a The arc. @param d The graph index. **/
     double getCoeff(const ListDigraph::Arc &a, int d);
@@ -216,6 +260,9 @@ public:
 	/*										Setters											*/
 	/****************************************************************************************/
 
+    void setRSAGraphConstructionTime(double val) { RSAGraphConstructionTime=val;}
+    void setPreprocessingTime(double val) { PreprocessingTime=val; }
+
     /** Changes the vector of demands to be routed. @param vec The new vector of demands. **/
     void setToBeRouted(const std::vector<Demand> &vec){this->toBeRouted = vec;}
 
@@ -245,6 +292,8 @@ public:
     
     /** Changes the length with hop penalty of an arc in a graph. @param a The arc. @param d The graph index. @param val The new length. **/
     void setArcLengthWithPenalty(const ListDigraph::Arc &a, int d, double val) { (*vecArcLengthWithPenalty[d])[a] = val; }
+
+    void setNodeIndex(const ListDigraph::Node &v,int d, int val){ (*vecNodeIndex[d])[v] = val;}
 
 	/** Changes the algorithm status. **/
     void setStatus(Status val) { currentStatus = val; }

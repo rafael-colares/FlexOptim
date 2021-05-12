@@ -91,6 +91,7 @@ int main(int argc, char *argv[]) {
 			solver->solve();
 			solver->outputLogResults(outputCode);
 			//std::cout << "call update" << std::endl;
+			std::cout << " Time: " << solver->getDurationTime() << std::endl << std::endl;
 			solver->updateRSA(instance);
 			
 			/********************************************************************/
@@ -105,6 +106,13 @@ int main(int argc, char *argv[]) {
 			std::cout << "Time taken by iteration is : ";
 			std::cout << std::fixed  << ITERATION_TIME.getTimeInSecFromStart() << std::setprecision(9); 
 			std::cout << " sec" << std::endl; 
+
+			std::cout << "UB: " << solver->getUpperBound() << std::endl;
+			std::cout << "LB: " << solver->getLowerBound() << std::endl;
+			std::cout << "GAP: " << solver->getMipGap() << std::endl;
+			std::cout << "Tree size: " << solver->getTreeSize() << std::endl;
+			std::cout << " Time: " << solver->getDurationTime() << std::endl << std::endl;
+			std::cout << "Algo: " << ((SolverCplex*)solver)->getAlgorithm()  << std::endl;
 		}
 		
 
@@ -125,6 +133,7 @@ int main(int argc, char *argv[]) {
 	std::cout << "Total time taken by program is : ";
 	std::cout << std::fixed  << GLOBAL_TIME.getTimeInSecFromStart() << std::setprecision(9); 
 	std::cout << " sec" << std::endl;
+
 	return 0;
 }
 

@@ -71,6 +71,10 @@
         "typeinfo": "cpp",
         "valarray": "cpp",
         "strstream": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "any": "cpp",
+        "bit": "cpp",
+        "charconv": "cpp",
+        "variant": "cpp"
     }
 }

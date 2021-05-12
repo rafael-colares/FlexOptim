@@ -6,6 +6,9 @@
 // Using as solver
 #include "OsiCbcSolverInterface.hpp"
 #include "OsiClpSolverInterface.hpp"
+
+#include "ClpSimplex.hpp"
+
 /***********************************************************************************************
 * This class implements a Formulation of the Online Routing and Spectrum Allocation using CBC.
 ************************************************************************************************/
@@ -15,6 +18,7 @@ private:
 	OsiClpSolverInterface solver;	/**< The Clp engine. **/
     CbcModel model;					/**< The CBC model. **/
 	static int count;				/**< Counts how many times the solver is called. **/
+	bool isrelaxed;
 
 public:
 	/****************************************************************************************/

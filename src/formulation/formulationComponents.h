@@ -33,11 +33,16 @@ public:
     /** Constructor. @param lowerBound The variable lower bound. @param upperBound The variable upper bound. @param varType The variable type. @param val The variable value. @param varName The variable name. **/
     Variable(int identifier=-1, double lowerBound=0, double upperBound=1, Type varType=TYPE_BOOLEAN, double val=0, std::string varName="");
 
+	/** Copy constructor */
+	Variable(const Variable&);
+
+	Variable& operator=(const Variable&);
+
 	/****************************************************************************************/
 	/*										Getters											*/
 	/****************************************************************************************/
 	/** Returns the variable's id. **/
-    int getId() const { return id; }
+    const int & getId() const { return id; }
 
 	/** Returns the variable's lower bound. **/
     double getLb() const { return lb; }
@@ -46,10 +51,10 @@ public:
     double getUb() const { return ub; }
 
 	/** Returns the variable's type. **/
-    Type getType() const { return type; }
+    const Type & getType() const { return type; }
 
 	/** Returns the variable's name. **/
-    std::string getName() const { return name; }
+    const std::string & getName() const { return name; }
 
 	/** Returns the variable's value. **/
     double getVal() const { return value; }
@@ -87,15 +92,16 @@ private:
 public:
     /** Constructor. @param variable The term variable. @param coefficient The term coeffiencient. **/
     Term(Variable variable, double coefficient);
+	Term(const Term &);
 
 	/****************************************************************************************/
 	/*										Getters											*/
 	/****************************************************************************************/
 	/** Returns the term's coefficient. **/
-    double getCoeff() const { return coeff; }
+    const double & getCoeff() const { return coeff; }
 
 	/** Returns the term's variable. **/
-    Variable getVar() const { return var; }
+    const Variable & getVar() const { return var; }
 
 	/****************************************************************************************/
 	/*										Setters											*/
@@ -130,10 +136,10 @@ public:
 	/*										Getters											*/
 	/****************************************************************************************/
 	/** Returns the vector of terms defining the expression. **/
-    std::vector<Term> getTerms() const { return termsArray; }
+    const std::vector<Term> & getTerms() const { return termsArray; }
 
 	/** Returns the i-th term. @param pos Term position in the array. **/
-    Term getTerm_i(int pos) const { return termsArray[pos]; }
+    const Term & getTerm_i(int pos) const { return termsArray[pos]; }
 
 	/** Returns the number of terms in the expression. **/
 	int getNbTerms() const { return termsArray.size(); }
@@ -151,6 +157,8 @@ public:
 	/****************************************************************************************/
 	/** Adds a new term to the expression. @param term The term to be added. **/
     void addTerm(const Term &term);
+
+	void addTerm2(const Term &term) {termsArray.push_back(term); }
 
 	double getExpressionValue();
 
@@ -196,7 +204,7 @@ public:
     Direction getDirection() const { return direction; }
     
 	/** Returns the objective function's expression. **/
-    Expression getExpression() const { return expr; }
+    const Expression & getExpression() const { return expr; }
 
 	/** Returns the objective function's name. **/
     std::string getName() const { return name; }

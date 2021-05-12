@@ -3,34 +3,14 @@
 
 #include "AbstractLagrangianFormulation.h"
 #include <set>
+#include <lemon/core.h>
+#include <lemon/capacity_scaling.h>
 
 using namespace lemon;
 
 class lagNonOverlapping: public AbstractLagFormulation{
 
     private:
-
-        /********************************* MULTIPLIERS ***********************************/
-
-        /** A vector storing the value of the Lagrangian multipliers associated with Length Constraints. **/
-        std::vector<double> lagrangianMultiplierLength;
-
-        /** A 2-dimensional vector storing the value of the Lagrangian multipliers associated with each Source/Target constraint. **/
-        std::vector<std::vector<double>> lagrangianMultiplierSourceTarget;
-
-        /** A 2-dimensional vector storing the value of the Lagrangian multipliers associated with each Flow constraint. **/
-        std::vector<std::vector<double>> lagrangianMultiplierFlow;
-
-        /********************************** SLACK ***************************************/
-
-        /** Stores the value of the slack of lengths constraints (i.e., b - Dx). */
-        std::vector<double> lengthSlack;
-
-        /** Stores the value of the slack of Source/Target constraints (i.e., b - Dx). */
-        std::vector<std::vector<double>> sourceTargetSlack;
-
-        /** Stores the value of the slack of flow constraints (i.e., b - Dx). */
-        std::vector<std::vector<double>> flowSlack;
 
         /***************************** ASSIGNMENT MATRIX *******************************/
 
@@ -91,6 +71,7 @@ class lagNonOverlapping: public AbstractLagFormulation{
         /* Vector of the id of the destination node for each edge*/
         std::vector<int> vecEDestinationIndex;
 
+    
     public:
         /* *******************************************************************************
         *                             INITIALIZATION METHODS
@@ -98,45 +79,38 @@ class lagNonOverlapping: public AbstractLagFormulation{
         lagNonOverlapping(const Instance &instance):AbstractLagFormulation(instance){}
 
         /** Sets all initial parameters **/
-        void init();
+        void init(bool=true);
 
         /********************************* MULTIPLIERS ***********************************/
 
+        void startMultipliers(double *,int,int);
+        
         /** Sets the initial lagrangian multipliers values for the subgradient to run. **/
         void initMultipliers();
 
-        /** Sets the initial lagrangian multipliers associated with length constraints. **/
-        void initializeLengthMultipliers();
+        void initMultipliersWarmstart();
 
-        /** Sets the initial lagrangian multipliers associated with Source/Target constraints **/
-        void initializeSourceTargetMultipliers();
-        
-        /** Sets the initial lagrangian multipliers associated with flow constraints **/
-        void initializeFlowMultipliers();
+        void contractNodesFromLabel_v2(std::shared_ptr<ListDigraph>, ListDigraph::NodeMap<ListDigraph::Node>, int, int);
+
+        /********************************* STABILITY CENTER ***********************************/
+
+        /** Sets the initial lagrangian stability center values for the subgradient to run. **/
+        void initStabilityCenter();
 
         /********************************** SLACK ***************************************/
 
         /** Initializes the slack of relaxed constraints. **/
         void initSlacks();
 
-        /** Initializes the slack of length constraints. **/
-        void initializeLengthSlacks();
-        
-        /** Initializes the slack of Source/Target constraints. **/
-        void initializeSourceTargetSlacks();
+        void resetSlacks();
 
-        /** Initializes the slack of Flow constraints. **/
-        void initializeFlowSlacks();
+        void initPrimalSlacks();
 
-        /******************************** COSTS *********************************/
+        void clearSlacks();
 
-        /** Initializes the costs in the objective function. **/
-        void initCosts();
+        /********************************** DIRECTION **********************************/
 
-        /******************************** ASSIGMENT MATRIX *********************************/
-
-        /** Initializes the assignement matrix. **/
-        void initAssignmentMatrix();
+        void initDirection();
 
         /***************************** BUILDING AUXILIARY GRAPH *******************************/
 
@@ -149,44 +123,30 @@ class lagNonOverlapping: public AbstractLagFormulation{
         /* *******************************************************************************
         *                             RUNING METHODS
         ******************************************************************************* */
-        void run();
+        void run(bool=false);
 
         double getRealCostFromPath(int, BellmanFord< ListDigraph, ListDigraph::ArcMap<double> > &, const ListDigraph::Node &, const ListDigraph::Node &);
-
-        void updateAssignment_e(int, BellmanFord< ListDigraph, ListDigraph::ArcMap<double> > &, const ListDigraph::Node &, const ListDigraph::Node &);
+        
+        void updateAssignment_k(int, BellmanFord< ListDigraph, ListDigraph::ArcMap<double> > &, const ListDigraph::Node &, const ListDigraph::Node &);
 
         void subtractConstantValuesFromLagrCost();
+
+        void solveProblemMaxUsedSliceOverall();
 
         /** Checks with the slacks if the solution is feasible. **/
         bool checkFeasibility();
 
-        bool checkLengthFeasibility();
+        /* Verifies if the relaxed constraints are respected, considering primal apprximation. */
+        bool checkFeasibility_v2();
 
-        bool checkSourceTargetFeasibility();
-
-        bool checkFlowFeasibility();
+        /** Checks if the slackness condition is satisfied ( mu*(Ax-b) = 0) **/
+        bool checkSlacknessCondition();
  
         /****************************************************************************************/
         /*										Getters 										*/
         /****************************************************************************************/
 
-        /** Returns the multiplier for the length constraint k **/
-        double getLengthMultiplier_k(int k) const { return lagrangianMultiplierLength[k]; }
-
-        /** Returns the multiplier for the source target constraint k,v **/
-        double getSourceTargetMultiplier_k(int k, int v) const { return lagrangianMultiplierSourceTarget[k][v]; }
-
-        /** Returns the multiplier for the flow constraint k,v **/
-        double getFlowMultiplier_k(int k, int v) const { return lagrangianMultiplierFlow[k][v]; }
-
-        /** Return the slack for the the length constraint k **/
-        double getLengthSlack_k(int k) const { return lengthSlack[k];}
-
-        /** Return the slack for the the length constraint k **/
-        double getSourceTargetSlack_k(int k, int v) const { return sourceTargetSlack[k][v];}
-
-        /** Return the slack for the the length constraint k **/
-        double getFlowSlack_k(int k,int v) const { return flowSlack[k][v];}
+        void getDualSolution(double *);
         
         /** Returns the LEMON id of a node in a graph. @param n The node. @param label The graph index. **/
         int getNodeEId(const ListDigraph::Node &n, int label) const { return (*vecENodeID[label])[n]; }
@@ -227,21 +187,31 @@ class lagNonOverlapping: public AbstractLagFormulation{
         ListDigraph::Node getNodeFromIndex(int, int);
 
         /** Returns the constraints slack module **/
-        double getSlackModule();
+        double getSlackModule(double = -1.0);
+
+        /** Returns the constraints slack module considering the primal values **/
+        double getSlackModule_v2(double =-1.0);
+        
+        /** Returns the constraints slack module considering the primal values **/
+        double getMeanSlackModule_v2();
+
+        /** Returns the constraints direction module **/
+        double getDirectionModule();
+
+        /** Returns the scalar product between the slack (gradient) and the direction **/
+        double getSlackDirectionProd();
+
+        double getSlackDirectionProdNormal();
+
+        double getSlackDirectionProdProjected(Input::ProjectionType);
+
+        /** Returns the product of the normal slack with the slack considering the primal variables **/
+        double getSlackPrimalSlackProd(double = -1.0);
 
 
         /****************************************************************************************/
         /*										Setters											*/
         /****************************************************************************************/
-
-        void setLengthMultiplier_k (int k, double val) { lagrangianMultiplierLength[k] = val; }
-        void setSourceTargetMultiplier_k (int k, int v, double val) { lagrangianMultiplierSourceTarget[k][v] = val; }
-        void setFlowMultiplier_k (int k, int v, double val) { lagrangianMultiplierFlow[k][v] = val; }
-
-        void setLengthSlack_k (int k, double val) { lengthSlack[k] = val; }
-        void setSourceTargetSlack_k (int k, int v, double val) { sourceTargetSlack[k][v] = val; }
-        void setFlowSlack_k (int k, int v, double val) { flowSlack[k][v] = val; }
-    
 
         /** Changes the id of a node in a graph. @param n The node. @param label The graph index. @param val The new id. **/
         void setNodeEId(const ListDigraph::Node &n, int label, int val){ (*vecENodeID[label])[n] = val; }
@@ -279,26 +249,41 @@ class lagNonOverlapping: public AbstractLagFormulation{
         /** Changes the destination index of the graph corresponding to label**/
         void setIndexDestination(int id, int label){ vecEDestinationIndex[label] = id; }
 
-        /** Updates the slack of a lehgth constraint using the assigment matrix **/
-        void updateLengthSlack();
+        /****************************************************************************************/
+        /*										Update											*/
+        /****************************************************************************************/
 
-        /** Updates the slack of a source/target constraint using the assigment matrix **/
-        void updateSourceTargetSlack();
-
-        /** Updates the slack of a flow constraint using the assigment matrix **/
-        void updateFlowSlack();
-
-        /** Updates the arc costs. @note cost = coeff + u_d*length **/
-        void updateCosts();
+        /********************************* MULTIPLIERS ***********************************/
 
         /* Updates lagrangian multipliers with the rule: u[k+1] = u[k] + t[k]*violation */
         void updateMultiplier(double);
 
-        void updateLengthMultiplier(double);
+        /******** MULTIPLIER CONSIDERING THE STABILITY CENTER ************/
 
-        void updateSourceTargetMultiplier(double);
+        void updateMultiplier_v2(double);
 
-        void updateFlowMultiplier(double);
+        /********************************* STABILITY CENTER ***********************************/
+
+        void updateStabilityCenter();
+
+        /********************************* SLACK ***********************************/
+
+        void updateSlack(int, const ListDigraph::Arc &);
+
+        void updatePrimalSlack(double);
+
+        /********************************* DIRECTION ***********************************/
+
+        void updateDirection();
+
+        /********************************* COSTS ***********************************/
+
+        /** Updates the arc costs. @note cost = coeff + u_d*length **/
+        void updateCosts();
+
+        /****************************************************************************************/
+        /*					                  Display						                    */
+        /****************************************************************************************/
 
         void displayEArc(int, const ListDigraph::Arc &);
 

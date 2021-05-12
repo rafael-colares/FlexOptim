@@ -17,7 +17,10 @@ Instance::Instance(const Input &i) : input(i){
 Instance::Instance(const Instance &i) : input(i.getInput()){
 	this->setNbNodes(i.getNbNodes());
 	this->setWasBlocked(i.getWasBlocked());
-	this->setTabEdge(i.getTabEdge());
+	for(int j=0;j<i.tabEdge.size();j++){
+		tabEdge.push_back(i.tabEdge[j]);
+	}
+	//this->setTabEdge(i.getTabEdge());
 	this->setTabDemand(i.getTabDemand());
 	this->setNextDemandToBeRoutedIndex(i.getNextDemandToBeRoutedIndex());
 }

@@ -10,9 +10,14 @@ int SolverCplex::count = 0;
 /* Constructor. The RSA constructor is called and the arc map storing the index of the preprocessed graphs associated is built. */
 SolverCplex::SolverCplex(const Instance &inst) : AbstractSolver(inst, STATUS_UNKNOWN), model(env), cplex(model), obj(env){
     std::cout << "--- CPLEX has been initialized ---" << std::endl;
+    totalImpleTime = formulation->getTotalImpleTime();
+    varImpleTime = formulation->getVarImpleTime();
+    constImpleTime = formulation->getConstImpleTime();
+    cutImpleTime = formulation->getCutImpleTime();
+    objImpleTime = formulation->getObjImpleTime();
     setCplexParams(inst.getInput());
     implementFormulation();
-    exportFormulation(inst);
+    //exportFormulation(inst);
     count++;
 }
 
@@ -61,8 +66,9 @@ void SolverCplex::solve(){
                                         formulation->getInstance().getInput().isObj8(i));
         CPXLONG contextMask = context(myObjectives[i].getId(), formulation->getInstance().getInput());
         
-        
+        //if(!formulation->getInstance().getInput().isRelaxed()){
         cplex.use(&myGenericCallback, contextMask);
+        //}
         std::cout << "Chosen objective: " << myObjectives[i].getName() << std::endl;
         cplex.solve();
         
@@ -89,6 +95,11 @@ void SolverCplex::solve(){
     setLowerBound(cplex.getBestObjValue());
     setMipGap(cplex.getMIPRelativeGap()*100);
 	setTreeSize(cplex.getNnodes());
+
+    setAlgorithm(cplex.getAlgorithm());
+    //int root = cplex.getParam(IloCplex::RootAlg);
+    //int node = cplex.getParam(IloCplex::NodeAlg);
+    
     std::cout << "Optimization done in " << timeFinish - timeStart << " secs." << std::endl;
     if ((cplex.getStatus() == IloAlgorithm::Optimal) || (cplex.getStatus() == IloAlgorithm::Feasible)){    
         std::cout << "Status: " << cplex.getStatus() << std::endl;
@@ -166,15 +177,53 @@ void SolverCplex::setCplexParams(const Input &input){
     cplex.setParam(IloCplex::Param::MIP::Display, 3);
     cplex.setParam(IloCplex::Param::TimeLimit, input.getIterationTimeLimit());
     //cplex.setParam(IloCplex::Param::Threads, 1);
+
+    if(formulation->getInstance().getInput().isRelaxed()){
+        Input::RootMethod rootMethod = formulation->getInstance().getInput().getChosenRootMethod();
+        if (rootMethod == Input::ROOT_METHOD_AUTO){
+            cplex.setParam(IloCplex::RootAlg, IloCplex::AutoAlg);
+            std::cout<< "auto" <<std::endl;
+        }
+        else if (rootMethod == Input::ROOT_METHOD_PRIMAL){
+            cplex.setParam(IloCplex::RootAlg, IloCplex::Primal);
+            std::cout<< "primal" <<std::endl;
+        }
+        else if (rootMethod == Input::ROOT_METHOD_DUAL){
+            cplex.setParam(IloCplex::RootAlg, IloCplex::Dual);
+            std::cout<< "dual" <<std::endl;
+        }
+        else if (rootMethod == Input::ROOT_METHOD_NETWORK){
+            cplex.setParam(IloCplex::RootAlg, IloCplex::Network);
+            std::cout<< "net" <<std::endl;
+        }
+        else if (rootMethod == Input::ROOT_METHOD_BARRIER){
+            cplex.setParam(IloCplex::RootAlg, IloCplex::Barrier);
+            std::cout<< "barrier" <<std::endl;
+        }
+    }
+    
     
     std::cout << "CPLEX parameters have been defined..." << std::endl;
 }
 
 void SolverCplex::implementFormulation(){
+    ClockTime time(ClockTime::getTimeNow());
+    ClockTime time2(ClockTime::getTimeNow());
     setVariables(formulation->getVariables());
+    //std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    varChargeTime =  time.getTimeInSecFromStart();
+    time.setStart(ClockTime::getTimeNow());
     setConstraints(formulation->getConstraints());
+    //std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    constChargeTime = time.getTimeInSecFromStart();
+    time.setStart(ClockTime::getTimeNow());
     setObjective(formulation->getObjFunction(0));
+    //std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    objChargeTime = time.getTimeInSecFromStart();
+    time.setStart(ClockTime::getTimeNow());
     formulation->clearConstraints();
+    //std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    totalChargeTime = time2.getTimeInSecFromStart();
 }
 
 IloExpr SolverCplex::to_IloExpr(const Expression &e){
@@ -213,11 +262,15 @@ void SolverCplex::setObjective(const ObjectiveFunction &myObjective){
 
 /* Defines the constraints needed in the MIP formulation. */
 void SolverCplex::setConstraints(const std::vector<Constraint> &myConstraints){
+    int index; double coefficient; int n;
     for (unsigned int i = 0; i < myConstraints.size(); i++){ 
         IloExpr exp(model.getEnv());
-        for (unsigned int j = 0; j < myConstraints[i].getExpression().getTerms().size(); j++){
-            int index = myConstraints[i].getExpression().getTerm_i(j).getVar().getId();
-            double coefficient = myConstraints[i].getExpression().getTerm_i(j).getCoeff();
+        Expression expression = myConstraints[i].getExpression();
+        n = expression.getTerms().size();
+        for (unsigned int j = 0; j < n; j++){
+            Term term = expression.getTerm_i(j);
+            index = term.getVar().getId();
+            coefficient = term.getCoeff();
             exp += coefficient*var[index];
         }
         IloRange constraint(model.getEnv(), myConstraints[i].getLb(), exp, myConstraints[i].getUb(), myConstraints[i].getName().c_str());

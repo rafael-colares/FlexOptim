@@ -8,9 +8,11 @@ RSA::RSA(const Instance &inst) : instance(inst), compactEdgeId(compactGraph), co
     /* Creates compact graph. */
     buildCompactGraph();
 
+    ClockTime clock(ClockTime::getTimeNow());
+
     /* Set demands to be routed. */
     this->setToBeRouted(instance.getNextDemands());
-    displayToBeRouted();
+    //displayToBeRouted();
     
     /* Set loads to be routed. */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
@@ -19,7 +21,7 @@ RSA::RSA(const Instance &inst) : instance(inst), compactEdgeId(compactGraph), co
             loadsToBeRouted.push_back(demandLoad);
         }
     }
-    displayLoadsToBeRouted();
+    //displayLoadsToBeRouted();
 
     /* Creates an extended graph for each one of the demands to be routed. */
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
@@ -34,6 +36,10 @@ RSA::RSA(const Instance &inst) : instance(inst), compactEdgeId(compactGraph), co
         vecNodeLabel.emplace_back( std::make_shared<NodeMap>((*vecGraph[d])) );
         vecNodeSlice.emplace_back(std::make_shared<NodeMap>((*vecGraph[d])) );
         vecOnPath.emplace_back( std::make_shared<ArcMap>((*vecGraph[d])) );
+
+        vecArcIndex.emplace_back(std::make_shared<ArcMap>((*vecGraph[d])));
+        vecNodeIndex.emplace_back(std::make_shared<NodeMap>((*vecGraph[d])));
+        vecArcVarId.emplace_back(std::make_shared<ArcMap>((*vecGraph[d])));
     
         for (int i = 0; i < instance.getNbEdges(); i++){
             int linkSourceLabel = instance.getPhysicalLinkFromIndex(i).getSource();
@@ -66,19 +72,53 @@ RSA::RSA(const Instance &inst) : instance(inst), compactEdgeId(compactGraph), co
             }
         }
     }
-
+    setRSAGraphConstructionTime(clock.getTimeInSecFromStart());
+    //std::cout <<  "Graph construction: " << clock.getTimeInSecFromStart() << std::endl;
+    
+    clock.setStart(ClockTime::getTimeNow());
     /* Calls preprocessing. */
     preprocessing();
 
-    /* Sets arc index. */
+    setPreprocessingTime(clock.getTimeInSecFromStart());
+    //std::cout <<  "Preprocessing: " << clock.getTimeInSecFromStart() << std::endl;
+
+    /* Sets arcs and nodes index. Sets arcs id's (variables id). */
+    sourceNodeIndex.resize(getNbDemandsToBeRouted());
+    targetNodeIndex.resize(getNbDemandsToBeRouted());
+    int varId = 0;
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){ 
-        vecArcIndex.emplace_back(new ArcMap((*vecGraph[d]), -1));
         int index=0;
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
             setArcIndex(a, d, index);
             index++;
+            (*vecArcVarId[d])[a] = varId;
+            varId++;
         }
+        int nodeIndex = 0;
+        for(ListDigraph::NodeIt v(*vecGraph[d]); v != INVALID; ++v){
+            int label = getNodeLabel(v,d);
+            if(getToBeRouted_k(d).getSource() == label){
+                sourceNodeIndex[d] = nodeIndex;
+            }
+            if(getToBeRouted_k(d).getTarget() == label){
+                targetNodeIndex[d] = nodeIndex;
+            }
+            setNodeIndex(v,d,nodeIndex);
+            nodeIndex++;
+        }
+        /* Copy the node label map and the arc label map to iterable maps. */
+        mapItNodeLabel.emplace_back(std::make_shared<IterableIntMap<ListDigraph, ListDigraph::Node>>((*vecGraph[d])) );
+        mapItArcLabel.emplace_back(std::make_shared<IterableIntMap<ListDigraph, ListDigraph::Arc>>((*vecGraph[d])) );
+        mapCopy<ListDigraph,NodeMap,IterableIntMap<ListDigraph, ListDigraph::Node>>((*vecGraph[d]),(*vecNodeLabel[d]),(*mapItNodeLabel[d]));
+        mapCopy<ListDigraph,ArcMap,IterableIntMap<ListDigraph, ListDigraph::Arc>>((*vecGraph[d]),(*vecArcLabel[d]),(*mapItArcLabel[d]));
     }
+    maxSliceOverallVarId = varId;
+
+    auxNbSlicesLimitFromEdge.resize(instance.getNbEdges());
+    for(int i=0; i<instance.getNbEdges(); i++){
+        auxNbSlicesLimitFromEdge[i] = getNbSlicesLimitFromEdge(i);
+    }
+    auxNbSlicesGlobalLimit = getNbSlicesGlobalLimit();
 }
 
 /** Returns the total number of loads to be routed. **/
@@ -89,7 +129,6 @@ int RSA::getTotalLoadsToBeRouted() const{
     }
     return total;
 }
-    
 
 /* Builds the simple graph associated with the initial mapping. */
 void RSA::buildCompactGraph(){
@@ -288,11 +327,10 @@ void RSA::preprocessing(){
         contractNodesFromLabel(d, getToBeRouted()[d].getTarget());
     }
 
-    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+    //for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         //std::cout << "> Number of arcs in graph #" << d << " before preprocessing: " << nbArcsOld[d] << ". After: " << countArcs((*vecGraph[d])) << std::endl;
-    }
+    //}
 }
-
 
 /* Erases every arc from graph #d having the given slice and returns the number of arcs removed. */
 void RSA::pathExistencePreprocessing(){
@@ -328,6 +366,7 @@ void RSA::pathExistencePreprocessing(){
     }
     std::cout << "> Number of erased arcs due to Path Existence: " << totalNb << std::endl;
 }
+
 /* Performs preprocessing based on the arc lengths and returns true if at least one arc is erased. */
 bool RSA::lengthPreprocessing(){
     std::cout << "Called Length preprocessing."<< std::endl;
@@ -670,5 +709,9 @@ RSA::~RSA() {
     vecNodeSlice.clear();
     vecOnPath.clear();
     vecArcIndex.clear();
+    vecNodeIndex.clear();
+    vecArcVarId.clear();
+    sourceNodeIndex.clear();
+    targetNodeIndex.clear();
     vecGraph.clear();
 }

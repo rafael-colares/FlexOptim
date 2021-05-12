@@ -40,6 +40,7 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
 
     chosenMipSolver = to_MIP_Solver(getParameterValue("solver="));
     chosenNodeMethod = to_NodeMethod(getParameterValue("method="));
+    chosenRootMethod = to_RootMethod(getParameterValue("relaxMethod="));
     chosenPreprLvl = (PreprocessingLevel) std::stoi(getParameterValue("preprocessingLevel="));
 
 
@@ -59,7 +60,7 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     maxNbIterations = std::stoi(getParameterValue("maxNbIterations="));
 
     /******** INCLUSION FOR LAGRANGIAN *********/
-    lagChosenMethod = to_LagMethod(getParameterValue("lagMethod="));
+    lagrangianRelaxation = std::stoi(getParameterValue("lagrangianRelaxation="));
     lagChosenFormulation = to_LagFormulation(getParameterValue("lagFormulation="));
     chosenHeuristic = to_Heuristic(getParameterValue("heuristic="));
     chosenDirectionMethod = to_DirectionMethod(getParameterValue("directionMethod="));
@@ -68,6 +69,7 @@ Input::Input(std::string parameterFile) : PARAMETER_FILE(parameterFile){
     chosenProjection = to_ProjectionType(getParameterValue("projection="));
     alternativeStop = std::stoi(getParameterValue("alternativeStop="));
     warmstart = std::stoi(getParameterValue("warmstart="));
+    lagOutputPath = getParameterValue("lagOutputPath=");
 
     /********************************************/
 
@@ -106,6 +108,7 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
 
     chosenMipSolver = i.getChosenMIPSolver();
     chosenNodeMethod = i.getChosenNodeMethod();
+    chosenRootMethod = i.getChosenRootMethod();
     chosenPreprLvl = i.getChosenPreprLvl();
 
     outputPath = i.getOutputPath();
@@ -120,7 +123,7 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     nbIterationsWithoutImprovement = i.getNbIterationsWithoutImprovement();
 
     /******** INCLUSION FOR LAGRANGIAN *********/
-    lagChosenMethod = i.getChosenLagMethod();
+    lagrangianRelaxation = i.isLagrangianRelaxed();
     lagChosenFormulation =i.getChosenLagFormulation();
     chosenHeuristic = i.getChosenHeuristic();
     chosenDirectionMethod = i.getChosenDirectionMethod();
@@ -129,6 +132,7 @@ Input::Input(const Input &i) : PARAMETER_FILE(i.getParameterFile()){
     chosenProjection = i.getChosenProjection();
     alternativeStop = i.getAlternativeStop();
     warmstart = i.getWarmstart();
+    lagOutputPath = i.getLagOutputPath();
 
     /********************************************/
 }
@@ -305,6 +309,43 @@ Input::NodeMethod Input::to_NodeMethod(std::string data){
     return policy;
 }
 
+/* Converts a string into a RootMethod. */
+Input::RootMethod Input::to_RootMethod(std::string data){
+    Input::RootMethod policy;
+    if (!data.empty()){
+        int policyId = std::stoi(data);
+        if (policyId == 0){
+            policy = ROOT_METHOD_AUTO;
+            return policy;
+        }
+        else if (policyId == 1){
+            policy = ROOT_METHOD_PRIMAL;
+            return policy;
+        }
+        else if (policyId == 2){
+            policy = ROOT_METHOD_DUAL;
+            return policy;
+        }
+        else if (policyId == 3){
+            policy = ROOT_METHOD_NETWORK;
+            return policy;
+        }
+        else if (policyId == 4){
+            policy = ROOT_METHOD_BARRIER;
+            return policy;
+        }
+        else{
+            std::cout << "ERROR: Invalid root method." << std::endl;
+            exit(0);
+        }
+    }
+    else{
+        std::cout << "ERROR: A root method must be specified." << std::endl;
+        exit(0);
+    }
+    return policy;
+}
+
 /* Converts a string into a Formulation. */
 Input::Formulation Input::to_Formulation(std::string data){
     Input::Formulation policy;
@@ -368,33 +409,6 @@ Input::MIP_Solver Input::to_MIP_Solver(std::string data){
 }
 
 /******** INCLUSION FOR LAGRANGIAN *********/
-Input::LagMethod Input::to_LagMethod(std::string data){
-    Input::LagMethod policy;
-    if (!data.empty()){
-        int policyId = std::stoi(data);
-        switch (policyId)
-        {
-        case 0: {
-            policy = SUBGRADIENT;
-            return policy;
-            break;
-        }
-        case 1: {
-            policy = VOLUME;
-            return policy;
-            break;
-        }
-        default:
-            std::cout << "ERROR: Invalid MIP_SOLVER." << std::endl;
-            exit(0);
-            break;
-        }
-    }
-    else{
-        std::cout << "ERROR: A lagrangian method must be specified." << std::endl;
-        exit(0);
-    }
-}
 
 Input::LagFormulation Input::to_LagFormulation(std::string data){
     Input::LagFormulation policy;
@@ -408,18 +422,23 @@ Input::LagFormulation Input::to_LagFormulation(std::string data){
             break;
         }
         case 1: {
+            policy = LAG_OVERLAPPING;
+            return policy;
+            break;
+        }
+        case 2: {
             policy = LAG_OVERLAP;
             return policy;
             break;
         }
         default:
-            std::cout << "ERROR: Invalid MIP_SOLVER." << std::endl;
+            std::cout << "ERROR: Invalid LAG_FORMULATION." << std::endl;
             exit(0);
             break;
         }
     }
     else{
-        std::cout << "ERROR: A lagrangian method must be specified." << std::endl;
+        std::cout << "ERROR: A lagrangian formulation must be specified." << std::endl;
         exit(0);
     }
 }
@@ -437,17 +456,19 @@ Input::Heuristic Input::to_Heuristic(std::string data){
         }
         case 1: {
             policy = PROBABILITY;
+            std::cout << "ERROR: Probability heuristic not yet implemented." << std::endl;
+            exit(0);
             return policy;
             break;
         }
         default:
-            std::cout << "ERROR: Invalid MIP_SOLVER." << std::endl;
+            std::cout << "ERROR: Invalid HEURISTIC." << std::endl;
             exit(0);
             break;
         }
     }
     else{
-        std::cout << "ERROR: A lagrangian method must be specified." << std::endl;
+        std::cout << "ERROR: A heuristic must be specified." << std::endl;
         exit(0);
     }
 }
@@ -485,7 +506,7 @@ Input::DirectionMethod Input::to_DirectionMethod(std::string data){
         }
     }
     else{
-        std::cout << "ERROR: A lagrangian method must be specified." << std::endl;
+        std::cout << "ERROR: A lagrangian DIRECTION_METHOD must be specified." << std::endl;
         exit(0);
     }
 
@@ -513,13 +534,13 @@ Input::ProjectionType Input::to_ProjectionType(std::string data){
             break;
         }
         default:
-            std::cout << "ERROR: Invalid DIRECTION_METHOD." << std::endl;
+            std::cout << "ERROR: Invalid PROJECTION_METHOD." << std::endl;
             exit(0);
             break;
         }
     }
     else{
-        std::cout << "ERROR: A lagrangian method must be specified." << std::endl;
+        std::cout << "ERROR: A lagrangian PROJECTION_METHOD must be specified." << std::endl;
         exit(0);
     }
 }
@@ -534,11 +555,18 @@ void Input::checkConsistency(){
         std::cout << "ERROR: Subgradient methods should only be called with CBC." << std::endl;
         exit(0);
     }
-    if (getChosenNodeMethod() != NODE_METHOD_LINEAR_RELAX){
-        std::cout << "ERROR: Subgradient methods chosen but still needs to be implemented." << std::endl;
+    if((getChosenNodeMethod() != NODE_METHOD_LINEAR_RELAX) && (getChosenLagFormulation() != LAG_FLOW) && (!isLagrangianRelaxed())){
+        std::cout << "ERROR: The Branch and Bound with lagrangian relaxation is defined only for the Lagrangian Flow formulation." << std::endl;
         exit(0);
     }
-    /******* INCLUSION FOR LAGRANGIAN **************/
+    if((getChosenNodeMethod() != NODE_METHOD_LINEAR_RELAX) && (chosenObj.size() > 1)){
+        std::cout << "ERROR: Subgradient methods are implemented to solve only one objective function each time." << std::endl;
+        exit(0);
+    }
+    if((getChosenNodeMethod() != NODE_METHOD_LINEAR_RELAX) && (chosenObj[0]==OBJECTIVE_METRIC_1p)){
+        std::cout << "ERROR: Subgradient methods are not defined for objective 1p." << std::endl;
+        exit(0);
+    }
     std::cout << "All information from input is consistent." << std::endl;
 }
 
@@ -563,6 +591,7 @@ bool Input::isObj8(int i) const{
     }
     return false;
 }
+
 /****************************************************************************************/
 /*										Destructor										*/
 /****************************************************************************************/

@@ -39,6 +39,15 @@ public:
 		NODE_METHOD_VOLUME = 2 				/**< At each node of the enumeration tree, the Volume algorithm is applied. #TODO Implement volume. **/
 	};
 
+	/** Enumerates the possible methods to be applied at the root **/
+	enum RootMethod{
+		ROOT_METHOD_AUTO = 0,
+		ROOT_METHOD_PRIMAL = 1,
+		ROOT_METHOD_DUAL = 2,
+		ROOT_METHOD_NETWORK = 3,
+		ROOT_METHOD_BARRIER = 4
+	};
+
 	/** Enumerates the possible objectives to be optimized. **/
 	enum ObjectiveMetric {
 		OBJECTIVE_METRIC_0 = 0,		/**< Minimize nothing, just search for a feasible solution. **/
@@ -72,31 +81,26 @@ public:
 	};
 
 	/******** INCLUSION FOR LAGRANGIAN *********/
-	/** Enumerates all possible Lagrangian methods to be applied **/
-	enum LagMethod {
-		SUBGRADIENT = 0,  		/**< Solve the model with Subgradient Method. **/
-		VOLUME = 1, 		    /**< Solve the model with Volume method. **/
-	};
 
 	/** Enumerates all possible Lagrangian formulations to be applied **/
 	enum LagFormulation{
 		LAG_FLOW = 0,           /**< Uses the Lagrangian Flow formulation. **/
-		LAG_OVERLAP = 1,        /**< Uses the Lagrangian Overlap formulation. **/
+		LAG_OVERLAPPING = 1,    /**< Uses the Lagrangian Overlapping formulation. **/
+		LAG_OVERLAP = 2,        /**< Uses the Lagrangian Overlap formulation. **/
 	};
 
 	/** Enumerates all possible Heuristics to be applied **/
-
 	enum Heuristic{
 		SHORT_PATH = 0,          /**< Uses the Shortest Path Heuristic. **/
-		PROBABILITY = 1,         /**< Uses the Probability Heuristic. **/
+		PROBABILITY = 1,         /**< Uses the Probability Heuristic. TO DO.**/
 	}; 
 
 	/** Enumerates all possible forms to compute the direction in the subgradient method to be applied **/
 	enum DirectionMethod{
 		NORMAL = 0,              /**< Uses the gradient as direction. **/
 		CROWDER = 1,             /**< Uses the crowder rule to compute the direction. **/
-		CARMERINI = 3,           /**< Uses the carmerini fratta maffioli rule to compute the direction. **/
-		MODIFIED_CARMERINI = 4,  /**< Uses the modified carmerini fratta maffioli rule to compute the direction. **/
+		CARMERINI = 2,           /**< Uses the carmerini fratta maffioli rule to compute the direction. **/
+		MODIFIED_CARMERINI = 3,  /**< Uses the modified carmerini fratta maffioli rule to compute the direction. **/
 	}; 
 
 	enum ProjectionType{
@@ -117,6 +121,7 @@ private:
 	
 
 	NodeMethod chosenNodeMethod;			/**< Refers to which method is applied for solving each node.**/
+	RootMethod chosenRootMethod;			/**< Refers to which method is applied for solving the root. **/
 	Formulation chosenFormulation;			/**< Refers to the formulation used to solve the problem. **/
 	MIP_Solver chosenMipSolver;				/**< Refers to the MIP solver chosen to applied. **/
 	PreprocessingLevel chosenPreprLvl;		/**< Refers to which level of preprocessing is applied before solving the problem.**/
@@ -146,7 +151,7 @@ private:
 	int maxNbIterations;				/**< The maximal number of iterations allowed without improving the lower bound in the subgradient method.**/
 
 	/******** INCLUSION FOR LAGRANGIAN *********/
-	LagMethod lagChosenMethod;               /**< The chosen Lagrangian Method. **/
+	bool lagrangianRelaxation;               /**< If this option is active, the lagrangian relaxation is run. **/
 	LagFormulation lagChosenFormulation;     /**< The chosen Lagrangian Formulation. **/
 	Heuristic chosenHeuristic;               /**< The chosen Heuristic. **/
 	DirectionMethod chosenDirectionMethod;   /**< The chosen Lagrangian Direction calculus method. **/
@@ -155,6 +160,7 @@ private:
 	ProjectionType chosenProjection;         /**< The way the stepsize is computed. **/
 	bool alternativeStop;                    /**< If an alternative stopping criterion is used or not. **/
 	bool warmstart;                          /**< If the warmstart for the initial multipliers is used or not. **/
+	std::string lagOutputPath;	                 /**< Path to the folder where the lagrangian output files will be sent by the end of the optimization procedure.**/
 	/*******************************************/
 
 public:
@@ -237,23 +243,24 @@ public:
 
 	/** Returns the path to the .json equipment file that serves as input for the GNPY.**/
     std::string getGNPYEquipmentFile() const { return GNPY_equipmentFile; }
-	
-
 
 	/** Returns the identifier of the method chosen for solving each node. **/
-    NodeMethod getChosenNodeMethod() const { return chosenNodeMethod; }
+    const NodeMethod & getChosenNodeMethod() const { return chosenNodeMethod; }
+
+	/** Returns the identifier of the method chosen for solving the root. **/
+    const RootMethod & getChosenRootMethod() const { return chosenRootMethod; }
 
 	/** Returns the identifier of the formulation chosen for solving the problem. **/
-    Formulation getChosenFormulation() const { return chosenFormulation; }
+    const Formulation & getChosenFormulation() const { return chosenFormulation; }
 
 	/** Returns the identifier of the MIP solver chosen for solving the formulation. **/
-    MIP_Solver getChosenMIPSolver() const { return chosenMipSolver; }
+    const MIP_Solver & getChosenMIPSolver() const { return chosenMipSolver; }
 
 	/** Returns the identifier of the chosen preprocessing level. **/
-    PreprocessingLevel getChosenPreprLvl() const { return chosenPreprLvl; }
+    const PreprocessingLevel & getChosenPreprLvl() const { return chosenPreprLvl; }
 
 	/** Returns the identifier of the objective chosen to be optimized. **/
-    ObjectiveMetric getChosenObj_k(int i) const { return chosenObj[i]; }
+    const ObjectiveMetric & getChosenObj_k(int i) const { return chosenObj[i]; }
 
 	/** Returns the name of the objective. @param obj The chosen objective. **/
 	std::string getObjName(ObjectiveMetric obj) const;
@@ -262,10 +269,10 @@ public:
     std::vector<ObjectiveMetric> getChosenObj() const { return chosenObj; }
 
 	/** Returns the identifier of the output policy adopted. **/
-    OutputLevel getChosenOutputLvl() const { return chosenOutputLvl; }
+    const OutputLevel & getChosenOutputLvl() const { return chosenOutputLvl; }
 
 	/** Returns the identifier of the partition policy adopted. **/
-    PartitionPolicy getChosenPartitionPolicy() const { return chosenPartitionPolicy; }
+    const PartitionPolicy & getChosenPartitionPolicy() const { return chosenPartitionPolicy; }
 
 	/** Returns the initial value of the lagrangian multiplier used if subgradient method is chosen. **/
 	double getInitialLagrangianMultiplier() const { return lagrangianMultiplier_zero; }
@@ -280,15 +287,36 @@ public:
 	int getMaxNbIterations() const { return maxNbIterations; }
 
 	/******** INCLUSION FOR LAGRANGIAN *********/
-	LagMethod getChosenLagMethod() const { return lagChosenMethod;}
-	LagFormulation getChosenLagFormulation() const { return lagChosenFormulation;}
-	Heuristic getChosenHeuristic() const { return chosenHeuristic;}
-	DirectionMethod getChosenDirectionMethod() const { return chosenDirectionMethod; }
+
+	/** Returns true if lagrangian relaxation is applied. **/
+    bool isLagrangianRelaxed() const { return lagrangianRelaxation; }
+	
+	/** Returns the formulation used in the lagrangian procedure. **/
+	const LagFormulation & getChosenLagFormulation() const { return lagChosenFormulation;}
+
+	/** Returns the chosen heuristic used in the lagrangian procedure. **/
+	const Heuristic & getChosenHeuristic() const { return chosenHeuristic;}
+
+	/** Returns the direction method to be used in the lagrangian procedure. **/
+	const DirectionMethod & getChosenDirectionMethod() const { return chosenDirectionMethod; }
+
+	/** Returns the crowder parameter used if the crowder direction was chosen. **/
 	double getCrowderParameter() const { return crowderParameter;}
+
+	/** Returns the carmerini parameter used if the carmerine direction was chosen. **/
 	double getCarmeriniParameter() const { return carmeriniParameter;}
-	ProjectionType getChosenProjection() const { return chosenProjection;}
+
+	/** Returns the chosen projetion to use in the lagrangian procedure. **/
+	const ProjectionType & getChosenProjection() const { return chosenProjection;}
+
+	/** Returns if the alternative stop (maximum number of iterations without improvement) is used or not in the lagrangian procedure **/
 	bool getAlternativeStop() const { return alternativeStop;}
+
+	/** Returns if warmstart is used or not in the lagrangian procedure. **/
 	bool getWarmstart() const { return warmstart;}
+
+	/** Returns the path to the folder where the lagrangian output files will be sent by the end of the optimization procedure.**/
+    std::string getLagOutputPath() const { return lagOutputPath; }
 
 	/****************************************************************************************/
 	/*										Setters											*/
@@ -321,6 +349,9 @@ public:
 	/** Converts a string into a NodeMethod. **/
 	NodeMethod to_NodeMethod(std::string data);
 
+	/** Converts a string into a RootMethod. **/
+	RootMethod to_RootMethod(std::string data);
+
 	/** Converts a string into a Formulation. **/
 	Formulation to_Formulation(std::string data);
 
@@ -337,7 +368,6 @@ public:
 	void checkConsistency();
 
 	/******** INCLUSION FOR LAGRANGIAN *********/
-	LagMethod to_LagMethod(std::string data);
 	LagFormulation to_LagFormulation(std::string data);
 	Heuristic to_Heuristic(std::string data);
 	DirectionMethod to_DirectionMethod(std::string data);

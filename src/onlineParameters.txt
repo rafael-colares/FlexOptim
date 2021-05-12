@@ -5,10 +5,9 @@ initialMappingAssignmentFile=
 demandToBeRoutedFolder=../Parameters/Instances/Benchmark/leipzig/6nodes_9links/30demands_1_3/Demands
 
 ******* GNPY parameters *******
-GNPY_activation=0
-GNPY_topologyFile=../oopt-gnpy/gnpy/example-data/spain_topo.json
-GNPY_equipmentFile=../oopt-gnpy/gnpy/example-data/spain_eqpt_config.json
-
+GNPY_activation=0 
+GNPY_topologyFile=../oopt-gnpy/gnpy/example-data/spain_topo.json 
+GNPY_equipmentFile=../oopt-gnpy/gnpy/example-data/spain_eqpt_config.json 
 
 ******* Formulation parameters *******
 nbDemandsAtOnce=5
@@ -23,10 +22,10 @@ partitionSlice=15
 
 
 ******* Optimization parameters *******
-solver=0
-method=0
-preprocessingLevel=0
-linearRelaxation=0
+solver=0 
+method=0 
+preprocessingLevel=2 
+linearRelaxation=0 
 
 ******* Execution parameters *******
 outputPath=../Parameters/Instances/Benchmark/leipzig/6nodes_9links/30demands_1_3/Demands/
@@ -37,12 +36,12 @@ timeLimit=7200
 
 ******* Fields below are reserved for team LIMOS ********
 lagrangianMultiplier_zero=0 
-lagrangianLambda_zero=2.0 
+lagrangianLambda_zero=2 
 nbIterationsWithoutImprovement=15 
-maxNbIterations=100 
+maxNbIterations=150 
 
-lagMethod=0 
-lagFormulation=0  
+lagMethod=1 
+lagFormulation=0 
 heuristic=0 
 
 directionMethod=0 
@@ -51,5 +50,4 @@ carmeriniParam=0
 
 projection=0 
 alternativeStop=0 
-warmstart=0  
-WithoutImprovement=5
+warmstart=0 

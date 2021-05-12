@@ -21,12 +21,25 @@ protected:
     std::vector<Constraint> cutPool;				/**< The set of cuts. **/
     std::vector<ObjectiveFunction> objectiveSet;	/**< The set of objectives to be optimized (in order). **/
 	double upperBound;
+
+	double totalImpleTime;
+	double varImpleTime;
+	double constImpleTime;
+	double cutImpleTime;
+	double objImpleTime;
+
 public:
 	/****************************************************************************************/
 	/*										Constructors									*/
 	/****************************************************************************************/
 	/** Constructor. Builds the Formulation.  @param instance The instance to be solved. **/
     AbstractFormulation(const Instance &instance): RSA(instance), nbVar(0){}
+
+	double getTotalImpleTime() {return totalImpleTime;}
+	double getVarImpleTime(){ return varImpleTime;}
+	double getConstImpleTime() { return constImpleTime;}
+	double getCutImpleTime() { return cutImpleTime;}
+	double getObjImpleTime() { return objImpleTime;}
 
 	/****************************************************************************************/
 	/*										Variables										*/
@@ -51,7 +64,7 @@ public:
 	/*										Constraints										*/
 	/****************************************************************************************/
 	/** Returns the set of constraints. **/
-	std::vector<Constraint> getConstraints(){ return constraintSet; }
+	const std::vector<Constraint> & getConstraints(){ return constraintSet; }
 
 	/** Clears the set of constraints. **/
 	void clearConstraints(){ constraintSet.clear(); }
@@ -90,7 +103,7 @@ public:
 	/****************************************************************************************/
 
 	/** Returns the i-th objective function. @param i The objective function index. **/
-    ObjectiveFunction getObjFunction(int i){ return objectiveSet[i]; }
+    const ObjectiveFunction & getObjFunction(int i){ return objectiveSet[i]; }
 
 	/** Returns the set of objective functions. **/
     std::vector<ObjectiveFunction> getObjectiveSet(){ return objectiveSet; }

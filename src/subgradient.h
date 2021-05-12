@@ -1,7 +1,7 @@
 #ifndef __subgradient__h
 #define __subgradient__h
 
-#include "RSA.h"
+#include "formulation/rsa.h"
 
 using namespace lemon;
 // For the moment only k=1 is implemented. This class 
