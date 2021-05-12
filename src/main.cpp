@@ -89,6 +89,7 @@ int main(int argc, char *argv[]) {
 			SolverFactory factory;
 			AbstractSolver *solver = factory.createSolver(instance);
 			solver->solve();
+			solver->outputLogResults(outputCode);
 			//std::cout << "call update" << std::endl;
 			std::cout << " Time: " << solver->getDurationTime() << std::endl << std::endl;
 			solver->updateRSA(instance);
@@ -98,7 +99,6 @@ int main(int argc, char *argv[]) {
 			/********************************************************************/
 			if (instance.getInput().getChosenOutputLvl() == Input::OUTPUT_LVL_DETAILED){
 				instance.output(outputCode);
-				solver->outputLogResults(outputCode);
 			}
 			if (instance.getInput().isBlockingAllowed() == false && instance.getWasBlocked() == true){
 				feasibility = false;

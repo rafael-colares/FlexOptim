@@ -57,11 +57,11 @@ void CplexCallback::addUserCuts(const IloCplex::Callback::Context &context) cons
         if (!constraint.empty()){
             //std::cout << "A violated cut was found: ";
             for (unsigned int i = 0; i < constraint.size(); i++){
-                std::cout << "Adding user cut..." << std::endl;
+                //std::cout << "Adding user cut..." << std::endl;
                 context.addUserCut( IloRange(context.getEnv(), constraint[i].getLb(), 
                                         to_IloExpr(context, constraint[i].getExpression()),
                                         constraint[i].getUb(), constraint[i].getName().c_str()),
-                                    IloCplex::UseCutPurge, IloFalse);
+                                    IloCplex::UseCutForce, IloFalse);
             }
         }
     }

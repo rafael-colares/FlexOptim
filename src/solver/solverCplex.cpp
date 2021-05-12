@@ -328,6 +328,7 @@ void SolverCplex::outputLogResults(std::string fileName){
 	std::ofstream myfile(filePath.c_str(), std::ios_base::app);
 	if (myfile.is_open()){
 		myfile << fileName << delimiter;
+        myfile << cplex.getStatus() << delimiter;
 		myfile << getDurationTime() << delimiter;
 		myfile << getLowerBound() << delimiter;
 		myfile << getUpperBound() << delimiter;

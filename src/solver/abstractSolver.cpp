@@ -7,6 +7,14 @@
 
 /* Constructor. The RSA constructor is called and the arc map storing the index of the preprocessed graphs associated is built. */
 AbstractSolver::AbstractSolver(const Instance &instance, const Status &s) : currentStatus(s) {
+    
+	time = -1;
+	upperBound = -1;
+	lowerBound = -1;
+	gap = -1;
+	treeSize = -1;
+	rootValue = -1;
+
     FormulationFactory factory;
     formulation = factory.createFormulation(instance);
 }
@@ -27,3 +35,5 @@ void AbstractSolver::updateRSA(Instance &instance){
         instance.setWasBlocked(true);
     }
 }
+
+
