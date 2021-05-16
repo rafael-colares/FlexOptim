@@ -3,6 +3,7 @@
 
 #include "abstractSolver.h"
 #include "CbcModel.hpp"
+#include "CoinModel.hpp"
 // Using as solver
 #include "OsiCbcSolverInterface.hpp"
 #include "OsiClpSolverInterface.hpp"
@@ -17,6 +18,7 @@ class SolverCBC : public AbstractSolver{
 private:
 	OsiClpSolverInterface solver;	/**< The Clp engine. **/
     CbcModel model;					/**< The CBC model. **/
+	CoinModel coinModel;
 	static int count;				/**< Counts how many times the solver is called. **/
 	bool isrelaxed;
 

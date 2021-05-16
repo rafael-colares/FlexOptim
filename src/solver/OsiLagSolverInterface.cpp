@@ -1433,6 +1433,7 @@ void OsiLagSolverInterface::loadModelFormulation(){
     setConstraints(lagformulation->getConstraints());
     // add the first objective function.
     setObjective(lagformulation->getObjFunction(0));
+    loadFromCoinModel(coinModel);
 }
 
 void OsiLagSolverInterface::freeFormulation(){
@@ -1444,15 +1445,18 @@ void OsiLagSolverInterface::setVariables(const std::vector<Variable> &myVars){
     int n = myVars.size();
     for (unsigned int i = 0; i < n; i++){ 
         CoinPackedVector column(0);
-        addCol(column, myVars[i].getLb(), myVars[i].getUb(), 0, myVars[i].getName());
+        //addCol(column, myVars[i].getLb(), myVars[i].getUb(), 0, myVars[i].getName());
+        coinModel.addColumn(0,NULL,NULL, myVars[i].getLb(), myVars[i].getUb(), 0, myVars[i].getName().c_str());
         // std::cout << "Created variable: " << var[d][arc].getName() << std::endl;
         int pos = myVars[i].getId();
         switch (myVars[i].getType()){
             case Variable::TYPE_BOOLEAN:
-                setInteger(pos);
+                //setInteger(pos);
+                coinModel.setInteger(pos);
                 break;
             case Variable::TYPE_INTEGER:
-                setInteger(pos);
+                //setInteger(pos);
+                coinModel.setInteger(pos);
                 break;
             case Variable::TYPE_REAL:
                 break;
@@ -1468,17 +1472,22 @@ void OsiLagSolverInterface::setVariables(const std::vector<Variable> &myVars){
 /* Defines the constraints needed in the MIP formulation. */
 void OsiLagSolverInterface::setConstraints(const std::vector<Constraint> &myConstraints){
     for (unsigned int i = 0; i < myConstraints.size(); i++){ 
-        CoinPackedVector constraint;
+        //CoinPackedVector constraint;
         Expression expression = myConstraints[i].getExpression();
         int n = expression.getTerms().size();
         int index; double coefficient;
+        int *columns = new int[n];
+        double *elements = new double[n];
         for (unsigned int j = 0; j < n; j++){
             Term term = expression.getTerm_i(j);
             index = term.getVar().getId();
             coefficient = term.getCoeff();
-            constraint.insert(index, coefficient);
+            //constraint.insert(index, coefficient);
+            columns[j] = index;
+            elements[j] = coefficient;
         }
-        addRow(constraint, myConstraints[i].getLb(), myConstraints[i].getUb(), myConstraints[i].getName());
+        //addRow(constraint, myConstraints[i].getLb(), myConstraints[i].getUb(), myConstraints[i].getName());
+        coinModel.addRow(n,columns,elements,myConstraints[i].getLb(), myConstraints[i].getUb(), myConstraints[i].getName().c_str());
     }
     std::cout << "OsiLagSolverInterface constraints have been defined..." << std::endl;
 }
@@ -1498,7 +1507,8 @@ void OsiLagSolverInterface::setObjective(const ObjectiveFunction &myObjective){
         Term term= expression.getTerm_i(i);
         index = term.getVar().getId();
         coefficient = term.getCoeff();
-        setObjCoeff(index, coefficient);
+        //setObjCoeff(index, coefficient);
+        coinModel.setObjective(index, coefficient);
     }
     std::cout << "OsiLagSolverInterface: Objective has been defined..." << std::endl;
 }

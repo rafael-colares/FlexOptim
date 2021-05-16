@@ -33,10 +33,11 @@ void lagSolverCBC::solve(){
     std::cout << "Solving with CBC..." << std::endl;
     std::vector<ObjectiveFunction> myObjectives = solver.getLagrangianSolver()->getLagrangianFormulation()->getObjectiveSet();
     std::cout << "Chosen objective: " << myObjectives[0].getName() << std::endl;
-
-    //CbcRounding heuristic1(model);
-    //model.addHeuristic(&heuristic1);
-    //model.setCutoff(68);
+    model.setNumberStrong(0);
+    model.setNumberThreads(1);
+    //model.setThreadMode(4);
+    //std::cout << model.getNumberThreads() << std::endl;
+    //std::cout << model.getThreadMode() << std::endl;
     model.branchAndBound();
 
     if (model.bestSolution() != NULL){
@@ -47,12 +48,13 @@ void lagSolverCBC::solve(){
         // Stop optimizing.
         std::cout << "Could not find a feasible solution..." << std::endl;
     }
-
+    
     setDurationTime(solveTime.getTimeInSecFromStart());
     setUpperBound(model.getObjValue());
     setLowerBound(model.getBestPossibleObjValue());
     setMipGap(model.getBestPossibleObjValue(), model.getObjValue());
 	setTreeSize(model.getNodeCount());
+    std::cout << "Tree size " <<  model.getNodeCount() << std::endl;
     std::cout << "Optimization done in " << std::fixed  << getDurationTime() << std::setprecision(2) << " secs." << std::endl;
     if (getStatus() == STATUS_OPTIMAL || getStatus() == STATUS_FEASIBLE){    
         //displaySolution();

@@ -10,6 +10,7 @@
 #include "CoinHelperFunctions.hpp"
 #include "CoinMpsIO.hpp"
 #include "CoinMessageHandler.hpp"
+#include "CoinModel.hpp"
 
 #include "OsiSolverInterface.hpp"
 #include "OsiCbcSolverInterface.hpp"
@@ -122,6 +123,8 @@ class OsiLagSolverInterface : virtual public OsiSolverInterface{
         /**************************************************************************************************/
 
         CbcModel* cbcModel;
+
+        CoinModel coinModel;
 
         /**************************************************************************************************/
         /*                                     Private helper methods        	    		              */			      
@@ -404,7 +407,7 @@ class OsiLagSolverInterface : virtual public OsiSolverInterface{
 
 
         /**************************************************************************************************/
-        /*                                  Problem modifying methods                                     */			      
+        /*                                  Problem modified methods                                     */			      
         /**************************************************************************************************/
 
         /************************** Changing bounds on variables and constraints **************************/

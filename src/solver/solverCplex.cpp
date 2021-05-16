@@ -21,7 +21,6 @@ SolverCplex::SolverCplex(const Instance &inst) : AbstractSolver(inst, STATUS_UNK
     count++;
 }
 
-
 std::vector<double> SolverCplex::getSolution(){
     std::vector<double> solution;
     solution.resize(var.getSize());
@@ -67,7 +66,7 @@ void SolverCplex::solve(){
         CPXLONG contextMask = context(myObjectives[i].getId(), formulation->getInstance().getInput());
         
         //if(!formulation->getInstance().getInput().isRelaxed()){
-        cplex.use(&myGenericCallback, contextMask);
+        //cplex.use(&myGenericCallback, contextMask);
         //}
         std::cout << "Chosen objective: " << myObjectives[i].getName() << std::endl;
         cplex.solve();
@@ -110,7 +109,6 @@ void SolverCplex::solve(){
         std::cout << "Could not find a feasible solution..." << std::endl;
     }
 }
-
 
 AbstractSolver::Status SolverCplex::getStatus(){
     setStatus(STATUS_ERROR);
@@ -176,7 +174,7 @@ void SolverCplex::exportFormulation(const Instance &instance){
 void SolverCplex::setCplexParams(const Input &input){
     cplex.setParam(IloCplex::Param::MIP::Display, 3);
     cplex.setParam(IloCplex::Param::TimeLimit, input.getIterationTimeLimit());
-    //cplex.setParam(IloCplex::Param::Threads, 1);
+    cplex.setParam(IloCplex::Param::Threads, 1);
 
     if(formulation->getInstance().getInput().isRelaxed()){
         Input::RootMethod rootMethod = formulation->getInstance().getInput().getChosenRootMethod();
@@ -201,8 +199,15 @@ void SolverCplex::setCplexParams(const Input &input){
             std::cout<< "barrier" <<std::endl;
         }
     }
-    
-    
+    cplex.setParam(IloCplex::Cliques,-1);
+    cplex.setParam(IloCplex::Covers,-1);
+    cplex.setParam(IloCplex::FlowCovers,-1);
+    cplex.setParam(IloCplex::GUBCovers,-1);
+    cplex.setParam(IloCplex::FracCuts,-1);
+    cplex.setParam(IloCplex::MIRCuts,-1);
+    cplex.setParam(IloCplex::FlowPaths,-1);
+    cplex.setParam(IloCplex::ImplBd,-1);
+    cplex.setParam(IloCplex::DisjCuts,-1);
     std::cout << "CPLEX parameters have been defined..." << std::endl;
 }
 
@@ -340,7 +345,6 @@ void SolverCplex::outputLogResults(std::string fileName){
 		std::cerr << "Unable to open file " << filePath << "\n";
 	}
 }
-
 
 /****************************************************************************************/
 /*										Destructor										*/

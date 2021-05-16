@@ -59,11 +59,6 @@ class lagSolverCBC : public AbstractSolver{
         void exportFormulation(const Instance &instance);
         
         void solve() override;
-
-        //IloExpr to_IloExpr(const Expression &e);
-        
-        /** Returns the total number of CPLEX default cuts applied during optimization. **/
-        //IloInt getNbCutsFromCplex();
         
         /* Builds file results.csv containing information about the main obtained results. */
         void outputLogResults(std::string fileName) override;

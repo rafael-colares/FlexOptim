@@ -11,6 +11,11 @@ int SolverCBC::count = 0;
 /** Constructor. Builds the Online RSA mixed-integer program and solves it using CBC.**/
 SolverCBC::SolverCBC(const Instance &inst) : AbstractSolver(inst, STATUS_UNKNOWN), model(solver){
     std::cout << "--- CBC has been initialized ---" << std::endl;
+    totalImpleTime = formulation->getTotalImpleTime();
+    varImpleTime = formulation->getVarImpleTime();
+    constImpleTime = formulation->getConstImpleTime();
+    cutImpleTime = formulation->getCutImpleTime();
+    objImpleTime = formulation->getObjImpleTime();
     implementFormulation();
     setCBCParams(inst.getInput());
     isrelaxed = inst.getInput().isRelaxed();
@@ -63,39 +68,43 @@ void SolverCBC::implementFormulation(){
     ClockTime time2(ClockTime::getTimeNow());
     // add variables.
     setVariables(formulation->getVariables());
-    //std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
     varChargeTime =  time.getTimeInSecFromStart();
     time.setStart(ClockTime::getTimeNow());
     // add constraints.
     setConstraints(formulation->getConstraints());
-    //std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
     constChargeTime = time.getTimeInSecFromStart();
     time.setStart(ClockTime::getTimeNow());
     // add the first objective function.
     setObjective(formulation->getObjFunction(0));
-    //std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
     objChargeTime = time.getTimeInSecFromStart();
     time.setStart(ClockTime::getTimeNow());
-    //solver.writeLp("test");
+    solver.loadFromCoinModel(coinModel);
+    //solver.writeLp("test2");
     model = CbcModel(solver);
     // free formulation memory.
     formulation->clearConstraints();
-    //std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
+    std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
     totalChargeTime = time2.getTimeInSecFromStart();
 }
 
 void SolverCBC::setVariables(const std::vector<Variable> &myVars){
     int n = myVars.size();
     for (unsigned int i = 0; i < n; i++){ 
-        solver.addCol(0,NULL,NULL, myVars[i].getLb(), myVars[i].getUb(), 0, myVars[i].getName());
+        //solver.addCol(0,NULL,NULL, myVars[i].getLb(), myVars[i].getUb(), 0, myVars[i].getName());
+        coinModel.addColumn(0,NULL,NULL, myVars[i].getLb(), myVars[i].getUb(), 0, myVars[i].getName().c_str());
         // std::cout << "Created variable: " << var[d][arc].getName() << std::endl;
         int pos = myVars[i].getId();
         switch (myVars[i].getType()){
             case Variable::TYPE_BOOLEAN:
-                solver.setInteger(pos);
+                //solver.setInteger(pos);
+                coinModel.setInteger(pos);
                 break;
             case Variable::TYPE_INTEGER:
-                solver.setInteger(pos);
+                //solver.setInteger(pos);
+                coinModel.setInteger(pos);
                 break;
             case Variable::TYPE_REAL:
                 break;
@@ -111,17 +120,22 @@ void SolverCBC::setVariables(const std::vector<Variable> &myVars){
 /* Defines the constraints needed in the MIP formulation. */
 void SolverCBC::setConstraints(const std::vector<Constraint> &myConstraints){
     for (unsigned int i = 0; i < myConstraints.size(); i++){ 
-        CoinPackedVector constraint;
+        //CoinPackedVector constraint;
         Expression expression = myConstraints[i].getExpression();
         int n = expression.getTerms().size();
         int index; double coefficient;
+        int *columns = new int[n];
+        double *elements = new double[n];
         for (unsigned int j = 0; j < n; j++){
             Term term = expression.getTerm_i(j);
             index = term.getVar().getId();
             coefficient = term.getCoeff();
-            constraint.insert(index, coefficient);
+            //constraint.insert(index, coefficient);
+            columns[j] = index;
+            elements[j] = coefficient;
         }
-        solver.addRow(constraint, myConstraints[i].getLb(), myConstraints[i].getUb(), myConstraints[i].getName());
+        //solver.addRow(constraint, myConstraints[i].getLb(), myConstraints[i].getUb(), myConstraints[i].getName());
+        coinModel.addRow(n,columns,elements,myConstraints[i].getLb(), myConstraints[i].getUb(), myConstraints[i].getName().c_str());	
     }
     std::cout << "CBC constraints have been defined..." << std::endl;
 }
@@ -140,7 +154,8 @@ void SolverCBC::setObjective(const ObjectiveFunction &myObjective){
         Term term= expression.getTerm_i(i);
         index = term.getVar().getId();
         coefficient = term.getCoeff();
-        solver.setObjCoeff(index, coefficient);
+        //solver.setObjCoeff(index, coefficient);
+        coinModel.setObjective(index, coefficient);
     }
     std::cout << "CBC objective has been defined..." << std::endl;
 }
@@ -163,6 +178,11 @@ void SolverCBC::solve(){
             solver.initialSolve(); // Using this method so the time limit is respected.
         }
         else{
+            model.messageHandler()->setLogLevel(1);
+            model.setNumberThreads(1);
+            //model.setThreadMode(4);
+            //std::cout << model.getNumberThreads() << std::endl;
+            //std::cout << model.getThreadMode() << std::endl;
             model.branchAndBound();
             if (model.bestSolution() != NULL){
                 double objValue = model.getObjValue();
@@ -191,10 +211,11 @@ void SolverCBC::solve(){
         setTreeSize(0);
     }else{
         setUpperBound(model.getObjValue());
-        setLowerBound(model.getCurrentObjValue());
-        setMipGap(model.getCurrentObjValue(), model.getObjValue());
+        setLowerBound(model.getBestPossibleObjValue());
+        setMipGap(model.getBestPossibleObjValue(), model.getObjValue());
         setTreeSize(model.getNodeCount());
     }
+    std::cout << "Tree size " <<  model.getNodeCount() << std::endl;
     std::cout << "Optimization done in " << std::fixed  << getDurationTime() << std::setprecision(2) << " secs." << std::endl;
     if ((getStatus() == STATUS_OPTIMAL || getStatus() == STATUS_FEASIBLE) && !isrelaxed){    
         //std::cout << "Status: " << cplex.getStatus() << std::endl;

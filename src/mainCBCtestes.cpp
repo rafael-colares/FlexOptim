@@ -326,7 +326,7 @@ int main(int argc, char *argv[]) {
             fichier << solver_mip->getLowerBound() << delimiter;
             fichier << solver_mip->getMipGap() << delimiter;
             fichier << solver_mip->getTreeSize() << delimiter;
-            fichier << solver_mip->getDurationTime() << delimiter << std::endl;
+            fichier << solver_mip->getDurationTime() << delimiter;
 
             fichier << solver_mip->getTotalImpleTime() << delimiter ;
             fichier << solver_mip->getVarImpleTime() << delimiter ;
