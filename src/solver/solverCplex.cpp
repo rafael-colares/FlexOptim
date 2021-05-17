@@ -90,24 +90,29 @@ void SolverCplex::solve(){
     }
     IloNum timeFinish = cplex.getCplexTime();
     setDurationTime(timeFinish - timeStart);
-    setUpperBound(cplex.getObjValue());
+    setUpperBound(1000000000);
     setLowerBound(cplex.getBestObjValue());
-    setMipGap(cplex.getMIPRelativeGap()*100);
+    setMipGap(1000000000);
 	setTreeSize(cplex.getNnodes());
 
-    setAlgorithm(cplex.getAlgorithm());
+    //setAlgorithm(cplex.getAlgorithm());
     //int root = cplex.getParam(IloCplex::RootAlg);
     //int node = cplex.getParam(IloCplex::NodeAlg);
     
-    std::cout << "Optimization done in " << timeFinish - timeStart << " secs." << std::endl;
+    
+    //std::cout << "Optimization done in " << timeFinish - timeStart << " secs." << std::endl;
     if ((cplex.getStatus() == IloAlgorithm::Optimal) || (cplex.getStatus() == IloAlgorithm::Feasible)){    
         std::cout << "Status: " << cplex.getStatus() << std::endl;
         std::cout << "Objective Function Value: " << cplex.getObjValue() << std::endl;
+        setUpperBound(cplex.getObjValue());
+        //setMipGap(cplex.getMIPRelativeGap()*100);
+        setMipGap(cplex.getMIPRelativeGap());
         displaySolution();
     }
     else{
         std::cout << "Could not find a feasible solution..." << std::endl;
     }
+    
 }
 
 AbstractSolver::Status SolverCplex::getStatus(){
@@ -207,6 +212,9 @@ void SolverCplex::setCplexParams(const Input &input){
     cplex.setParam(IloCplex::MIRCuts,-1);
     cplex.setParam(IloCplex::FlowPaths,-1);
     cplex.setParam(IloCplex::ImplBd,-1);
+    cplex.setParam(IloCplex::DisjCuts,-1);
+    cplex.setParam(IloCplex::ZeroHalfCuts,-1);
+    cplex.setParam(IloCplex::LiftProjCuts,-1);
     cplex.setParam(IloCplex::DisjCuts,-1);
     std::cout << "CPLEX parameters have been defined..." << std::endl;
 }
