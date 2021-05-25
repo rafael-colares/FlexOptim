@@ -1300,10 +1300,17 @@ void OsiLagSolverInterface::extractSolution(){
 
     /* the primal solution. */
     lagrangianSolver->getSolution(colsol_);
+
+    double check = 0;
+    if(lagrangianSolver->getLagrangianFormulation()->getInstance().getInput().getChosenObj_k(0)==Input::OBJECTIVE_METRIC_4){
+        check = 0.001;
+    }else{
+        check = 0.999;
+    }
     std::cout << "Obj value: " << cbcModel->getObjValue() << std::endl;
-    std::cout << "Cutoff: " << cbcModel->getCutoff() << " Cutoff imcrement: " << cbcModel->getDblParam(CbcModel::CbcCutoffIncrement) <<std::endl;
+    std::cout << "Cutoff: " << cbcModel->getCutoff() << " Cutoff increment: " << cbcModel->getDblParam(CbcModel::CbcCutoffIncrement) <<std::endl;
     std::cout << "Dual limit: " << lagrangianSolver->getDualLimit() << std::endl;
-    if(lagrangianSolver->getUB() < cbcModel->getObjValue() && lagrangianSolver->getUB() < lagrangianSolver->getUBInit()-0.01){
+    if(lagrangianSolver->getUB() < cbcModel->getObjValue() && lagrangianSolver->getUB() < lagrangianSolver->getUBInit()-check){
         std::cout << "Antes " << lagrangianSolver->getUB() << " " << cbcModel->getObjValue() << std::endl;
         lagrangianSolver->getBestSolution(feasibleSolution_);
         cbcModel->setBestSolution(feasibleSolution_, psize,lagrangianSolver->getUB(), false);

@@ -238,7 +238,7 @@ void AbstractLagFormulation::getPrimalAppSolution(double * colsol){
         }
     }
     if(instance.getInput().isObj8(0)){
-        colsol[maxSliceOverallVarId] = maxUsedSliceOverall;
+        colsol[maxSliceOverallVarId] = primalMaxUsedSliceOverall;
     }
 }
 

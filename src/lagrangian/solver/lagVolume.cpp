@@ -79,13 +79,14 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
             setDualInf(true);
             setStop("Infeasible");
             std::cout << "Volume: infeasible sub problem." << std::endl;
+            formulation->initPrimalApproximation();
         }
     }
 
     while (!STOP){
         runIteration(modifiedSubproblem);
         if (formulation->getStatus() != RSA::STATUS_INFEASIBLE){
-            displayMainParameters(fichier);
+            //displayMainParameters(fichier);
 
             updateLambda();
             updateStepSize();
