@@ -9,6 +9,7 @@
 #include <lemon/bellman_ford.h>
 #include <lemon/cost_scaling.h>
 #include <lemon/capacity_scaling.h>
+#include <lemon/adaptors.h>
 
 /** This class implements a general Lagrangian Formulation considering the Flow formulation **/
 
@@ -214,10 +215,14 @@ class AbstractLagFormulation: public FlowForm{
 
                 std::vector< std::shared_ptr<IterableIntMap<ListDigraph, ListDigraph::Node>>> mapItLabel;
 
+                std::vector<std::shared_ptr<IterableIntMap<ListDigraph, ListDigraph::Arc>>> mapItLabelArc; 
+
                 /* Refers to the upper bound of the arcs depending on the chosen objective function */
                 std::vector< std::shared_ptr<ArcMap> > upperBound; 
 
                 std::vector< std::shared_ptr<ArcMap> > lowerBound; 
+
+                std::vector<std::shared_ptr<IterableIntMap<ListDigraph, ListDigraph::Arc>>> mapItLower;
 
                 double realMaxUsedSliceOverall;
 
@@ -666,6 +671,10 @@ class AbstractLagFormulation: public FlowForm{
                 void updateLowerUpperBound(double*,double*);
 
                 void verifyLowerUpperBound();
+
+                bool warmstart();
+
+                void remove_arcs(int,int,int,int,int);
 
                 /******************************************** MULTIPLIERS *******************************************/
 

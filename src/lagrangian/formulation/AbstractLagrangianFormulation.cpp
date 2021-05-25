@@ -14,6 +14,9 @@ AbstractLagFormulation::AbstractLagFormulation(const Instance &instance): FlowFo
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         lowerBound.emplace_back(std::make_shared<ArcMap>((*vecGraph[d])));
         upperBound.emplace_back(std::make_shared<ArcMap>((*vecGraph[d])));
+
+        mapItLabelArc.emplace_back(std::make_shared<IterableIntMap<ListDigraph, ListDigraph::Arc>>((*vecGraph[d])));
+        mapCopy<ListDigraph,ArcMap,IterableIntMap<ListDigraph, ListDigraph::Arc>>((*vecGraph[d]),(*vecArcLabel[d]),(*mapItLabelArc[d]));
     }
 }
 
@@ -161,6 +164,8 @@ void AbstractLagFormulation::updateLowerUpperBound(double *lower, double *upper)
         CombineArcMapArcMapLowerUpperBound combUB((*vecArcVarId[d]),(*vecArcVarId[d]),operUB);
         mapCopy<ListDigraph,CombineArcMapArcMapLowerUpperBound,ArcMap>((*vecGraph[d]),combLB,(*lowerBound[d]));
         mapCopy<ListDigraph,CombineArcMapArcMapLowerUpperBound,ArcMap>((*vecGraph[d]),combUB,(*upperBound[d]));
+        mapItLower.emplace_back(std::make_shared<IterableIntMap<ListDigraph, ListDigraph::Arc>>((*vecGraph[d])));
+        mapCopy<ListDigraph,ArcMap,IterableIntMap<ListDigraph, ListDigraph::Arc>>((*vecGraph[d]),(*lowerBound[d]),(*mapItLower[d]));
     }
     if(instance.getInput().isObj8(0)){
         maxUsedSliceOverallUpperBound = upper[maxSliceOverallVarId];
@@ -168,7 +173,7 @@ void AbstractLagFormulation::updateLowerUpperBound(double *lower, double *upper)
         //std::cout << "UB max used slice: " << maxUsedSliceOverallUpperBound << std::endl;
         //std::cout << "LB max used slice: " << maxUsedSliceOverallLowerBound << std::endl;
     }
-    /*int nbvar =0;
+    int nbvar =0;
     int nbRealvar =0;
     int count1;
     int count2;
@@ -178,21 +183,21 @@ void AbstractLagFormulation::updateLowerUpperBound(double *lower, double *upper)
         count2 =0;
         for (ListDigraph::ArcIt a(*vecGraph[d]); a != INVALID; ++a){
             if((*lowerBound[d])[a]>0){
-                std::cout << "(" << getNodeLabel((*vecGraph[d]).source(a), d) + 1;
-                std::cout << "--";
-                std::cout <<  getNodeLabel((*vecGraph[d]).target(a), d) + 1 << ", " << getArcSlice(a, d) + 1 << ")" << " d:" << d+1 << std::endl;
+                //std::cout << "lb=1 " << "(" << getNodeLabel((*vecGraph[d]).source(a), d) + 1;
+                //std::cout << "--";
+                //std::cout <<  getNodeLabel((*vecGraph[d]).target(a), d) + 1 << ", " << getArcSlice(a, d) + 1 << ")" << " d:" << d+1 << std::endl;
                 nbvar++;
             }
             if((*upperBound[d])[a]<1){
-                //std::cout << "ub " << (*upperBound[d])[a] << " slice: " << getArcSlice(a,d) << " d:" << d <<  std::endl;
+                //std::cout << "ub=0 " <<"(" << getNodeLabel((*vecGraph[d]).source(a), d) + 1;
+                //std::cout << "--";
+                //std::cout <<  getNodeLabel((*vecGraph[d]).target(a), d) + 1 << ", " << getArcSlice(a, d) + 1 << ")" << " d:" << d+1 << std::endl;
                 nbvar++;
             }
         }
     }
     std::cout << "Total number of variables: " << nbRealvar << std::endl;
     std::cout << "Fixed variables (ub or lb): " << nbvar << std::endl;
-    */
-    
 }
 
 void AbstractLagFormulation::verifyLowerUpperBound(){
@@ -248,6 +253,91 @@ void AbstractLagFormulation::getBestFeasibleSolution(double * feaSol){
     if(instance.getInput().isObj8(0)){
         feaSol[maxSliceOverallVarId] = bestMaxUsedSliceOverall;
     }
+}
+
+bool AbstractLagFormulation::warmstart(){
+    /* Analysing arcs with lower bound equals to 1. */
+    /* We have to analyse if the fixed variables generate some infeasibility. */
+    /* We could have source/target / non overlapping or length infeasibilities. */
+    bool infeasible = false;
+    std::vector<int> label; std::vector<int> slice; std::vector<int> load; // for the non overlapping.
+    std::vector<int> source; std::vector<int> target; std::vector<int> demand; // for the source/target.
+    for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        double length = 0.0;
+        for(IterableIntMap< ListDigraph, ListDigraph::Arc >::ItemIt arc((*mapItLower[d]),1); arc != INVALID; ++arc){
+            length += getArcLength(arc,d);
+            label.push_back(getArcLabel(arc,d));
+            slice.push_back(getArcSlice(arc,d));
+            load.push_back(getToBeRouted_k(d).getLoad());
+            source.push_back(getNodeLabel((*vecGraph[d]).source(arc),d));
+            target.push_back(getNodeLabel((*vecGraph[d]).target(arc),d));
+            demand.push_back(d);
+
+            int size = label.size()-1;
+            for(int i = 0; i < (size);i++){
+                // If there are two fixed variables that overlaps.
+                if(label[i] == label[size]){
+                    if(!((slice[size] < slice[i]-load[i]+1)||(slice[size]-load[size]+1 > slice[i]))){
+                        /* The fixed variables overlap */
+                        infeasible = true;
+                        label.clear(); slice.clear(); load.clear();
+                        source.clear(); target.clear(); demand.clear();
+                        return infeasible;
+                    }
+                }
+                // If there are two fixed variables with same source or same target.
+                if(demand[i]== demand[size]){
+                    if(source[i]==source[size] || target[i]== target[size]){
+                        /* Infeasible for the source target constraints. */
+                        infeasible = true;
+                        label.clear(); slice.clear(); load.clear();
+                        source.clear(); target.clear(); demand.clear();
+                        return infeasible;
+                    }
+                }
+            }
+            //std::cout << "Remove arcs for the fixed variables\n";
+            /* Removing variables due to the non overlapping and source constraints for the fixed bounds. */
+            remove_arcs(slice[size],label[size],load[size],demand[size],source[size]);
+            (*upperBound[d])[arc] = 1;
+            //std::cout << "VOLTANDO arc fixed to 1"<< std::endl;
+            //std::cout << "Analysing demand " << demand[size]+1 << " slice: " << slice[size] + 1 << " label: " << label[size] + 1 << "load: " << load[size]+1 << std::endl;
+                
+        }
+        if(length > getToBeRouted_k(d).getMaxLength()){
+            infeasible = true;
+            return infeasible;
+        }
+    }
+    label.clear(); slice.clear(); load.clear();
+    source.clear(); target.clear(); demand.clear();
+    return infeasible;
+}
+
+void AbstractLagFormulation::remove_arcs(int slice, int label, int load,int demand, int source){    
+    for (int k = 0; k < getNbDemandsToBeRouted(); k++){
+        int load_k = getToBeRouted_k(k).getLoad();
+        for(IterableIntMap< ListDigraph, ListDigraph::Arc >::ItemIt arc((*mapItLabelArc[k]),label); arc != INVALID; ++arc){
+            int slice_k = getArcSlice(arc,k);
+            if(!((slice_k < slice-load+1)||(slice_k-load_k+1 > slice))){
+                (*upperBound[k])[arc] = 0;
+                /*if(getArcLower(arc,k)==1){
+                    std::cout << "Removing arc fixed to 1"<< std::endl;
+                    std::cout << "Analysing demand " << k+1 << " slice: " << slice + 1 << " label: " << label + 1 << "load: " << load+1 << std::endl;
+                }*/
+            }
+        }
+    }
+    for (ListDigraph::ArcIt a(*vecGraph[demand]); a != INVALID; ++a){
+        if(getNodeLabel((*vecGraph[demand]).source(a),demand) == source){
+            (*upperBound[demand])[a] = 0;
+                /*if(getArcLower(a,demand)==1){
+                    std::cout << "Removing arc fixed to 1"<< std::endl;
+                    std::cout << "Analysing demand " << demand+1 << " slice: " << slice + 1 << " label: " << label + 1 << "load: " << load+1 << std::endl;
+                }*/
+        }
+    }
+
 }
 
 /* **************************************************************************************************************
@@ -711,7 +801,7 @@ void AbstractLagFormulation::initPrimalSolution(){
     for (int d = 0; d < getNbDemandsToBeRouted(); d++){
         std::copy(assignmentMatrix_d[d].begin(),assignmentMatrix_d[d].end(),std::back_inserter(primal_linear_solution[d]));   
     } 
-    std::copy(varAuxZ.begin(),varAuxZ.end(),std::back_inserter(primalVarAuxZ));
+    //std::copy(varAuxZ.begin(),varAuxZ.end(),std::back_inserter(primalVarAuxZ));
 }
 
 /************************************************** PRIMAL APPROXIMATION **********************************************/
@@ -721,7 +811,7 @@ void AbstractLagFormulation::initPrimalApproximation(){
     initStabilityCenter();
     initPrimalSolution();
     initPrimalSlacks();
-    setCurrentPrimalCost(getRealCurrentCost());
+    setCurrentPrimalCost(getLagrCurrentCost());
 }
 
 /********************************************* BEST FEASIBLE SOLUTION **************************************/
@@ -1341,9 +1431,9 @@ void AbstractLagFormulation::updatePrimalSolution(double alpha){
     }
     if(instance.getInput().isObj8(0)){
         primalMaxUsedSliceOverall = alpha*maxUsedSliceOverall + (1-alpha)*primalMaxUsedSliceOverall;
-        for (int d = 0; d < getNbDemandsToBeRouted(); d++){
+        /*for (int d = 0; d < getNbDemandsToBeRouted(); d++){
             primalVarAuxZ[d] = alpha*varAuxZ[d] + (1-alpha)*primalVarAuxZ[d];
-        }
+        }*/
     }
 }
 
@@ -1354,7 +1444,7 @@ void AbstractLagFormulation::updatePrimalApproximation(double alpha){
     updatePrimalSolution(alpha);
     updatePrimalSlack(alpha);
 
-    double obj = alpha*getRealCurrentCost() + (1.0-alpha)*getPrimalCurrentCost();
+    double obj = alpha*getLagrCurrentCost()+ (1.0-alpha)*getPrimalCurrentCost();
     setCurrentPrimalCost(obj);
 }
 

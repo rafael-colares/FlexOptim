@@ -1,4 +1,5 @@
 #include "lagSolverCBC.h"
+#include "CbcHeuristic.hpp"
 #include "CbcHeuristicGreedy.hpp"
 int lagSolverCBC::count = 0;
 
@@ -21,8 +22,11 @@ void lagSolverCBC::implementFormulation(){
 
 void lagSolverCBC::setCBCParams(const Input &input){
     model.setMaximumSeconds(input.getIterationTimeLimit());
-    //model.messageHandler()->setLogLevel(4);
-    //model.setNumberStrong(0);
+    //model.messageHandler()->setLogLevel(7);
+    model.setNumberThreads(1);
+    //std::cout << model.getNumberThreads() << std::endl;
+    //std::cout << model.getThreadMode() << std::endl;
+    model.setNumberStrong(0);
     std::cout << "CBC parameters have been defined..." << std::endl;
 }
 
@@ -33,11 +37,14 @@ void lagSolverCBC::solve(){
     std::cout << "Solving with CBC..." << std::endl;
     std::vector<ObjectiveFunction> myObjectives = solver.getLagrangianSolver()->getLagrangianFormulation()->getObjectiveSet();
     std::cout << "Chosen objective: " << myObjectives[0].getName() << std::endl;
-    model.setNumberStrong(0);
-    model.setNumberThreads(1);
-    //model.setThreadMode(4);
-    //std::cout << model.getNumberThreads() << std::endl;
-    //std::cout << model.getThreadMode() << std::endl;
+    
+    //CBC heuristics
+    CbcRounding heuristic1(model);
+    model.addHeuristic(&heuristic1);
+
+    CbcHeuristicGreedyCover heuristic2(model);
+    model.addHeuristic(&heuristic2);
+
     model.branchAndBound();
 
     if (model.bestSolution() != NULL){
@@ -54,6 +61,7 @@ void lagSolverCBC::solve(){
     setLowerBound(model.getBestPossibleObjValue());
     setMipGap(model.getBestPossibleObjValue(), model.getObjValue());
 	setTreeSize(model.getNodeCount());
+    setRootValue(model.rootObjectiveAfterCuts());
     std::cout << "Tree size " <<  model.getNodeCount() << std::endl;
     std::cout << "Optimization done in " << std::fixed  << getDurationTime() << std::setprecision(2) << " secs." << std::endl;
     if (getStatus() == STATUS_OPTIMAL || getStatus() == STATUS_FEASIBLE){    

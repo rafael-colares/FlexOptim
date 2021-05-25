@@ -72,10 +72,20 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
     //std::cout << "> Volume was initialized. " << std::endl;
 
     bool STOP = false;
+    if(modifiedSubproblem){
+        STOP = formulation->warmstart();
+        if(STOP == true){
+            setStatus(STATUS_INFEASIBLE);
+            setDualInf(true);
+            setStop("Infeasible");
+            std::cout << "Volume: infeasible sub problem." << std::endl;
+        }
+    }
+
     while (!STOP){
         runIteration(modifiedSubproblem);
         if (formulation->getStatus() != RSA::STATUS_INFEASIBLE){
-            //displayMainParameters(fichier);
+            displayMainParameters(fichier);
 
             updateLambda();
             updateStepSize();
@@ -91,6 +101,12 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
             const bool small_gap = std::abs(getLB()) < 0.0001 ?(gap < 0.0) : ((gap < 0.0) || (gap/std::abs(getLB()) < MIN_DIF_OBJ_VALUE)); 
             const int k = getIteration() % ASCENT_CHECK_INVL;
             bool alternativeStop = formulation->getInstance().getInput().getAlternativeStop();
+            double check = 0;
+            if(formulation->getInstance().getInput().getChosenObj_k(0)==Input::OBJECTIVE_METRIC_4){
+                check = 0.001;
+            }else{
+                check = 0.999;
+            }
 
             if(formulation->checkSlacknessCondition() && formulation->checkFeasibility()){
                 STOP = true;
@@ -100,7 +116,7 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
                 formulation->changePrimalApproximation();
                 std::cout << "Volume: Integer Optimal by slackness: " << getLB() << " " << formulation->getLagrCurrentCost() << std::endl;
             }
-            else if((getLB() >= (getUB() - 0.001)) && (getLB() < (UBINIT-0.001))){ // Test optimality IP
+            else if((getLB() >= (getUB() - check)) && (getLB() < (UBINIT-check))){ // Test optimality IP
                 STOP = true;
                 formulation->setStatus(RSA::STATUS_OPTIMAL);
                 setStatus(STATUS_OPTIMAL);
@@ -113,6 +129,7 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
                 setStatus(STATUS_OPTIMAL);
                 setStop("Small lp gap ");
                 std::cout << "Volume: Small linear program gap: " << getLB() << std::endl;
+                
             }
             else if(getIteration() >= MAX_NB_IT){
                 STOP = true;
@@ -125,11 +142,11 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
                 if(getLB() - sequence_dualCost[k] < std::abs(sequence_dualCost[k])* MINIMUM_REL_ASCENT){
                     STOP = true;
                     setStop("Small improvement");
-                    std::cout <<   std::fixed<< getLB() << " " << getUB() << std::setprecision(9)<< std::endl;
                     //setStatus(STATUS_FEASIBLE);
                     //setStatus(STATUS_ABORTED);
                     setStatus(STATUS_OPTIMAL);
-                    std::cout << "Volume: LB with small improvement: " << getLB() << std::endl;
+                    std::cout << "Volume: LB with small improvement: " << getLB() << " " << getUB() << std::endl;
+                    std::cout << "it: " << getIteration() << std::endl;
                 }
             }           
             else if(alternativeStop){
@@ -147,11 +164,11 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
                 setStop("Infeasible");
                 std::cout << "Volume: Primal infeasible, dual unbounded." << std::endl;
             }
-            if(getLB() >= DUAL_LIMIT){
+            /*if(getLB() >= DUAL_LIMIT){
                 STOP = true;
                 setStop("dual limit");
                 std::cout << "Volume: Dual limit reached." << std::endl;
-            }
+            }*/
             sequence_dualCost[k] = getLB();
             incStoppingCriterionTime(time.getTimeInSecFromStart());
         }
@@ -170,12 +187,13 @@ void lagVolume::run(bool initMultipliers, bool modifiedSubproblem){
             setCostTime(formulation->getCostTime());
             setRSAGraphConstructionTime(formulation->getRSAGraphConstructionTime());
             setPreprocessingTime(formulation->getPreprocessingTime());
-            if(formulation->isInteger()){
+            /*if(formulation->isInteger()){
                 std::cout << "The solution is integer." << std::endl;
-            }
+            }*/
             if(modifiedSubproblem){
                 formulation->verifyLowerUpperBound();
             }
+            
         }
     }
 }

@@ -214,6 +214,7 @@ void SolverCBC::solve(){
         setLowerBound(model.getBestPossibleObjValue());
         setMipGap(model.getBestPossibleObjValue(), model.getObjValue());
         setTreeSize(model.getNodeCount());
+        setRootValue(model.rootObjectiveAfterCuts());
     }
     std::cout << "Tree size " <<  model.getNodeCount() << std::endl;
     std::cout << "Optimization done in " << std::fixed  << getDurationTime() << std::setprecision(2) << " secs." << std::endl;

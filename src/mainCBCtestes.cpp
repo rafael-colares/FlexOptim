@@ -207,7 +207,7 @@ int main(int argc, char *argv[]) {
 
     if(model == 0){
         fichier << std::endl << std::endl;
-        fichier << " Slices ; Demands ; MIP-CPLEX-UB ; MIP-CPLEX-LB ; MIP-CPLEX-GAP ; MIP-CPLEX-Tree-Size ; CPLEX-Time; " ;
+        fichier << " Slices ; Demands ; MIP-CPLEX-UB ; MIP-CPLEX-LB ; ROOT VALUE ;MIP-CPLEX-GAP ; MIP-CPLEX-Tree-Size ; CPLEX-Time; " ;
         fichier << " Total Implem Time ; Var Implem Time ; Const Implem Time ; Cut Implem Time ; Obj Imple Time ; ";
         fichier << " Total Charge Time; Var Charge Time ; Const Cherge Time; Obj Charge Time; "<< std::endl;
 
@@ -235,7 +235,7 @@ int main(int argc, char *argv[]) {
             fichier << instance.getMaxSlice() << delimiter;
             fichier << instance.getNbDemands() << delimiter;
             fichier << solver->getUpperBound() << delimiter;
-            fichier << solver->getLowerBound() << delimiter;
+            fichier << solver->getLowerBound() << delimiter << delimiter;
             fichier << solver->getMipGap() << delimiter;
             fichier << solver->getTreeSize() << delimiter;
             fichier << solver->getDurationTime() << delimiter ;
@@ -259,7 +259,7 @@ int main(int argc, char *argv[]) {
     }
     else if(model == 1){
         fichier << std::endl << std::endl;
-        fichier << " Slices ; Demands ; MIP-VOL-UB ; MIP-VOL-LB ; MIP-VOL-GAP ; MIP-VOL-Tree-Size ; MIP-Time; " << std::endl;
+        fichier << " Slices ; Demands ; MIP-VOL-UB ; MIP-VOL-LB ; ROOT VALUE ; MIP-VOL-GAP ; MIP-VOL-Tree-Size ; MIP-Time; " << std::endl;
 
         for(int j=firstInst;j<lastInst;j++){
             rl = 0; relaxMethod = 4; solver = 1; nodeMethod = 2; lagRelax = 0;
@@ -285,6 +285,7 @@ int main(int argc, char *argv[]) {
             fichier << instance_vol.getNbDemands() << delimiter;
             fichier << solver_vol->getUpperBound() << delimiter;
             fichier << solver_vol->getLowerBound() << delimiter;
+            fichier << solver_vol->getRootValue() << delimiter;
             fichier << solver_vol->getMipGap() << delimiter;
             fichier << solver_vol->getTreeSize() << delimiter;
             fichier << solver_vol->getDurationTime() << delimiter << std::endl;
@@ -296,7 +297,7 @@ int main(int argc, char *argv[]) {
     }
     else if(model == 2){
         fichier << std::endl << std::endl;
-        fichier << " Slices ; Demands ; MIP-CBC-UB ; MIP-CBC-LB ; MIP-CBC-GAP ; MIP-CBC-Tree-Size ; MIP-CBC-Time; " ;
+        fichier << " Slices ; Demands ; MIP-CBC-UB ; MIP-CBC-LB ; ROOT VALUE ; MIP-CBC-GAP ; MIP-CBC-Tree-Size ; MIP-CBC-Time; " ;
         fichier << " Total Implem Time ; Var Implem Time ; Const Implem Time ; Cut Implem Time ; Obj Imple Time ; ";
         fichier << " Total Charge Time; Var Charge Time ; Const Cherge Time; Obj Charge Time; "<< std::endl;
 
@@ -324,6 +325,7 @@ int main(int argc, char *argv[]) {
             fichier << instance_mip.getNbDemands() << delimiter;
             fichier << solver_mip->getUpperBound() << delimiter;
             fichier << solver_mip->getLowerBound() << delimiter;
+            fichier << solver_mip->getRootValue() << delimiter;
             fichier << solver_mip->getMipGap() << delimiter;
             fichier << solver_mip->getTreeSize() << delimiter;
             fichier << solver_mip->getDurationTime() << delimiter;

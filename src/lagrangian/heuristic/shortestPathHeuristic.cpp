@@ -179,7 +179,7 @@ void shortestPathHeuristic::run(bool modifiedProblem,bool costs){
             }  
         }
         if(getStatus() == STATUS_INFEASIBLE){
-            std::cout << "Infea" <<std::endl;
+            std::cout << "Heur. Infeasible" << std::endl;
             break;
         }
         if (count  > maxChanges){

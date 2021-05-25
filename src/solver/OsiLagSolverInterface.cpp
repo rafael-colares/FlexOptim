@@ -1193,7 +1193,7 @@ bool OsiLagSolverInterface::isPrimalObjectiveLimitReached() const{
 }
 
 bool OsiLagSolverInterface::isDualObjectiveLimitReached() const{
-    return (lagrangianSolver->getLB()  >= lagrangianSolver->getDualLimit() - DBL_EPSILON);
+    return (lagrangianSolver->getDualLimit() - lagrangianSolver->getLB()  < DBL_EPSILON);
 }
 
 bool OsiLagSolverInterface::isIterationLimitReached() const{
@@ -1256,6 +1256,7 @@ void OsiLagSolverInterface::initialSolve(){
 
 /* Resolve an LP relaxation after problem modification */
 void OsiLagSolverInterface::resolve(){
+    
     std::cout << "*******************************" << std::endl;
     std::cout << "OsiLagSolverInterface: Resolve." << std::endl;
     int i;
@@ -1280,7 +1281,9 @@ void OsiLagSolverInterface::resolve(){
     lagrangianSolver->getLagrangianFormulation()->updateLowerUpperBound(collower_,colupper_);
     
     /* Solves the problem */
+    ClockTime time(ClockTime::getTimeNow());
     lagrangianSolver->run(false,true);
+    std::cout << "Time: " << time.getTimeInSecFromStart() << std::endl;
 
     /* extract the solution */
     extractSolution();
@@ -1297,7 +1300,9 @@ void OsiLagSolverInterface::extractSolution(){
 
     /* the primal solution. */
     lagrangianSolver->getSolution(colsol_);
-
+    std::cout << "Obj value: " << cbcModel->getObjValue() << std::endl;
+    std::cout << "Cutoff: " << cbcModel->getCutoff() << " Cutoff imcrement: " << cbcModel->getDblParam(CbcModel::CbcCutoffIncrement) <<std::endl;
+    std::cout << "Dual limit: " << lagrangianSolver->getDualLimit() << std::endl;
     if(lagrangianSolver->getUB() < cbcModel->getObjValue() && lagrangianSolver->getUB() < lagrangianSolver->getUBInit()-0.01){
         std::cout << "Antes " << lagrangianSolver->getUB() << " " << cbcModel->getObjValue() << std::endl;
         lagrangianSolver->getBestSolution(feasibleSolution_);
